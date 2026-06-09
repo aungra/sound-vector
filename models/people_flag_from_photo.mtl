@@ -1,0 +1,77 @@
+newmtl mat_ink
+Kd 0.02 0.02 0.02
+Ka 0 0 0
+Ks 0.02 0.02 0.02
+Ns 12
+
+newmtl mat_skin
+Kd 0.02 0.02 0.02
+Ka 0 0 0
+Ks 0.02 0.02 0.02
+Ns 12
+
+newmtl mat_hair
+Kd 0.02 0.02 0.02
+Ka 0 0 0
+Ks 0.02 0.02 0.02
+Ns 12
+
+newmtl mat_black
+Kd 0.02 0.02 0.02
+Ka 0 0 0
+Ks 0.02 0.02 0.02
+Ns 12
+
+newmtl mat_dark_cloth
+Kd 0.02 0.02 0.02
+Ka 0 0 0
+Ks 0.02 0.02 0.02
+Ns 12
+
+newmtl mat_navy_shirt
+Kd 0.02 0.02 0.02
+Ka 0 0 0
+Ks 0.02 0.02 0.02
+Ns 12
+
+newmtl mat_white_shirt
+Kd 0.02 0.02 0.02
+Ka 0 0 0
+Ks 0.02 0.02 0.02
+Ns 12
+
+newmtl mat_gray_shirt
+Kd 0.02 0.02 0.02
+Ka 0 0 0
+Ks 0.02 0.02 0.02
+Ns 12
+
+newmtl mat_flag_black
+Kd 0.02 0.02 0.02
+Ka 0 0 0
+Ks 0.02 0.02 0.02
+Ns 12
+
+newmtl mat_flag_white
+Kd 0.02 0.02 0.02
+Ka 0 0 0
+Ks 0.02 0.02 0.02
+Ns 12
+
+newmtl mat_flag_green
+Kd 0.02 0.02 0.02
+Ka 0 0 0
+Ks 0.02 0.02 0.02
+Ns 12
+
+newmtl mat_flag_red
+Kd 0.02 0.02 0.02
+Ka 0 0 0
+Ks 0.02 0.02 0.02
+Ns 12
+
+newmtl mat_flag_pole
+Kd 0.02 0.02 0.02
+Ka 0 0 0
+Ks 0.02 0.02 0.02
+Ns 12
