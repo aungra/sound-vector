@@ -3579,16 +3579,27 @@
       render();
     }
     function rerunCurrentGeneration() {
-      if (state.sourceMood?.audio) {
+      const current = state.generated || state.session?.generatedShirt || null;
+      const currentAudio = state.sourceMood?.audio || current?.audioFeatures || state.audioFeatures || null;
+      if (currentAudio) {
+        const sourceMood = state.sourceMood?.audio
+          ? state.sourceMood
+          : current?.youtubeUrl
+          ? createYouTubeMood(current.youtubeUrl, currentAudio)
+          : createUploadedMood(current?.audioFileName || current?.title || "restored-audio", currentAudio);
         state.variantSalt += 1;
-        state.sourceMood = { ...state.sourceMood, variantSalt: state.variantSalt };
+        state.sourceMood = { ...sourceMood, variantSalt: state.variantSalt };
         const tick = Date.now();
         state.tick = tick;
-        state.generated = makeReversibleAudioPatternShirt(state.sourceMood, tick);
-        state.engineId = state.generated.engineId;
-        state.message = `別の10案を自動生成しました。採用候補は ${state.generated.selectedIteration}/10、総合${state.generated.scores?.total || 0}点です。`;
-        stopRealtimeLoop();
-        saveCurrentGeneratedSession();
+        try {
+          state.generated = makeReversibleAudioPatternShirt(state.sourceMood, tick);
+          state.engineId = state.generated.engineId;
+          state.message = `別の10案を自動生成しました。採用候補は ${state.generated.selectedIteration}/10、総合${state.generated.scores?.total || 0}点です。`;
+          stopRealtimeLoop();
+          saveCurrentGeneratedSession();
+        } catch (error) {
+          state.message = `別パターンを生成できませんでした: ${error.message}`;
+        }
         render();
         return;
       }
