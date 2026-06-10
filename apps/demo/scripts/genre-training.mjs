@@ -120,6 +120,15 @@ async function analyzeYoutube(youtubeUrl, endpoint = DEFAULT_ENDPOINT) {
 }
 
 const VECTOR_KEYS = ["tempo", "energy", "bass", "rhythm", "onset", "brightness", "zcr", "rmsContrast", "onsetContrast", "bassContrast", "centroidContrast", "chromaEntropy"];
+const MACRO_ALIASES = {
+  black: "black_music",
+  folk: "world"
+};
+
+function canonicalMacro(value) {
+  const key = String(value || "").trim();
+  return MACRO_ALIASES[key] || key;
+}
 
 function vectorStats(vectors) {
   const out = {};
@@ -174,7 +183,7 @@ async function main() {
       const predictedMacro = topMacro(enriched.genreAnalysis);
       const exact = names[0] === item.genre;
       const top3 = names.slice(0, 3).includes(item.genre);
-      const macroExact = item.macroGenre ? predictedMacro === item.macroGenre : null;
+      const macroExact = item.macroGenre ? canonicalMacro(predictedMacro) === canonicalMacro(item.macroGenre) : null;
       const row = {
         genre: item.genre,
         macroGenre: item.macroGenre,

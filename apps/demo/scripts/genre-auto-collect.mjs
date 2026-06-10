@@ -78,10 +78,6 @@ async function runYtDlp(args, options = {}) {
   throw new Error(errors.join("\n---\n"));
 }
 
-async function runYtDlpSearch(args, options = {}) {
-  return run(YT_DLP, [...ytDlpBaseArgs(), ...args], options);
-}
-
 function run(command, args, options = {}) {
   return new Promise((resolve, reject) => {
     const child = spawn(command, args, { stdio: ["ignore", "pipe", "pipe"], ...options });
@@ -236,7 +232,7 @@ function rejectReasonForCandidate(item, score) {
 
 async function searchCandidates(query) {
   const target = `ytsearch${SEARCH_LIMIT}:${query}`;
-  const { stdout } = await runYtDlpSearch([
+  const { stdout } = await runYtDlp([
     "--dump-json",
     "--no-playlist",
     "--skip-download",
