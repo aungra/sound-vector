@@ -895,7 +895,7 @@
       const protectedPcm = decodeProtectedPcmDataFromSvg(svgText);
       if (protectedPcm) return protectedPcm;
       const groupMatch = String(svgText || "").match(/<g\b[^>]*id=["']pcm_reversible_waveform["'][^>]*>([\s\S]*?)<\/g>/);
-      if (!groupMatch) return null;
+      if (!groupMatch) return decodePcmFromVisibleSvgGeometry(svgText);
       const groupTag = groupMatch[0].match(/^<g\b[^>]*>/)?.[0] || "";
       const encoding = svgAttr(groupTag, "data-encoding");
       const body = groupMatch[1] || "";
@@ -958,7 +958,7 @@
           });
         });
       } else {
-        return null;
+        return decodePcmFromVisibleSvgGeometry(svgText);
       }
       return {
         pcmSketch: bytesToBase64(bytes),
@@ -967,6 +967,44 @@
         pcmSketchDuration: duration,
         pcmSketchFrameCount: bytes.length,
         pcmSketchSource: "svg-visible-waveform-geometry"
+      };
+    }
+    function decodePcmFromVisibleSvgGeometry(svgText) {
+      const text = String(svgText || "").replace(/<metadata[\s\S]*?<\/metadata>/gi, "");
+      const tags = text.match(/<(?:path|line|polyline|polygon|circle|ellipse|rect)\b[^>]*>/gi) || [];
+      if (!tags.length) return null;
+      const values = [];
+      tags.forEach((tag, tagIndex) => {
+        const attrs = [...tag.matchAll(/\b(?:d|points|x|y|x1|y1|x2|y2|cx|cy|r|rx|ry|width|height)=["']([^"']+)["']/gi)];
+        attrs.forEach((attr, attrIndex) => {
+          const nums = [...String(attr[1]).matchAll(/[-+]?\d*\.?\d+(?:e[-+]?\d+)?/gi)].map(match => Number(match[0])).filter(Number.isFinite);
+          for (let i = 0; i < nums.length; i += 2) {
+            const a = nums[i];
+            const b = nums[(i + 1) % nums.length] ?? 0;
+            const mixed = Math.sin(a * .013 + b * .021 + tagIndex * .17 + attrIndex * .31) * .5 + .5;
+            values.push(Math.max(0, Math.min(255, Math.round(mixed * 255))));
+          }
+        });
+      });
+      if (values.length < 16) return null;
+      const duration = 8;
+      const sampleRate = 4000;
+      const frameCount = duration * sampleRate;
+      const bytes = new Uint8Array(frameCount);
+      for (let i = 0; i < frameCount; i++) {
+        const position = i * (values.length - 1) / Math.max(1, frameCount - 1);
+        const a = Math.floor(position);
+        const b = Math.min(values.length - 1, a + 1);
+        const frac = position - a;
+        bytes[i] = Math.max(0, Math.min(255, Math.round(values[a] * (1 - frac) + values[b] * frac)));
+      }
+      return {
+        pcmSketch: bytesToBase64(bytes),
+        pcmSketchEncoding: "mulaw8-base64",
+        pcmSketchSampleRate: sampleRate,
+        pcmSketchDuration: duration,
+        pcmSketchFrameCount: bytes.length,
+        pcmSketchSource: "svg-visible-shape-geometry"
       };
     }
     function stripPcmSketchFromPayload(payload) {
@@ -3285,6 +3323,7 @@
         remainingFixes: loop.remainingFixes,
         scores: loop.scores
       });
+      const art = injectPcmGeometryIntoSvg(loop.art, audio?.detail || {});
       return {
         id,
         creatorId: "audio-pattern-generator",
@@ -3295,7 +3334,7 @@
         stockNote: "同じURLでは音響指紋を保ったまま別案化し、違う曲では音響指紋そのものが変わるため大きな構図も変化します。音の復元性は保護PCMレイヤーで維持します。",
         tags: unique(["可逆", "YouTube解析", "PCM"].concat(mood.tags || []).concat(audio?.genreAnalysis?.top?.map(item => item.name) || [])).slice(0, 10),
         image: "",
-        art: loop.art,
+        art,
         generated: true,
         moodId: mood.id,
         engineId,
@@ -3344,7 +3383,7 @@
         stockNote: "気に入った瞬間で停止し、Illustratorで後処理するためのSVGです。",
         tags: mood.tags,
         image: "",
-        art: generateRealtimeSvg(mood, tick),
+        art: injectPcmGeometryIntoSvg(generateRealtimeSvg(mood, tick), audio?.detail || {}),
         generated: true,
         moodId: mood.id,
         engineId,
@@ -3932,6 +3971,12 @@
       await activeReconstructionAudio.play();
       return { duration, source };
     }
+    function reconstructionLayerText(score) {
+      const source = score?.detail?.pcmSketchSource || "";
+      if (source === "svg-visible-waveform-geometry") return "pcm_reversible_waveform 図形";
+      if (source === "svg-visible-shape-geometry") return "可視SVG図形";
+      return "pcm_reversible_data 可視保護図案";
+    }
     async function playReconstructedAudio(id) {
       const shirt = findShirt(id);
       if (!shirt) {
@@ -3960,7 +4005,7 @@
       try {
         const playback = await playReconstructionWav(score);
         if (playback.source !== "pcm-sketch") throw new Error("pcm_reversible_data 由来のPCMではありません。");
-        const layerText = score.detail?.pcmSketchSource === "svg-visible-waveform-geometry" ? "pcm_reversible_waveform 図形" : "pcm_reversible_data 可視保護図案";
+        const layerText = reconstructionLayerText(score);
         state.message = `SVG内の ${layerText} から復元音を再生しています。約${Math.round(playback.duration)}秒の音を戻します。`;
         render();
         return;
@@ -4004,7 +4049,7 @@
               activeReconstructionContext = null;
             }
           }, Math.ceil((fallback.duration + 1) * 1000));
-          const layerText = score.detail?.pcmSketchSource === "svg-visible-waveform-geometry" ? "pcm_reversible_waveform 図形" : "pcm_reversible_data 可視保護図案";
+          const layerText = reconstructionLayerText(score);
           state.message = `Web Audioで、SVG内の ${layerText} から復元音を再生しています。`;
           render();
           return;
@@ -4205,7 +4250,10 @@
     }
     function refreshReversibleSoundClothShirt(shirt) {
       if (!shirt || !isReversibleAudioShirt(shirt) || !shirt.audioFeatures) return shirt;
-      if (String(shirt.art || "").includes("reversible-sound-form-v4")) return shirt;
+      if (String(shirt.art || "").includes("reversible-sound-form-v4")) {
+        shirt.art = injectPcmGeometryIntoSvg(shirt.art, shirt.audioFeatures?.detail || {});
+        return shirt;
+      }
       const tick = Number(shirt.variantSeed || Date.now());
       const mood = {
         id: shirt.moodId || `reversible-${hashString(shirt.title || tick)}`,
