@@ -1399,6 +1399,12 @@
       let rmsSum = 0;
       let zcrSum = 0;
       let bassSum = 0;
+      let lowBandSum = 0;
+      let midBandSum = 0;
+      let highBandSum = 0;
+      let bandPowerSum = 0;
+      let bandCentroidSum = 0;
+      let bandCentroidWeight = 0;
       let spectralPowerSum = 0;
       let centroidSum = 0;
       let centroidWeight = 0;
@@ -1440,6 +1446,16 @@
         const bassPower = [55, 82, 110, 164, 220].reduce((sum, freq) => sum + goertzelPower(source, start, frameSize, sampleRate, freq), 0);
         const frameChroma = Array.from({ length: 12 }, () => 0);
         const frameBands = bandFrequencies.map(freq => freq < sampleRate / 2 ? goertzelPower(source, start, frameSize, sampleRate, freq) : 0);
+        frameBands.forEach((power, index) => {
+          const freq = bandFrequencies[index];
+          const weightedPower = power * Math.pow(Math.max(1, freq) / 220, 1.15);
+          bandPowerSum += weightedPower;
+          bandCentroidSum += freq * weightedPower;
+          bandCentroidWeight += weightedPower;
+          if (freq <= 220) lowBandSum += weightedPower;
+          else if (freq <= 1760) midBandSum += weightedPower;
+          else highBandSum += weightedPower;
+        });
         let frameCentroidSum = 0;
         let frameCentroidWeight = 0;
         bassSum += bassPower;
@@ -1467,9 +1483,18 @@
       const energy = clamp01(Math.sqrt(averageRms) * 1.8);
       const onset = clamp01((onsetSum / frames) * 28);
       const tempo = estimateTempo(envelope, sampleRate / hop);
-      const centroid = Math.round(centroidWeight ? centroidSum / centroidWeight : 1200);
+      const tonalCentroid = centroidWeight ? centroidSum / centroidWeight : 1200;
+      const bandCentroid = bandCentroidWeight ? bandCentroidSum / bandCentroidWeight : tonalCentroid;
+      const centroid = Math.round(bandCentroid);
       const rmsMax = Math.max(...rmsFrames, 1);
-      const bassRatio = spectralPowerSum ? bassSum / spectralPowerSum : 0;
+      const bassRatio = bandPowerSum ? lowBandSum / bandPowerSum : 0;
+      const midBandRatio = bandPowerSum ? midBandSum / bandPowerSum : 0;
+      const highBandRatio = bandPowerSum ? highBandSum / bandPowerSum : 0;
+      const bass = clamp01(Math.pow(bassRatio, .82) * 1.18);
+      const brightness = clamp01(Math.max(
+        (centroid - 180) / 3600,
+        Math.pow(highBandRatio, .45) * 1.2
+      ));
       const temporalProfile = Array.from({ length: 16 }, (_, i) => {
         if (!rmsFrames.length) return 0;
         const index = Math.min(rmsFrames.length - 1, Math.round(i * (rmsFrames.length - 1) / 15));
@@ -1487,8 +1512,12 @@
         tempo,
         energy,
         rms: energy,
-        bass: clamp01(Math.sqrt(bassRatio) * 2.4),
-        brightness: clamp01((centroid - 400) / 5200),
+        bass,
+        brightness,
+        lowBandRatio: clamp01(bassRatio),
+        midBandRatio: clamp01(midBandRatio),
+        highBandRatio: clamp01(highBandRatio),
+        tonalCentroid: Math.round(tonalCentroid),
         spectralCentroid: centroid,
         rhythm: clamp01(onset * 1.4),
         onset,
@@ -1637,9 +1666,34 @@
       }, 0);
       return clamp01(entropy / Math.log(12));
     }
+    function bandGroupRatios(detail = {}, features = {}) {
+      const rows = Array.isArray(detail.bandTimeline) ? detail.bandTimeline : [];
+      if (!rows.length) {
+        return {
+          lowBandRatio: clamp01(features.lowBandRatio ?? features.bass),
+          midBandRatio: clamp01(features.midBandRatio ?? .34),
+          highBandRatio: clamp01(features.highBandRatio ?? features.brightness)
+        };
+      }
+      let low = 0;
+      let mid = 0;
+      let high = 0;
+      rows.forEach(row => {
+        low += Number(row?.[0] || 0) + Number(row?.[1] || 0) + Number(row?.[2] || 0);
+        mid += Number(row?.[3] || 0) + Number(row?.[4] || 0) + Number(row?.[5] || 0);
+        high += Number(row?.[6] || 0) + Number(row?.[7] || 0);
+      });
+      const total = low + mid + high || 1;
+      return {
+        lowBandRatio: clamp01(features.lowBandRatio ?? low / total),
+        midBandRatio: clamp01(features.midBandRatio ?? mid / total),
+        highBandRatio: clamp01(features.highBandRatio ?? high / total)
+      };
+    }
     function genreFeatureVector(features = {}) {
       const detail = normaliseAudioDetail(features.detail || {}, features);
       const centroid = Number(features.centroid ?? features.spectralCentroid) || 1200;
+      const bands = bandGroupRatios(detail, features);
       const brightness = features.highBandRatio != null
         ? Math.max(clamp01(features.brightness), clamp01(features.highBandRatio))
         : clamp01(features.brightness ?? ((centroid - 400) / 5200));
@@ -1647,6 +1701,9 @@
         tempo: Math.max(45, Math.min(220, Number(features.tempo) || 96)),
         energy: clamp01(features.energy ?? features.rms),
         bass: clamp01(features.bass),
+        lowBandRatio: bands.lowBandRatio,
+        midBandRatio: bands.midBandRatio,
+        highBandRatio: bands.highBandRatio,
         rhythm: clamp01(features.rhythm ?? features.onset),
         onset: clamp01(features.onset),
         brightness,
@@ -1684,6 +1741,9 @@
       const rhythm = vector.rhythm || 0;
       const onset = vector.onset || 0;
       const brightness = vector.brightness || 0;
+      const lowBandRatio = vector.lowBandRatio || 0;
+      const midBandRatio = vector.midBandRatio || 0;
+      const highBandRatio = vector.highBandRatio || 0;
       const zcr = vector.zcr || 0;
       const rmsContrast = vector.rmsContrast || 0;
       const onsetContrast = vector.onsetContrast || 0;
@@ -1692,39 +1752,47 @@
       const lowBeat = rhythm < .36 && onset < .34;
       const heavyLow = bass > .68;
       const brightNoise = brightness > .62 || zcr > .55;
+      const dubPocket = heavyLow && lowBandRatio > .42 && highBandRatio < .18 && rhythm < .52 && onset < .42;
+      const rockTexture = energy > .62 && midBandRatio > .26 && zcr > .09 && onset >= .32;
+      const popTexture = midBandRatio > .28 && chromaEntropyValue > .82 && brightness > .16 && lowBandRatio < .72;
+      const acousticTexture = chromaEntropyValue > .84 && rmsContrast > .24 && highBandRatio > .08 && rhythm < .62;
+      const chipTexture = zcr > .12 && highBandRatio > .08 && rmsContrast < .24 && bass < .86;
       const boosts = {
         "アンビエント": (lowBeat && energy < .48 ? .16 : 0) + (chromaEntropyValue > .82 ? .04 : 0),
         "ドローン": (lowBeat && heavyLow ? .18 : 0) + (rmsContrast < .22 ? .05 : 0),
-        "ノイズミュージック": (brightNoise && energy > .58 ? .2 : 0) + (centroidContrast > .42 ? .07 : 0),
+        "ノイズミュージック": ((brightNoise || highBandRatio > .16) && energy > .58 ? .2 : 0) + (centroidContrast > .34 ? .07 : 0),
         "テクノ": (tempo >= 118 && tempo <= 138 && rhythm > .58 && bass > .42 ? .13 : 0),
         "ハウス": (tempo >= 112 && tempo <= 132 && rhythm > .62 && onset < .62 ? .14 : 0),
         "ディープ・ハウス": (tempo >= 108 && tempo <= 126 && bass > .58 && brightness < .5 ? .16 : 0),
         "トランス": (tempo >= 125 && brightness > .5 && rhythm > .6 ? .13 : 0),
-        "ドラムンベース": ((tempo >= 150 || tempoDistance(tempo, 172) < 14) && rhythm > .68 ? .18 : 0),
-        "ダブステップ": (heavyLow && onset > .5 && rhythm < .66 ? .17 : 0),
-        "チップチューン": (brightness > .68 && zcr > .5 && bass < .55 ? .18 : 0),
+        "ドラムンベース": ((tempo >= 150 || tempoDistance(tempo, 172) < 18 || tempoDistance(tempo * 2, 172) < 18) && (rhythm > .58 || onsetContrast > .08) ? .2 : 0),
+        "ダブステップ": (heavyLow && lowBandRatio > .42 && onset > .42 && rhythm < .72 ? .18 : 0),
+        "チップチューン": (chipTexture ? .2 : 0),
         "ヒップホップ": (tempo >= 70 && tempo <= 115 && bass > .55 && rhythm > .45 ? .12 : 0),
         "トラップ": (heavyLow && onset > .5 && tempo <= 100 ? .15 : 0),
         "レゲエ": (tempo >= 65 && tempo <= 105 && bass > .52 && brightness < .52 && onset < .5 ? .15 : 0),
-        "ダブ": (heavyLow && brightness < .42 && rhythm < .55 ? .18 : 0),
-        "ロック": (energy > .62 && onset > .48 && brightness > .4 && zcr > .34 ? .12 : 0),
-        "パンク": (energy > .68 && onset > .56 && (tempo >= 135 || rhythm > .72) ? .16 : 0),
-        "ハードコア": (energy > .72 && onset > .62 && rhythm > .68 ? .18 : 0),
-        "メタル": (energy > .7 && bass > .5 && zcr > .45 && onset > .54 ? .16 : 0),
-        "ジャズ": (chromaEntropyValue > .76 && onset < .58 && rmsContrast > .28 ? .14 : 0),
+        "ダブ": (dubPocket ? .2 : 0) - (rhythm > .68 || onset > .58 || highBandRatio > .24 ? .16 : 0),
+        "ロック": (rockTexture ? .16 : 0),
+        "パンク": (rockTexture && (tempo >= 135 || rhythm > .66) ? .18 : 0),
+        "ハードコア": (rockTexture && energy > .72 && (onset > .48 || rhythm > .68) ? .2 : 0),
+        "メタル": (energy > .68 && bass > .5 && zcr > .1 && midBandRatio > .24 ? .18 : 0),
+        "ジャズ": (acousticTexture && onset < .62 ? .16 : 0),
         "ファンク": (rhythm > .62 && bass > .46 && onset > .42 && tempo >= 88 && tempo <= 125 ? .14 : 0),
         "ソウルミュージック": (energy >= .38 && energy <= .72 && brightness < .58 && onset < .48 ? .12 : 0),
         "ディスコ": (tempo >= 105 && tempo <= 132 && rhythm > .62 && brightness > .42 ? .13 : 0),
-        "クラシック音楽": (lowBeat && bass < .56 && chromaEntropyValue > .78 && rmsContrast > .38 ? .16 : 0),
-        "オペラ": (lowBeat && brightness > .42 && rmsContrast > .38 ? .15 : 0),
-        "フォーク": (energy < .58 && bass < .55 && onset < .48 && brightness < .58 ? .13 : 0)
+        "シティ・ポップ": (popTexture && tempo >= 80 && tempo <= 130 ? .14 : 0),
+        "J-POP": (popTexture && energy > .42 ? .14 : 0),
+        "アニメソング": (popTexture && (tempo >= 125 || onset > .45) ? .16 : 0),
+        "クラシック音楽": (acousticTexture && lowBandRatio < .68 && rhythm < .55 ? .18 : 0),
+        "オペラ": (acousticTexture && brightness > .14 && rhythm < .52 ? .16 : 0),
+        "フォーク": (energy < .68 && midBandRatio > .24 && onset < .55 && brightness < .42 ? .14 : 0)
       };
       return clamp01(boosts[genreName] || 0);
     }
     function genreProfileScore(vector, genreName) {
       const profile = (state.genreProfiles && state.genreProfiles[genreName]) || musicGenreProfiles[genreName];
       if (!profile) return .5;
-      const weights = { tempo: .95, energy: .75, bass: .78, rhythm: .88, onset: .82, brightness: .62, zcr: .42, rmsContrast: .42, onsetContrast: .36, bassContrast: .3, centroidContrast: .28, chromaEntropy: .48 };
+      const weights = { tempo: .95, energy: .75, bass: .52, lowBandRatio: .58, midBandRatio: .5, highBandRatio: .5, rhythm: .88, onset: .82, brightness: .62, zcr: .42, rmsContrast: .42, onsetContrast: .36, bassContrast: .3, centroidContrast: .28, chromaEntropy: .48 };
       const scoreAgainst = (target, useSpread = true) => {
         let total = 0;
         let weightTotal = 0;
@@ -1753,7 +1821,7 @@
     function legacyGenreProfileScore(vector, genreName) {
       const profile = (state.genreProfiles && state.genreProfiles[genreName]) || musicGenreProfiles[genreName];
       if (!profile) return .5;
-      const weights = { tempo: .95, energy: .75, bass: .78, rhythm: .88, onset: .82, brightness: .62, zcr: .42, rmsContrast: .42, onsetContrast: .36, bassContrast: .3, centroidContrast: .28, chromaEntropy: .48 };
+      const weights = { tempo: .95, energy: .75, bass: .52, lowBandRatio: .58, midBandRatio: .5, highBandRatio: .5, rhythm: .88, onset: .82, brightness: .62, zcr: .42, rmsContrast: .42, onsetContrast: .36, bassContrast: .3, centroidContrast: .28, chromaEntropy: .48 };
       let total = 0;
       let weightTotal = 0;
       Object.entries(weights).forEach(([key, weight]) => {
@@ -1849,20 +1917,23 @@
       const onset = vector.onset || 0;
       const brightness = vector.brightness || 0;
       const zcr = vector.zcr || 0;
+      const lowBandRatio = vector.lowBandRatio || 0;
+      const midBandRatio = vector.midBandRatio || 0;
+      const highBandRatio = vector.highBandRatio || 0;
       const chromaEntropyValue = vector.chromaEntropy || 0;
       const rmsContrast = vector.rmsContrast || 0;
       const lowBeat = rhythm < .38 && onset < .38;
       const steadyDance = rhythm > .58 && tempo >= 108 && tempo <= 145;
       const fastImpact = tempo >= 140 || onset > .66 || rhythm > .72;
       const scores = {
-        ambient: .35 + (lowBeat ? .28 : 0) + (energy < .55 ? .12 : 0) + (bass > .62 ? .08 : 0) + (brightness < .35 ? .06 : 0),
-        electronic: .33 + (steadyDance ? .24 : 0) + (tempo >= 118 && tempo <= 150 ? .12 : 0) + (bass > .5 ? .1 : 0) + (brightness >= .28 && brightness <= .75 ? .06 : 0),
-        black: .35 + (bass > .52 ? .17 : 0) + (tempo >= 68 && tempo <= 125 ? .12 : 0) + (rhythm > .42 ? .08 : 0) + (brightness < .6 ? .05 : 0),
-        rock: .28 + (energy > .62 ? .18 : 0) + (fastImpact ? .16 : 0) + (zcr > .32 ? .1 : 0) + (brightness > .32 ? .06 : 0),
-        jazz: .24 + (chromaEntropyValue > .76 ? .22 : 0) + (rmsContrast > .28 ? .13 : 0) + (onset < .62 ? .08 : 0) + (tempo >= 80 && tempo <= 150 ? .05 : 0),
-        pop: .28 + (energy >= .42 && energy <= .82 ? .13 : 0) + (tempo >= 85 && tempo <= 155 ? .1 : 0) + (chromaEntropyValue > .62 ? .08 : 0) + (brightness > .32 ? .05 : 0),
-        classical: .22 + (lowBeat ? .22 : 0) + (chromaEntropyValue > .78 ? .15 : 0) + (rmsContrast > .34 ? .12 : 0) + (bass < .6 ? .06 : 0),
-        folk: .22 + (energy < .62 ? .14 : 0) + (bass < .58 ? .1 : 0) + (onset < .58 ? .08 : 0) + (chromaEntropyValue > .68 ? .07 : 0)
+        ambient: .32 + (lowBeat ? .28 : 0) + (energy < .55 ? .12 : 0) + (highBandRatio < .16 ? .08 : 0),
+        electronic: .3 + (steadyDance ? .24 : 0) + (tempo >= 118 && tempo <= 150 ? .12 : 0) + (rhythm > .56 ? .1 : 0) + (highBandRatio >= .08 ? .05 : 0),
+        black: .3 + (lowBandRatio > .34 ? .11 : 0) + (tempo >= 68 && tempo <= 125 ? .12 : 0) + (rhythm > .42 ? .08 : 0) + (midBandRatio > .22 ? .08 : 0),
+        rock: .3 + (energy > .62 ? .18 : 0) + (fastImpact ? .12 : 0) + (midBandRatio > .24 ? .16 : 0) + (zcr > .09 ? .08 : 0),
+        jazz: .24 + (chromaEntropyValue > .76 ? .2 : 0) + (rmsContrast > .24 ? .12 : 0) + (midBandRatio > .22 ? .1 : 0) + (onset < .62 ? .06 : 0),
+        pop: .28 + (energy >= .42 && energy <= .88 ? .11 : 0) + (tempo >= 75 && tempo <= 165 ? .08 : 0) + (chromaEntropyValue > .74 ? .1 : 0) + (midBandRatio > .24 ? .1 : 0),
+        classical: .24 + (lowBeat ? .16 : 0) + (chromaEntropyValue > .78 ? .14 : 0) + (rmsContrast > .28 ? .12 : 0) + (midBandRatio > .22 || highBandRatio > .08 ? .1 : 0),
+        folk: .22 + (energy < .68 ? .12 : 0) + (midBandRatio > .22 ? .12 : 0) + (onset < .58 ? .08 : 0) + (chromaEntropyValue > .68 ? .07 : 0)
       };
       return clamp01(scores[macro] || .25);
     }

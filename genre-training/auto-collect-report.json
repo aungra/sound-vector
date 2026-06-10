@@ -1,350 +1,2558 @@
 {
-  "collectedAt": "2026-06-10T07:11:00.829Z",
-  "perGenre": 10,
+  "collectedAt": "2026-06-10T12:06:47.956Z",
+  "perGenre": 20,
+  "candidateTarget": 40,
+  "validateAnalysis": true,
   "report": [
     {
-      "genre": "アンビエント",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "candidateCount": 51,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Merzbow Woodpecker No. 1 official audio",
+          "count": 8,
+          "titles": [
+            "MERZBOW - Woodpecker No. 1 (Official Remastered Audio)",
+            "Merzbow - Woodpecker No. 1 (Radio Edit) (HQ Audio)",
+            "Merzbow - Woodpecker No. 1 - Pulse Demon",
+            "Merzbow - Woodpecker No. 1 (HQ Audio)"
+          ]
+        },
+        {
+          "query": "Merzbow Woodpecker No. 1 topic",
+          "count": 8,
+          "titles": [
+            "Woodpecker No. 1 (Remastered)",
+            "Woodpecker No. 1",
+            "Woodpecker No. 2 (Remastered)",
+            "Davie504 but every BASS is Woodpecker No.1 by Merzbow"
+          ]
+        },
+        {
+          "query": "Whitehouse Why You Never Became a Dancer official audio",
+          "count": 8,
+          "titles": [
+            "01. WHY YOU NEVER BECAME A DANCER",
+            "01 Why You Never Became A Dancer",
+            "WHITEHOUSE : LA 100 : full",
+            "HASHTAGA - Why You Never Became A Dancer [CHRONICLES002]"
+          ]
+        },
+        {
+          "query": "Whitehouse Why You Never Became a Dancer topic",
+          "count": 8,
+          "titles": [
+            "Whitehouse - \"Why You Never Became a Dancer\" (FEMALE COVER)",
+            "Why You Never Became A Dancer (Original Mix)",
+            "Whitehouse Why You Never Became A Dancer (JK Cover)",
+            "Why You Never Became a Dancer"
+          ]
+        },
+        {
+          "query": "Masonna Spectrum Ripper official audio",
+          "count": 8,
+          "titles": [
+            "Spectrum Ripper",
+            "Part Xxiv",
+            "Part XVI",
+            "HNT: Masonna - \"Part I\""
+          ]
+        },
+        {
+          "query": "Masonna Spectrum Ripper topic",
+          "count": 8,
+          "titles": [
+            "Spectrum Ripper",
+            "Part XI",
+            "Part Xvii",
+            "Part Xxiv"
+          ]
+        },
+        {
+          "query": "Prurient Dragonflies to Sew You Up official audio",
+          "count": 8,
+          "titles": [
+            "PRURIENT - Dragonflies To Sew You Up (official audio)",
+            "Dragonflies to Sew You Up",
+            "Prurient - Dragonflies to sew you up (Frozen Niagara Falls)",
+            "Prurient - (2) Dragonflies to sew you up"
+          ]
+        },
+        {
+          "query": "Prurient Dragonflies to Sew You Up topic",
+          "count": 8,
+          "titles": [
+            "Dragonflies to Sew You Up",
+            "Thorns",
+            "Falling Mask",
+            "Mask Of Nails"
+          ]
+        }
+      ]
     },
     {
       "genre": "ドローン",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
+      "macroGenre": "ambient",
+      "candidateCount": 60,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "La Monte Young The Well Tuned Piano official audio",
+          "count": 8,
+          "titles": [
+            "La Monte Young | The Well-Tuned Piano",
+            "La Monte Young – Noël Akchoté : 01 – The Well Tuned Piano",
+            "La Monte Young - The Tortoise, His Dream and Journeys (1964)",
+            "La Monte Young - Day of Gammadion Part I"
+          ]
+        },
+        {
+          "query": "La Monte Young The Well Tuned Piano topic",
+          "count": 8,
+          "titles": [
+            "the well tuned piano : la monte young, marian zazeela",
+            "The Well-Tuned Piano (Arr. for Guitar)",
+            "What Is La Monte Young's The Well-Tuned Piano? - Holy Harmonies",
+            "Infinite Music"
+          ]
+        },
+        {
+          "query": "Eliane Radigue Trilogie de la Mort official audio",
+          "count": 8,
+          "titles": [
+            "Eliane Radigue - Trilogie de la Mort",
+            "Trilogie de la Mort ~ by Eliane Radigue ~ An Ambient Electronic Buddhist Meditation on the Bardo",
+            "Eliane Radigue - IMA Fiction Portrait #04 (2006)",
+            "Eliane Radigue, 87 ans, pionnière de l'électro"
+          ]
+        },
+        {
+          "query": "Eliane Radigue Trilogie de la Mort topic",
+          "count": 8,
+          "titles": [
+            "Kailasha",
+            "Kyema (Intermediate States)",
+            "Koume",
+            "Labyrinthe sonore"
+          ]
+        },
+        {
+          "query": "Sunn O))) Big Church official audio",
+          "count": 8,
+          "titles": [
+            "SUNN O))) - Big Church [[Megszentségteleníthetetlenségeskedéseitekért]]  (MVGEN video)",
+            "Sunn O))) - Big Church (Bass Boosted)",
+            "Scott Walker + Sunn O))) - Brando - Film by Gisèle Vienne",
+            "Monoliths & Dimensions - Sunn O)))  [Full Album)"
+          ]
+        },
+        {
+          "query": "Sunn O))) Big Church topic",
+          "count": 8,
+          "titles": [
+            "Big Church  [megszentségteleníthetetlenségeskedéseitekért]",
+            "Aghartha",
+            "It Took the Night to Believe",
+            "Orthodox Caveman"
+          ]
+        },
+        {
+          "query": "Tim Hecker Virginal II official audio",
+          "count": 8,
+          "titles": [
+            "Tim Hecker - Virginal II",
+            "Tim Hecker - Virginal II Out",
+            "Monotony II",
+            "Virginal I"
+          ]
+        },
+        {
+          "query": "Tim Hecker Virginal II topic",
+          "count": 8,
+          "titles": [
+            "Virginal II",
+            "Monotony II",
+            "Virginal I",
+            "Virginal II"
+          ]
+        },
+        {
+          "query": "William Basinski The Disintegration Loops official audio",
+          "count": 8,
+          "titles": [
+            "William Basinski on Making The Disintegration Loops",
+            "The Disintegration Loops (Arcadia Archive Edition) - William Basinski - 2025 - 8xLP Rip",
+            "William Basinski - The Disintegration Loops 3 (HQ)",
+            "dlp 1.1.9"
+          ]
+        }
+      ]
     },
     {
-      "genre": "ノイズミュージック",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
-    },
-    {
-      "genre": "電子音楽",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "candidateCount": 63,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Brian Eno An Ending Ascent official audio",
+          "count": 8,
+          "titles": [
+            "Brian Eno - An Ending (Ascent) (Remastered 2019)",
+            "An Ending (Ascent) (Remastered 2005)",
+            "Brian Eno - An Ending (Ascent) [1080 HD]",
+            "Brian Eno on Apollo"
+          ]
+        },
+        {
+          "query": "Brian Eno An Ending Ascent topic",
+          "count": 8,
+          "titles": [
+            "An Ending (Ascent) (Remastered 2005)",
+            "Brian Eno - An Ending (Ascent) (Remastered 2019)",
+            "An Ending (Ascent) (Remastered 2005)",
+            "Brian Eno - An Ending (Ascent) - Long Version - 1983"
+          ]
+        },
+        {
+          "query": "Brian Eno 1/1 official audio",
+          "count": 8,
+          "titles": [
+            "1/1 (Remastered 2004)",
+            "Brian Eno - 1/1",
+            "Brian Eno - Ambient 1: Music for Airports [Full Album]",
+            "1/1 (Edit)"
+          ]
+        },
+        {
+          "query": "Brian Eno 1/1 topic",
+          "count": 8,
+          "titles": [
+            "1/1 (Remastered 2004)",
+            "1/1 (Edit)",
+            "1/1 (Edit)",
+            "Brian Eno - Ambient 1: Music for Airports [Full Album]"
+          ]
+        },
+        {
+          "query": "Aphex Twin #3 Rhubarb official audio",
+          "count": 8,
+          "titles": [
+            "#3",
+            "Aphex Twin - Rhubarb",
+            "Aphex Twin - Rhubarb Orc. 19.53 Rev (Official Audio)",
+            "Aphex Twin - #3 / Rhubarb (Nintendo 64 version)"
+          ]
+        },
+        {
+          "query": "Aphex Twin #3 Rhubarb topic",
+          "count": 8,
+          "titles": [
+            "#3",
+            "Aphex Twin - Rhubarb",
+            "Aphex Twin - #3 / Rhubarb (Nintendo 64 version)",
+            "Aphex Twin - #3/Rhubarb (Orchestral Cover)"
+          ]
+        },
+        {
+          "query": "Stars of the Lid Requiem for Dying Mothers official audio",
+          "count": 8,
+          "titles": [
+            "Requiem for Dying Mothers, Pt. 1",
+            "Stars of The Lid--- Requiem for Dying Mothers pt2",
+            "Stars of the Lid || The Tired Sounds of Stars of the Lid (2001) Full Album",
+            "Stars of the Lid - The Tired Sounds of Stars of the Lid (HD)"
+          ]
+        },
+        {
+          "query": "Stars of the Lid Requiem for Dying Mothers topic",
+          "count": 8,
+          "titles": [
+            "Requiem for Dying Mothers, Pt. 1",
+            "Requiem for Dying Mothers, Pt. 2",
+            "Stars of the Lid || The Tired Sounds of Stars of the Lid (2001) Full Album",
+            "Requiem for dying mothers."
+          ]
+        },
+        {
+          "query": "Hiroshi Yoshimura Green official audio",
+          "count": 8,
+          "titles": [
+            "GREEN",
+            "Hiroshi Yoshimura - Green (Full Album Stream)",
+            "Hiroshi Yoshimura \"GREEN\" (1986)",
+            "Hiroshi Yoshimura - GREEN (SFX Version) (Full Album Stream)"
+          ]
+        },
+        {
+          "query": "Hiroshi Yoshimura Green topic",
+          "count": 8,
+          "titles": [
+            "GREEN",
+            "GREEN",
+            "Hiroshi Yoshimura - GREEN (SFX Version) (Full Album Stream)",
+            "Green shower"
+          ]
+        },
+        {
+          "query": "Harold Budd Bismillahi Rrahmani Rrahim official audio",
+          "count": 8,
+          "titles": [
+            "HAROLD BUDD - BISMILLAHI 'RRAHMANI 'RRAHIM",
+            "Harold Budd - Bismillahi 'Rrahman' Rrahim",
+            "ECHO: The Music of Harold Budd and Brian Eno",
+            "Harold Budd - Templar"
+          ]
+        }
+      ]
     },
     {
       "genre": "テクノ",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
+      "macroGenre": "electronic",
+      "candidateCount": 41,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Jeff Mills The Bells official audio",
+          "count": 8,
+          "titles": [
+            "Jeff Mills - The Bells",
+            "The Bells",
+            "Jeff Mills & Montpelier Philharmonic Orchestra - The Bells",
+            "Jeff Mills play \" The Bells \" ultimo disco"
+          ]
+        },
+        {
+          "query": "Jeff Mills The Bells topic",
+          "count": 8,
+          "titles": [
+            "The Bells",
+            "The Bells",
+            "008 / Jeff Mills - The Bells (Original Mix)",
+            "The Bells (Blue Potential Version)"
+          ]
+        },
+        {
+          "query": "Model 500 No UFO's official audio",
+          "count": 8,
+          "titles": [
+            "No Ufo's (Vocal)",
+            "Model 500 - NO UFO'S",
+            "Model 500 - No UFOS",
+            "No UFO's Model 500 Classics techno music"
+          ]
+        },
+        {
+          "query": "Model 500 No UFO's topic",
+          "count": 8,
+          "titles": [
+            "No Ufo's (Vocal)",
+            "Model 500 - NO UFO'S",
+            "No U.F.Os (inst.)",
+            "No Ufo's (Remix)"
+          ]
+        },
+        {
+          "query": "Derrick May Strings of Life official audio",
+          "count": 8,
+          "titles": [
+            "Rhythm Is Rhythm - Strings Of Life - 1987",
+            "Strings Of Life",
+            "Derrick May - Strings of Life",
+            "Strings of Life~Derrick May"
+          ]
+        },
+        {
+          "query": "Derrick May Strings of Life topic",
+          "count": 8,
+          "titles": [
+            "Rhythm Is Rhythm - Strings Of Life - 1987",
+            "Strings of Life",
+            "Strings Of Life",
+            "Derrick May - Strings of Life - Weather Festival Opening"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "candidateCount": 45,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Kraftwerk Computer World official audio",
+          "count": 8,
+          "titles": [
+            "Computer World (2009 Remaster)",
+            "Kraftwerk - Computer World (HQ)",
+            "Kraftwerk - Computer World 3D (Full Album)",
+            "Computerwelt (2009 Remaster)"
+          ]
+        },
+        {
+          "query": "Kraftwerk Computer World topic",
+          "count": 8,
+          "titles": [
+            "Computer World (2009 Remaster)",
+            "Kraftwerk - Computerworld (Full Album)",
+            "Numbers / Computer World",
+            "Computer World (Live)"
+          ]
+        },
+        {
+          "query": "Jean-Michel Jarre Oxygene Part IV official audio",
+          "count": 8,
+          "titles": [
+            "Jean-Michel Jarre - Oxygene, Pt. 4",
+            "Oxygene 4 - Jean Michel Jarre 1976",
+            "Jean Michel Jarre - Oxygene Part IV original 1976 (HQ audio) 4k",
+            "Jean Michel Jarre - Oxygene Part IV original 1976 HQ"
+          ]
+        },
+        {
+          "query": "Jean-Michel Jarre Oxygene Part IV topic",
+          "count": 8,
+          "titles": [
+            "Jean-Michel Jarre - Oxygene, Pt. 4",
+            "Oxygene 4 - Jean Michel Jarre 1976",
+            "Oxygene Part 4 (extended) - Jean-Michel Jarre",
+            "Jean-Michel Jarre - Oxygene, Pt. 4 (1989 Version)"
+          ]
+        },
+        {
+          "query": "Boards of Canada Roygbiv official audio",
+          "count": 8,
+          "titles": [
+            "Roygbiv",
+            "Boards of Canada - Roygbiv",
+            "Boards Of Canada - roygbiv",
+            "Boards of Canada - Roygbiv (Music Video) HQ"
+          ]
+        },
+        {
+          "query": "Boards of Canada Roygbiv topic",
+          "count": 8,
+          "titles": [
+            "Roygbiv",
+            "Boards of Canada - Roygbiv [Studio Audio]",
+            "ROYGBIV",
+            "Boards of Canada - Roygbiv (1998)"
+          ]
+        },
+        {
+          "query": "Autechre Bike official audio",
+          "count": 8,
+          "titles": [
+            "Autechre – Bike",
+            "Autechre - Bike",
+            "Autechre & The Washing Mashine",
+            "Autechre EXPOSED (caught using fl studio presets)"
+          ]
+        }
+      ]
     },
     {
       "genre": "ハウス",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
+      "macroGenre": "electronic",
+      "candidateCount": 40,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Frankie Knuckles Your Love official audio",
+          "count": 8,
+          "titles": [
+            "Your Love",
+            "Frankie Knuckles - Your Love",
+            "Your Love (Original)",
+            "Frankie Knuckles - Your Love, 1987."
+          ]
+        },
+        {
+          "query": "Frankie Knuckles Your Love topic",
+          "count": 8,
+          "titles": [
+            "Your Love",
+            "Your Love",
+            "Your Love (2025 Remaster)",
+            "Your Love (Original)"
+          ]
+        },
+        {
+          "query": "Mr. Fingers Can You Feel It official audio",
+          "count": 8,
+          "titles": [
+            "Can You Feel It",
+            "Can You Feel It",
+            "Mr Fingers - Can You Feel It",
+            "Can You Feel It"
+          ]
+        },
+        {
+          "query": "Mr. Fingers Can You Feel It topic",
+          "count": 8,
+          "titles": [
+            "Can You Feel It",
+            "Can You Feel It",
+            "Can You Feel It",
+            "Can You Feel It"
+          ]
+        },
+        {
+          "query": "CeCe Rogers Someday official audio",
+          "count": 8,
+          "titles": [
+            "CeCe Rogers - Someday (Audio)",
+            "CeCe Rogers  Someday",
+            "CeCe Rogers - Someday (12'' club mix)",
+            "CeCe Rogers - Someday (Audio)"
+          ]
+        },
+        {
+          "query": "CeCe Rogers Someday topic",
+          "count": 8,
+          "titles": [
+            "Someday",
+            "Someday",
+            "Someday",
+            "Someday"
+          ]
+        }
+      ]
     },
     {
       "genre": "ディープ・ハウス",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
+      "macroGenre": "electronic",
+      "candidateCount": 45,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Larry Heard What About This Love official audio",
+          "count": 8,
+          "titles": [
+            "Mr. Fingers | What About This Love (Dub Version)",
+            "Larry Heard - Black Oceans",
+            "Larry Heard with Moodman   What About This Love Live @ Dommune 13 03 2011",
+            "Mr Fingers - What About This Love (Masters At Work Dub)"
+          ]
+        },
+        {
+          "query": "Larry Heard What About This Love topic",
+          "count": 8,
+          "titles": [
+            "What About This Love? (Extended Version)",
+            "What About This Love? (Dub Version)",
+            "What About This Love?",
+            "What About This Love"
+          ]
+        },
+        {
+          "query": "Kerri Chandler Rain official audio",
+          "count": 8,
+          "titles": [
+            "Rain (Original Mix)",
+            "Kerri Chandler - Rain",
+            "Rain (New Old School Dub)",
+            "Rain (Atjazz Remix)"
+          ]
+        },
+        {
+          "query": "Kerri Chandler Rain topic",
+          "count": 8,
+          "titles": [
+            "Rain",
+            "Rain (Original Mix)",
+            "Rain (Remastered)",
+            "Rain"
+          ]
+        },
+        {
+          "query": "Moodymann Shades of Jae official audio",
+          "count": 8,
+          "titles": [
+            "Moodymann - Shades of Jae (Bangin Edit) [played by Karotte]",
+            "Moodymann - Shades Of Jae",
+            "Moodymann - Shades Of Jae (Part I)",
+            "Moodymann - Shades of Jae ( iULIAN BADEA, GruuvElement's, Silas (RO)"
+          ]
+        },
+        {
+          "query": "Moodymann Shades of Jae topic",
+          "count": 8,
+          "titles": [
+            "Shades of Jae",
+            "Romaru - Shades of Jae 2015",
+            "M.E.A.N.D.N.J.B",
+            "Jimmy D... Nickle"
+          ]
+        }
+      ]
     },
     {
       "genre": "トランス",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
+      "macroGenre": "electronic",
+      "candidateCount": 45,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Energy 52 Cafe Del Mar official audio",
+          "count": 8,
+          "titles": [
+            "Energy 52: Café Del Mar (Three 'n One Radio Remix) (official video)",
+            "Cafe Del Mar (Original Video) - Energy 52",
+            "Energy 52 - Café Del Mar (DJ Kid Paul Mix) [official video]",
+            "Café Del Mar (Three 'N One 2002 Update Radio Edit)"
+          ]
+        },
+        {
+          "query": "Energy 52 Cafe Del Mar topic",
+          "count": 8,
+          "titles": [
+            "Café Del Mar (Three 'N One 2002 Update Radio Edit)",
+            "Café Del Mar (Three 'n One Remix)",
+            "Café Del Mar (Three 'N One Radio Edit)",
+            "Café Del Mar (Nalin & Kane Remix)"
+          ]
+        },
+        {
+          "query": "Paul van Dyk For An Angel official audio",
+          "count": 8,
+          "titles": [
+            "Paul van Dyk - For An Angel (1998)",
+            "Paul van Dyk  - For An Angel 2009",
+            "For An Angel (PvD Angel In Heaven Radio Edit)",
+            "Paul Van Dyk - For an angel (Original mix) [HD]"
+          ]
+        },
+        {
+          "query": "Paul van Dyk For An Angel topic",
+          "count": 8,
+          "titles": [
+            "Paul van Dyk - For An Angel (1998)",
+            "Paul van Dyk  - For An Angel 2009",
+            "For An Angel (PvD Angel In Heaven Radio Edit)",
+            "Topic, Robin Schulz, Nico Santos, Paul van Dyk - In Your Arms (For An Angel) (Lyric Video)"
+          ]
+        },
+        {
+          "query": "Binary Finary 1998 official audio",
+          "count": 8,
+          "titles": [
+            "1998",
+            "Binary Finary - 1998 (Original Mix)",
+            "Binary Finary - 1998",
+            "1998 (DuMonde's 2000 Millenium Mix)"
+          ]
+        },
+        {
+          "query": "Binary Finary 1998 topic",
+          "count": 8,
+          "titles": [
+            "1998",
+            "1998 (DuMonde's 2000 Millenium Mix)",
+            "Binary Finary - 1998",
+            "Binary Finary - 1998 (Original Mix)"
+          ]
+        },
+        {
+          "query": "Gouryella Gouryella official audio",
+          "count": 8,
+          "titles": [
+            "Ferry Corsten presents Gouryella - Anahera [Official Music Video]",
+            "Gouryella (Ferry Corsten & DJ Tiesto) - Gouryella HQ",
+            "Gouryella",
+            "Gouryella - Gouryella [HQ]"
+          ]
+        }
+      ]
     },
     {
       "genre": "ドラムンベース",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
+      "macroGenre": "electronic",
+      "candidateCount": 43,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Goldie Inner City Life official audio",
+          "count": 8,
+          "titles": [
+            "Inner City Life (2020 Remaster)",
+            "Goldie - Inner City Life (Official HD Video)",
+            "Inner City Life (Radio Edit - 2020 Remaster)",
+            "Goldie -  Inner City Life"
+          ]
+        },
+        {
+          "query": "Goldie Inner City Life topic",
+          "count": 8,
+          "titles": [
+            "Inner City Life (2020 Remaster)",
+            "Inner City Life (Original Version)",
+            "Inner City Life",
+            "Inner City Life (Roni Size Instant)"
+          ]
+        },
+        {
+          "query": "Roni Size Brown Paper Bag official audio",
+          "count": 8,
+          "titles": [
+            "Brown Paper Bag (feat. Dynamite MC) (Roni Size Full Vocal Remix)",
+            "Brown Paper Bag",
+            "Roni Size - Brown Paper Bag",
+            "Roni Size - Brown Paper Bag (1997 Official Video)🎞️4K🎞️"
+          ]
+        },
+        {
+          "query": "Roni Size Brown Paper Bag topic",
+          "count": 8,
+          "titles": [
+            "Roni Size, Reprazent - Brown Paper Bag",
+            "Brown Paper Bag (feat. Dynamite MC) (Roni Size Full Vocal Remix)",
+            "Brown Paper Bag",
+            "Roni Size - Brown Paper Bag"
+          ]
+        },
+        {
+          "query": "LTJ Bukem Horizons official audio",
+          "count": 8,
+          "titles": [
+            "LTJ Bukem - Horizons MTV Video Extended + HQ Audio",
+            "Ltj Bukem - Horizons HQ",
+            "LTJ Bukem – \"Horizons\" (music video)",
+            "LTJ Bukem - Horizons (Komatic Rework) Unreleased"
+          ]
+        },
+        {
+          "query": "LTJ Bukem Horizons topic",
+          "count": 8,
+          "titles": [
+            "LTJ Bukem Horizons (Vinyl)",
+            "LTJ   Bukem   HORIZONS",
+            "LTJ Bukem – \"Horizons\" (music video)",
+            "LTJ Bukem - Horizon [1995]"
+          ]
+        },
+        {
+          "query": "Dillinja The Angels Fell official audio",
+          "count": 8,
+          "titles": [
+            "Dillinja - The Angels Fell",
+            "The Angels Fell",
+            "Dillinja - The Angels Fell (Platinum Breakz CD1, Metalheadz 828 783-2 track 4) 1995",
+            "Dillinja - The Angels Fell"
+          ]
+        }
+      ]
     },
     {
       "genre": "ダブステップ",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
+      "macroGenre": "electronic",
+      "candidateCount": 41,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Skream Midnight Request Line official audio",
+          "count": 8,
+          "titles": [
+            "Skream - Midnight Request Line",
+            "Skream - Midnight Request Line",
+            "Skream - Midnight Request Line",
+            "Skream - Midnight Request Line"
+          ]
+        },
+        {
+          "query": "Skream Midnight Request Line topic",
+          "count": 8,
+          "titles": [
+            "Midnight Request Line",
+            "Requestline Vip",
+            "Midnight Request Line (Mala Remix)",
+            "Midnight Request Line (Hot Chip Remix)"
+          ]
+        },
+        {
+          "query": "Benga 26 Basslines official audio",
+          "count": 8,
+          "titles": [
+            "Benga - 26 Basslines [1080p HD]",
+            "Benga - 26 basslines",
+            "Benga - 26 Basslines [HD]",
+            "Benga  -  26 Basslines Dubstep"
+          ]
+        },
+        {
+          "query": "Benga 26 Basslines topic",
+          "count": 8,
+          "titles": [
+            "26 Basslines",
+            "Benga - 26 basslines",
+            "Benga - 26 Basslines - Dubstep",
+            "26 Bass lines"
+          ]
+        },
+        {
+          "query": "Digital Mystikz Haunted official audio",
+          "count": 8,
+          "titles": [
+            "Digital Mystikz - Haunted [dubstep]",
+            "Digital Mystikz - Haunted",
+            "Digital Mystikz - Haunted",
+            "Digital Mystikz - Haunted [DUBSTEP]"
+          ]
+        },
+        {
+          "query": "Digital Mystikz Haunted topic",
+          "count": 8,
+          "titles": [
+            "Digital Mystikz - Haunted DUBSTEP",
+            "Digital Mystikz - haunted",
+            "DMZ - Haunted [HQ, NO SKIPS]",
+            "Anti War Dub"
+          ]
+        }
+      ]
     },
     {
       "genre": "チップチューン",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
+      "macroGenre": "electronic",
+      "candidateCount": 44,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Anamanaguchi Airbrushed official audio",
+          "count": 8,
+          "titles": [
+            "Airbrushed",
+            "Anamanaguchi - Airbrushed (RAC)",
+            "Anamanaguchi - Airbrushed (RAC Mix)",
+            "Anamanaguchi - Rainbow in the Dark (Das Racist Remix)"
+          ]
+        },
+        {
+          "query": "Anamanaguchi Airbrushed topic",
+          "count": 8,
+          "titles": [
+            "Airbrushed",
+            "Anamanaguchi - Airbrushed",
+            "Anamanaguchi - Airbrushed (RAC Mix)",
+            "Anamanaguchi - Airbrushed"
+          ]
+        },
+        {
+          "query": "Bit Shifter Reformat the Planet official audio",
+          "count": 8,
+          "titles": [
+            "Bit Shifter: \"Reformat The Planet\"",
+            "Bit Shifter - Reformat The Planet",
+            "Bit Shifter - Reformat the Planet",
+            "Bit Shifter : Reformat the Planet"
+          ]
+        },
+        {
+          "query": "Bit Shifter Reformat the Planet topic",
+          "count": 8,
+          "titles": [
+            "Reformat the Planet",
+            "Bit Shifter: \"Reformat The Planet\"",
+            "Bit Shifter - Reformat the Planet",
+            "Bit Shifter - Reformat The Planet"
+          ]
+        },
+        {
+          "query": "Nullsleep Her Lazer Light Eyes official audio",
+          "count": 8,
+          "titles": [
+            "Nullsleep-World of Warcraft",
+            "The Model : Nullsleep",
+            "Nullsleep - LIVE - Shadowtravel Tour - 060614.",
+            "NULLSLEEP // HARD4U IN THA BAYOU"
+          ]
+        },
+        {
+          "query": "Nullsleep Her Lazer Light Eyes topic",
+          "count": 8,
+          "titles": [
+            "Her Lazer Light Eyes",
+            "Failotron - Her Lazer Light Eyes (Nullsleep Cover) [1080p]",
+            "Salvation for a Broken Heart",
+            "On Target"
+          ]
+        },
+        {
+          "query": "Sabrepulse Arcanine official audio",
+          "count": 8,
+          "titles": [
+            "Sabrepulse - Arcanine (Feint Bootleg)",
+            "04 Sabrepulse - Arcanine",
+            "Sabrepulse - Arcanine (Music Bar) BY BotBrohtersOfficial",
+            "Sabrepulse - Arcanine (Music Circle) BY BotBrothersOfficial"
+          ]
+        }
+      ]
     },
     {
       "genre": "ヒップホップ",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
+      "macroGenre": "black_music",
+      "candidateCount": 43,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Nas N.Y. State of Mind official audio",
+          "count": 8,
+          "titles": [
+            "Nas - N.Y. State of Mind (Official Audio)",
+            "Nas - NY State of Mind (Music Video)",
+            "N.Y. State of Mind",
+            "N.Y. State of Mind, Pt. ll"
+          ]
+        },
+        {
+          "query": "Nas N.Y. State of Mind topic",
+          "count": 8,
+          "titles": [
+            "Nas - N.Y. State of Mind (Official Audio)",
+            "N.Y. State of Mind",
+            "N.Y. State of Mind, Pt. ll",
+            "Nas & DJ Premier - \"NY State Of Mind PT. 3\" (Visualizer)"
+          ]
+        },
+        {
+          "query": "A Tribe Called Quest Electric Relaxation official audio",
+          "count": 8,
+          "titles": [
+            "Electric Relaxation",
+            "A Tribe Called Quest - Electric Relaxation (Official HD Video)",
+            "Best Of The Quest (A Tribe Called Quest Mix)",
+            "A Tribe Called Quest - Electric Relaxation"
+          ]
+        },
+        {
+          "query": "A Tribe Called Quest Electric Relaxation topic",
+          "count": 8,
+          "titles": [
+            "Electric Relaxation",
+            "A Tribe Called Quest - Electric Relaxation (Official HD Video)",
+            "A Tribe Called Quest - Electric Relaxation",
+            "Electric Relaxation (Relax Yourself Girl)"
+          ]
+        },
+        {
+          "query": "Wu-Tang Clan C.R.E.A.M. official audio",
+          "count": 8,
+          "titles": [
+            "C.R.E.A.M. (Single Version)",
+            "C.R.E.A.M. (Cash Rules Everything Around Me) (Official Audio)",
+            "Wu-Tang Clan - C.R.E.A.M. (Official HD Video)",
+            "C.R.E.A.M."
+          ]
+        },
+        {
+          "query": "Wu-Tang Clan C.R.E.A.M. topic",
+          "count": 8,
+          "titles": [
+            "C.R.E.A.M. (Single Version)",
+            "Wu-Tang Clan - C.R.E.A.M. (Official HD Video)",
+            "C.R.E.A.M. (Cash Rules Everything Around Me) (Official Audio)",
+            "C.R.E.A.M."
+          ]
+        },
+        {
+          "query": "The Notorious B.I.G. Juicy official audio",
+          "count": 8,
+          "titles": [
+            "Juicy",
+            "The Notorious B.I.G. - Juicy (Official Video) [4K]",
+            "Juicy (2007 Remaster)",
+            "Juicy (2005 Remaster)"
+          ]
+        },
+        {
+          "query": "The Notorious B.I.G. Juicy topic",
+          "count": 8,
+          "titles": [
+            "Juicy",
+            "The Notorious B.I.G. - Juicy (Official Video) [4K]",
+            "Juicy (2007 Remaster)",
+            "Juicy (2005 Remaster)"
+          ]
+        },
+        {
+          "query": "OutKast Ms. Jackson official audio",
+          "count": 8,
+          "titles": [
+            "Ms. Jackson",
+            "Outkast - Ms Jackson [Explicit]",
+            "Outkast - Ms. Jackson (Official HD Video)",
+            "Outkast - Ms. Jackson (Lyrics)"
+          ]
+        }
+      ]
     },
     {
       "genre": "トラップ",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
+      "macroGenre": "black_music",
+      "candidateCount": 41,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "T.I. What You Know official audio",
+          "count": 8,
+          "titles": [
+            "What You Know",
+            "T.I. What you know (dirty)",
+            "What You Know",
+            "T.I. - You Know What It Is (feat. Wyclef) [Official Video]"
+          ]
+        },
+        {
+          "query": "T.I. What You Know topic",
+          "count": 8,
+          "titles": [
+            "What You Know",
+            "What You Know",
+            "What You Know (Radio Version)",
+            "T.I. - What You Know Official Video HD"
+          ]
+        },
+        {
+          "query": "Gucci Mane Lemonade official audio",
+          "count": 8,
+          "titles": [
+            "Gucci Mane - Lemonade (Official Music Video)",
+            "Lemonade",
+            "Gucci Mane Lemonade (Dirty)",
+            "Lemonade gucci mane with lyrics"
+          ]
+        },
+        {
+          "query": "Gucci Mane Lemonade topic",
+          "count": 8,
+          "titles": [
+            "Lemonade",
+            "Gucci Mane - Lemonade (Official Music Video)",
+            "Gucci Mane Lemonade (Dirty)",
+            "Lemonade (Instrumental)"
+          ]
+        },
+        {
+          "query": "Future Mask Off official audio",
+          "count": 8,
+          "titles": [
+            "Future - Mask Off",
+            "Future - Mask Off (Official Music Video)",
+            "Future - Mask Off (Remix) (Audio) ft. Kendrick Lamar",
+            "Future - Mask Off (Official Lyric Video)"
+          ]
+        },
+        {
+          "query": "Future Mask Off topic",
+          "count": 8,
+          "titles": [
+            "Future - Mask Off (Official Music Video)",
+            "Future - Mask Off (Lyrics)",
+            "Future - Mask Off",
+            "Future - Mask Off (Remix) (Audio) ft. Kendrick Lamar"
+          ]
+        },
+        {
+          "query": "Migos Bad and Boujee official audio",
+          "count": 8,
+          "titles": [
+            "Migos - Bad and Boujee ft. Lil Uzi Vert",
+            "Migos - Bad and Boujee ft Lil Uzi Vert [Official Video]",
+            "Bad and Boujee",
+            "Metro Boomin – “Bad and Boujee” ft. Migos LIVE | Red Bull Symphonic"
+          ]
+        },
+        {
+          "query": "Migos Bad and Boujee topic",
+          "count": 8,
+          "titles": [
+            "Migos - Bad and Boujee ft Lil Uzi Vert [Official Video]",
+            "Migos - Bad and Boujee ft. Lil Uzi Vert",
+            "Bad and Boujee",
+            "Migos ft Lil Uzi Vert - \"Bad and Boujee\" (Official Audio)"
+          ]
+        }
+      ]
     },
     {
       "genre": "レゲエ",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
+      "macroGenre": "black_music",
+      "candidateCount": 41,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Bob Marley Natural Mystic official audio",
+          "count": 8,
+          "titles": [
+            "Natural Mystic (1977) - Bob Marley & The Wailers",
+            "Bob Marley & The Wailers - Natural Mystic (Lyric Video)",
+            "Bob Marley & The Wailers - Natural Mystic (Audio)",
+            "Natural Mystic (1995) - Bob Marley & The Wailers"
+          ]
+        },
+        {
+          "query": "Bob Marley Natural Mystic topic",
+          "count": 8,
+          "titles": [
+            "Natural Mystic (1977) - Bob Marley & The Wailers",
+            "Bob Marley & The Wailers - Natural Mystic (Lyric Video)",
+            "Natural Mystic (1995) - Bob Marley & The Wailers",
+            "Bob Marley & The Wailers - Natural Mystic (Audio)"
+          ]
+        },
+        {
+          "query": "The Abyssinians Satta Massagana official audio",
+          "count": 8,
+          "titles": [
+            "The Abyssinians - Satta Massagana",
+            "The Abyssinians - Satta Massagana",
+            "The Abyssinians - Satta Massagana HQ",
+            "Satta Massagana (Original Jamaican Mix)"
+          ]
+        },
+        {
+          "query": "The Abyssinians Satta Massagana topic",
+          "count": 8,
+          "titles": [
+            "Satta Massagana",
+            "Satta Massagana (Original Jamaican Mix)",
+            "Satta Massagana",
+            "Satta Massagana"
+          ]
+        },
+        {
+          "query": "Burning Spear Marcus Garvey official audio",
+          "count": 8,
+          "titles": [
+            "Burning Spear - Marcus Garvey - 01 - Marcus Garvey",
+            "Garvey",
+            "Marcus Garvey",
+            "Burning Spear - Old Marcus Garvey - Live in Paris, Zenith 88"
+          ]
+        },
+        {
+          "query": "Burning Spear Marcus Garvey topic",
+          "count": 8,
+          "titles": [
+            "Burning Spear - Marcus Garvey - 01 - Marcus Garvey",
+            "Marcus Garvey",
+            "Garvey",
+            "Old Marcus Garvey"
+          ]
+        },
+        {
+          "query": "Toots and the Maytals Pressure Drop official audio",
+          "count": 8,
+          "titles": [
+            "The Maytals 'Pressure Drop' (official audio)",
+            "Toots and the Maytals - Pressure drop",
+            "Pressure Drop",
+            "Pressure Drop"
+          ]
+        }
+      ]
     },
     {
       "genre": "ダブ",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
-    },
-    {
-      "genre": "ロック",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
-    },
-    {
-      "genre": "パンク",
-      "selected": [
-        {
-          "genre": "パンク",
-          "youtubeUrl": "https://www.youtube.com/watch?v=VbTYnJshTas",
-          "memo": "Auto-collected from YouTube search: punk rock classic track",
-          "title": "Rock 2000s ⚡ [ LIVE ] Best of 2000's Rock Hits | Top 2000s Rock Songs | 2000s Rock Playlist 2026-06-10 16:09",
-          "duration": 0,
-          "uploader": "Rock FM"
-        },
-        {
-          "genre": "パンク",
-          "youtubeUrl": "https://www.youtube.com/watch?v=Nt27aBceerI",
-          "memo": "Auto-collected from YouTube search: punk rock classic track",
-          "title": "Rock Classics ⚡ [ LIVE ] Timeless Rock Hits of the 70s, 80s, and 90s | Best of Rock Music Anthems 2026-06-10 16:09",
-          "duration": 0,
-          "uploader": "Rock FM"
-        }
-      ],
-      "existing": 8,
-      "needed": 2,
+      "macroGenre": "black_music",
+      "candidateCount": 43,
+      "verifiedCount": 20,
       "raw": [
         {
-          "query": "punk rock classic track",
-          "count": 36,
+          "query": "King Tubby King Tubby Meets Rockers Uptown official audio",
+          "count": 8,
           "titles": [
-            "Punk Rock Classic",
-            "Testing Death Cab for Cuties Music Knowledge | Track Star*",
-            "Punk Rock Classics 70s 80s 90s - Underground vibes (DJ Set)",
-            "Skate Punk Mix – Fast Riffs, Summer Streets & Pure Momentum | Prime Rock Music"
-          ]
-        }
-      ]
-    },
-    {
-      "genre": "ハードコア",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
-    },
-    {
-      "genre": "メタル",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
-    },
-    {
-      "genre": "ジャズ",
-      "selected": [
-        {
-          "genre": "ジャズ",
-          "youtubeUrl": "https://www.youtube.com/watch?v=AYGEiSm29LM",
-          "memo": "Auto-collected from YouTube search: jazz classic track",
-          "title": "Vintage Jazz Classics – Retro Jazz Hits & Timeless Classics 2026-06-10 16:09",
-          "duration": 0,
-          "uploader": "Vintage Jazz"
-        },
-        {
-          "genre": "ジャズ",
-          "youtubeUrl": "https://www.youtube.com/watch?v=MKEpPhefcxU",
-          "memo": "Auto-collected from YouTube search: jazz classic track",
-          "title": "Jazz Standards Medley (Fly Me To The Moon, Autumn Leaves, Misty, L.O.V.E. & More) - Mild Nawin",
-          "duration": 392,
-          "uploader": "Mild Nawin"
-        }
-      ],
-      "existing": 8,
-      "needed": 2,
-      "raw": [
-        {
-          "query": "jazz classic track",
-          "count": 36,
-          "titles": [
-            "Vintage Jazz Classics – Retro Jazz Hits & Timeless Classics 2026-06-10 16:09",
-            "Best Relaxing Jazz Classics  : Franks Sinatra , Louis Armstrong, Nat King Cole, Ella Fitzgerald",
-            "1940's Jazz Classics [Jazz, Jazz Classics, Smooth Jazz, Vintage Jazz]",
-            "Timeless Old Jazz Memories – Best of Frank Sinatra, Nat King Cole, Ella Fitzgerald, Dean Martin"
-          ]
-        }
-      ]
-    },
-    {
-      "genre": "ファンク",
-      "selected": [
-        {
-          "genre": "ファンク",
-          "youtubeUrl": "https://www.youtube.com/watch?v=GeszARkWZw0",
-          "memo": "Auto-collected from YouTube search: funk representative track",
-          "title": "SLAVA FUNK!",
-          "duration": 113,
-          "uploader": "MVSTERIOUS"
-        },
-        {
-          "genre": "ファンク",
-          "youtubeUrl": "https://www.youtube.com/watch?v=vDMwDT6BhhE",
-          "memo": "Auto-collected from YouTube search: funk representative track",
-          "title": "Objection Funk",
-          "duration": 119,
-          "uploader": "iteachvader"
-        }
-      ],
-      "existing": 8,
-      "needed": 2,
-      "raw": [
-        {
-          "query": "funk classic track",
-          "count": 36,
-          "titles": [
-            "【70s Funk Hip Hop】#33 Classic Funk × Modern Hip Hop Fusion | Funk Tribe Underground",
-            "🔥 Vintage Soul-Funk Grooves You’ve been Looking for | ep15 | Soul Funk Playlist",
-            "🔥 Vintage Soul Funk Groove You’ve Been Looking For | Raw & Minimal Dry Groove",
-            "Street Funk & Soul Explosion🔥 – Retro Vibes with a Hip-Hop Twist"
+            "King Tubby Meets Rockers Uptown",
+            "Augustus Pablo - King Tubby Meets Rockers Uptown",
+            "King Tubby's Meets Rockers Uptown",
+            "Augustus Pablo - King Tubby Meets Rockers Uptown"
           ]
         },
         {
-          "query": "funk representative track",
-          "count": 36,
+          "query": "King Tubby King Tubby Meets Rockers Uptown topic",
+          "count": 8,
           "titles": [
-            "【70s Funk Hip Hop】#33 Classic Funk × Modern Hip Hop Fusion | Funk Tribe Underground",
-            "Soulful Grooves, 70s & 80s Funk & Disco Mix [Vinyl Studio Session] with El Mizell",
-            "【70s Funk Hip Hop】#35 Classic Funk × Modern Hip Hop Fusion | Funk Tribe Underground",
-            "G-Funk & Old School 90s💥 Snoop Dogg, Wiz Khalifa, Tyga, 50 Cent, Dr. Dre, Ice Cube, Juicy J, Drake"
+            "King Tubby Meets Rockers Uptown",
+            "Augustus Pablo - King Tubby Meets Rockers Uptown",
+            "King Tubby's Meets Rockers Uptown",
+            "King Tubby Meets Rockers Uptown"
+          ]
+        },
+        {
+          "query": "Lee Scratch Perry Disco Devil official audio",
+          "count": 8,
+          "titles": [
+            "Disco Devil (Extended Version)",
+            "Max Romeo & Lee 'Scratch' Perry: Chase The Devil/Disco Devil (Official Visualiser)",
+            "Disco Devil (7\" Mix)",
+            "Disco Devil - 12\" Version"
+          ]
+        },
+        {
+          "query": "Lee Scratch Perry Disco Devil topic",
+          "count": 8,
+          "titles": [
+            "Disco Devil (Extended Version)",
+            "Disco Devil (7\" Mix)",
+            "Disco Devil - 12\" Version",
+            "I Chase the Devil"
+          ]
+        },
+        {
+          "query": "Scientist Your Teeth In My Neck official audio",
+          "count": 8,
+          "titles": [
+            "Your Teeth in My Neck",
+            "Scientist - Your Teeth In My Neck [1080p]",
+            "Scientist - Your Teeth In My Neck",
+            "Scientist - Your Teeth In My Neck"
+          ]
+        },
+        {
+          "query": "Scientist Your Teeth In My Neck topic",
+          "count": 8,
+          "titles": [
+            "Your Teeth in My Neck",
+            "Your Teeth In My Neck",
+            "Scientist - Your Teeth In My Neck",
+            "Scientist | Roots Radics  - Your Teeth In My Neck Dub, Vinyl Audio"
+          ]
+        },
+        {
+          "query": "Augustus Pablo Java official audio",
+          "count": 8,
+          "titles": [
+            "Java",
+            "Augustus Pablo - Java",
+            "Java",
+            "AUGUSTUS PABLO & BONGO HERMAN - Java Passion [1971]"
           ]
         }
       ]
     },
     {
       "genre": "ソウルミュージック",
-      "selected": [
-        {
-          "genre": "ソウルミュージック",
-          "youtubeUrl": "https://www.youtube.com/watch?v=m58DWuZFI2U",
-          "memo": "Auto-collected from YouTube search: soul music classic track",
-          "title": "【R&B Soul】Romantic R&B Soul Music – Relaxing Soulful Mix for Love & Chill Nights 2026-06-10 16:10",
-          "duration": 0,
-          "uploader": "Smooth R&B Jazz"
-        }
-      ],
-      "existing": 9,
-      "needed": 1,
+      "macroGenre": "black_music",
+      "candidateCount": 40,
+      "verifiedCount": 20,
       "raw": [
         {
-          "query": "soul music classic track",
-          "count": 36,
+          "query": "Aretha Franklin Respect official audio",
+          "count": 8,
           "titles": [
-            "60's Soul Classic | Marvin Gaye Inspired 1970s Soul – Whispers of the Heart [Unreleased Album]",
-            "Relaxing soul music - The best soul music compilation - Soul On",
-            "60's Soul Classic - I Can’t Walk Away  - Marvin Gaye , Sam Cooke Inspired",
-            "Wav Session 27 : 60's,70's and 80's Soul & Groovy Mix [ 20 Tracks ]"
+            "Aretha Franklin - Respect (Official Lyric Video)",
+            "Aretha Franklin - Respect (Official Audio)",
+            "Respect",
+            "Respect"
+          ]
+        },
+        {
+          "query": "Aretha Franklin Respect topic",
+          "count": 8,
+          "titles": [
+            "Respect",
+            "Aretha Franklin - Respect (Official Lyric Video)",
+            "Aretha Franklin | Respect | 1967 | Best Version",
+            "Respect"
+          ]
+        },
+        {
+          "query": "Otis Redding Sittin On The Dock of the Bay official audio",
+          "count": 8,
+          "titles": [
+            "(Sittin' On) the Dock of the Bay [Mono]",
+            "Otis Redding - (Sittin' On) The Dock Of The Bay (Official Music Video)",
+            "Otis Redding - (Sittin' On) The Dock of The Bay (Official Music Video)",
+            "[Sittin' On] the Dock of the Bay"
+          ]
+        },
+        {
+          "query": "Otis Redding Sittin On The Dock of the Bay topic",
+          "count": 8,
+          "titles": [
+            "(Sittin' On) the Dock of the Bay [Mono]",
+            "[Sittin' On] the Dock of the Bay",
+            "[Sittin' on] The Dock of the Bay [2020 Remaster]",
+            "[Sittin' On] the Dock of the Bay"
+          ]
+        },
+        {
+          "query": "Marvin Gaye What's Going On official audio",
+          "count": 8,
+          "titles": [
+            "Marvin Gaye - What's Going On",
+            "Marvin Gaye - What's Going On (Lyric Video)",
+            "Marvin Gaye - What's Going On (Official Video 2019)",
+            "Marvin Gaye What's Going On HQ"
+          ]
+        },
+        {
+          "query": "Marvin Gaye What's Going On topic",
+          "count": 8,
+          "titles": [
+            "What's Going On",
+            "Marvin Gaye - What's Going On",
+            "Marvin Gaye - What's Going On (Official Video 2019)",
+            "What's Going On (Detroit Mix)"
+          ]
+        },
+        {
+          "query": "Sam Cooke A Change Is Gonna Come official audio",
+          "count": 8,
+          "titles": [
+            "Sam Cooke - A Change Is Gonna Come (Official Lyric Video)",
+            "A Change Is Gonna Come",
+            "Sam Cooke - A change is gonna come - 1963",
+            "Sam Cooke - A Change Is Gonna Come (1964) HQ"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "candidateCount": 40,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "James Brown The Payback official audio",
+          "count": 8,
+          "titles": [
+            "James Brown - The Payback",
+            "James Brown - Payback",
+            "James Brown - The Payback",
+            "James Brown The Payback (extended)"
+          ]
+        },
+        {
+          "query": "James Brown The Payback topic",
+          "count": 8,
+          "titles": [
+            "James Brown - The Payback",
+            "James Brown - The Payback",
+            "James Brown - Payback",
+            "The Payback - James Brown - Live - Zaire 1974"
+          ]
+        },
+        {
+          "query": "Parliament Flash Light official audio",
+          "count": 8,
+          "titles": [
+            "Parliament - Flashlight (HQ)",
+            "Flash Light",
+            "Flash Light",
+            "Flash Light"
+          ]
+        },
+        {
+          "query": "Parliament Flash Light topic",
+          "count": 8,
+          "titles": [
+            "Flash Light",
+            "Flash Light",
+            "Flash Light",
+            "Parliament - Flashlight (HQ)"
+          ]
+        },
+        {
+          "query": "Funkadelic One Nation Under a Groove official audio",
+          "count": 8,
+          "titles": [
+            "One Nation Under A Groove - Funkadelic (1978)",
+            "Funkadelic - One Nation Under A Groove",
+            "One Nation Under a Groove (2016 Remaster - 7-inch Version)",
+            "One Nation Under a Groove"
+          ]
+        },
+        {
+          "query": "Funkadelic One Nation Under a Groove topic",
+          "count": 8,
+          "titles": [
+            "One Nation Under a Groove",
+            "One Nation Under a Groove",
+            "Funkadelic - One Nation Under A Groove",
+            "One Nation Under A Groove - Funkadelic (1978)"
+          ]
+        },
+        {
+          "query": "Sly and the Family Stone Thank You official audio",
+          "count": 8,
+          "titles": [
+            "Sly & The Family Stone - Thank You (Falettinme Be Mice Elf Agin) (Official Audio)",
+            "Sly & The Family Stone - Thank You (Falettinme Be Mice Elf Agin)",
+            "Sly & The Family Stone Thank You (Falettinme Be Mice Elf Agin) HQ Audio",
+            "Thank You (Falettinme Be Mice Elf Agin)"
+          ]
+        },
+        {
+          "query": "Sly and the Family Stone Thank You topic",
+          "count": 8,
+          "titles": [
+            "Thank You (Falettinme Be Mice Elf Agin)",
+            "Thank You (Falettinme Be Mice Elf Agin)",
+            "Thank You (Falettinme Be Mice Elf Agin)",
+            "Thank You (Falettinme Be Mice Elf Agin) (Re-Recorded)"
           ]
         }
       ]
     },
     {
       "genre": "ディスコ",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
+      "macroGenre": "black_music",
+      "candidateCount": 44,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Donna Summer I Feel Love official audio",
+          "count": 8,
+          "titles": [
+            "I Feel Love",
+            "I Feel Love",
+            "Donna Summer - I Feel Love",
+            "DONNA SUMMER   I feel love 1977 HD and HQ"
+          ]
+        },
+        {
+          "query": "Donna Summer I Feel Love topic",
+          "count": 8,
+          "titles": [
+            "I Feel Love",
+            "Donna Summer - I Feel Love",
+            "I Feel Love",
+            "DONNA SUMMER   I feel love 1977 HD and HQ"
+          ]
+        },
+        {
+          "query": "Chic Le Freak official audio",
+          "count": 8,
+          "titles": [
+            "Le Freak (Edit)",
+            "Le Freak (2006 Remaster)",
+            "CHIC - Le Freak (Official Music Video)",
+            "Nile Rodgers & CHIC: Tiny Desk Concert"
+          ]
+        },
+        {
+          "query": "Chic Le Freak topic",
+          "count": 8,
+          "titles": [
+            "CHIC - Le Freak (Official Music Video)",
+            "Le Freak (Edit)",
+            "Le Freak (2006 Remaster)",
+            "Le Freak (Dimitri From Paris Remix (2018 Remaster))"
+          ]
+        },
+        {
+          "query": "Bee Gees Stayin Alive official audio",
+          "count": 8,
+          "titles": [
+            "Bee Gees - Stayin' Alive (Official Music Video)",
+            "Bee Gees - Staying Alive (Audio)",
+            "Stayin' Alive (From \"Saturday Night Fever\" Soundtrack)",
+            "Stayin' Alive"
+          ]
+        },
+        {
+          "query": "Bee Gees Stayin Alive topic",
+          "count": 8,
+          "titles": [
+            "Bee Gees - Stayin' Alive (Official Music Video)",
+            "Stayin' Alive",
+            "Stayin' Alive (From \"Saturday Night Fever\" Soundtrack)",
+            "Bee Gees - Staying Alive (Audio)"
+          ]
+        },
+        {
+          "query": "Gloria Gaynor I Will Survive official audio",
+          "count": 8,
+          "titles": [
+            "I Will Survive",
+            "Gloria Gaynor - I Will Survive",
+            "I Will Survive",
+            "I Will Survive"
+          ]
+        },
+        {
+          "query": "Gloria Gaynor I Will Survive topic",
+          "count": 8,
+          "titles": [
+            "I Will Survive",
+            "I Will Survive",
+            "Gloria Gaynor - I Will Survive",
+            "I Will Survive (Single Version)"
+          ]
+        },
+        {
+          "query": "Earth Wind and Fire September official audio",
+          "count": 8,
+          "titles": [
+            "September",
+            "September",
+            "Earth, Wind & Fire - September (Official HD Video)",
+            "Earth, Wind & Fire - September (Official Lyric Video)"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "パンク",
+      "macroGenre": "rock",
+      "candidateCount": 42,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Ramones Blitzkrieg Bop official audio",
+          "count": 8,
+          "titles": [
+            "Blitzkrieg Bop (2016 Remaster)",
+            "Blitzkrieg Bop",
+            "Blitzkrieg Bop",
+            "Ramones - Blitzkrieg Bop (Official Music Video)"
+          ]
+        },
+        {
+          "query": "Ramones Blitzkrieg Bop topic",
+          "count": 8,
+          "titles": [
+            "Blitzkrieg Bop (2016 Remaster)",
+            "Blitzkrieg Bop",
+            "Ramones - Blitzkrieg Bop (Official Music Video)",
+            "Blitzkrieg Bop"
+          ]
+        },
+        {
+          "query": "Sex Pistols Anarchy in the UK official audio",
+          "count": 8,
+          "titles": [
+            "Sex Pistols - Anarchy In The UK",
+            "Sex Pistols- Anarchy In The UK (Audio)",
+            "Sex Pistols - Anarchy In The UK (Official Live Video)",
+            "The Sex Pistols - Anarchy In The U.K (official video)"
+          ]
+        },
+        {
+          "query": "Sex Pistols Anarchy in the UK topic",
+          "count": 8,
+          "titles": [
+            "Anarchy In The UK",
+            "Anarchy in the Uk",
+            "Sex Pistols - Anarchy In The UK",
+            "Sex Pistols - God Save The Queen"
+          ]
+        },
+        {
+          "query": "The Clash London Calling official audio",
+          "count": 8,
+          "titles": [
+            "London Calling",
+            "The Clash - London Calling (Official Video)",
+            "London Calling",
+            "The Clash - London Calling (HQ)"
+          ]
+        },
+        {
+          "query": "The Clash London Calling topic",
+          "count": 8,
+          "titles": [
+            "London Calling",
+            "The Clash - London Calling (Official Video)",
+            "London Calling",
+            "London Calling (Live) [Remastered]"
+          ]
+        },
+        {
+          "query": "Dead Kennedys Holiday in Cambodia official audio",
+          "count": 8,
+          "titles": [
+            "Holiday in Cambodia",
+            "The Dead Kennedys - Holiday in Cambodia",
+            "Holiday in Cambodia",
+            "Dead Kennedys - Holiday In Cambodia [Remastered]"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ロック",
+      "macroGenre": "rock",
+      "candidateCount": 43,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "The Rolling Stones Jumpin Jack Flash official audio",
+          "count": 8,
+          "titles": [
+            "Jumpin' Jack Flash",
+            "The Rolling Stones - Jumpin’ Jack Flash (Official Lyric Video)",
+            "Jumpin' Jack Flash (Mono)",
+            "The Rolling Stones - Jumpin' Jack Flash (Official Video) [4K]"
+          ]
+        },
+        {
+          "query": "The Rolling Stones Jumpin Jack Flash topic",
+          "count": 8,
+          "titles": [
+            "Jumpin' Jack Flash",
+            "Jumpin' Jack Flash (Mono)",
+            "The Rolling Stones - Jumpin’ Jack Flash (Official Lyric Video)",
+            "Jumpin' Jack Flash"
+          ]
+        },
+        {
+          "query": "Led Zeppelin Immigrant Song official audio",
+          "count": 8,
+          "titles": [
+            "Led Zeppelin - Immigrant Song (Official Audio)",
+            "Immigrant Song (Remaster)",
+            "Led Zeppelin - Immigrant Song (Live 1972) (Official Video)",
+            "Thor  Ragnarok , Led Zeppelin - Immigrant Song, 4K IMAX & HQ Sound"
+          ]
+        },
+        {
+          "query": "Led Zeppelin Immigrant Song topic",
+          "count": 8,
+          "titles": [
+            "Immigrant Song (Remaster)",
+            "Led Zeppelin - Immigrant Song (Official Audio)",
+            "Led Zeppelin - Immigrant Song (Live 1972) (Official Video)",
+            "Immigrant Song (1/4/71 Paris Theatre) (Remaster)"
+          ]
+        },
+        {
+          "query": "The Who Baba O'Riley official audio",
+          "count": 8,
+          "titles": [
+            "Baba O'Riley",
+            "The Who - Baba O'Riley (Lyric Video)",
+            "Baba O'Riley (Remastered 2022)",
+            "The Who - Baba O'Riley (Shepperton Studios / 1978)"
+          ]
+        },
+        {
+          "query": "The Who Baba O'Riley topic",
+          "count": 8,
+          "titles": [
+            "Baba O'Riley",
+            "Baba O'Riley (Remastered 2022)",
+            "Baba O Riley",
+            "Baba O Riley"
+          ]
+        },
+        {
+          "query": "Nirvana Smells Like Teen Spirit official audio",
+          "count": 8,
+          "titles": [
+            "Nirvana - Smells Like Teen Spirit (Official Music Video)",
+            "Nirvana - Smells Like Teen Spirit",
+            "Nirvana - Smells Like Teen Spirit [Nevermind] [HQ Sound]",
+            "Nirvana - Smells Like Teen Spirit (Audio)"
+          ]
+        },
+        {
+          "query": "Nirvana Smells Like Teen Spirit topic",
+          "count": 8,
+          "titles": [
+            "Nirvana - Smells Like Teen Spirit (Official Music Video)",
+            "Nirvana - Smells Like Teen Spirit (Lyrics)",
+            "Nirvana - Smells Like Teen Spirit (Audio)",
+            "Smells Like Teen Spirit (Devonshire Mix)"
+          ]
+        },
+        {
+          "query": "Radiohead Paranoid Android official audio",
+          "count": 8,
+          "titles": [
+            "Paranoid Android",
+            "Radiohead - Paranoid Android",
+            "Radiohead - Paranoid Android (Later Archive 1997)",
+            "Radiohead - Paranoid Android"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ハードコア",
+      "macroGenre": "rock",
+      "candidateCount": 41,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Black Flag Rise Above official audio",
+          "count": 8,
+          "titles": [
+            "Rise Above",
+            "Black Flag - Rise Above (music video)",
+            "Black Flag - Six Pack + Rise Above 1984",
+            "Black Flag Rise Above (lyrics in description)"
+          ]
+        },
+        {
+          "query": "Black Flag Rise Above topic",
+          "count": 8,
+          "titles": [
+            "Rise Above",
+            "Black Flag - Rise Above",
+            "Black Flag - Rise Above",
+            "Nervous Breakdown"
+          ]
+        },
+        {
+          "query": "Minor Threat Filler official audio",
+          "count": 8,
+          "titles": [
+            "Filler",
+            "Minor Threat - Filler",
+            "Minor Threat - Filler (1981) Full EP",
+            "filler - minor threat"
+          ]
+        },
+        {
+          "query": "Minor Threat Filler topic",
+          "count": 8,
+          "titles": [
+            "Filler",
+            "Filler (Out of Step Outtake)",
+            "Minor Threat - Filler (1981) Full EP",
+            "Minor Threat"
+          ]
+        },
+        {
+          "query": "Bad Brains Banned in D.C. official audio",
+          "count": 8,
+          "titles": [
+            "Bad Brains - ROIR - 05 - Banned in D C",
+            "Banned in D.C - Bad Brains (HQ)",
+            "Bad Brains - Banned In D.C. (Lyrics)",
+            "Bad Brains - Banned In DC"
+          ]
+        },
+        {
+          "query": "Bad Brains Banned in D.C. topic",
+          "count": 8,
+          "titles": [
+            "Banned in D.C.",
+            "Banned In D.C.",
+            "Banned in D.C.",
+            "Banned In DC"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "メタル",
+      "macroGenre": "rock",
+      "candidateCount": 46,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Black Sabbath Iron Man official audio",
+          "count": 8,
+          "titles": [
+            "Iron Man (2012 Remaster)",
+            "Black Sabbath - Iron Man (1970)",
+            "Iron Man",
+            "Iron Man (2009 Remaster)"
+          ]
+        },
+        {
+          "query": "Black Sabbath Iron Man topic",
+          "count": 8,
+          "titles": [
+            "Iron Man (2012 Remaster)",
+            "Iron Man",
+            "Iron Man (2009 Remaster)",
+            "Black Sabbath - Iron Man (1970)"
+          ]
+        },
+        {
+          "query": "Metallica Master of Puppets official audio",
+          "count": 8,
+          "titles": [
+            "Master of Puppets (Remastered)",
+            "Metallica: Master of Puppets (Official Lyric Video)",
+            "Metallica - Master of Puppets [Original 1986 Studio Recording]",
+            "Metallica - Master Of Puppets - HQ Audio"
+          ]
+        },
+        {
+          "query": "Metallica Master of Puppets topic",
+          "count": 8,
+          "titles": [
+            "Master of Puppets (Remastered)",
+            "Metallica: Master of Puppets (Official Lyric Video)",
+            "Master Of Puppets (Live with the SFSO)",
+            "Metallica - Master of Puppets (Remixed & Remastered) | Full Album"
+          ]
+        },
+        {
+          "query": "Iron Maiden The Trooper official audio",
+          "count": 8,
+          "titles": [
+            "Iron Maiden - The Trooper. HQ audio.",
+            "The Trooper (1998 Remaster)",
+            "Iron Maiden - The Trooper (Official Video)",
+            "Iron Maiden-The Trooper (2015 Remaster)"
+          ]
+        },
+        {
+          "query": "Iron Maiden The Trooper topic",
+          "count": 8,
+          "titles": [
+            "Iron Maiden - The Trooper (Official Video)",
+            "The Trooper (1998 Remaster)",
+            "Iron Maiden - The Trooper. HQ audio.",
+            "Iron Maiden-The Trooper (2015 Remaster)"
+          ]
+        },
+        {
+          "query": "Slayer Raining Blood official audio",
+          "count": 8,
+          "titles": [
+            "Raining Blood",
+            "Slayer - Raining Blood",
+            "Raining Blood",
+            "Slayer - Reign In Blood [Full Album] (HQ)"
+          ]
+        },
+        {
+          "query": "Slayer Raining Blood topic",
+          "count": 8,
+          "titles": [
+            "Raining Blood",
+            "Raining Blood",
+            "Slayer - Raining Blood",
+            "Slayer - Raining Blood (Official Video) HD"
+          ]
+        },
+        {
+          "query": "Judas Priest Painkiller official audio",
+          "count": 8,
+          "titles": [
+            "Painkiller",
+            "Judas Priest - Painkiller (Official Lyric Video)",
+            "Judas Priest - Painkiller",
+            "Judas Priest - Painkiller (Epitaph)"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "candidateCount": 47,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Miles Davis So What official audio",
+          "count": 8,
+          "titles": [
+            "Miles Davis - So What (Audio) (Official Audio)",
+            "Miles Davis - So What (Official Video)",
+            "So What (Remastered)",
+            "So what"
+          ]
+        },
+        {
+          "query": "Miles Davis So What topic",
+          "count": 8,
+          "titles": [
+            "Miles Davis - So What (Audio) (Official Audio)",
+            "Miles Davis - So What (Official Video)",
+            "So What",
+            "So what"
+          ]
+        },
+        {
+          "query": "John Coltrane Giant Steps official audio",
+          "count": 8,
+          "titles": [
+            "John Coltrane - Giant Steps (2020 Remaster) [Official Audio]",
+            "Giant Steps",
+            "John Coltrane - Giant Steps (2020 Remaster) [Full Album]",
+            "The History Of John Coltrane: Giant Steps"
+          ]
+        },
+        {
+          "query": "John Coltrane Giant Steps topic",
+          "count": 8,
+          "titles": [
+            "Giant Steps",
+            "Giant Steps",
+            "John Coltrane - Giant Steps (2020 Remaster) [Official Audio]",
+            "Giant Steps (Mono)"
+          ]
+        },
+        {
+          "query": "Dave Brubeck Take Five official audio",
+          "count": 8,
+          "titles": [
+            "Dave Brubeck, The Dave Brubeck Quartet - Take Five (Audio)",
+            "Take Five",
+            "Dave Brubeck - Take Five",
+            "Dave Brubeck - Take Five"
+          ]
+        },
+        {
+          "query": "Dave Brubeck Take Five topic",
+          "count": 8,
+          "titles": [
+            "Take Five",
+            "Dave Brubeck - Take Five",
+            "Dave Brubeck, The Dave Brubeck Quartet - Take Five (Audio)",
+            "Dave Brubeck - Take Five"
+          ]
+        },
+        {
+          "query": "Thelonious Monk Round Midnight official audio",
+          "count": 8,
+          "titles": [
+            "'Round Midnight",
+            "Round Midnight",
+            "Thelonious Monk - 'round Midnight",
+            "'Round Midnight"
+          ]
+        },
+        {
+          "query": "Thelonious Monk Round Midnight topic",
+          "count": 8,
+          "titles": [
+            "'Round Midnight",
+            "'Round Midnight",
+            "Thelonious Monk - Solo Monk - (1964) FULL ALBUM",
+            "Thelonious Monk - 'round Midnight"
+          ]
+        },
+        {
+          "query": "Charles Mingus Goodbye Pork Pie Hat official audio",
+          "count": 8,
+          "titles": [
+            "Goodbye Pork Pie Hat",
+            "Goodbye, Porkpie Hat",
+            "Goodbye Pork Pie Hat",
+            "Goodbye Pork Pie Hat"
+          ]
+        }
+      ]
     },
     {
       "genre": "シティ・ポップ",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
+      "macroGenre": "pop",
+      "candidateCount": 45,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Mariya Takeuchi Plastic Love official audio",
+          "count": 8,
+          "titles": [
+            "竹内まりや -  Plastic Love (Official Music Video)",
+            "Mariya Takeuchi - Plastic Love 竹内 まりや",
+            "45RPM Reissue Vinyl Plastic Love PS HX500 Standard Cartridge USB Rec.",
+            "Plastic Love Extended Version"
+          ]
+        },
+        {
+          "query": "Mariya Takeuchi Plastic Love topic",
+          "count": 8,
+          "titles": [
+            "竹内まりや -  Plastic Love (Official Music Video)",
+            "竹内まりや - プラスティック・ラブ (feat.山下達郎) [Live Version / 2000@日本武道館]",
+            "Plastic Love Extended Version",
+            "Plastic Love"
+          ]
+        },
+        {
+          "query": "Tatsuro Yamashita Ride on Time official audio",
+          "count": 8,
+          "titles": [
+            "Tatsuro Yamashita - Ride on Time [Perfect Version]",
+            "Full Vinyl Spinning Tatsu Yamashita - Ride On Time (Album)",
+            "山下達郎「SPARKLE」Music Video (2023)",
+            "Tatsuro Yamashita Ride on TIme(EngSub)"
+          ]
+        },
+        {
+          "query": "Tatsuro Yamashita Ride on Time topic",
+          "count": 8,
+          "titles": [
+            "Tatsuro Yamashita - Ride on Time [Perfect Version]",
+            "Ride On Time　山下達郎",
+            "Tatsuro Yamashita 山下 達郎 - R I D E  O N  T I M E (1980)",
+            "マクセルUDカセットテープCM (RIDE ON TIME 噴煙篇)"
+          ]
+        },
+        {
+          "query": "Anri Remember Summer Days official audio",
+          "count": 8,
+          "titles": [
+            "Anri - Remember Summer Days (Timely!! Track 11)",
+            "ANRI アンリ 杏里 ”Remember Summer Days” Timely!!🎤♪🎶🎸［Official Video］",
+            "ANRI 杏里  /  Remember Summer Days",
+            "Anri (杏里) - Remember Summer Days [Lyrics Eng/Rom/Kan]"
+          ]
+        },
+        {
+          "query": "Anri Remember Summer Days topic",
+          "count": 8,
+          "titles": [
+            "Anri - Remember Summer Days (Timely!! Track 11)",
+            "ANRI 杏里  /  Remember Summer Days",
+            "WINDY SUMMER",
+            "Last Summer Whisper"
+          ]
+        },
+        {
+          "query": "Miki Matsubara Mayonaka no Door official audio",
+          "count": 8,
+          "titles": [
+            "「真夜中のドア〜stay with me」/ 松原みき Official Lyric Video",
+            "真夜中のドア〜stay with me (シングルver.)",
+            "松原みき 真夜中のドア STAY WITH ME  - Single Ver. - ｜ Miki Matsubara ｜ Japan",
+            "Mayonaka No Door / Stay With Me - Miki Matsubara (1979) audio hq"
+          ]
+        }
+      ]
     },
     {
       "genre": "J-POP",
-      "selected": [
-        {
-          "genre": "J-POP",
-          "youtubeUrl": "https://www.youtube.com/watch?v=oe4XJ851oOk",
-          "memo": "Auto-collected from YouTube search: J-POP representative track",
-          "title": "LiSA『ReawakeR (feat. Felix of Stray Kids)』MUSiC CLiP",
-          "duration": 192,
-          "uploader": "LiSA Official YouTube"
-        }
-      ],
-      "existing": 9,
-      "needed": 1,
+      "macroGenre": "pop",
+      "candidateCount": 47,
+      "verifiedCount": 20,
       "raw": [
         {
-          "query": "J-POP representative track",
-          "count": 36,
+          "query": "Hikaru Utada Automatic official audio",
+          "count": 8,
           "titles": [
-            "MOROHA - 革命 / THE FIRST TAKE",
-            "ゴスペラーズ - ひとり / THE FIRST TAKE",
-            "LiSA『ReawakeR (feat. Felix of Stray Kids)』MUSiC CLiP",
-            "Shinunoga E-Wa"
+            "宇多田ヒカル - Automatic",
+            "UTADA HIKARU - Automatic (Lyrics)",
+            "宇多田ヒカル - Automatic",
+            "宇多田ヒカル【First Love】01 Automatic-Album Edit-"
+          ]
+        },
+        {
+          "query": "Hikaru Utada Automatic topic",
+          "count": 8,
+          "titles": [
+            "宇多田ヒカル - Automatic",
+            "UTADA HIKARU - Automatic (Lyrics)",
+            "宇多田ヒカル - Automatic",
+            "宇多田 ヒカル Utada Hikaru 宇多田光Automatic (Live Version)中日字幕"
+          ]
+        },
+        {
+          "query": "Namie Amuro Can You Celebrate official audio",
+          "count": 8,
+          "titles": [
+            "Namie Amuro (安室奈美恵) - CAN YOU CELEBRATE? (Color Coded Lyrics)",
+            "CAN YOU CELEBRATE? - 安室奈美恵（フル）",
+            "CAN YOU CELEBRATE? - 安室奈美恵 (高音質/歌詞付き/Romanized)",
+            "CAN YOU CELEBRATE 1997 Namie Amuro"
+          ]
+        },
+        {
+          "query": "Namie Amuro Can You Celebrate topic",
+          "count": 8,
+          "titles": [
+            "CAN YOU CELEBRATE 2003 Namie Amuro",
+            "CAN YOU CELEBRATE? - 安室奈美恵（フル）",
+            "Namie Amuro (安室奈美恵) - CAN YOU CELEBRATE? (Color Coded Lyrics)",
+            "CAN YOU CELEBRATE 1997 Namie Amuro"
+          ]
+        },
+        {
+          "query": "Mr.Children Tomorrow Never Knows official audio",
+          "count": 8,
+          "titles": [
+            "Mr.Children 「Tomorrow never knows」 MUSIC VIDEO",
+            "Mr. Children - Tomorrow Never Knows",
+            "Tomorrow never knows／Mr.Children",
+            "Mr.Children Tomorrow never knows(歌詞付き)"
+          ]
+        },
+        {
+          "query": "Mr.Children Tomorrow Never Knows topic",
+          "count": 8,
+          "titles": [
+            "Mr.Children 「Tomorrow never knows」 MUSIC VIDEO",
+            "Tomorrow Never Knows (Remastered 2009)",
+            "Tomorrow Never Knows",
+            "Tomorrow never knows (オリジナルアーティスト : Mr.Children)"
+          ]
+        },
+        {
+          "query": "Perfume Polyrhythm official audio",
+          "count": 8,
+          "titles": [
+            "Polyrhythm",
+            "Perfume「Polyrhythm」[ Instrumental ]",
+            "Perfume - Polyrhythm ( Audio )",
+            "08. Polyrhythm - Perfume (Cars 2 Complete Score)"
+          ]
+        },
+        {
+          "query": "Perfume Polyrhythm topic",
+          "count": 8,
+          "titles": [
+            "Polyrhythm",
+            "[Official Music Video] Perfume「ポリリズム」",
+            "Perfume - Polyrhythm",
+            "Perfume - Polyrhythm (1080p Live, Subtitled, 2011)"
           ]
         }
       ]
     },
     {
       "genre": "アニメソング",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
+      "macroGenre": "pop",
+      "candidateCount": 42,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Yoko Takahashi A Cruel Angel's Thesis official audio",
+          "count": 8,
+          "titles": [
+            "「残酷な天使のテーゼ」MUSIC VIDEO（HDver.）/Zankoku na Tenshi no Te-ze“The Cruel Angel's Thesis”",
+            "The Cruel Angel's Thesis | Evangelion Finally",
+            "Neon Genesis Evangelion - A Cruel Angel's Thesis Live  - 残酷な天使のテーゼ  - Yoko Takahashi with Lyrics",
+            "残酷な天使のテーゼ (Directors Edit Version)"
+          ]
+        },
+        {
+          "query": "Yoko Takahashi A Cruel Angel's Thesis topic",
+          "count": 8,
+          "titles": [
+            "「残酷な天使のテーゼ」MUSIC VIDEO（HDver.）/Zankoku na Tenshi no Te-ze“The Cruel Angel's Thesis”",
+            "Neon Genesis Evangelion - A Cruel Angel's Thesis Live  - 残酷な天使のテーゼ  - Yoko Takahashi with Lyrics",
+            "The Cruel Angel's Thesis | Evangelion Finally",
+            "残酷な天使のテーゼ (Directors Edit Version)"
+          ]
+        },
+        {
+          "query": "LiSA Gurenge official audio",
+          "count": 8,
+          "titles": [
+            "LiSA『紅蓮華』-MUSiC CLiP-（アニメ「鬼滅の刃」竈門炭治郎 立志編 オープニングテーマ）",
+            "LiSA - Gurenge (Demon Slayer: Kimetsu no Yaiba OP) [Eng/Rom/漢字 Lyrics]",
+            "LiSA 『紅蓮華』 -MUSiC CLiP YouTube EDIT ver.-",
+            "Gurenge - LiSA (Audio)"
+          ]
+        },
+        {
+          "query": "LiSA Gurenge topic",
+          "count": 8,
+          "titles": [
+            "LiSA『紅蓮華』-MUSiC CLiP-（アニメ「鬼滅の刃」竈門炭治郎 立志編 オープニングテーマ）",
+            "LiSA - Gurenge (Demon Slayer: Kimetsu no Yaiba OP) [Eng/Rom/漢字 Lyrics]",
+            "LiSA 『紅蓮華』 -MUSiC CLiP YouTube EDIT ver.-",
+            "LiSA - 紅蓮華 / THE FIRST TAKE"
+          ]
+        },
+        {
+          "query": "Hikaru Utada One Last Kiss official audio",
+          "count": 8,
+          "titles": [
+            "One Last Kiss",
+            "宇多田ヒカル『One Last Kiss』",
+            "Evangelion 3.0+1.0 - Theme Song Full『One Last Kiss』by Hikaru Utada",
+            "Evangelion 3.0+1.0 - \"One Last Kiss\" | ENGLISH Ver | AmaLee"
+          ]
+        },
+        {
+          "query": "Hikaru Utada One Last Kiss topic",
+          "count": 8,
+          "titles": [
+            "One Last Kiss",
+            "宇多田ヒカル『One Last Kiss』",
+            "宇多田ヒカル「One Last Kiss」 from TBS系『CDTVライブ！ライブ！』",
+            "Evangelion 3.0+1.0 - Theme Song Full『One Last Kiss』by Hikaru Utada"
+          ]
+        },
+        {
+          "query": "FLOW GO!!! official audio",
+          "count": 8,
+          "titles": [
+            "FLOW「GO!!!」Special Anime Movie",
+            "Naruto Opening 4 Full 『FLOW - GO!!!』 ナルト",
+            "01.  GO!!!  (Audio) - FLOW - FLOW ANIME BEST",
+            "FLOW「GO!!! (20周年アニバーサリーバージョン)」Music Video"
+          ]
+        },
+        {
+          "query": "FLOW GO!!! topic",
+          "count": 8,
+          "titles": [
+            "FLOW「GO!!!」MUSIC VIDEO (TVアニメ『NARUTO -ナルト-』OPテーマ)",
+            "FLOW「GO!!!」Special Anime Movie",
+            "FLOW - GO!!! / THE FIRST TAKE",
+            "Naruto Opening 4 Full 『FLOW - GO!!!』 ナルト"
+          ]
+        }
+      ]
     },
     {
       "genre": "クラシック音楽",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
+      "macroGenre": "classical",
+      "candidateCount": 56,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Ludwig van Beethoven Symphony No. 5 official audio",
+          "count": 8,
+          "titles": [
+            "Ludwig Van Beethoven: Symphony No. 5, Op. 67",
+            "Beethoven - Symphony No. 5 - Iván Fischer | Concertgebouworkest",
+            "Beethoven: Symphony No. 5 Fate Symphony | Herbert Blomstedt and the Gewandhausorchester Leipzig",
+            "Beethoven - Symphony No. 5 (Destiny) / Remastered (rr: Herbert von Karajan, Berliner Philharmoniker)"
+          ]
+        },
+        {
+          "query": "Ludwig van Beethoven Symphony No. 5 topic",
+          "count": 8,
+          "titles": [
+            "Beethoven: Symphony No. 5 Fate Symphony | Herbert Blomstedt and the Gewandhausorchester Leipzig",
+            "Beethoven's 5th Symphony",
+            "Beethoven: Symphony No. 5 Fate Symphony | Christian Thielemann & Vienna Philharmonic",
+            "Beethoven: Symphony No. 5 in C Minor, Op. 67: I. Allegro con brio"
+          ]
+        },
+        {
+          "query": "Johann Sebastian Bach Cello Suite No. 1 Prelude official audio",
+          "count": 8,
+          "titles": [
+            "Yo-Yo Ma - Bach: Cello Suite No. 1 in G Major, Prélude (Official Video)",
+            "Suite for Violoncello No. 1 in G Major, BWV 1007: I. Prélude",
+            "Bach: Solo Cello Suite No. 1 in G Major (BWV 1007) ---Prelude",
+            "Cello Suite No. 1 in G Major, BWV 1007: I. Prélude (Remastered 2021)"
+          ]
+        },
+        {
+          "query": "Johann Sebastian Bach Cello Suite No. 1 Prelude topic",
+          "count": 8,
+          "titles": [
+            "Yo-Yo Ma - Bach: Cello Suite No. 1 in G Major, Prélude (Official Video)",
+            "Bach: Solo Cello Suite No. 1 in G Major (BWV 1007) ---Prelude",
+            "Mischa Maisky plays Bach Cello Suite No.1 in G (full)",
+            "Bach: Prélude, Cello suite Nr.1 | Ophélie Gaillard"
+          ]
+        },
+        {
+          "query": "Claude Debussy Clair de Lune official audio",
+          "count": 8,
+          "titles": [
+            "Clair De Lune",
+            "Clair de Lune (Studio Version)",
+            "Clair de Lune",
+            "Claude Debussy Clair de Lune [HD]"
+          ]
+        },
+        {
+          "query": "Claude Debussy Clair de Lune topic",
+          "count": 8,
+          "titles": [
+            "Clair de Lune (Studio Version)",
+            "Debussy: Clair de lune | Menahem Pressler, piano",
+            "Claude Debussy Clair de Lune [HD]",
+            "Claude Debussy Full Album | Claude Debussy Best Songs - ألبوم كلود ديبوسي كامل"
+          ]
+        },
+        {
+          "query": "Igor Stravinsky The Rite of Spring official audio",
+          "count": 8,
+          "titles": [
+            "Stravinsky The Rite of Spring // London Symphony Orchestra/Sir Simon Rattle",
+            "Stravinsky - The Rite Of Spring (Abbado) (DG Original Source vinyl: Sumiko Starling,CTC Classic 301)",
+            "Igor Stravinsky - The Rite of Spring (1913)",
+            "The Rite of Spring: Part One - The Adoration of the Earth - Introduction"
+          ]
+        },
+        {
+          "query": "Igor Stravinsky The Rite of Spring topic",
+          "count": 8,
+          "titles": [
+            "The Rite of Spring: Ritual of the Ancestors",
+            "The Rite of Spring, Part I: Ritual of Abduction (Remastered)",
+            "The Rite of Spring, Part I: Augurs of Spring. (Dance of the Young Girls) (Remastered)",
+            "The Rite of Spring: Part One - The Adoration of the Earth - Introduction"
+          ]
+        },
+        {
+          "query": "Wolfgang Amadeus Mozart Eine Kleine Nachtmusik official audio",
+          "count": 8,
+          "titles": [
+            "Eine Kleine Nachtmusik - Mozart",
+            "CLASSICAL - Wolfgang Amadeus Mozart - Eine Kleine Nachtmusik (HQ)",
+            "Serenade No. 13 for Strings in G Major, K. 525 (Eine Kleine Nachtmusik)",
+            "Mozart: Eine kleine Nachtmusik, K. 525: I. Allegro"
+          ]
+        }
+      ]
     },
     {
       "genre": "オペラ",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
+      "macroGenre": "classical",
+      "candidateCount": 42,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Luciano Pavarotti Nessun Dorma official audio",
+          "count": 8,
+          "titles": [
+            "Luciano Pavarotti - Nessun Dorma! (Lyric Video)",
+            "Luciano Pavarotti - Nessun Dorma! (Official Live Performance Video)",
+            "Luciano Pavarotti sings \"Nessun dorma\" from Turandot (The Three Tenors in Concert 1994)",
+            "Luciano Pavarotti - Nessun dorma [Best Quality on YouTube]"
+          ]
+        },
+        {
+          "query": "Luciano Pavarotti Nessun Dorma topic",
+          "count": 8,
+          "titles": [
+            "Luciano Pavarotti sings \"Nessun dorma\" from Turandot (The Three Tenors in Concert 1994)",
+            "Luciano Pavarotti - Nessun Dorma! (Official Live Performance Video)",
+            "Puccini: Turandot, Act III: Nessun dorma – Tu che guardi le stelle",
+            "Puccini: Turandot / Act 3: \"Nessun dorma!\""
+          ]
+        },
+        {
+          "query": "Maria Callas Casta Diva official audio",
+          "count": 8,
+          "titles": [
+            "Maria Callas sings \"Casta Diva\" (Bellini: Norma, Act 1)",
+            "Norma, Act 1: \"Casta diva\" (Norma, Coro)",
+            "Maria Callas  - Casta Diva - HQ remasterizat",
+            "Casta Diva (Norma) (Digitally Remastered)"
+          ]
+        },
+        {
+          "query": "Maria Callas Casta Diva topic",
+          "count": 8,
+          "titles": [
+            "Maria Callas sings \"Casta Diva\" (Bellini: Norma, Act 1)",
+            "Norma, Act 1: \"Casta diva\" (Norma, Coro)",
+            "Casta diva",
+            "Norma - Casta Diva (Remastered 2011)"
+          ]
+        },
+        {
+          "query": "Georges Bizet Habanera official audio",
+          "count": 8,
+          "titles": [
+            "Maria Callas Live: Bizet's Carmen Habanera, Hamburg 1962",
+            "Carmen - Habanera - Lyrics (Angela Gheorghiu)",
+            "Angela Gheorghiu - Habanera from Carmen (music video)",
+            "Habanera (Remastered)"
+          ]
+        },
+        {
+          "query": "Georges Bizet Habanera topic",
+          "count": 8,
+          "titles": [
+            "Habanera",
+            "Habanera",
+            "Carmen Suite No.2: Habanera",
+            "Carmen - Habanera"
+          ]
+        },
+        {
+          "query": "Giuseppe Verdi La donna e mobile official audio",
+          "count": 8,
+          "titles": [
+            "Verdi: Rigoletto, Act III: La donna è mobile",
+            "The Three Tenors in Concert 1994: \"La donna è mobile\" from Rigoletto",
+            "Verdi: Rigoletto: La donna è mobile",
+            "Luciano Pavarotti - La Donna È Mobile (Rigoletto)"
+          ]
+        }
+      ]
     },
     {
       "genre": "フォーク",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
+      "macroGenre": "world",
+      "candidateCount": 46,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Bob Dylan Blowin in the Wind official audio",
+          "count": 8,
+          "titles": [
+            "Bob Dylan - Blowin' in the Wind (Official Audio)",
+            "Blowin' in the Wind",
+            "Bob Dylan - Blowin' In The Wind (Lyrics)",
+            "Blowin' in the Wind"
+          ]
+        },
+        {
+          "query": "Bob Dylan Blowin in the Wind topic",
+          "count": 8,
+          "titles": [
+            "Bob Dylan - Blowin' in the Wind (Official Audio)",
+            "Blowin' in the Wind",
+            "Blowin' in the Wind",
+            "Blowing In The Wind (Live On TV, March 1963)"
+          ]
+        },
+        {
+          "query": "Joan Baez Diamonds and Rust official audio",
+          "count": 8,
+          "titles": [
+            "Diamonds And Rust",
+            "Joan Baez - Diamonds and Rust (With Lyrics)",
+            "Diamonds And Rust",
+            "Joan Baez   Diamonds and Rust HQ"
+          ]
+        },
+        {
+          "query": "Joan Baez Diamonds and Rust topic",
+          "count": 8,
+          "titles": [
+            "Diamonds And Rust",
+            "Diamonds And Rust",
+            "Diamonds & Rust",
+            "Joan Baez - Diamonds and Rust (With Lyrics)"
+          ]
+        },
+        {
+          "query": "Joni Mitchell Both Sides Now official audio",
+          "count": 8,
+          "titles": [
+            "Joni Mitchell - Both Sides Now (2021 Remaster) [Official Audio]",
+            "Both Sides Now",
+            "Joni Mitchell - Both Sides, Now [Original Studio Version, 1969]",
+            "Joni Mitchell - Both Sides Now (Official Audio)"
+          ]
+        },
+        {
+          "query": "Joni Mitchell Both Sides Now topic",
+          "count": 8,
+          "titles": [
+            "Both Sides Now",
+            "Joni Mitchell - Both Sides Now (2021 Remaster) [Official Audio]",
+            "Joni Mitchell – Both Sides Now (Live at the Newport Folk Festival 2022) [Official Video]",
+            "Joni Mitchell - Both Sides, Now [Original Studio Version, 1969]"
+          ]
+        },
+        {
+          "query": "Simon and Garfunkel The Sound of Silence official audio",
+          "count": 8,
+          "titles": [
+            "Simon & Garfunkel - The Sounds of Silence (Audio)",
+            "Simon and Garfunkel - The Sound of Silence (1966)",
+            "The Sound of Silence",
+            "Simon & Garfunkel - The Sound of Silence (from The Concert in Central Park)"
+          ]
+        },
+        {
+          "query": "Simon and Garfunkel The Sound of Silence topic",
+          "count": 8,
+          "titles": [
+            "Simon & Garfunkel - The Sounds of Silence (Audio)",
+            "The Sound of Silence",
+            "The Sound of Silence (Electric Version)",
+            "Simon and Garfunkel - The Sound of Silence (1966)"
+          ]
+        },
+        {
+          "query": "Nick Drake Pink Moon official audio",
+          "count": 8,
+          "titles": [
+            "Nick Drake - Pink Moon",
+            "Nick Drake - Pink Moon (2023 Remaster)",
+            "Nick Drake - Pink Moon",
+            "Nick Drake - Pink Moon (1972) HD"
+          ]
+        }
+      ]
     },
     {
       "genre": "ワールドミュージック",
-      "selected": [],
-      "existing": 10,
-      "skipped": true,
-      "raw": []
+      "macroGenre": "world",
+      "candidateCount": 43,
+      "verifiedCount": 20,
+      "raw": [
+        {
+          "query": "Buena Vista Social Club Chan Chan official audio",
+          "count": 8,
+          "titles": [
+            "Buena Vista Social Club - Chan Chan (Official Audio)",
+            "Buena Vista Social Club - Chan Chan (Official HD Video)",
+            "Buena Vista Social Club - Chan Chan (Official Lyric Video)",
+            "The Cast of Buena Vista Social Club: Tiny Desk Concert"
+          ]
+        },
+        {
+          "query": "Buena Vista Social Club Chan Chan topic",
+          "count": 8,
+          "titles": [
+            "Buena Vista Social Club - Chan Chan (Official Audio)",
+            "Buena Vista Social Club - Chan Chan (Official HD Video)",
+            "Buena Vista Social Club - Chan Chan (2021 Remaster) [Official Audio]",
+            "Buena Vista Social Club - Chan Chan (Official Lyric Video)"
+          ]
+        },
+        {
+          "query": "Youssou N'Dour 7 Seconds official audio",
+          "count": 8,
+          "titles": [
+            "Youssou N'Dour - 7 Seconds ft. Neneh Cherry",
+            "Youssou N'Dour - 7 Seconds ft. Neneh Cherry (Lyrics)",
+            "Youssou N'Dour feat. Neneh Cherry - 7 seconds (HQ)",
+            "Youssou N'Dour - 7 Seconds (Radio Edit) [Audio HQ]"
+          ]
+        },
+        {
+          "query": "Youssou N'Dour 7 Seconds topic",
+          "count": 8,
+          "titles": [
+            "Youssou N'Dour - 7 Seconds ft. Neneh Cherry",
+            "Youssou N'Dour - 7 Seconds (Radio Edit) [Audio HQ]",
+            "Youssou N'Dour feat. Neneh Cherry - 7 seconds (HQ)",
+            "Youssou N'Dour & Neneh Cherry - 7 Seconds (1994)"
+          ]
+        },
+        {
+          "query": "Nusrat Fateh Ali Khan Mustt Mustt official audio",
+          "count": 8,
+          "titles": [
+            "Nusrat Fateh Ali Khan - Mustt Mustt (Audio)",
+            "Nusrat Fateh Ali Khan - Mustt Mustt (Live at WOMAD Yokohama 1992)",
+            "Mustt Mustt",
+            "Mustt Mustt (Massive Attack Remix)"
+          ]
+        },
+        {
+          "query": "Nusrat Fateh Ali Khan Mustt Mustt topic",
+          "count": 8,
+          "titles": [
+            "Nusrat Fateh Ali Khan - Mustt Mustt (Audio)",
+            "Mustt Mustt",
+            "Nusrat Fateh Ali Khan - Mustt Mustt (Live at WOMAD Yokohama 1992)",
+            "Mustt Mustt (Massive Attack Remix)"
+          ]
+        },
+        {
+          "query": "Ali Farka Toure Ai Du official audio",
+          "count": 8,
+          "titles": [
+            "Ali Farka Toure, Ry Cooder - Ai Du",
+            "ai du - Ali Farka Toure   Original",
+            "Ali Farka Toure & Ry Cooder – Ai Du  (HQ) (Audio only)",
+            "Ali Farka Toure Original - Ai du"
+          ]
+        },
+        {
+          "query": "Ali Farka Toure Ai Du topic",
+          "count": 8,
+          "titles": [
+            "Ali Farka Toure, Ry Cooder - Ai Du",
+            "ai du - Ali Farka Toure   Original",
+            "Ai Ga Bani",
+            "Ai Du (feat. Vieux Farka Touré)"
+          ]
+        }
+      ]
     }
   ]
 }

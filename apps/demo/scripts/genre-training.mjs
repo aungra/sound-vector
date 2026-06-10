@@ -119,7 +119,7 @@ async function analyzeYoutube(youtubeUrl, endpoint = DEFAULT_ENDPOINT) {
   return payload.audioFeatures || payload.features || payload;
 }
 
-const VECTOR_KEYS = ["tempo", "energy", "bass", "rhythm", "onset", "brightness", "zcr", "rmsContrast", "onsetContrast", "bassContrast", "centroidContrast", "chromaEntropy"];
+const VECTOR_KEYS = ["tempo", "energy", "bass", "lowBandRatio", "midBandRatio", "highBandRatio", "rhythm", "onset", "brightness", "zcr", "rmsContrast", "onsetContrast", "bassContrast", "centroidContrast", "chromaEntropy"];
 const MACRO_ALIASES = {
   black: "black_music",
   folk: "world"

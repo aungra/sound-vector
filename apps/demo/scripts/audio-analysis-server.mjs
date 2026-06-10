@@ -370,7 +370,12 @@ function analyzeFloat32Pcm(buffer, sampleRate = 22050) {
   let rmsSum = 0;
   let zcrSum = 0;
   let bassSum = 0;
+  let lowBandSum = 0;
+  let midBandSum = 0;
   let highBandSum = 0;
+  let bandPowerSum = 0;
+  let bandCentroidSum = 0;
+  let bandCentroidWeight = 0;
   let spectralPowerSum = 0;
   let centroidSum = 0;
   let centroidWeight = 0;
@@ -412,7 +417,16 @@ function analyzeFloat32Pcm(buffer, sampleRate = 22050) {
     const bassPower = [55, 82, 110, 164, 220].reduce((sum, freq) => sum + goertzelPower(samples, start, frameSize, sampleRate, freq), 0);
     const frameChroma = Array.from({ length: 12 }, () => 0);
     const frameBands = bandFrequencies.map(freq => freq < sampleRate / 2 ? goertzelPower(samples, start, frameSize, sampleRate, freq) : 0);
-    highBandSum += frameBands.slice(4).reduce((sum, value) => sum + value, 0);
+    frameBands.forEach((power, index) => {
+      const freq = bandFrequencies[index];
+      const weightedPower = power * Math.pow(Math.max(1, freq) / 220, 1.15);
+      bandPowerSum += weightedPower;
+      bandCentroidSum += freq * weightedPower;
+      bandCentroidWeight += weightedPower;
+      if (freq <= 220) lowBandSum += weightedPower;
+      else if (freq <= 1760) midBandSum += weightedPower;
+      else highBandSum += weightedPower;
+    });
     let frameCentroidSum = 0;
     let frameCentroidWeight = 0;
     bassSum += bassPower;
@@ -442,12 +456,16 @@ function analyzeFloat32Pcm(buffer, sampleRate = 22050) {
   const energy = clamp01(Math.sqrt(averageRms) * 1.8);
   const onset = clamp01((onsetSum / frames) * 28);
   const tempo = estimateTempo(envelope, sampleRate / hop);
-  const centroid = Math.round(centroidWeight ? centroidSum / centroidWeight : 1200);
-  const bassRatio = spectralPowerSum ? bassSum / spectralPowerSum : 0;
-  const highBandRatio = spectralPowerSum ? highBandSum / spectralPowerSum : 0;
+  const tonalCentroid = centroidWeight ? centroidSum / centroidWeight : 1200;
+  const bandCentroid = bandCentroidWeight ? bandCentroidSum / bandCentroidWeight : tonalCentroid;
+  const centroid = Math.round(bandCentroid);
+  const bassRatio = bandPowerSum ? lowBandSum / bandPowerSum : 0;
+  const midBandRatio = bandPowerSum ? midBandSum / bandPowerSum : 0;
+  const highBandRatio = bandPowerSum ? highBandSum / bandPowerSum : 0;
+  const bass = clamp01(Math.pow(bassRatio, .82) * 1.18);
   const brightness = clamp01(Math.max(
-    (centroid - 300) / 3600,
-    Math.sqrt(highBandRatio) * 1.65
+    (centroid - 180) / 3600,
+    Math.pow(highBandRatio, .45) * 1.2
   ));
   const temporalProfile = Array.from({ length: 16 }, (_, i) => {
     const index = Math.min(rmsFrames.length - 1, Math.round(i * (rmsFrames.length - 1) / 15));
@@ -469,16 +487,19 @@ function analyzeFloat32Pcm(buffer, sampleRate = 22050) {
     chromaTimeline: chromaFrameRows.map(row => row.map(value => value / chromaFrameMax)),
     bandTimeline: bandFrameRows.map(row => row.map(value => value / bandFrameMax)),
     ...pcmSketch
-  }, { energy, bass: clamp01(Math.sqrt(bassRatio) * 2.4), brightness, onset, temporalProfile });
+  }, { energy, bass, brightness, onset, temporalProfile });
 
   return {
     source: "youtube-audio-analysis-server",
     tempo,
     energy,
     rms: energy,
-    bass: clamp01(Math.sqrt(bassRatio) * 2.4),
+    bass,
     brightness,
-    highBandRatio: clamp01(highBandRatio * 4),
+    lowBandRatio: clamp01(bassRatio),
+    midBandRatio: clamp01(midBandRatio),
+    highBandRatio: clamp01(highBandRatio),
+    tonalCentroid: Math.round(tonalCentroid),
     spectralCentroid: centroid,
     rhythm: clamp01(onset * 1.4),
     onset,
