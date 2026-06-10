@@ -100,14 +100,14 @@
     <path d="M674 598 C704 558 742 546 784 574 C816 596 792 632 748 624 C704 616 684 644 642 632" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
   </g>
 
-  <g id="pcm_reversible_data" data-layer="pcm_reversible_data" data-encoding="template-visible-protected-seal-band-v1" data-restoration-role="protected-audio-data" data-edit-policy="lock-do-not-edit">
-    <desc>Visible protected PCM seal band placeholder. Generated reversible SVGs replace this group with actual mulaw8-protected-seal-band-v1 geometry. Keep it visible and locked; do not edit or delete it.</desc>
-    <line x1="108" y1="108" x2="108" y2="115" stroke="#111" stroke-width="0.32" stroke-linecap="round" data-placeholder="true"/>
-    <line x1="180" y1="108" x2="180" y2="113" stroke="#111" stroke-width="0.32" stroke-linecap="round" data-placeholder="true"/>
-    <line x1="252" y1="108" x2="252" y2="116" stroke="#111" stroke-width="0.32" stroke-linecap="round" data-placeholder="true"/>
-    <line x1="1092" y1="108" x2="1086" y2="108" stroke="#111" stroke-width="0.32" stroke-linecap="round" data-placeholder="true"/>
-    <line x1="1092" y1="1092" x2="1092" y2="1084" stroke="#111" stroke-width="0.32" stroke-linecap="round" data-placeholder="true"/>
-    <line x1="108" y1="1092" x2="116" y2="1092" stroke="#111" stroke-width="0.32" stroke-linecap="round" data-placeholder="true"/>
+  <g id="pcm_reversible_data" data-layer="pcm_reversible_data" data-encoding="template-visible-protected-texture-field-v1" data-restoration-role="protected-audio-data" data-edit-policy="lock-do-not-edit">
+    <desc>Visible protected PCM texture placeholder. Generated reversible SVGs replace this group with actual mulaw8-protected-texture-field-v1 geometry inside the main artwork. Keep it visible and locked; do not edit or delete it.</desc>
+    <line x1="505" y1="430" x2="508" y2="428" stroke="#111" stroke-width="0.28" stroke-linecap="round" data-placeholder="true"/>
+    <line x1="646" y1="404" x2="649" y2="407" stroke="#111" stroke-width="0.28" stroke-linecap="round" data-placeholder="true"/>
+    <line x1="736" y1="512" x2="740" y2="513" stroke="#111" stroke-width="0.28" stroke-linecap="round" data-placeholder="true"/>
+    <line x1="610" y1="592" x2="614" y2="590" stroke="#111" stroke-width="0.28" stroke-linecap="round" data-placeholder="true"/>
+    <line x1="466" y1="680" x2="469" y2="683" stroke="#111" stroke-width="0.28" stroke-linecap="round" data-placeholder="true"/>
+    <line x1="812" y1="706" x2="816" y2="704" stroke="#111" stroke-width="0.28" stroke-linecap="round" data-placeholder="true"/>
   </g>
 
   <g id="notes_for_designer" data-layer="notes_for_designer">

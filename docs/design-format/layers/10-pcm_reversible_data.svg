@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-labelledby="title desc">
-  <title id="title">Visible protected PCM seal band placeholder</title>
-  <desc id="desc">Visible locked protected layer placeholder. Generated reversible SVGs replace this seal band with PCM geometry used for audio restoration. Keep it visible and locked; do not edit or delete it.</desc>
-  <g id="pcm_reversible_data" data-layer="pcm_reversible_data" data-encoding="template-visible-protected-seal-band-v1" data-restoration-role="protected-audio-data" data-edit-policy="lock-do-not-edit">
-    <desc>Generated reversible SVGs replace this placeholder with mulaw8-protected-seal-band-v1 data. Visible PCM carriers can be redrawn freely while this locked seal band preserves restoration.</desc>
-    <line x1="108" y1="108" x2="108" y2="115" stroke="#111" stroke-width="0.32" stroke-linecap="round" data-placeholder="true"/>
-    <line x1="180" y1="108" x2="180" y2="113" stroke="#111" stroke-width="0.32" stroke-linecap="round" data-placeholder="true"/>
-    <line x1="252" y1="108" x2="252" y2="116" stroke="#111" stroke-width="0.32" stroke-linecap="round" data-placeholder="true"/>
-    <line x1="1092" y1="108" x2="1086" y2="108" stroke="#111" stroke-width="0.32" stroke-linecap="round" data-placeholder="true"/>
-    <line x1="1092" y1="1092" x2="1092" y2="1084" stroke="#111" stroke-width="0.32" stroke-linecap="round" data-placeholder="true"/>
-    <line x1="108" y1="1092" x2="116" y2="1092" stroke="#111" stroke-width="0.32" stroke-linecap="round" data-placeholder="true"/>
+  <title id="title">Visible protected PCM texture field placeholder</title>
+  <desc id="desc">Visible locked protected layer placeholder. Generated reversible SVGs replace this internal texture with PCM geometry used for audio restoration. Keep it visible and locked; do not edit or delete it.</desc>
+  <g id="pcm_reversible_data" data-layer="pcm_reversible_data" data-encoding="template-visible-protected-texture-field-v1" data-restoration-role="protected-audio-data" data-edit-policy="lock-do-not-edit">
+    <desc>Generated reversible SVGs replace this placeholder with mulaw8-protected-texture-field-v1 data. Visible PCM carriers can be redrawn freely while this locked internal texture preserves restoration.</desc>
+    <line x1="505" y1="430" x2="508" y2="428" stroke="#111" stroke-width="0.28" stroke-linecap="round" data-placeholder="true"/>
+    <line x1="646" y1="404" x2="649" y2="407" stroke="#111" stroke-width="0.28" stroke-linecap="round" data-placeholder="true"/>
+    <line x1="736" y1="512" x2="740" y2="513" stroke="#111" stroke-width="0.28" stroke-linecap="round" data-placeholder="true"/>
+    <line x1="610" y1="592" x2="614" y2="590" stroke="#111" stroke-width="0.28" stroke-linecap="round" data-placeholder="true"/>
+    <line x1="466" y1="680" x2="469" y2="683" stroke="#111" stroke-width="0.28" stroke-linecap="round" data-placeholder="true"/>
+    <line x1="812" y1="706" x2="816" y2="704" stroke="#111" stroke-width="0.28" stroke-linecap="round" data-placeholder="true"/>
   </g>
 </svg>

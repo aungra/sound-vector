@@ -14,10 +14,14 @@ export type ProtectedLayerOptions = {
   height?: number;
   x?: number;
   y?: number;
+  cx?: number;
+  cy?: number;
   step?: number;
   amplitude?: number;
   bandWidth?: number;
   bandHeight?: number;
+  radiusX?: number;
+  radiusY?: number;
   sampleRate?: number;
   channels?: number;
   duration?: number;

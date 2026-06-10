@@ -429,7 +429,7 @@
         tension_lines: "Chroma and spectral centroid pull the cloth edges as twelve pitch-class tension directions",
         impact_marks: "Onset and transient strength become cuts, holes, and short strike marks on the cloth",
         cloth_time_grid: "Time is stored as repeated folds across the flag surface instead of a separate axis",
-        pcm_reversible_data: "Visible locked micro-weave seal band used for PCM restoration; do not edit or delete",
+        pcm_reversible_data: "Visible locked internal texture field used for PCM restoration; do not edit or delete",
         metadata: "Minimal format declaration only; source URLs, file names, and audio feature bodies are not embedded by default"
       };
     }
@@ -469,7 +469,7 @@
           app: "SOUND VECTOR FITTING ROOM",
           engineId: shirtMeta.engineId || "realtime",
           reversibleLayer: "pcm_reversible_data",
-          protectedEncoding: "mulaw8-protected-seal-band-v1",
+          protectedEncoding: "mulaw8-protected-texture-field-v1",
           mapping: reversibleMapping()
         },
         reconstruction: {
@@ -780,34 +780,51 @@
       return pcmProtectedDataGroupFromBytes(bytes, duration, sampleRate);
     }
     function pcmProtectedDataGroupFromBytes(bytes, duration, sampleRate) {
-      const x0 = 108;
-      const y0 = 108;
-      const width = 984;
-      const height = 984;
-      const step = 5.2;
+      const cx = 600;
+      const cy = 610;
+      const radiusX = 492;
+      const radiusY = 438;
       const amplitude = 7.6;
       const paths = Array.from(bytes, (byte, index) => {
-        const point = sealBandPoint(index, x0, y0, width, height, step);
+        const point = textureFieldPoint(index, cx, cy, radiusX, radiusY);
         const offset = ((byte - 128) / 127) * amplitude;
-        const x2 = point.x + point.nx * offset;
-        const y2 = point.y + point.ny * offset;
-        return `<line x1="${svgFineNumber(point.x)}" y1="${svgFineNumber(point.y)}" x2="${svgFineNumber(x2)}" y2="${svgFineNumber(y2)}" stroke="#111" stroke-width=".32" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`;
+        const length = 2.4 + ((index * 17) % 11) * .18;
+        const mx = point.x + point.nx * offset;
+        const my = point.y + point.ny * offset;
+        const x1 = mx - point.tx * length * .5;
+        const y1 = my - point.ty * length * .5;
+        const x2 = mx + point.tx * length * .5;
+        const y2 = my + point.ty * length * .5;
+        return `<line x1="${svgFineNumber(x1)}" y1="${svgFineNumber(y1)}" x2="${svgFineNumber(x2)}" y2="${svgFineNumber(y2)}" stroke="#111" stroke-width=".28" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`;
       });
       const attrs = [
-        `data-encoding="mulaw8-protected-seal-band-v1"`,
+        `data-encoding="mulaw8-protected-texture-field-v1"`,
         `data-sample-rate="${sampleRate}"`,
         `data-duration="${svgFineNumber(duration)}"`,
         `data-frame-count="${bytes.length}"`,
-        `data-x0="${x0}"`,
-        `data-y0="${y0}"`,
-        `data-width="${width}"`,
-        `data-height="${height}"`,
-        `data-step="${step}"`,
+        `data-cx="${cx}"`,
+        `data-cy="${cy}"`,
+        `data-radius-x="${radiusX}"`,
+        `data-radius-y="${radiusY}"`,
         `data-amplitude="${amplitude}"`,
-        `data-visual-role="locked-micro-weave-seal-band"`,
+        `data-visual-role="locked-protected-texture-field"`,
         `data-edit-policy="lock-do-not-edit"`
       ].join(" ");
       return svgGroupWithAttrs("pcm_reversible_data", paths, attrs);
+    }
+    function textureFieldPoint(index, cx, cy, radiusX, radiusY) {
+      const golden = Math.PI * (3 - Math.sqrt(5));
+      const angle = (index * golden + Math.sin(index * 12.9898) * .11) % (Math.PI * 2);
+      const scatter = (Math.sin(index * 78.233) * 43758.5453) % 1;
+      const unit = Math.sqrt(Math.abs(scatter));
+      const wobble = 1 + Math.sin(index * .031) * .045;
+      const x = cx + Math.cos(angle) * radiusX * unit * wobble;
+      const y = cy + Math.sin(angle) * radiusY * unit * (1 + Math.cos(index * .027) * .04);
+      const tx = Math.cos(angle + Math.PI / 2);
+      const ty = Math.sin(angle + Math.PI / 2);
+      const nx = Math.cos(angle);
+      const ny = Math.sin(angle);
+      return { x, y, nx, ny, tx, ty };
     }
     function sealBandPoint(index, x0, y0, width, height, step) {
       const perimeter = Math.max(1, width * 2 + height * 2);
@@ -820,8 +837,13 @@
     function injectPcmGeometryIntoSvg(svg, detail) {
       const text = String(svg || "");
       if (!text) return text;
-      const protectedGroup = text.match(/<g\b[^>]*id=["']pcm_reversible_data["'][^>]*>/);
-      if (protectedGroup && /^mulaw8-protected-(geometry|seal-band)-v1$/.test(svgAttr(protectedGroup[0], "data-encoding"))) return text;
+      const protectedGroup = text.match(/<g\b[^>]*id=["']pcm_reversible_data["'][^>]*>[\s\S]*?<\/g>/);
+      if (protectedGroup) {
+        const groupTag = protectedGroup[0].match(/^<g\b[^>]*>/)?.[0] || "";
+        const encoding = svgAttr(groupTag, "data-encoding");
+        const hasRestorableGeometry = /<line\b|<path\b/.test(protectedGroup[0]);
+        if (hasRestorableGeometry && /^mulaw8-protected-(geometry|seal-band|texture-field)-v1$/.test(encoding)) return text;
+      }
       const group = pcmProtectedGeometryGroupFromDetail(detail);
       if (!group) return text;
       const withoutPlaceholder = text.replace(/<g\b[^>]*id=["']pcm_reversible_data["'][\s\S]*?<\/g>\s*/g, "");
@@ -837,7 +859,29 @@
       const sampleRate = Math.max(1, Math.round(Number(svgAttr(groupTag, "data-sample-rate")) || 4000));
       const duration = Math.max(1, Math.min(30, Number(svgAttr(groupTag, "data-duration")) || frameCount / sampleRate));
       const bytes = new Uint8Array(frameCount);
-      if (encoding === "mulaw8-protected-seal-band-v1") {
+      if (encoding === "mulaw8-protected-texture-field-v1") {
+        const cx = Number(svgAttr(groupTag, "data-cx")) || 600;
+        const cy = Number(svgAttr(groupTag, "data-cy")) || 610;
+        const radiusX = Number(svgAttr(groupTag, "data-radius-x")) || 492;
+        const radiusY = Number(svgAttr(groupTag, "data-radius-y")) || 438;
+        const amplitude = Number(svgAttr(groupTag, "data-amplitude")) || 7.6;
+        const tags = body.match(/<line\b[^>]*>/g) || [];
+        if (!tags.length || tags.length < frameCount) return null;
+        tags.forEach((tag, index) => {
+          if (index >= bytes.length) return;
+          const point = textureFieldPoint(index, cx, cy, radiusX, radiusY);
+          const x1 = Number(svgAttr(tag, "x1"));
+          const y1 = Number(svgAttr(tag, "y1"));
+          const x2 = Number(svgAttr(tag, "x2"));
+          const y2 = Number(svgAttr(tag, "y2"));
+          if (![x1, y1, x2, y2].every(Number.isFinite)) return;
+          const mx = (x1 + x2) * .5;
+          const my = (y1 + y2) * .5;
+          const offset = (mx - point.x) * point.nx + (my - point.y) * point.ny;
+          const byte = Math.round((offset / amplitude) * 127 + 128);
+          bytes[index] = Math.max(0, Math.min(255, byte));
+        });
+      } else if (encoding === "mulaw8-protected-seal-band-v1") {
         const x0 = Number(svgAttr(groupTag, "data-x0")) || 108;
         const y0 = Number(svgAttr(groupTag, "data-y0")) || 108;
         const width = Number(svgAttr(groupTag, "data-width")) || 984;
@@ -3259,7 +3303,7 @@
         return [svgGroup("carrier_storm_horizon", horizon), svgGroup("carrier_storm_threads", storm), svgGroup("carrier_storm_anchors", anchors)];
       };
       const metadata = [
-        `<desc>Reversible Sound Form Engine. A 100-pass audio-fingerprint morphology search, Wikipedia-derived genre estimation, and a 30-pass structural self-debate choose one of twelve macro forms. Different songs and variants therefore change the large structure, not only the line texture. Restoration PCM is added as a visible locked pcm_reversible_data seal band on export.</desc>`,
+        `<desc>Reversible Sound Form Engine. A 100-pass audio-fingerprint morphology search, Wikipedia-derived genre estimation, and a 30-pass structural self-debate choose one of twelve macro forms. Different songs and variants therefore change the large structure, not only the line texture. Restoration PCM is added as a visible locked pcm_reversible_data internal texture on export.</desc>`,
         `<g id="pcm_reversible_data" data-layer="pcm_reversible_data" data-status="added-on-export" data-edit-policy="lock-do-not-edit"></g>`
       ];
       const surfaceGroupsByMode = {
@@ -3344,7 +3388,7 @@
       const texture = [];
       const metadata = [];
 
-      metadata.push(`<desc>Reversible audio pattern generated from analyzed YouTube audio. Visible lines are regenerated on every run; protected PCM geometry is added as a locked seal band on reversible SVG export.</desc>`);
+      metadata.push(`<desc>Reversible audio pattern generated from analyzed YouTube audio. Visible lines are regenerated on every run; protected PCM geometry is added as a locked internal texture on reversible SVG export.</desc>`);
       metadata.push(`<g id="pcm_reversible_data" data-layer="pcm_reversible_data" data-status="added-on-export" data-edit-policy="lock-do-not-edit"></g>`);
 
       for (let row = 0; row < laneCount; row++) {
@@ -4405,7 +4449,7 @@
           <p><strong>Tension Lines</strong>12音のクロマとスペクトル重心で方向と長さが変わる張力線です。<span class="mapping-value">12 pitch pulls</span></p>
           <p><strong>Time / Strata</strong>時間軸とテンポを、反復する層・折り目・縦グリッドへ変換します。<span class="mapping-value">${formatFeatureNumber(features?.tempo, "BPM")}</span></p>
           <p><strong>Orbit Memory</strong>PCMの渦や軌道。Wrapped PCM、Black Spine、Carrier Stormの要素を補助的に統合しています。<span class="mapping-value">visible carriers</span></p>
-          <p><strong>Protected PCM</strong>外周の細密なseal band。音を戻すための本体なので、表示したままロックし、削除や変形をしないでください。<span class="mapping-value">locked visible geometry</span></p>
+          <p><strong>Protected PCM</strong>主図案内の細密な内部地紋。音を戻すための本体なので、表示したままロックし、削除や変形をしないでください。<span class="mapping-value">locked protected texture</span></p>
         </div></section>`;
     }
     function refreshReversibleSoundClothShirt(shirt) {
