@@ -894,7 +894,80 @@
     function decodePcmGeometryFromSvg(svgText) {
       const protectedPcm = decodeProtectedPcmDataFromSvg(svgText);
       if (protectedPcm) return protectedPcm;
-      return null;
+      const groupMatch = String(svgText || "").match(/<g\b[^>]*id=["']pcm_reversible_waveform["'][^>]*>([\s\S]*?)<\/g>/);
+      if (!groupMatch) return null;
+      const groupTag = groupMatch[0].match(/^<g\b[^>]*>/)?.[0] || "";
+      const encoding = svgAttr(groupTag, "data-encoding");
+      const body = groupMatch[1] || "";
+      const frameCount = Math.max(1, Math.round(Number(svgAttr(groupTag, "data-frame-count")) || 0));
+      const sampleRate = Math.max(1, Math.round(Number(svgAttr(groupTag, "data-sample-rate")) || 4000));
+      const duration = Math.max(1, Math.min(30, Number(svgAttr(groupTag, "data-duration")) || frameCount / sampleRate));
+      const bytes = new Uint8Array(frameCount);
+      const tags = body.match(/<path\b[^>]*>/g) || [];
+      if (encoding === "mulaw8-axis-geometry-v2") {
+        tags.forEach(tag => {
+          if (!svgAttr(tag, "data-pcm-carrier")) return;
+          const start = Math.max(0, Math.round(Number(svgAttr(tag, "data-pcm-start")) || 0));
+          const count = Math.max(1, Math.round(Number(svgAttr(tag, "data-pcm-count")) || 1));
+          const x1 = Number(svgAttr(tag, "data-x1"));
+          const y1 = Number(svgAttr(tag, "data-y1"));
+          const x2 = Number(svgAttr(tag, "data-x2"));
+          const y2 = Number(svgAttr(tag, "data-y2"));
+          const amplitude = Number(svgAttr(tag, "data-amplitude")) || 9.6;
+          if (![x1, y1, x2, y2].every(Number.isFinite)) return;
+          const dx = x2 - x1;
+          const dy = y2 - y1;
+          const len = Math.hypot(dx, dy) || 1;
+          const nx = -dy / len;
+          const ny = dx / len;
+          const d = svgAttr(tag, "d");
+          const points = [...d.matchAll(/[-+]?\d*\.?\d+(?:e[-+]?\d+)?\s+[-+]?\d*\.?\d+(?:e[-+]?\d+)?/gi)];
+          points.forEach((point, col) => {
+            const parts = point[0].trim().split(/\s+/);
+            const x = Number(parts[0]);
+            const y = Number(parts[1]);
+            const index = start + col;
+            if (index >= bytes.length || col >= count || !Number.isFinite(x) || !Number.isFinite(y)) return;
+            const t = col / Math.max(1, count - 1);
+            const centerX = x1 + dx * t;
+            const centerY = y1 + dy * t;
+            const offset = (x - centerX) * nx + (y - centerY) * ny;
+            const byte = Math.round((offset / amplitude) * 127 + 128);
+            bytes[index] = Math.max(0, Math.min(255, byte));
+          });
+        });
+      } else if (encoding === "mulaw8-geometry-v1") {
+        const rows = Math.max(1, Math.round(Number(svgAttr(groupTag, "data-rows")) || 1));
+        const cols = Math.max(1, Math.round(Number(svgAttr(groupTag, "data-cols")) || Math.ceil(frameCount / rows)));
+        const y0 = Number(svgAttr(groupTag, "data-y0")) || 286;
+        const rowGap = Number(svgAttr(groupTag, "data-row-gap")) || 20.5;
+        const amplitude = Number(svgAttr(groupTag, "data-amplitude")) || 7.6;
+        tags.forEach(tag => {
+          const row = Math.round(Number(svgAttr(tag, "data-pcm-row")));
+          if (!Number.isFinite(row) || row < 0) return;
+          const d = svgAttr(tag, "d");
+          const points = [...d.matchAll(/[-+]?\d*\.?\d+(?:e[-+]?\d+)?\s+[-+]?\d*\.?\d+(?:e[-+]?\d+)?/gi)];
+          const yBase = y0 + row * rowGap;
+          points.forEach((point, col) => {
+            const parts = point[0].trim().split(/\s+/);
+            const y = Number(parts[1]);
+            const index = row * cols + col;
+            if (index >= bytes.length || !Number.isFinite(y)) return;
+            const byte = Math.round(((y - yBase) / amplitude) * 127 + 128);
+            bytes[index] = Math.max(0, Math.min(255, byte));
+          });
+        });
+      } else {
+        return null;
+      }
+      return {
+        pcmSketch: bytesToBase64(bytes),
+        pcmSketchEncoding: "mulaw8-base64",
+        pcmSketchSampleRate: sampleRate,
+        pcmSketchDuration: duration,
+        pcmSketchFrameCount: bytes.length,
+        pcmSketchSource: "svg-visible-waveform-geometry"
+      };
     }
     function stripPcmSketchFromPayload(payload) {
       const copy = JSON.parse(JSON.stringify(payload || {}));
@@ -920,7 +993,7 @@
     }
     function attachPcmGeometryToPayload(payload, svgText) {
       const geometryPcm = decodePcmGeometryFromSvg(svgText);
-      if (!geometryPcm) throw new Error("pcm_reversible_data の可視保護図案からPCMを復元できません。");
+      if (!geometryPcm) throw new Error("SVG内のPCM図形から音を復元できません。");
       if (!payload) return { reconstructionScore: { detail: geometryPcm } };
       const copy = JSON.parse(JSON.stringify(payload));
       if (!copy.reconstructionScore) copy.reconstructionScore = {};
@@ -3872,14 +3945,14 @@
         if (!reversibleSvg) throw new Error("SVG文字列を生成できません。");
         geometryPayload = extractReversiblePayloadFromSvg(reversibleSvg);
       } catch (error) {
-        state.message = `復元音はSVG内の pcm_reversible_data 可視保護図案のみから再生します: ${error.message}`;
+        state.message = `復元音はmetadataではなくSVG内のPCM図形から再生します: ${error.message}`;
         render();
         return;
       }
       const rawScore = geometryPayload?.reconstructionScore || null;
       const score = rawScore ? makeReconstructionScore(rawScore) : null;
       if (!score) {
-        state.message = "復元音に使える pcm_reversible_data 可視保護図案がありません。";
+        state.message = "復元音に使えるSVG内PCM図形がありません。";
         render();
         return;
       }
@@ -3887,7 +3960,8 @@
       try {
         const playback = await playReconstructionWav(score);
         if (playback.source !== "pcm-sketch") throw new Error("pcm_reversible_data 由来のPCMではありません。");
-        state.message = `SVG内の pcm_reversible_data 可視保護図案のみから復元音を再生しています。見た目用キャリアを崩していても約${Math.round(playback.duration)}秒の音を戻します。`;
+        const layerText = score.detail?.pcmSketchSource === "svg-visible-waveform-geometry" ? "pcm_reversible_waveform 図形" : "pcm_reversible_data 可視保護図案";
+        state.message = `SVG内の ${layerText} から復元音を再生しています。約${Math.round(playback.duration)}秒の音を戻します。`;
         render();
         return;
       } catch (wavError) {
@@ -3930,7 +4004,8 @@
               activeReconstructionContext = null;
             }
           }, Math.ceil((fallback.duration + 1) * 1000));
-          state.message = `Web Audioで、SVG内の pcm_reversible_data 可視保護図案のみから復元音を再生しています。`;
+          const layerText = score.detail?.pcmSketchSource === "svg-visible-waveform-geometry" ? "pcm_reversible_waveform 図形" : "pcm_reversible_data 可視保護図案";
+          state.message = `Web Audioで、SVG内の ${layerText} から復元音を再生しています。`;
           render();
           return;
         }

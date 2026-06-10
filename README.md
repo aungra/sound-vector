@@ -49,7 +49,7 @@ Generated reversible SVGs avoid putting the PCM body into one large metadata str
 - `metadata#mmfr-reversible` stores a minimal format declaration and restoration policy.
 - `pcm_reversible_waveform` is the visible carrier layer. Designers may redraw or distort it.
 - `pcm_reversible_data` is the protected restoration layer. Keep it visible, locked, and unedited.
-- Import reads the protected geometry layer only. `pcm_reversible_waveform` remains editable visual expression and is not used as an audio fallback.
+- Import reads SVG geometry only: `pcm_reversible_data` first, then `pcm_reversible_waveform` when protected geometry is unavailable. Metadata is not used as the PCM body.
 - Source URLs, video IDs, local file names, and full feature bodies are not embedded in default reversible SVG exports.
 
 See [docs/design-format/README.md](docs/design-format/README.md) for the Illustrator layer rules.
