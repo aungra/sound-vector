@@ -9,7 +9,7 @@ import {
 
 test("round trips PCM bytes through protected SVG geometry", () => {
   const source = Uint8Array.from([0, 12, 128, 240, 255]);
-  const layer = encodePcmBytesToProtectedLayer(source, { sampleRate: 4000, duration: 0.00125 });
+  const layer = encodePcmBytesToProtectedLayer(source, { sampleRate: 4000, duration: 0.00125, textureSeed: 42, textureMode: "spiral-core" });
   const svg = `<svg xmlns="http://www.w3.org/2000/svg">${layer}</svg>`;
   const decoded = decodePcmBytesFromProtectedLayer(svg);
 
@@ -18,12 +18,24 @@ test("round trips PCM bytes through protected SVG geometry", () => {
   assert.match(layer, /data-encoding="mulaw8-protected-texture-field-v1"/);
   assert.match(layer, /data-edit-policy="lock-do-not-edit"/);
   assert.match(layer, /data-frame-count="5"/);
+  assert.match(layer, /data-texture-seed="42"/);
+  assert.match(layer, /data-texture-mode="spiral-core"/);
   assert.match(layer, /data-visual-role="locked-protected-texture-field"/);
   assert.match(layer, /stroke="#111"/);
   assert.match(layer, /<line\b/);
   assert.doesNotMatch(layer, /data-byte=/);
   assert.doesNotMatch(layer, /data-index=/);
   assert.doesNotMatch(layer, /display="none"/);
+});
+
+test("uses texture seed and mode to vary protected geometry without losing bytes", () => {
+  const source = Uint8Array.from([4, 32, 64, 96, 128, 160, 224]);
+  const a = encodePcmBytesToProtectedLayer(source, { textureSeed: "alpha", textureMode: "spectral-barcode" });
+  const b = encodePcmBytesToProtectedLayer(source, { textureSeed: "beta", textureMode: "carrier-storm" });
+
+  assert.notEqual(a, b);
+  assert.deepEqual([...decodePcmBytesFromProtectedLayer(`<svg>${a}</svg>`)], [...source]);
+  assert.deepEqual([...decodePcmBytesFromProtectedLayer(`<svg>${b}</svg>`)], [...source]);
 });
 
 test("rejects incomplete protected texture geometry", () => {
@@ -45,6 +57,17 @@ test("keeps legacy seal-band protected geometry readable", () => {
   const decoded = decodePcmBytesFromProtectedLayer(`<svg>${legacyLayer}</svg>`);
 
   assert.deepEqual([...decoded], [0, 128, 255]);
+});
+
+test("keeps seedless texture-field geometry readable", () => {
+  const legacyLayer = [
+    `<g id="${PROTECTED_PCM_LAYER_ID}" data-layer="${PROTECTED_PCM_LAYER_ID}" data-encoding="mulaw8-protected-texture-field-v1" data-frame-count="1" data-cx="600" data-cy="610" data-radius-x="492" data-radius-y="438" data-amplitude="7.6">`,
+    `<line x1="592.40" y1="608.80" x2="592.40" y2="611.20"/>`,
+    `</g>`
+  ].join("");
+  const decoded = decodePcmBytesFromProtectedLayer(`<svg>${legacyLayer}</svg>`);
+
+  assert.deepEqual([...decoded], [1]);
 });
 
 test("inspects reversible SVG protected layer metadata", () => {

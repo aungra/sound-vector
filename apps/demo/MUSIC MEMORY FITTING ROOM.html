@@ -770,23 +770,25 @@
       ].join(" ");
       return svgGroupWithAttrs("pcm_reversible_waveform", paths, attrs) + protectedDataGroup;
     }
-    function pcmProtectedGeometryGroupFromDetail(detail, targetFrames = 96000) {
+    function pcmProtectedGeometryGroupFromDetail(detail, targetFrames = 96000, textureOptions = {}) {
       const source = bytesFromBase64(detail?.pcmSketch || "");
       if (!source.length || detail?.pcmSketchEncoding !== "mulaw8-base64") return null;
       const duration = Math.max(1, Math.min(30, Number(detail.pcmSketchDuration) || source.length / Math.max(1, Number(detail.pcmSketchSampleRate) || 11025)));
       const frameCount = Math.min(source.length, Math.max(1024, Math.min(targetFrames, Math.round(duration * 4000))));
       const bytes = resampleByteSeries(source, frameCount);
       const sampleRate = Math.round(bytes.length / duration);
-      return pcmProtectedDataGroupFromBytes(bytes, duration, sampleRate);
+      return pcmProtectedDataGroupFromBytes(bytes, duration, sampleRate, textureOptions);
     }
-    function pcmProtectedDataGroupFromBytes(bytes, duration, sampleRate) {
+    function pcmProtectedDataGroupFromBytes(bytes, duration, sampleRate, textureOptions = {}) {
       const cx = 600;
       const cy = 610;
       const radiusX = 492;
       const radiusY = 438;
+      const textureSeed = normaliseTextureSeed(textureOptions.seed ?? textureOptions.textureSeed ?? 0);
+      const textureMode = normaliseTextureMode(textureOptions.mode || textureOptions.textureMode || "texture-field");
       const amplitude = 7.6;
       const paths = Array.from(bytes, (byte, index) => {
-        const point = textureFieldPoint(index, cx, cy, radiusX, radiusY);
+        const point = textureFieldPoint(index, cx, cy, radiusX, radiusY, textureSeed, textureMode);
         const offset = ((byte - 128) / 127) * amplitude;
         const length = 2.4 + ((index * 17) % 11) * .18;
         const mx = point.x + point.nx * offset;
@@ -806,13 +808,52 @@
         `data-cy="${cy}"`,
         `data-radius-x="${radiusX}"`,
         `data-radius-y="${radiusY}"`,
+        `data-texture-seed="${textureSeed}"`,
+        `data-texture-mode="${escapeAttr(textureMode)}"`,
         `data-amplitude="${amplitude}"`,
         `data-visual-role="locked-protected-texture-field"`,
         `data-edit-policy="lock-do-not-edit"`
       ].join(" ");
       return svgGroupWithAttrs("pcm_reversible_data", paths, attrs);
     }
-    function textureFieldPoint(index, cx, cy, radiusX, radiusY) {
+    function textureFieldOptionsFromSvg(svg) {
+      const rootTag = String(svg || "").match(/<svg\b[^>]*>/)?.[0] || "";
+      const mode = svgAttr(rootTag, "data-form-mode") || "texture-field";
+      const seedAttr = svgAttr(rootTag, "data-variant-seed");
+      const seed = seedAttr || hashString(`${mode}|${svgAttr(rootTag, "data-audio-fingerprint") || ""}|${String(svg || "").slice(0, 360)}`);
+      return { seed, mode };
+    }
+    function textureFieldPoint(index, cx, cy, radiusX, radiusY, seed = 0, mode = "texture-field") {
+      const profile = textureFieldProfile(mode);
+      const golden = Math.PI * (3 - Math.sqrt(5));
+      const jitter = textureNoise01(index, 0, seed) - .5;
+      const band = textureNoise01(index, 1, seed);
+      const radial = Math.pow(textureNoise01(index, 2, seed), profile.radialPower);
+      let angle = index * golden + seed * .00013 + jitter * profile.angleJitter;
+      const unit = Math.sqrt(radial);
+      if (profile.spiral) angle += unit * profile.spiral;
+      let x;
+      let y;
+      if (profile.rectangular) {
+        const u = textureNoise01(index, 3, seed) - .5;
+        const v = (profile.banded ? (Math.round(band * profile.bands) / profile.bands + (textureNoise01(index, 4, seed) - .5) * .045) : textureNoise01(index, 4, seed)) - .5;
+        x = cx + u * radiusX * 1.86 * profile.stretchX;
+        y = cy + v * radiusY * 1.72 * profile.stretchY;
+        angle = profile.angle + (textureNoise01(index, 5, seed) - .5) * profile.angleJitter;
+      } else {
+        const wobble = 1 + Math.sin(index * .031 + seed * .0007) * .045 + (textureNoise01(index, 6, seed) - .5) * profile.scatter;
+        x = cx + Math.cos(angle) * radiusX * unit * wobble * profile.stretchX;
+        y = cy + Math.sin(angle) * radiusY * unit * (1 + Math.cos(index * .027 + seed * .0003) * .04) * profile.stretchY;
+        angle += profile.angle;
+      }
+      const txAngle = profile.radialStroke ? angle : angle + Math.PI / 2;
+      const tx = Math.cos(txAngle);
+      const ty = Math.sin(txAngle);
+      const nx = -ty;
+      const ny = tx;
+      return { x, y, nx, ny, tx, ty };
+    }
+    function legacyTextureFieldPoint(index, cx, cy, radiusX, radiusY) {
       const golden = Math.PI * (3 - Math.sqrt(5));
       const angle = (index * golden + Math.sin(index * 12.9898) * .11) % (Math.PI * 2);
       const scatter = (Math.sin(index * 78.233) * 43758.5453) % 1;
@@ -825,6 +866,34 @@
       const nx = Math.cos(angle);
       const ny = Math.sin(angle);
       return { x, y, nx, ny, tx, ty };
+    }
+    function textureFieldProfile(mode) {
+      const profiles = {
+        "spectral-barcode": { rectangular: true, banded: true, bands: 10, angle: Math.PI / 2, angleJitter: .08, radialPower: 1, stretchX: 1.02, stretchY: .72, scatter: .02 },
+        "wave-strata": { rectangular: true, banded: true, bands: 14, angle: .06, angleJitter: .12, radialPower: 1, stretchX: .98, stretchY: .66, scatter: .02 },
+        "signal-flag": { rectangular: true, banded: true, bands: 9, angle: .16, angleJitter: .18, radialPower: 1, stretchX: .92, stretchY: .7, scatter: .02 },
+        "radial-score": { radialStroke: true, spiral: .25, angle: 0, angleJitter: .16, radialPower: .82, stretchX: .92, stretchY: .84, scatter: .08 },
+        "spiral-core": { spiral: 5.8, angle: 0, angleJitter: .18, radialPower: .92, stretchX: .82, stretchY: .68, scatter: .1 },
+        "memory-orbit": { spiral: 1.5, angle: 0, angleJitter: .15, radialPower: .7, stretchX: .9, stretchY: .72, scatter: .08 },
+        "constellation-map": { spiral: .7, angle: 0, angleJitter: .48, radialPower: .55, stretchX: .88, stretchY: .78, scatter: .18 },
+        "carrier-storm": { radialStroke: true, spiral: 2.7, angle: .35, angleJitter: .9, radialPower: .62, stretchX: 1, stretchY: .82, scatter: .2 },
+        "impact-fracture": { radialStroke: true, spiral: .9, angle: -.35, angleJitter: 1.25, radialPower: .64, stretchX: .95, stretchY: .82, scatter: .22 },
+        "pressure-map": { spiral: .45, angle: 0, angleJitter: .1, radialPower: .46, stretchX: .78, stretchY: .62, scatter: .06 },
+        "topographic-pressure": { spiral: .3, angle: 0, angleJitter: .08, radialPower: .42, stretchX: .86, stretchY: .68, scatter: .05 }
+      };
+      return profiles[mode] || { spiral: .4, angle: 0, angleJitter: .28, radialPower: .86, stretchX: 1, stretchY: 1, scatter: .12 };
+    }
+    function normaliseTextureMode(value) {
+      return String(value || "texture-field").replace(/[^a-z0-9_-]/gi, "").slice(0, 48) || "texture-field";
+    }
+    function normaliseTextureSeed(value) {
+      const numeric = Number(value);
+      if (Number.isFinite(numeric)) return Math.abs(Math.round(numeric)) % 2147483647;
+      return hashString(String(value || "texture-field")) % 2147483647;
+    }
+    function textureNoise01(index, salt, seed) {
+      const value = Math.sin((index + 1) * 12.9898 + (salt + 1) * 78.233 + seed * .000143) * 43758.5453123;
+      return value - Math.floor(value);
     }
     function sealBandPoint(index, x0, y0, width, height, step) {
       const perimeter = Math.max(1, width * 2 + height * 2);
@@ -844,7 +913,7 @@
         const hasRestorableGeometry = /<line\b|<path\b/.test(protectedGroup[0]);
         if (hasRestorableGeometry && /^mulaw8-protected-(geometry|seal-band|texture-field)-v1$/.test(encoding)) return text;
       }
-      const group = pcmProtectedGeometryGroupFromDetail(detail);
+      const group = pcmProtectedGeometryGroupFromDetail(detail, 96000, textureFieldOptionsFromSvg(text));
       if (!group) return text;
       const withoutPlaceholder = text.replace(/<g\b[^>]*id=["']pcm_reversible_data["'][\s\S]*?<\/g>\s*/g, "");
       return withoutPlaceholder.replace(/<\/svg>\s*$/, `${group}</svg>`);
@@ -864,12 +933,17 @@
         const cy = Number(svgAttr(groupTag, "data-cy")) || 610;
         const radiusX = Number(svgAttr(groupTag, "data-radius-x")) || 492;
         const radiusY = Number(svgAttr(groupTag, "data-radius-y")) || 438;
+        const hasTextureProfile = svgAttr(groupTag, "data-texture-seed") !== "" || svgAttr(groupTag, "data-texture-mode") !== "";
+        const textureSeed = normaliseTextureSeed(svgAttr(groupTag, "data-texture-seed") || 0);
+        const textureMode = normaliseTextureMode(svgAttr(groupTag, "data-texture-mode"));
         const amplitude = Number(svgAttr(groupTag, "data-amplitude")) || 7.6;
         const tags = body.match(/<line\b[^>]*>/g) || [];
         if (!tags.length || tags.length < frameCount) return null;
         tags.forEach((tag, index) => {
           if (index >= bytes.length) return;
-          const point = textureFieldPoint(index, cx, cy, radiusX, radiusY);
+          const point = hasTextureProfile
+            ? textureFieldPoint(index, cx, cy, radiusX, radiusY, textureSeed, textureMode)
+            : legacyTextureFieldPoint(index, cx, cy, radiusX, radiusY);
           const x1 = Number(svgAttr(tag, "x1"));
           const y1 = Number(svgAttr(tag, "y1"));
           const x2 = Number(svgAttr(tag, "x2"));

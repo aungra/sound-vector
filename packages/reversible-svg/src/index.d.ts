@@ -22,6 +22,8 @@ export type ProtectedLayerOptions = {
   bandHeight?: number;
   radiusX?: number;
   radiusY?: number;
+  textureSeed?: number | string;
+  textureMode?: string;
   sampleRate?: number;
   channels?: number;
   duration?: number;
