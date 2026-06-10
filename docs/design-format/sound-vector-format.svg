@@ -100,10 +100,14 @@
     <path d="M674 598 C704 558 742 546 784 574 C816 596 792 632 748 624 C704 616 684 644 642 632" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
   </g>
 
-  <g id="pcm_reversible_data" data-layer="pcm_reversible_data" display="none" data-encoding="template-protected-placeholder-v1" data-restoration-role="protected-audio-data" data-edit-policy="lock-or-hide-do-not-edit">
-    <desc>Protected PCM layer placeholder. Generated reversible SVGs replace this group with actual mulaw8-protected-geometry-v1 data. Lock or hide it, and do not delete it in finished reversible SVGs.</desc>
-    <path d="M64 64 L198 64 L332 64 L466 64 L600 64 L734 64 L868 64 L1002 64 L1136 64" fill="none" stroke="#111" stroke-width="0.2" data-pcm-row="0" data-placeholder="true"/>
-    <path d="M64 82 L198 82 L332 82 L466 82 L600 82 L734 82 L868 82 L1002 82 L1136 82" fill="none" stroke="#111" stroke-width="0.2" data-pcm-row="1" data-placeholder="true"/>
+  <g id="pcm_reversible_data" data-layer="pcm_reversible_data" data-encoding="template-visible-protected-seal-band-v1" data-restoration-role="protected-audio-data" data-edit-policy="lock-do-not-edit">
+    <desc>Visible protected PCM seal band placeholder. Generated reversible SVGs replace this group with actual mulaw8-protected-seal-band-v1 geometry. Keep it visible and locked; do not edit or delete it.</desc>
+    <line x1="108" y1="108" x2="108" y2="115" stroke="#111" stroke-width="0.32" stroke-linecap="round" data-placeholder="true"/>
+    <line x1="180" y1="108" x2="180" y2="113" stroke="#111" stroke-width="0.32" stroke-linecap="round" data-placeholder="true"/>
+    <line x1="252" y1="108" x2="252" y2="116" stroke="#111" stroke-width="0.32" stroke-linecap="round" data-placeholder="true"/>
+    <line x1="1092" y1="108" x2="1086" y2="108" stroke="#111" stroke-width="0.32" stroke-linecap="round" data-placeholder="true"/>
+    <line x1="1092" y1="1092" x2="1092" y2="1084" stroke="#111" stroke-width="0.32" stroke-linecap="round" data-placeholder="true"/>
+    <line x1="108" y1="1092" x2="116" y2="1092" stroke="#111" stroke-width="0.32" stroke-linecap="round" data-placeholder="true"/>
   </g>
 
   <g id="notes_for_designer" data-layer="notes_for_designer">
@@ -112,6 +116,6 @@
     <text x="880" y="334" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="14">Redraw line expression and density.</text>
     <text x="880" y="358" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="14">PCM carriers are visual paths.</text>
     <text x="880" y="382" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="14">Audio restores from protected data.</text>
-    <text x="880" y="406" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="14">Keep pcm_reversible_data locked.</text>
+    <text x="880" y="406" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="14">Keep visible pcm_reversible_data locked.</text>
   </g>
 </svg>

@@ -6,17 +6,19 @@ export const PROTECTED_PCM_LAYER_ID = "pcm_reversible_data";
 export const reversibleSvgLayerPolicies = [
   { id: REVERSIBLE_METADATA_ID, role: "metadata", editPolicy: "generated" },
   { id: VISIBLE_PCM_LAYER_ID, role: "editable-visual", editPolicy: "editable" },
-  { id: PROTECTED_PCM_LAYER_ID, role: "protected-restoration", editPolicy: "lock-or-hide" }
+  { id: PROTECTED_PCM_LAYER_ID, role: "protected-restoration", editPolicy: "lock-do-not-edit" }
 ];
 
 export function encodePcmBytesToProtectedLayer(bytes, options = {}) {
   const values = normaliseBytes(bytes);
   const width = Number.isFinite(options.width) ? options.width : 1200;
   const height = Number.isFinite(options.height) ? options.height : 1200;
-  const x0 = Number.isFinite(options.x) ? options.x : 80;
-  const y0 = Number.isFinite(options.y) ? options.y : height - 80;
-  const step = Number.isFinite(options.step) ? options.step : 1.2;
-  const amplitude = Number.isFinite(options.amplitude) ? options.amplitude : 96;
+  const x0 = Number.isFinite(options.x) ? options.x : 108;
+  const y0 = Number.isFinite(options.y) ? options.y : 108;
+  const bandWidth = Number.isFinite(options.bandWidth) ? options.bandWidth : width - x0 * 2;
+  const bandHeight = Number.isFinite(options.bandHeight) ? options.bandHeight : height - y0 * 2;
+  const step = Number.isFinite(options.step) ? options.step : 5.2;
+  const amplitude = Number.isFinite(options.amplitude) ? options.amplitude : 7.6;
   const sampleRate = Number.isFinite(options.sampleRate) ? options.sampleRate : 8000;
   const channels = Number.isFinite(options.channels) ? options.channels : 1;
   const duration = Number.isFinite(options.duration) ? options.duration : values.length / sampleRate;
@@ -24,26 +26,34 @@ export function encodePcmBytesToProtectedLayer(bytes, options = {}) {
 
   for (let index = 0; index < values.length; index += 1) {
     const byte = values[index];
-    const x = x0 + (index * step) % Math.max(step, width - x0 * 2);
-    const row = Math.floor((index * step) / Math.max(step, width - x0 * 2));
-    const baseY = y0 - row * (amplitude + 8);
-    const y = baseY - (byte / 255) * amplitude;
-    lines.push(`<line x1="${num(x)}" y1="${num(baseY)}" x2="${num(x)}" y2="${num(y)}"/>`);
+    const point = sealBandPoint(index, x0, y0, bandWidth, bandHeight, step);
+    const offset = ((byte - 128) / 127) * amplitude;
+    const x2 = point.x + point.nx * offset;
+    const y2 = point.y + point.ny * offset;
+    lines.push(`<line x1="${num(point.x)}" y1="${num(point.y)}" x2="${num(x2)}" y2="${num(y2)}" stroke="#111" stroke-width=".32" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`);
   }
 
-  return `<g id="${PROTECTED_PCM_LAYER_ID}" data-layer="${PROTECTED_PCM_LAYER_ID}" display="none" data-schema="${REVERSIBLE_SVG_SCHEMA}" data-encoding="pcm-u8-line-geometry-v1" data-sample-rate="${sampleRate}" data-channels="${channels}" data-duration="${num(duration)}" data-amplitude="${num(amplitude)}">${lines.join("")}</g>`;
+  return `<g id="${PROTECTED_PCM_LAYER_ID}" data-layer="${PROTECTED_PCM_LAYER_ID}" data-schema="${REVERSIBLE_SVG_SCHEMA}" data-encoding="mulaw8-protected-seal-band-v1" data-sample-rate="${sampleRate}" data-channels="${channels}" data-duration="${num(duration)}" data-x0="${num(x0)}" data-y0="${num(y0)}" data-width="${num(bandWidth)}" data-height="${num(bandHeight)}" data-step="${num(step)}" data-amplitude="${num(amplitude)}" data-visual-role="locked-micro-weave-seal-band" data-edit-policy="lock-do-not-edit">${lines.join("")}</g>`;
 }
 
 export function decodePcmBytesFromProtectedLayer(svgText) {
   const group = extractProtectedLayer(String(svgText || ""));
   if (!group) return new Uint8Array();
+  const x0 = attrNumber(group, "data-x0") ?? 108;
+  const y0 = attrNumber(group, "data-y0") ?? 108;
+  const width = attrNumber(group, "data-width") ?? 984;
+  const height = attrNumber(group, "data-height") ?? 984;
+  const step = attrNumber(group, "data-step") ?? 5.2;
+  const amplitude = geometryAmplitude(group);
   const matches = [...group.matchAll(/<line\b[^>]*>/g)];
-  return Uint8Array.from(matches.map((match) => {
+  return Uint8Array.from(matches.map((match, index) => {
     const tag = match[0];
-    const y1 = attrNumber(tag, "y1");
+    const x2 = attrNumber(tag, "x2");
     const y2 = attrNumber(tag, "y2");
-    if (!Number.isFinite(y1) || !Number.isFinite(y2)) return 0;
-    return clampByte(((y1 - y2) / geometryAmplitude(group)) * 255);
+    if (!Number.isFinite(x2) || !Number.isFinite(y2)) return 0;
+    const point = sealBandPoint(index, x0, y0, width, height, step);
+    const offset = (x2 - point.x) * point.nx + (y2 - point.y) * point.ny;
+    return clampByte((offset / amplitude) * 127 + 128);
   }));
 }
 
@@ -96,6 +106,15 @@ function geometryAmplitude(group) {
     return Number.isFinite(y1) && Number.isFinite(y2) ? Math.max(max, Math.abs(y1 - y2)) : max;
   }, 0);
   return maxDelta || 96;
+}
+
+function sealBandPoint(index, x0, y0, width, height, step) {
+  const perimeter = Math.max(1, width * 2 + height * 2);
+  const p = (index * step) % perimeter;
+  if (p < width) return { x: x0 + p, y: y0, nx: 0, ny: 1 };
+  if (p < width + height) return { x: x0 + width, y: y0 + (p - width), nx: -1, ny: 0 };
+  if (p < width * 2 + height) return { x: x0 + width - (p - width - height), y: y0 + height, nx: 0, ny: -1 };
+  return { x: x0, y: y0 + height - (p - width * 2 - height), nx: 1, ny: 0 };
 }
 
 function num(value) {

@@ -60,9 +60,12 @@
     <path d="M704 536 C716 510 750 504 766 530 C754 560 718 562 704 536 Z" fill="none" stroke="#111" stroke-width="1.8"/>
   </g>
 
-  <g id="pcm_reversible_data" data-layer="pcm_reversible_data" display="none" data-encoding="template-protected-placeholder-v1" data-restoration-role="protected-audio-data" data-edit-policy="lock-or-hide-do-not-edit">
-    <desc>Protected PCM layer placeholder. Real reversible SVGs use this hidden layer for restoration, while visible PCM carriers stay editable.</desc>
-    <path d="M64 64 L198 64 L332 64 L466 64 L600 64 L734 64 L868 64 L1002 64 L1136 64" fill="none" stroke="#111" stroke-width="0.2" data-pcm-row="0" data-placeholder="true"/>
+  <g id="pcm_reversible_data" data-layer="pcm_reversible_data" data-encoding="template-visible-protected-seal-band-v1" data-restoration-role="protected-audio-data" data-edit-policy="lock-do-not-edit">
+    <desc>Visible protected PCM seal band placeholder. Real reversible SVGs use this locked visible layer for restoration, while visible PCM carriers stay editable.</desc>
+    <line x1="108" y1="108" x2="108" y2="115" stroke="#111" stroke-width="0.32" stroke-linecap="round" data-placeholder="true"/>
+    <line x1="180" y1="108" x2="180" y2="113" stroke="#111" stroke-width="0.32" stroke-linecap="round" data-placeholder="true"/>
+    <line x1="252" y1="108" x2="252" y2="116" stroke="#111" stroke-width="0.32" stroke-linecap="round" data-placeholder="true"/>
+    <line x1="1092" y1="108" x2="1086" y2="108" stroke="#111" stroke-width="0.32" stroke-linecap="round" data-placeholder="true"/>
   </g>
 
   <g id="notes_for_designer" data-layer="notes_for_designer">
@@ -79,6 +82,6 @@
     <text x="938" y="696" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="18">Audio restores from protected data</text>
     <text x="56" y="72" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="30">SOUND VECTOR FORMAT GUIDE</text>
     <text x="56" y="112" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="18">Use as Illustrator underlay. Keep endpoints and print area fixed.</text>
-    <text x="56" y="148" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="18">Keep pcm_reversible_data locked or hidden. Do not delete it from reversible SVGs.</text>
+    <text x="56" y="148" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="18">Keep visible pcm_reversible_data locked. Do not edit or delete it.</text>
   </g>
 </svg>

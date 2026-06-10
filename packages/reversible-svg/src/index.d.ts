@@ -6,7 +6,7 @@ export declare const PROTECTED_PCM_LAYER_ID = "pcm_reversible_data";
 export type ReversibleSvgLayerPolicy = {
   id: string;
   role: "metadata" | "editable-visual" | "protected-restoration";
-  editPolicy: "editable" | "lock-or-hide" | "generated";
+  editPolicy: "editable" | "lock-do-not-edit" | "generated";
 };
 
 export type ProtectedLayerOptions = {
@@ -16,6 +16,8 @@ export type ProtectedLayerOptions = {
   y?: number;
   step?: number;
   amplitude?: number;
+  bandWidth?: number;
+  bandHeight?: number;
   sampleRate?: number;
   channels?: number;
   duration?: number;

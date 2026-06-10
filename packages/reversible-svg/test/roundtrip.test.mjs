@@ -15,8 +15,12 @@ test("round trips PCM bytes through protected SVG geometry", () => {
 
   assert.deepEqual([...decoded], [...source]);
   assert.match(layer, new RegExp(`id="${PROTECTED_PCM_LAYER_ID}"`));
+  assert.match(layer, /data-encoding="mulaw8-protected-seal-band-v1"/);
+  assert.match(layer, /data-edit-policy="lock-do-not-edit"/);
+  assert.match(layer, /stroke="#111"/);
   assert.doesNotMatch(layer, /data-byte=/);
   assert.doesNotMatch(layer, /data-index=/);
+  assert.doesNotMatch(layer, /display="none"/);
 });
 
 test("inspects reversible SVG protected layer metadata", () => {

@@ -2,7 +2,7 @@
 
 Sound Vector is an open-source prototype for turning audio into editable SVG artwork, then restoring a compact audio sketch back from the SVG geometry.
 
-The project explores a reversible design format for music, print, archives, and creative tools: visible SVG layers can be edited for T-shirt graphics, while a protected `pcm_reversible_data` geometry layer keeps enough PCM information to reconstruct sound without storing the source audio file as a separate asset.
+The project explores a reversible design format for music, print, archives, and creative tools: visible SVG layers can be edited for T-shirt graphics, while a locked visible `pcm_reversible_data` geometry layer keeps enough PCM information to reconstruct sound without storing the source audio file as a separate asset.
 
 ## Why This Exists
 
@@ -48,7 +48,7 @@ Generated reversible SVGs avoid putting the PCM body into one large metadata str
 
 - `metadata#mmfr-reversible` stores a minimal format declaration and restoration policy.
 - `pcm_reversible_waveform` is the visible carrier layer. Designers may redraw or distort it.
-- `pcm_reversible_data` is the protected restoration layer. Keep it locked, hidden, and unedited.
+- `pcm_reversible_data` is the protected restoration layer. Keep it visible, locked, and unedited.
 - Import reads the protected geometry layer first, then falls back to visible carrier geometry where needed.
 - Source URLs, video IDs, local file names, and full feature bodies are not embedded in default reversible SVG exports.
 
