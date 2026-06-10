@@ -3672,7 +3672,7 @@
     function reversibleSvgForShirt(shirt) {
       if (!shirt?.art) return "";
       const payload = reversiblePayloadForShirt(shirt);
-      const detail = payload?.reconstructionScore?.detail || payload?.audioFeatures?.detail || {};
+      const detail = payload?.reconstructionScore?.detail || payload?.audioFeatures?.detail || shirt?.audioFeatures?.detail || {};
       const svgWithGeometry = injectPcmGeometryIntoSvg(shirt.art, detail);
       return embedReversibleMetadata(svgWithGeometry, stripPcmSketchFromPayload(payload));
     }
