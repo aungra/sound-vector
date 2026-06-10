@@ -3847,19 +3847,25 @@
       if (decodedSketch?.samples?.length) {
         const sourceRate = Math.max(1000, Number(decodedSketch.sampleRate) || sampleRate);
         const duration = Math.max(1, Math.min(30, Number(decodedSketch.duration) || decodedSketch.samples.length / sourceRate));
-        const total = Math.min(decodedSketch.samples.length, Math.floor(duration * sourceRate));
+        const targetRate = Math.max(8000, Math.round(Number(sampleRate) || sourceRate));
+        const total = Math.max(1, Math.floor(duration * targetRate));
         const samples = new Float32Array(total);
         let peak = .0001;
         for (let i = 0; i < total; i++) {
-          const fadeIn = Math.min(1, i / (sourceRate * .02));
-          const fadeOut = Math.min(1, (total - i) / (sourceRate * .08));
-          const value = clampSigned(decodedSketch.samples[i] || 0) * fadeIn * fadeOut;
+          const sourcePosition = i * sourceRate / targetRate;
+          const a = Math.min(decodedSketch.samples.length - 1, Math.floor(sourcePosition));
+          const b = Math.min(decodedSketch.samples.length - 1, a + 1);
+          const frac = sourcePosition - a;
+          const mixed = (decodedSketch.samples[a] || 0) * (1 - frac) + (decodedSketch.samples[b] || 0) * frac;
+          const fadeIn = Math.min(1, i / (targetRate * .02));
+          const fadeOut = Math.min(1, (total - i) / (targetRate * .08));
+          const value = clampSigned(mixed) * fadeIn * fadeOut;
           samples[i] = value;
           peak = Math.max(peak, Math.abs(value));
         }
         const gain = peak > .92 ? .92 / peak : 1;
         if (gain !== 1) for (let i = 0; i < samples.length; i++) samples[i] = clampSigned(samples[i] * gain);
-        return { samples, sampleRate: sourceRate, duration: total / sourceRate, source: "pcm-sketch" };
+        return { samples, sampleRate: targetRate, duration: total / targetRate, source: "pcm-sketch" };
       }
       const duration = Math.max(4, Math.min(12, Number(score.duration) || 8));
       const total = Math.floor(sampleRate * duration);
@@ -3959,16 +3965,34 @@
         URL.revokeObjectURL(activeReconstructionAudioUrl);
         activeReconstructionAudioUrl = "";
       }
-      const { samples, sampleRate, duration, source } = synthesizeReconstructionSamples(score);
-      activeReconstructionAudioUrl = URL.createObjectURL(wavBlobFromSamples(samples, sampleRate));
-      activeReconstructionAudio = new Audio(activeReconstructionAudioUrl);
-      activeReconstructionAudio.volume = .92;
-      activeReconstructionAudio.onended = () => {
-        if (activeReconstructionAudioUrl) URL.revokeObjectURL(activeReconstructionAudioUrl);
-        activeReconstructionAudio = null;
-        activeReconstructionAudioUrl = "";
-      };
-      await activeReconstructionAudio.play();
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) throw new Error("Web Audioを利用できません。");
+      if (activeReconstructionTimer) clearTimeout(activeReconstructionTimer);
+      if (activeReconstructionContext) {
+        try { activeReconstructionContext.close?.(); } catch {}
+      }
+      const ctx = new AudioCtx();
+      activeReconstructionContext = ctx;
+      if (ctx.state === "suspended") await ctx.resume();
+      const targetRate = Math.max(8000, Math.round(ctx.sampleRate || 44100));
+      const { samples, sampleRate, duration, source } = synthesizeReconstructionSamples(score, targetRate);
+      const buffer = ctx.createBuffer(1, samples.length, sampleRate);
+      buffer.getChannelData(0).set(samples);
+      const node = ctx.createBufferSource();
+      const gain = ctx.createGain();
+      const now = ctx.currentTime + .03;
+      gain.gain.setValueAtTime(.92, now);
+      gain.gain.linearRampToValueAtTime(.0001, now + duration);
+      node.buffer = buffer;
+      node.connect(gain).connect(ctx.destination);
+      node.start(now);
+      node.stop(now + duration);
+      activeReconstructionTimer = setTimeout(() => {
+        if (activeReconstructionContext === ctx) {
+          try { ctx.close?.(); } catch {}
+          activeReconstructionContext = null;
+        }
+      }, Math.ceil((duration + 1) * 1000));
       return { duration, source };
     }
     function reconstructionLayerText(score) {
