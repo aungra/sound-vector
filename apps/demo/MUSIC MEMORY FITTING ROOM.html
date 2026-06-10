@@ -988,15 +988,28 @@
       });
       if (values.length < 16) return null;
       const duration = 8;
-      const sampleRate = 4000;
+      const sampleRate = 11025;
       const frameCount = duration * sampleRate;
       const bytes = new Uint8Array(frameCount);
+      let phase = 0;
+      let subPhase = 0;
+      let previous = 0;
       for (let i = 0; i < frameCount; i++) {
-        const position = i * (values.length - 1) / Math.max(1, frameCount - 1);
+        const p = i / Math.max(1, frameCount - 1);
+        const position = p * (values.length - 1);
         const a = Math.floor(position);
         const b = Math.min(values.length - 1, a + 1);
         const frac = position - a;
-        bytes[i] = Math.max(0, Math.min(255, Math.round(values[a] * (1 - frac) + values[b] * frac)));
+        const control = (values[a] * (1 - frac) + values[b] * frac) / 255;
+        const nextControl = values[(a + 17) % values.length] / 255;
+        const frequency = 72 + control * 260 + nextControl * 90;
+        phase = (phase + frequency / sampleRate) % 1;
+        subPhase = (subPhase + (frequency * .5 + 18 * nextControl) / sampleRate) % 1;
+        const envelope = Math.sin(Math.PI * p);
+        const tone = Math.sin(phase * Math.PI * 2) * .72 + Math.sin(subPhase * Math.PI * 2) * .22;
+        const target = clampSigned(tone * (.12 + control * .42) * envelope);
+        previous = previous * .82 + target * .18;
+        bytes[i] = encodeMulaw8(previous);
       }
       return {
         pcmSketch: bytesToBase64(bytes),
@@ -3851,15 +3864,20 @@
         const total = Math.max(1, Math.floor(duration * targetRate));
         const samples = new Float32Array(total);
         let peak = .0001;
+        let previous = 0;
+        let dc = 0;
+        const alpha = sourceRate < 8000 ? .18 : .34;
         for (let i = 0; i < total; i++) {
           const sourcePosition = i * sourceRate / targetRate;
           const a = Math.min(decodedSketch.samples.length - 1, Math.floor(sourcePosition));
           const b = Math.min(decodedSketch.samples.length - 1, a + 1);
           const frac = sourcePosition - a;
           const mixed = (decodedSketch.samples[a] || 0) * (1 - frac) + (decodedSketch.samples[b] || 0) * frac;
+          previous = previous * (1 - alpha) + mixed * alpha;
+          dc = dc * .995 + previous * .005;
           const fadeIn = Math.min(1, i / (targetRate * .02));
           const fadeOut = Math.min(1, (total - i) / (targetRate * .08));
-          const value = clampSigned(mixed) * fadeIn * fadeOut;
+          const value = clampSigned((previous - dc) * 1.08) * fadeIn * fadeOut;
           samples[i] = value;
           peak = Math.max(peak, Math.abs(value));
         }
