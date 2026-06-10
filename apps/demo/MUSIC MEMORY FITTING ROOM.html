@@ -2918,6 +2918,41 @@
     Object.keys(genreVisualProfiles).forEach(name => {
       if (genrePatternProfiles[name]) Object.assign(genrePatternProfiles[name], genreVisualProfiles[name]);
     });
+    const genreNameImageryProfiles = {
+      "アンビエント": { lineCharacter: "霧のように浮く余白線", nameMotif: "mist" },
+      "ドローン": { lineCharacter: "長く沈む持続線", nameMotif: "sustain" },
+      "ノイズミュージック": { lineCharacter: "荒れた擦過線", nameMotif: "static" },
+      "電子音楽": { lineCharacter: "回路的な直線", nameMotif: "circuit" },
+      "テクノ": { lineCharacter: "精密な機械円弧", nameMotif: "machine-ring" },
+      "ハウス": { lineCharacter: "反復する床の水平線", nameMotif: "floor" },
+      "ディープ・ハウス": { lineCharacter: "深く沈む低い波線", nameMotif: "deep-floor" },
+      "トランス": { lineCharacter: "催眠的な上昇曲線", nameMotif: "uplift" },
+      "ドラムンベース": { lineCharacter: "高速に刻む斜線", nameMotif: "fast-cuts" },
+      "ダブステップ": { lineCharacter: "重量のある折れ線", nameMotif: "wobble" },
+      "チップチューン": { lineCharacter: "小さな画素格子線", nameMotif: "pixel" },
+      "ヒップホップ": { lineCharacter: "タグのような太い身振り線", nameMotif: "tag" },
+      "トラップ": { lineCharacter: "鋭い三角トリル線", nameMotif: "trap-hats" },
+      "レゲエ": { lineCharacter: "揺れるオフビートの帯線", nameMotif: "offbeat" },
+      "ダブ": { lineCharacter: "残響で欠ける低音線", nameMotif: "echo" },
+      "ロック": { lineCharacter: "ギターの引っかき線", nameMotif: "guitar" },
+      "パンク": { lineCharacter: "破れた安全ピンの線", nameMotif: "pin" },
+      "ハードコア": { lineCharacter: "圧縮された衝突線", nameMotif: "impact" },
+      "メタル": { lineCharacter: "刃物のような重い稜線", nameMotif: "blade" },
+      "ジャズ": { lineCharacter: "即興の揺れるスイング線", nameMotif: "swing" },
+      "ファンク": { lineCharacter: "跳ねる短いグルーヴ線", nameMotif: "groove" },
+      "ソウルミュージック": { lineCharacter: "声の丸みを持つ柔らかい線", nameMotif: "voice" },
+      "ディスコ": { lineCharacter: "ミラーボール状の反射線", nameMotif: "mirror" },
+      "シティ・ポップ": { lineCharacter: "夜景の窓とネオンの線", nameMotif: "city" },
+      "J-POP": { lineCharacter: "アニメのように跳ねる輪郭線", nameMotif: "anime-pop" },
+      "アニメソング": { lineCharacter: "変身シーンの放射線", nameMotif: "anime-burst" },
+      "クラシック音楽": { lineCharacter: "古典的で静謐な線", nameMotif: "classical" },
+      "オペラ": { lineCharacter: "劇場幕と声量のアーチ線", nameMotif: "theatre" },
+      "フォーク": { lineCharacter: "手描きの素朴な弦線", nameMotif: "handmade" },
+      "ワールドミュージック": { lineCharacter: "民俗文様の円環線", nameMotif: "folk-ring" }
+    };
+    Object.keys(genreNameImageryProfiles).forEach(name => {
+      if (genrePatternProfiles[name]) Object.assign(genrePatternProfiles[name], genreNameImageryProfiles[name]);
+    });
     function fallbackSoundFormMode(fingerprint, audio = {}, seed = 1) {
       const rand = seeded(seed || 1);
       const rms = clamp01(audio.energy ?? audio.rms);
@@ -2979,7 +3014,9 @@
         rotationBias: Number(genrePattern.rotationBias || 0),
         densityBias: clampRange((genrePattern.densityBias ?? 1) + densityLift, .38, 1.48),
         strokeBias: clampRange((genrePattern.strokeBias ?? 1) + bass * .08 + onset * .06, .52, 1.52),
-        textureRegion: normaliseTextureRegion(genrePattern.textureRegion || "full")
+        textureRegion: normaliseTextureRegion(genrePattern.textureRegion || "full"),
+        lineCharacter: genrePattern.lineCharacter || "ジャンル名から来る線",
+        nameMotif: genrePattern.nameMotif || "generic"
       };
     }
     function clampRange(value, min, max) {
@@ -3591,6 +3628,100 @@
         if (cut === "fracture") return `<path d="M560 112 L628 1120 L688 1120 L620 112 Z" fill="#000"/><path d="M124 660 L1082 452 L1098 524 L140 734 Z" fill="#000"/>`;
         return "";
       };
+      const makeNameImageryGroups = () => {
+        if (!genrePattern) return [];
+        const motif = genreVisual.nameMotif;
+        const lines = [];
+        const soft = genreVisual.strokeBias;
+        const motifPath = (d, width = .9, attrs = "") => svgPath(d, svgNumber(width), `data-feature="name-imagery" data-motif="${escapeAttr(motif)}" ${attrs}`);
+        const circleLine = (cx, cy, r, width = .9, attrs = "") => `<circle cx="${svgNumber(cx)}" cy="${svgNumber(cy)}" r="${svgNumber(r)}" fill="none" stroke="#111" stroke-width="${svgNumber(width)}" vector-effect="non-scaling-stroke" data-feature="name-imagery" data-motif="${escapeAttr(motif)}" ${attrs}/>`;
+        const star = (cx, cy, r, width = .8) => {
+          const points = [];
+          for (let i = 0; i < 10; i++) {
+            const a = -Math.PI / 2 + i * Math.PI / 5;
+            const rr = i % 2 ? r * .42 : r;
+            points.push(`${svgNumber(cx + Math.cos(a) * rr)} ${svgNumber(cy + Math.sin(a) * rr)}`);
+          }
+          return motifPath(`M${points.join(" L")} Z`, width);
+        };
+        if (motif === "classical") {
+          for (let i = 0; i < 5; i++) lines.push(motifPath(`M230 ${410 + i * 26} C420 ${382 + i * 12} 760 ${382 + i * 12} 970 ${410 + i * 26}`, .48 + i * .04));
+          lines.push(motifPath(`M314 748 C438 650 506 650 600 740 C704 842 822 824 914 714`, .9));
+          lines.push(circleLine(600, 600, 218, .42));
+        } else if (motif === "anime-pop" || motif === "anime-burst") {
+          const burstCount = motif === "anime-burst" ? 20 : 12;
+          for (let i = 0; i < burstCount; i++) {
+            const a = -Math.PI / 2 + i / burstCount * Math.PI * 2;
+            const inner = motif === "anime-burst" ? 130 : 210;
+            const outer = motif === "anime-burst" ? 480 : 390;
+            lines.push(motifPath(`M${svgNumber(600 + Math.cos(a) * inner)} ${svgNumber(600 + Math.sin(a) * inner)} L${svgNumber(600 + Math.cos(a) * outer)} ${svgNumber(600 + Math.sin(a) * outer)}`, i % 3 ? .62 : 1.25));
+          }
+          lines.push(star(760, 360, 34, 1.1));
+          lines.push(star(408, 782, 24, .9));
+          if (motif === "anime-pop") lines.push(motifPath(`M306 690 C430 520 590 520 710 646 C794 734 884 704 934 616`, 1.2));
+        } else if (motif === "pixel") {
+          for (let y = 360; y <= 780; y += 84) lines.push(motifPath(`M310 ${y} H894`, .62));
+          for (let x = 320; x <= 900; x += 92) lines.push(motifPath(`M${x} 318 V830`, .52));
+          [360, 452, 636, 820].forEach((x, i) => lines.push(`<rect x="${x}" y="${390 + i * 78}" width="42" height="42" fill="none" stroke="#111" stroke-width=".9" data-feature="name-imagery" data-motif="${escapeAttr(motif)}"/>`));
+        } else if (motif === "circuit") {
+          for (let i = 0; i < 7; i++) {
+            const y = 350 + i * 70;
+            lines.push(motifPath(`M260 ${y} H448 V${y + 36} H612 V${y - 18} H926`, .8));
+            lines.push(circleLine(448, y + 36, 6, .75));
+            lines.push(circleLine(612, y - 18, 5, .75));
+          }
+        } else if (motif === "machine-ring" || motif === "mirror" || motif === "folk-ring") {
+          for (let i = 0; i < 4; i++) lines.push(circleLine(600, 600, 170 + i * 66, i === 0 ? 1.3 : .58));
+          const count = motif === "mirror" ? 28 : 18;
+          for (let i = 0; i < count; i++) {
+            const a = i / count * Math.PI * 2;
+            lines.push(motifPath(`M${svgNumber(600 + Math.cos(a) * 248)} ${svgNumber(600 + Math.sin(a) * 248)} L${svgNumber(600 + Math.cos(a) * 392)} ${svgNumber(600 + Math.sin(a) * 392)}`, i % 4 ? .46 : 1));
+          }
+        } else if (motif === "floor" || motif === "deep-floor" || motif === "offbeat") {
+          for (let i = 0; i < 8; i++) {
+            const y = 330 + i * 62;
+            const xShift = motif === "offbeat" && i % 2 ? 56 : 0;
+            const amp = motif === "deep-floor" ? 42 : 18;
+            lines.push(motifPath(`M${220 + xShift} ${y} C390 ${y + amp} 720 ${y - amp} ${990 - xShift} ${y + (i % 2 ? 20 : -8)}`, i % 2 ? 1.05 : .58));
+          }
+        } else if (motif === "guitar" || motif === "tag" || motif === "handmade") {
+          lines.push(motifPath(`M260 710 C392 486 526 824 670 574 C748 438 858 498 970 372`, motif === "tag" ? 3.2 : 1.3));
+          lines.push(motifPath(`M308 802 C470 650 612 838 856 590`, motif === "tag" ? 2.2 : .9));
+          if (motif === "handmade") for (let i = 0; i < 6; i++) lines.push(motifPath(`M320 ${380 + i * 58} C440 ${350 + i * 66} 520 ${420 + i * 48} 640 ${390 + i * 58}`, .52));
+        } else if (["static", "fast-cuts", "trap-hats", "pin", "impact", "blade"].includes(motif)) {
+          const count = motif === "static" ? 28 : 14;
+          for (let i = 0; i < count; i++) {
+            const a = -0.95 + (i / Math.max(1, count - 1)) * 1.9;
+            const cx = 600 + Math.sin(i * 1.7) * 170;
+            const cy = 600 + Math.cos(i * 1.1) * 150;
+            const len = motif === "blade" ? 250 : 95 + (i % 5) * 24;
+            lines.push(motifPath(`M${svgNumber(cx - Math.cos(a) * len)} ${svgNumber(cy - Math.sin(a) * len)} L${svgNumber(cx + Math.cos(a) * len)} ${svgNumber(cy + Math.sin(a) * len)}`, motif === "blade" ? 1.8 : .62 + (i % 4 === 0 ? soft * .7 : 0)));
+          }
+          if (motif === "pin") lines.push(motifPath(`M402 280 C316 428 386 570 548 530 L820 462 C956 426 966 612 836 642 L512 722`, 1.15));
+        } else if (motif === "swing" || motif === "voice" || motif === "theatre" || motif === "uplift") {
+          for (let i = 0; i < 5; i++) {
+            const y = 420 + i * 78;
+            lines.push(motifPath(`M260 ${y} C410 ${y - 150 + i * 18} 570 ${y + 150 - i * 28} 710 ${y} S900 ${y - 80} 990 ${y + 24}`, .7 + i * .12));
+          }
+          if (motif === "theatre") lines.push(motifPath(`M250 306 C420 210 790 210 960 306 M284 858 C448 990 770 990 936 858`, 1.3));
+        } else if (motif === "city") {
+          for (let i = 0; i < 12; i++) {
+            const x = 280 + i * 54;
+            const h = 110 + (i % 4) * 48;
+            lines.push(motifPath(`M${x} 780 V${780 - h} H${x + 34} V780`, .7));
+            if (i % 2) lines.push(circleLine(x + 18, 780 - h - 28, 7, .55));
+          }
+          lines.push(motifPath(`M230 846 C430 790 770 922 1000 840`, .9));
+        } else if (motif === "echo" || motif === "mist" || motif === "sustain") {
+          const count = motif === "mist" ? 7 : 5;
+          for (let i = 0; i < count; i++) lines.push(circleLine(600 + i * 14 - 42, 610, 130 + i * 52, .42 + i * .08));
+          if (motif === "sustain") lines.push(motifPath(`M210 620 C430 590 760 590 1000 620`, 1.2));
+        } else if (motif === "groove" || motif === "wobble") {
+          for (let i = 0; i < 9; i++) lines.push(motifPath(`M260 ${360 + i * 52} C430 ${330 + i * 74} 520 ${430 + i * 34} 680 ${360 + i * 52} S880 ${330 + i * 74} 980 ${378 + i * 48}`, motif === "wobble" ? 1.6 : .92));
+        }
+        if (!lines.length) return [];
+        return [svgGroupWithAttrs("name_imagery_lines", lines, `data-line-character="${escapeAttr(genreVisual.lineCharacter)}" data-name-motif="${escapeAttr(motif)}" data-editable-visual="true"`)];
+      };
       const genreClipId = `genre_silhouette_${Math.abs(seed) % 100000}`;
       const genreMaskId = `genre_mask_${Math.abs(seed) % 100000}`;
       const maskCutouts = genreMaskElements();
@@ -3610,15 +3741,18 @@
             `<g id="genre_variant_family" data-family="${variantFamily}" opacity="${svgNumber(genreVisual.variantOpacity)}" transform="${genreFamilyTransform("variant")}" ${clipAndMaskAttrs}>`,
             ...variantGroups,
             `</g>`
-          ] : [])
+          ] : []),
+          `<g id="genre_name_imagery" data-line-character="${escapeAttr(genreVisual.lineCharacter)}" data-name-motif="${escapeAttr(genreVisual.nameMotif)}" opacity=".88" ${clipAndMaskAttrs}>`,
+          ...makeNameImageryGroups(),
+          `</g>`
         ]
         : (surfaceGroupsByMode[formMode] || surfaceGroupsByMode["cloth-field"]);
       const groups = [
-        `<g id="sound_form_surface" data-layer="sound_form_surface" data-form-mode="${formMode}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-negative-space="${genreVisual.negativeSpace}" transform="rotate(${svgNumber(clothTilt)} 600 600)">`,
+        `<g id="sound_form_surface" data-layer="sound_form_surface" data-form-mode="${formMode}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-negative-space="${genreVisual.negativeSpace}" data-line-character="${escapeAttr(genreVisual.lineCharacter)}" data-name-motif="${escapeAttr(genreVisual.nameMotif)}" transform="rotate(${svgNumber(clothTilt)} 600 600)">`,
         ...surfaceGroups,
         `</g>`
       ];
-      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="${escapeAttr(mood.label)} reversible sound form" data-engine="reversible-sound-form-v4" data-form-mode="${formMode}" data-genre-pattern="${escapeAttr(genrePattern?.label || audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "")}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-negative-space="${genreVisual.negativeSpace}" data-texture-mode="${textureMode}" data-texture-region="${genreVisual.textureRegion}" data-inferred-genre="${escapeAttr(audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "")}" data-audio-fingerprint="${fingerprint.hash}" data-morphology-pass="${morph.pass}" data-refinement-passes="100" data-structural-debate-passes="30" data-genre-pattern-count="${Object.keys(genrePatternProfiles).length}" data-variant-seed="${seed}" data-iteration="${settings?.iteration || ""}">${metadata.join("")}${groups.join("")}</svg>`;
+      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="${escapeAttr(mood.label)} reversible sound form" data-engine="reversible-sound-form-v4" data-form-mode="${formMode}" data-genre-pattern="${escapeAttr(genrePattern?.label || audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "")}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-negative-space="${genreVisual.negativeSpace}" data-line-character="${escapeAttr(genreVisual.lineCharacter)}" data-name-motif="${escapeAttr(genreVisual.nameMotif)}" data-texture-mode="${textureMode}" data-texture-region="${genreVisual.textureRegion}" data-inferred-genre="${escapeAttr(audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "")}" data-audio-fingerprint="${fingerprint.hash}" data-morphology-pass="${morph.pass}" data-refinement-passes="100" data-structural-debate-passes="30" data-genre-pattern-count="${Object.keys(genrePatternProfiles).length}" data-variant-seed="${seed}" data-iteration="${settings?.iteration || ""}">${metadata.join("")}${groups.join("")}</svg>`;
     }
     function generateReversibleAudioPatternSvg(mood, tick = Date.now(), settings = null) {
       if (mood?.audio) return generateSoundClothReversibleSvg(mood, tick, settings);

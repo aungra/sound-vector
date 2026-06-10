@@ -78,6 +78,9 @@ test("genre pattern profiles cover all calibrated genre names", () => {
     assert.equal(typeof profile.primaryScale, "number", `${name} primaryScale`);
     assert.equal(typeof profile.variantScale, "number", `${name} variantScale`);
     assert.equal(typeof profile.variantOpacity, "number", `${name} variantOpacity`);
+    assert.equal(typeof profile.lineCharacter, "string", `${name} lineCharacter`);
+    assert.ok(profile.lineCharacter.length >= 4, `${name} lineCharacter text`);
+    assert.match(profile.nameMotif, /^[a-z0-9-]+$/, `${name} nameMotif`);
     assert.ok(Array.isArray(profile.variantFamilies) && profile.variantFamilies.length >= 3, `${name} variantFamilies`);
     profile.variantFamilies.forEach(family => assert.ok(knownFamilies.has(family), `${name} variant ${family}`));
 
@@ -87,5 +90,7 @@ test("genre pattern profiles cover all calibrated genre names", () => {
     const visual = resolveGenreVisualProfile(resolved, { genreAnalysis: { top: [{ name, score: 99 }] } }, 12345);
     assert.ok(knownSilhouettes.has(visual.silhouette), `${name} resolved silhouette`);
     assert.ok(knownTextureRegions.has(visual.textureRegion), `${name} resolved textureRegion`);
+    assert.equal(visual.lineCharacter, profile.lineCharacter);
+    assert.equal(visual.nameMotif, profile.nameMotif);
   }
 });

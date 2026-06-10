@@ -155,7 +155,7 @@ function svgInner(svg) {
 const api = loadDemoApi();
 const genres = Object.keys(api.genrePatternProfiles);
 const cardW = 360;
-const cardH = 448;
+const cardH = 476;
 const artSize = 296;
 const gap = 26;
 const margin = 54;
@@ -175,6 +175,8 @@ const cards = genres.map((genre, index) => {
   const formMode = root.match(/data-form-mode="([^"]+)"/)?.[1] || "";
   const baseFamily = root.match(/data-base-family="([^"]+)"/)?.[1] || "";
   const variantFamily = root.match(/data-variant-family="([^"]+)"/)?.[1] || "";
+  const lineCharacter = root.match(/data-line-character="([^"]+)"/)?.[1] || "";
+  const nameMotif = root.match(/data-name-motif="([^"]+)"/)?.[1] || "";
   const x = margin + (index % columns) * (cardW + gap);
   const y = margin + 130 + Math.floor(index / columns) * (cardH + gap);
   const artX = x + (cardW - artSize) / 2;
@@ -185,6 +187,7 @@ const cards = genres.map((genre, index) => {
     <text x="28" y="${artY - y + artSize + 42}" class="genre">${escapeXml(index + 1).padStart(2, "0")} ${escapeXml(genre)}</text>
     <text x="28" y="${artY - y + artSize + 70}" class="meta">${escapeXml(formMode)}</text>
     <text x="28" y="${artY - y + artSize + 96}" class="meta">${escapeXml(baseFamily)} + ${escapeXml(variantFamily)}</text>
+    <text x="28" y="${artY - y + artSize + 120}" class="meta">${escapeXml(nameMotif)} / ${escapeXml(lineCharacter)}</text>
   </g>`;
 }).join("\n");
 
