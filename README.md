@@ -1,70 +1,131 @@
-# MUSIC MEMORY FITTING ROOM
+# Sound Vector
 
-「Tシャツを試着する前に、音楽の記憶を試着する」参加型Tシャツ展示アプリです。
+Sound Vector is an open-source prototype for turning audio into editable SVG artwork, then restoring a compact audio sketch back from the SVG geometry.
 
-## Routes
+The project explores a reversible design format for music, print, archives, and creative tools: visible SVG layers can be edited for T-shirt graphics, while a protected `pcm_reversible_data` geometry layer keeps enough PCM information to reconstruct sound without storing the source audio file as a separate asset.
 
-- `/` - 受付QRから入る来場者スマホ画面
-- `/works/[id]` - 作品詳細、プレイリスト、共鳴送信
-- `/screen` - 会場スクリーン
-- `/admin` - 出展者、Tシャツ、プレイリスト、タグ、ZINE用書き出し
+## Why This Exists
 
-## No Terminal
+Audio tools usually export either sound or visuals. This project treats SVG as a shared medium for both:
 
-Finderから開く場合は、次のどちらかをダブルクリックしてください。
+- analyze an audio file or permitted YouTube source;
+- map RMS, bass, spectral centroid, chroma, onset, tempo, waveform, and time structure into SVG layers;
+- let designers edit the visible black-and-white artwork in Illustrator;
+- preserve reversible PCM data in a locked or hidden SVG layer;
+- import the SVG later and reconstruct an audio sketch from its geometry.
 
-- `Open MUSIC MEMORY FITTING ROOM.app`
-- `MUSIC MEMORY FITTING ROOM.html`
+The long-term goal is a small, documented, inspectable format for reversible audio graphics that artists, archivists, educators, and creative-coding projects can build on.
 
-この単体HTML版はブラウザだけで動きます。来場者回答、作品推薦、共鳴、スクリーン表示、管理JSON編集、ZINE用JSON書き出しは `localStorage` に保存されます。
+## Current Prototype
 
-## iPhone Offline Check
+- Single-file browser demo: [apps/demo/MUSIC MEMORY FITTING ROOM.html](apps/demo/MUSIC%20MEMORY%20FITTING%20ROOM.html)
+- Next.js app routes for exhibition workflows: `/`, `/works/[id]`, `/screen`, `/admin`
+- Local audio-file analysis in the browser
+- Optional local YouTube analysis server for rights-cleared sources
+- Reversible SVG export with `metadata`, visible PCM carrier layers, and protected PCM geometry
+- Reversible SVG import that reads `pcm_reversible_data` first
+- Illustrator-oriented layer templates in [docs/design-format](docs/design-format)
+- Preview generators for comparing different audio-to-form engines
 
-Wi-Fiを使わずにiPhone実機で確認する場合は、`MUSIC MEMORY FITTING ROOM.html` だけをiPhoneへ送って開いてください。
-
-現在のTシャツダミーデザインはHTML内にも埋め込んでいるため、`images` フォルダがなくても表示されます。
-
-注意点:
-
-- Typekitフォントはオフラインでは読み込まれません。表示確認はできますが、完全なフォント確認は通信ありで行ってください。
-- iPhoneだけで開いた場合、保存データはそのiPhoneのブラウザ内に保存されます。
-- Mac側の保存データとは共有されません。
-
-## T-shirt Images
-
-Tシャツデザイン画像は `images` フォルダに入れてください。
-現在のダミーデザインは、シルクスクリーンで再現しやすいようにベタ面と太線だけで作ったSVGです。
+## Monorepo Structure
 
 ```text
-MUSICTee/
-  MUSIC MEMORY FITTING ROOM.html
-  images/
-    t-01.svg
-    t-02.svg
-    t-03.svg
+sound-vector/
+  packages/
+    audio-analysis/      Audio judgement and feature extraction contracts
+    reversible-svg/      Reversible SVG schema and codec contracts
+    sound-vector-cli/    Planned audio-to-svg, svg-to-audio, and inspect CLI
+  apps/
+    demo/                Exhibition app and standalone browser prototype
+  docs/
+    design-format/       Illustrator layer templates and format guide
+    ROADMAP.md
 ```
 
-Admin画面のTシャツJSONでは、各作品に次のように指定します。
+## Reversible SVG Format
 
-```json
-"image": "images/t-01.svg"
-```
+Generated reversible SVGs avoid putting the PCM body into one large metadata string.
 
-画像が見つからない場合は、作品タイトル入りの仮ビジュアルが表示されます。
+- `metadata#mmfr-reversible` stores source notes, generator settings, and lightweight audio features.
+- `pcm_reversible_waveform` is the visible carrier layer. Designers may redraw or distort it.
+- `pcm_reversible_data` is the protected restoration layer. Keep it locked, hidden, and unedited.
+- Import reads the protected geometry layer first, then falls back to visible carrier geometry where needed.
 
-## Development
+See [docs/design-format/README.md](docs/design-format/README.md) for the Illustrator layer rules.
+
+## Quick Start
+
+Install dependencies and run the Next.js prototype:
 
 ```bash
 npm install
 npm run dev
 ```
 
-The app is currently backed by local demo data and `localStorage`.
-For a Supabase version, replace the read/write functions in `lib/store.ts` with Supabase queries while keeping the same exported function names.
+Run the optional audio analysis server:
 
-## Data
+```bash
+npm run audio-server
+```
 
-- Creators and T-shirts are seeded in `lib/seed.ts`.
-- Each seeded T-shirt includes 10 tracks.
-- Visitor sessions and resonances are anonymous.
-- `/admin` can export the archive as JSON and resonance logs as CSV for ZINE production.
+The standalone HTML demo also works directly in a browser:
+
+```text
+apps/demo/MUSIC MEMORY FITTING ROOM.html
+```
+
+## Finder Workflow
+
+For a no-terminal local exhibition setup:
+
+- double-click `apps/demo/Open MUSIC MEMORY FITTING ROOM.app`, or
+- open `apps/demo/MUSIC MEMORY FITTING ROOM.html` directly.
+
+For YouTube analysis of permitted sources:
+
+- double-click `apps/demo/Install Audio Tools.command` once;
+- double-click `apps/demo/Start Audio Analysis Server.command` each time;
+- keep the terminal window open;
+- use `http://127.0.0.1:4194/api/audio-analyze` from the HTML app.
+
+Use YouTube fetching only for sources where you have rights and where the platform terms allow it.
+
+## Repository Map
+
+- [apps/demo/MUSIC MEMORY FITTING ROOM.html](apps/demo/MUSIC%20MEMORY%20FITTING%20ROOM.html): standalone reversible SVG demo
+- [apps/demo/app](apps/demo/app): Next.js exhibition app
+- [apps/demo/scripts/audio-analysis-server.mjs](apps/demo/scripts/audio-analysis-server.mjs): local analysis endpoint
+- [apps/demo/scripts/generate-audio-pattern-preview.mjs](apps/demo/scripts/generate-audio-pattern-preview.mjs): SVG preview generator
+- [packages/audio-analysis](packages/audio-analysis): audio judgement package boundary
+- [packages/reversible-svg](packages/reversible-svg): reversible SVG package boundary
+- [packages/sound-vector-cli](packages/sound-vector-cli): planned CLI package
+- [docs/design-format](docs/design-format): Illustrator layer templates and format guide
+- [apps/demo/images](apps/demo/images): generated SVG previews and reports
+- [docs](docs): application notes and roadmap
+
+## Development
+
+```bash
+npm run typecheck
+npm run build
+```
+
+The app currently uses local demo data and `localStorage`. A server-backed version can replace the read/write functions in [apps/demo/lib/store.ts](apps/demo/lib/store.ts) while keeping the same exported function names.
+
+## Open Source Goals
+
+This repository is being prepared as an open-source project for reversible audio SVG tooling. Near-term work is tracked in [docs/ROADMAP.md](docs/ROADMAP.md):
+
+- extract the reversible SVG codec from the single-file demo into a tested library;
+- publish small fixture SVGs and expected decoded audio-sketch metrics;
+- define a stable `sound-vector-svg` schema;
+- add CLI commands for `audio -> svg`, `svg -> audio`, and `svg inspect`;
+- document compatibility with Illustrator and browser SVG parsers.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). Issues that include a small audio fixture, exported SVG, or reproduction steps are especially helpful.
+
+## License
+
+MIT. See [LICENSE](LICENSE).

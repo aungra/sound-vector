@@ -1,0 +1,74 @@
+[
+  {
+    "mode": "pressure-map",
+    "label": "bass-heavy",
+    "salt": 3,
+    "tick": 1718000031049
+  },
+  {
+    "mode": "topographic-pressure",
+    "label": "bass-heavy",
+    "salt": 2,
+    "tick": 1718000021076
+  },
+  {
+    "mode": "memory-orbit",
+    "label": "chroma-wide",
+    "salt": 3,
+    "tick": 1718000031162
+  },
+  {
+    "mode": "spiral-core",
+    "label": "dense-mid",
+    "salt": 1,
+    "tick": 1718000010990
+  },
+  {
+    "mode": "wave-strata",
+    "label": "bright-fast",
+    "salt": 0,
+    "tick": 1718000001243
+  },
+  {
+    "mode": "spectral-barcode",
+    "label": "chroma-wide",
+    "salt": 0,
+    "tick": 1718000001243
+  },
+  {
+    "mode": "impact-fracture",
+    "label": "onset-cut",
+    "salt": 0,
+    "tick": 1718000001017
+  },
+  {
+    "mode": "radial-score",
+    "label": "onset-cut",
+    "salt": 3,
+    "tick": 1718000030936
+  },
+  {
+    "mode": "constellation-map",
+    "label": "bass-heavy",
+    "salt": 0,
+    "tick": 1718000001130
+  },
+  {
+    "mode": "signal-flag",
+    "label": "bright-fast",
+    "salt": 7,
+    "tick": 1718000071054
+  },
+  {
+    "mode": "carrier-storm",
+    "label": "bass-heavy",
+    "salt": 1,
+    "tick": 1718000011103
+  },
+  {
+    "mode": "cloth-field",
+    "label": "bass-heavy",
+    "salt": 18,
+    "tick": 1718000180644
+  }
+]

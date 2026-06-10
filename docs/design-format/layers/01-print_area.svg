@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Print area and fixed shirt frame</title>
+  <desc id="desc">Single-layer SVG extracted from SOUND VECTOR design format. Place this file on its own Illustrator layer.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10.4" refY="6" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L12 6 L0 12 Z" fill="#111"/>
+    </marker>
+  </defs>
+  <g id="print_area" data-layer="print_area">
+    <rect x="340" y="244" width="520" height="710" fill="none" stroke="#111" stroke-width="3"/>
+    <path d="M468 244 C496 310 704 310 732 244" fill="none" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+    <path d="M360 928 L840 928" fill="none" stroke="#111" stroke-width="1" stroke-dasharray="10 14"/>
+    <path d="M600 244 L600 954" fill="none" stroke="#111" stroke-width="1" stroke-dasharray="10 14"/>
+  </g>
+</svg>

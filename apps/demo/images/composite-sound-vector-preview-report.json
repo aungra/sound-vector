@@ -1,0 +1,98 @@
+{
+  "selectedIteration": 4,
+  "scores": {
+    "audio": 100,
+    "reversibility": 97,
+    "density": 92,
+    "shirt": 92,
+    "illustrator": 89,
+    "total": 95
+  },
+  "selectedReason": "10案の中で総合95点。音の骨格とTシャツとしての見え方が両立している。 Illustratorで触るには細部が散りすぎている。編集単位を大きくする。",
+  "remainingFixes": [
+    "次はレイヤーごとの線幅差を整理する。",
+    "次はレイヤーごとの線幅差を整理する。"
+  ],
+  "iterationLog": [
+    {
+      "iteration": 1,
+      "score": 94,
+      "weakness": "shirt",
+      "review": "音の骨格とTシャツとしての見え方が両立している。 Tシャツ図案としての遠目の強さが弱い。中心の塊と外周の抜けを整理する。",
+      "fix": "次は余白を広げ、rベクトルとZ軸を主役にする。",
+      "settingsSummary": "axis 76 / carrier 64 / line 67 / onset 85"
+    },
+    {
+      "iteration": 2,
+      "score": 94,
+      "weakness": "illustrator",
+      "review": "音の骨格とTシャツとしての見え方が両立している。 Illustratorで触るには細部が散りすぎている。編集単位を大きくする。",
+      "fix": "次はレイヤーごとの線幅差を整理する。",
+      "settingsSummary": "axis 84 / carrier 72 / line 84 / onset 50"
+    },
+    {
+      "iteration": 3,
+      "score": 93,
+      "weakness": "shirt",
+      "review": "音の骨格とTシャツとしての見え方が両立している。 Tシャツ図案としての遠目の強さが弱い。中心の塊と外周の抜けを整理する。",
+      "fix": "次は余白を広げ、rベクトルとZ軸を主役にする。",
+      "settingsSummary": "axis 66 / carrier 75 / line 53 / onset 83"
+    },
+    {
+      "iteration": 4,
+      "score": 95,
+      "weakness": "illustrator",
+      "review": "音の骨格とTシャツとしての見え方が両立している。 Illustratorで触るには細部が散りすぎている。編集単位を大きくする。",
+      "fix": "次はレイヤーごとの線幅差を整理する。",
+      "settingsSummary": "axis 73 / carrier 62 / line 57 / onset 52"
+    },
+    {
+      "iteration": 5,
+      "score": 90,
+      "weakness": "illustrator",
+      "review": "音の骨格とTシャツとしての見え方が両立している。 Illustratorで触るには細部が散りすぎている。編集単位を大きくする。",
+      "fix": "次はレイヤーごとの線幅差を整理する。",
+      "settingsSummary": "axis 61 / carrier 56 / line 100 / onset 81"
+    },
+    {
+      "iteration": 6,
+      "score": 91,
+      "weakness": "illustrator",
+      "review": "音の骨格とTシャツとしての見え方が両立している。 Illustratorで触るには細部が散りすぎている。編集単位を大きくする。",
+      "fix": "次はレイヤーごとの線幅差を整理する。",
+      "settingsSummary": "axis 86 / carrier 42 / line 100 / onset 65"
+    },
+    {
+      "iteration": 7,
+      "score": 93,
+      "weakness": "illustrator",
+      "review": "音の骨格とTシャツとしての見え方が両立している。 Illustratorで触るには細部が散りすぎている。編集単位を大きくする。",
+      "fix": "次はレイヤーごとの線幅差を整理する。",
+      "settingsSummary": "axis 55 / carrier 82 / line 89 / onset 79"
+    },
+    {
+      "iteration": 8,
+      "score": 92,
+      "weakness": "shirt",
+      "review": "音の骨格とTシャツとしての見え方が両立している。 Tシャツ図案としての遠目の強さが弱い。中心の塊と外周の抜けを整理する。",
+      "fix": "次は余白を広げ、rベクトルとZ軸を主役にする。",
+      "settingsSummary": "axis 81 / carrier 68 / line 88 / onset 63"
+    },
+    {
+      "iteration": 9,
+      "score": 94,
+      "weakness": "density",
+      "review": "音の骨格とTシャツとしての見え方が両立している。 線の密度が均一に見える。余白と密集部の差を作る。",
+      "fix": "次は細線を減らし、X/Y/Zの主線を読みやすくする。",
+      "settingsSummary": "axis 100 / carrier 84 / line 45 / onset 71"
+    },
+    {
+      "iteration": 10,
+      "score": 92,
+      "weakness": "illustrator",
+      "review": "音の骨格とTシャツとしての見え方が両立している。 Illustratorで触るには細部が散りすぎている。編集単位を大きくする。",
+      "fix": "次はレイヤーごとの線幅差を整理する。",
+      "settingsSummary": "axis 72 / carrier 67 / line 100 / onset 52"
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-labelledby="title desc">
+  <title id="title">SOUND VECTOR design format guide</title>
+  <desc id="desc">Guide for editing the SOUND VECTOR fixed design format in Illustrator.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10.4" refY="6" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L12 6 L0 12 Z" fill="#111"/>
+    </marker>
+  </defs>
+
+  <g id="print_area" data-layer="print_area">
+    <rect x="340" y="244" width="520" height="710" fill="none" stroke="#111" stroke-width="3"/>
+    <path d="M468 244 C496 310 704 310 732 244" fill="none" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <g id="axis_structure" data-layer="axis_structure" display="none" aria-hidden="true">
+    <circle cx="600" cy="800" r="8" fill="#111"/>
+    <path d="M600 800 L842 916" fill="none" stroke="#111" stroke-width="3" marker-end="url(#arrow)" data-axis="x-rms"/>
+    <path d="M600 800 L352 912" fill="none" stroke="#111" stroke-width="3" marker-end="url(#arrow)" data-axis="y-rhythm"/>
+    <path d="M600 800 L600 318" fill="none" stroke="#111" stroke-width="4.5" marker-end="url(#arrow)" data-axis="z-bass"/>
+    <path d="M600 800 L308 682" fill="none" stroke="#111" stroke-width="2.8" marker-end="url(#arrow)" data-axis="time"/>
+    <path d="M600 800 L742 536" fill="none" stroke="#111" stroke-width="5" marker-end="url(#arrow)" data-axis="r-composite"/>
+    <path d="M456 612 L742 536" fill="none" stroke="#111" stroke-width="2.5" marker-end="url(#arrow)" data-axis="theta-centroid"/>
+    <path d="M514 852 L814 758" fill="none" stroke="#111" stroke-width="2.5" marker-end="url(#arrow)" data-axis="phi-tempo"/>
+    <path d="M468 426 L810 426" fill="none" stroke="#111" stroke-width="2.5" marker-end="url(#arrow)" data-axis="chroma-ray"/>
+  </g>
+
+  <g id="pcm_carriers" data-layer="pcm_carriers" data-encoding="editable-visual-carriers-v1" data-restoration-source="pcm_reversible_data">
+    <path d="M590 790 L632 808 L674 822 L716 840 L758 858 L800 876 L842 894" fill="none" stroke="#111" stroke-width="0.9" data-pcm-axis="x-rms"/>
+    <path d="M610 812 L568 828 L526 846 L484 862 L442 880 L400 896 L358 914" fill="none" stroke="#111" stroke-width="0.9" data-pcm-axis="y-rhythm"/>
+    <path d="M590 800 L596 720 L590 640 L596 560 L590 480 L596 400 L590 320" fill="none" stroke="#111" stroke-width="0.9" data-pcm-axis="z-bass"/>
+    <path d="M608 784 L560 762 L512 744 L464 722 L416 704 L368 682 L320 664" fill="none" stroke="#111" stroke-width="0.9" data-pcm-axis="time"/>
+    <path d="M586 792 L610 752 L634 714 L658 674 L682 636 L706 596 L730 558" fill="none" stroke="#111" stroke-width="0.9" data-pcm-axis="r-composite"/>
+    <path d="M456 606 L504 596 L552 586 L600 574 L648 564 L696 552 L742 542" fill="none" stroke="#111" stroke-width="0.9" data-pcm-axis="theta-centroid"/>
+    <path d="M514 842 L564 826 L614 812 L664 796 L714 782 L764 766 L814 752" fill="none" stroke="#111" stroke-width="0.9" data-pcm-axis="phi-tempo"/>
+    <path d="M468 416 L516 422 L564 416 L612 422 L660 416 L708 422 L756 416 L810 422" fill="none" stroke="#111" stroke-width="0.9" data-pcm-axis="chroma-ray"/>
+  </g>
+
+  <g id="waveform_guides" data-layer="waveform_guides">
+    <path d="M382 390 L430 380 L478 394 L526 376 L574 392 L622 382 L670 396 L718 378 L766 390 L818 384" fill="none" stroke="#111" stroke-width="1.1"/>
+    <path d="M382 438 L430 450 L478 434 L526 456 L574 440 L622 452 L670 436 L718 458 L766 442 L818 454" fill="none" stroke="#111" stroke-width="1.1"/>
+    <path d="M382 486 L430 472 L478 494 L526 474 L574 492 L622 478 L670 496 L718 476 L766 488 L818 482" fill="none" stroke="#111" stroke-width="1.1"/>
+  </g>
+
+  <g id="spectral_guides" data-layer="spectral_guides">
+    <path d="M390 930 L390 906 M430 930 L430 882 M470 930 L470 912 M510 930 L510 888 M550 930 L550 870 M590 930 L590 900 M630 930 L630 884 M670 930 L670 910 M710 930 L710 892 M750 930 L750 904 M790 930 L790 880" fill="none" stroke="#111" stroke-width="1.6"/>
+  </g>
+
+  <g id="chroma_guides" data-layer="chroma_guides">
+    <circle cx="742" cy="536" r="28" fill="none" stroke="#111" stroke-width="1.5"/>
+    <path d="M742 492 L742 360 M764 498 L826 390 M781 514 L910 458 M786 536 L938 536 M781 558 L910 614 M764 574 L826 682 M742 580 L742 710 M720 574 L658 682 M703 558 L574 614 M698 536 L546 536 M703 514 L574 458 M720 498 L658 390" fill="none" stroke="#111" stroke-width="1.4"/>
+  </g>
+
+  <g id="onset_tempo_guides" data-layer="onset_tempo_guides">
+    <circle cx="742" cy="536" r="118" fill="none" stroke="#111" stroke-width="1.3" stroke-dasharray="8 10"/>
+    <path d="M742 388 L742 354 M785 397 L794 364 M823 423 L844 394 M849 461 L878 440 M858 504 L892 498 M849 547 L882 555 M823 585 L850 608 M785 611 L800 642 M742 620 L742 654 M699 611 L684 642 M661 585 L634 608 M635 547 L602 555 M626 504 L592 498 M635 461 L606 440 M661 423 L640 394 M699 397 L690 364" fill="none" stroke="#111" stroke-width="2.2"/>
+  </g>
+
+  <g id="reference_point" data-layer="reference_point">
+    <circle cx="742" cy="536" r="18" fill="#111"/>
+    <path d="M704 536 C716 510 750 504 766 530 C754 560 718 562 704 536 Z" fill="none" stroke="#111" stroke-width="1.8"/>
+  </g>
+
+  <g id="pcm_reversible_data" data-layer="pcm_reversible_data" display="none" data-encoding="template-protected-placeholder-v1" data-restoration-role="protected-audio-data" data-edit-policy="lock-or-hide-do-not-edit">
+    <desc>Protected PCM layer placeholder. Real reversible SVGs use this hidden layer for restoration, while visible PCM carriers stay editable.</desc>
+    <path d="M64 64 L198 64 L332 64 L466 64 L600 64 L734 64 L868 64 L1002 64 L1136 64" fill="none" stroke="#111" stroke-width="0.2" data-pcm-row="0" data-placeholder="true"/>
+  </g>
+
+  <g id="notes_for_designer" data-layer="notes_for_designer">
+    <path d="M842 916 L946 946" fill="none" stroke="#111" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="960" y="954" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="18">X = RMS / loudness</text>
+    <path d="M352 912 L178 962" fill="none" stroke="#111" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="52" y="980" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="18">Y = rhythm density</text>
+    <path d="M600 318 L508 170" fill="none" stroke="#111" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="424" y="150" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="18">Z = bass weight</text>
+    <path d="M742 536 L934 318" fill="none" stroke="#111" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="938" y="312" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="18">reference point</text>
+    <path d="M610 812 L934 690" fill="none" stroke="#111" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="938" y="670" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="18">PCM carriers: free visual edit</text>
+    <text x="938" y="696" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="18">Audio restores from protected data</text>
+    <text x="56" y="72" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="30">SOUND VECTOR FORMAT GUIDE</text>
+    <text x="56" y="112" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="18">Use as Illustrator underlay. Keep endpoints and print area fixed.</text>
+    <text x="56" y="148" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="18">Keep pcm_reversible_data locked or hidden. Do not delete it from reversible SVGs.</text>
+  </g>
+</svg>

@@ -1,0 +1,12 @@
+{
+  "name": "@sound-vector/reversible-svg",
+  "version": "0.1.0",
+  "description": "Reversible SVG layer contracts for audio restoration.",
+  "type": "module",
+  "main": "./src/index.mjs",
+  "types": "./src/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test test/*.mjs"
+  }
+}

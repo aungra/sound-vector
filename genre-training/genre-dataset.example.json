@@ -1,0 +1,55 @@
+{
+  "description": "Genre calibration dataset for SOUND VECTOR FITTING ROOM. Copy this file to genre-dataset.json and replace youtubeUrl values with known representative tracks.",
+  "items": [
+    {
+      "genre": "テクノ",
+      "youtubeUrl": "",
+      "memo": "Representative techno track or mix. Fill manually."
+    },
+    {
+      "genre": "ハウス",
+      "youtubeUrl": "",
+      "memo": "Representative house track or mix. Fill manually."
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "youtubeUrl": "",
+      "memo": "Representative deep house track or mix. Fill manually."
+    },
+    {
+      "genre": "ドラムンベース",
+      "youtubeUrl": "",
+      "memo": "Representative drum and bass track or mix. Fill manually."
+    },
+    {
+      "genre": "ダブステップ",
+      "youtubeUrl": "",
+      "memo": "Representative dubstep track or mix. Fill manually."
+    },
+    {
+      "genre": "アンビエント",
+      "youtubeUrl": "",
+      "memo": "Representative ambient track."
+    },
+    {
+      "genre": "ヒップホップ",
+      "youtubeUrl": "",
+      "memo": "Representative hip hop track."
+    },
+    {
+      "genre": "レゲエ",
+      "youtubeUrl": "",
+      "memo": "Representative reggae track."
+    },
+    {
+      "genre": "ロック",
+      "youtubeUrl": "",
+      "memo": "Representative rock track."
+    },
+    {
+      "genre": "ジャズ",
+      "youtubeUrl": "",
+      "memo": "Representative jazz track."
+    }
+  ]
+}

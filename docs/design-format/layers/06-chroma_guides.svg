@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1200 1200">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #111;
+      }
+
+      .cls-2 {
+        fill: none;
+        stroke: #111;
+        stroke-width: 5px;
+      }
+    </style>
+  </defs>
+  <!-- Generator: Adobe Illustrator 28.7.8, SVG Export Plug-In . SVG Version: 1.2.0 Build 200)  -->
+  <g>
+    <g id="_レイヤー_1" data-name="レイヤー_1">
+      <g id="chroma_guides">
+        <path class="cls-2" d="M742,492v-132M764,498l62-108M781,514l129-56M786,536h152M781,558l129,56M764,574l62,108M742,580v130M720,574l-62,108M703,558l-129,56M698,536h-152M703,514l-129-56M720,498l-62-108"/>
+      </g>
+      <g id="chroma_guides-2" data-name="chroma_guides">
+        <path class="cls-1" d="M744.5,710h-5l2.5-130h0l2.5,130ZM823.8,683.2l-59.8-109.2h0l64.2,106.8-4.3,2.5ZM660.2,683.2l-4.3-2.5,64.2-106.8h0l-59.8,109.2ZM909,616.3l-128-58.3h0l130,53.7-2,4.6ZM575,616.3l-2-4.6,130-53.7h0l-128,58.3ZM938,538.5l-152-2.5h0l152-2.5v5ZM698,536l-152,2.5v-5l152,2.5h0ZM781,514h0l128-58.3,2,4.6-130,53.7ZM703,514l-130-53.7,2-4.6,128.2,58.3h-.2ZM764,498h0l59.8-109.2,4.3,2.5-64.2,106.8ZM720,498l-64.2-106.8,4.3-2.5,59.8,109.2h0ZM742,492h0l-2.5-132h5l-2.5,132Z"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,2373 @@
+{
+  "description": "Auto-collected representative YouTube URLs for genre calibration. Review before publication; collection uses YouTube search and should be treated as a calibration seed, not a canonical musicology dataset.",
+  "collectedAt": "2026-06-10T07:11:00.829Z",
+  "perGenre": 10,
+  "items": [
+    {
+      "genre": "アンビエント",
+      "youtubeUrl": "https://www.youtube.com/watch?v=RqHKX4BDJ1Q",
+      "memo": "Auto-collected from YouTube search: ambient electronic representative track",
+      "title": "Brian Eno: How To Make Original Ambient Music  - BBC Click",
+      "duration": 199,
+      "uploader": "BBC Click"
+    },
+    {
+      "genre": "アンビエント",
+      "youtubeUrl": "https://www.youtube.com/watch?v=dhgrrIrfViU",
+      "memo": "Auto-collected from YouTube search: ambient electronic representative track",
+      "title": "Creating Ambient Music With Field Recordings | Thomann",
+      "duration": 722,
+      "uploader": "Voltage Labs"
+    },
+    {
+      "genre": "アンビエント",
+      "youtubeUrl": "https://www.youtube.com/watch?v=uNz1XfVfJak",
+      "memo": "Auto-collected from YouTube search: ambient electronic representative track",
+      "title": "5 Techniques for Generative & Ambient Music",
+      "duration": 865,
+      "uploader": "ANDREW HUANG"
+    },
+    {
+      "genre": "アンビエント",
+      "youtubeUrl": "https://www.youtube.com/watch?v=j9qAFZxiY74",
+      "memo": "Auto-collected from YouTube search: ambient electronic representative track",
+      "title": "KOMA Elektronik Field Kit FX | Techniques for Ambient Music",
+      "duration": 453,
+      "uploader": "HAINBACH"
+    },
+    {
+      "genre": "アンビエント",
+      "youtubeUrl": "https://www.youtube.com/watch?v=KMXegmbO5Fo",
+      "memo": "Auto-collected from YouTube search: ambient electronic representative track",
+      "title": "Lofi Groove in Dm : Backing Track",
+      "duration": 380,
+      "uploader": "Guitar Improvisation"
+    },
+    {
+      "genre": "アンビエント",
+      "youtubeUrl": "https://www.youtube.com/watch?v=MycI9ZOSPRk",
+      "memo": "Auto-collected from YouTube search: ambient electronic representative track",
+      "title": "4 Tips for Writing Ambient Chord Progressions",
+      "duration": 646,
+      "uploader": "8-bit Music Theory"
+    },
+    {
+      "genre": "アンビエント",
+      "youtubeUrl": "https://www.youtube.com/watch?v=vNqbiyk-J1E",
+      "memo": "Auto-collected from YouTube search: ambient electronic representative track",
+      "title": "Lindaxx - Dissonant | Music Video (Blade Runner)",
+      "duration": 229,
+      "uploader": "Lindaxx"
+    },
+    {
+      "genre": "アンビエント",
+      "youtubeUrl": "https://www.youtube.com/watch?v=s88xh1HSujE",
+      "memo": "Auto-collected from YouTube search: ambient electronic representative track",
+      "title": "SAMPLETRIP REP-10 DEMO Ambient track  \"Take The Pain Away\"",
+      "duration": 101,
+      "uploader": "Sampletrip Audio"
+    },
+    {
+      "genre": "アンビエント",
+      "youtubeUrl": "https://www.youtube.com/watch?v=9ifgr4f9uI0",
+      "memo": "Auto-collected from YouTube search: ambient electronic representative track",
+      "title": "Replicants In The Rain | ♫ ROYALTY FREE MUSIC | ♫ Ambient Music",
+      "duration": 161,
+      "uploader": "𝐌𝐞𝐥𝐨𝐝𝐢𝐬𝐤 E𝐟𝐟𝐞𝐤𝐭"
+    },
+    {
+      "genre": "アンビエント",
+      "youtubeUrl": "https://www.youtube.com/watch?v=UYz2XBCe9s8",
+      "memo": "Auto-collected from YouTube search: ambient electronic representative track",
+      "title": "Living Statues (Cinematic Mix) | Epic Ambient Electronic",
+      "duration": 176,
+      "uploader": "TscMusic.1"
+    },
+    {
+      "genre": "ドローン",
+      "youtubeUrl": "https://www.youtube.com/watch?v=dDJa1_fLVeA",
+      "memo": "Auto-collected from YouTube search: drone music representative track",
+      "title": "More Women Drone Pilots",
+      "duration": 210,
+      "uploader": "Vikas Music"
+    },
+    {
+      "genre": "ドローン",
+      "youtubeUrl": "https://www.youtube.com/watch?v=psQfyhE5zvk",
+      "memo": "Auto-collected from YouTube search: drone music representative track",
+      "title": "【4K】DRONE MUSIC TV VIDEO: 🔥 «The Best Tracks of DEREK GUST» 🔥",
+      "duration": 1372,
+      "uploader": "One Man Wolf Pack"
+    },
+    {
+      "genre": "ドローン",
+      "youtubeUrl": "https://www.youtube.com/watch?v=P-QZ_7o5yUE",
+      "memo": "Auto-collected from YouTube search: drone music representative track",
+      "title": "C# Drone For Musical Practice & Meditation",
+      "duration": 604,
+      "uploader": "Tunes & Tools - Jon Antonsson"
+    },
+    {
+      "genre": "ドローン",
+      "youtubeUrl": "https://www.youtube.com/watch?v=YZROTlfxI7k",
+      "memo": "Auto-collected from YouTube search: drone music representative track",
+      "title": "MgXZ - Terminal Lucidity. | ambience/drone track",
+      "duration": 1221,
+      "uploader": "MagentXdromedaZ"
+    },
+    {
+      "genre": "ドローン",
+      "youtubeUrl": "https://www.youtube.com/watch?v=A6agS-QViAM",
+      "memo": "Auto-collected from YouTube search: drone music representative track",
+      "title": "The Drone Man - Song by Client for Jason Steele - Broker",
+      "duration": 60,
+      "uploader": "Jason Steele - Real Estate Broker "
+    },
+    {
+      "genre": "ドローン",
+      "youtubeUrl": "https://www.youtube.com/watch?v=iLUZgqrRU_U",
+      "memo": "Auto-collected from YouTube search: drone music representative track",
+      "title": "Stealth Music - Orbital Surveillance",
+      "duration": 377,
+      "uploader": "Avery Alexander"
+    },
+    {
+      "genre": "ドローン",
+      "youtubeUrl": "https://www.youtube.com/watch?v=l_ZKOgZnvJo",
+      "memo": "Auto-collected from YouTube search: drone music representative track",
+      "title": "Groove sur l'accord A7 : Backing track",
+      "duration": 302,
+      "uploader": "Guitar Improvisation"
+    },
+    {
+      "genre": "ドローン",
+      "youtubeUrl": "https://www.youtube.com/watch?v=jmogAj3u-mU",
+      "memo": "Auto-collected from YouTube search: drone music representative track",
+      "title": "Take Me Home, Country Roads | John Denver | West Virginia Drone Footage",
+      "duration": 190,
+      "uploader": "Spencer Prahl"
+    },
+    {
+      "genre": "ドローン",
+      "youtubeUrl": "https://www.youtube.com/watch?v=08SQsKyiPic",
+      "memo": "Auto-collected from YouTube search: drone music representative track",
+      "title": "Cinematic Orchestral Music for Drone Footage | No Copyright Real Estate Audio",
+      "duration": 210,
+      "uploader": "Velvet Estate Audio"
+    },
+    {
+      "genre": "ドローン",
+      "youtubeUrl": "https://www.youtube.com/watch?v=n5pF8JL1vT8",
+      "memo": "Auto-collected from YouTube search: drone music representative track",
+      "title": "Deliverance | VCV Rack Ambient Noise Drone",
+      "duration": 1198,
+      "uploader": "Ben Buchanan"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=khsmqy76PnY",
+      "memo": "Auto-collected from YouTube search: experimental noise music",
+      "title": "Noise and Experimental Music Is For Everyone (feat. Dreamcrusher)",
+      "duration": 775,
+      "uploader": "Sound Field"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=qFoiIBCL9_I",
+      "memo": "Auto-collected from YouTube search: experimental noise music",
+      "title": "EXPERIMENTAL NOISE MUSIC / POST-INDUSTRIAL // Mathematics voice",
+      "duration": 390,
+      "uploader": "indee"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=FLTSAE4sJ14",
+      "memo": "Auto-collected from YouTube search: experimental noise music",
+      "title": "Matthias Lempert - No Home But Factory ( 1981 Industrial Noise / Experimental )",
+      "duration": 255,
+      "uploader": "Dronemf S."
+    },
+    {
+      "genre": "ノイズミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Am-faoBgwt8",
+      "memo": "Auto-collected from YouTube search: experimental noise music",
+      "title": "Experimental Harsh Noise Instrument",
+      "duration": 123,
+      "uploader": "Aaron Karnov"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=0t6r5rMzNv0",
+      "memo": "Auto-collected from YouTube search: experimental noise music",
+      "title": "Experimental Music: Moog DFAM + Deconstructed Sounds",
+      "duration": 142,
+      "uploader": "syffre"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=v9hA0eSLoHk",
+      "memo": "Auto-collected from YouTube search: experimental noise music",
+      "title": "CONNECTIONS / Playing with cell phone signal and electromagnetic fields - experimental noise music",
+      "duration": 297,
+      "uploader": "Mood Indigo"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=q1K3I4V_KR8",
+      "memo": "Auto-collected from YouTube search: experimental noise music",
+      "title": "Isak Hansen noise music performance",
+      "duration": 1209,
+      "uploader": "WIENER ACHSE"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=DX1hTpzIkoQ",
+      "memo": "Auto-collected from YouTube search: experimental noise music",
+      "title": "Experimental / Noise music",
+      "duration": 485,
+      "uploader": "kearyjones"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=M8hHx_3Tswk",
+      "memo": "Auto-collected from YouTube search: experimental noise music",
+      "title": "The case for Experimental Music",
+      "duration": 622,
+      "uploader": "Notes From The Archives"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=-RYQdJ7IMKU",
+      "memo": "Auto-collected from YouTube search: experimental noise music",
+      "title": "Experimental and Noise Rock Guitar Techniques",
+      "duration": 738,
+      "uploader": "Dan Phelps"
+    },
+    {
+      "genre": "電子音楽",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Q3oItpVa9fs",
+      "memo": "Auto-collected from YouTube search: electronic music representative track",
+      "title": "CYMATICS: Science Vs. Music - Nigel Stanford",
+      "duration": 352,
+      "uploader": "Nigel John Stanford"
+    },
+    {
+      "genre": "電子音楽",
+      "youtubeUrl": "https://www.youtube.com/watch?v=L_wGz0OsE_Y",
+      "memo": "Auto-collected from YouTube search: electronic music representative track",
+      "title": "Popular electronic music styles and representative tracks（2010-2025）",
+      "duration": 133,
+      "uploader": "MusicLiveVideo"
+    },
+    {
+      "genre": "電子音楽",
+      "youtubeUrl": "https://www.youtube.com/watch?v=IzsTpZDAj38",
+      "memo": "Auto-collected from YouTube search: electronic music representative track",
+      "title": "How To Get A Music Manager",
+      "duration": 450,
+      "uploader": "Damian Keyes"
+    },
+    {
+      "genre": "電子音楽",
+      "youtubeUrl": "https://www.youtube.com/watch?v=P8JEm4d6Wu4",
+      "memo": "Auto-collected from YouTube search: electronic music representative track",
+      "title": "Faithless - Insomnia (Official 4K Video)",
+      "duration": 215,
+      "uploader": "Faithless"
+    },
+    {
+      "genre": "電子音楽",
+      "youtubeUrl": "https://www.youtube.com/watch?v=bfY2hfhEwaM",
+      "memo": "Auto-collected from YouTube search: electronic music representative track",
+      "title": "My AI WARNING to music producers",
+      "duration": 936,
+      "uploader": "EDM Tips"
+    },
+    {
+      "genre": "電子音楽",
+      "youtubeUrl": "https://www.youtube.com/watch?v=dPeeEoapKvo",
+      "memo": "Auto-collected from YouTube search: electronic music representative track",
+      "title": "Adrenaline Booster | 🎧🔥 Music that burn your adrenaline",
+      "duration": 1445,
+      "uploader": "Dopamine Records"
+    },
+    {
+      "genre": "電子音楽",
+      "youtubeUrl": "https://www.youtube.com/watch?v=LyHn4Gyl9pQ",
+      "memo": "Auto-collected from YouTube search: electronic music representative track",
+      "title": "Animals",
+      "duration": 304,
+      "uploader": "Martin Garrix"
+    },
+    {
+      "genre": "電子音楽",
+      "youtubeUrl": "https://www.youtube.com/watch?v=JMIAQiYGbfI",
+      "memo": "Auto-collected from YouTube search: electronic music representative track",
+      "title": "Timmy Trumpet & JETFIRE - Flamenco (feat. Rage) [Official Audio]",
+      "duration": 198,
+      "uploader": "Spinnin' Records"
+    },
+    {
+      "genre": "電子音楽",
+      "youtubeUrl": "https://www.youtube.com/watch?v=HKyZ7-32o74",
+      "memo": "Auto-collected from YouTube search: electronic music representative track",
+      "title": "The Names of The Music Genres",
+      "duration": 652,
+      "uploader": "Top Culture"
+    },
+    {
+      "genre": "電子音楽",
+      "youtubeUrl": "https://www.youtube.com/watch?v=pQ0ua-r-5yE",
+      "memo": "Auto-collected from YouTube search: electronic music representative track",
+      "title": "Turn ANY Song Into an AI Music Video | Freebeat AI",
+      "duration": 408,
+      "uploader": "Kingy AI"
+    },
+    {
+      "genre": "テクノ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=y6120QOlsfU",
+      "memo": "Auto-collected from YouTube search: techno classic track",
+      "title": "Darude - Sandstorm",
+      "duration": 232,
+      "uploader": "Darude"
+    },
+    {
+      "genre": "テクノ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=OrhM7TlSJc4",
+      "memo": "Auto-collected from YouTube search: techno classic track",
+      "title": "Top 30 Classic EDM Songs | Rave Nation",
+      "duration": 592,
+      "uploader": "Rave Nation"
+    },
+    {
+      "genre": "テクノ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=0IOk8yWfehI",
+      "memo": "Auto-collected from YouTube search: techno classic track",
+      "title": "MOZART RAVE 🎻 | Rococo Elektro: Classic Underground Techno",
+      "duration": 216,
+      "uploader": "Farbwende"
+    },
+    {
+      "genre": "テクノ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=m0k9Pzc43R8",
+      "memo": "Auto-collected from YouTube search: techno classic track",
+      "title": "Blind Test // 90s Techno #1 - Episode 2 (Electronic Beats TV)",
+      "duration": 559,
+      "uploader": "Telekom Electronic Beats TV"
+    },
+    {
+      "genre": "テクノ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=2RhxHOk030k",
+      "memo": "Auto-collected from YouTube search: detroit techno representative track",
+      "title": "Poly Face - No Glitch 0X2 [POTOP]",
+      "duration": 266,
+      "uploader": "Future Funk"
+    },
+    {
+      "genre": "テクノ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=NrwbP1JJ-tE",
+      "memo": "Auto-collected from YouTube search: detroit techno representative track",
+      "title": "Detroit techno instrumental beats under the #GroovyLoops",
+      "duration": 418,
+      "uploader": "Groove me"
+    },
+    {
+      "genre": "テクノ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=_OV3yaAjwGY",
+      "memo": "Auto-collected from YouTube search: detroit techno representative track",
+      "title": "From Detroit to Melodic Techno - The evolution of techno music in 6 minutes",
+      "duration": 354,
+      "uploader": "Dj Tomis"
+    },
+    {
+      "genre": "テクノ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=nLBo3Zp74sg",
+      "memo": "Auto-collected from YouTube search: detroit techno representative track",
+      "title": "LowPan - Trip Control [Techno & Trance]",
+      "duration": 606,
+      "uploader": "Techno & Trance"
+    },
+    {
+      "genre": "テクノ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=gp9Es5Rkh2s",
+      "memo": "Auto-collected from YouTube search: detroit techno representative track",
+      "title": "R.E.M.  – Computer Communication (Remix)",
+      "duration": 443,
+      "uploader": "Bambatta Music"
+    },
+    {
+      "genre": "テクノ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=KpxM9Qvqyko",
+      "memo": "Auto-collected from YouTube search: detroit techno representative track",
+      "title": "WAXTAX-N DRE Electro Vibing 04 20 16",
+      "duration": 1750,
+      "uploader": "WAXTAX-N DRE"
+    },
+    {
+      "genre": "ハウス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=FrqIA0PpAv8",
+      "memo": "Auto-collected from YouTube search: house music classic track",
+      "title": "The ingredients of a classic house track",
+      "duration": 774,
+      "uploader": "Vox"
+    },
+    {
+      "genre": "ハウス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=SeKszb2SwsM",
+      "memo": "Auto-collected from YouTube search: house music classic track",
+      "title": "The Best of House 90 & Classic House🔥 | Vaïbz Party #25 🎉 | By T-SIA",
+      "duration": 1511,
+      "uploader": "T-Sia"
+    },
+    {
+      "genre": "ハウス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=UkV2JKUbqFg",
+      "memo": "Auto-collected from YouTube search: house music classic track",
+      "title": "Making a Classic House Track with A-Trak",
+      "duration": 1427,
+      "uploader": "A-Trak"
+    },
+    {
+      "genre": "ハウス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=1pkom2UFQLI",
+      "memo": "Auto-collected from YouTube search: house music classic track",
+      "title": "How to make a classic 90s house track | Native Instruments",
+      "duration": 857,
+      "uploader": "Native Instruments"
+    },
+    {
+      "genre": "ハウス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Rgos7Y-A_h0",
+      "memo": "Auto-collected from YouTube search: house music classic track",
+      "title": "HOUSE MUSIC is so EASY to make! | Music Production in Logic Pro X",
+      "duration": 691,
+      "uploader": "Tha R.E.C"
+    },
+    {
+      "genre": "ハウス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=4G0bqwBp7ng",
+      "memo": "Auto-collected from YouTube search: house music representative track",
+      "title": "[FREE] Deep House x Jersey Club Type Beat - \"RINGTONE\" | Melodic Club Instrumental",
+      "duration": 177,
+      "uploader": "Klein Beats"
+    },
+    {
+      "genre": "ハウス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Ly-_duB2Gjg",
+      "memo": "Auto-collected from YouTube search: house music representative track",
+      "title": "Musiq Promos AI - Love Your Woman | Soulful Deep House",
+      "duration": 298,
+      "uploader": "Musiq Promos"
+    },
+    {
+      "genre": "ハウス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=fQsBzrqd0t8",
+      "memo": "Auto-collected from YouTube search: house music representative track",
+      "title": "The fundamentals of groove in 7 minutes",
+      "duration": 435,
+      "uploader": "Underdog Electronic Music School"
+    },
+    {
+      "genre": "ハウス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ZkPhIIESof8",
+      "memo": "Auto-collected from YouTube search: house music representative track",
+      "title": "Celeda - Music Is The Answer (Danny Tenaglia)",
+      "duration": 471,
+      "uploader": "davepeo77"
+    },
+    {
+      "genre": "ハウス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=63AIpRUren0",
+      "memo": "Auto-collected from YouTube search: house music representative track",
+      "title": "Peggy Gou - D.A.N.C.E. (Official Video)",
+      "duration": 195,
+      "uploader": "Peggy Gou"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=E0rGRmM9IFw",
+      "memo": "Auto-collected from YouTube search: deep house representative track",
+      "title": "Time (Deep House Remix) - Alexandre Pachabezian",
+      "duration": 329,
+      "uploader": "alexpianistedj"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=CCM5q2S1Jh4",
+      "memo": "Auto-collected from YouTube search: deep house representative track",
+      "title": "Good Times",
+      "duration": 482,
+      "uploader": "Efkay Da Shiqwan - Topic"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=9GKCSp0fKfI",
+      "memo": "Auto-collected from YouTube search: deep house representative track",
+      "title": "Susan Clark - Deeper (111 East House Mix)",
+      "duration": 302,
+      "uploader": "RJJNY"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=FhTjL1FxRUs",
+      "memo": "Auto-collected from YouTube search: deep house music track",
+      "title": "Deep House Arrangement Tips: From 8-Bar Loop to Finished Track",
+      "duration": 1133,
+      "uploader": "Olean's House"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=kA34Fxtl31o",
+      "memo": "Auto-collected from YouTube search: deep house music track",
+      "title": "LateChoir - Space (New Deep House track)",
+      "duration": 275,
+      "uploader": "LateChoir"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ysSK8ErZsLc",
+      "memo": "Auto-collected from YouTube search: deep house music track",
+      "title": "Deep House Backing Track - 125 BPM | A Minor | Smooth Groove for Jamming and Practice",
+      "duration": 202,
+      "uploader": "EST Backing Tracks"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=FZMRpyBw2hk",
+      "memo": "Auto-collected from YouTube search: deep house music track",
+      "title": "Deep House Backing Track - 124 BPM | D Minor | Energetic Groove for Practice and Jamming",
+      "duration": 404,
+      "uploader": "EST Backing Tracks"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=AXH86LZaeK0",
+      "memo": "Auto-collected from YouTube search: deep house music track",
+      "title": "NOVRA – Nothing Else | Emotional Deep House",
+      "duration": 317,
+      "uploader": "NOVRA"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Qr9ENZd7ykI",
+      "memo": "Auto-collected from YouTube search: deep house music track",
+      "title": "LateChoir - It’s you (New Deep House track)",
+      "duration": 161,
+      "uploader": "LateChoir"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Pgomahxk4g4",
+      "memo": "Auto-collected from YouTube search: deep house music track",
+      "title": "To The Sun (Deep House)",
+      "duration": 220,
+      "uploader": "fluffysnaff - Topic"
+    },
+    {
+      "genre": "トランス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ROrn7KHJpWM",
+      "memo": "Auto-collected from YouTube search: trance music representative track",
+      "title": "Top 100 v.2 Best Ever Made (Mostly Trance) Tracks - 8° Part",
+      "duration": 648,
+      "uploader": "yagaba"
+    },
+    {
+      "genre": "トランス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=2ig8s6BkTtc",
+      "memo": "Auto-collected from YouTube search: trance music representative track",
+      "title": "Sanctum | TRANCE SONG | Sacred Trance Pilgrimage to Your Inner Temple of Light",
+      "duration": 313,
+      "uploader": "Nathan Elias Cross"
+    },
+    {
+      "genre": "トランス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=BCVbXU9xWqc",
+      "memo": "Auto-collected from YouTube search: trance music representative track",
+      "title": "【Trance (Hard Trance）】Virtual Resurrection",
+      "duration": 290,
+      "uploader": "Music Earth"
+    },
+    {
+      "genre": "トランス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Le6ps1Nb3yg",
+      "memo": "Auto-collected from YouTube search: trance music representative track",
+      "title": "【HD】Hard Trance : Last Song (DJ Tatana Extended Club Mix)",
+      "duration": 588,
+      "uploader": "TrancesMaster"
+    },
+    {
+      "genre": "トランス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=OZafwTE1q4Q",
+      "memo": "Auto-collected from YouTube search: trance music representative track",
+      "title": "Rompasso - Angetenar (Original Mix) | #GANGSTERMUSIC",
+      "duration": 365,
+      "uploader": "GANGSTER MUSIC"
+    },
+    {
+      "genre": "トランス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=QJo3HxxDBvY",
+      "memo": "Auto-collected from YouTube search: trance music representative track",
+      "title": "Ashes of Humanity | TRANCE SONG | When Earth Fights Back | Dark Environmental Trance",
+      "duration": 230,
+      "uploader": "Nathan Elias Cross"
+    },
+    {
+      "genre": "トランス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=KQp_7QVTK58",
+      "memo": "Auto-collected from YouTube search: trance music representative track",
+      "title": "Trance of OMI - #TheyCallHimOG | Pawan Kalyan | Emraan Hashmi | Sujeeth | Thaman S | DVV Danayya",
+      "duration": 173,
+      "uploader": "Sony Music South"
+    },
+    {
+      "genre": "トランス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=r_0LfseJ-so",
+      "memo": "Auto-collected from YouTube search: trance music representative track",
+      "title": "Wings of Sound | Euphoric Trance Anthem",
+      "duration": 154,
+      "uploader": "Hemtosh"
+    },
+    {
+      "genre": "トランス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=X7Fgg3aFkdI",
+      "memo": "Auto-collected from YouTube search: trance music representative track",
+      "title": "Echoes of Harmony | Hardstyle Trance for Peak Festival Moments",
+      "duration": 220,
+      "uploader": "Thungdor"
+    },
+    {
+      "genre": "トランス",
+      "youtubeUrl": "https://www.youtube.com/watch?v=v39owy35aek",
+      "memo": "Auto-collected from YouTube search: trance music representative track",
+      "title": "【Trance (Classic Trance)】Eternal Euphoria",
+      "duration": 174,
+      "uploader": "Music Earth"
+    },
+    {
+      "genre": "ドラムンベース",
+      "youtubeUrl": "https://www.youtube.com/watch?v=XwE8gs0koqA",
+      "memo": "Auto-collected from YouTube search: dnb representative track",
+      "title": "[FREE] Drum and Bass Type Beat - \"SURGE\" | Hard DNB x Techno Rap Instrumental 2025",
+      "duration": 229,
+      "uploader": "Miladski Beatz"
+    },
+    {
+      "genre": "ドラムンベース",
+      "youtubeUrl": "https://www.youtube.com/watch?v=3ipTcB_Xeqk",
+      "memo": "Auto-collected from YouTube search: dnb representative track",
+      "title": "Shaboozey - A Bar Song (YUSSI Remix) (Free Download)",
+      "duration": 180,
+      "uploader": "RELEVANT DNB"
+    },
+    {
+      "genre": "ドラムンベース",
+      "youtubeUrl": "https://www.youtube.com/watch?v=YCV3Cu73hRk",
+      "memo": "Auto-collected from YouTube search: dnb representative track",
+      "title": "Harry Shotta, Skibadee, Eksman, Dreps, Grima & Azza | DNB Art Form [Music Video]: SBTV",
+      "duration": 229,
+      "uploader": "SBTV: Music"
+    },
+    {
+      "genre": "ドラムンベース",
+      "youtubeUrl": "https://www.youtube.com/watch?v=EOphLOJkf_k",
+      "memo": "Auto-collected from YouTube search: dnb representative track",
+      "title": "PTK - VZHŮRU CELOU NOC feat. VIKTOR SHEEN DnB REMIX [ TEXT ]",
+      "duration": 182,
+      "uploader": "Minor"
+    },
+    {
+      "genre": "ドラムンベース",
+      "youtubeUrl": "https://www.youtube.com/watch?v=z8rLhYVqJ6Y",
+      "memo": "Auto-collected from YouTube search: dnb representative track",
+      "title": "Sensi",
+      "duration": 232,
+      "uploader": "Phibes"
+    },
+    {
+      "genre": "ドラムンベース",
+      "youtubeUrl": "https://www.youtube.com/watch?v=4cxBE1ZZ26E",
+      "memo": "Auto-collected from YouTube search: dnb representative track",
+      "title": "S2E2 Car barz (pro edition) ft DJ Kezman MCs Bellyman Maddy v AC MC & Decoy #bellymanscarbarz #dnb",
+      "duration": 326,
+      "uploader": "MC Bellyman"
+    },
+    {
+      "genre": "ドラムンベース",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ORTsfjjEd2U",
+      "memo": "Auto-collected from YouTube search: dnb representative track",
+      "title": "Luude & Harry Bee - Fun In Sun",
+      "duration": 167,
+      "uploader": "UKF Drum & Bass"
+    },
+    {
+      "genre": "ドラムンベース",
+      "youtubeUrl": "https://www.youtube.com/watch?v=cYSt9bo83Jw",
+      "memo": "Auto-collected from YouTube search: dnb representative track",
+      "title": "Robin Tent - Czechia Drillin' (Official Video)",
+      "duration": 164,
+      "uploader": "1312 Records"
+    },
+    {
+      "genre": "ドラムンベース",
+      "youtubeUrl": "https://www.youtube.com/watch?v=kDRm7PjfsxM",
+      "memo": "Auto-collected from YouTube search: dnb representative track",
+      "title": "JCZ - Street (feat. ReLoad & Myat Amara Maung) [Official Music Video]",
+      "duration": 174,
+      "uploader": "JCZ"
+    },
+    {
+      "genre": "ドラムンベース",
+      "youtubeUrl": "https://www.youtube.com/watch?v=OvureZfa7AI",
+      "memo": "Auto-collected from YouTube search: dnb representative track",
+      "title": "Bru-C - No Excuses",
+      "duration": 221,
+      "uploader": "Bru-C"
+    },
+    {
+      "genre": "ダブステップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=15y4XfA36Ic",
+      "memo": "Auto-collected from YouTube search: dubstep classic track",
+      "title": "Blind Test // 2000s Dubstep - Episode 7 (Electronic Beats TV)",
+      "duration": 804,
+      "uploader": "Telekom Electronic Beats TV"
+    },
+    {
+      "genre": "ダブステップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=6KE6rXi8jUA",
+      "memo": "Auto-collected from YouTube search: dubstep classic track",
+      "title": "Dubstep Classics Vol. 001",
+      "duration": 1800,
+      "uploader": "Mandibledubs"
+    },
+    {
+      "genre": "ダブステップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=T3yPyc5ZdNs",
+      "memo": "Auto-collected from YouTube search: dubstep classic track",
+      "title": "Mt Eden Dubstep - Sierra Leone [HD]",
+      "duration": 316,
+      "uploader": "TheS1nC"
+    },
+    {
+      "genre": "ダブステップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=m04q-07PVP8",
+      "memo": "Auto-collected from YouTube search: dubstep classic track",
+      "title": "Benga - Electro Music [Dubstep Classic]",
+      "duration": 245,
+      "uploader": "GetDarker"
+    },
+    {
+      "genre": "ダブステップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=aHjpOzsQ9YI",
+      "memo": "Auto-collected from YouTube search: dubstep classic track",
+      "title": "Lindsey Stirling - Crystallize (Dubstep Violin Original Song)",
+      "duration": 300,
+      "uploader": "Lindsey Stirling"
+    },
+    {
+      "genre": "ダブステップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=LXO-jKksQkM",
+      "memo": "Auto-collected from YouTube search: dubstep classic track",
+      "title": "PUMPED UP KICKS|DUBSTEP",
+      "duration": 327,
+      "uploader": "MARQUESE SCOTT"
+    },
+    {
+      "genre": "ダブステップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=lMj-iyAoh30",
+      "memo": "Auto-collected from YouTube search: dubstep classic track",
+      "title": "How Dubstep was Discovered [Extra Terra Music] [EKM.CO]",
+      "duration": 75,
+      "uploader": "EKM CO (ElectrokillMedia)"
+    },
+    {
+      "genre": "ダブステップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=sf6LD2B_kDQ",
+      "memo": "Auto-collected from YouTube search: dubstep classic track",
+      "title": "Lindsey Stirling - Elements (Dubstep Violin Original Song)",
+      "duration": 247,
+      "uploader": "Lindsey Stirling"
+    },
+    {
+      "genre": "ダブステップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=dBb060OPegg",
+      "memo": "Auto-collected from YouTube search: dubstep classic track",
+      "title": "Beethoven - Für Elise (Klutch Dubstep Trap Remix)",
+      "duration": 144,
+      "uploader": "DubstepGutter"
+    },
+    {
+      "genre": "ダブステップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=UKRLY9EptCY",
+      "memo": "Auto-collected from YouTube search: dubstep classic track",
+      "title": "Violin piano, Dubstep, Extended Edition, 20 Minutes,",
+      "duration": 1170,
+      "uploader": "MadDoggyca"
+    },
+    {
+      "genre": "チップチューン",
+      "youtubeUrl": "https://www.youtube.com/watch?v=9MM6hI66szU",
+      "memo": "Auto-collected from YouTube search: chiptune representative track",
+      "title": "INTERSTELLAR CHIPTUNE on SEGA GENESIS / Mega Drive | + MIDI, Roms, VGM | REAL HARDWARE 16 bit Cover",
+      "duration": 170,
+      "uploader": "retroUA"
+    },
+    {
+      "genre": "チップチューン",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ox_T5Ia_Y0A",
+      "memo": "Auto-collected from YouTube search: chiptune representative track",
+      "title": "Memo | cute, 8 bit, chiptune",
+      "duration": 88,
+      "uploader": "super noot ensemble"
+    },
+    {
+      "genre": "チップチューン",
+      "youtubeUrl": "https://www.youtube.com/watch?v=_7k25pwNbj8",
+      "memo": "Auto-collected from YouTube search: chiptune representative track",
+      "title": "Chiptune: Pushing the Limits Using Constraints: Dan Behrens(Danimal Cannon) at TEDxBuffalo",
+      "duration": 990,
+      "uploader": "TEDx Talks"
+    },
+    {
+      "genre": "チップチューン",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ksjztc3kh10",
+      "memo": "Auto-collected from YouTube search: chiptune representative track",
+      "title": "Soundfly's Chip It Challenge",
+      "duration": 60,
+      "uploader": "Soundfly"
+    },
+    {
+      "genre": "チップチューン",
+      "youtubeUrl": "https://www.youtube.com/watch?v=6BvliDCtHIU",
+      "memo": "Auto-collected from YouTube search: chiptune representative track",
+      "title": "Mad Magician",
+      "duration": 171,
+      "uploader": "Chiptunes Anonymous - Topic"
+    },
+    {
+      "genre": "チップチューン",
+      "youtubeUrl": "https://www.youtube.com/watch?v=dZZxBnALpQ4",
+      "memo": "Auto-collected from YouTube search: chiptune representative track",
+      "title": "Elegant Grasshopper",
+      "duration": 215,
+      "uploader": "Chiptunes Anonymous - Topic"
+    },
+    {
+      "genre": "チップチューン",
+      "youtubeUrl": "https://www.youtube.com/watch?v=EFVf3RnrXLY",
+      "memo": "Auto-collected from YouTube search: chiptune representative track",
+      "title": "Speeding | [Deptier representative song]",
+      "duration": 86,
+      "uploader": "Deptier"
+    },
+    {
+      "genre": "チップチューン",
+      "youtubeUrl": "https://www.youtube.com/watch?v=5zL2BBMK4uM",
+      "memo": "Auto-collected from YouTube search: chiptune representative track",
+      "title": "Red Raven",
+      "duration": 215,
+      "uploader": "Chiptunes Anonymous - Topic"
+    },
+    {
+      "genre": "チップチューン",
+      "youtubeUrl": "https://www.youtube.com/watch?v=nv6_krrzwMc",
+      "memo": "Auto-collected from YouTube search: chiptune representative track",
+      "title": "Bubblaine - Mario Odyssey [♪  Chiptune Bossa Nova Cover ♫]",
+      "duration": 300,
+      "uploader": "AuroraBlis"
+    },
+    {
+      "genre": "チップチューン",
+      "youtubeUrl": "https://www.youtube.com/watch?v=JtXi89yP46c",
+      "memo": "Auto-collected from YouTube search: chiptune representative track",
+      "title": "Matthew Barnes - Deleting Your Binary Encoded Personality (2013) (Gameboy Chiptune Made Using LSDJ)",
+      "duration": 203,
+      "uploader": "Matthew Barnes"
+    },
+    {
+      "genre": "ヒップホップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=qcVwATD8iIE",
+      "memo": "Auto-collected from YouTube search: hip hop classic track",
+      "title": "Hip Hop Classics For Bboys Mixtape - Bboy Music 2020 - DJ Herax",
+      "duration": 1267,
+      "uploader": "DJ Herax Unofficial"
+    },
+    {
+      "genre": "ヒップホップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=87fn8MVOz7Q",
+      "memo": "Auto-collected from YouTube search: hip hop representative track",
+      "title": "House Of Representatives \"CO-OP\" Rare Virginia Hip Hop 98",
+      "duration": 210,
+      "uploader": "Napoleon Gee"
+    },
+    {
+      "genre": "ヒップホップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=oiusDE0KND8",
+      "memo": "Auto-collected from YouTube search: hip hop representative track",
+      "title": "dead prez - Hip Hop (Digital Video)",
+      "duration": 222,
+      "uploader": "DEAD PREZ"
+    },
+    {
+      "genre": "ヒップホップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=8SQWunxKC1g",
+      "memo": "Auto-collected from YouTube search: hip hop representative track",
+      "title": "SISTEMA//RAP REGGAE REMIX//Music Prince//@VIBEZTV @MUSICKING-GIN @TopTrending",
+      "duration": 1418,
+      "uploader": "MUSIC PRINCE FR."
+    },
+    {
+      "genre": "ヒップホップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=rKTUAESacQM",
+      "memo": "Auto-collected from YouTube search: hip hop representative track",
+      "title": "The Sugar Hill Gang - Rapper's Delight ( HQ, Full Version )",
+      "duration": 885,
+      "uploader": "dutchmanmm"
+    },
+    {
+      "genre": "ヒップホップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=xiVY_yPgvMs",
+      "memo": "Auto-collected from YouTube search: hip hop representative track",
+      "title": "Nas - Represent (Official Audio)",
+      "duration": 254,
+      "uploader": "Nas"
+    },
+    {
+      "genre": "ヒップホップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=QJMWOmgliiM",
+      "memo": "Auto-collected from YouTube search: hip hop representative track",
+      "title": "Reverie x Coyote x Louden - BROWN REPRESENTATION (Official Music Video)",
+      "duration": 168,
+      "uploader": "REVERIE LOVE"
+    },
+    {
+      "genre": "ヒップホップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=qAjAdM25KHE",
+      "memo": "Auto-collected from YouTube search: hip hop representative track",
+      "title": "Gang Starr - Just To Get A Rep",
+      "duration": 214,
+      "uploader": "Gang Starr"
+    },
+    {
+      "genre": "ヒップホップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=bUX8MDNQda4",
+      "memo": "Auto-collected from YouTube search: hip hop representative track",
+      "title": "Tommy Richman - MILLION DOLLAR BABY (Official Lyric Video) SHOT BY BELVEDERE",
+      "duration": 156,
+      "uploader": "Tommy Richman"
+    },
+    {
+      "genre": "ヒップホップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=RxjTIwRepbo",
+      "memo": "Auto-collected from YouTube search: hip hop representative track",
+      "title": "Only You (Maxi)",
+      "duration": 302,
+      "uploader": "Rappers Against Racism - Topic"
+    },
+    {
+      "genre": "トラップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=1awaZeVGx1g",
+      "memo": "Auto-collected from YouTube search: trap music representative track",
+      "title": "GOLDENEYE 007 (OFFICIAL TRAP REMIX) (OFFICIAL James Bond) - WIDDLER",
+      "duration": 199,
+      "uploader": "Trap Music Now"
+    },
+    {
+      "genre": "トラップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=_erntG_AhfE",
+      "memo": "Auto-collected from YouTube search: trap music representative track",
+      "title": "12 Yarthi MV - Nay & ReLoad Myanmar Trap Song",
+      "duration": 272,
+      "uploader": "Bobby Beatz"
+    },
+    {
+      "genre": "トラップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=9ClYy0MxsU0",
+      "memo": "Auto-collected from YouTube search: trap music representative track",
+      "title": "STORMZY - VOSSI BOP",
+      "duration": 204,
+      "uploader": "Stormzy"
+    },
+    {
+      "genre": "トラップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=r_0JjYUe5jo",
+      "memo": "Auto-collected from YouTube search: trap music representative track",
+      "title": "Eminem - Godzilla ft. Juice WRLD (Official Music Video)",
+      "duration": 266,
+      "uploader": "Lyrical Lemonade"
+    },
+    {
+      "genre": "トラップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=BQnF-_5s56g",
+      "memo": "Auto-collected from YouTube search: trap music representative track",
+      "title": "Ktlyn - BIG MAD (Official Video)",
+      "duration": 145,
+      "uploader": "KTLYN"
+    },
+    {
+      "genre": "トラップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=frUwUsmI6Uk",
+      "memo": "Auto-collected from YouTube search: trap music representative track",
+      "title": "LOKA   | RADA (Official Music Video)| Autobiography EP | Aakash | Innovura Ent.",
+      "duration": 183,
+      "uploader": "Innovura Entertainment"
+    },
+    {
+      "genre": "トラップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=iO476kD-k0g",
+      "memo": "Auto-collected from YouTube search: trap music representative track",
+      "title": "Chingy - Right Thurr (Official Music Video)",
+      "duration": 219,
+      "uploader": "Chingy"
+    },
+    {
+      "genre": "トラップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=PsQr3EsWVC0",
+      "memo": "Auto-collected from YouTube search: trap music representative track",
+      "title": "Skillibeng - Whap Whap ft F.S. (Official Music Video)",
+      "duration": 211,
+      "uploader": "Skillibeng"
+    },
+    {
+      "genre": "トラップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=y9oUnC8JtXY",
+      "memo": "Auto-collected from YouTube search: trap music representative track",
+      "title": "Ice Cube - Arrest The President [Audio]",
+      "duration": 235,
+      "uploader": "Ice Cube / Cubevision"
+    },
+    {
+      "genre": "トラップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=PbOyU1_6rpQ",
+      "memo": "Auto-collected from YouTube search: trap music representative track",
+      "title": "RACK - NAPOLI (Official Music Video)",
+      "duration": 183,
+      "uploader": "Barcode Entertainment"
+    },
+    {
+      "genre": "レゲエ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=7Qj3AjMdESU",
+      "memo": "Auto-collected from YouTube search: reggae classic track",
+      "title": "Frank Sinatra – My Way | Elegant Smooth Acoustic Reggae Classics 🎸 Relaxing Oldies Reggae Mix",
+      "duration": 1432,
+      "uploader": "Freedom On Rythm"
+    },
+    {
+      "genre": "レゲエ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=OjTGdRG8ay8",
+      "memo": "Auto-collected from YouTube search: reggae classic track",
+      "title": "Roots Reggae (1978) [Unreleased Album] The Healer -  Herbal Psalms",
+      "duration": 1417,
+      "uploader": "Rasta Golden"
+    },
+    {
+      "genre": "レゲエ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=iuYxhPAW0M4",
+      "memo": "Auto-collected from YouTube search: reggae representative track",
+      "title": "Pulis Patrol/Rock Reggae Remix Cover version//Music Prince/ #@Rabzmusics #Music",
+      "duration": 1142,
+      "uploader": "MUSIC PRINCE FR."
+    },
+    {
+      "genre": "レゲエ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=PT-kJLVAw6M",
+      "memo": "Auto-collected from YouTube search: reggae representative track",
+      "title": "Reggae Backing Track C Major",
+      "duration": 631,
+      "uploader": "Backing Track"
+    },
+    {
+      "genre": "レゲエ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=VjgDASw9qEc",
+      "memo": "Auto-collected from YouTube search: reggae representative track",
+      "title": "BASE DE RAP  - NATURAL -  HIP HOP REGGAE  - RAP INSTRUMENTAL",
+      "duration": 300,
+      "uploader": "Case-g Music"
+    },
+    {
+      "genre": "レゲエ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=7uiZe0TPErA",
+      "memo": "Auto-collected from YouTube search: reggae representative track",
+      "title": "Hip hop reggae instrumental 2026 - Rasta soul - reggae rap beat #rap #reggae #hiphop",
+      "duration": 171,
+      "uploader": "The Soul Frequency"
+    },
+    {
+      "genre": "レゲエ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=55s3T7VRQSc",
+      "memo": "Auto-collected from YouTube search: reggae representative track",
+      "title": "Redemption Song feat. Stephen Marley | Playing For Change | Song Around The World",
+      "duration": 257,
+      "uploader": "Playing For Change"
+    },
+    {
+      "genre": "レゲエ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=hzqFmXZ8tOE",
+      "memo": "Auto-collected from YouTube search: reggae representative track",
+      "title": "Protoje - Who Knows ft. Chronixx (Official Music Video)",
+      "duration": 224,
+      "uploader": "Protoje"
+    },
+    {
+      "genre": "レゲエ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=SwE-7TepyC4",
+      "memo": "Auto-collected from YouTube search: reggae representative track",
+      "title": "CONGRESSMAN/Rap and Reggae Remix/Music Prince 2.0/@TopTrending",
+      "duration": 839,
+      "uploader": "MUSIC PRINCE FR."
+    },
+    {
+      "genre": "レゲエ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=FzIdbuh5fdc",
+      "memo": "Auto-collected from YouTube search: reggae representative track",
+      "title": "CONTRACTOR|| RAP REGGAE REMIX||@Rabzmusics || @MusicprinceFR ||#trending",
+      "duration": 1110,
+      "uploader": "MUSIC HITS"
+    },
+    {
+      "genre": "ダブ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ZPDrlYDs7mI",
+      "memo": "Auto-collected from YouTube search: dub reggae classic track",
+      "title": "Scientist - The Best Dub Album In The World - Album",
+      "duration": 1605,
+      "uploader": "Koko roots"
+    },
+    {
+      "genre": "ダブ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=igOnR3KLPdQ",
+      "memo": "Auto-collected from YouTube search: dub reggae classic track",
+      "title": "HEAVY DUB REGGAE MIX Vol. 1 🔊 | Deep Bass Instrumentals & Sound System Vibes",
+      "duration": 1704,
+      "uploader": "True Island Sounds"
+    },
+    {
+      "genre": "ダブ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=5TKb-hABwfg",
+      "memo": "Auto-collected from YouTube search: dub reggae classic track",
+      "title": "Old School Reggae Mix | Roots Reggae & Reggae Remix #1",
+      "duration": 1636,
+      "uploader": "Zizic Music Reggae"
+    },
+    {
+      "genre": "ダブ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=W5kNVlsRryg",
+      "memo": "Auto-collected from YouTube search: dub reggae classic track",
+      "title": "Dub Doors [Full EP] (Dub Reggae)",
+      "duration": 1455,
+      "uploader": "Roll & Toast Records"
+    },
+    {
+      "genre": "ダブ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=y5lAHQMsPB4",
+      "memo": "Auto-collected from YouTube search: dub reggae classic track",
+      "title": "Roots & Bass 🔊 Deep Reggae Dub Instrumental (Heavy Bass Vibes)",
+      "duration": 1102,
+      "uploader": "Dub Roots Chronicles"
+    },
+    {
+      "genre": "ダブ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=K6XDIje4vJU",
+      "memo": "Auto-collected from YouTube search: dub music representative track",
+      "title": "Kunta Kinte Dub",
+      "duration": 265,
+      "uploader": "The Revolutionaries - Topic"
+    },
+    {
+      "genre": "ダブ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=VNfIaIkDuVA",
+      "memo": "Auto-collected from YouTube search: dub music representative track",
+      "title": "Jahzilla - Inna Babylon – Cosmic Dub Reggae Prophecy (AI Music Video)",
+      "duration": 160,
+      "uploader": "Zenith Apex"
+    },
+    {
+      "genre": "ダブ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=XkB4EYBRSfI",
+      "memo": "Auto-collected from YouTube search: dub music representative track",
+      "title": "Ganja Time | Classic Deep Roots Reggae Dub Music | Jamaican Chillout Rasta Vibes",
+      "duration": 169,
+      "uploader": "Rasta Radio 420"
+    },
+    {
+      "genre": "ダブ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=s7zxNpmqD-4",
+      "memo": "Auto-collected from YouTube search: dub music representative track",
+      "title": "Pathological - Time Seed - Midsummers EP - Reggae Dub Music",
+      "duration": 330,
+      "uploader": "8octaves Music"
+    },
+    {
+      "genre": "ダブ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ayYqOESTdxU",
+      "memo": "Auto-collected from YouTube search: dub music representative track",
+      "title": "Dub Rock Kids (Agent Jay Nugent Remix)",
+      "duration": 185,
+      "uploader": "Brick Street Soul - Topic"
+    },
+    {
+      "genre": "ロック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=pvAtxNa8ZvI",
+      "memo": "Auto-collected from YouTube search: rock classic track",
+      "title": "Classic Rock Guitar Backing Track in A",
+      "duration": 453,
+      "uploader": "JamTracksChannel"
+    },
+    {
+      "genre": "ロック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Xy9IqrKjilg",
+      "memo": "Auto-collected from YouTube search: rock classic track",
+      "title": "Heart \"Alone\" performed by The Classic Rock Show",
+      "duration": 234,
+      "uploader": "The Classic Rock Show"
+    },
+    {
+      "genre": "ロック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ZJ3mKIKM3yY",
+      "memo": "Auto-collected from YouTube search: rock classic track",
+      "title": "80's Rock Backing Track in E Minor",
+      "duration": 276,
+      "uploader": "Infinite Jam Backing Tracks"
+    },
+    {
+      "genre": "ロック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=386rOaqMVq8",
+      "memo": "Auto-collected from YouTube search: rock classic track",
+      "title": "Classic Rock Guitar Jam Track Bad Penny | Rory Gallagher Style In D Minor",
+      "duration": 368,
+      "uploader": "Now YOU Shred Backing Tracks"
+    },
+    {
+      "genre": "ロック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=VmAeuJ_gW1Q",
+      "memo": "Auto-collected from YouTube search: rock classic track",
+      "title": "Deep Purple \"Highway Star\" performed by The Classic Rock Show",
+      "duration": 395,
+      "uploader": "The Classic Rock Show"
+    },
+    {
+      "genre": "ロック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=lCiMlxfLjcU",
+      "memo": "Auto-collected from YouTube search: rock classic track",
+      "title": "Filthy Classic Rock Guitar Backing Track Jam in A Minor",
+      "duration": 715,
+      "uploader": "Elevated Jam Tracks"
+    },
+    {
+      "genre": "ロック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=IKhGTbXE7Do",
+      "memo": "Auto-collected from YouTube search: rock classic track",
+      "title": "Classic Rock Guitar Backing Track in B",
+      "duration": 528,
+      "uploader": "JamTracksChannel"
+    },
+    {
+      "genre": "ロック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=O_9_RwPUlpc",
+      "memo": "Auto-collected from YouTube search: rock classic track",
+      "title": "Classic Rock Guitar Backing Track - Blues Rock Jam in E",
+      "duration": 582,
+      "uploader": "JamTracksChannel"
+    },
+    {
+      "genre": "ロック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=0Q50DXNWU2Q",
+      "memo": "Auto-collected from YouTube search: rock classic track",
+      "title": "Dire Straits \"Money For Nothing\" performed by The Classic Rock Show",
+      "duration": 441,
+      "uploader": "The Classic Rock Show"
+    },
+    {
+      "genre": "ロック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=r53sfLUAYUw",
+      "memo": "Auto-collected from YouTube search: rock classic track",
+      "title": "Led Zeppelin \"Rock and Roll\" performed by The Classic Rock Show (2023) 4K",
+      "duration": 525,
+      "uploader": "The Classic Rock Show"
+    },
+    {
+      "genre": "パンク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Q3mnUqj7BO0",
+      "memo": "Auto-collected from YouTube search: punk rock classic track",
+      "title": "Punk Rock Classic",
+      "duration": 103,
+      "uploader": "Hellripper"
+    },
+    {
+      "genre": "パンク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=0OL9InJkh7o",
+      "memo": "Auto-collected from YouTube search: punk rock classic track",
+      "title": "Testing Death Cab for Cuties Music Knowledge | Track Star*",
+      "duration": 1189,
+      "uploader": "Track Star*"
+    },
+    {
+      "genre": "パンク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=obAf4kLiQcM",
+      "memo": "Auto-collected from YouTube search: punk rock classic track",
+      "title": "5 PUNK ROCK ANTHEMS PART 1: NOFX, BAD RELIGION, RANCID, DESCENDENTS AND PENNYWISE - 4K - WITH LYRICS",
+      "duration": 953,
+      "uploader": "PUNK ROCK TV - Stage Dive Films"
+    },
+    {
+      "genre": "パンク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=HTVFMQJETBY",
+      "memo": "Auto-collected from YouTube search: punk rock classic track",
+      "title": "Guess the Punk Rock Song | Music Quiz",
+      "duration": 1012,
+      "uploader": "Guess the Rock Song! "
+    },
+    {
+      "genre": "パンク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=rZc_o8zG4W4",
+      "memo": "Auto-collected from YouTube search: punk rock classic track",
+      "title": "How The Pros Play Punk Rock Guitar Faster Than You",
+      "duration": 88,
+      "uploader": "SugarpillProductions"
+    },
+    {
+      "genre": "パンク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=yqrAPOZxgzU",
+      "memo": "Auto-collected from YouTube search: punk rock classic track",
+      "title": "Sex Pistols - God Save The Queen",
+      "duration": 204,
+      "uploader": "Sex Pistols Official"
+    },
+    {
+      "genre": "パンク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=6AwO3R-PTlo",
+      "memo": "Auto-collected from YouTube search: punk rock classic track",
+      "title": "Remember these AWESOME Pop Punk HITS?! | MUSIC QUIZ | GUESS THE SONG",
+      "duration": 583,
+      "uploader": "QuizzyTunes"
+    },
+    {
+      "genre": "パンク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ai08Y8l_Csg",
+      "memo": "Auto-collected from YouTube search: punk rock classic track",
+      "title": "Red Hot Chili Peppers- Punk Rock Classic",
+      "duration": 107,
+      "uploader": "Bayview05"
+    },
+    {
+      "genre": "ハードコア",
+      "youtubeUrl": "https://www.youtube.com/watch?v=7kUJJQcYmmA",
+      "memo": "Auto-collected from YouTube search: hardcore punk classic track",
+      "title": "The Absolute Basics of Hardcore Punk on Guitar (Compilation of Guitar-Hacks #1-#10)",
+      "duration": 874,
+      "uploader": "NoCombs_NoMasters"
+    },
+    {
+      "genre": "ハードコア",
+      "youtubeUrl": "https://www.youtube.com/watch?v=CILTCPltPCc",
+      "memo": "Auto-collected from YouTube search: hardcore punk classic track",
+      "title": "149BPM Punk / Hardcore Song DRUMS ONLY",
+      "duration": 176,
+      "uploader": "Oracle Sound"
+    },
+    {
+      "genre": "ハードコア",
+      "youtubeUrl": "https://www.youtube.com/watch?v=r4l2retSEjU",
+      "memo": "Auto-collected from YouTube search: hardcore punk classic track",
+      "title": "An Ignorant Guide to Hardcore Punk",
+      "duration": 659,
+      "uploader": "Coolea"
+    },
+    {
+      "genre": "ハードコア",
+      "youtubeUrl": "https://www.youtube.com/watch?v=cMykj56ZKvw",
+      "memo": "Auto-collected from YouTube search: hardcore punk classic track",
+      "title": "Australian Punk Hardcore Compilation Vol. 1",
+      "duration": 1759,
+      "uploader": "Hardcore is more than music"
+    },
+    {
+      "genre": "ハードコア",
+      "youtubeUrl": "https://www.youtube.com/watch?v=lZ-zWXVCgYM",
+      "memo": "Auto-collected from YouTube search: hardcore punk classic track",
+      "title": "5 Punk/Hardcore Drum Beats",
+      "duration": 510,
+      "uploader": "Thomas Cantwell"
+    },
+    {
+      "genre": "ハードコア",
+      "youtubeUrl": "https://www.youtube.com/watch?v=R9_mP48PNwA",
+      "memo": "Auto-collected from YouTube search: hardcore punk classic track",
+      "title": "How To Write A Hardcore Punk Riff",
+      "duration": 875,
+      "uploader": "12tone"
+    },
+    {
+      "genre": "ハードコア",
+      "youtubeUrl": "https://www.youtube.com/watch?v=d3mVNZrv1T8",
+      "memo": "Auto-collected from YouTube search: hardcore punk classic track",
+      "title": "Gm | Hardcore Punk guitar Backing Track Jam Play Along",
+      "duration": 610,
+      "uploader": "Heavy Metal Backing Tracks - Topic"
+    },
+    {
+      "genre": "ハードコア",
+      "youtubeUrl": "https://www.youtube.com/watch?v=UHWnBrLzOX8",
+      "memo": "Auto-collected from YouTube search: hardcore punk classic track",
+      "title": "PUNK ROCK Backing Track in C major/A minor",
+      "duration": 299,
+      "uploader": "Typhoon Jam Tracks"
+    },
+    {
+      "genre": "ハードコア",
+      "youtubeUrl": "https://www.youtube.com/watch?v=NICVeqmSJEU",
+      "memo": "Auto-collected from YouTube search: hardcore punk classic track",
+      "title": "20 Classic Punk Songs",
+      "duration": 427,
+      "uploader": "BLOXSY"
+    },
+    {
+      "genre": "ハードコア",
+      "youtubeUrl": "https://www.youtube.com/watch?v=lNJMuqbdne4",
+      "memo": "Auto-collected from YouTube search: hardcore punk classic track",
+      "title": "I Made a Post-Hardcore Song in a Flash Game",
+      "duration": 512,
+      "uploader": "Nik Nocturnal"
+    },
+    {
+      "genre": "メタル",
+      "youtubeUrl": "https://www.youtube.com/watch?v=2rH6ukH36KQ",
+      "memo": "Auto-collected from YouTube search: metal classic track",
+      "title": "10 Metal Riffs Before Metal Was Invented | With Tabs",
+      "duration": 735,
+      "uploader": "İBRAHİM BİRDAL"
+    },
+    {
+      "genre": "メタル",
+      "youtubeUrl": "https://www.youtube.com/watch?v=C7Vcok3nN8c",
+      "memo": "Auto-collected from YouTube search: metal classic track",
+      "title": "Heavy Britain | 10 Tracks That Pioneered Metal in the Late 60s",
+      "duration": 1009,
+      "uploader": "Yesterday's Papers"
+    },
+    {
+      "genre": "メタル",
+      "youtubeUrl": "https://www.youtube.com/watch?v=_XkYi-9OP_M",
+      "memo": "Auto-collected from YouTube search: metal classic track",
+      "title": "METAL BLACK  Classic Thrash Metal Revival ((5 Tracks))",
+      "duration": 1121,
+      "uploader": "Moshi Music Metal"
+    },
+    {
+      "genre": "メタル",
+      "youtubeUrl": "https://www.youtube.com/watch?v=WTy2-eBqOAc",
+      "memo": "Auto-collected from YouTube search: metal classic track",
+      "title": "Old School Heavy Metal Backing Track in Em",
+      "duration": 449,
+      "uploader": "Dopez Tracks"
+    },
+    {
+      "genre": "メタル",
+      "youtubeUrl": "https://www.youtube.com/watch?v=vjCf7cWaINI",
+      "memo": "Auto-collected from YouTube search: metal classic track",
+      "title": "Metal Was Already Here: 10 Classical Pieces That Prove It | Vol. 2 (With Tabs)",
+      "duration": 952,
+      "uploader": "İBRAHİM BİRDAL"
+    },
+    {
+      "genre": "メタル",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ljcj53vAwy0",
+      "memo": "Auto-collected from YouTube search: metal classic track",
+      "title": "80's Heavy Metal Backing Track In D Minor",
+      "duration": 374,
+      "uploader": "StarGuitarSimon"
+    },
+    {
+      "genre": "メタル",
+      "youtubeUrl": "https://www.youtube.com/watch?v=4ZDwOrOoO78",
+      "memo": "Auto-collected from YouTube search: metal classic track",
+      "title": "Classic Metal Guitar Backing Track E minor (140bpm)",
+      "duration": 667,
+      "uploader": "Magnesid"
+    },
+    {
+      "genre": "メタル",
+      "youtubeUrl": "https://www.youtube.com/watch?v=QugExW3-JUA",
+      "memo": "Auto-collected from YouTube search: metal classic track",
+      "title": "The Simple Genius Of CLASSIC METAL",
+      "duration": 854,
+      "uploader": "Bradley Hall's Guitar School"
+    },
+    {
+      "genre": "メタル",
+      "youtubeUrl": "https://www.youtube.com/watch?v=WaX2Try8cn0",
+      "memo": "Auto-collected from YouTube search: metal classic track",
+      "title": "Standlake - Heavy Metal Classic 2026",
+      "duration": 1176,
+      "uploader": "Sammy O'Reilly"
+    },
+    {
+      "genre": "メタル",
+      "youtubeUrl": "https://www.youtube.com/watch?v=bYWrkssQRZE",
+      "memo": "Auto-collected from YouTube search: metal classic track",
+      "title": "Classics | Heavy Metal Guitar Backing Track Am",
+      "duration": 292,
+      "uploader": "MusicArt Jam"
+    },
+    {
+      "genre": "ジャズ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=j8_b4SHLd4I",
+      "memo": "Auto-collected from YouTube search: jazz representative track",
+      "title": "Invitation (Cmi) - Medium Slow Swing || BACKING TRACK",
+      "duration": 456,
+      "uploader": "JGC Play-Alongs"
+    },
+    {
+      "genre": "ジャズ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=2Vl58G5DA9Q",
+      "memo": "Auto-collected from YouTube search: jazz representative track",
+      "title": "Sandu - Medium Slow Swing || BACKING TRACK",
+      "duration": 234,
+      "uploader": "JGC Play-Alongs"
+    },
+    {
+      "genre": "ジャズ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=yijw_xUkIq8",
+      "memo": "Auto-collected from YouTube search: jazz representative track",
+      "title": "My Shining Hour (C) - Up Tempo Swing || BACKING TRACK",
+      "duration": 261,
+      "uploader": "JGC Play-Alongs"
+    },
+    {
+      "genre": "ジャズ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=BFFeaUinJk0",
+      "memo": "Auto-collected from YouTube search: jazz representative track",
+      "title": "Evidence - Medium Up Swing || BACKING TRACK",
+      "duration": 330,
+      "uploader": "JGC Play-Alongs"
+    },
+    {
+      "genre": "ジャズ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=qT-113AVVCk",
+      "memo": "Auto-collected from YouTube search: jazz representative track",
+      "title": "Inner Urge - Medium Swing || BACKING TRACK",
+      "duration": 365,
+      "uploader": "JGC Play-Alongs"
+    },
+    {
+      "genre": "ジャズ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=I174vs3XFSI",
+      "memo": "Auto-collected from YouTube search: jazz representative track",
+      "title": "Moment's Notice - Up Tempo Swing || BACKING TRACK",
+      "duration": 349,
+      "uploader": "JGC Play-Alongs"
+    },
+    {
+      "genre": "ジャズ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=wTEP9F5Vssw",
+      "memo": "Auto-collected from YouTube search: jazz representative track",
+      "title": "Naima - Ballad || BACKING TRACK",
+      "duration": 375,
+      "uploader": "JGC Play-Alongs"
+    },
+    {
+      "genre": "ジャズ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=74i_NRLOblQ",
+      "memo": "Auto-collected from YouTube search: jazz representative track",
+      "title": "Moment's Notice [No Piano] - Up Tempo Swing || BACKING TRACK",
+      "duration": 349,
+      "uploader": "JGC Play-Alongs"
+    },
+    {
+      "genre": "ジャズ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=MKEpPhefcxU",
+      "memo": "Auto-collected from YouTube search: jazz classic track",
+      "title": "Jazz Standards Medley (Fly Me To The Moon, Autumn Leaves, Misty, L.O.V.E. & More) - Mild Nawin",
+      "duration": 392,
+      "uploader": "Mild Nawin"
+    },
+    {
+      "genre": "ファンク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=3K8dNctci1Y",
+      "memo": "Auto-collected from YouTube search: funk classic track",
+      "title": "Funk No.1 - TOKYO GROOVE JYOSHI (feat. Juna Serita & Harumo Imai)",
+      "duration": 308,
+      "uploader": "Juna Serita"
+    },
+    {
+      "genre": "ファンク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=XBwVpWRl4Lo",
+      "memo": "Auto-collected from YouTube search: funk representative track",
+      "title": "Sidha Banda",
+      "duration": 125,
+      "uploader": "3 records"
+    },
+    {
+      "genre": "ファンク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=PfbDkdMD9_A",
+      "memo": "Auto-collected from YouTube search: funk representative track",
+      "title": "Disco Funk Mix 2020 | The Best of Disco Funk 2020 by OSOCITY",
+      "duration": 1539,
+      "uploader": "OSOCITYNATION"
+    },
+    {
+      "genre": "ファンク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=eS5jLhqKFw4",
+      "memo": "Auto-collected from YouTube search: funk representative track",
+      "title": "𝙍𝙓𝙋𝙊𝙎𝙊99 | 𝙎𝙀𝙌𝙐𝙀𝙉𝘾𝙄𝘼 𝙈𝘼𝙇𝙀𝙁𝙄𝘾𝘼 1.0 𝙭 𝘿𝙤𝙣 𝙇𝙤𝙧𝙚𝙣𝙯𝙤 𝘽𝙇𝙆 | [ 𝘖𝘳𝘪𝘨𝘪𝘯𝘢𝘭 𝘝𝘦𝘳𝘴𝘪𝘰𝘯 ] | [ 𝘽𝙧𝙖𝙯𝙞𝙡𝙞𝙖𝙣 𝙁𝙪𝙣𝙠 ]",
+      "duration": 97,
+      "uploader": "𝙕 𝙖 𝙖 𝙓 ┆フォンク"
+    },
+    {
+      "genre": "ファンク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ymNFyxvIdaM",
+      "memo": "Auto-collected from YouTube search: funk representative track",
+      "title": "Bomfunk MC's - Freestyler (Video Original Version)",
+      "duration": 292,
+      "uploader": "BomfunkMCsVEVO"
+    },
+    {
+      "genre": "ファンク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=wIOuC6nnJ1Q",
+      "memo": "Auto-collected from YouTube search: funk representative track",
+      "title": "JESTER FUNK",
+      "duration": 60,
+      "uploader": "bear bear & friends"
+    },
+    {
+      "genre": "ファンク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ZvCcOFTS27Y",
+      "memo": "Auto-collected from YouTube search: funk representative track",
+      "title": "Heavy Weight",
+      "duration": 288,
+      "uploader": "Chathuwa"
+    },
+    {
+      "genre": "ファンク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=q6IFoHgo0is",
+      "memo": "Auto-collected from YouTube search: funk representative track",
+      "title": "Funk Jam Backing Tracks Key=A ファンクギターの練習用カラオケ",
+      "duration": 478,
+      "uploader": "Guitarist 杉山つよし"
+    },
+    {
+      "genre": "ファンク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=GeszARkWZw0",
+      "memo": "Auto-collected from YouTube search: funk representative track",
+      "title": "SLAVA FUNK!",
+      "duration": 113,
+      "uploader": "MVSTERIOUS"
+    },
+    {
+      "genre": "ファンク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=vDMwDT6BhhE",
+      "memo": "Auto-collected from YouTube search: funk representative track",
+      "title": "Objection Funk",
+      "duration": 119,
+      "uploader": "iteachvader"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=erYcfwazI9c",
+      "memo": "Auto-collected from YouTube search: soul music classic track",
+      "title": "Soul Blues Icons | Songs inspired by Ray Charles, Etta James and Otis Redding | Smooth & Timeless",
+      "duration": 1124,
+      "uploader": "Soul Blue Icons"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=A134hShx_gw",
+      "memo": "Auto-collected from YouTube search: Aretha Franklin Respect",
+      "title": "Aretha Franklin - Respect (Official Lyric Video)",
+      "duration": 150,
+      "uploader": "Aretha Franklin"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=s3Itb17PXvw",
+      "memo": "Auto-collected from YouTube search: Aretha Franklin Respect",
+      "title": "Aretha Franklin | Respect | 1967 | Best Version",
+      "duration": 144,
+      "uploader": "Black Music Archive LIVE!"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=9iayJ8u4Qew",
+      "memo": "Auto-collected from YouTube search: Aretha Franklin Respect",
+      "title": "Respect",
+      "duration": 149,
+      "uploader": "Aretha Franklin"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=L2v6ZEU4SLU",
+      "memo": "Auto-collected from YouTube search: Aretha Franklin Respect",
+      "title": "Respect (Aretha Franklin) | Blues Brothers 2000 | TUNE",
+      "duration": 194,
+      "uploader": "TUNE - Musical Moments"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=6FOUqQt3Kg0",
+      "memo": "Auto-collected from YouTube search: Aretha Franklin Respect",
+      "title": "Aretha Franklin - Respect [1967] (Aretha's Original Version)",
+      "duration": 150,
+      "uploader": "TatánMorenoR"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=cYbs_O_iMfU",
+      "memo": "Auto-collected from YouTube search: Aretha Franklin Respect",
+      "title": "Aretha Franklin - Respect (1967) HD 0815007",
+      "duration": 142,
+      "uploader": "Gerda0815007"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=9QQwVVSvmxA",
+      "memo": "Auto-collected from YouTube search: Aretha Franklin Respect",
+      "title": "Aretha Franklin - \"Respect\" | 25th Anniversary Concert",
+      "duration": 261,
+      "uploader": "Rock & Roll Hall of Fame"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=zF-gQP91iIE",
+      "memo": "Auto-collected from YouTube search: Aretha Franklin Respect",
+      "title": "Aretha Franklin   R.E.S.P.E.C.T LIVE 1991",
+      "duration": 199,
+      "uploader": "Mrs Matt Murphy"
+    },
+    {
+      "genre": "ディスコ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=-znjzirDXPw",
+      "memo": "Auto-collected from YouTube search: disco classic track",
+      "title": "200 Disco Hits of the '70s & Early '80s",
+      "duration": 1227,
+      "uploader": "Some random guy"
+    },
+    {
+      "genre": "ディスコ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=fzI6vO8_G0U",
+      "memo": "Auto-collected from YouTube search: disco representative track",
+      "title": "Lobo - The Carribbean Disco Show (1981) • TopPop",
+      "duration": 302,
+      "uploader": "TopPop"
+    },
+    {
+      "genre": "ディスコ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=-ychq-sx8VI",
+      "memo": "Auto-collected from YouTube search: disco classic track",
+      "title": "Lee Marrow - Shanghai ( 1985) 🇮🇹 🕺🏻 Italo Disco Classic 💿 🎶",
+      "duration": 323,
+      "uploader": "zyxdance"
+    },
+    {
+      "genre": "ディスコ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Y8ZN7QjQcP0",
+      "memo": "Auto-collected from YouTube search: disco music track",
+      "title": "It's the Time to Disco - Kal Ho Naa Ho | Shah Rukh Khan | Saif Ali Khan |Preity Zinta |Shaan| KK| 4K",
+      "duration": 310,
+      "uploader": "Sony Music India"
+    },
+    {
+      "genre": "ディスコ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=bdTomaaRFHk",
+      "memo": "Auto-collected from YouTube search: disco music track",
+      "title": "New Disco MIX 2022, Italo Disco Instrumental Music",
+      "duration": 1333,
+      "uploader": "kv music collection"
+    },
+    {
+      "genre": "ディスコ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=M03GOY5eINg",
+      "memo": "Auto-collected from YouTube search: disco music track",
+      "title": "It's the Time to Disco - Kal Ho Naa Ho | Shahrukh, Saif, Preity | Shankar Ehsaan Loy",
+      "duration": 309,
+      "uploader": "SonyMusicIndiaVEVO"
+    },
+    {
+      "genre": "ディスコ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=mcL6ZErM49Q",
+      "memo": "Auto-collected from YouTube search: disco music track",
+      "title": "The Disco Song Full Song - SOTY|Alia Bhatt,Sidharth Malhotra,Varun Dhawan|Sunidhi Chauhan",
+      "duration": 358,
+      "uploader": "Sony Music India"
+    },
+    {
+      "genre": "ディスコ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=I5SzASOuZVA",
+      "memo": "Auto-collected from YouTube search: disco music track",
+      "title": "Disco Disco: A Gentleman - Sundar, Susheel, Risky | Sidharth,Jacqueline | Sachin-Jigar|Benny,Shirley",
+      "duration": 153,
+      "uploader": "T-Series"
+    },
+    {
+      "genre": "ディスコ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=HyHDyw71cqw",
+      "memo": "Auto-collected from YouTube search: disco music track",
+      "title": "The Disco Song | SOTY| @aliabhattAlia Bhatt, Siddharth, Varun | Sunidhi Chauhan | Benny Dayal | 4K",
+      "duration": 345,
+      "uploader": "Sony Music India"
+    },
+    {
+      "genre": "ディスコ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=fNFzfwLM72c",
+      "memo": "Auto-collected from YouTube search: Bee Gees Stayin Alive",
+      "title": "Bee Gees - Stayin' Alive (Official Music Video)",
+      "duration": 250,
+      "uploader": "beegees"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=-F7R5PuLF1I",
+      "memo": "Auto-collected from YouTube search: city pop representative track",
+      "title": "【CityPop / AOR (AOR歌謡）】水平線ドライブ",
+      "duration": 260,
+      "uploader": "Music Earth"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=fKBqdHHIV64",
+      "memo": "Auto-collected from YouTube search: city pop representative track",
+      "title": "Neo Soul RnB Guitar Backing Track in Cm",
+      "duration": 605,
+      "uploader": "Samurai Jam Tracks"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=M-OlgCZpMR0",
+      "memo": "Auto-collected from YouTube search: city pop representative track",
+      "title": "SPECTRUM / F-L-Y (Music Video)",
+      "duration": 209,
+      "uploader": "Victor Entertainment"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=pHMH408ltEM",
+      "memo": "Auto-collected from YouTube search: city pop representative track",
+      "title": "ATARASHII GAKKO! - Tokyo Calling (Official Music Video)",
+      "duration": 206,
+      "uploader": "88rising"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=oscjxFnqjow",
+      "memo": "Auto-collected from YouTube search: city pop representative track",
+      "title": "JAPANESE SONG / 80's CITY POP / EPO / Vol.7 / Girl in me",
+      "duration": 226,
+      "uploader": "from JAPAN"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=CRvln8u6LGk",
+      "memo": "Auto-collected from YouTube search: city pop representative track",
+      "title": "JAPANESE SONG / 80's CITY POP / EPO / Vol.13 / Ame no kennel doori / Kennel Street in the rain",
+      "duration": 272,
+      "uploader": "from JAPAN"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=quRYDYycjSU",
+      "memo": "Auto-collected from YouTube search: city pop representative track",
+      "title": "JAPANESE SONG / 80's CITY POP / EPO / Vol.18 / Juunigatsu no april fool / December April Fools' Day",
+      "duration": 264,
+      "uploader": "from JAPAN"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=lQVpE-cM-Wg",
+      "memo": "Auto-collected from YouTube search: city pop representative track",
+      "title": "JAPANESE SONG / 80's CITY POP / EPO / Vol.17 / Mugon no jealousy / Slent jealousy",
+      "duration": 317,
+      "uploader": "from JAPAN"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=43HAbWpAcV4",
+      "memo": "Auto-collected from YouTube search: city pop representative track",
+      "title": "JAPANESE SONG / 80's CITY POP / EPO / Vol.16 / Namida no crown / Crown of Tears",
+      "duration": 192,
+      "uploader": "from JAPAN"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=7TaFAgmTViI",
+      "memo": "Auto-collected from YouTube search: city pop representative track",
+      "title": "JAPANESE SONG / 80's CITY POP / EPO / Vol.6 / U,fu,fu,fu",
+      "duration": 255,
+      "uploader": "from JAPAN"
+    },
+    {
+      "genre": "J-POP",
+      "youtubeUrl": "https://www.youtube.com/watch?v=uAqITu9ypDo",
+      "memo": "Auto-collected from YouTube search: J-POP representative track",
+      "title": "MOROHA - 革命 / THE FIRST TAKE",
+      "duration": 378,
+      "uploader": "THE FIRST TAKE"
+    },
+    {
+      "genre": "J-POP",
+      "youtubeUrl": "https://www.youtube.com/watch?v=QglyUA_t6Ng",
+      "memo": "Auto-collected from YouTube search: J-POP representative track",
+      "title": "ゴスペラーズ - ひとり / THE FIRST TAKE",
+      "duration": 260,
+      "uploader": "THE FIRST TAKE"
+    },
+    {
+      "genre": "J-POP",
+      "youtubeUrl": "https://www.youtube.com/watch?v=3zh9Wb1KuW8",
+      "memo": "Auto-collected from YouTube search: J-POP representative track",
+      "title": "Shinunoga E-Wa",
+      "duration": 186,
+      "uploader": "Fujii Kaze"
+    },
+    {
+      "genre": "J-POP",
+      "youtubeUrl": "https://www.youtube.com/watch?v=-c2GN677zOQ",
+      "memo": "Auto-collected from YouTube search: J-POP representative track",
+      "title": "Hey! Say! JUMP -  UMP [Official Music Video YouTube 4K ver.]",
+      "duration": 320,
+      "uploader": "Hey! Say! JUMP"
+    },
+    {
+      "genre": "J-POP",
+      "youtubeUrl": "https://www.youtube.com/watch?v=eA9I5eQY_Fo",
+      "memo": "Auto-collected from YouTube search: J-POP representative track",
+      "title": "She is the Class Representative",
+      "duration": 96,
+      "uploader": "Shuji Katayama - Topic"
+    },
+    {
+      "genre": "J-POP",
+      "youtubeUrl": "https://www.youtube.com/watch?v=bV0VA2AOYJc",
+      "memo": "Auto-collected from YouTube search: J-POP representative track",
+      "title": "NiziU - Make you happy / THE FIRST TAKE",
+      "duration": 287,
+      "uploader": "THE FIRST TAKE"
+    },
+    {
+      "genre": "J-POP",
+      "youtubeUrl": "https://www.youtube.com/watch?v=8RmZFUxos3E",
+      "memo": "Auto-collected from YouTube search: J-POP representative track",
+      "title": "ぎゅっと。/ もさを。【Music Video】",
+      "duration": 272,
+      "uploader": "もさを。"
+    },
+    {
+      "genre": "J-POP",
+      "youtubeUrl": "https://www.youtube.com/watch?v=XRsyM03QeAs",
+      "memo": "Auto-collected from YouTube search: J-POP representative track",
+      "title": "The Most Popular J-Pop Song of Each Month in the 1980s",
+      "duration": 1548,
+      "uploader": "theDX"
+    },
+    {
+      "genre": "J-POP",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Egy8RZKxC5k",
+      "memo": "Auto-collected from YouTube search: J-POP representative track",
+      "title": "会いたい / もさを。【Music Video】",
+      "duration": 251,
+      "uploader": "もさを。"
+    },
+    {
+      "genre": "J-POP",
+      "youtubeUrl": "https://www.youtube.com/watch?v=oe4XJ851oOk",
+      "memo": "Auto-collected from YouTube search: J-POP representative track",
+      "title": "LiSA『ReawakeR (feat. Felix of Stray Kids)』MUSiC CLiP",
+      "duration": 192,
+      "uploader": "LiSA Official YouTube"
+    },
+    {
+      "genre": "アニメソング",
+      "youtubeUrl": "https://www.youtube.com/watch?v=JPZ-QyVBOf8",
+      "memo": "Auto-collected from YouTube search: anisong classic track",
+      "title": "100 ANIME SONGS in 30 MINUTES!!! (Piano Medley – 100,000 Subscribers Special)",
+      "duration": 1792,
+      "uploader": "HalcyonMusic"
+    },
+    {
+      "genre": "アニメソング",
+      "youtubeUrl": "https://www.youtube.com/watch?v=msP8f7pFdFg",
+      "memo": "Auto-collected from YouTube search: anisong classic track",
+      "title": "50 ANIME in 5 minutes | PIANO MEDLEY",
+      "duration": 300,
+      "uploader": "PACIL"
+    },
+    {
+      "genre": "アニメソング",
+      "youtubeUrl": "https://www.youtube.com/watch?v=eUJa_XdJazk",
+      "memo": "Auto-collected from YouTube search: anisong classic track",
+      "title": "Anime medley part1",
+      "duration": 562,
+      "uploader": "The Kwaks Production"
+    },
+    {
+      "genre": "アニメソング",
+      "youtubeUrl": "https://www.youtube.com/watch?v=6aezSL_GvZA",
+      "memo": "Auto-collected from YouTube search: anisong classic track",
+      "title": "Japan's favourite chord progression and why it works",
+      "duration": 600,
+      "uploader": "David Bennett Music Theory"
+    },
+    {
+      "genre": "アニメソング",
+      "youtubeUrl": "https://www.youtube.com/watch?v=dppErc7xbAs",
+      "memo": "Auto-collected from YouTube search: anisong classic track",
+      "title": "TRY NOT TO SING [ANIME EDITION] 🚫99% IMPOSSIBLE🚫 +100 LEGENDARY OPENINGS 👑",
+      "duration": 1357,
+      "uploader": "Donki - Anime"
+    },
+    {
+      "genre": "アニメソング",
+      "youtubeUrl": "https://www.youtube.com/watch?v=QWjkGso2SIg",
+      "memo": "Auto-collected from YouTube search: anisong classic track",
+      "title": "Best Anime Openings | 1990 - 1999",
+      "duration": 1318,
+      "uploader": "Yvimarã AMVs"
+    },
+    {
+      "genre": "アニメソング",
+      "youtubeUrl": "https://www.youtube.com/watch?v=sEQf5lcnj_o",
+      "memo": "Auto-collected from YouTube search: anisong classic track",
+      "title": "Unravel - Tokyo Ghoul OP [Piano]",
+      "duration": 248,
+      "uploader": "Animenz Piano Sheets"
+    },
+    {
+      "genre": "アニメソング",
+      "youtubeUrl": "https://www.youtube.com/watch?v=KeGctT6lJCU",
+      "memo": "Auto-collected from YouTube search: anisong classic track",
+      "title": "100 Legendary Anime Openings [Re-upload]",
+      "duration": 753,
+      "uploader": "Kuma"
+    },
+    {
+      "genre": "アニメソング",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ArRGk1uvGgc",
+      "memo": "Auto-collected from YouTube search: anisong classic track",
+      "title": "The Evolution of Anime Series (1960 - 2020) | History of Anime through Openings",
+      "duration": 969,
+      "uploader": "Jorge Evoluciones"
+    },
+    {
+      "genre": "アニメソング",
+      "youtubeUrl": "https://www.youtube.com/watch?v=PGyLlggd3n0",
+      "memo": "Auto-collected from YouTube search: anisong classic track",
+      "title": "Beautiful Japanese Music - Inu Sad Song Mix - Emotional Soundtrack",
+      "duration": 1375,
+      "uploader": "The Soul of Wind"
+    },
+    {
+      "genre": "クラシック音楽",
+      "youtubeUrl": "https://www.youtube.com/watch?v=-Bxpm0EmOMU",
+      "memo": "Auto-collected from YouTube search: classical music representative piece",
+      "title": "Debussy: Clair de lune | Menahem Pressler, piano",
+      "duration": 327,
+      "uploader": "DW Classical Music"
+    },
+    {
+      "genre": "クラシック音楽",
+      "youtubeUrl": "https://www.youtube.com/watch?v=owBkQqkggwQ",
+      "memo": "Auto-collected from YouTube search: classical music representative piece",
+      "title": "Late-Night Swiping the *Rakes* of Classical Music",
+      "duration": 1027,
+      "uploader": "Scores Unstitched"
+    },
+    {
+      "genre": "クラシック音楽",
+      "youtubeUrl": "https://www.youtube.com/watch?v=5vYX_1TQ11w",
+      "memo": "Auto-collected from YouTube search: classical music representative piece",
+      "title": "Why This Top Music Agent Says Managers Don’t Matter",
+      "duration": 1560,
+      "uploader": "Living the Creative Life"
+    },
+    {
+      "genre": "クラシック音楽",
+      "youtubeUrl": "https://www.youtube.com/watch?v=NhVkzcCL0SA",
+      "memo": "Auto-collected from YouTube search: classical music representative piece",
+      "title": "100 Greatest Classical Music Works",
+      "duration": 736,
+      "uploader": "Essential Classical Music by Gil Zilkha"
+    },
+    {
+      "genre": "クラシック音楽",
+      "youtubeUrl": "https://www.youtube.com/watch?v=lAFYm32PZNQ",
+      "memo": "Auto-collected from YouTube search: classical music representative piece",
+      "title": "Classical Music Readers 3-5 : The Works of Johannes Brahms",
+      "duration": 664,
+      "uploader": "Seed Learning"
+    },
+    {
+      "genre": "クラシック音楽",
+      "youtubeUrl": "https://www.youtube.com/watch?v=JqdVKVGGf4w",
+      "memo": "Auto-collected from YouTube search: classical music representative piece",
+      "title": "130 Best Known Classical Music Pieces (in Historical Order)",
+      "duration": 1746,
+      "uploader": "Yusuf Yalcin"
+    },
+    {
+      "genre": "クラシック音楽",
+      "youtubeUrl": "https://www.youtube.com/watch?v=TflCx5sjewA",
+      "memo": "Auto-collected from YouTube search: classical music representative piece",
+      "title": "Kickass Classical Top 100 - Classical Music Best Famous Popular",
+      "duration": 1200,
+      "uploader": "Kickass Classical"
+    },
+    {
+      "genre": "クラシック音楽",
+      "youtubeUrl": "https://www.youtube.com/watch?v=S2CracjhRII",
+      "memo": "Auto-collected from YouTube search: classical music representative piece",
+      "title": "How to Listen to Classical Music",
+      "duration": 675,
+      "uploader": "Scores Unstitched"
+    },
+    {
+      "genre": "クラシック音楽",
+      "youtubeUrl": "https://www.youtube.com/watch?v=4OWl5ZdlfJ4",
+      "memo": "Auto-collected from YouTube search: classical music representative piece",
+      "title": "No Seriously, Classical Music Is Dying",
+      "duration": 1017,
+      "uploader": "Scores Unstitched"
+    },
+    {
+      "genre": "クラシック音楽",
+      "youtubeUrl": "https://www.youtube.com/watch?v=-DSjjXQaF-g",
+      "memo": "Auto-collected from YouTube search: classical music representative piece",
+      "title": "A Brief Overview of Romantic Era Music",
+      "duration": 185,
+      "uploader": "R. Smith Music"
+    },
+    {
+      "genre": "オペラ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=YuBeBjqKSGQ",
+      "memo": "Auto-collected from YouTube search: opera famous aria",
+      "title": "The Magic Flute – Queen of the Night aria (Mozart; Diana Damrau, The Royal Opera)",
+      "duration": 181,
+      "uploader": "Royal Ballet and Opera"
+    },
+    {
+      "genre": "オペラ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=h4t9qpbFf-Y",
+      "memo": "Auto-collected from YouTube search: opera famous aria",
+      "title": "🎭 9 famous opera songs you've heard and don't know the name! 🎶",
+      "duration": 224,
+      "uploader": "Classical Power"
+    },
+    {
+      "genre": "オペラ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=RxZSP1Dc78Q",
+      "memo": "Auto-collected from YouTube search: opera famous aria",
+      "title": "Montserrat Caballé - O mio babbino caro",
+      "duration": 238,
+      "uploader": "LadyArmide"
+    },
+    {
+      "genre": "オペラ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=cWc7vYjgnTs",
+      "memo": "Auto-collected from YouTube search: opera famous aria",
+      "title": "Luciano Pavarotti sings \"Nessun dorma\" from Turandot (The Three Tenors in Concert 1994)",
+      "duration": 195,
+      "uploader": "Warner Classics"
+    },
+    {
+      "genre": "オペラ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=VRPDulYxIAc",
+      "memo": "Auto-collected from YouTube search: opera famous aria",
+      "title": "Tosca - Vissi d'arte (Angela Gheorghiu, The Royal Opera)",
+      "duration": 200,
+      "uploader": "Royal Ballet and Opera"
+    },
+    {
+      "genre": "オペラ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=FtdLk-78MUA",
+      "memo": "Auto-collected from YouTube search: opera famous aria",
+      "title": "Nadine Sierra & Pretty Yende - Delibes: Lakmé / Flower Duet",
+      "duration": 427,
+      "uploader": "Deutsche Grammophon - DG"
+    },
+    {
+      "genre": "オペラ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=s-TwMfgaDC8",
+      "memo": "Auto-collected from YouTube search: opera famous aria",
+      "title": "Maria Callas sings \"Casta Diva\" (Bellini: Norma, Act 1)",
+      "duration": 433,
+      "uploader": "Warner Classics"
+    },
+    {
+      "genre": "オペラ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=bkUq98oiyRc",
+      "memo": "Auto-collected from YouTube search: opera famous aria",
+      "title": "Puccini - Mme Batterfly - Un bel di, vedremo - Ying Huang - Cio-Cio-San (Mme Butterfly)",
+      "duration": 269,
+      "uploader": "dinahdavyd"
+    },
+    {
+      "genre": "オペラ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=GPVZZPQAJpo",
+      "memo": "Auto-collected from YouTube search: opera famous aria",
+      "title": "Patricia JANEČKOVÁ: \"Quando me´n vo´\" (Giacomo Puccini - La bohème)",
+      "duration": 185,
+      "uploader": "Patricia Janečková"
+    },
+    {
+      "genre": "フォーク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=47NqTUWJMu8",
+      "memo": "Auto-collected from YouTube search: folk song",
+      "title": "RATHIRI RATHIRI RATHIRILO FULL SONG | MADHURI RATHOD | ESHWAR SAI | LEADING BOYS | EGP MUSIC MOVIES",
+      "duration": 296,
+      "uploader": "EGP MUSIC AND MOVIES"
+    },
+    {
+      "genre": "フォーク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=NEAsHXgmqas",
+      "memo": "Auto-collected from YouTube search: folk song",
+      "title": "Peddi Reddy Full Song | Bullet Bandi Laxman | Madeen Sk | Naga Durga | Leading Boys",
+      "duration": 325,
+      "uploader": "Sound Lagare"
+    },
+    {
+      "genre": "フォーク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=fnxO2BRvaGE",
+      "memo": "Auto-collected from YouTube search: folk song",
+      "title": "What If “The Sound of Silence” Were an Irish Folk Song?",
+      "duration": 210,
+      "uploader": "Ethan Gontar"
+    },
+    {
+      "genre": "フォーク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Ak8tAnTE9k8",
+      "memo": "Auto-collected from YouTube search: folk song",
+      "title": "কথা রাখলা না । Kotha Rakhla Na । Akash Mahmud। Sadia  Liza । Folk Song । AR Music Station  ।",
+      "duration": 253,
+      "uploader": "AR Music Station "
+    },
+    {
+      "genre": "フォーク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Ie1GC0ohG7E",
+      "memo": "Auto-collected from YouTube search: folk song",
+      "title": "GUJJARI GUJJARI MAMINDLA KINDA FULL SONG | SWAMI SINGER | PRABHA | VAISHNAVI SONY | AKSHITH MARVEL",
+      "duration": 286,
+      "uploader": "Love Duniya"
+    },
+    {
+      "genre": "フォーク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Cjv5eMD0X3s",
+      "memo": "Auto-collected from YouTube search: folk song",
+      "title": "Tomar Ghore Boshot Kore Koy Jona ft. Rong Tuli Band | Bangla Folk Song | Folk Studio Bangla 2024",
+      "duration": 361,
+      "uploader": "Folk Studio Bangla"
+    }
+  ],
+  "missing": [],
+  "removedAnalysisFailures": [
+    {
+      "genre": "パンク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=VbTYnJshTas",
+      "error": "/Users/kahanishimoto/Documents/MUSICTee/.tools/bin/yt-dlp-local failed (1): WARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nERROR: m3u8 download detected but ffmpeg could not be found. Please install\nERROR: Unable to download video: [Errno 2] No such file or directory: '/var/folders/ry/h3d_9ml15nddxqmcqx7_4xnw0000gn/T/mmfr-audio-rprUfW/source.mp4.part'",
+      "removedAt": "2026-06-10T07:40:56.378Z"
+    },
+    {
+      "genre": "パンク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Nt27aBceerI",
+      "error": "/Users/kahanishimoto/Documents/MUSICTee/.tools/bin/yt-dlp-local failed (1): WARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nERROR: m3u8 download detected but ffmpeg could not be found. Please install\nERROR: Unable to download video: [Errno 2] No such file or directory: '/var/folders/ry/h3d_9ml15nddxqmcqx7_4xnw0000gn/T/mmfr-audio-SiJiNc/source.mp4.part'",
+      "removedAt": "2026-06-10T07:40:56.378Z"
+    },
+    {
+      "genre": "ジャズ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=AYGEiSm29LM",
+      "error": "/Users/kahanishimoto/Documents/MUSICTee/.tools/bin/yt-dlp-local failed (1): WARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nERROR: m3u8 download detected but ffmpeg could not be found. Please install\nERROR: Unable to download video: [Errno 2] No such file or directory: '/var/folders/ry/h3d_9ml15nddxqmcqx7_4xnw0000gn/T/mmfr-audio-Ki4LJq/source.mp4.part'",
+      "removedAt": "2026-06-10T07:40:56.378Z"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=m58DWuZFI2U",
+      "error": "/Users/kahanishimoto/Documents/MUSICTee/.tools/bin/yt-dlp-local failed (1): WARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nERROR: m3u8 download detected but ffmpeg could not be found. Please install\nERROR: Unable to download video: [Errno 2] No such file or directory: '/var/folders/ry/h3d_9ml15nddxqmcqx7_4xnw0000gn/T/mmfr-audio-cLO9c3/source.mp4.part'",
+      "removedAt": "2026-06-10T07:40:56.378Z"
+    },
+    {
+      "genre": "オペラ",
+      "youtubeUrl": "https://www.youtube.com/watch?v=afhAqMeeQJk",
+      "error": "/Users/kahanishimoto/Documents/MUSICTee/.tools/bin/yt-dlp-local failed (1): WARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nERROR: unable to download video data: HTTP Error 403: Forbidden",
+      "removedAt": "2026-06-10T07:40:56.378Z"
+    },
+    {
+      "genre": "フォーク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=BTt33otVfJE",
+      "error": "/Users/kahanishimoto/Documents/MUSICTee/.tools/bin/yt-dlp-local failed (1): WARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nERROR: [youtube] BTt33otVfJE: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies",
+      "removedAt": "2026-06-10T07:40:56.378Z"
+    },
+    {
+      "genre": "フォーク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=3X1Yzz3A_qw",
+      "error": "/Users/kahanishimoto/Documents/MUSICTee/.tools/bin/yt-dlp-local failed (1): WARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: [youtube] No title found in player responses; falling back to title from initial data. Other metadata may also be missing\nERROR: [youtube] 3X1Yzz3A_qw: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies",
+      "removedAt": "2026-06-10T07:40:56.378Z"
+    },
+    {
+      "genre": "フォーク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=h7HQsJ1LbrE",
+      "error": "/Users/kahanishimoto/Documents/MUSICTee/.tools/bin/yt-dlp-local failed (1): WARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: [youtube] No title found in player responses; falling back to title from initial data. Other metadata may also be missing\nERROR: [youtube] h7HQsJ1LbrE: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies",
+      "removedAt": "2026-06-10T07:40:56.378Z"
+    },
+    {
+      "genre": "フォーク",
+      "youtubeUrl": "https://www.youtube.com/watch?v=zyiJOQ-hiaE",
+      "error": "/Users/kahanishimoto/Documents/MUSICTee/.tools/bin/yt-dlp-local failed (1): WARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: [youtube] No title found in player responses; falling back to title from initial data. Other metadata may also be missing\nERROR: [youtube] zyiJOQ-hiaE: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies",
+      "removedAt": "2026-06-10T07:40:56.378Z"
+    },
+    {
+      "genre": "ワールドミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=QaF_Aj6VgFc",
+      "error": "/Users/kahanishimoto/Documents/MUSICTee/.tools/bin/yt-dlp-local failed (1): WARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: [youtube] No title found in player responses; falling back to title from initial data. Other metadata may also be missing\nERROR: [youtube] QaF_Aj6VgFc: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies",
+      "removedAt": "2026-06-10T07:40:56.378Z"
+    },
+    {
+      "genre": "ワールドミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=4U8GqHeBV5o",
+      "error": "/Users/kahanishimoto/Documents/MUSICTee/.tools/bin/yt-dlp-local failed (1): WARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: [youtube] No title found in player responses; falling back to title from initial data. Other metadata may also be missing\nERROR: [youtube] 4U8GqHeBV5o: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies",
+      "removedAt": "2026-06-10T07:40:56.378Z"
+    },
+    {
+      "genre": "ワールドミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=IMFVo0X9HPE",
+      "error": "/Users/kahanishimoto/Documents/MUSICTee/.tools/bin/yt-dlp-local failed (1): WARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: [youtube] No title found in player responses; falling back to title from initial data. Other metadata may also be missing\nERROR: [youtube] IMFVo0X9HPE: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies",
+      "removedAt": "2026-06-10T07:40:56.378Z"
+    },
+    {
+      "genre": "ワールドミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=8OS3Q2CPFvk",
+      "error": "/Users/kahanishimoto/Documents/MUSICTee/.tools/bin/yt-dlp-local failed (1): WARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: [youtube] No title found in player responses; falling back to title from initial data. Other metadata may also be missing\nERROR: [youtube] 8OS3Q2CPFvk: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies",
+      "removedAt": "2026-06-10T07:40:56.378Z"
+    },
+    {
+      "genre": "ワールドミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=nJBvkgfsJEI",
+      "error": "/Users/kahanishimoto/Documents/MUSICTee/.tools/bin/yt-dlp-local failed (1): WARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: [youtube] No title found in player responses; falling back to title from initial data. Other metadata may also be missing\nERROR: [youtube] nJBvkgfsJEI: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies",
+      "removedAt": "2026-06-10T07:40:56.378Z"
+    },
+    {
+      "genre": "ワールドミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=YrH48qOgVvY",
+      "error": "/Users/kahanishimoto/Documents/MUSICTee/.tools/bin/yt-dlp-local failed (1): WARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: [youtube] No title found in player responses; falling back to title from initial data. Other metadata may also be missing\nERROR: [youtube] YrH48qOgVvY: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies",
+      "removedAt": "2026-06-10T07:40:56.378Z"
+    },
+    {
+      "genre": "ワールドミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=tc9SBeeADVU",
+      "error": "/Users/kahanishimoto/Documents/MUSICTee/.tools/bin/yt-dlp-local failed (1): WARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: [youtube] No title found in player responses; falling back to title from initial data. Other metadata may also be missing\nERROR: [youtube] tc9SBeeADVU: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies",
+      "removedAt": "2026-06-10T07:40:56.378Z"
+    },
+    {
+      "genre": "ワールドミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=YO3XhQMtuJw",
+      "error": "/Users/kahanishimoto/Documents/MUSICTee/.tools/bin/yt-dlp-local failed (1): WARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: [youtube] No title found in player responses; falling back to title from initial data. Other metadata may also be missing\nERROR: [youtube] YO3XhQMtuJw: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies",
+      "removedAt": "2026-06-10T07:40:56.378Z"
+    },
+    {
+      "genre": "ワールドミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=waImBy8OMrs",
+      "error": "/Users/kahanishimoto/Documents/MUSICTee/.tools/bin/yt-dlp-local failed (1): WARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: [youtube] No title found in player responses; falling back to title from initial data. Other metadata may also be missing\nERROR: [youtube] waImBy8OMrs: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies",
+      "removedAt": "2026-06-10T07:40:56.378Z"
+    },
+    {
+      "genre": "ワールドミュージック",
+      "youtubeUrl": "https://www.youtube.com/watch?v=wqCpjFMvz-k",
+      "error": "/Users/kahanishimoto/Documents/MUSICTee/.tools/bin/yt-dlp-local failed (1): WARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: [youtube] No title found in player responses; falling back to title from initial data. Other metadata may also be missing\nERROR: [youtube] wqCpjFMvz-k: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies",
+      "removedAt": "2026-06-10T07:40:56.378Z"
+    }
+  ],
+  "lastPrunedAt": "2026-06-10T07:40:56.378Z"
+}

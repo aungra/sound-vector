@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Designer notes</title>
+  <desc id="desc">Single-layer SVG extracted from SOUND VECTOR design format. Place this file on its own Illustrator layer.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10.4" refY="6" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L12 6 L0 12 Z" fill="#111"/>
+    </marker>
+  </defs>
+  <g id="notes_for_designer" data-layer="notes_for_designer">
+    <text x="880" y="278" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="18">LOCKED FORMAT</text>
+    <text x="880" y="310" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="14">Do not move axis endpoints.</text>
+    <text x="880" y="334" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="14">Redraw line expression and density.</text>
+    <text x="880" y="358" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="14">PCM carriers are visual paths.</text>
+    <text x="880" y="382" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="14">Audio restores from protected data.</text>
+    <text x="880" y="406" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="14">Keep pcm_reversible_data locked.</text>
+  </g>
+</svg>

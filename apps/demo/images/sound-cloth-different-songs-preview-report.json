@@ -1,0 +1,23 @@
+[
+  {
+    "label": "LOW / BASS CLOTH",
+    "engine": "reversible-sound-cloth-v2",
+    "fingerprint": "846457724",
+    "pass": "39",
+    "refinement": "100"
+  },
+  {
+    "label": "BRIGHT / FAST CLOTH",
+    "engine": "reversible-sound-cloth-v2",
+    "fingerprint": "323606986",
+    "pass": "52",
+    "refinement": "100"
+  },
+  {
+    "label": "ONSET / CUT CLOTH",
+    "engine": "reversible-sound-cloth-v2",
+    "fingerprint": "302677741",
+    "pass": "12",
+    "refinement": "100"
+  }
+]

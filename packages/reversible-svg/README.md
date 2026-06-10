@@ -1,0 +1,22 @@
+# @sound-vector/reversible-svg
+
+Reversible SVG codec package for Sound Vector.
+
+This package holds the first reusable `audio -> SVG -> audio` layer, including the `metadata#mmfr-reversible`, `pcm_reversible_waveform`, and `pcm_reversible_data` contracts.
+
+## Current API
+
+```js
+import {
+  decodePcmBytesFromProtectedLayer,
+  encodePcmBytesToProtectedLayer,
+  inspectReversibleSvg
+} from "@sound-vector/reversible-svg";
+
+const layer = encodePcmBytesToProtectedLayer(Uint8Array.from([0, 128, 255]));
+const svg = `<svg xmlns="http://www.w3.org/2000/svg">${layer}</svg>`;
+const restored = decodePcmBytesFromProtectedLayer(svg);
+const report = inspectReversibleSvg(svg);
+```
+
+The demo app still contains the fuller experimental encoder while this package is being expanded into the stable codec.

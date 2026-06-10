@@ -1,0 +1,34 @@
+[
+  {
+    "label": "LOW / BASS",
+    "engine": "reversible-sound-form-v3",
+    "mode": "pressure-map",
+    "fingerprint": "846457724",
+    "pass": "40",
+    "refinement": "100"
+  },
+  {
+    "label": "BRIGHT / FAST",
+    "engine": "reversible-sound-form-v3",
+    "mode": "memory-orbit",
+    "fingerprint": "323606986",
+    "pass": "55",
+    "refinement": "100"
+  },
+  {
+    "label": "WAVE / STRATA",
+    "engine": "reversible-sound-form-v3",
+    "mode": "wave-strata",
+    "fingerprint": "1407573810",
+    "pass": "22",
+    "refinement": "100"
+  },
+  {
+    "label": "ONSET / CUT",
+    "engine": "reversible-sound-form-v3",
+    "mode": "impact-fracture",
+    "fingerprint": "302677741",
+    "pass": "1",
+    "refinement": "100"
+  }
+]

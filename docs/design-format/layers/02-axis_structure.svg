@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Hidden axis structure</title>
+  <desc id="desc">Hidden single-layer SVG extracted from SOUND VECTOR design format. Keep this layer hidden when returning edited artwork to the app.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10.4" refY="6" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L12 6 L0 12 Z" fill="#111"/>
+    </marker>
+  </defs>
+  <g id="axis_structure" data-layer="axis_structure" display="none" aria-hidden="true">
+    <circle cx="600" cy="800" r="8" fill="#111" data-axis="origin"/>
+    <path d="M600 800 L842 916" fill="none" stroke="#111" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow)" data-axis="x-rms"/>
+    <path d="M600 800 L352 912" fill="none" stroke="#111" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow)" data-axis="y-rhythm"/>
+    <path d="M600 800 L600 318" fill="none" stroke="#111" stroke-width="4.6" stroke-linecap="round" marker-end="url(#arrow)" data-axis="z-bass"/>
+    <path d="M600 800 L308 682" fill="none" stroke="#111" stroke-width="2.8" stroke-linecap="round" marker-end="url(#arrow)" data-axis="time"/>
+    <path d="M600 800 L742 536" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round" marker-end="url(#arrow)" data-axis="r-composite"/>
+    <path d="M456 612 L742 536" fill="none" stroke="#111" stroke-width="2.6" stroke-linecap="round" marker-end="url(#arrow)" data-axis="theta-centroid"/>
+    <path d="M514 852 L814 758" fill="none" stroke="#111" stroke-width="2.6" stroke-linecap="round" marker-end="url(#arrow)" data-axis="phi-tempo"/>
+    <path d="M468 426 L810 426" fill="none" stroke="#111" stroke-width="2.4" stroke-linecap="round" marker-end="url(#arrow)" data-axis="chroma-ray"/>
+    <path d="M600 800 L760 800 M600 800 L600 640" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="8 10" data-axis="construction-cross"/>
+  </g>
+</svg>

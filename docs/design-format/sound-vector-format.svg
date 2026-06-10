@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-labelledby="title desc">
+  <title id="title">SOUND VECTOR FITTING ROOM design format</title>
+  <desc id="desc">Illustrator template for drawing SOUND VECTOR T-shirt graphics. All marks are black vector paths on a transparent background.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10.4" refY="6" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L12 6 L0 12 Z" fill="#111"/>
+    </marker>
+  </defs>
+
+  <g id="print_area" data-layer="print_area">
+    <rect x="340" y="244" width="520" height="710" fill="none" stroke="#111" stroke-width="3"/>
+    <path d="M468 244 C496 310 704 310 732 244" fill="none" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+    <path d="M360 928 L840 928" fill="none" stroke="#111" stroke-width="1" stroke-dasharray="10 14"/>
+    <path d="M600 244 L600 954" fill="none" stroke="#111" stroke-width="1" stroke-dasharray="10 14"/>
+  </g>
+
+  <g id="axis_structure" data-layer="axis_structure" display="none" aria-hidden="true">
+    <circle cx="600" cy="800" r="8" fill="#111" data-axis="origin"/>
+    <path d="M600 800 L842 916" fill="none" stroke="#111" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow)" data-axis="x-rms"/>
+    <path d="M600 800 L352 912" fill="none" stroke="#111" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow)" data-axis="y-rhythm"/>
+    <path d="M600 800 L600 318" fill="none" stroke="#111" stroke-width="4.6" stroke-linecap="round" marker-end="url(#arrow)" data-axis="z-bass"/>
+    <path d="M600 800 L308 682" fill="none" stroke="#111" stroke-width="2.8" stroke-linecap="round" marker-end="url(#arrow)" data-axis="time"/>
+    <path d="M600 800 L742 536" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round" marker-end="url(#arrow)" data-axis="r-composite"/>
+    <path d="M456 612 L742 536" fill="none" stroke="#111" stroke-width="2.6" stroke-linecap="round" marker-end="url(#arrow)" data-axis="theta-centroid"/>
+    <path d="M514 852 L814 758" fill="none" stroke="#111" stroke-width="2.6" stroke-linecap="round" marker-end="url(#arrow)" data-axis="phi-tempo"/>
+    <path d="M468 426 L810 426" fill="none" stroke="#111" stroke-width="2.4" stroke-linecap="round" marker-end="url(#arrow)" data-axis="chroma-ray"/>
+    <path d="M600 800 L760 800 M600 800 L600 640" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="8 10" data-axis="construction-cross"/>
+  </g>
+
+  <g id="pcm_carriers" data-layer="pcm_carriers" data-encoding="editable-visual-carriers-v1" data-restoration-source="pcm_reversible_data" data-carriers="32" data-axis-map="x-rms,y-rhythm,z-bass,time,r-composite,theta-centroid,phi-tempo,chroma-ray">
+    <path id="pcm_x_rms_lane_01" d="M609 781 L640 799 L671 807 L703 825 L734 835 L766 851 L797 865 L833 881" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="x-rms" data-pcm-lane="1"/>
+    <path id="pcm_x_rms_lane_02" d="M604 792 L635 807 L667 821 L699 831 L730 849 L762 861 L794 876 L827 891" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="x-rms" data-pcm-lane="2"/>
+    <path id="pcm_x_rms_lane_03" d="M596 808 L629 823 L661 835 L692 854 L724 862 L756 880 L787 890 L821 909" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="x-rms" data-pcm-lane="3"/>
+    <path id="pcm_x_rms_lane_04" d="M590 821 L624 834 L655 852 L687 861 L718 880 L751 892 L783 908 L815 921" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="x-rms" data-pcm-lane="4"/>
+
+    <path id="pcm_y_rhythm_lane_01" d="M590 782 L558 801 L526 812 L496 832 L462 843 L431 862 L398 876 L362 893" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="y-rhythm" data-pcm-lane="1"/>
+    <path id="pcm_y_rhythm_lane_02" d="M596 792 L564 810 L532 823 L501 839 L469 857 L437 870 L405 888 L369 901" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="y-rhythm" data-pcm-lane="2"/>
+    <path id="pcm_y_rhythm_lane_03" d="M604 808 L572 823 L540 842 L507 852 L476 870 L444 884 L412 902 L377 915" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="y-rhythm" data-pcm-lane="3"/>
+    <path id="pcm_y_rhythm_lane_04" d="M610 821 L578 838 L546 850 L515 869 L483 882 L451 899 L418 912 L385 930" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="y-rhythm" data-pcm-lane="4"/>
+
+    <path id="pcm_z_bass_lane_01" d="M571 800 L575 732 L570 666 L576 598 L571 530 L577 462 L572 394 L578 320" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="z-bass" data-pcm-lane="1"/>
+    <path id="pcm_z_bass_lane_02" d="M590 800 L594 732 L589 666 L595 598 L590 530 L596 462 L591 394 L597 320" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="z-bass" data-pcm-lane="2"/>
+    <path id="pcm_z_bass_lane_03" d="M610 800 L614 732 L609 666 L615 598 L610 530 L616 462 L611 394 L617 320" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="z-bass" data-pcm-lane="3"/>
+    <path id="pcm_z_bass_lane_04" d="M629 800 L633 732 L628 666 L634 598 L629 530 L635 462 L630 394 L636 320" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="z-bass" data-pcm-lane="4"/>
+
+    <path id="pcm_time_lane_01" d="M612 770 L572 755 L530 735 L490 720 L449 699 L408 685 L368 664 L322 650" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="time" data-pcm-lane="1"/>
+    <path id="pcm_time_lane_02" d="M606 789 L565 769 L525 758 L482 736 L443 723 L400 702 L361 689 L316 669" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="time" data-pcm-lane="2"/>
+    <path id="pcm_time_lane_03" d="M594 811 L552 792 L512 780 L470 758 L431 746 L389 725 L349 713 L304 692" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="time" data-pcm-lane="3"/>
+    <path id="pcm_time_lane_04" d="M588 830 L547 815 L505 794 L465 780 L424 759 L383 745 L343 724 L298 710" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="time" data-pcm-lane="4"/>
+
+    <path id="pcm_r_composite_lane_01" d="M574 785 L595 744 L617 716 L632 676 L656 646 L674 607 L700 578 L720 536" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="r-composite" data-pcm-lane="1"/>
+    <path id="pcm_r_composite_lane_02" d="M591 794 L610 756 L633 724 L650 687 L674 655 L692 618 L716 586 L738 549" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="r-composite" data-pcm-lane="2"/>
+    <path id="pcm_r_composite_lane_03" d="M609 806 L630 768 L651 735 L670 699 L692 666 L713 630 L734 596 L756 560" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="r-composite" data-pcm-lane="3"/>
+    <path id="pcm_r_composite_lane_04" d="M626 815 L649 779 L668 744 L691 710 L710 675 L734 641 L753 606 L774 570" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="r-composite" data-pcm-lane="4"/>
+
+    <path id="pcm_theta_centroid_lane_01" d="M452 590 L492 584 L535 570 L575 565 L617 552 L658 547 L701 533 L742 528" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="theta-centroid" data-pcm-lane="1"/>
+    <path id="pcm_theta_centroid_lane_02" d="M456 606 L497 597 L538 590 L580 578 L621 570 L663 558 L704 550 L747 539" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="theta-centroid" data-pcm-lane="2"/>
+    <path id="pcm_theta_centroid_lane_03" d="M460 622 L501 615 L543 602 L584 597 L626 584 L667 579 L710 565 L751 560" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="theta-centroid" data-pcm-lane="3"/>
+    <path id="pcm_theta_centroid_lane_04" d="M464 638 L506 626 L547 619 L589 607 L630 599 L672 587 L713 579 L756 568" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="theta-centroid" data-pcm-lane="4"/>
+
+    <path id="pcm_phi_tempo_lane_01" d="M507 824 L552 815 L594 797 L637 789 L680 771 L724 763 L766 745 L806 738" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="phi-tempo" data-pcm-lane="1"/>
+    <path id="pcm_phi_tempo_lane_02" d="M512 841 L555 828 L598 820 L642 804 L684 796 L728 780 L771 772 L812 758" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="phi-tempo" data-pcm-lane="2"/>
+    <path id="pcm_phi_tempo_lane_03" d="M518 859 L561 850 L604 832 L648 824 L690 806 L734 798 L777 780 L818 773" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="phi-tempo" data-pcm-lane="3"/>
+    <path id="pcm_phi_tempo_lane_04" d="M523 876 L566 863 L609 855 L653 839 L695 831 L739 815 L782 807 L823 793" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="phi-tempo" data-pcm-lane="4"/>
+
+    <path id="pcm_chroma_ray_lane_01" d="M468 397 L516 402 L565 397 L614 403 L663 398 L713 404 L762 399 L810 405" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="chroma-ray" data-pcm-lane="1"/>
+    <path id="pcm_chroma_ray_lane_02" d="M468 416 L516 421 L565 416 L614 422 L663 417 L713 423 L762 418 L810 424" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="chroma-ray" data-pcm-lane="2"/>
+    <path id="pcm_chroma_ray_lane_03" d="M468 436 L516 441 L565 436 L614 442 L663 437 L713 443 L762 438 L810 444" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="chroma-ray" data-pcm-lane="3"/>
+    <path id="pcm_chroma_ray_lane_04" d="M468 455 L516 460 L565 455 L614 461 L663 456 L713 462 L762 457 L810 463" fill="none" stroke="#111" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" data-pcm-axis="chroma-ray" data-pcm-lane="4"/>
+  </g>
+
+  <g id="waveform_guides" data-layer="waveform_guides">
+    <path d="M382 390 L430 380 L478 394 L526 376 L574 392 L622 382 L670 396 L718 378 L766 390 L818 384" fill="none" stroke="#111" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M382 438 L430 450 L478 434 L526 456 L574 440 L622 452 L670 436 L718 458 L766 442 L818 454" fill="none" stroke="#111" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M382 486 L430 472 L478 494 L526 474 L574 492 L622 478 L670 496 L718 476 L766 488 L818 482" fill="none" stroke="#111" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M382 534 L430 548 L478 526 L526 552 L574 532 L622 546 L670 528 L718 550 L766 536 L818 548" fill="none" stroke="#111" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M382 582 L430 568 L478 590 L526 572 L574 588 L622 578 L670 592 L718 574 L766 586 L818 580" fill="none" stroke="#111" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <g id="spectral_guides" data-layer="spectral_guides">
+    <path d="M382 880 L818 880 M382 910 L818 910 M382 940 L818 940" fill="none" stroke="#111" stroke-width="1" stroke-dasharray="5 9"/>
+    <path d="M390 930 L390 906 M420 930 L420 888 M450 930 L450 912 M480 930 L480 884 M510 930 L510 902 M540 930 L540 872 M570 930 L570 898 M600 930 L600 880 M630 930 L630 908 M660 930 L660 886 M690 930 L690 914 M720 930 L720 894 M750 930 L750 906 M780 930 L780 882 M810 930 L810 900" fill="none" stroke="#111" stroke-width="1.6"/>
+  </g>
+
+  <g id="chroma_guides" data-layer="chroma_guides">
+    <circle cx="742" cy="536" r="28" fill="none" stroke="#111" stroke-width="1.5"/>
+    <path d="M742 492 L742 360 M764 498 L826 390 M781 514 L910 458 M786 536 L938 536 M781 558 L910 614 M764 574 L826 682 M742 580 L742 710 M720 574 L658 682 M703 558 L574 614 M698 536 L546 536 M703 514 L574 458 M720 498 L658 390" fill="none" stroke="#111" stroke-width="1.4" stroke-linecap="round"/>
+  </g>
+
+  <g id="onset_tempo_guides" data-layer="onset_tempo_guides">
+    <circle cx="742" cy="536" r="118" fill="none" stroke="#111" stroke-width="1.3" stroke-dasharray="8 10"/>
+    <path d="M742 388 L742 354 M785 397 L794 364 M823 423 L844 394 M849 461 L878 440 M858 504 L892 498 M849 547 L882 555 M823 585 L850 608 M785 611 L800 642 M742 620 L742 654 M699 611 L684 642 M661 585 L634 608 M635 547 L602 555 M626 504 L592 498 M635 461 L606 440 M661 423 L640 394 M699 397 L690 364" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M704 500 L732 500 M718 486 L718 514 M795 532 L823 532 M809 518 L809 546 M728 606 L756 606 M742 592 L742 620" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round"/>
+  </g>
+
+  <g id="reference_point" data-layer="reference_point">
+    <circle cx="742" cy="536" r="18" fill="#111"/>
+    <circle cx="600" cy="800" r="5" fill="#111"/>
+    <path d="M704 536 C716 510 750 504 766 530 C754 560 718 562 704 536 Z" fill="none" stroke="#111" stroke-width="1.8"/>
+    <path d="M674 598 C704 558 742 546 784 574 C816 596 792 632 748 624 C704 616 684 644 642 632" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <g id="pcm_reversible_data" data-layer="pcm_reversible_data" display="none" data-encoding="template-protected-placeholder-v1" data-restoration-role="protected-audio-data" data-edit-policy="lock-or-hide-do-not-edit">
+    <desc>Protected PCM layer placeholder. Generated reversible SVGs replace this group with actual mulaw8-protected-geometry-v1 data. Lock or hide it, and do not delete it in finished reversible SVGs.</desc>
+    <path d="M64 64 L198 64 L332 64 L466 64 L600 64 L734 64 L868 64 L1002 64 L1136 64" fill="none" stroke="#111" stroke-width="0.2" data-pcm-row="0" data-placeholder="true"/>
+    <path d="M64 82 L198 82 L332 82 L466 82 L600 82 L734 82 L868 82 L1002 82 L1136 82" fill="none" stroke="#111" stroke-width="0.2" data-pcm-row="1" data-placeholder="true"/>
+  </g>
+
+  <g id="notes_for_designer" data-layer="notes_for_designer">
+    <text x="880" y="278" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="18">LOCKED FORMAT</text>
+    <text x="880" y="310" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="14">Do not move axis endpoints.</text>
+    <text x="880" y="334" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="14">Redraw line expression and density.</text>
+    <text x="880" y="358" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="14">PCM carriers are visual paths.</text>
+    <text x="880" y="382" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="14">Audio restores from protected data.</text>
+    <text x="880" y="406" fill="#111" font-family="Helvetica, Arial, sans-serif" font-size="14">Keep pcm_reversible_data locked.</text>
+  </g>
+</svg>

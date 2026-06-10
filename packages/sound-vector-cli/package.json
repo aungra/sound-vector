@@ -1,0 +1,10 @@
+{
+  "name": "@sound-vector/cli",
+  "version": "0.1.0",
+  "description": "Command-line tools for Sound Vector workflows.",
+  "type": "module",
+  "bin": {
+    "sound-vector": "./src/index.ts"
+  },
+  "license": "MIT"
+}

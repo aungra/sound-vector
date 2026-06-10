@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1200 1200">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke-width: 2.2px;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+        stroke: #111;
+        stroke-dasharray: 0 4;
+        stroke-linecap: round;
+      }
+
+      .cls-2 {
+        stroke-width: 1.8px;
+      }
+
+      .cls-3 {
+        stroke-linejoin: round;
+        stroke-width: 1.3px;
+      }
+    </style>
+  </defs>
+  <!-- Generator: Adobe Illustrator 28.7.8, SVG Export Plug-In . SVG Version: 1.2.0 Build 200)  -->
+  <g>
+    <g id="_レイヤー_1" data-name="レイヤー_1">
+      <g id="onset_tempo_guides">
+        <circle class="cls-3" cx="742" cy="536" r="118"/>
+        <path class="cls-1" d="M742,388v-34M785,397l9-33M823,423l21-29M849,461l29-21M858,504l34-6M849,547l33,8M823,585l27,23M785,611l15,31M742,620v34M699,611l-15,31M661,585l-27,23M635,547l-33,8M626,504l-34-6M635,461l-29-21M661,423l-21-29M699,397l-9-33"/>
+        <path class="cls-2" d="M704,500h28M718,486v28M795,532h28M809,518v28M728,606h28M742,592v28"/>
+      </g>
+    </g>
+  </g>
+</svg>

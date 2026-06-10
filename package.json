@@ -1,26 +1,25 @@
 {
-  "name": "music-memory-fitting-room",
+  "name": "sound-vector",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "dev": "npm --workspace apps/demo run dev",
+    "build": "npm --workspace apps/demo run build",
+    "start": "npm --workspace apps/demo run start",
+    "audio-server": "npm --workspace apps/demo run audio-server",
+    "genre-collect": "npm --workspace apps/demo run genre-collect",
+    "genre-train": "npm --workspace apps/demo run genre-train",
+    "test": "npm --workspace packages/reversible-svg run test",
+    "typecheck": "npm --workspace apps/demo run typecheck",
+    "check": "npm run test && npm run typecheck && npm run build"
   },
-  "dependencies": {
-    "next": "15.3.3",
-    "react": "19.1.0",
-    "react-dom": "19.1.0"
-  },
-  "devDependencies": {
-    "@types/node": "24.0.0",
-    "@types/react": "19.1.8",
-    "@types/react-dom": "19.1.6",
-    "autoprefixer": "10.4.21",
-    "postcss": "8.5.6",
-    "tailwindcss": "3.4.17",
-    "typescript": "5.8.3"
+  "overrides": {
+    "next": {
+      "postcss": "8.5.15"
+    }
   }
 }

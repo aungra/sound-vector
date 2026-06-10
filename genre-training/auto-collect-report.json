@@ -1,0 +1,350 @@
+{
+  "collectedAt": "2026-06-10T07:11:00.829Z",
+  "perGenre": 10,
+  "report": [
+    {
+      "genre": "アンビエント",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "ドローン",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "ノイズミュージック",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "電子音楽",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "テクノ",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "ハウス",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "トランス",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "ドラムンベース",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "ダブステップ",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "チップチューン",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "ヒップホップ",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "トラップ",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "レゲエ",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "ダブ",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "ロック",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "パンク",
+      "selected": [
+        {
+          "genre": "パンク",
+          "youtubeUrl": "https://www.youtube.com/watch?v=VbTYnJshTas",
+          "memo": "Auto-collected from YouTube search: punk rock classic track",
+          "title": "Rock 2000s ⚡ [ LIVE ] Best of 2000's Rock Hits | Top 2000s Rock Songs | 2000s Rock Playlist 2026-06-10 16:09",
+          "duration": 0,
+          "uploader": "Rock FM"
+        },
+        {
+          "genre": "パンク",
+          "youtubeUrl": "https://www.youtube.com/watch?v=Nt27aBceerI",
+          "memo": "Auto-collected from YouTube search: punk rock classic track",
+          "title": "Rock Classics ⚡ [ LIVE ] Timeless Rock Hits of the 70s, 80s, and 90s | Best of Rock Music Anthems 2026-06-10 16:09",
+          "duration": 0,
+          "uploader": "Rock FM"
+        }
+      ],
+      "existing": 8,
+      "needed": 2,
+      "raw": [
+        {
+          "query": "punk rock classic track",
+          "count": 36,
+          "titles": [
+            "Punk Rock Classic",
+            "Testing Death Cab for Cuties Music Knowledge | Track Star*",
+            "Punk Rock Classics 70s 80s 90s - Underground vibes (DJ Set)",
+            "Skate Punk Mix – Fast Riffs, Summer Streets & Pure Momentum | Prime Rock Music"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ハードコア",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "メタル",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "ジャズ",
+      "selected": [
+        {
+          "genre": "ジャズ",
+          "youtubeUrl": "https://www.youtube.com/watch?v=AYGEiSm29LM",
+          "memo": "Auto-collected from YouTube search: jazz classic track",
+          "title": "Vintage Jazz Classics – Retro Jazz Hits & Timeless Classics 2026-06-10 16:09",
+          "duration": 0,
+          "uploader": "Vintage Jazz"
+        },
+        {
+          "genre": "ジャズ",
+          "youtubeUrl": "https://www.youtube.com/watch?v=MKEpPhefcxU",
+          "memo": "Auto-collected from YouTube search: jazz classic track",
+          "title": "Jazz Standards Medley (Fly Me To The Moon, Autumn Leaves, Misty, L.O.V.E. & More) - Mild Nawin",
+          "duration": 392,
+          "uploader": "Mild Nawin"
+        }
+      ],
+      "existing": 8,
+      "needed": 2,
+      "raw": [
+        {
+          "query": "jazz classic track",
+          "count": 36,
+          "titles": [
+            "Vintage Jazz Classics – Retro Jazz Hits & Timeless Classics 2026-06-10 16:09",
+            "Best Relaxing Jazz Classics  : Franks Sinatra , Louis Armstrong, Nat King Cole, Ella Fitzgerald",
+            "1940's Jazz Classics [Jazz, Jazz Classics, Smooth Jazz, Vintage Jazz]",
+            "Timeless Old Jazz Memories – Best of Frank Sinatra, Nat King Cole, Ella Fitzgerald, Dean Martin"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ファンク",
+      "selected": [
+        {
+          "genre": "ファンク",
+          "youtubeUrl": "https://www.youtube.com/watch?v=GeszARkWZw0",
+          "memo": "Auto-collected from YouTube search: funk representative track",
+          "title": "SLAVA FUNK!",
+          "duration": 113,
+          "uploader": "MVSTERIOUS"
+        },
+        {
+          "genre": "ファンク",
+          "youtubeUrl": "https://www.youtube.com/watch?v=vDMwDT6BhhE",
+          "memo": "Auto-collected from YouTube search: funk representative track",
+          "title": "Objection Funk",
+          "duration": 119,
+          "uploader": "iteachvader"
+        }
+      ],
+      "existing": 8,
+      "needed": 2,
+      "raw": [
+        {
+          "query": "funk classic track",
+          "count": 36,
+          "titles": [
+            "【70s Funk Hip Hop】#33 Classic Funk × Modern Hip Hop Fusion | Funk Tribe Underground",
+            "🔥 Vintage Soul-Funk Grooves You’ve been Looking for | ep15 | Soul Funk Playlist",
+            "🔥 Vintage Soul Funk Groove You’ve Been Looking For | Raw & Minimal Dry Groove",
+            "Street Funk & Soul Explosion🔥 – Retro Vibes with a Hip-Hop Twist"
+          ]
+        },
+        {
+          "query": "funk representative track",
+          "count": 36,
+          "titles": [
+            "【70s Funk Hip Hop】#33 Classic Funk × Modern Hip Hop Fusion | Funk Tribe Underground",
+            "Soulful Grooves, 70s & 80s Funk & Disco Mix [Vinyl Studio Session] with El Mizell",
+            "【70s Funk Hip Hop】#35 Classic Funk × Modern Hip Hop Fusion | Funk Tribe Underground",
+            "G-Funk & Old School 90s💥 Snoop Dogg, Wiz Khalifa, Tyga, 50 Cent, Dr. Dre, Ice Cube, Juicy J, Drake"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ソウルミュージック",
+      "selected": [
+        {
+          "genre": "ソウルミュージック",
+          "youtubeUrl": "https://www.youtube.com/watch?v=m58DWuZFI2U",
+          "memo": "Auto-collected from YouTube search: soul music classic track",
+          "title": "【R&B Soul】Romantic R&B Soul Music – Relaxing Soulful Mix for Love & Chill Nights 2026-06-10 16:10",
+          "duration": 0,
+          "uploader": "Smooth R&B Jazz"
+        }
+      ],
+      "existing": 9,
+      "needed": 1,
+      "raw": [
+        {
+          "query": "soul music classic track",
+          "count": 36,
+          "titles": [
+            "60's Soul Classic | Marvin Gaye Inspired 1970s Soul – Whispers of the Heart [Unreleased Album]",
+            "Relaxing soul music - The best soul music compilation - Soul On",
+            "60's Soul Classic - I Can’t Walk Away  - Marvin Gaye , Sam Cooke Inspired",
+            "Wav Session 27 : 60's,70's and 80's Soul & Groovy Mix [ 20 Tracks ]"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ディスコ",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "シティ・ポップ",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "J-POP",
+      "selected": [
+        {
+          "genre": "J-POP",
+          "youtubeUrl": "https://www.youtube.com/watch?v=oe4XJ851oOk",
+          "memo": "Auto-collected from YouTube search: J-POP representative track",
+          "title": "LiSA『ReawakeR (feat. Felix of Stray Kids)』MUSiC CLiP",
+          "duration": 192,
+          "uploader": "LiSA Official YouTube"
+        }
+      ],
+      "existing": 9,
+      "needed": 1,
+      "raw": [
+        {
+          "query": "J-POP representative track",
+          "count": 36,
+          "titles": [
+            "MOROHA - 革命 / THE FIRST TAKE",
+            "ゴスペラーズ - ひとり / THE FIRST TAKE",
+            "LiSA『ReawakeR (feat. Felix of Stray Kids)』MUSiC CLiP",
+            "Shinunoga E-Wa"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "アニメソング",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "クラシック音楽",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "オペラ",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "フォーク",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    },
+    {
+      "genre": "ワールドミュージック",
+      "selected": [],
+      "existing": 10,
+      "skipped": true,
+      "raw": []
+    }
+  ]
+}
