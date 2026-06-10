@@ -13,6 +13,7 @@
     "genre-collect:promote": "MMFR_GENRE_COLLECT_VALIDATE=1 MMFR_GENRE_COLLECT_PROMOTE=1 node scripts/genre-auto-collect.mjs",
     "genre-train": "node scripts/genre-training.mjs",
     "genre-train:cached": "MMFR_GENRE_TRAIN_CACHE_ONLY=1 node scripts/genre-training.mjs",
+    "genre-train:retry-errors": "MMFR_GENRE_TRAIN_RETRY_ERRORS_ONLY=1 node scripts/genre-training.mjs",
     "lint": "next lint",
     "typecheck": "next typegen && tsc --noEmit"
   },

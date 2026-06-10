@@ -32,14 +32,21 @@ const COOKIE_BROWSERS = (process.env.MMFR_YTDLP_COOKIES_FROM_BROWSER
   .map(value => value.trim())
   .filter(Boolean);
 const COOKIE_FILE = process.env.MMFR_YTDLP_COOKIES_FILE || (fs.existsSync(DEFAULT_COOKIE_FILE) ? DEFAULT_COOKIE_FILE : "");
+const YTDLP_SLEEP_REQUESTS = Math.max(0, Number(process.env.MMFR_YTDLP_SLEEP_REQUESTS || 1));
+const YTDLP_SLEEP_INTERVAL = Math.max(0, Number(process.env.MMFR_YTDLP_SLEEP_INTERVAL || 1));
+const YTDLP_MAX_SLEEP_INTERVAL = Math.max(YTDLP_SLEEP_INTERVAL, Number(process.env.MMFR_YTDLP_MAX_SLEEP_INTERVAL || 3));
 
 function ytDlpBaseArgs() {
-  return [
+  const args = [
     "--js-runtimes",
     `node:${process.execPath}`,
     "--remote-components",
     "ejs:github"
   ];
+  if (YTDLP_SLEEP_REQUESTS > 0) args.push("--sleep-requests", String(YTDLP_SLEEP_REQUESTS));
+  if (YTDLP_SLEEP_INTERVAL > 0) args.push("--sleep-interval", String(YTDLP_SLEEP_INTERVAL));
+  if (YTDLP_MAX_SLEEP_INTERVAL > 0) args.push("--max-sleep-interval", String(YTDLP_MAX_SLEEP_INTERVAL));
+  return args;
 }
 
 function ytDlpCookieArgSets() {
@@ -60,13 +67,20 @@ function ytDlpSharedArgs(cookieArgs = []) {
 
 async function runYtDlp(command, args, options = {}) {
   const errors = [];
+  let rateLimitError = "";
   for (const cookieArgs of ytDlpCookieArgSets()) {
     try {
       return await run(command, [...ytDlpSharedArgs(cookieArgs), ...args], options);
     } catch (error) {
-      errors.push(`${cookieArgs.join(" ") || "no-cookies"}: ${error.message}`);
+      const labelled = `${cookieArgs.join(" ") || "no-cookies"}: ${error.message}`;
+      errors.push(labelled);
+      if (isYouTubeRateLimitError(error.message)) {
+        rateLimitError = labelled;
+        break;
+      }
     }
   }
+  if (rateLimitError) throw new Error(`YOUTUBE_RATE_LIMITED: ${rateLimitError}`);
   throw new Error(errors.join("\n---\n"));
 }
 
@@ -89,6 +103,14 @@ function sendJson(res, status, data) {
     "Access-Control-Allow-Headers": "Content-Type"
   });
   res.end(JSON.stringify(data, null, 2));
+}
+
+function isYouTubeRateLimitError(message) {
+  return /rate-limited by YouTube|This content isn't available,\s*try again later|try again later\. The current session/i.test(String(message || ""));
+}
+
+function isYouTubeCookieError(message) {
+  return /Sign in to confirm you.?re not a bot|cookies-from-browser|cookies for the authentication|Operation not permitted: .*Cookies\.binarycookies|could not find firefox cookies database/i.test(String(message || ""));
 }
 
 function readBody(req) {
@@ -598,11 +620,14 @@ async function handleAnalyze(req, res) {
     sendJson(res, 200, { ok: true, source: "youtube-audio-analysis-server", features });
   } catch (error) {
     const message = String(error?.message || "");
-    const cookieRequired = /Sign in to confirm you.?re not a bot|cookies-from-browser|cookies for the authentication|Operation not permitted: .*Cookies\.binarycookies|could not find firefox cookies database/i.test(message);
+    const rateLimited = isYouTubeRateLimitError(message);
+    const cookieRequired = !rateLimited && isYouTubeCookieError(message);
     sendJson(res, 500, {
       ok: false,
-      code: cookieRequired ? "YOUTUBE_COOKIE_REQUIRED" : "AUDIO_ANALYSIS_FAILED",
-      error: cookieRequired
+      code: rateLimited ? "YOUTUBE_RATE_LIMITED" : cookieRequired ? "YOUTUBE_COOKIE_REQUIRED" : "AUDIO_ANALYSIS_FAILED",
+      error: rateLimited
+        ? "YouTube側でこのセッションが一時的に制限されています。しばらく時間を置いてから再試行してください。"
+        : cookieRequired
         ? "YouTube側のbot確認により音声を取得できません。ChromeでYouTubeにログインするか、genre-training/youtube-cookies.txt を配置してください。"
         : message,
       detail: message

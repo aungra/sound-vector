@@ -14,6 +14,22 @@ const COOKIE_BROWSERS = (process.env.MMFR_YTDLP_COOKIES_FROM_BROWSER
   .split(",")
   .map(value => value.trim())
   .filter(Boolean);
+const YTDLP_SLEEP_REQUESTS = Math.max(0, Number(process.env.MMFR_YTDLP_SLEEP_REQUESTS || 1));
+const YTDLP_SLEEP_INTERVAL = Math.max(0, Number(process.env.MMFR_YTDLP_SLEEP_INTERVAL || 1));
+const YTDLP_MAX_SLEEP_INTERVAL = Math.max(YTDLP_SLEEP_INTERVAL, Number(process.env.MMFR_YTDLP_MAX_SLEEP_INTERVAL || 3));
+
+function ytDlpBaseArgs() {
+  const args = [
+    "--js-runtimes",
+    `node:${process.execPath}`,
+    "--remote-components",
+    "ejs:github"
+  ];
+  if (YTDLP_SLEEP_REQUESTS > 0) args.push("--sleep-requests", String(YTDLP_SLEEP_REQUESTS));
+  if (YTDLP_SLEEP_INTERVAL > 0) args.push("--sleep-interval", String(YTDLP_SLEEP_INTERVAL));
+  if (YTDLP_MAX_SLEEP_INTERVAL > 0) args.push("--max-sleep-interval", String(YTDLP_MAX_SLEEP_INTERVAL));
+  return args;
+}
 
 function run(command, args, options = {}) {
   return new Promise(resolve => {
@@ -43,28 +59,42 @@ function run(command, args, options = {}) {
 
 async function check(label, cookieArgs) {
   process.stdout.write(`${label} ... `);
-  const result = await run(YT_DLP, [
-    "--js-runtimes",
-    `node:${process.execPath}`,
-    "--remote-components",
-    "ejs:github",
+  const metaResult = await run(YT_DLP, [
+    ...ytDlpBaseArgs(),
     ...cookieArgs,
     "--dump-single-json",
     "--skip-download",
     "--no-playlist",
     TEST_URL
   ], { timeoutMs: 45000 });
-  if (result.ok) {
-    try {
-      const json = JSON.parse(result.stdout || "{}");
-      console.log(`OK: ${json.title || "readable"}`);
-    } catch {
-      console.log("OK");
-    }
+  if (!metaResult.ok) {
+    console.log("NG");
+    console.log(metaResult.error.split("\n").slice(-3).join("\n"));
+    return false;
+  }
+  let title = "readable";
+  try {
+    const json = JSON.parse(metaResult.stdout || "{}");
+    title = json.title || title;
+  } catch {}
+  process.stdout.write(`metadata OK: ${title} / audio URL ... `);
+  const audioResult = await run(YT_DLP, [
+    ...ytDlpBaseArgs(),
+    ...cookieArgs,
+    "--no-playlist",
+    "-f", "bestaudio/best",
+    "--get-url",
+    TEST_URL
+  ], { timeoutMs: 45000 });
+  if (audioResult.ok) {
+    console.log("OK");
     return true;
   }
   console.log("NG");
-  console.log(result.error.split("\n").slice(-3).join("\n"));
+  console.log(audioResult.error.split("\n").slice(-4).join("\n"));
+  if (/rate-limited by YouTube|try again later/i.test(audioResult.error)) {
+    console.log("This cookie/session is temporarily rate-limited for audio extraction.");
+  }
   return false;
 }
 
@@ -81,8 +111,8 @@ ok = await check("no cookies", []) || ok;
 
 console.log("");
 if (ok) {
-  console.log("At least one method can read this YouTube URL.");
+  console.log("At least one method can read and access audio for this YouTube URL.");
 } else {
-  console.log("No method could read this YouTube URL.");
-  console.log("Log in to YouTube on Chrome, or export cookies.txt and set MMFR_YTDLP_COOKIES_FILE.");
+  console.log("No method could access audio for this YouTube URL.");
+  console.log("If metadata was OK but audio URL was NG, the session is likely rate-limited. Wait and retry, or export fresh cookies.txt from a different logged-in YouTube session.");
 }

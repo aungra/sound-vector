@@ -1731,6 +1731,9 @@
         if (error.code === "YOUTUBE_COOKIE_REQUIRED") {
           throw new Error(`${error.message} 「Check YouTube Cookies.command」で状態を確認できます。`);
         }
+        if (error.code === "YOUTUBE_RATE_LIMITED") {
+          throw new Error(`${error.message} cookieは読めていますが、YouTube側の一時制限で音声取得が止まっています。時間を置くか、別のYouTubeログインcookieに更新してください。`);
+        }
         if (/Failed to fetch|Load failed|NetworkError|ECONNREFUSED/i.test(error.message)) {
           throw new Error(`YouTube解析サーバーに接続できませんでした。4194番の解析サーバーを起動してください。`);
         }

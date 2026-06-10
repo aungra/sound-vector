@@ -22,6 +22,9 @@ const DEMO_MODEL_PATH = path.join(DEMO_DIR, "genre-training", "genre-model.json"
 const DEFAULT_ENDPOINT = process.env.MMFR_AUDIO_ENDPOINT || "http://127.0.0.1:4194/api/audio-analyze";
 const MODEL_VERSION = "sound-vector-genre-model.v1";
 const CACHE_ONLY = process.env.MMFR_GENRE_TRAIN_CACHE_ONLY === "1";
+const RETRY_ERRORS_ONLY = process.env.MMFR_GENRE_TRAIN_RETRY_ERRORS_ONLY === "1";
+const STOP_ON_RATE_LIMIT = process.env.MMFR_GENRE_TRAIN_STOP_ON_RATE_LIMIT !== "0";
+const STOP_ON_COOKIE_REQUIRED = process.env.MMFR_GENRE_TRAIN_STOP_ON_COOKIE_REQUIRED !== "0";
 const EXPECTED_MACRO_GENRES = ["ambient", "black_music", "classical", "electronic", "jazz", "pop", "rock", "world"];
 const FINE_EXCLUDED = new Set(["電子音楽", "ワールドミュージック"]);
 const VECTOR_KEYS = [
@@ -189,6 +192,25 @@ function loadFeatureCache() {
 
 function saveFeatureCache(cache) {
   fs.writeFileSync(FEATURE_CACHE_PATH, JSON.stringify({ ...cache, version: MODEL_VERSION, endpoint: DEFAULT_ENDPOINT, updatedAt: new Date().toISOString() }, null, 2));
+}
+
+function loadPreviousErrorUrls() {
+  if (!fs.existsSync(RESULTS_PATH)) return new Set();
+  try {
+    const payload = JSON.parse(fs.readFileSync(RESULTS_PATH, "utf8"));
+    const errors = Array.isArray(payload?.errors) ? payload.errors : [];
+    return new Set(errors.map(item => item.youtubeUrl).filter(Boolean));
+  } catch {
+    return new Set();
+  }
+}
+
+function isRateLimitError(message) {
+  return /YOUTUBE_RATE_LIMITED|rate-limited by YouTube|This content isn't available,\s*try again later|try again later\. The current session/i.test(String(message || ""));
+}
+
+function isCookieRequiredError(message) {
+  return /YOUTUBE_COOKIE_REQUIRED|bot確認|Sign in to confirm you.?re not a bot|cookies-from-browser|cookies for the authentication/i.test(String(message || ""));
 }
 
 async function analyzeYoutube(item, cache, endpoint = DEFAULT_ENDPOINT) {
@@ -479,12 +501,19 @@ async function main() {
 
   const api = loadAppGenreApi();
   const cache = loadFeatureCache();
+  const retryUrls = RETRY_ERRORS_ONLY ? loadPreviousErrorUrls() : new Set();
+  if (RETRY_ERRORS_ONLY) {
+    console.log(`Retrying previous error URLs only: ${retryUrls.size} target(s). Cached rows are still used to rebuild the model.`);
+  }
   const analyzedRows = [];
   const vectorsByGenre = new Map();
 
   for (const item of dataset) {
     process.stdout.write(`[${item.index + 1}/${dataset.length}] ${item.genre} ... `);
     try {
+      if (RETRY_ERRORS_ONLY && !retryUrls.has(item.youtubeUrl) && !cache.items[item.youtubeUrl]?.features) {
+        throw new Error("not targeted by MMFR_GENRE_TRAIN_RETRY_ERRORS_ONLY=1 and not cached");
+      }
       const features = await analyzeYoutube(item, cache);
       const enriched = api.enrichFeaturesWithGenre(features);
       const vector = api.genreFeatureVector(enriched);
@@ -497,6 +526,14 @@ async function main() {
     } catch (error) {
       analyzedRows.push({ ...item, error: error.message });
       console.log(`error: ${error.message}`);
+      if (STOP_ON_RATE_LIMIT && isRateLimitError(error.message)) {
+        console.log("Stopping early because YouTube reported a temporary rate limit. Retry later or replace genre-training/youtube-cookies.txt.");
+        break;
+      }
+      if (STOP_ON_COOKIE_REQUIRED && isCookieRequiredError(error.message)) {
+        console.log("Stopping early because YouTube still requires valid cookies. Replace genre-training/youtube-cookies.txt, then retry.");
+        break;
+      }
     }
     if (analyzedRows.length % 20 === 0) saveFeatureCache(cache);
   }
