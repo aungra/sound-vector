@@ -415,45 +415,6 @@
     function svgFill(d, extra = "") {
       return `<path d="${d}" fill="#111" stroke="#111" stroke-width="0" stroke-linejoin="round" ${extra}/>`;
     }
-    function stripUnsafeSvgParts(svg) {
-      return String(svg || "")
-        .replace(/<script\b[\s\S]*?<\/script>/gi, "")
-        .replace(/<foreignObject\b[\s\S]*?<\/foreignObject>/gi, "")
-        .replace(/\son[a-z]+\s*=\s*"[^"]*"/gi, "")
-        .replace(/\son[a-z]+\s*=\s*'[^']*'/gi, "");
-    }
-    function hideAxisStructureInSvg(svg) {
-      let text = String(svg || "");
-      const hideTag = tag => {
-        let next = /\sdisplay\s*=/.test(tag)
-          ? tag.replace(/\sdisplay\s*=\s*["'][^"']*["']/i, ` display="none"`)
-          : tag.replace(/>$/, ` display="none">`);
-        if (!/\saria-hidden\s*=/.test(next)) next = next.replace(/>$/, ` aria-hidden="true">`);
-        return next;
-      };
-      text = text
-        .replace(/<g\b(?=[^>]*\bid=["']axis_structure["'])[^>]*>/gi, hideTag)
-        .replace(/<g\b(?=[^>]*\bdata-layer=["']axis_structure["'])[^>]*>/gi, hideTag);
-      const rule = `<style id="sound-vector-hidden-axis">#axis_structure,[data-layer="axis_structure"],[id*="axis_structure"],[data-name*="axis_structure"]{display:none!important}</style>`;
-      if (!text.includes("sound-vector-hidden-axis")) {
-        text = /<defs\b[^>]*>/i.test(text)
-          ? text.replace(/<defs\b([^>]*)>/i, `<defs$1>${rule}`)
-          : text.replace(/<svg\b([^>]*)>/i, `<svg$1><defs>${rule}</defs>`);
-      }
-      return text;
-    }
-    function normaliseImportedDesignSvg(svg, fileName = "edited-design.svg") {
-      let text = stripUnsafeSvgParts(svg).trim();
-      if (!/<svg\b/i.test(text)) throw new Error("SVGファイルとして読み込めません。");
-      text = text.replace(/^\s*<\?xml[^>]*>\s*/i, "");
-      text = hideAxisStructureInSvg(text);
-      if (!/\sviewBox\s*=/.test(text)) text = text.replace(/<svg\b([^>]*)>/i, `<svg$1 viewBox="0 0 1200 1200">`);
-      if (!/\srole\s*=/.test(text)) text = text.replace(/<svg\b([^>]*)>/i, `<svg$1 role="img">`);
-      if (!/\saria-label\s*=/.test(text) && !/\saria-labelledby\s*=/.test(text)) {
-        text = text.replace(/<svg\b([^>]*)>/i, `<svg$1 aria-label="${escapeAttr(fileName)}">`);
-      }
-      return text;
-    }
     function xmlEscape(value) {
       return String(value || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
@@ -3312,68 +3273,6 @@
         }))
       };
     }
-    function makeImportedDesignShirt(svgText, fileName = "edited-design.svg", tick = Date.now()) {
-      const baseMood = state.sourceMood || moodOptions.find(item => item.id === state.moodId) || moodOptions[0];
-      const audio = state.audioFeatures || state.generated?.audioFeatures || baseMood?.audio || null;
-      const tags = unique(["Illustrator", "SVG", "再編集"].concat(baseMood?.tags || [])).slice(0, 8);
-      const id = `illustrator-import-${Math.floor(tick).toString(36)}`;
-      const title = `${fileName.replace(/\.svg$/i, "")} / Illustrator修正図案`;
-      const mood = {
-        ...(baseMood || {}),
-        id: `imported-${hashString(fileName + tick)}`,
-        label: "Illustrator修正SVG",
-        cue: "Illustratorで描き直した図案を、アプリ側の生成結果へ戻しています。",
-        tags,
-        audio,
-        audioFileName: audio ? fileName : ""
-      };
-      const payload = audio
-        ? buildReversiblePayload(mood, tick, { id, title, engineId: "illustrator_import" })
-        : {
-            schema: "mmfr.reversible-svg.v1",
-            reversibility: "visual-svg-import-no-audio",
-            note: "Illustratorで修正した見た目SVGです。音の復元には、生成時のpcm_reversible_dataを保持した可逆SVGが必要です。",
-            generatedAt: new Date(tick).toISOString(),
-            source: { type: "illustrator-import", audioFileName: fileName, moodId: mood.id, label: mood.label },
-            generator: { app: "SOUND VECTOR FITTING ROOM", engineId: "illustrator_import", variantSeed: tick, variantSalt: 0, mapping: reversibleMapping() },
-            audioFeatures: null,
-            reconstructionScore: null,
-            shirt: { id, title, tags }
-          };
-      if (payload?.source) payload.source.type = "illustrator-import";
-      if (payload?.generator) payload.generator.engineId = "illustrator_import";
-      return {
-        id,
-        creatorId: "realtime-generator",
-        title,
-        description: "Illustratorで修正したSVGをアプリ側へ戻した図案です。02-axis_structureは読み込み時に非表示化しています。",
-        location: "Imported / Illustrator",
-        price: "参考生成",
-        stockNote: audio ? "音響データは現在の生成状態から引き継いでいます。" : "図案のみの読み込みです。音の復元には可逆SVGを書き出した時の保護データが必要です。",
-        tags,
-        image: "",
-        art: normaliseImportedDesignSvg(svgText, fileName),
-        generated: true,
-        moodId: mood.id,
-        engineId: "illustrator_import",
-        engineLabel: "Illustrator Import",
-        youtubeUrl: state.generated?.youtubeUrl || "",
-        audioFileName: audio ? fileName : "",
-        audioFeatures: audio,
-        reversiblePayload: payload,
-        externalSource: "illustrator-import",
-        externalPrompt: "",
-        externalNote: "02-axis_structure hidden on import.",
-        variantSeed: tick,
-        tracks: Array.from({ length: 10 }, (_, i) => ({
-          id: `illustrator-import-${String(i + 1).padStart(2, "0")}`,
-          title: `再編集メモ ${String(i + 1).padStart(2, "0")}`,
-          artist: "Illustrator import",
-          comment: `${tags[i % tags.length]} を残した図案確認メモ。`,
-          tags: [tags[i % tags.length], tags[(i + 1) % tags.length]]
-        }))
-      };
-    }
     function stopRealtimeLoop() {
       if (realtimeTimer) clearInterval(realtimeTimer);
       realtimeTimer = null;
@@ -3711,43 +3610,6 @@
         reader.onerror = () => reject(reader.error || new Error("ファイルを読めませんでした。"));
         reader.readAsText(file);
       });
-    }
-    async function importEditedDesignSvg() {
-      const file = document.getElementById("editedDesignSvgFile")?.files?.[0] || null;
-      if (!file) {
-        state.message = "アプリへ戻したいIllustrator修正SVGを選択してください。";
-        render();
-        return;
-      }
-      try {
-        const text = await readFileAsText(file);
-        const tick = Date.now();
-        const importedShirt = makeImportedDesignShirt(text, file.name, tick);
-        const session = {
-          id: crypto.randomUUID(),
-          answers: { importedDesignSvg: file.name, axisStructure: "hidden" },
-          tags: importedShirt.tags,
-          recommendedIds: [importedShirt.id],
-          generatedShirt: importedShirt,
-          createdAt: new Date().toISOString()
-        };
-        stopRealtimeLoop();
-        storeSession(session);
-        state.moodId = importedShirt.moodId;
-        state.engineId = "illustrator_import";
-        state.audioFeatures = importedShirt.audioFeatures;
-        state.sourceMood = null;
-        state.tick = tick;
-        state.generated = importedShirt;
-        state.session = session;
-        state.message = importedShirt.audioFeatures
-          ? "Illustrator修正SVGをアプリ側へ戻しました。音響データは現在の生成状態から引き継ぎ、02-axis_structureは非表示です。"
-          : "Illustrator修正SVGを図案として戻しました。02-axis_structureは非表示です。音復元には保護データ入り可逆SVGが必要です。";
-        render();
-      } catch (error) {
-        state.message = `Illustrator修正SVGを読み込めませんでした: ${error.message}`;
-        render();
-      }
     }
     async function restoreFromReversibleSvg() {
       const file = document.getElementById("reversibleSvgFile")?.files?.[0] || null;
@@ -4454,8 +4316,6 @@
         ? { id: "youtube_audio", label: "YouTube Audio Field", note: "音響特徴量からSVGを生成" }
         : generated?.engineId === "uploaded_audio" || state.engineId === "uploaded_audio"
         ? { id: "uploaded_audio", label: "Uploaded Audio Field", note: "アップロード音源を実解析" }
-        : generated?.engineId === "illustrator_import" || state.engineId === "illustrator_import"
-        ? { id: "illustrator_import", label: "Illustrator Import", note: "修正SVGをアプリへ戻す" }
         : generated?.engineId === "realtime" || state.engineId === "realtime"
         ? { id: "realtime", label: "Realtime Field", note: "その瞬間ごとにSVGを生成" }
         : engineOptions.find(engine => engine.id === (generated?.engineId || state.engineId)) || engineOptions[0];
@@ -4480,7 +4340,6 @@
             <article class="source-card"><p class="eyebrow">Route 1</p><h3>YouTube音声から可逆サウンドフォーム</h3><p class="muted">YouTubeリンクを解析サーバーへ送り、音声PCM・RMS・onset・クロマを読み取ります。さらにジャンルを推定し、そのジャンルに近い構成文法でSVGを生成します。</p><div class="youtube-form"><input id="youtubeUrl" type="url" value="${youtubeValue}" placeholder="https://www.youtube.com/watch?v=..." onkeydown="if(event.key==='Enter') startYoutubeGeneration()"><button class="secondary" onclick="startYoutubeGeneration()">YouTubeから生成</button></div></article>
             <article class="source-card"><p class="eyebrow">Route 2</p><h3>音源アップロード実解析</h3><p class="muted">mp3、wav、m4aなどを選択すると、Web Audio APIでdecodeしてRMS、低域、スペクトル重心、クロマ、onset、テンポを計算します。</p><div class="youtube-form"><input id="audioFile" type="file" accept="audio/*"><button class="secondary" onclick="startUploadedAudioGeneration()">音源から生成</button></div></article>
             <article class="source-card"><p class="eyebrow">Route 3</p><h3>可逆SVGから復元</h3><p class="muted">このアプリで書き出した可逆SVGを読み込みます。復元音はmetadataではなく、図柄内の <strong>pcm_reversible_data</strong> レイヤーから戻します。</p><div class="youtube-form"><input id="reversibleSvgFile" type="file" accept=".svg,image/svg+xml"><button class="secondary" onclick="restoreFromReversibleSvg()">SVGから復元</button></div></article>
-            <article class="source-card"><p class="eyebrow">Route 4</p><h3>Illustrator修正SVGを戻す</h3><p class="muted">描き直したレイヤーSVGを図案としてアプリへ戻します。<strong>02-axis_structure</strong> は読み込み時に非表示化します。</p><div class="youtube-form"><input id="editedDesignSvgFile" type="file" accept=".svg,image/svg+xml"><button class="secondary" onclick="importEditedDesignSvg()">修正SVGを戻す</button></div></article>
           </div>
           ${state.message ? `<p class="tag">${state.message}</p>` : ""}
           <div class="realtime-readout"><p><strong>Audio fingerprint</strong><br>曲ごとに構造を選択</p><p><strong>Onset / Chroma</strong><br>裂け目・軌道・張力線へ変換</p><p><strong>Protected data</strong><br>書き出しSVG内で復元用に保持</p></div>
