@@ -22,7 +22,7 @@ test("round trips PCM bytes through protected SVG geometry", () => {
   assert.match(layer, /data-texture-mode="spiral-core"/);
   assert.match(layer, /data-texture-region="full"/);
   assert.match(layer, /data-visual-role="locked-protected-texture-field"/);
-  assert.match(layer, /stroke="#111"/);
+  assert.match(layer, /stroke="#000"/);
   assert.match(layer, /<line\b/);
   assert.doesNotMatch(layer, /data-byte=/);
   assert.doesNotMatch(layer, /data-index=/);

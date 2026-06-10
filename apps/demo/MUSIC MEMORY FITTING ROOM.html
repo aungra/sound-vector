@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://use.typekit.net/dct1nqo.css">
   <style>
     :root {
-      --ink: #111;
+      --ink: #000;
       --paper: #fff;
       --soft: #f7f7f4;
       --line: rgba(17, 17, 17, .18);
@@ -410,10 +410,10 @@
       return `<g id="${id}" data-layer="${id}" ${attrs}>${children.join("")}</g>`;
     }
     function svgPath(d, width = 14, extra = "") {
-      return `<path d="${d}" fill="none" stroke="#111" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" ${extra}/>`;
+      return `<path d="${d}" fill="none" stroke="#000" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" ${extra}/>`;
     }
     function svgFill(d, extra = "") {
-      return `<path d="${d}" fill="#111" stroke="#111" stroke-width="0" stroke-linejoin="round" ${extra}/>`;
+      return `<path d="${d}" fill="#000" stroke="#000" stroke-width="0" stroke-linejoin="round" ${extra}/>`;
     }
     function xmlEscape(value) {
       return String(value || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -733,7 +733,7 @@
       const carriers = pcmAxisCarriers();
       const cols = Math.ceil(bytes.length / carriers.length);
       const paths = [
-        `<defs><marker id="pcmAxisArrow" viewBox="0 0 12 12" refX="10.4" refY="6" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L12 6 L0 12 Z" fill="#111"/></marker></defs>`
+        `<defs><marker id="pcmAxisArrow" viewBox="0 0 12 12" refX="10.4" refY="6" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L12 6 L0 12 Z" fill="#000"/></marker></defs>`
       ];
       carriers.forEach((carrier, carrierIndex) => {
         const start = carrierIndex * cols;
@@ -756,7 +756,7 @@
           d += `${col ? " L" : "M"}${svgFineNumber(x)} ${svgFineNumber(y)}`;
         }
         const marker = carrier.lane === 0 ? ` marker-end="url(#pcmAxisArrow)"` : "";
-        paths.push(`<path d="${d}" fill="none" stroke="#111" stroke-width=".42" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"${marker} data-pcm-carrier="${carrierIndex}" data-pcm-axis="${carrier.name}" data-pcm-lane="${carrier.lane}" data-pcm-start="${start}" data-pcm-count="${count}" data-x1="${svgFineNumber(carrier.x1)}" data-y1="${svgFineNumber(carrier.y1)}" data-x2="${svgFineNumber(carrier.x2)}" data-y2="${svgFineNumber(carrier.y2)}" data-amplitude="${svgFineNumber(carrier.amplitude)}" data-editable-visual="true"/>`);
+        paths.push(`<path d="${d}" fill="none" stroke="#000" stroke-width=".42" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"${marker} data-pcm-carrier="${carrierIndex}" data-pcm-axis="${carrier.name}" data-pcm-lane="${carrier.lane}" data-pcm-start="${start}" data-pcm-count="${count}" data-x1="${svgFineNumber(carrier.x1)}" data-y1="${svgFineNumber(carrier.y1)}" data-x2="${svgFineNumber(carrier.x2)}" data-y2="${svgFineNumber(carrier.y2)}" data-amplitude="${svgFineNumber(carrier.amplitude)}" data-editable-visual="true"/>`);
       });
       const attrs = [
         `data-encoding="editable-visual-carriers-v1"`,
@@ -798,7 +798,7 @@
         const y1 = my - point.ty * length * .5;
         const x2 = mx + point.tx * length * .5;
         const y2 = my + point.ty * length * .5;
-        return `<line x1="${svgFineNumber(x1)}" y1="${svgFineNumber(y1)}" x2="${svgFineNumber(x2)}" y2="${svgFineNumber(y2)}" stroke="#111" stroke-width=".28" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`;
+        return `<line x1="${svgFineNumber(x1)}" y1="${svgFineNumber(y1)}" x2="${svgFineNumber(x2)}" y2="${svgFineNumber(y2)}" stroke="#000" stroke-width=".28" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`;
       });
       const attrs = [
         `data-encoding="mulaw8-protected-texture-field-v1"`,
@@ -2058,7 +2058,7 @@
       const cy = 594 + Math.cos(tick / 1100) * 34 * vector.gravity;
       const phase = tick / 700;
       base.push(`<rect x="0" y="0" width="1200" height="1200" fill="none"/>`);
-      base.push(`<rect x="340" y="244" width="520" height="710" fill="none" stroke="#111" stroke-width="4"/>`);
+      base.push(`<rect x="340" y="244" width="520" height="710" fill="none" stroke="#000" stroke-width="4"/>`);
       base.push(svgPath(`M468 244 C496 310 704 310 732 244`, 4.8));
 
       if (mood.audio) {
@@ -2116,7 +2116,7 @@
         axisLayer.push(svgPath(`M${ox} ${oy} L${svgNumber(xEnd.x)} ${svgNumber(xEnd.y)}`, 2.6, `data-axis="x"`));
         axisLayer.push(svgPath(`M${ox} ${oy} L${svgNumber(yEnd.x)} ${svgNumber(yEnd.y)}`, 2.6, `data-axis="y"`));
         axisLayer.push(svgPath(`M${ox} ${oy} L${svgNumber(zEnd.x)} ${svgNumber(zEnd.y)}`, 3 + bass * 3.5, `data-axis="z" data-feature="bass-weight"`));
-        axisLayer.push(`<circle cx="${ox}" cy="${oy}" r="8" fill="#111" data-axis="origin"/>`);
+        axisLayer.push(`<circle cx="${ox}" cy="${oy}" r="8" fill="#000" data-axis="origin"/>`);
         [xEnd, yEnd, zEnd].forEach((end, i) => {
           const dx = end.x - ox;
           const dy = end.y - oy;
@@ -2134,10 +2134,10 @@
         const p11 = project(.78, .78, 0);
         const xValuePoint = project(sx, 0, 0);
         const yValuePoint = project(0, sy, 0);
-        planeLayer.push(`<path d="M${svgNumber(p00.x)} ${svgNumber(p00.y)} L${svgNumber(p10.x)} ${svgNumber(p10.y)} L${svgNumber(p11.x)} ${svgNumber(p11.y)} L${svgNumber(p01.x)} ${svgNumber(p01.y)} Z" fill="none" stroke="#111" stroke-width="1.4" data-plane="xy"/>`);
+        planeLayer.push(`<path d="M${svgNumber(p00.x)} ${svgNumber(p00.y)} L${svgNumber(p10.x)} ${svgNumber(p10.y)} L${svgNumber(p11.x)} ${svgNumber(p11.y)} L${svgNumber(p01.x)} ${svgNumber(p01.y)} Z" fill="none" stroke="#000" stroke-width="1.4" data-plane="xy"/>`);
         planeLayer.push(svgPath(`M${ox} ${oy} L${svgNumber(xValuePoint.x)} ${svgNumber(xValuePoint.y)}`, 2.2 + rms * 3.4, `data-feature="x-axis-rms" data-strength="${svgNumber(rms)}"`));
         planeLayer.push(svgPath(`M${ox} ${oy} L${svgNumber(yValuePoint.x)} ${svgNumber(yValuePoint.y)}`, 2.2 + rhythm * 3.4, `data-feature="y-axis-rhythm" data-strength="${svgNumber(rhythm)}"`));
-        planeLayer.push(`<path d="M${svgNumber(xValuePoint.x)} ${svgNumber(xValuePoint.y)} L${svgNumber(planeX)} ${svgNumber(planeY)} M${svgNumber(yValuePoint.x)} ${svgNumber(yValuePoint.y)} L${svgNumber(planeX)} ${svgNumber(planeY)}" fill="none" stroke="#111" stroke-width="1.2" stroke-dasharray="8 10" data-feature="xy-audio-projection"/>`);
+        planeLayer.push(`<path d="M${svgNumber(xValuePoint.x)} ${svgNumber(xValuePoint.y)} L${svgNumber(planeX)} ${svgNumber(planeY)} M${svgNumber(yValuePoint.x)} ${svgNumber(yValuePoint.y)} L${svgNumber(planeX)} ${svgNumber(planeY)}" fill="none" stroke="#000" stroke-width="1.2" stroke-dasharray="8 10" data-feature="xy-audio-projection"/>`);
         planeLayer.push(svgPath(`M${svgNumber(planeX)} ${svgNumber(planeY)} L${svgNumber(px)} ${svgNumber(py)}`, 2.6 + bass * 3.5, `data-feature="z-axis-bass" data-strength="${svgNumber(bass)}"`));
         planeLayer.push(svgPath(`M${ox} ${oy} L${svgNumber(planeX)} ${svgNumber(planeY)}`, 1.8, `data-feature="xy-composite"`));
 
@@ -2157,7 +2157,7 @@
           const p = i / Math.max(1, temporalPoints.length - 1);
           const x = ox + tAxis.x * p + Math.sin(p * Math.PI * 2 + audio.phase) * 18;
           const y = oy + tAxis.y * p - value * (56 + rms * 74);
-          timeLayer.push(`<circle cx="${svgNumber(x)}" cy="${svgNumber(y)}" r="${svgNumber(2.4 + value * 5)}" fill="#111" data-feature="time-sample"/>`);
+          timeLayer.push(`<circle cx="${svgNumber(x)}" cy="${svgNumber(y)}" r="${svgNumber(2.4 + value * 5)}" fill="#000" data-feature="time-sample"/>`);
         });
 
         const drawDetailSeries = (values, y, height, feature) => {
@@ -2188,7 +2188,7 @@
             if (value < .08) return;
             const y = 944 - pc * 5.2;
             const size = 1.1 + value * 3.4;
-            chromaConstellationLayer.push(`<circle cx="${svgNumber(x)}" cy="${svgNumber(y)}" r="${svgNumber(size)}" fill="#111" data-feature="detail-chroma-${pc}" data-time="${rowIndex}" data-strength="${svgNumber(value)}"/>`);
+            chromaConstellationLayer.push(`<circle cx="${svgNumber(x)}" cy="${svgNumber(y)}" r="${svgNumber(size)}" fill="#000" data-feature="detail-chroma-${pc}" data-time="${rowIndex}" data-strength="${svgNumber(value)}"/>`);
           });
         });
         detail.bandTimeline.forEach((row, rowIndex) => {
@@ -2197,7 +2197,7 @@
             if (value < .12) return;
             const y = 338 + band * 9;
             const h = 2 + value * 10;
-            spectralLayer.push(`<rect x="${svgNumber(x - 1)}" y="${svgNumber(y - h / 2)}" width="2" height="${svgNumber(h)}" fill="#111" data-feature="detail-band-${band}" data-time="${rowIndex}" data-strength="${svgNumber(value)}"/>`);
+            spectralLayer.push(`<rect x="${svgNumber(x - 1)}" y="${svgNumber(y - h / 2)}" width="2" height="${svgNumber(h)}" fill="#000" data-feature="detail-band-${band}" data-time="${rowIndex}" data-strength="${svgNumber(value)}"/>`);
           });
         });
         detail.zeroCrossing.forEach((value, i) => {
@@ -2321,7 +2321,7 @@
         const w = 42 + rand() * 76;
         const h = 28 + rand() * 58;
         if (i % 3 === 0) mass.push(svgFill(`M${svgNumber(x - w)} ${svgNumber(y)} L${svgNumber(x)} ${svgNumber(y - h)} L${svgNumber(x + w)} ${svgNumber(y)} L${svgNumber(x)} ${svgNumber(y + h)} Z`));
-        else marks.push(`<rect x="${svgNumber(x - w / 2)}" y="${svgNumber(y - h / 2)}" width="${svgNumber(w)}" height="${svgNumber(h)}" fill="none" stroke="#111" stroke-width="${i % 2 ? 3.5 : 2.6}" transform="rotate(${svgNumber((angle * 180 / Math.PI) % 180)} ${svgNumber(x)} ${svgNumber(y)})"/>`);
+        else marks.push(`<rect x="${svgNumber(x - w / 2)}" y="${svgNumber(y - h / 2)}" width="${svgNumber(w)}" height="${svgNumber(h)}" fill="none" stroke="#000" stroke-width="${i % 2 ? 3.5 : 2.6}" transform="rotate(${svgNumber((angle * 180 / Math.PI) % 180)} ${svgNumber(x)} ${svgNumber(y)})"/>`);
       }
 
       const sparkCount = Math.round(6 + vector.scatter * 8);
@@ -2331,7 +2331,7 @@
         const x = cx + Math.cos(a) * r;
         const y = cy + Math.sin(a) * r;
         marks.push(i % 2
-          ? `<circle cx="${svgNumber(x)}" cy="${svgNumber(y)}" r="${svgNumber(10 + rand() * 18)}" fill="none" stroke="#111" stroke-width="2.8"/>`
+          ? `<circle cx="${svgNumber(x)}" cy="${svgNumber(y)}" r="${svgNumber(10 + rand() * 18)}" fill="none" stroke="#000" stroke-width="2.8"/>`
           : svgPath(`M${svgNumber(x - 22)} ${svgNumber(y)} L${svgNumber(x + 22)} ${svgNumber(y)}`, 2.8));
       }
 
@@ -2373,7 +2373,7 @@
             prompt,
             constraints: {
               format: "svg",
-              colors: ["#111", "#fff"],
+              colors: ["#000", "#fff"],
               noText: true,
               screenPrint: true,
               illustratorEditable: true,
@@ -2454,7 +2454,7 @@
       const frame = { x: 340, y: 244, w: 520, h: 710 };
 
       base.push(`<rect x="0" y="0" width="1200" height="1200" fill="#fff"/>`);
-      base.push(`<rect x="${frame.x}" y="${frame.y}" width="${frame.w}" height="${frame.h}" fill="none" stroke="#111" stroke-width="8"/>`);
+      base.push(`<rect x="${frame.x}" y="${frame.y}" width="${frame.w}" height="${frame.h}" fill="none" stroke="#000" stroke-width="8"/>`);
       base.push(svgPath(`M468 244 C496 310 704 310 732 244`, 10));
 
       if (engineId !== "paper") {
@@ -2478,8 +2478,8 @@
         texture.push(svgPath(`M536 536 L792 448`, 8));
         texture.push(svgPath(`M520 700 C640 650 704 622 804 570`, 8));
       } else if (mood.pattern === "pulse") {
-        motif.push(`<circle cx="${svgNumber(cx)}" cy="${svgNumber(cy)}" r="92" fill="none" stroke="#111" stroke-width="18"/>`);
-        motif.push(`<circle cx="${svgNumber(cx)}" cy="${svgNumber(cy)}" r="34" fill="#111"/>`);
+        motif.push(`<circle cx="${svgNumber(cx)}" cy="${svgNumber(cy)}" r="92" fill="none" stroke="#000" stroke-width="18"/>`);
+        motif.push(`<circle cx="${svgNumber(cx)}" cy="${svgNumber(cy)}" r="34" fill="#000"/>`);
         for (let i = 0; i < 16; i++) {
           const angle = Math.PI * 2 * i / 16 + (rand() - .5) * .12;
           const r1 = 116 + rand() * 18;
@@ -2499,8 +2499,8 @@
         motif.push(svgPath(`M408 818 C490 640 520 466 592 352 C650 494 700 654 808 818`, 20));
         motif.push(svgPath(`M812 380 C688 500 552 632 396 862`, 16));
         motif.push(svgPath(`M396 452 C512 530 662 684 814 884`, 12));
-        motif.push(`<circle cx="522" cy="510" r="50" fill="none" stroke="#111" stroke-width="14"/>`);
-        motif.push(`<circle cx="690" cy="672" r="50" fill="none" stroke="#111" stroke-width="14"/>`);
+        motif.push(`<circle cx="522" cy="510" r="50" fill="none" stroke="#000" stroke-width="14"/>`);
+        motif.push(`<circle cx="690" cy="672" r="50" fill="none" stroke="#000" stroke-width="14"/>`);
         texture.push(svgPath(`M488 600 L732 600`, 8));
       } else {
         for (let i = 0; i < 7; i++) {
@@ -2518,10 +2518,10 @@
         const y = 398 + rand() * 408;
         const size = 24 + rand() * 34;
         texture.push(i % 2
-          ? `<rect x="${svgNumber(x)}" y="${svgNumber(y)}" width="${svgNumber(size)}" height="${svgNumber(size)}" fill="none" stroke="#111" stroke-width="8"/>`
-          : `<circle cx="${svgNumber(x)}" cy="${svgNumber(y)}" r="${svgNumber(size / 2)}" fill="none" stroke="#111" stroke-width="8"/>`);
+          ? `<rect x="${svgNumber(x)}" y="${svgNumber(y)}" width="${svgNumber(size)}" height="${svgNumber(size)}" fill="none" stroke="#000" stroke-width="8"/>`
+          : `<circle cx="${svgNumber(x)}" cy="${svgNumber(y)}" r="${svgNumber(size / 2)}" fill="none" stroke="#000" stroke-width="8"/>`);
       }
-      registration.push(`<rect x="384" y="322" width="432" height="572" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="14 18"/>`);
+      registration.push(`<rect x="384" y="322" width="432" height="572" fill="none" stroke="#000" stroke-width="2" stroke-dasharray="14 18"/>`);
 
       return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="${mood.label}から生成されたTシャツ図案">${svgGroup("base_print_area", base)}${svgGroup(`engine_${engineId}`, motif)}${svgGroup("support_texture", texture)}${svgGroup("print_registration", registration)}</svg>`;
     }
@@ -2709,7 +2709,7 @@
           d += `${col ? " L" : "M"}${svgFineNumber(x)} ${svgFineNumber(y)}`;
         }
         const width = .28 + clamp01(settings.lineWeight) * .48 + (carrier.lane === 0 ? .2 : 0);
-        return `<path d="${d}" fill="none" stroke="#111" stroke-width="${svgFineNumber(width)}" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" data-pcm-axis="${carrier.name}" data-pcm-lane="${carrier.lane}" data-pcm-start="${start}" data-pcm-count="${count}" data-editable-visual="true"/>`;
+        return `<path d="${d}" fill="none" stroke="#000" stroke-width="${svgFineNumber(width)}" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" data-pcm-axis="${carrier.name}" data-pcm-lane="${carrier.lane}" data-pcm-start="${start}" data-pcm-count="${count}" data-editable-visual="true"/>`;
       }).filter(Boolean);
       const attrs = [
         `data-encoding="editable-visual-carriers-v2"`,
@@ -3258,7 +3258,7 @@
         const a = morph.pressureAngle + (value - .5) * Math.PI * .7 + (rhythm - .5) * Math.PI * .4;
         const len = 7 + value * (24 + onset * 46);
         impacts.push(svgPath(`M${svgNumber(p.x - Math.cos(a) * len)} ${svgNumber(p.y - Math.sin(a) * len)} L${svgNumber(p.x + Math.cos(a) * len)} ${svgNumber(p.y + Math.sin(a) * len)}`, svgNumber(.75 + value * 1.9), `data-feature="impact_mark" data-onset="${svgNumber(value)}"`));
-        if (value > .62 || i % 9 === 0) impacts.push(`<circle cx="${svgNumber(p.x)}" cy="${svgNumber(p.y)}" r="${svgNumber(2.6 + value * 6)}" fill="none" stroke="#111" stroke-width="${svgNumber(.8 + value * 1.2)}" data-feature="impact_hole"/>`);
+        if (value > .62 || i % 9 === 0) impacts.push(`<circle cx="${svgNumber(p.x)}" cy="${svgNumber(p.y)}" r="${svgNumber(2.6 + value * 6)}" fill="none" stroke="#000" stroke-width="${svgNumber(.8 + value * 1.2)}" data-feature="impact_hole"/>`);
       }
       const tensions = [];
       chroma.forEach((value, pc) => {
@@ -3342,7 +3342,7 @@
           const inner = 42 + brightness * 30;
           const outer = 120 + value * 290;
           satellites.push(svgPath(`M${svgNumber(cx + Math.cos(a) * inner)} ${svgNumber(cy + Math.sin(a) * inner)} L${svgNumber(cx + Math.cos(a) * outer)} ${svgNumber(cy + Math.sin(a) * outer)}`, .55 + value * 2.7, `data-feature="orbit-chroma-vector" data-pitch-class="${pc}"`));
-          satellites.push(`<circle cx="${svgNumber(cx + Math.cos(a) * outer)}" cy="${svgNumber(cy + Math.sin(a) * outer)}" r="${svgNumber(2.2 + value * 7)}" fill="none" stroke="#111" stroke-width="${svgNumber(.7 + value)}" data-feature="orbit-node"/>`);
+          satellites.push(`<circle cx="${svgNumber(cx + Math.cos(a) * outer)}" cy="${svgNumber(cy + Math.sin(a) * outer)}" r="${svgNumber(2.2 + value * 7)}" fill="none" stroke="#000" stroke-width="${svgNumber(.7 + value)}" data-feature="orbit-node"/>`);
         });
         for (let lane = 0; lane < 13 + Math.floor(carrierBias * 12); lane++) {
           const x1 = cx - 260 + (lane % 5) * 24;
@@ -3407,7 +3407,7 @@
           const r = 80 + rand() * 380;
           const x = cx + Math.cos(a) * r;
           const y = cy + Math.sin(a) * r;
-          debris.push(`<circle cx="${svgNumber(x)}" cy="${svgNumber(y)}" r="${svgNumber(1.4 + rand() * 5.8)}" fill="${i % 3 === 0 ? "#111" : "none"}" stroke="#111" stroke-width="${svgNumber(.6 + rand() * 1.1)}" data-feature="impact-debris"/>`);
+          debris.push(`<circle cx="${svgNumber(x)}" cy="${svgNumber(y)}" r="${svgNumber(1.4 + rand() * 5.8)}" fill="${i % 3 === 0 ? "#000" : "none"}" stroke="#000" stroke-width="${svgNumber(.6 + rand() * 1.1)}" data-feature="impact-debris"/>`);
         }
         return [svgGroup("impact_fracture_shards", shards), svgGroup("impact_slashes", slashes), svgGroup("impact_debris", debris)];
       };
@@ -3444,7 +3444,7 @@
           const a = -Math.PI / 2 + pc / 12 * Math.PI * 2;
           const x = cx + Math.cos(a) * (72 + value * 230);
           const y = cy + Math.sin(a) * (56 + value * 180);
-          soundWells.push(`<circle cx="${svgNumber(x)}" cy="${svgNumber(y)}" r="${svgNumber(5 + value * 18)}" fill="none" stroke="#111" stroke-width="${svgNumber(.8 + value * 2.2)}" data-feature="topographic-sound-well" data-pitch-class="${pc}"/>`);
+          soundWells.push(`<circle cx="${svgNumber(x)}" cy="${svgNumber(y)}" r="${svgNumber(5 + value * 18)}" fill="none" stroke="#000" stroke-width="${svgNumber(.8 + value * 2.2)}" data-feature="topographic-sound-well" data-pitch-class="${pc}"/>`);
         });
         return [svgGroup("topographic_pressure_contours", contours), svgGroup("topographic_fault_lines", faultLines), svgGroup("topographic_sound_wells", soundWells)];
       };
@@ -3505,7 +3505,7 @@
           const value = chroma[i] || 0;
           if (value < .04) continue;
           const a = i / 12 * Math.PI * 2 - Math.PI / 2;
-          coreMarks.push(`<circle cx="${svgNumber(cx + Math.cos(a) * (70 + value * 120))}" cy="${svgNumber(cy + Math.sin(a) * (54 + value * 92))}" r="${svgNumber(2 + value * 7)}" fill="${i % 2 ? "none" : "#111"}" stroke="#111" stroke-width="${svgNumber(.8 + value)}" data-feature="spiral-chroma-node"/>`);
+          coreMarks.push(`<circle cx="${svgNumber(cx + Math.cos(a) * (70 + value * 120))}" cy="${svgNumber(cy + Math.sin(a) * (54 + value * 92))}" r="${svgNumber(2 + value * 7)}" fill="${i % 2 ? "none" : "#000"}" stroke="#000" stroke-width="${svgNumber(.8 + value)}" data-feature="spiral-chroma-node"/>`);
         }
         return [svgGroup("spiral_pcm_core", spirals), svgGroup("spiral_rhythm_ribs", ribs), svgGroup("spiral_chroma_nodes", coreMarks)];
       };
@@ -3552,7 +3552,7 @@
           if ((point.value + next.value) > .18) {
             links.push(wavePath(point, next, 90, 6 + brightness * 12, .45 + (point.value + next.value) * 1.3, index * .44, `data-feature="constellation-harmonic-link"`));
           }
-          nodes.push(`<circle cx="${svgNumber(point.x)}" cy="${svgNumber(point.y)}" r="${svgNumber(3 + point.value * 14)}" fill="${point.value > .55 ? "#111" : "none"}" stroke="#111" stroke-width="${svgNumber(.8 + point.value * 2.2)}" data-feature="constellation-chroma-node" data-pitch-class="${point.pc}"/>`);
+          nodes.push(`<circle cx="${svgNumber(point.x)}" cy="${svgNumber(point.y)}" r="${svgNumber(3 + point.value * 14)}" fill="${point.value > .55 ? "#000" : "none"}" stroke="#000" stroke-width="${svgNumber(.8 + point.value * 2.2)}" data-feature="constellation-chroma-node" data-pitch-class="${point.pc}"/>`);
         });
         for (let lane = 0; lane < 18 + Math.floor(carrierBias * 12); lane++) {
           const a = rand() * Math.PI * 2;
@@ -3581,7 +3581,7 @@
         for (let i = 0; i < 28 + Math.floor(onset * 42); i++) {
           const x = left + rand() * (right - left);
           const y = topBase + rand() * 560;
-          knots.push(`<circle cx="${svgNumber(x)}" cy="${svgNumber(y)}" r="${svgNumber(1.6 + rand() * (3 + onset * 8))}" fill="${i % 4 === 0 ? "#111" : "none"}" stroke="#111" stroke-width="${svgNumber(.6 + rand())}" data-feature="signal-knot"/>`);
+          knots.push(`<circle cx="${svgNumber(x)}" cy="${svgNumber(y)}" r="${svgNumber(1.6 + rand() * (3 + onset * 8))}" fill="${i % 4 === 0 ? "#000" : "none"}" stroke="#000" stroke-width="${svgNumber(.6 + rand())}" data-feature="signal-knot"/>`);
         }
         return [svgGroup("signal_plane_frame", frames), svgGroup("signal_flag_bands", bands), svgGroup("signal_knots", knots)];
       };
@@ -3601,7 +3601,7 @@
         for (let i = 0; i < 12; i++) {
           const value = chroma[i] || 0;
           const a = i / 12 * Math.PI * 2;
-          anchors.push(`<circle cx="${svgNumber(cx + Math.cos(a) * (100 + value * 260))}" cy="${svgNumber(cy + Math.sin(a) * (80 + value * 220))}" r="${svgNumber(2 + value * 10)}" fill="none" stroke="#111" stroke-width="${svgNumber(.7 + value * 1.8)}" data-feature="storm-anchor"/>`);
+          anchors.push(`<circle cx="${svgNumber(cx + Math.cos(a) * (100 + value * 260))}" cy="${svgNumber(cy + Math.sin(a) * (80 + value * 220))}" r="${svgNumber(2 + value * 10)}" fill="none" stroke="#000" stroke-width="${svgNumber(.7 + value * 1.8)}" data-feature="storm-anchor"/>`);
         }
         for (let i = 0; i < 8; i++) {
           const y = 250 + i * 78 + byteSigned(i * 431) * 22;
@@ -3705,7 +3705,7 @@
         const lines = [];
         const soft = genreVisual.strokeBias;
         const motifPath = (d, width = .9, attrs = "") => svgPath(d, svgNumber(width), `data-feature="name-imagery" data-motif="${escapeAttr(motif)}" ${attrs}`);
-        const circleLine = (cx, cy, r, width = .9, attrs = "") => `<circle cx="${svgNumber(cx)}" cy="${svgNumber(cy)}" r="${svgNumber(r)}" fill="none" stroke="#111" stroke-width="${svgNumber(width)}" vector-effect="non-scaling-stroke" data-feature="name-imagery" data-motif="${escapeAttr(motif)}" ${attrs}/>`;
+        const circleLine = (cx, cy, r, width = .9, attrs = "") => `<circle cx="${svgNumber(cx)}" cy="${svgNumber(cy)}" r="${svgNumber(r)}" fill="none" stroke="#000" stroke-width="${svgNumber(width)}" vector-effect="non-scaling-stroke" data-feature="name-imagery" data-motif="${escapeAttr(motif)}" ${attrs}/>`;
         const star = (cx, cy, r, width = .8) => {
           const points = [];
           for (let i = 0; i < 10; i++) {
@@ -3733,7 +3733,7 @@
         } else if (motif === "pixel") {
           for (let y = 360; y <= 780; y += 84) lines.push(motifPath(`M310 ${y} H894`, .62));
           for (let x = 320; x <= 900; x += 92) lines.push(motifPath(`M${x} 318 V830`, .52));
-          [360, 452, 636, 820].forEach((x, i) => lines.push(`<rect x="${x}" y="${390 + i * 78}" width="42" height="42" fill="none" stroke="#111" stroke-width=".9" data-feature="name-imagery" data-motif="${escapeAttr(motif)}"/>`));
+          [360, 452, 636, 820].forEach((x, i) => lines.push(`<rect x="${x}" y="${390 + i * 78}" width="42" height="42" fill="none" stroke="#000" stroke-width=".9" data-feature="name-imagery" data-motif="${escapeAttr(motif)}"/>`));
         } else if (motif === "circuit") {
           for (let i = 0; i < 7; i++) {
             const y = 350 + i * 70;
@@ -3809,11 +3809,11 @@
           ...baseGroups,
           `</g>`,
           ...(variantGroups ? [
-            `<g id="genre_variant_family" data-family="${variantFamily}" opacity="${svgNumber(genreVisual.variantOpacity)}" transform="${genreFamilyTransform("variant")}" ${clipAndMaskAttrs}>`,
+            `<g id="genre_variant_family" data-family="${variantFamily}" data-variant-opacity="${svgNumber(genreVisual.variantOpacity)}" data-print-ink="black-opaque" transform="${genreFamilyTransform("variant")}" ${clipAndMaskAttrs}>`,
             ...variantGroups,
             `</g>`
           ] : []),
-          `<g id="genre_name_imagery" data-line-character="${escapeAttr(genreVisual.lineCharacter)}" data-name-motif="${escapeAttr(genreVisual.nameMotif)}" opacity=".88" ${clipAndMaskAttrs}>`,
+          `<g id="genre_name_imagery" data-line-character="${escapeAttr(genreVisual.lineCharacter)}" data-name-motif="${escapeAttr(genreVisual.nameMotif)}" data-print-ink="black-opaque" ${clipAndMaskAttrs}>`,
           ...makeNameImageryGroups(),
           `</g>`
         ]
@@ -3914,7 +3914,7 @@
         const outer = inner + 72 + value * 190;
         harmonic.push(svgPath(`M${svgNumber(cx + Math.cos(a) * inner)} ${svgNumber(cy + Math.sin(a) * inner)} L${svgNumber(cx + Math.cos(a) * outer)} ${svgNumber(cy + Math.sin(a) * outer)}`, .72 + value * 1.6, `data-feature="chroma-ray" data-pitch-class="${pc}" data-strength="${svgNumber(value)}"`));
         const dotR = 1.8 + value * 5;
-        harmonic.push(`<circle cx="${svgNumber(cx + Math.cos(a) * outer)}" cy="${svgNumber(cy + Math.sin(a) * outer)}" r="${svgNumber(dotR)}" fill="#111" data-feature="chroma-endpoint" data-pitch-class="${pc}"/>`);
+        harmonic.push(`<circle cx="${svgNumber(cx + Math.cos(a) * outer)}" cy="${svgNumber(cy + Math.sin(a) * outer)}" r="${svgNumber(dotR)}" fill="#000" data-feature="chroma-endpoint" data-pitch-class="${pc}"/>`);
       });
 
       const textureCount = 72 + Math.floor(rand() * 80);
@@ -4800,7 +4800,7 @@
             const wave = Math.sin(i * .92 + phase) * amplitude + Math.sin(i * 2.18 + phase * .7) * amplitude * .28;
             return `${i ? "L" : "M"}${svgNumber(centerX + nx * wave)} ${svgNumber(centerY + ny * wave)}`;
           }).join(" ");
-          return `<path d="${points}" fill="none" stroke="#111" stroke-width="${laneIndex === 1 ? 1.35 : .9}" stroke-linecap="round" stroke-linejoin="round" data-preview-pcm-axis="${name}" data-preview-lane="${laneIndex}"/>`;
+          return `<path d="${points}" fill="none" stroke="#000" stroke-width="${laneIndex === 1 ? 1.35 : .9}" stroke-linecap="round" stroke-linejoin="round" data-preview-pcm-axis="${name}" data-preview-lane="${laneIndex}"/>`;
         }).join("");
       };
       const pcmAxisPreview = [
@@ -4819,27 +4819,27 @@
           <figure class="mapping-figure" aria-label="音響特徴量と生成図柄の対応図">
             <svg viewBox="0 0 1100 720" role="img">
               <defs>
-                <marker id="mapArrow" viewBox="0 0 10 10" refX="8.6" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#111"/></marker>
+                <marker id="mapArrow" viewBox="0 0 10 10" refX="8.6" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#000"/></marker>
               </defs>
               <rect x="44" y="44" width="1012" height="632" fill="#fff"/>
-              <rect x="304" y="118" width="360" height="500" fill="none" stroke="#111" stroke-width="4"/>
-              <path d="M394 118 C420 164 548 164 574 118" fill="none" stroke="#111" stroke-width="4" stroke-linecap="round"/>
-              <path d="M478 502 L218 598" fill="none" stroke="#111" stroke-width="2.4" marker-end="url(#mapArrow)"/>
-              <path d="M478 502 L742 594" fill="none" stroke="#111" stroke-width="2.4" marker-end="url(#mapArrow)"/>
-              <path d="M478 502 L478 194" fill="none" stroke="#111" stroke-width="6" marker-end="url(#mapArrow)"/>
-              <path d="M478 502 L616 360" fill="none" stroke="#111" stroke-width="7" marker-end="url(#mapArrow)"/>
-              <path d="M478 502 L616 502" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="8 8"/>
-              <path d="M616 502 L616 360" fill="none" stroke="#111" stroke-width="3.2"/>
-              <path d="M478 502 L166 408" fill="none" stroke="#111" stroke-width="2.2" marker-end="url(#mapArrow)"/>
-              <path d="M456 422 C392 390 318 392 240 418 C206 430 182 424 166 408" fill="none" stroke="#111" stroke-width="2.4"/>
+              <rect x="304" y="118" width="360" height="500" fill="none" stroke="#000" stroke-width="4"/>
+              <path d="M394 118 C420 164 548 164 574 118" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+              <path d="M478 502 L218 598" fill="none" stroke="#000" stroke-width="2.4" marker-end="url(#mapArrow)"/>
+              <path d="M478 502 L742 594" fill="none" stroke="#000" stroke-width="2.4" marker-end="url(#mapArrow)"/>
+              <path d="M478 502 L478 194" fill="none" stroke="#000" stroke-width="6" marker-end="url(#mapArrow)"/>
+              <path d="M478 502 L616 360" fill="none" stroke="#000" stroke-width="7" marker-end="url(#mapArrow)"/>
+              <path d="M478 502 L616 502" fill="none" stroke="#000" stroke-width="2" stroke-dasharray="8 8"/>
+              <path d="M616 502 L616 360" fill="none" stroke="#000" stroke-width="3.2"/>
+              <path d="M478 502 L166 408" fill="none" stroke="#000" stroke-width="2.2" marker-end="url(#mapArrow)"/>
+              <path d="M456 422 C392 390 318 392 240 418 C206 430 182 424 166 408" fill="none" stroke="#000" stroke-width="2.4"/>
               <g id="pcm_axis_preview" data-layer="pcm_axis_preview">
                 ${pcmAxisPreview}
               </g>
-              <circle cx="478" cy="502" r="8" fill="#111"/>
-              <circle cx="616" cy="360" r="24" fill="#111"/>
+              <circle cx="478" cy="502" r="8" fill="#000"/>
+              <circle cx="616" cy="360" r="24" fill="#000"/>
               <path d="M588 360 C596 328 636 328 646 360 C632 392 600 390 588 360 Z" fill="none" stroke="#fff" stroke-width="2.2"/>
-              <path d="M548 502 C568 468 594 438 616 360" fill="none" stroke="#111" stroke-width="2.4" marker-end="url(#mapArrow)"/>
-              <path d="M538 520 C592 540 662 534 722 494" fill="none" stroke="#111" stroke-width="2" marker-end="url(#mapArrow)"/>
+              <path d="M548 502 C568 468 594 438 616 360" fill="none" stroke="#000" stroke-width="2.4" marker-end="url(#mapArrow)"/>
+              <path d="M538 520 C592 540 662 534 722 494" fill="none" stroke="#000" stroke-width="2" marker-end="url(#mapArrow)"/>
               ${Array.from({ length: 12 }, (_, i) => {
                 const a = -Math.PI / 2 + i / 12 * Math.PI * 2;
                 const strong = i % 3 === 0;
@@ -4847,7 +4847,7 @@
                 const y1 = 360 + Math.sin(a) * 38;
                 const x2 = 616 + Math.cos(a) * (strong ? 122 : 78);
                 const y2 = 360 + Math.sin(a) * (strong ? 122 : 78);
-                return `<path d="M${svgNumber(x1)} ${svgNumber(y1)} L${svgNumber(x2)} ${svgNumber(y2)}" fill="none" stroke="#111" stroke-width="${strong ? 4.4 : 2.2}" stroke-linecap="round"/>`;
+                return `<path d="M${svgNumber(x1)} ${svgNumber(y1)} L${svgNumber(x2)} ${svgNumber(y2)}" fill="none" stroke="#000" stroke-width="${strong ? 4.4 : 2.2}" stroke-linecap="round"/>`;
               }).join("")}
               ${Array.from({ length: 10 }, (_, i) => {
                 const a = -Math.PI / 2 + i / 10 * Math.PI * 2;
@@ -4855,30 +4855,30 @@
                 const y = 360 + Math.sin(a) * 154;
                 const x2 = 616 + Math.cos(a) * 184;
                 const y2 = 360 + Math.sin(a) * 184;
-                return `<path d="M${svgNumber(x)} ${svgNumber(y)} L${svgNumber(x2)} ${svgNumber(y2)}" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round"/>`;
+                return `<path d="M${svgNumber(x)} ${svgNumber(y)} L${svgNumber(x2)} ${svgNumber(y2)}" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>`;
               }).join("")}
               ${Array.from({ length: 8 }, (_, i) => {
                 const a = i / 8 * Math.PI * 2 + .2;
                 const x = 616 + Math.cos(a) * 82;
                 const y = 360 + Math.sin(a) * 82;
-                return `<path d="M${svgNumber(x - 12)} ${svgNumber(y)} L${svgNumber(x + 12)} ${svgNumber(y)} M${svgNumber(x)} ${svgNumber(y - 12)} L${svgNumber(x)} ${svgNumber(y + 12)}" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>`;
+                return `<path d="M${svgNumber(x - 12)} ${svgNumber(y)} L${svgNumber(x + 12)} ${svgNumber(y)} M${svgNumber(x)} ${svgNumber(y - 12)} L${svgNumber(x)} ${svgNumber(y + 12)}" fill="none" stroke="#000" stroke-width="2.2" stroke-linecap="round"/>`;
               }).join("")}
-              <path d="M182 408 L220 384 L260 420 L300 372 L342 424 L382 388 L420 430" fill="none" stroke="#111" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-              <text x="704" y="92" font-size="22" font-family="Helvetica, Arial, sans-serif" fill="#111">PCMは別枠ではなく軸に載る</text>
-              <text x="704" y="122" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#111">細い揺れ = 中心線からのPCMオフセット</text>
-              <path d="M704 136 L642 214" fill="none" stroke="#111" stroke-width="2" marker-end="url(#mapArrow)"/>
-              <text x="624" y="634" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#111">X軸: RMS / 音量</text>
-              <text x="92" y="634" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#111">Y軸: Rhythm / 拍密度</text>
-              <text x="494" y="208" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#111">低域: Z軸の太さ</text>
-              <text x="646" y="346" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#111">参照点</text>
-              <text x="676" y="404" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#111">クロマ: 12方向の放射線</text>
-              <text x="764" y="506" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#111">Tempo: 外周の刻み</text>
-              <text x="658" y="586" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#111">φ: Tempo の回転</text>
-              <text x="346" y="354" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#111">θ: スペクトル重心</text>
-              <text x="322" y="472" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#111">r: X/Y/Zの合成距離</text>
-              <text x="70" y="374" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#111">T軸: 時間変化</text>
-              <text x="700" y="278" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#111">onset: 打点マーク</text>
-              <text x="666" y="310" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#111">Lissajous: 周波数比の曲線</text>
+              <path d="M182 408 L220 384 L260 420 L300 372 L342 424 L382 388 L420 430" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+              <text x="704" y="92" font-size="22" font-family="Helvetica, Arial, sans-serif" fill="#000">PCMは別枠ではなく軸に載る</text>
+              <text x="704" y="122" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#000">細い揺れ = 中心線からのPCMオフセット</text>
+              <path d="M704 136 L642 214" fill="none" stroke="#000" stroke-width="2" marker-end="url(#mapArrow)"/>
+              <text x="624" y="634" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#000">X軸: RMS / 音量</text>
+              <text x="92" y="634" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#000">Y軸: Rhythm / 拍密度</text>
+              <text x="494" y="208" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#000">低域: Z軸の太さ</text>
+              <text x="646" y="346" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#000">参照点</text>
+              <text x="676" y="404" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#000">クロマ: 12方向の放射線</text>
+              <text x="764" y="506" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#000">Tempo: 外周の刻み</text>
+              <text x="658" y="586" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#000">φ: Tempo の回転</text>
+              <text x="346" y="354" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#000">θ: スペクトル重心</text>
+              <text x="322" y="472" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#000">r: X/Y/Zの合成距離</text>
+              <text x="70" y="374" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#000">T軸: 時間変化</text>
+              <text x="700" y="278" font-size="24" font-family="Helvetica, Arial, sans-serif" fill="#000">onset: 打点マーク</text>
+              <text x="666" y="310" font-size="18" font-family="Helvetica, Arial, sans-serif" fill="#000">Lissajous: 周波数比の曲線</text>
             </svg>
           </figure>
           <div class="mapping-list">

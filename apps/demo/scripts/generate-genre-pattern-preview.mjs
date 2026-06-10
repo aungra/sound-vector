@@ -182,7 +182,7 @@ const cards = genres.map((genre, index) => {
   const artX = x + (cardW - artSize) / 2;
   const artY = y + 28;
   return `<g class="card" transform="translate(${x} ${y})">
-    <rect x="0" y="0" width="${cardW}" height="${cardH}" rx="0" fill="#fff" stroke="#171717" stroke-opacity=".22"/>
+    <rect x="0" y="0" width="${cardW}" height="${cardH}" rx="0" fill="#fff" stroke="#000"/>
     <svg x="${artX - x}" y="${artY - y}" width="${artSize}" height="${artSize}" viewBox="0 0 1200 1200">${svgInner(svg)}</svg>
     <text x="28" y="${artY - y + artSize + 42}" class="genre">${escapeXml(index + 1).padStart(2, "0")} ${escapeXml(genre)}</text>
     <text x="28" y="${artY - y + artSize + 70}" class="meta">${escapeXml(formMode)}</text>
@@ -193,12 +193,12 @@ const cards = genres.map((genre, index) => {
 
 const sheet = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="30 genre-specific sound form preview">
   <style>
-    .title{font:500 58px Helvetica,Arial,sans-serif;letter-spacing:0;fill:#111}
-    .subtitle{font:400 21px Helvetica,Arial,sans-serif;letter-spacing:0;fill:#3a3a3a}
-    .genre{font:600 23px Helvetica,Arial,sans-serif;letter-spacing:0;fill:#111}
-    .meta{font:400 15px Helvetica,Arial,sans-serif;letter-spacing:0;fill:#555}
+    .title{font:500 58px Helvetica,Arial,sans-serif;letter-spacing:0;fill:#000}
+    .subtitle{font:400 21px Helvetica,Arial,sans-serif;letter-spacing:0;fill:#000}
+    .genre{font:600 23px Helvetica,Arial,sans-serif;letter-spacing:0;fill:#000}
+    .meta{font:400 15px Helvetica,Arial,sans-serif;letter-spacing:0;fill:#000}
   </style>
-  <rect width="100%" height="100%" fill="#f4f3ee"/>
+  <rect width="100%" height="100%" fill="#fff"/>
   <text x="${margin}" y="${margin + 48}" class="title">30 GENRE SOUND FORMS</text>
   <text x="${margin}" y="${margin + 86}" class="subtitle">Top1 genre locks the main pattern; variant family and protected texture change inside the same genre idea.</text>
   <text x="${margin}" y="${margin + 116}" class="subtitle">Each preview includes a reduced-density visible pcm_reversible_data texture field for visual checking.</text>
