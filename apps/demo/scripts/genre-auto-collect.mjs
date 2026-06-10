@@ -3,8 +3,10 @@ import http from "node:http";
 import https from "node:https";
 import path from "node:path";
 import { spawn } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
-const ROOT = process.cwd();
+const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(SCRIPT_DIR, "../../..");
 const OUT_PATH = path.join(ROOT, "genre-training", "genre-dataset.json");
 const REPORT_PATH = path.join(ROOT, "genre-training", "auto-collect-report.json");
 const LOCAL_BIN = path.join(ROOT, ".tools", "bin");
@@ -14,6 +16,12 @@ const SEARCH_LIMIT = Math.max(PER_GENRE + 2, Number(process.env.MMFR_GENRE_SEARC
 const CONCURRENCY = Math.max(1, Number(process.env.MMFR_GENRE_COLLECT_CONCURRENCY || 4));
 const VALIDATE_ANALYSIS = process.env.MMFR_GENRE_COLLECT_VALIDATE === "1";
 const AUDIO_ENDPOINT = process.env.MMFR_AUDIO_ENDPOINT || "http://127.0.0.1:4194/api/audio-analyze";
+const COOKIE_BROWSERS = (process.env.MMFR_YTDLP_COOKIES_FROM_BROWSER
+  || (process.platform === "darwin" ? "chrome,safari,firefox" : "chrome,firefox"))
+  .split(",")
+  .map(value => value.trim())
+  .filter(Boolean);
+const COOKIE_FILE = process.env.MMFR_YTDLP_COOKIES_FILE || "";
 
 const genreQueries = [
   { genre: "アンビエント", queries: ["ambient music classic track", "ambient electronic representative track", "Brian Eno ambient track"] },
@@ -47,6 +55,54 @@ const genreQueries = [
   { genre: "フォーク", queries: ["folk music classic track", "folk representative track", "folk song"] },
   { genre: "ワールドミュージック", queries: ["world music representative track", "world music classic track", "traditional world music track", "Youssou N'Dour track", "Nusrat Fateh Ali Khan track", "Ali Farka Toure track", "Buena Vista Social Club track", "Tinariwen track"] }
 ];
+
+const highSignalQueryAddons = {
+  "パンク": ["Ramones Blitzkrieg Bop official audio", "Sex Pistols Anarchy in the UK official audio", "The Clash London Calling official audio", "Dead Kennedys Holiday in Cambodia official audio", "Misfits Last Caress official audio", "Buzzcocks Ever Fallen in Love official audio"],
+  "ジャズ": ["Miles Davis So What official audio", "John Coltrane Giant Steps official audio", "Dave Brubeck Take Five official audio", "Thelonious Monk Round Midnight official audio", "Charles Mingus Goodbye Pork Pie Hat official audio", "Bill Evans Waltz for Debby official audio"],
+  "ソウルミュージック": ["Aretha Franklin Respect official audio", "Otis Redding Sitting on the Dock of the Bay official audio", "Sam Cooke A Change Is Gonna Come official audio", "Al Green Lets Stay Together official audio", "Marvin Gaye Whats Going On official audio", "Curtis Mayfield Move On Up official audio"],
+  "オペラ": ["Maria Callas Casta Diva official audio", "Pavarotti Nessun Dorma official audio", "Bizet Habanera opera official", "Verdi La donna e mobile official audio", "Puccini O mio babbino caro official audio", "Mozart Queen of the Night aria official"],
+  "フォーク": ["Bob Dylan Blowin in the Wind official audio", "Joan Baez Diamonds and Rust official audio", "Joni Mitchell Both Sides Now official audio", "Simon Garfunkel The Sound of Silence official audio", "Pete Seeger Where Have All the Flowers Gone official audio", "Nick Drake Pink Moon official audio"],
+  "ワールドミュージック": ["Buena Vista Social Club Chan Chan official audio", "Youssou N'Dour 7 Seconds official audio", "Nusrat Fateh Ali Khan Mustt Mustt official audio", "Ali Farka Toure Ai Du official audio", "Tinariwen Sastanaqqam official audio", "Cesaria Evora Sodade official audio", "Fela Kuti Zombie official audio", "Ravi Shankar raga official audio", "Toumani Diabate kora official audio", "Rokia Traore official audio"]
+};
+
+function expandedQueries(entry) {
+  const base = [...entry.queries, ...(highSignalQueryAddons[entry.genre] || [])];
+  const variants = [];
+  for (const query of base) {
+    variants.push(query);
+    variants.push(`${query} official audio`);
+    variants.push(`${query} topic`);
+    variants.push(`${query} provided to youtube`);
+  }
+  return [...new Set(variants)];
+}
+
+function ytDlpBaseArgs() {
+  return [
+    "--js-runtimes",
+    `node:${process.execPath}`
+  ];
+}
+
+function ytDlpCookieArgSets() {
+  const sets = [];
+  if (COOKIE_FILE) sets.push(["--cookies", COOKIE_FILE]);
+  for (const browser of COOKIE_BROWSERS) sets.push(["--cookies-from-browser", browser]);
+  sets.push([]);
+  return sets;
+}
+
+async function runYtDlp(args, options = {}) {
+  const errors = [];
+  for (const cookieArgs of ytDlpCookieArgSets()) {
+    try {
+      return await run(YT_DLP, [...ytDlpBaseArgs(), ...cookieArgs, ...args], options);
+    } catch (error) {
+      errors.push(`${cookieArgs.join(" ") || "no-cookies"}: ${error.message}`);
+    }
+  }
+  throw new Error(errors.join("\n---\n"));
+}
 
 function run(command, args, options = {}) {
   return new Promise((resolve, reject) => {
@@ -133,7 +189,7 @@ function candidateOk(item) {
 
 async function searchCandidates(query) {
   const target = `ytsearch${SEARCH_LIMIT}:${query}`;
-  const { stdout } = await run(YT_DLP, [
+  const { stdout } = await runYtDlp([
     "--dump-json",
     "--no-playlist",
     "--skip-download",
@@ -161,7 +217,7 @@ function loadExistingItems() {
 async function collectForGenre(entry, usedUrls, targetCount = PER_GENRE) {
   const selected = [];
   const raw = [];
-  for (const query of entry.queries) {
+  for (const query of expandedQueries(entry)) {
     let candidates = [];
     try {
       candidates = await searchCandidates(query);

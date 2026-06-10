@@ -3,12 +3,14 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { spawn } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
 const PORT = Number(process.env.MMFR_AUDIO_PORT || 4194);
 const HOST = process.env.MMFR_AUDIO_HOST || "127.0.0.1";
 const MAX_BYTES = 80 * 1024 * 1024;
 const ANALYSIS_WINDOW_SECONDS = Math.max(0, Number(process.env.MMFR_ANALYSIS_SECONDS || 120));
-const ROOT_DIR = process.cwd();
+const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
+const ROOT_DIR = path.resolve(SCRIPT_DIR, "../../..");
 const LOCAL_BIN = path.join(ROOT_DIR, ".tools", "bin");
 const TOOL_PATHS = {
   "yt-dlp": [
@@ -23,10 +25,58 @@ const TOOL_PATHS = {
     "ffmpeg"
   ].filter(Boolean)
 };
-const YT_DLP_SHARED_ARGS = [
-  "--js-runtimes",
-  `node:${process.execPath}`
-];
+const COOKIE_BROWSERS = (process.env.MMFR_YTDLP_COOKIES_FROM_BROWSER
+  || (process.platform === "darwin" ? "chrome,safari,firefox" : "chrome,firefox"))
+  .split(",")
+  .map(value => value.trim())
+  .filter(Boolean);
+const COOKIE_FILE = process.env.MMFR_YTDLP_COOKIES_FILE || "";
+
+function ytDlpBaseArgs() {
+  return [
+    "--js-runtimes",
+    `node:${process.execPath}`
+  ];
+}
+
+function ytDlpCookieArgSets() {
+  const sets = [];
+  if (COOKIE_FILE) sets.push(["--cookies", COOKIE_FILE]);
+  for (const browser of COOKIE_BROWSERS) sets.push(["--cookies-from-browser", browser]);
+  sets.push([]);
+  return sets;
+}
+
+function ytDlpSharedArgs(cookieArgs = []) {
+  const args = [
+    ...ytDlpBaseArgs(),
+    ...cookieArgs
+  ];
+  return args;
+}
+
+async function runYtDlp(command, args, options = {}) {
+  const errors = [];
+  for (const cookieArgs of ytDlpCookieArgSets()) {
+    try {
+      return await run(command, [...ytDlpSharedArgs(cookieArgs), ...args], options);
+    } catch (error) {
+      errors.push(`${cookieArgs.join(" ") || "no-cookies"}: ${error.message}`);
+    }
+  }
+  throw new Error(errors.join("\n---\n"));
+}
+
+function legacyYtDlpSharedArgs({ withCookies = true } = {}) {
+  const args = [
+    "--js-runtimes",
+    `node:${process.execPath}`
+  ];
+  if (!withCookies) return args;
+  if (COOKIE_FILE) args.push("--cookies", COOKIE_FILE);
+  else if (COOKIE_BROWSERS[0]) args.push("--cookies-from-browser", COOKIE_BROWSERS[0]);
+  return args;
+}
 
 function sendJson(res, status, data) {
   res.writeHead(status, {
@@ -448,8 +498,7 @@ async function analyzeYouTube(youtubeUrl, options = {}) {
   try {
     let youtubeMeta = {};
     try {
-      const metaResult = await run(tools.ytDlp, [
-        ...YT_DLP_SHARED_ARGS,
+      const metaResult = await runYtDlp(tools.ytDlp, [
         "--no-playlist",
         "--dump-single-json",
         "--skip-download",
@@ -463,8 +512,7 @@ async function analyzeYouTube(youtubeUrl, options = {}) {
         tags: Array.isArray(parsed.tags) ? parsed.tags.slice(0, 24) : []
       };
     } catch {}
-    await run(tools.ytDlp, [
-      ...YT_DLP_SHARED_ARGS,
+    await runYtDlp(tools.ytDlp, [
       "--no-playlist",
       "--ffmpeg-location", path.dirname(tools.ffmpeg),
       "--max-filesize", "80M",
@@ -536,7 +584,9 @@ const server = http.createServer(async (req, res) => {
       health: `http://${HOST}:${PORT}/health`,
       dependencies: {
         ytDlp: Boolean(tools.ytDlp),
-        ffmpeg: Boolean(tools.ffmpeg)
+        ffmpeg: Boolean(tools.ffmpeg),
+        cookieFile: Boolean(COOKIE_FILE),
+        cookieBrowsers: COOKIE_BROWSERS
       }
     });
     return;
@@ -552,7 +602,9 @@ const server = http.createServer(async (req, res) => {
         ffmpeg: Boolean(tools.ffmpeg),
         ytDlpPath: tools.ytDlp || "",
         ffmpegPath: tools.ffmpeg || "",
-        localBin: LOCAL_BIN
+        localBin: LOCAL_BIN,
+        cookieFile: COOKIE_FILE ? "(configured)" : "",
+        cookieBrowsers: COOKIE_BROWSERS
       }
     });
     return;
@@ -568,7 +620,9 @@ const server = http.createServer(async (req, res) => {
       health: `http://${HOST}:${PORT}/health`,
       dependencies: {
         ytDlp: Boolean(tools.ytDlp),
-        ffmpeg: Boolean(tools.ffmpeg)
+        ffmpeg: Boolean(tools.ffmpeg),
+        cookieFile: Boolean(COOKIE_FILE),
+        cookieBrowsers: COOKIE_BROWSERS
       }
     });
     return;

@@ -3,9 +3,12 @@ import http from "node:http";
 import https from "node:https";
 import path from "node:path";
 import vm from "node:vm";
+import { fileURLToPath } from "node:url";
 
-const ROOT = process.cwd();
-const HTML_PATH = path.join(ROOT, "MUSIC MEMORY FITTING ROOM.html");
+const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
+const DEMO_DIR = path.resolve(SCRIPT_DIR, "..");
+const ROOT = path.resolve(SCRIPT_DIR, "../../..");
+const HTML_PATH = path.join(DEMO_DIR, "MUSIC MEMORY FITTING ROOM.html");
 const DATASET_PATH = path.join(ROOT, "genre-training", "genre-dataset.json");
 const EXAMPLE_DATASET_PATH = path.join(ROOT, "genre-training", "genre-dataset.example.json");
 const RESULTS_PATH = path.join(ROOT, "genre-training", "results.json");
