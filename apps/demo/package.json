@@ -8,6 +8,8 @@
     "start": "next start",
     "audio-server": "node scripts/audio-analysis-server.mjs",
     "genre-collect": "node scripts/genre-auto-collect.mjs",
+    "genre-collect:verify": "MMFR_GENRE_COLLECT_VALIDATE=1 node scripts/genre-auto-collect.mjs",
+    "genre-collect:promote": "MMFR_GENRE_COLLECT_VALIDATE=1 MMFR_GENRE_COLLECT_PROMOTE=1 node scripts/genre-auto-collect.mjs",
     "genre-train": "node scripts/genre-training.mjs",
     "lint": "next lint",
     "typecheck": "next typegen && tsc --noEmit"

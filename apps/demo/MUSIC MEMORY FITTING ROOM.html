@@ -1551,6 +1551,35 @@
       const profile = (state.genreProfiles && state.genreProfiles[genreName]) || musicGenreProfiles[genreName];
       if (!profile) return .5;
       const weights = { tempo: .95, energy: .75, bass: .78, rhythm: .88, onset: .82, brightness: .62, zcr: .42, rmsContrast: .42, onsetContrast: .36, bassContrast: .3, centroidContrast: .28, chromaEntropy: .48 };
+      const scoreAgainst = (target, useSpread = true) => {
+        let total = 0;
+        let weightTotal = 0;
+        Object.entries(weights).forEach(([key, weight]) => {
+          if (target[key] == null) return;
+          const spread = useSpread ? profile._spread?.[key] : null;
+          const scale = key === "tempo"
+            ? Math.max(18, Math.min(72, (Number(spread) || 22) * 2.4))
+            : Math.max(.12, Math.min(.72, (Number(spread) || .18) * 2.4));
+          const rawDiff = key === "tempo"
+            ? tempoDistance(vector[key] || 0, target[key])
+            : Math.abs((vector[key] || 0) - target[key]);
+          const diff = rawDiff / scale;
+          total += Math.exp(-Math.pow(diff, 2) * .5) * weight;
+          weightTotal += weight;
+        });
+        return weightTotal ? total / weightTotal : .5;
+      };
+      const centroidScore = scoreAgainst(profile, true);
+      const examples = Array.isArray(profile._examples) ? profile._examples : [];
+      const exampleScore = examples.length
+        ? examples.map(example => scoreAgainst(example, false)).sort((a, b) => b - a)[0]
+        : centroidScore;
+      return clamp01((centroidScore * .58 + exampleScore * .42) + genreSignatureBoost(vector, genreName));
+    }
+    function legacyGenreProfileScore(vector, genreName) {
+      const profile = (state.genreProfiles && state.genreProfiles[genreName]) || musicGenreProfiles[genreName];
+      if (!profile) return .5;
+      const weights = { tempo: .95, energy: .75, bass: .78, rhythm: .88, onset: .82, brightness: .62, zcr: .42, rmsContrast: .42, onsetContrast: .36, bassContrast: .3, centroidContrast: .28, chromaEntropy: .48 };
       let total = 0;
       let weightTotal = 0;
       Object.entries(weights).forEach(([key, weight]) => {
@@ -1617,26 +1646,102 @@
         .map(genre => ({ name: genre.name, boost: genreMetadataBoost(features, genre.name) }))
         .filter(item => item.boost > 0);
     }
+    const macroGenreMap = {
+      ambient: ["アンビエント", "ドローン", "ノイズミュージック"],
+      electronic: ["電子音楽", "テクノ", "ハウス", "ディープ・ハウス", "トランス", "ドラムンベース", "ダブステップ", "チップチューン"],
+      black: ["ヒップホップ", "トラップ", "レゲエ", "ダブ", "ファンク", "ソウルミュージック", "ディスコ"],
+      rock: ["ロック", "パンク", "ハードコア", "メタル"],
+      jazz: ["ジャズ"],
+      pop: ["シティ・ポップ", "J-POP", "アニメソング"],
+      classical: ["クラシック音楽", "オペラ"],
+      folk: ["フォーク", "ワールドミュージック"]
+    };
+    const macroGenreLabels = {
+      ambient: "ambient",
+      electronic: "electronic",
+      black: "black music",
+      rock: "rock",
+      jazz: "jazz",
+      pop: "pop",
+      classical: "classical",
+      folk: "folk / world"
+    };
+    const genreToMacro = Object.fromEntries(Object.entries(macroGenreMap).flatMap(([macro, genres]) => genres.map(name => [name, macro])));
+    function macroGenreScore(vector, macro) {
+      const tempo = vector.tempo || 96;
+      const energy = vector.energy || 0;
+      const bass = vector.bass || 0;
+      const rhythm = vector.rhythm || 0;
+      const onset = vector.onset || 0;
+      const brightness = vector.brightness || 0;
+      const zcr = vector.zcr || 0;
+      const chromaEntropyValue = vector.chromaEntropy || 0;
+      const rmsContrast = vector.rmsContrast || 0;
+      const lowBeat = rhythm < .38 && onset < .38;
+      const steadyDance = rhythm > .58 && tempo >= 108 && tempo <= 145;
+      const fastImpact = tempo >= 140 || onset > .66 || rhythm > .72;
+      const scores = {
+        ambient: .35 + (lowBeat ? .28 : 0) + (energy < .55 ? .12 : 0) + (bass > .62 ? .08 : 0) + (brightness < .35 ? .06 : 0),
+        electronic: .33 + (steadyDance ? .24 : 0) + (tempo >= 118 && tempo <= 150 ? .12 : 0) + (bass > .5 ? .1 : 0) + (brightness >= .28 && brightness <= .75 ? .06 : 0),
+        black: .35 + (bass > .52 ? .17 : 0) + (tempo >= 68 && tempo <= 125 ? .12 : 0) + (rhythm > .42 ? .08 : 0) + (brightness < .6 ? .05 : 0),
+        rock: .28 + (energy > .62 ? .18 : 0) + (fastImpact ? .16 : 0) + (zcr > .32 ? .1 : 0) + (brightness > .32 ? .06 : 0),
+        jazz: .24 + (chromaEntropyValue > .76 ? .22 : 0) + (rmsContrast > .28 ? .13 : 0) + (onset < .62 ? .08 : 0) + (tempo >= 80 && tempo <= 150 ? .05 : 0),
+        pop: .28 + (energy >= .42 && energy <= .82 ? .13 : 0) + (tempo >= 85 && tempo <= 155 ? .1 : 0) + (chromaEntropyValue > .62 ? .08 : 0) + (brightness > .32 ? .05 : 0),
+        classical: .22 + (lowBeat ? .22 : 0) + (chromaEntropyValue > .78 ? .15 : 0) + (rmsContrast > .34 ? .12 : 0) + (bass < .6 ? .06 : 0),
+        folk: .22 + (energy < .62 ? .14 : 0) + (bass < .58 ? .1 : 0) + (onset < .58 ? .08 : 0) + (chromaEntropyValue > .68 ? .07 : 0)
+      };
+      return clamp01(scores[macro] || .25);
+    }
+    function inferMacroGenres(features = {}, acousticRanked = []) {
+      const vector = genreFeatureVector(features);
+      const profileSupport = Object.fromEntries(Object.keys(macroGenreMap).map(key => [key, 0]));
+      acousticRanked.forEach((genre, index) => {
+        const macro = genreToMacro[genre.name];
+        if (!macro) return;
+        profileSupport[macro] = Math.max(profileSupport[macro], (genre.acousticScore || 0) * (index < 5 ? 1 : .86));
+      });
+      return Object.keys(macroGenreMap)
+        .map(macro => {
+          const ruleScore = macroGenreScore(vector, macro);
+          const profileScore = profileSupport[macro] || 0;
+          return { macro, label: macroGenreLabels[macro] || macro, score: clamp01(ruleScore * .58 + profileScore * .42) };
+        })
+        .sort((a, b) => b.score - a.score || a.label.localeCompare(b.label));
+    }
     function inferMusicGenres(features = {}) {
       const acousticRanked = musicGenreCatalog
         .map(genre => ({ ...genre, acousticScore: genreRuleScore(features, genre) }))
         .sort((a, b) => b.acousticScore - a.acousticScore || a.name.localeCompare(b.name));
-      const top = acousticRanked[0];
-      const runnerUp = acousticRanked[1];
-      const lowConfidence = !top || top.acousticScore < .68 || Math.abs((top.acousticScore || 0) - (runnerUp?.acousticScore || 0)) < .035;
+      const macroRanked = inferMacroGenres(features, acousticRanked);
+      const selectedMacros = macroRanked.slice(0, macroRanked[0]?.score - macroRanked[1]?.score < .08 ? 3 : 2).map(item => item.macro);
+      const top = acousticRanked.find(genre => selectedMacros.includes(genreToMacro[genre.name])) || acousticRanked[0];
+      const runnerUp = acousticRanked.find(genre => genre.name !== top?.name && selectedMacros.includes(genreToMacro[genre.name])) || acousticRanked[1];
+      const lowConfidence = !top || macroRanked[0]?.score < .66 || top.acousticScore < .68 || Math.abs((top.acousticScore || 0) - (runnerUp?.acousticScore || 0)) < .035;
       const metaHints = lowConfidence ? metadataGenreHints(features) : [];
       const ranked = acousticRanked
         .map(genre => {
           const metaBoost = metaHints.find(item => item.name === genre.name)?.boost || 0;
-          return { ...genre, metaFallback: metaBoost > 0, score: clamp01(genre.acousticScore + metaBoost * .35) };
+          const macro = genreToMacro[genre.name] || "other";
+          const macroHit = selectedMacros.includes(macro);
+          const macroInfo = macroRanked.find(item => item.macro === macro);
+          const macroGate = macroHit ? .035 : 0;
+          return {
+            ...genre,
+            macro,
+            macroLabel: macroGenreLabels[macro] || macro,
+            macroScore: macroInfo?.score || 0,
+            metaFallback: metaBoost > 0,
+            score: clamp01(genre.acousticScore + macroGate + (macroInfo?.score || 0) * (macroHit ? .018 : 0) + metaBoost * .35)
+          };
         })
         .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name))
         .slice(0, 5)
-        .map(({ name, family, modes, score, acousticScore, metaFallback }) => ({ name, family, modes, score: Math.round(score * 100), acousticScore: Math.round(acousticScore * 100), metaFallback: Boolean(metaFallback) }));
+        .map(({ name, family, macro, macroLabel, macroScore, modes, score, acousticScore, metaFallback }) => ({ name, family, macro, macroLabel, macroScore: Math.round(macroScore * 100), modes, score: Math.round(score * 100), acousticScore: Math.round(acousticScore * 100), metaFallback: Boolean(metaFallback) }));
       return {
-        source: "Wikipedia 音楽のジャンル一覧を基にしたローカル音響推定。メタ情報は低信頼時のみ補助。",
+        source: "Wikipedia 音楽のジャンル一覧を基にした2段階ローカル音響推定。大分類を先に判定し、メタ情報は低信頼時のみ補助。",
         catalogSize: musicGenreCatalog.length,
-        method: metaHints.length ? "audio-first-with-metadata-fallback" : "audio-only",
+        method: metaHints.length ? "two-stage-audio-with-metadata-fallback" : "two-stage-audio-only",
+        macro: macroRanked.slice(0, 4).map(item => ({ macro: item.macro, label: item.label, score: Math.round(item.score * 100) })),
         top: ranked
       };
     }

@@ -1,0 +1,406 @@
+{
+  "description": "Canonical source seeds for YouTube-centered genre training. These are metadata/search seeds only; actual audio analysis is performed from verified YouTube URLs.",
+  "version": 1,
+  "macroGenres": {
+    "ambient": ["アンビエント", "ドローン", "ノイズミュージック"],
+    "electronic": ["電子音楽", "テクノ", "ハウス", "ディープ・ハウス", "トランス", "ドラムンベース", "ダブステップ", "チップチューン"],
+    "black_music": ["ヒップホップ", "トラップ", "レゲエ", "ダブ", "ファンク", "ソウルミュージック", "ディスコ"],
+    "rock": ["ロック", "パンク", "ハードコア", "メタル"],
+    "jazz": ["ジャズ"],
+    "pop": ["シティ・ポップ", "J-POP", "アニメソング"],
+    "classical": ["クラシック音楽", "オペラ"],
+    "world": ["フォーク", "ワールドミュージック"]
+  },
+  "genres": [
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "searchTerms": ["ambient music official audio", "ambient music topic", "ambient music classic track"],
+      "tracks": [
+        { "artist": "Brian Eno", "title": "An Ending Ascent" },
+        { "artist": "Brian Eno", "title": "1/1" },
+        { "artist": "Aphex Twin", "title": "#3 Rhubarb" },
+        { "artist": "Stars of the Lid", "title": "Requiem for Dying Mothers" },
+        { "artist": "Hiroshi Yoshimura", "title": "Green" },
+        { "artist": "Harold Budd", "title": "Bismillahi Rrahmani Rrahim" }
+      ]
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "searchTerms": ["drone ambient official audio", "drone music topic", "minimal drone music"],
+      "tracks": [
+        { "artist": "La Monte Young", "title": "The Well Tuned Piano" },
+        { "artist": "Eliane Radigue", "title": "Trilogie de la Mort" },
+        { "artist": "Sunn O)))", "title": "Big Church" },
+        { "artist": "Tim Hecker", "title": "Virginal II" },
+        { "artist": "William Basinski", "title": "The Disintegration Loops" },
+        { "artist": "Kali Malone", "title": "Spectacle of Ritual" }
+      ]
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "searchTerms": ["noise music official audio", "experimental noise music", "harsh noise track"],
+      "tracks": [
+        { "artist": "Merzbow", "title": "Woodpecker No. 1" },
+        { "artist": "Whitehouse", "title": "Why You Never Became a Dancer" },
+        { "artist": "Masonna", "title": "Spectrum Ripper" },
+        { "artist": "Prurient", "title": "Dragonflies to Sew You Up" },
+        { "artist": "Hijokaidan", "title": "Romance" },
+        { "artist": "Yellow Swans", "title": "Foiled" }
+      ]
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "searchTerms": ["electronic music official audio", "electronic music topic", "classic electronic track"],
+      "tracks": [
+        { "artist": "Kraftwerk", "title": "Computer World" },
+        { "artist": "Jean-Michel Jarre", "title": "Oxygene Part IV" },
+        { "artist": "Boards of Canada", "title": "Roygbiv" },
+        { "artist": "Autechre", "title": "Bike" },
+        { "artist": "The Chemical Brothers", "title": "Star Guitar" },
+        { "artist": "Underworld", "title": "Rez" }
+      ]
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "searchTerms": ["techno official audio", "detroit techno topic", "minimal techno official audio"],
+      "tracks": [
+        { "artist": "Jeff Mills", "title": "The Bells" },
+        { "artist": "Model 500", "title": "No UFO's" },
+        { "artist": "Derrick May", "title": "Strings of Life" },
+        { "artist": "Robert Hood", "title": "Minus" },
+        { "artist": "Basic Channel", "title": "Phylyps Trak II" },
+        { "artist": "Plastikman", "title": "Spastik" }
+      ]
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "searchTerms": ["house music official audio", "classic house topic", "chicago house official audio"],
+      "tracks": [
+        { "artist": "Frankie Knuckles", "title": "Your Love" },
+        { "artist": "Mr. Fingers", "title": "Can You Feel It" },
+        { "artist": "CeCe Rogers", "title": "Someday" },
+        { "artist": "Robin S", "title": "Show Me Love" },
+        { "artist": "Crystal Waters", "title": "Gypsy Woman" },
+        { "artist": "Armand Van Helden", "title": "You Don't Know Me" }
+      ]
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "searchTerms": ["deep house official audio", "deep house topic", "deep house classic track"],
+      "tracks": [
+        { "artist": "Larry Heard", "title": "What About This Love" },
+        { "artist": "Kerri Chandler", "title": "Rain" },
+        { "artist": "Moodymann", "title": "Shades of Jae" },
+        { "artist": "Theo Parrish", "title": "Falling Up" },
+        { "artist": "Pepe Bradock", "title": "Deep Burnt" },
+        { "artist": "Motor City Drum Ensemble", "title": "Raw Cuts 3" }
+      ]
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "searchTerms": ["trance official audio", "classic trance topic", "uplifting trance official audio"],
+      "tracks": [
+        { "artist": "Energy 52", "title": "Cafe Del Mar" },
+        { "artist": "Paul van Dyk", "title": "For An Angel" },
+        { "artist": "Binary Finary", "title": "1998" },
+        { "artist": "Gouryella", "title": "Gouryella" },
+        { "artist": "Robert Miles", "title": "Children" },
+        { "artist": "Ayla", "title": "Ayla" }
+      ]
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "searchTerms": ["drum and bass official audio", "dnb topic", "jungle drum and bass official audio"],
+      "tracks": [
+        { "artist": "Goldie", "title": "Inner City Life" },
+        { "artist": "Roni Size", "title": "Brown Paper Bag" },
+        { "artist": "LTJ Bukem", "title": "Horizons" },
+        { "artist": "Dillinja", "title": "The Angels Fell" },
+        { "artist": "Andy C", "title": "Body Rock" },
+        { "artist": "High Contrast", "title": "If We Ever" }
+      ]
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "searchTerms": ["dubstep official audio", "dubstep topic", "classic dubstep track"],
+      "tracks": [
+        { "artist": "Skream", "title": "Midnight Request Line" },
+        { "artist": "Benga", "title": "26 Basslines" },
+        { "artist": "Digital Mystikz", "title": "Haunted" },
+        { "artist": "Burial", "title": "Archangel" },
+        { "artist": "Rusko", "title": "Cockney Thug" },
+        { "artist": "Coki", "title": "Goblin" }
+      ]
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "searchTerms": ["chiptune official audio", "8-bit chiptune topic", "chiptune music track"],
+      "tracks": [
+        { "artist": "Anamanaguchi", "title": "Airbrushed" },
+        { "artist": "Bit Shifter", "title": "Reformat the Planet" },
+        { "artist": "Nullsleep", "title": "Her Lazer Light Eyes" },
+        { "artist": "Sabrepulse", "title": "Arcanine" },
+        { "artist": "YMCK", "title": "Magical 8bit Tour" },
+        { "artist": "Disasterpeace", "title": "Adventure" }
+      ]
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "searchTerms": ["hip hop official audio", "classic hip hop topic", "rap official audio"],
+      "tracks": [
+        { "artist": "Nas", "title": "N.Y. State of Mind" },
+        { "artist": "A Tribe Called Quest", "title": "Electric Relaxation" },
+        { "artist": "Wu-Tang Clan", "title": "C.R.E.A.M." },
+        { "artist": "The Notorious B.I.G.", "title": "Juicy" },
+        { "artist": "OutKast", "title": "Ms. Jackson" },
+        { "artist": "Kendrick Lamar", "title": "Alright" }
+      ]
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "searchTerms": ["trap official audio", "trap music topic", "southern trap official audio"],
+      "tracks": [
+        { "artist": "T.I.", "title": "What You Know" },
+        { "artist": "Gucci Mane", "title": "Lemonade" },
+        { "artist": "Future", "title": "Mask Off" },
+        { "artist": "Migos", "title": "Bad and Boujee" },
+        { "artist": "Waka Flocka Flame", "title": "Hard in da Paint" },
+        { "artist": "Young Thug", "title": "Best Friend" }
+      ]
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "searchTerms": ["reggae official audio", "roots reggae topic", "classic reggae track"],
+      "tracks": [
+        { "artist": "Bob Marley", "title": "Natural Mystic" },
+        { "artist": "The Abyssinians", "title": "Satta Massagana" },
+        { "artist": "Burning Spear", "title": "Marcus Garvey" },
+        { "artist": "Toots and the Maytals", "title": "Pressure Drop" },
+        { "artist": "Dennis Brown", "title": "Money in My Pocket" },
+        { "artist": "Peter Tosh", "title": "Legalize It" }
+      ]
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "searchTerms": ["dub reggae official audio", "dub music topic", "king tubby dub"],
+      "tracks": [
+        { "artist": "King Tubby", "title": "King Tubby Meets Rockers Uptown" },
+        { "artist": "Lee Scratch Perry", "title": "Disco Devil" },
+        { "artist": "Scientist", "title": "Your Teeth In My Neck" },
+        { "artist": "Augustus Pablo", "title": "Java" },
+        { "artist": "Mad Professor", "title": "Kunte Kinte Dub" },
+        { "artist": "Prince Jammy", "title": "Interface" }
+      ]
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "searchTerms": ["funk official audio", "classic funk topic", "funk music track"],
+      "tracks": [
+        { "artist": "James Brown", "title": "The Payback" },
+        { "artist": "Parliament", "title": "Flash Light" },
+        { "artist": "Funkadelic", "title": "One Nation Under a Groove" },
+        { "artist": "Sly and the Family Stone", "title": "Thank You" },
+        { "artist": "The Meters", "title": "Cissy Strut" },
+        { "artist": "Ohio Players", "title": "Fire" }
+      ]
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "searchTerms": ["soul music official audio", "classic soul topic", "soul music track"],
+      "tracks": [
+        { "artist": "Aretha Franklin", "title": "Respect" },
+        { "artist": "Otis Redding", "title": "Sittin On The Dock of the Bay" },
+        { "artist": "Marvin Gaye", "title": "What's Going On" },
+        { "artist": "Sam Cooke", "title": "A Change Is Gonna Come" },
+        { "artist": "Al Green", "title": "Let's Stay Together" },
+        { "artist": "Curtis Mayfield", "title": "Move On Up" }
+      ]
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "searchTerms": ["disco official audio", "classic disco topic", "disco music track"],
+      "tracks": [
+        { "artist": "Donna Summer", "title": "I Feel Love" },
+        { "artist": "Chic", "title": "Le Freak" },
+        { "artist": "Bee Gees", "title": "Stayin Alive" },
+        { "artist": "Gloria Gaynor", "title": "I Will Survive" },
+        { "artist": "Earth Wind and Fire", "title": "September" },
+        { "artist": "Sylvester", "title": "You Make Me Feel Mighty Real" }
+      ]
+    },
+    {
+      "genre": "ロック",
+      "macroGenre": "rock",
+      "searchTerms": ["rock official audio", "classic rock topic", "rock music official audio"],
+      "tracks": [
+        { "artist": "The Rolling Stones", "title": "Jumpin Jack Flash" },
+        { "artist": "Led Zeppelin", "title": "Immigrant Song" },
+        { "artist": "The Who", "title": "Baba O'Riley" },
+        { "artist": "Nirvana", "title": "Smells Like Teen Spirit" },
+        { "artist": "Radiohead", "title": "Paranoid Android" },
+        { "artist": "The Strokes", "title": "Last Nite" }
+      ]
+    },
+    {
+      "genre": "パンク",
+      "macroGenre": "rock",
+      "searchTerms": ["punk rock official audio", "classic punk topic", "punk representative track"],
+      "tracks": [
+        { "artist": "Ramones", "title": "Blitzkrieg Bop" },
+        { "artist": "Sex Pistols", "title": "Anarchy in the UK" },
+        { "artist": "The Clash", "title": "London Calling" },
+        { "artist": "Dead Kennedys", "title": "Holiday in Cambodia" },
+        { "artist": "Buzzcocks", "title": "Ever Fallen in Love" },
+        { "artist": "Misfits", "title": "Last Caress" }
+      ]
+    },
+    {
+      "genre": "ハードコア",
+      "macroGenre": "rock",
+      "searchTerms": ["hardcore punk official audio", "hardcore punk topic", "hardcore track"],
+      "tracks": [
+        { "artist": "Black Flag", "title": "Rise Above" },
+        { "artist": "Minor Threat", "title": "Filler" },
+        { "artist": "Bad Brains", "title": "Banned in D.C." },
+        { "artist": "Agnostic Front", "title": "Victim in Pain" },
+        { "artist": "Husker Du", "title": "New Day Rising" },
+        { "artist": "Fugazi", "title": "Waiting Room" }
+      ]
+    },
+    {
+      "genre": "メタル",
+      "macroGenre": "rock",
+      "searchTerms": ["heavy metal official audio", "metal music topic", "classic metal track"],
+      "tracks": [
+        { "artist": "Black Sabbath", "title": "Iron Man" },
+        { "artist": "Metallica", "title": "Master of Puppets" },
+        { "artist": "Iron Maiden", "title": "The Trooper" },
+        { "artist": "Slayer", "title": "Raining Blood" },
+        { "artist": "Judas Priest", "title": "Painkiller" },
+        { "artist": "Motorhead", "title": "Ace of Spades" }
+      ]
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "searchTerms": ["jazz official audio", "classic jazz topic", "bebop jazz track"],
+      "tracks": [
+        { "artist": "Miles Davis", "title": "So What" },
+        { "artist": "John Coltrane", "title": "Giant Steps" },
+        { "artist": "Dave Brubeck", "title": "Take Five" },
+        { "artist": "Thelonious Monk", "title": "Round Midnight" },
+        { "artist": "Charles Mingus", "title": "Goodbye Pork Pie Hat" },
+        { "artist": "Bill Evans", "title": "Waltz for Debby" }
+      ]
+    },
+    {
+      "genre": "シティ・ポップ",
+      "macroGenre": "pop",
+      "searchTerms": ["city pop official audio", "Japanese city pop topic", "city pop classic track"],
+      "tracks": [
+        { "artist": "Mariya Takeuchi", "title": "Plastic Love" },
+        { "artist": "Tatsuro Yamashita", "title": "Ride on Time" },
+        { "artist": "Anri", "title": "Remember Summer Days" },
+        { "artist": "Miki Matsubara", "title": "Mayonaka no Door" },
+        { "artist": "Taeko Ohnuki", "title": "4:00AM" },
+        { "artist": "Junko Ohashi", "title": "Telephone Number" }
+      ]
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "searchTerms": ["J-POP official audio", "JPOP topic", "Japanese pop official audio"],
+      "tracks": [
+        { "artist": "Hikaru Utada", "title": "Automatic" },
+        { "artist": "Namie Amuro", "title": "Can You Celebrate" },
+        { "artist": "Mr.Children", "title": "Tomorrow Never Knows" },
+        { "artist": "Perfume", "title": "Polyrhythm" },
+        { "artist": "Official Hige Dandism", "title": "Pretender" },
+        { "artist": "Kenshi Yonezu", "title": "Lemon" }
+      ]
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "searchTerms": ["anime song official audio", "anisong topic", "anime opening official audio"],
+      "tracks": [
+        { "artist": "Yoko Takahashi", "title": "A Cruel Angel's Thesis" },
+        { "artist": "LiSA", "title": "Gurenge" },
+        { "artist": "Hikaru Utada", "title": "One Last Kiss" },
+        { "artist": "FLOW", "title": "GO!!!" },
+        { "artist": "Linked Horizon", "title": "Guren no Yumiya" },
+        { "artist": "Aimer", "title": "Zankyosanka" }
+      ]
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "searchTerms": ["classical music official audio", "orchestra topic", "classical music performance"],
+      "tracks": [
+        { "artist": "Ludwig van Beethoven", "title": "Symphony No. 5" },
+        { "artist": "Johann Sebastian Bach", "title": "Cello Suite No. 1 Prelude" },
+        { "artist": "Claude Debussy", "title": "Clair de Lune" },
+        { "artist": "Igor Stravinsky", "title": "The Rite of Spring" },
+        { "artist": "Wolfgang Amadeus Mozart", "title": "Eine Kleine Nachtmusik" },
+        { "artist": "Antonio Vivaldi", "title": "Four Seasons Spring" }
+      ]
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "searchTerms": ["opera official audio", "opera aria topic", "famous opera aria"],
+      "tracks": [
+        { "artist": "Luciano Pavarotti", "title": "Nessun Dorma" },
+        { "artist": "Maria Callas", "title": "Casta Diva" },
+        { "artist": "Georges Bizet", "title": "Habanera" },
+        { "artist": "Giuseppe Verdi", "title": "La donna e mobile" },
+        { "artist": "Giacomo Puccini", "title": "O mio babbino caro" },
+        { "artist": "Wolfgang Amadeus Mozart", "title": "Queen of the Night Aria" }
+      ]
+    },
+    {
+      "genre": "フォーク",
+      "macroGenre": "world",
+      "searchTerms": ["folk music official audio", "classic folk topic", "folk song track"],
+      "tracks": [
+        { "artist": "Bob Dylan", "title": "Blowin in the Wind" },
+        { "artist": "Joan Baez", "title": "Diamonds and Rust" },
+        { "artist": "Joni Mitchell", "title": "Both Sides Now" },
+        { "artist": "Simon and Garfunkel", "title": "The Sound of Silence" },
+        { "artist": "Nick Drake", "title": "Pink Moon" },
+        { "artist": "Fairport Convention", "title": "Who Knows Where the Time Goes" }
+      ]
+    },
+    {
+      "genre": "ワールドミュージック",
+      "macroGenre": "world",
+      "searchTerms": ["world music official audio", "traditional world music topic", "global music track"],
+      "tracks": [
+        { "artist": "Buena Vista Social Club", "title": "Chan Chan" },
+        { "artist": "Youssou N'Dour", "title": "7 Seconds" },
+        { "artist": "Nusrat Fateh Ali Khan", "title": "Mustt Mustt" },
+        { "artist": "Ali Farka Toure", "title": "Ai Du" },
+        { "artist": "Tinariwen", "title": "Sastanaqqam" },
+        { "artist": "Cesaria Evora", "title": "Sodade" }
+      ]
+    }
+  ]
+}

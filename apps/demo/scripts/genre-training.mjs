@@ -10,6 +10,7 @@ const DEMO_DIR = path.resolve(SCRIPT_DIR, "..");
 const ROOT = path.resolve(SCRIPT_DIR, "../../..");
 const HTML_PATH = path.join(DEMO_DIR, "MUSIC MEMORY FITTING ROOM.html");
 const DATASET_PATH = path.join(ROOT, "genre-training", "genre-dataset.json");
+const VERIFIED_DATASET_PATH = path.join(ROOT, "genre-training", "verified-dataset.json");
 const EXAMPLE_DATASET_PATH = path.join(ROOT, "genre-training", "genre-dataset.example.json");
 const RESULTS_PATH = path.join(ROOT, "genre-training", "results.json");
 const PROFILES_PATH = path.join(ROOT, "genre-training", "generated-profiles.json");
@@ -17,17 +18,26 @@ const DEMO_PROFILES_PATH = path.join(DEMO_DIR, "genre-training", "generated-prof
 const DEFAULT_ENDPOINT = process.env.MMFR_AUDIO_ENDPOINT || "http://127.0.0.1:4194/api/audio-analyze";
 
 function loadDataset() {
-  const target = fs.existsSync(DATASET_PATH) ? DATASET_PATH : EXAMPLE_DATASET_PATH;
+  const verifiedPayload = fs.existsSync(VERIFIED_DATASET_PATH)
+    ? JSON.parse(fs.readFileSync(VERIFIED_DATASET_PATH, "utf8"))
+    : null;
+  const verifiedItems = verifiedPayload && Array.isArray(verifiedPayload.items) ? verifiedPayload.items : [];
+  const target = verifiedItems.length ? VERIFIED_DATASET_PATH : fs.existsSync(DATASET_PATH) ? DATASET_PATH : EXAMPLE_DATASET_PATH;
   const payload = JSON.parse(fs.readFileSync(target, "utf8"));
   const items = Array.isArray(payload) ? payload : payload.items || [];
-  return items
+  return {
+    target,
+    items: items
     .map((item, index) => ({
       index,
       genre: String(item.genre || "").trim(),
+      macroGenre: String(item.macroGenre || "").trim(),
       youtubeUrl: String(item.youtubeUrl || item.url || "").trim(),
-      memo: item.memo || ""
+      memo: item.memo || "",
+      sourceDataset: path.basename(target)
     }))
-    .filter(item => item.genre && item.youtubeUrl);
+    .filter(item => item.genre && item.youtubeUrl)
+  };
 }
 
 function loadAppGenreApi() {
@@ -124,6 +134,13 @@ function vectorStats(vectors) {
   });
   out._spread = spread;
   out._count = vectors.length;
+  out._examples = vectors.slice(0, 12).map(vector => {
+    const example = {};
+    VECTOR_KEYS.forEach(key => {
+      if (Number.isFinite(Number(vector[key]))) example[key] = Math.round(Number(vector[key]) * 1000) / 1000;
+    });
+    return example;
+  });
   return out;
 }
 
@@ -131,8 +148,13 @@ function topNames(analysis) {
   return (analysis?.top || []).map(item => item.name);
 }
 
+function topMacro(analysis) {
+  return analysis?.macro?.[0]?.macro || analysis?.top?.[0]?.macro || "";
+}
+
 async function main() {
-  const dataset = loadDataset();
+  const loaded = loadDataset();
+  const dataset = loaded.items;
   if (!dataset.length) {
     console.log("No training URLs found. Copy genre-training/genre-dataset.example.json to genre-training/genre-dataset.json and fill youtubeUrl values.");
     return;
@@ -149,13 +171,19 @@ async function main() {
       const enriched = api.enrichFeaturesWithGenre(features);
       const vector = api.genreFeatureVector(enriched);
       const names = topNames(enriched.genreAnalysis);
+      const predictedMacro = topMacro(enriched.genreAnalysis);
       const exact = names[0] === item.genre;
       const top3 = names.slice(0, 3).includes(item.genre);
+      const macroExact = item.macroGenre ? predictedMacro === item.macroGenre : null;
       const row = {
         genre: item.genre,
+        macroGenre: item.macroGenre,
         youtubeUrl: item.youtubeUrl,
         memo: item.memo,
+        sourceDataset: item.sourceDataset,
         predicted: names[0] || "",
+        predictedMacro,
+        macroExact,
         top3,
         exact,
         method: enriched.genreAnalysis?.method || "",
@@ -184,6 +212,8 @@ async function main() {
   const valid = results.filter(row => !row.error);
   const exactCount = valid.filter(row => row.exact).length;
   const top3Count = valid.filter(row => row.top3).length;
+  const macroValid = valid.filter(row => row.macroExact !== null);
+  const macroExactCount = macroValid.filter(row => row.macroExact).length;
   const profiles = { ...api.musicGenreProfiles };
   for (const [genre, vectors] of vectorsByGenre.entries()) {
     if (vectors.length) profiles[genre] = vectorStats(vectors);
@@ -191,10 +221,11 @@ async function main() {
 
   const summary = {
     generatedAt: new Date().toISOString(),
-    sourceDataset: fs.existsSync(DATASET_PATH) ? "genre-dataset.json" : "genre-dataset.example.json",
+    sourceDataset: path.basename(loaded.target),
     endpoint: DEFAULT_ENDPOINT,
     total: valid.length,
     errors: results.filter(row => row.error).length,
+    macroTop1Accuracy: macroValid.length ? Math.round((macroExactCount / macroValid.length) * 1000) / 10 : 0,
     exactAccuracy: valid.length ? Math.round((exactCount / valid.length) * 1000) / 10 : 0,
     top3Accuracy: valid.length ? Math.round((top3Count / valid.length) * 1000) / 10 : 0
   };
@@ -204,7 +235,7 @@ async function main() {
   fs.writeFileSync(PROFILES_PATH, profilePayload);
   fs.mkdirSync(path.dirname(DEMO_PROFILES_PATH), { recursive: true });
   fs.writeFileSync(DEMO_PROFILES_PATH, profilePayload);
-  console.log(`\nExact: ${summary.exactAccuracy}% / Top3: ${summary.top3Accuracy}%`);
+  console.log(`\nMacro Top1: ${summary.macroTop1Accuracy}% / Exact: ${summary.exactAccuracy}% / Top3: ${summary.top3Accuracy}%`);
   console.log(`Wrote ${path.relative(ROOT, RESULTS_PATH)}`);
   console.log(`Wrote ${path.relative(ROOT, PROFILES_PATH)}`);
   console.log(`Wrote ${path.relative(ROOT, DEMO_PROFILES_PATH)}`);
