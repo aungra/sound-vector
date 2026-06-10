@@ -786,9 +786,10 @@
       const radiusY = 438;
       const textureSeed = normaliseTextureSeed(textureOptions.seed ?? textureOptions.textureSeed ?? 0);
       const textureMode = normaliseTextureMode(textureOptions.mode || textureOptions.textureMode || "texture-field");
+      const textureRegion = normaliseTextureRegion(textureOptions.region || textureOptions.textureRegion || "full");
       const amplitude = 7.6;
       const paths = Array.from(bytes, (byte, index) => {
-        const point = textureFieldPoint(index, cx, cy, radiusX, radiusY, textureSeed, textureMode);
+        const point = textureFieldPoint(index, cx, cy, radiusX, radiusY, textureSeed, textureMode, textureRegion);
         const offset = ((byte - 128) / 127) * amplitude;
         const length = 2.4 + ((index * 17) % 11) * .18;
         const mx = point.x + point.nx * offset;
@@ -810,6 +811,7 @@
         `data-radius-y="${radiusY}"`,
         `data-texture-seed="${textureSeed}"`,
         `data-texture-mode="${escapeAttr(textureMode)}"`,
+        `data-texture-region="${escapeAttr(textureRegion)}"`,
         `data-amplitude="${amplitude}"`,
         `data-visual-role="locked-protected-texture-field"`,
         `data-edit-policy="lock-do-not-edit"`
@@ -819,11 +821,12 @@
     function textureFieldOptionsFromSvg(svg) {
       const rootTag = String(svg || "").match(/<svg\b[^>]*>/)?.[0] || "";
       const mode = svgAttr(rootTag, "data-texture-mode") || svgAttr(rootTag, "data-variant-family") || svgAttr(rootTag, "data-base-family") || svgAttr(rootTag, "data-form-mode") || "texture-field";
+      const region = svgAttr(rootTag, "data-texture-region") || svgAttr(rootTag, "data-negative-space") || "full";
       const seedAttr = svgAttr(rootTag, "data-variant-seed");
       const seed = seedAttr || hashString(`${mode}|${svgAttr(rootTag, "data-audio-fingerprint") || ""}|${String(svg || "").slice(0, 360)}`);
-      return { seed, mode };
+      return { seed, mode, region };
     }
-    function textureFieldPoint(index, cx, cy, radiusX, radiusY, seed = 0, mode = "texture-field") {
+    function textureFieldPoint(index, cx, cy, radiusX, radiusY, seed = 0, mode = "texture-field", region = "full") {
       const profile = textureFieldProfile(mode);
       const golden = Math.PI * (3 - Math.sqrt(5));
       const jitter = textureNoise01(index, 0, seed) - .5;
@@ -846,12 +849,60 @@
         y = cy + Math.sin(angle) * radiusY * unit * (1 + Math.cos(index * .027 + seed * .0003) * .04) * profile.stretchY;
         angle += profile.angle;
       }
+      const regionPoint = textureRegionPoint(index, x, y, cx, cy, radiusX, radiusY, seed, region);
+      x = regionPoint.x;
+      y = regionPoint.y;
+      if (Number.isFinite(regionPoint.angle)) angle = regionPoint.angle;
       const txAngle = profile.radialStroke ? angle : angle + Math.PI / 2;
       const tx = Math.cos(txAngle);
       const ty = Math.sin(txAngle);
       const nx = -ty;
       const ny = tx;
       return { x, y, nx, ny, tx, ty };
+    }
+    function textureRegionPoint(index, x, y, cx, cy, radiusX, radiusY, seed = 0, region = "full") {
+      const mode = normaliseTextureRegion(region);
+      if (mode === "full") return { x, y };
+      const noise = salt => textureNoise01(index, 20 + salt, seed);
+      const dx = x - cx;
+      const dy = y - cy;
+      const angle = Math.atan2(dy / Math.max(1, radiusY), dx / Math.max(1, radiusX));
+      if (mode === "core") return { x: cx + dx * .54, y: cy + dy * .5 };
+      if (mode === "orbit") {
+        const ring = .46 + noise(1) * .4;
+        const a = angle + (noise(2) - .5) * .35;
+        return { x: cx + Math.cos(a) * radiusX * ring, y: cy + Math.sin(a) * radiusY * ring * .82, angle: a };
+      }
+      if (mode === "border") {
+        const ring = .76 + noise(1) * .2;
+        const a = angle + (noise(2) - .5) * .18;
+        return { x: cx + Math.cos(a) * radiusX * ring, y: cy + Math.sin(a) * radiusY * ring, angle: a };
+      }
+      if (mode === "diagonal") {
+        const diagonalY = cy + (x - cx) * .42;
+        return { x: cx + dx * .92, y: diagonalY + (y - diagonalY) * .32, angle: .42 };
+      }
+      if (mode === "bands") {
+        const band = Math.round((noise(1) * 2 - 1) * 5) / 5;
+        return { x, y: cy + band * radiusY * .74 + (noise(2) - .5) * 24, angle: 0 };
+      }
+      if (mode === "fracture") {
+        const rays = 11;
+        const a = Math.round((angle / (Math.PI * 2)) * rays) / rays * Math.PI * 2 + (noise(1) - .5) * .38;
+        const r = Math.pow(noise(2), .58) * .92;
+        return { x: cx + Math.cos(a) * radiusX * r, y: cy + Math.sin(a) * radiusY * r, angle: a };
+      }
+      if (mode === "islands") {
+        const centers = [
+          { x: -.38, y: -.24 }, { x: .32, y: -.18 }, { x: -.16, y: .34 }, { x: .24, y: .3 }
+        ];
+        const center = centers[index % centers.length];
+        return {
+          x: cx + center.x * radiusX + (noise(1) - .5) * radiusX * .42,
+          y: cy + center.y * radiusY + (noise(2) - .5) * radiusY * .36
+        };
+      }
+      return { x, y };
     }
     function legacyTextureFieldPoint(index, cx, cy, radiusX, radiusY) {
       const golden = Math.PI * (3 - Math.sqrt(5));
@@ -885,6 +936,10 @@
     }
     function normaliseTextureMode(value) {
       return String(value || "texture-field").replace(/[^a-z0-9_-]/gi, "").slice(0, 48) || "texture-field";
+    }
+    function normaliseTextureRegion(value) {
+      const region = String(value || "full").replace(/[^a-z0-9_-]/gi, "").slice(0, 32);
+      return ["full", "core", "diagonal", "bands", "orbit", "fracture", "border", "islands"].includes(region) ? region : "full";
     }
     function normaliseTextureSeed(value) {
       const numeric = Number(value);
@@ -936,13 +991,14 @@
         const hasTextureProfile = svgAttr(groupTag, "data-texture-seed") !== "" || svgAttr(groupTag, "data-texture-mode") !== "";
         const textureSeed = normaliseTextureSeed(svgAttr(groupTag, "data-texture-seed") || 0);
         const textureMode = normaliseTextureMode(svgAttr(groupTag, "data-texture-mode"));
+        const textureRegion = normaliseTextureRegion(svgAttr(groupTag, "data-texture-region") || "full");
         const amplitude = Number(svgAttr(groupTag, "data-amplitude")) || 7.6;
         const tags = body.match(/<line\b[^>]*>/g) || [];
         if (!tags.length || tags.length < frameCount) return null;
         tags.forEach((tag, index) => {
           if (index >= bytes.length) return;
           const point = hasTextureProfile
-            ? textureFieldPoint(index, cx, cy, radiusX, radiusY, textureSeed, textureMode)
+            ? textureFieldPoint(index, cx, cy, radiusX, radiusY, textureSeed, textureMode, textureRegion)
             : legacyTextureFieldPoint(index, cx, cy, radiusX, radiusY);
           const x1 = Number(svgAttr(tag, "x1"));
           const y1 = Number(svgAttr(tag, "y1"));
@@ -2827,6 +2883,41 @@
       "フォーク": { id: "genre-folk", label: "フォーク", baseFamily: "cloth-field", variantFamilies: ["signal-flag", "wave-strata", "memory-orbit"], layoutBias: "textile", textureMode: "cloth-field" },
       "ワールドミュージック": { id: "genre-world", label: "ワールドミュージック", baseFamily: "radial-score", variantFamilies: ["constellation-map", "signal-flag", "wave-strata"], layoutBias: "radial", textureMode: "radial-score" }
     };
+    const genreVisualProfiles = {
+      "アンビエント": { silhouette: "constellation", negativeSpace: "center", primaryScale: .84, variantScale: .62, variantOpacity: .46, rotationBias: -18, densityBias: .56, strokeBias: .72, textureRegion: "orbit" },
+      "ドローン": { silhouette: "terrain", negativeSpace: "none", primaryScale: 1.08, variantScale: .78, variantOpacity: .4, rotationBias: 0, densityBias: .64, strokeBias: 1.18, textureRegion: "core" },
+      "ノイズミュージック": { silhouette: "burst", negativeSpace: "fracture", primaryScale: 1.02, variantScale: 1.04, variantOpacity: .78, rotationBias: 23, densityBias: 1.28, strokeBias: 1.2, textureRegion: "fracture" },
+      "電子音楽": { silhouette: "block", negativeSpace: "bands", primaryScale: .95, variantScale: .8, variantOpacity: .5, rotationBias: 0, densityBias: .92, strokeBias: .86, textureRegion: "bands" },
+      "テクノ": { silhouette: "ring", negativeSpace: "center", primaryScale: 1.05, variantScale: .72, variantOpacity: .58, rotationBias: 0, densityBias: 1.02, strokeBias: .95, textureRegion: "orbit" },
+      "ハウス": { silhouette: "strata", negativeSpace: "border", primaryScale: 1.04, variantScale: .7, variantOpacity: .42, rotationBias: -4, densityBias: .95, strokeBias: .92, textureRegion: "bands" },
+      "ディープ・ハウス": { silhouette: "terrain", negativeSpace: "diagonal", primaryScale: 1.12, variantScale: .66, variantOpacity: .44, rotationBias: -9, densityBias: .78, strokeBias: 1.22, textureRegion: "core" },
+      "トランス": { silhouette: "spiral", negativeSpace: "center", primaryScale: 1, variantScale: .76, variantOpacity: .52, rotationBias: 16, densityBias: .92, strokeBias: .86, textureRegion: "orbit" },
+      "ドラムンベース": { silhouette: "burst", negativeSpace: "diagonal", primaryScale: 1.08, variantScale: .86, variantOpacity: .68, rotationBias: -14, densityBias: 1.18, strokeBias: 1.04, textureRegion: "fracture" },
+      "ダブステップ": { silhouette: "terrain", negativeSpace: "center", primaryScale: 1.16, variantScale: .78, variantOpacity: .64, rotationBias: 7, densityBias: 1.08, strokeBias: 1.34, textureRegion: "core" },
+      "チップチューン": { silhouette: "block", negativeSpace: "islands", primaryScale: .92, variantScale: .72, variantOpacity: .5, rotationBias: 0, densityBias: .82, strokeBias: .72, textureRegion: "bands" },
+      "ヒップホップ": { silhouette: "flag", negativeSpace: "diagonal", primaryScale: 1.06, variantScale: .82, variantOpacity: .54, rotationBias: -8, densityBias: .92, strokeBias: 1.12, textureRegion: "diagonal" },
+      "トラップ": { silhouette: "burst", negativeSpace: "center", primaryScale: 1, variantScale: .9, variantOpacity: .7, rotationBias: 18, densityBias: 1.06, strokeBias: 1.18, textureRegion: "fracture" },
+      "レゲエ": { silhouette: "flag", negativeSpace: "bands", primaryScale: 1.08, variantScale: .7, variantOpacity: .42, rotationBias: -6, densityBias: .7, strokeBias: 1.02, textureRegion: "bands" },
+      "ダブ": { silhouette: "terrain", negativeSpace: "border", primaryScale: 1.14, variantScale: .66, variantOpacity: .48, rotationBias: 4, densityBias: .62, strokeBias: 1.32, textureRegion: "core" },
+      "ロック": { silhouette: "burst", negativeSpace: "diagonal", primaryScale: 1.04, variantScale: .86, variantOpacity: .66, rotationBias: -18, densityBias: 1.04, strokeBias: 1.18, textureRegion: "fracture" },
+      "パンク": { silhouette: "burst", negativeSpace: "fracture", primaryScale: 1.1, variantScale: .95, variantOpacity: .72, rotationBias: 26, densityBias: 1.18, strokeBias: 1.24, textureRegion: "fracture" },
+      "ハードコア": { silhouette: "burst", negativeSpace: "none", primaryScale: 1.18, variantScale: .98, variantOpacity: .76, rotationBias: -26, densityBias: 1.32, strokeBias: 1.32, textureRegion: "fracture" },
+      "メタル": { silhouette: "terrain", negativeSpace: "center", primaryScale: 1.18, variantScale: .9, variantOpacity: .62, rotationBias: 10, densityBias: 1.16, strokeBias: 1.38, textureRegion: "border" },
+      "ジャズ": { silhouette: "constellation", negativeSpace: "islands", primaryScale: .94, variantScale: .68, variantOpacity: .48, rotationBias: -12, densityBias: .68, strokeBias: .82, textureRegion: "islands" },
+      "ファンク": { silhouette: "strata", negativeSpace: "diagonal", primaryScale: 1.06, variantScale: .8, variantOpacity: .55, rotationBias: 9, densityBias: .92, strokeBias: .96, textureRegion: "bands" },
+      "ソウルミュージック": { silhouette: "flag", negativeSpace: "center", primaryScale: .98, variantScale: .66, variantOpacity: .42, rotationBias: -10, densityBias: .66, strokeBias: .86, textureRegion: "diagonal" },
+      "ディスコ": { silhouette: "ring", negativeSpace: "center", primaryScale: 1.04, variantScale: .78, variantOpacity: .55, rotationBias: 12, densityBias: .98, strokeBias: .9, textureRegion: "orbit" },
+      "シティ・ポップ": { silhouette: "constellation", negativeSpace: "diagonal", primaryScale: .96, variantScale: .7, variantOpacity: .45, rotationBias: 8, densityBias: .7, strokeBias: .8, textureRegion: "islands" },
+      "J-POP": { silhouette: "flag", negativeSpace: "border", primaryScale: 1.02, variantScale: .76, variantOpacity: .5, rotationBias: 5, densityBias: .82, strokeBias: .88, textureRegion: "diagonal" },
+      "アニメソング": { silhouette: "spiral", negativeSpace: "islands", primaryScale: .98, variantScale: .78, variantOpacity: .58, rotationBias: 20, densityBias: .9, strokeBias: .82, textureRegion: "orbit" },
+      "クラシック音楽": { silhouette: "constellation", negativeSpace: "center", primaryScale: .9, variantScale: .64, variantOpacity: .38, rotationBias: -6, densityBias: .54, strokeBias: .74, textureRegion: "islands" },
+      "オペラ": { silhouette: "terrain", negativeSpace: "center", primaryScale: 1.06, variantScale: .72, variantOpacity: .5, rotationBias: 14, densityBias: .72, strokeBias: 1.08, textureRegion: "core" },
+      "フォーク": { silhouette: "flag", negativeSpace: "islands", primaryScale: .92, variantScale: .62, variantOpacity: .38, rotationBias: -14, densityBias: .52, strokeBias: .78, textureRegion: "diagonal" },
+      "ワールドミュージック": { silhouette: "ring", negativeSpace: "islands", primaryScale: 1, variantScale: .74, variantOpacity: .5, rotationBias: 18, densityBias: .84, strokeBias: .88, textureRegion: "orbit" }
+    };
+    Object.keys(genreVisualProfiles).forEach(name => {
+      if (genrePatternProfiles[name]) Object.assign(genrePatternProfiles[name], genreVisualProfiles[name]);
+    });
     function fallbackSoundFormMode(fingerprint, audio = {}, seed = 1) {
       const rand = seeded(seed || 1);
       const rms = clamp01(audio.energy ?? audio.rms);
@@ -2873,6 +2964,27 @@
         { id: "cloth-field", bias: .32 + rms * .18 + fingerprint.density * .2, stance: "布状フィールドに戻す" }
       ];
     }
+    function resolveGenreVisualProfile(genrePattern = {}, audio = {}, seed = 1) {
+      const energy = clamp01(audio.energy ?? audio.rms);
+      const onset = clamp01(audio.onset);
+      const bass = clamp01(audio.bass);
+      const brightness = clamp01(audio.brightness ?? ((audio.centroid - 400) / 5200));
+      const densityLift = (energy * .18 + onset * .14 + bass * .08) - brightness * .05;
+      return {
+        silhouette: genrePattern.silhouette || "flag",
+        negativeSpace: genrePattern.negativeSpace || "none",
+        primaryScale: clampRange((genrePattern.primaryScale ?? 1) + densityLift * .08, .72, 1.28),
+        variantScale: clampRange((genrePattern.variantScale ?? .78) + densityLift * .05, .48, 1.12),
+        variantOpacity: clampRange(genrePattern.variantOpacity ?? .54, .25, .82),
+        rotationBias: Number(genrePattern.rotationBias || 0),
+        densityBias: clampRange((genrePattern.densityBias ?? 1) + densityLift, .38, 1.48),
+        strokeBias: clampRange((genrePattern.strokeBias ?? 1) + bass * .08 + onset * .06, .52, 1.52),
+        textureRegion: normaliseTextureRegion(genrePattern.textureRegion || "full")
+      };
+    }
+    function clampRange(value, min, max) {
+      return Math.max(min, Math.min(max, Number(value) || 0));
+    }
     function resolveGenrePattern(audio = {}, seed = 1, variantSalt = 0) {
       const topGenre = audio.genreAnalysis?.top?.[0]?.name || audio.inferredGenre || "";
       const profile = genrePatternProfiles[topGenre];
@@ -2881,7 +2993,8 @@
       const variantIndex = Math.abs(Math.floor(seed + Number(variantSalt || 0) * 17 + hashString(profile.id))) % variants.length;
       const variantFamily = variants[variantIndex] || profile.baseFamily;
       const variantPhase = (Math.abs(seed) % 997) / 997;
-      return { ...profile, genreName: topGenre, variantFamily, variantIndex, variantPhase };
+      const visual = resolveGenreVisualProfile(profile, audio, seed);
+      return { ...profile, ...visual, genreName: topGenre, variantFamily, variantIndex, variantPhase };
     }
     function chooseSoundFormMode(fingerprint, audio = {}, seed = 1) {
       return resolveGenrePattern(audio, seed, audio.variantSalt || 0)?.id || fallbackSoundFormMode(fingerprint, audio, seed);
@@ -3437,34 +3550,75 @@
           ...makeCarrierStormGroups()
         ]
       };
-      const genreVariantTransform = () => {
+      const genreVisual = genrePattern ? resolveGenreVisualProfile(genrePattern, audio, seed) : resolveGenreVisualProfile({}, audio, seed);
+      const genreFamilyTransform = (role = "base") => {
         const phase = genrePattern?.variantPhase ?? ((Math.abs(seed) % 997) / 997);
-        const rotate = (phase - .5) * 30 + (variantSalt % 5 - 2) * 3;
-        const tx = Math.sin(seed * .00031) * 34;
-        const ty = Math.cos(seed * .00027) * 28;
-        const scale = .82 + (phase * .18);
-        return `translate(${svgNumber(tx)} ${svgNumber(ty)}) rotate(${svgNumber(rotate)} 600 600) scale(${svgNumber(scale)} ${svgNumber(scale)}) translate(${svgNumber(600 * (1 - scale) / scale)} ${svgNumber(600 * (1 - scale) / scale)})`;
+        const roleShift = role === "variant" ? 1 : 0;
+        const silhouetteShift = {
+          ring: { x: roleShift ? 26 : -8, y: roleShift ? -18 : 4, r: 0 },
+          burst: { x: roleShift ? -34 : 18, y: roleShift ? 24 : -12, r: 16 },
+          strata: { x: roleShift ? 0 : -10, y: roleShift ? 42 : -18, r: -6 },
+          flag: { x: roleShift ? 38 : -24, y: roleShift ? 12 : -10, r: -10 },
+          constellation: { x: roleShift ? -46 : 18, y: roleShift ? -26 : 16, r: 12 },
+          spiral: { x: roleShift ? 24 : -14, y: roleShift ? -32 : 16, r: 22 },
+          terrain: { x: roleShift ? -28 : 12, y: roleShift ? 36 : -8, r: 5 },
+          block: { x: roleShift ? 32 : -16, y: roleShift ? -6 : 10, r: 0 }
+        }[genreVisual.silhouette] || { x: 0, y: 0, r: 0 };
+        const scale = role === "variant" ? genreVisual.variantScale : genreVisual.primaryScale;
+        const rotate = genreVisual.rotationBias + silhouetteShift.r + (phase - .5) * (role === "variant" ? 38 : 16) + (variantSalt % 5 - 2) * 3;
+        const tx = silhouetteShift.x + Math.sin(seed * .00031 + roleShift) * (role === "variant" ? 42 : 18);
+        const ty = silhouetteShift.y + Math.cos(seed * .00027 + roleShift) * (role === "variant" ? 34 : 16);
+        return `translate(${svgNumber(tx)} ${svgNumber(ty)}) rotate(${svgNumber(rotate)} 600 600) translate(600 600) scale(${svgNumber(scale)} ${svgNumber(scale)}) translate(-600 -600)`;
       };
+      const genreClipElements = () => {
+        const silhouette = genreVisual.silhouette;
+        if (silhouette === "ring") return `<circle cx="600" cy="600" r="462"/><circle cx="600" cy="600" r="154"/>`;
+        if (silhouette === "burst") return `<path d="M600 72 L690 354 L936 190 L820 475 L1130 445 L858 612 L1104 812 L790 730 L842 1086 L602 820 L398 1092 L430 744 L96 844 L342 616 L78 424 L390 478 L280 180 L514 356 Z"/>`;
+        if (silhouette === "strata") return `<path d="M120 220 H1080 V350 H160 V440 H1050 V560 H120 V670 H1030 V790 H150 V935 H1110 V1030 H90 V170 H120 Z"/>`;
+        if (silhouette === "flag") return `<path d="M142 196 C326 126 474 230 636 178 C824 118 946 188 1076 150 L1018 982 C850 1032 710 922 538 1000 C356 1080 220 972 110 1016 Z"/>`;
+        if (silhouette === "constellation") return `<circle cx="600" cy="600" r="420"/><circle cx="296" cy="362" r="150"/><circle cx="914" cy="414" r="132"/><circle cx="826" cy="850" r="168"/><circle cx="362" cy="826" r="128"/>`;
+        if (silhouette === "spiral") return `<path d="M600 94 C1000 112 1120 504 918 744 C760 932 454 956 330 744 C196 516 344 238 610 270 C826 296 930 528 812 674 C704 808 492 780 432 630 C368 470 492 352 626 384 C736 410 780 534 720 616 C664 694 552 682 520 604 C492 536 540 484 604 496 C660 506 678 562 648 598 C624 626 580 618 570 586 C560 550 586 532 612 542 C638 552 638 578 620 590 L962 1100 L108 1080 L84 116 Z"/>`;
+        if (silhouette === "terrain") return `<path d="M90 834 C178 650 230 710 312 528 C390 354 498 436 568 280 C626 150 748 270 796 390 C850 520 984 488 1098 366 L1120 1060 L76 1060 Z"/>`;
+        return `<rect x="132" y="170" width="936" height="860"/>`;
+      };
+      const genreMaskElements = () => {
+        const cut = genreVisual.negativeSpace;
+        if (cut === "center") return `<circle cx="600" cy="600" r="118" fill="#000"/>`;
+        if (cut === "diagonal") return `<path d="M134 1030 L1030 128 L1088 186 L192 1088 Z" fill="#000"/>`;
+        if (cut === "border") return `<rect x="184" y="214" width="832" height="772" fill="#000"/><rect x="242" y="278" width="716" height="644" fill="#fff"/>`;
+        if (cut === "bands") return `<rect x="128" y="350" width="944" height="54" fill="#000"/><rect x="128" y="594" width="944" height="46" fill="#000"/><rect x="128" y="820" width="944" height="58" fill="#000"/>`;
+        if (cut === "islands") return `<circle cx="368" cy="384" r="76" fill="#000"/><circle cx="802" cy="404" r="58" fill="#000"/><circle cx="714" cy="782" r="88" fill="#000"/><circle cx="472" cy="816" r="54" fill="#000"/>`;
+        if (cut === "fracture") return `<path d="M560 112 L628 1120 L688 1120 L620 112 Z" fill="#000"/><path d="M124 660 L1082 452 L1098 524 L140 734 Z" fill="#000"/>`;
+        return "";
+      };
+      const genreClipId = `genre_silhouette_${Math.abs(seed) % 100000}`;
+      const genreMaskId = `genre_mask_${Math.abs(seed) % 100000}`;
+      const maskCutouts = genreMaskElements();
+      const genreDefs = genrePattern
+        ? [`<defs><clipPath id="${genreClipId}" clipPathUnits="userSpaceOnUse">${genreClipElements()}</clipPath>${maskCutouts ? `<mask id="${genreMaskId}" maskUnits="userSpaceOnUse"><rect width="1200" height="1200" fill="#fff"/>${maskCutouts}</mask>` : ""}</defs>`]
+        : [];
+      const clipAndMaskAttrs = genrePattern ? `clip-path="url(#${genreClipId})"${maskCutouts ? ` mask="url(#${genreMaskId})"` : ""}` : "";
       const baseGroups = surfaceGroupsByMode[baseFamily] || surfaceGroupsByMode[fallbackMode] || surfaceGroupsByMode["cloth-field"];
       const variantGroups = variantFamily !== baseFamily ? surfaceGroupsByMode[variantFamily] : null;
       const surfaceGroups = genrePattern
         ? [
-          `<g id="genre_base_family" data-family="${baseFamily}" data-layout-bias="${layoutBias}">`,
+          ...genreDefs,
+          `<g id="genre_base_family" data-family="${baseFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-density-bias="${svgNumber(genreVisual.densityBias)}" data-stroke-bias="${svgNumber(genreVisual.strokeBias)}" transform="${genreFamilyTransform("base")}" ${clipAndMaskAttrs}>`,
           ...baseGroups,
           `</g>`,
           ...(variantGroups ? [
-            `<g id="genre_variant_family" data-family="${variantFamily}" opacity=".74" transform="${genreVariantTransform()}">`,
+            `<g id="genre_variant_family" data-family="${variantFamily}" opacity="${svgNumber(genreVisual.variantOpacity)}" transform="${genreFamilyTransform("variant")}" ${clipAndMaskAttrs}>`,
             ...variantGroups,
             `</g>`
           ] : [])
         ]
         : (surfaceGroupsByMode[formMode] || surfaceGroupsByMode["cloth-field"]);
       const groups = [
-        `<g id="sound_form_surface" data-layer="sound_form_surface" data-form-mode="${formMode}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" transform="rotate(${svgNumber(clothTilt)} 600 600)">`,
+        `<g id="sound_form_surface" data-layer="sound_form_surface" data-form-mode="${formMode}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-negative-space="${genreVisual.negativeSpace}" transform="rotate(${svgNumber(clothTilt)} 600 600)">`,
         ...surfaceGroups,
         `</g>`
       ];
-      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="${escapeAttr(mood.label)} reversible sound form" data-engine="reversible-sound-form-v4" data-form-mode="${formMode}" data-genre-pattern="${escapeAttr(genrePattern?.label || audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "")}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-texture-mode="${textureMode}" data-inferred-genre="${escapeAttr(audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "")}" data-audio-fingerprint="${fingerprint.hash}" data-morphology-pass="${morph.pass}" data-refinement-passes="100" data-structural-debate-passes="30" data-genre-pattern-count="${Object.keys(genrePatternProfiles).length}" data-variant-seed="${seed}" data-iteration="${settings?.iteration || ""}">${metadata.join("")}${groups.join("")}</svg>`;
+      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="${escapeAttr(mood.label)} reversible sound form" data-engine="reversible-sound-form-v4" data-form-mode="${formMode}" data-genre-pattern="${escapeAttr(genrePattern?.label || audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "")}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-negative-space="${genreVisual.negativeSpace}" data-texture-mode="${textureMode}" data-texture-region="${genreVisual.textureRegion}" data-inferred-genre="${escapeAttr(audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "")}" data-audio-fingerprint="${fingerprint.hash}" data-morphology-pass="${morph.pass}" data-refinement-passes="100" data-structural-debate-passes="30" data-genre-pattern-count="${Object.keys(genrePatternProfiles).length}" data-variant-seed="${seed}" data-iteration="${settings?.iteration || ""}">${metadata.join("")}${groups.join("")}</svg>`;
     }
     function generateReversibleAudioPatternSvg(mood, tick = Date.now(), settings = null) {
       if (mood?.audio) return generateSoundClothReversibleSvg(mood, tick, settings);

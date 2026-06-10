@@ -24,6 +24,7 @@ export type ProtectedLayerOptions = {
   radiusY?: number;
   textureSeed?: number | string;
   textureMode?: string;
+  textureRegion?: "full" | "core" | "diagonal" | "bands" | "orbit" | "fracture" | "border" | "islands" | string;
   sampleRate?: number;
   channels?: number;
   duration?: number;

@@ -19,6 +19,7 @@ export function encodePcmBytesToProtectedLayer(bytes, options = {}) {
   const radiusY = Number.isFinite(options.radiusY) ? options.radiusY : height * 0.365;
   const textureSeed = normaliseSeed(options.textureSeed ?? 0);
   const textureMode = normaliseTextureMode(options.textureMode);
+  const textureRegion = normaliseTextureRegion(options.textureRegion);
   const amplitude = Number.isFinite(options.amplitude) ? options.amplitude : 7.6;
   const sampleRate = Number.isFinite(options.sampleRate) ? options.sampleRate : 8000;
   const channels = Number.isFinite(options.channels) ? options.channels : 1;
@@ -27,7 +28,7 @@ export function encodePcmBytesToProtectedLayer(bytes, options = {}) {
 
   for (let index = 0; index < values.length; index += 1) {
     const byte = values[index];
-    const point = textureFieldPoint(index, cx, cy, radiusX, radiusY, textureSeed, textureMode);
+    const point = textureFieldPoint(index, cx, cy, radiusX, radiusY, textureSeed, textureMode, textureRegion);
     const offset = ((byte - 128) / 127) * amplitude;
     const length = 2.4 + ((index * 17) % 11) * 0.18;
     const mx = point.x + point.nx * offset;
@@ -39,7 +40,7 @@ export function encodePcmBytesToProtectedLayer(bytes, options = {}) {
     lines.push(`<line x1="${num(x1)}" y1="${num(y1)}" x2="${num(x2)}" y2="${num(y2)}" stroke="#111" stroke-width=".28" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`);
   }
 
-  return `<g id="${PROTECTED_PCM_LAYER_ID}" data-layer="${PROTECTED_PCM_LAYER_ID}" data-schema="${REVERSIBLE_SVG_SCHEMA}" data-encoding="mulaw8-protected-texture-field-v1" data-sample-rate="${sampleRate}" data-channels="${channels}" data-duration="${num(duration)}" data-frame-count="${values.length}" data-cx="${num(cx)}" data-cy="${num(cy)}" data-radius-x="${num(radiusX)}" data-radius-y="${num(radiusY)}" data-texture-seed="${textureSeed}" data-texture-mode="${escapeAttr(textureMode)}" data-amplitude="${num(amplitude)}" data-visual-role="locked-protected-texture-field" data-edit-policy="lock-do-not-edit">${lines.join("")}</g>`;
+  return `<g id="${PROTECTED_PCM_LAYER_ID}" data-layer="${PROTECTED_PCM_LAYER_ID}" data-schema="${REVERSIBLE_SVG_SCHEMA}" data-encoding="mulaw8-protected-texture-field-v1" data-sample-rate="${sampleRate}" data-channels="${channels}" data-duration="${num(duration)}" data-frame-count="${values.length}" data-cx="${num(cx)}" data-cy="${num(cy)}" data-radius-x="${num(radiusX)}" data-radius-y="${num(radiusY)}" data-texture-seed="${textureSeed}" data-texture-mode="${escapeAttr(textureMode)}" data-texture-region="${escapeAttr(textureRegion)}" data-amplitude="${num(amplitude)}" data-visual-role="locked-protected-texture-field" data-edit-policy="lock-do-not-edit">${lines.join("")}</g>`;
 }
 
 export function decodePcmBytesFromProtectedLayer(svgText) {
@@ -74,6 +75,7 @@ export function decodePcmBytesFromProtectedLayer(svgText) {
   const hasTextureProfile = attrText(group, "data-texture-seed") !== "" || attrText(group, "data-texture-mode") !== "";
   const textureSeed = normaliseSeed(attrText(group, "data-texture-seed") || 0);
   const textureMode = normaliseTextureMode(attrText(group, "data-texture-mode"));
+  const textureRegion = normaliseTextureRegion(attrText(group, "data-texture-region") || "full");
   return Uint8Array.from(matches.map((match, index) => {
     const tag = match[0];
     const x1 = attrNumber(tag, "x1");
@@ -82,7 +84,7 @@ export function decodePcmBytesFromProtectedLayer(svgText) {
     const y2 = attrNumber(tag, "y2");
     if (![x1, y1, x2, y2].every(Number.isFinite)) return 0;
     const point = hasTextureProfile
-      ? textureFieldPoint(index, cx, cy, radiusX, radiusY, textureSeed, textureMode)
+      ? textureFieldPoint(index, cx, cy, radiusX, radiusY, textureSeed, textureMode, textureRegion)
       : legacyTextureFieldPoint(index, cx, cy, radiusX, radiusY);
     const mx = (x1 + x2) * 0.5;
     const my = (y1 + y2) * 0.5;
@@ -156,7 +158,7 @@ function sealBandPoint(index, x0, y0, width, height, step) {
   return { x: x0, y: y0 + height - (p - width * 2 - height), nx: 1, ny: 0 };
 }
 
-function textureFieldPoint(index, cx, cy, radiusX, radiusY, seed = 0, mode = "texture-field") {
+function textureFieldPoint(index, cx, cy, radiusX, radiusY, seed = 0, mode = "texture-field", region = "full") {
   const profile = textureFieldProfile(mode);
   const golden = Math.PI * (3 - Math.sqrt(5));
   const jitter = noise01(index, 0, seed) - 0.5;
@@ -179,12 +181,61 @@ function textureFieldPoint(index, cx, cy, radiusX, radiusY, seed = 0, mode = "te
     y = cy + Math.sin(angle) * radiusY * unit * (1 + Math.cos(index * 0.027 + seed * 0.0003) * 0.04) * profile.stretchY;
     angle += profile.angle;
   }
+  const regionPoint = textureRegionPoint(index, x, y, cx, cy, radiusX, radiusY, seed, region);
+  x = regionPoint.x;
+  y = regionPoint.y;
+  if (Number.isFinite(regionPoint.angle)) angle = regionPoint.angle;
   const txAngle = profile.radialStroke ? angle : angle + Math.PI / 2;
   const tx = Math.cos(txAngle);
   const ty = Math.sin(txAngle);
   const nx = -ty;
   const ny = tx;
   return { x, y, nx, ny, tx, ty };
+}
+
+function textureRegionPoint(index, x, y, cx, cy, radiusX, radiusY, seed = 0, region = "full") {
+  const mode = normaliseTextureRegion(region);
+  if (mode === "full") return { x, y };
+  const noise = salt => noise01(index, 20 + salt, seed);
+  const dx = x - cx;
+  const dy = y - cy;
+  const angle = Math.atan2(dy / Math.max(1, radiusY), dx / Math.max(1, radiusX));
+  if (mode === "core") return { x: cx + dx * 0.54, y: cy + dy * 0.5 };
+  if (mode === "orbit") {
+    const ring = 0.46 + noise(1) * 0.4;
+    const a = angle + (noise(2) - 0.5) * 0.35;
+    return { x: cx + Math.cos(a) * radiusX * ring, y: cy + Math.sin(a) * radiusY * ring * 0.82, angle: a };
+  }
+  if (mode === "border") {
+    const ring = 0.76 + noise(1) * 0.2;
+    const a = angle + (noise(2) - 0.5) * 0.18;
+    return { x: cx + Math.cos(a) * radiusX * ring, y: cy + Math.sin(a) * radiusY * ring, angle: a };
+  }
+  if (mode === "diagonal") {
+    const diagonalY = cy + (x - cx) * 0.42;
+    return { x: cx + dx * 0.92, y: diagonalY + (y - diagonalY) * 0.32, angle: 0.42 };
+  }
+  if (mode === "bands") {
+    const band = Math.round((noise(1) * 2 - 1) * 5) / 5;
+    return { x, y: cy + band * radiusY * 0.74 + (noise(2) - 0.5) * 24, angle: 0 };
+  }
+  if (mode === "fracture") {
+    const rays = 11;
+    const a = Math.round((angle / (Math.PI * 2)) * rays) / rays * Math.PI * 2 + (noise(1) - 0.5) * 0.38;
+    const r = Math.pow(noise(2), 0.58) * 0.92;
+    return { x: cx + Math.cos(a) * radiusX * r, y: cy + Math.sin(a) * radiusY * r, angle: a };
+  }
+  if (mode === "islands") {
+    const centers = [
+      { x: -0.38, y: -0.24 }, { x: 0.32, y: -0.18 }, { x: -0.16, y: 0.34 }, { x: 0.24, y: 0.3 }
+    ];
+    const center = centers[index % centers.length];
+    return {
+      x: cx + center.x * radiusX + (noise(1) - 0.5) * radiusX * 0.42,
+      y: cy + center.y * radiusY + (noise(2) - 0.5) * radiusY * 0.36
+    };
+  }
+  return { x, y };
 }
 
 function legacyTextureFieldPoint(index, cx, cy, radiusX, radiusY) {
@@ -221,6 +272,11 @@ function textureFieldProfile(mode) {
 
 function normaliseTextureMode(value) {
   return String(value || "texture-field").replace(/[^a-z0-9_-]/gi, "").slice(0, 48) || "texture-field";
+}
+
+function normaliseTextureRegion(value) {
+  const region = String(value || "full").replace(/[^a-z0-9_-]/gi, "").slice(0, 32);
+  return ["full", "core", "diagonal", "bands", "orbit", "fracture", "border", "islands"].includes(region) ? region : "full";
 }
 
 function normaliseSeed(value) {

@@ -20,6 +20,7 @@ test("round trips PCM bytes through protected SVG geometry", () => {
   assert.match(layer, /data-frame-count="5"/);
   assert.match(layer, /data-texture-seed="42"/);
   assert.match(layer, /data-texture-mode="spiral-core"/);
+  assert.match(layer, /data-texture-region="full"/);
   assert.match(layer, /data-visual-role="locked-protected-texture-field"/);
   assert.match(layer, /stroke="#111"/);
   assert.match(layer, /<line\b/);
@@ -30,10 +31,12 @@ test("round trips PCM bytes through protected SVG geometry", () => {
 
 test("uses texture seed and mode to vary protected geometry without losing bytes", () => {
   const source = Uint8Array.from([4, 32, 64, 96, 128, 160, 224]);
-  const a = encodePcmBytesToProtectedLayer(source, { textureSeed: "alpha", textureMode: "spectral-barcode" });
-  const b = encodePcmBytesToProtectedLayer(source, { textureSeed: "beta", textureMode: "carrier-storm" });
+  const a = encodePcmBytesToProtectedLayer(source, { textureSeed: "alpha", textureMode: "spectral-barcode", textureRegion: "bands" });
+  const b = encodePcmBytesToProtectedLayer(source, { textureSeed: "beta", textureMode: "carrier-storm", textureRegion: "fracture" });
 
   assert.notEqual(a, b);
+  assert.match(a, /data-texture-region="bands"/);
+  assert.match(b, /data-texture-region="fracture"/);
   assert.deepEqual([...decodePcmBytesFromProtectedLayer(`<svg>${a}</svg>`)], [...source]);
   assert.deepEqual([...decodePcmBytesFromProtectedLayer(`<svg>${b}</svg>`)], [...source]);
 });
