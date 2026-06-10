@@ -3,7 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --font-sans: "helvetica-neue-lt-pro", "Helvetica Neue", Helvetica, Arial, "yu-gothic-pr6n", "Yu Gothic", "YuGothic", "游ゴシック体", "游ゴシック", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  --font-latin: "helvetica-neue-lt-pro", "Helvetica Neue", Helvetica, Arial;
+  --font-jp: "yu-gothic-pr6n", "Yu Gothic", "YuGothic", "游ゴシック体", "游ゴシック", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo;
+  --font-sans: var(--font-latin), var(--font-jp), sans-serif;
   color-scheme: light;
 }
 
@@ -26,6 +28,7 @@ body {
   color: #111;
   font-family: var(--font-sans);
   font-weight: 200;
+  font-synthesis-weight: none;
 }
 
 a {

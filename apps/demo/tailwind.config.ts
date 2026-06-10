@@ -15,6 +15,17 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"]
+      },
+      fontWeight: {
+        thin: "200",
+        extralight: "200",
+        light: "200",
+        normal: "200",
+        medium: "400",
+        semibold: "400",
+        bold: "500",
+        extrabold: "500",
+        black: "500"
       }
     }
   },

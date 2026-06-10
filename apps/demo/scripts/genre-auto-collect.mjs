@@ -16,6 +16,7 @@ const SEARCH_LIMIT = Math.max(PER_GENRE + 2, Number(process.env.MMFR_GENRE_SEARC
 const CONCURRENCY = Math.max(1, Number(process.env.MMFR_GENRE_COLLECT_CONCURRENCY || 4));
 const VALIDATE_ANALYSIS = process.env.MMFR_GENRE_COLLECT_VALIDATE === "1";
 const AUDIO_ENDPOINT = process.env.MMFR_AUDIO_ENDPOINT || "http://127.0.0.1:4194/api/audio-analyze";
+const VALIDATE_TIMEOUT_MS = Math.max(5000, Number(process.env.MMFR_GENRE_VALIDATE_TIMEOUT_MS || 35000));
 const COOKIE_BROWSERS = (process.env.MMFR_YTDLP_COOKIES_FROM_BROWSER
   || (process.platform === "darwin" ? "chrome,safari,firefox" : "chrome,firefox"))
   .split(",")
@@ -154,6 +155,9 @@ function postJson(endpoint, body) {
       });
     });
     request.on("error", reject);
+    request.setTimeout(VALIDATE_TIMEOUT_MS, () => {
+      request.destroy(new Error(`analysis validation timed out after ${VALIDATE_TIMEOUT_MS}ms`));
+    });
     request.write(payload);
     request.end();
   });
@@ -232,6 +236,7 @@ async function collectForGenre(entry, usedUrls, targetCount = PER_GENRE) {
       if (!url || usedUrls.has(url)) continue;
       const validation = await candidateAnalyzes(url);
       if (!validation.ok) {
+        process.stdout.write(".");
         raw.push({ query, skippedUrl: url, validationError: validation.error });
         continue;
       }
@@ -244,6 +249,7 @@ async function collectForGenre(entry, usedUrls, targetCount = PER_GENRE) {
         duration: candidate.duration || 0,
         uploader: candidate.uploader || candidate.channel || ""
       });
+      process.stdout.write("+");
       if (selected.length >= targetCount) return { selected, raw };
     }
   }
