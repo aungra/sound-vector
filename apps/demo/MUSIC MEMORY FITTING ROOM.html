@@ -786,7 +786,7 @@
       const height = 984;
       const step = 5.2;
       const amplitude = 7.6;
-      const paths = bytes.map((byte, index) => {
+      const paths = Array.from(bytes, (byte, index) => {
         const point = sealBandPoint(index, x0, y0, width, height, step);
         const offset = ((byte - 128) / 127) * amplitude;
         const x2 = point.x + point.nx * offset;
@@ -845,6 +845,7 @@
         const step = Number(svgAttr(groupTag, "data-step")) || 5.2;
         const amplitude = Number(svgAttr(groupTag, "data-amplitude")) || 7.6;
         const tags = body.match(/<line\b[^>]*>/g) || [];
+        if (!tags.length) return null;
         tags.forEach((tag, index) => {
           if (index >= bytes.length) return;
           const point = sealBandPoint(index, x0, y0, width, height, step);
@@ -862,6 +863,7 @@
         const rowGap = Number(svgAttr(groupTag, "data-row-gap")) || 18;
         const amplitude = Number(svgAttr(groupTag, "data-amplitude")) || 7.6;
         const tags = body.match(/<path\b[^>]*>/g) || [];
+        if (!tags.length) return null;
         tags.forEach(tag => {
           const row = Math.round(Number(svgAttr(tag, "data-pcm-row")));
           const start = Math.max(0, Math.round(Number(svgAttr(tag, "data-pcm-start")) || row * cols));
