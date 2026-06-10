@@ -25,17 +25,20 @@ const TOOL_PATHS = {
     "ffmpeg"
   ].filter(Boolean)
 };
+const DEFAULT_COOKIE_FILE = path.join(ROOT_DIR, "genre-training", "youtube-cookies.txt");
 const COOKIE_BROWSERS = (process.env.MMFR_YTDLP_COOKIES_FROM_BROWSER
   || (process.platform === "darwin" ? "chrome,safari,firefox" : "chrome,firefox"))
   .split(",")
   .map(value => value.trim())
   .filter(Boolean);
-const COOKIE_FILE = process.env.MMFR_YTDLP_COOKIES_FILE || "";
+const COOKIE_FILE = process.env.MMFR_YTDLP_COOKIES_FILE || (fs.existsSync(DEFAULT_COOKIE_FILE) ? DEFAULT_COOKIE_FILE : "");
 
 function ytDlpBaseArgs() {
   return [
     "--js-runtimes",
-    `node:${process.execPath}`
+    `node:${process.execPath}`,
+    "--remote-components",
+    "ejs:github"
   ];
 }
 
@@ -367,6 +370,7 @@ function analyzeFloat32Pcm(buffer, sampleRate = 22050) {
   let rmsSum = 0;
   let zcrSum = 0;
   let bassSum = 0;
+  let highBandSum = 0;
   let spectralPowerSum = 0;
   let centroidSum = 0;
   let centroidWeight = 0;
@@ -408,6 +412,7 @@ function analyzeFloat32Pcm(buffer, sampleRate = 22050) {
     const bassPower = [55, 82, 110, 164, 220].reduce((sum, freq) => sum + goertzelPower(samples, start, frameSize, sampleRate, freq), 0);
     const frameChroma = Array.from({ length: 12 }, () => 0);
     const frameBands = bandFrequencies.map(freq => freq < sampleRate / 2 ? goertzelPower(samples, start, frameSize, sampleRate, freq) : 0);
+    highBandSum += frameBands.slice(4).reduce((sum, value) => sum + value, 0);
     let frameCentroidSum = 0;
     let frameCentroidWeight = 0;
     bassSum += bassPower;
@@ -439,6 +444,11 @@ function analyzeFloat32Pcm(buffer, sampleRate = 22050) {
   const tempo = estimateTempo(envelope, sampleRate / hop);
   const centroid = Math.round(centroidWeight ? centroidSum / centroidWeight : 1200);
   const bassRatio = spectralPowerSum ? bassSum / spectralPowerSum : 0;
+  const highBandRatio = spectralPowerSum ? highBandSum / spectralPowerSum : 0;
+  const brightness = clamp01(Math.max(
+    (centroid - 300) / 3600,
+    Math.sqrt(highBandRatio) * 1.65
+  ));
   const temporalProfile = Array.from({ length: 16 }, (_, i) => {
     const index = Math.min(rmsFrames.length - 1, Math.round(i * (rmsFrames.length - 1) / 15));
     return clamp01((rmsFrames[index] || 0) / rmsMax);
@@ -459,7 +469,7 @@ function analyzeFloat32Pcm(buffer, sampleRate = 22050) {
     chromaTimeline: chromaFrameRows.map(row => row.map(value => value / chromaFrameMax)),
     bandTimeline: bandFrameRows.map(row => row.map(value => value / bandFrameMax)),
     ...pcmSketch
-  }, { energy, bass: clamp01(Math.sqrt(bassRatio) * 2.4), brightness: clamp01((centroid - 400) / 5200), onset, temporalProfile });
+  }, { energy, bass: clamp01(Math.sqrt(bassRatio) * 2.4), brightness, onset, temporalProfile });
 
   return {
     source: "youtube-audio-analysis-server",
@@ -467,7 +477,8 @@ function analyzeFloat32Pcm(buffer, sampleRate = 22050) {
     energy,
     rms: energy,
     bass: clamp01(Math.sqrt(bassRatio) * 2.4),
-    brightness: clamp01((centroid - 400) / 5200),
+    brightness,
+    highBandRatio: clamp01(highBandRatio * 4),
     spectralCentroid: centroid,
     rhythm: clamp01(onset * 1.4),
     onset,
@@ -565,7 +576,16 @@ async function handleAnalyze(req, res) {
     const features = await analyzeYouTube(body.youtubeUrl, { startSeconds: body.startSeconds });
     sendJson(res, 200, { ok: true, source: "youtube-audio-analysis-server", features });
   } catch (error) {
-    sendJson(res, 500, { ok: false, error: error.message });
+    const message = String(error?.message || "");
+    const cookieRequired = /Sign in to confirm you.?re not a bot|cookies-from-browser|cookies for the authentication|Operation not permitted: .*Cookies\.binarycookies|could not find firefox cookies database/i.test(message);
+    sendJson(res, 500, {
+      ok: false,
+      code: cookieRequired ? "YOUTUBE_COOKIE_REQUIRED" : "AUDIO_ANALYSIS_FAILED",
+      error: cookieRequired
+        ? "YouTube側のbot確認により音声を取得できません。ChromeでYouTubeにログインするか、genre-training/youtube-cookies.txt を配置してください。"
+        : message,
+      detail: message
+    });
   }
 }
 

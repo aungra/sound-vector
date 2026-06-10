@@ -11,6 +11,7 @@ const OUT_PATH = path.join(ROOT, "genre-training", "genre-dataset.json");
 const REPORT_PATH = path.join(ROOT, "genre-training", "auto-collect-report.json");
 const LOCAL_BIN = path.join(ROOT, ".tools", "bin");
 const YT_DLP = process.env.YT_DLP_PATH || path.join(LOCAL_BIN, "yt-dlp-local");
+const DEFAULT_COOKIE_FILE = path.join(ROOT, "genre-training", "youtube-cookies.txt");
 const PER_GENRE = Math.max(1, Number(process.env.MMFR_GENRE_COLLECT_PER_GENRE || 1));
 const SEARCH_LIMIT = Math.max(PER_GENRE + 2, Number(process.env.MMFR_GENRE_SEARCH_LIMIT || 6));
 const CONCURRENCY = Math.max(1, Number(process.env.MMFR_GENRE_COLLECT_CONCURRENCY || 4));
@@ -22,7 +23,7 @@ const COOKIE_BROWSERS = (process.env.MMFR_YTDLP_COOKIES_FROM_BROWSER
   .split(",")
   .map(value => value.trim())
   .filter(Boolean);
-const COOKIE_FILE = process.env.MMFR_YTDLP_COOKIES_FILE || "";
+const COOKIE_FILE = process.env.MMFR_YTDLP_COOKIES_FILE || (fs.existsSync(DEFAULT_COOKIE_FILE) ? DEFAULT_COOKIE_FILE : "");
 
 const genreQueries = [
   { genre: "アンビエント", queries: ["ambient music classic track", "ambient electronic representative track", "Brian Eno ambient track"] },
@@ -81,7 +82,9 @@ function expandedQueries(entry) {
 function ytDlpBaseArgs() {
   return [
     "--js-runtimes",
-    `node:${process.execPath}`
+    `node:${process.execPath}`,
+    "--remote-components",
+    "ejs:github"
   ];
 }
 
@@ -103,6 +106,10 @@ async function runYtDlp(args, options = {}) {
     }
   }
   throw new Error(errors.join("\n---\n"));
+}
+
+async function runYtDlpNoCookies(args, options = {}) {
+  return run(YT_DLP, [...ytDlpBaseArgs(), ...args], options);
 }
 
 function run(command, args, options = {}) {
@@ -193,7 +200,7 @@ function candidateOk(item) {
 
 async function searchCandidates(query) {
   const target = `ytsearch${SEARCH_LIMIT}:${query}`;
-  const { stdout } = await runYtDlp([
+  const { stdout } = await runYtDlpNoCookies([
     "--dump-json",
     "--no-playlist",
     "--skip-download",

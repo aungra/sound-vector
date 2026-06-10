@@ -1069,10 +1069,21 @@
           })
         });
         const data = await response.json();
-        if (!response.ok || data.ok === false) throw new Error(data.error || `HTTP ${response.status}`);
+        if (!response.ok || data.ok === false) {
+          const error = new Error(data.error || `HTTP ${response.status}`);
+          error.code = data.code || "";
+          error.detail = data.detail || "";
+          throw error;
+        }
         return normaliseFeatures({ id: link.id, startSeconds: link.startSeconds, normalizedUrl: link.normalizedUrl, ...(data.features || data.audio || data), source: data.source || "external-audio-analysis" }, link.normalizedUrl || url);
       } catch (error) {
-        throw new Error(`YouTube解析サーバーに接続できませんでした: ${error.message}`);
+        if (error.code === "YOUTUBE_COOKIE_REQUIRED") {
+          throw new Error(`${error.message} 「Check YouTube Cookies.command」で状態を確認できます。`);
+        }
+        if (/Failed to fetch|Load failed|NetworkError|ECONNREFUSED/i.test(error.message)) {
+          throw new Error(`YouTube解析サーバーに接続できませんでした。4194番の解析サーバーを起動してください。`);
+        }
+        throw new Error(`YouTube音声を取得できませんでした: ${error.message}`);
       }
     }
     function goertzelPower(channel, start, size, sampleRate, frequency) {
@@ -1379,13 +1390,16 @@
     function genreFeatureVector(features = {}) {
       const detail = normaliseAudioDetail(features.detail || {}, features);
       const centroid = Number(features.centroid ?? features.spectralCentroid) || 1200;
+      const brightness = features.highBandRatio != null
+        ? Math.max(clamp01(features.brightness), clamp01(features.highBandRatio))
+        : clamp01(features.brightness ?? ((centroid - 400) / 5200));
       return {
         tempo: Math.max(45, Math.min(220, Number(features.tempo) || 96)),
         energy: clamp01(features.energy ?? features.rms),
         bass: clamp01(features.bass),
         rhythm: clamp01(features.rhythm ?? features.onset),
         onset: clamp01(features.onset),
-        brightness: clamp01(features.brightness ?? ((centroid - 400) / 5200)),
+        brightness,
         zcr: mean(detail.zeroCrossing),
         rmsContrast: contrast(detail.rms),
         onsetContrast: contrast(detail.onset),
@@ -1407,20 +1421,76 @@
       if (!text) return 0;
       return genreKeywordMap.find(([name, pattern]) => name === genreName && pattern.test(text)) ? .22 : 0;
     }
+    function tempoDistance(a, b) {
+      const direct = Math.abs(a - b);
+      const half = Math.abs(a - b * 2);
+      const double = Math.abs(a * 2 - b);
+      return Math.min(direct, half, double);
+    }
+    function genreSignatureBoost(vector, genreName) {
+      const tempo = vector.tempo || 96;
+      const energy = vector.energy || 0;
+      const bass = vector.bass || 0;
+      const rhythm = vector.rhythm || 0;
+      const onset = vector.onset || 0;
+      const brightness = vector.brightness || 0;
+      const zcr = vector.zcr || 0;
+      const rmsContrast = vector.rmsContrast || 0;
+      const onsetContrast = vector.onsetContrast || 0;
+      const centroidContrast = vector.centroidContrast || 0;
+      const chromaEntropyValue = vector.chromaEntropy || 0;
+      const lowBeat = rhythm < .36 && onset < .34;
+      const heavyLow = bass > .68;
+      const brightNoise = brightness > .62 || zcr > .55;
+      const boosts = {
+        "アンビエント": (lowBeat && energy < .48 ? .16 : 0) + (chromaEntropyValue > .82 ? .04 : 0),
+        "ドローン": (lowBeat && heavyLow ? .18 : 0) + (rmsContrast < .22 ? .05 : 0),
+        "ノイズミュージック": (brightNoise && energy > .58 ? .2 : 0) + (centroidContrast > .42 ? .07 : 0),
+        "テクノ": (tempo >= 118 && tempo <= 138 && rhythm > .58 && bass > .42 ? .13 : 0),
+        "ハウス": (tempo >= 112 && tempo <= 132 && rhythm > .62 && onset < .62 ? .14 : 0),
+        "ディープ・ハウス": (tempo >= 108 && tempo <= 126 && bass > .58 && brightness < .5 ? .16 : 0),
+        "トランス": (tempo >= 125 && brightness > .5 && rhythm > .6 ? .13 : 0),
+        "ドラムンベース": ((tempo >= 150 || tempoDistance(tempo, 172) < 14) && rhythm > .68 ? .18 : 0),
+        "ダブステップ": (heavyLow && onset > .5 && rhythm < .66 ? .17 : 0),
+        "チップチューン": (brightness > .68 && zcr > .5 && bass < .55 ? .18 : 0),
+        "ヒップホップ": (tempo >= 70 && tempo <= 115 && bass > .55 && rhythm > .45 ? .12 : 0),
+        "トラップ": (heavyLow && onset > .5 && tempo <= 100 ? .15 : 0),
+        "レゲエ": (tempo >= 65 && tempo <= 105 && bass > .52 && brightness < .52 && onset < .5 ? .15 : 0),
+        "ダブ": (heavyLow && brightness < .42 && rhythm < .55 ? .18 : 0),
+        "ロック": (energy > .62 && onset > .48 && brightness > .4 && zcr > .34 ? .12 : 0),
+        "パンク": (energy > .68 && onset > .56 && (tempo >= 135 || rhythm > .72) ? .16 : 0),
+        "ハードコア": (energy > .72 && onset > .62 && rhythm > .68 ? .18 : 0),
+        "メタル": (energy > .7 && bass > .5 && zcr > .45 && onset > .54 ? .16 : 0),
+        "ジャズ": (chromaEntropyValue > .76 && onset < .58 && rmsContrast > .28 ? .14 : 0),
+        "ファンク": (rhythm > .62 && bass > .46 && onset > .42 && tempo >= 88 && tempo <= 125 ? .14 : 0),
+        "ソウルミュージック": (energy >= .38 && energy <= .72 && brightness < .58 && onset < .48 ? .12 : 0),
+        "ディスコ": (tempo >= 105 && tempo <= 132 && rhythm > .62 && brightness > .42 ? .13 : 0),
+        "クラシック音楽": (lowBeat && bass < .56 && chromaEntropyValue > .78 && rmsContrast > .38 ? .16 : 0),
+        "オペラ": (lowBeat && brightness > .42 && rmsContrast > .38 ? .15 : 0),
+        "フォーク": (energy < .58 && bass < .55 && onset < .48 && brightness < .58 ? .13 : 0)
+      };
+      return clamp01(boosts[genreName] || 0);
+    }
     function genreProfileScore(vector, genreName) {
       const profile = (state.genreProfiles && state.genreProfiles[genreName]) || musicGenreProfiles[genreName];
       if (!profile) return .5;
-      const weights = { tempo: .95, energy: .75, bass: .78, rhythm: .88, onset: .82, brightness: .62, zcr: .42, rmsContrast: .42, chromaEntropy: .48 };
+      const weights = { tempo: .95, energy: .75, bass: .78, rhythm: .88, onset: .82, brightness: .62, zcr: .42, rmsContrast: .42, onsetContrast: .36, bassContrast: .3, centroidContrast: .28, chromaEntropy: .48 };
       let total = 0;
       let weightTotal = 0;
       Object.entries(weights).forEach(([key, weight]) => {
         if (profile[key] == null) return;
-        const scale = key === "tempo" ? 70 : .72;
-        const diff = Math.abs((vector[key] || 0) - profile[key]) / scale;
-        total += clamp01(1 - diff) * weight;
+        const spread = profile._spread?.[key];
+        const scale = key === "tempo"
+          ? Math.max(18, Math.min(72, (Number(spread) || 22) * 2.4))
+          : Math.max(.12, Math.min(.72, (Number(spread) || .18) * 2.4));
+        const rawDiff = key === "tempo"
+          ? tempoDistance(vector[key] || 0, profile[key])
+          : Math.abs((vector[key] || 0) - profile[key]);
+        const diff = rawDiff / scale;
+        total += Math.exp(-Math.pow(diff, 2) * .5) * weight;
         weightTotal += weight;
       });
-      return weightTotal ? total / weightTotal : .5;
+      return clamp01((weightTotal ? total / weightTotal : .5) + genreSignatureBoost(vector, genreName));
     }
     function genreRuleScore(features, genre) {
       const rules = genre.rules || {};

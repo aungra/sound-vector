@@ -53,7 +53,20 @@ Or use an exported cookie file:
 MMFR_YTDLP_COOKIES_FILE=/path/to/cookies.txt npm run audio-server
 ```
 
-The same variables are used by `npm run genre-collect`. If a browser refuses cookie access, the scripts fall back to non-cookie mode and record the failed URL in the report.
+If `genre-training/youtube-cookies.txt` exists, it is used automatically. The same variables are used by `npm run genre-collect`. If a browser refuses cookie access, the scripts fall back to the next browser and then non-cookie mode, while recording failed URLs in the report.
+
+Recommended fully automatic setup:
+
+1. Export YouTube cookies as Netscape-format `cookies.txt` from a browser where YouTube is already logged in.
+2. Rename/copy it to:
+
+```text
+genre-training/youtube-cookies.txt
+```
+
+3. Restart the audio server with `Start Audio Analysis Server.command`.
+
+After that, both the app and `npm run genre-collect` will use the cookie file automatically.
 
 For fully automatic collection, keep YouTube logged in on at least one configured browser, then run:
 

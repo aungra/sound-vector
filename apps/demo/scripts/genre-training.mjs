@@ -13,6 +13,7 @@ const DATASET_PATH = path.join(ROOT, "genre-training", "genre-dataset.json");
 const EXAMPLE_DATASET_PATH = path.join(ROOT, "genre-training", "genre-dataset.example.json");
 const RESULTS_PATH = path.join(ROOT, "genre-training", "results.json");
 const PROFILES_PATH = path.join(ROOT, "genre-training", "generated-profiles.json");
+const DEMO_PROFILES_PATH = path.join(DEMO_DIR, "genre-training", "generated-profiles.json");
 const DEFAULT_ENDPOINT = process.env.MMFR_AUDIO_ENDPOINT || "http://127.0.0.1:4194/api/audio-analyze";
 
 function loadDataset() {
@@ -108,14 +109,21 @@ async function analyzeYoutube(youtubeUrl, endpoint = DEFAULT_ENDPOINT) {
   return payload.audioFeatures || payload.features || payload;
 }
 
-function averageVectors(vectors) {
-  const keys = ["tempo", "energy", "bass", "rhythm", "onset", "brightness", "zcr", "rmsContrast", "chromaEntropy"];
+const VECTOR_KEYS = ["tempo", "energy", "bass", "rhythm", "onset", "brightness", "zcr", "rmsContrast", "onsetContrast", "bassContrast", "centroidContrast", "chromaEntropy"];
+
+function vectorStats(vectors) {
   const out = {};
-  keys.forEach(key => {
+  const spread = {};
+  VECTOR_KEYS.forEach(key => {
     const values = vectors.map(vector => Number(vector[key])).filter(Number.isFinite);
     if (!values.length) return;
-    out[key] = Math.round((values.reduce((sum, value) => sum + value, 0) / values.length) * 1000) / 1000;
+    const avg = values.reduce((sum, value) => sum + value, 0) / values.length;
+    const variance = values.reduce((sum, value) => sum + Math.pow(value - avg, 2), 0) / values.length;
+    out[key] = Math.round(avg * 1000) / 1000;
+    spread[key] = Math.round(Math.sqrt(variance) * 1000) / 1000;
   });
+  out._spread = spread;
+  out._count = vectors.length;
   return out;
 }
 
@@ -178,7 +186,7 @@ async function main() {
   const top3Count = valid.filter(row => row.top3).length;
   const profiles = { ...api.musicGenreProfiles };
   for (const [genre, vectors] of vectorsByGenre.entries()) {
-    if (vectors.length) profiles[genre] = averageVectors(vectors);
+    if (vectors.length) profiles[genre] = vectorStats(vectors);
   }
 
   const summary = {
@@ -192,10 +200,14 @@ async function main() {
   };
 
   fs.writeFileSync(RESULTS_PATH, JSON.stringify({ summary, results }, null, 2));
-  fs.writeFileSync(PROFILES_PATH, JSON.stringify({ ...summary, profiles }, null, 2));
+  const profilePayload = JSON.stringify({ ...summary, profileMode: "mean-plus-spread", profiles }, null, 2);
+  fs.writeFileSync(PROFILES_PATH, profilePayload);
+  fs.mkdirSync(path.dirname(DEMO_PROFILES_PATH), { recursive: true });
+  fs.writeFileSync(DEMO_PROFILES_PATH, profilePayload);
   console.log(`\nExact: ${summary.exactAccuracy}% / Top3: ${summary.top3Accuracy}%`);
   console.log(`Wrote ${path.relative(ROOT, RESULTS_PATH)}`);
   console.log(`Wrote ${path.relative(ROOT, PROFILES_PATH)}`);
+  console.log(`Wrote ${path.relative(ROOT, DEMO_PROFILES_PATH)}`);
 }
 
 main().catch(error => {
