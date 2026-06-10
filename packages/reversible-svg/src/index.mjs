@@ -28,19 +28,23 @@ export function encodePcmBytesToProtectedLayer(bytes, options = {}) {
     const row = Math.floor((index * step) / Math.max(step, width - x0 * 2));
     const baseY = y0 - row * (amplitude + 8);
     const y = baseY - (byte / 255) * amplitude;
-    lines.push(`<line x1="${num(x)}" y1="${num(baseY)}" x2="${num(x)}" y2="${num(y)}" data-index="${index}" data-byte="${byte}"/>`);
+    lines.push(`<line x1="${num(x)}" y1="${num(baseY)}" x2="${num(x)}" y2="${num(y)}"/>`);
   }
 
-  return `<g id="${PROTECTED_PCM_LAYER_ID}" data-layer="${PROTECTED_PCM_LAYER_ID}" display="none" data-schema="${REVERSIBLE_SVG_SCHEMA}" data-encoding="pcm-u8-lines-v1" data-sample-rate="${sampleRate}" data-channels="${channels}" data-duration="${num(duration)}">${lines.join("")}</g>`;
+  return `<g id="${PROTECTED_PCM_LAYER_ID}" data-layer="${PROTECTED_PCM_LAYER_ID}" display="none" data-schema="${REVERSIBLE_SVG_SCHEMA}" data-encoding="pcm-u8-line-geometry-v1" data-sample-rate="${sampleRate}" data-channels="${channels}" data-duration="${num(duration)}" data-amplitude="${num(amplitude)}">${lines.join("")}</g>`;
 }
 
 export function decodePcmBytesFromProtectedLayer(svgText) {
   const group = extractProtectedLayer(String(svgText || ""));
   if (!group) return new Uint8Array();
-  const matches = [...group.matchAll(/<line\b[^>]*data-index=["'](\d+)["'][^>]*data-byte=["'](\d+)["'][^>]*>/g)];
-  const pairs = matches.map((match) => [Number(match[1]), clampByte(Number(match[2]))]);
-  pairs.sort((a, b) => a[0] - b[0]);
-  return Uint8Array.from(pairs.map((pair) => pair[1]));
+  const matches = [...group.matchAll(/<line\b[^>]*>/g)];
+  return Uint8Array.from(matches.map((match) => {
+    const tag = match[0];
+    const y1 = attrNumber(tag, "y1");
+    const y2 = attrNumber(tag, "y2");
+    if (!Number.isFinite(y1) || !Number.isFinite(y2)) return 0;
+    return clampByte(((y1 - y2) / geometryAmplitude(group)) * 255);
+  }));
 }
 
 export function inspectReversibleSvg(svgText) {
@@ -80,6 +84,18 @@ function clampByte(value) {
 function attrNumber(text, name) {
   const match = String(text || "").match(new RegExp(`${name}=["']([^"']+)["']`));
   return match ? Number(match[1]) : null;
+}
+
+function geometryAmplitude(group) {
+  const declared = attrNumber(group, "data-amplitude");
+  if (Number.isFinite(declared) && declared > 0) return declared;
+  const lines = [...String(group || "").matchAll(/<line\b[^>]*>/g)];
+  const maxDelta = lines.reduce((max, match) => {
+    const y1 = attrNumber(match[0], "y1");
+    const y2 = attrNumber(match[0], "y2");
+    return Number.isFinite(y1) && Number.isFinite(y2) ? Math.max(max, Math.abs(y1 - y2)) : max;
+  }, 0);
+  return maxDelta || 96;
 }
 
 function num(value) {

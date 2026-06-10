@@ -46,10 +46,11 @@ sound-vector/
 
 Generated reversible SVGs avoid putting the PCM body into one large metadata string.
 
-- `metadata#mmfr-reversible` stores source notes, generator settings, and lightweight audio features.
+- `metadata#mmfr-reversible` stores a minimal format declaration and restoration policy.
 - `pcm_reversible_waveform` is the visible carrier layer. Designers may redraw or distort it.
 - `pcm_reversible_data` is the protected restoration layer. Keep it locked, hidden, and unedited.
 - Import reads the protected geometry layer first, then falls back to visible carrier geometry where needed.
+- Source URLs, video IDs, local file names, and full feature bodies are not embedded in default reversible SVG exports.
 
 See [docs/design-format/README.md](docs/design-format/README.md) for the Illustrator layer rules.
 

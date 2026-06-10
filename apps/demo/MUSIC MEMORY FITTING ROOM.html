@@ -469,7 +469,7 @@
         impact_marks: "Onset and transient strength become cuts, holes, and short strike marks on the cloth",
         cloth_time_grid: "Time is stored as repeated folds across the flag surface instead of a separate axis",
         pcm_reversible_data: "Hidden protected geometry used for PCM restoration; do not edit or delete",
-        metadata: "Source URL, start seconds, analysis values, variant seed, and mapping description"
+        metadata: "Minimal format declaration only; source URLs, file names, and audio feature bodies are not embedded by default"
       };
     }
     function makeReconstructionScore(features = {}) {
@@ -494,47 +494,27 @@
       };
     }
     function buildReversiblePayload(mood, tick, shirtMeta = {}) {
-      const features = mood.audio ? normaliseFeatures(mood.audio, mood.youtubeUrl || mood.audioFileName || mood.id) : null;
       const sourceType = mood.youtubeUrl ? "youtube-url" : mood.audioFileName ? "uploaded-audio-features" : "mood-only";
       return {
         schema: "mmfr.reversible-svg.v1",
-        reversibility: sourceType === "youtube-url"
-          ? "source-link-plus-reversible-geometry-pcm"
-          : sourceType === "uploaded-audio-features"
-          ? "reversible-geometry-pcm"
-          : "generative-mood-only",
-        note: sourceType === "youtube-url"
-          ? "YouTubeリンクは出典確認用です。復元音の主データはmetadata文字列ではなく、書き出しSVG内のpcm_reversible_data保護ジオメトリから読み戻します。"
-          : "元音源ファイルは保存しません。復元音の主データは書き出しSVG内のpcm_reversible_data保護ジオメトリから読み戻します。",
-        generatedAt: new Date(tick).toISOString(),
+        metadataPolicy: "minimal-no-source-identifiers-v1",
+        reversibility: sourceType === "mood-only" ? "generative-mood-only" : "geometry-pcm",
+        note: "復元音の主データはmetadata文字列ではなく、pcm_reversible_data保護ジオメトリから読み戻します。元URL、videoId、元ファイル名、詳細音響特徴量はデフォルトでは埋め込みません。",
         source: {
           type: sourceType,
-          youtubeUrl: mood.youtubeUrl || "",
-          videoId: mood.youtubeUrl ? parseYouTubeId(mood.youtubeUrl) : "",
-          startSeconds: Number(mood.youtubeStartSeconds || mood.audio?.startSeconds || 0),
-          audioFileName: mood.audioFileName || "",
-          moodId: mood.id,
-          label: mood.label
+          retained: false
         },
         generator: {
           app: "SOUND VECTOR FITTING ROOM",
           engineId: shirtMeta.engineId || "realtime",
-          variantSeed: shirtMeta.variantSeed || tick,
-          variantSalt: Number(shirtMeta.variantSalt ?? mood.variantSalt ?? 0),
-          mapping: reversibleMapping(),
-          persona: shirtMeta.persona || null,
-          selectedIteration: shirtMeta.selectedIteration || null,
-          selectedReason: shirtMeta.selectedReason || "",
-          remainingFixes: shirtMeta.remainingFixes || []
+          reversibleLayer: "pcm_reversible_data",
+          protectedEncoding: "mulaw8-protected-geometry-v1",
+          mapping: reversibleMapping()
         },
-        iterationLog: shirtMeta.iterationLog || [],
-        scores: shirtMeta.scores || null,
-        audioFeatures: features,
-        reconstructionScore: features ? makeReconstructionScore(features) : null,
-        shirt: {
-          id: shirtMeta.id || "",
-          title: shirtMeta.title || "",
-          tags: mood.tags || []
+        reconstruction: {
+          primary: "geometry",
+          protectedLayer: "pcm_reversible_data",
+          visibleCarrierLayer: "pcm_reversible_waveform"
         }
       };
     }
@@ -1008,24 +988,33 @@
     }
     function stripPcmSketchFromPayload(payload) {
       const copy = JSON.parse(JSON.stringify(payload || {}));
+      if (copy.source) {
+        copy.source = { type: copy.source.type || "unknown", retained: false };
+      }
+      delete copy.generatedAt;
+      delete copy.iterationLog;
+      delete copy.scores;
+      delete copy.shirt;
       [copy.audioFeatures?.detail, copy.reconstructionScore?.detail].forEach(detail => {
         if (!detail) return;
         delete detail.pcmSketch;
         detail.pcmSketchEncoding = detail.pcmSketchEncoding ? "mulaw8-svg-geometry" : detail.pcmSketchEncoding;
         detail.pcmSketchSource = "svg-geometry";
       });
-      if (copy.reversibility === "exact-source-link-plus-feature-resynthesis") {
-        copy.reversibility = "source-link-plus-reversible-geometry-pcm";
-        copy.note = "PCM値はmetadataへ埋め込まず、pcm_reversible_dataレイヤーの保護ジオメトリから読み戻します。pcm_reversible_waveformは自由編集できる見た目用キャリアです。";
-      }
+      delete copy.audioFeatures;
+      delete copy.reconstructionScore;
+      copy.metadataPolicy = "minimal-no-source-identifiers-v1";
+      copy.reversibility = copy.reversibility === "generative-mood-only" ? "generative-mood-only" : "geometry-pcm";
+      copy.note = "PCM値はmetadataへ埋め込まず、pcm_reversible_dataレイヤーの保護ジオメトリから読み戻します。pcm_reversible_waveformは自由編集できる見た目用キャリアです。";
       return copy;
     }
     function attachPcmGeometryToPayload(payload, svgText) {
       const geometryPcm = decodePcmGeometryFromSvg(svgText);
       if (!geometryPcm || !payload) return payload;
       const copy = JSON.parse(JSON.stringify(payload));
+      if (!copy.reconstructionScore) copy.reconstructionScore = {};
+      copy.reconstructionScore.detail = { ...(copy.reconstructionScore.detail || {}), ...geometryPcm };
       if (copy.audioFeatures?.detail) copy.audioFeatures.detail = { ...copy.audioFeatures.detail, ...geometryPcm };
-      if (copy.reconstructionScore?.detail) copy.reconstructionScore.detail = { ...copy.reconstructionScore.detail, ...geometryPcm };
       return copy;
     }
     function resampleMatrix(source, rows = 24, cols = 12) {
@@ -1711,7 +1700,7 @@
           const p = i / Math.max(1, temporalPoints.length - 1);
           const x = ox + tAxis.x * p + Math.sin(p * Math.PI * 2 + audio.phase) * 18;
           const y = oy + tAxis.y * p - value * (56 + rms * 74);
-          timeLayer.push(`<circle cx="${svgNumber(x)}" cy="${svgNumber(y)}" r="${svgNumber(2.4 + value * 5)}" fill="#111" data-feature="time-sample" data-index="${i}"/>`);
+          timeLayer.push(`<circle cx="${svgNumber(x)}" cy="${svgNumber(y)}" r="${svgNumber(2.4 + value * 5)}" fill="#111" data-feature="time-sample"/>`);
         });
 
         const drawDetailSeries = (values, y, height, feature) => {
@@ -3214,7 +3203,7 @@
         const y = 300 + rand() * 620;
         const a = baseAngle + (value - .5) * Math.PI * (1.2 + brightness);
         const len = 4 + value * (10 + rhythm * 22);
-        texture.push(svgPath(`M${svgNumber(x - Math.cos(a) * len)} ${svgNumber(y - Math.sin(a) * len)} L${svgNumber(x + Math.cos(a) * len)} ${svgNumber(y + Math.sin(a) * len)}`, .32 + value * .72, `data-feature="pcm-texture" data-byte="${byte}"`));
+        texture.push(svgPath(`M${svgNumber(x - Math.cos(a) * len)} ${svgNumber(y - Math.sin(a) * len)} L${svgNumber(x + Math.cos(a) * len)} ${svgNumber(y + Math.sin(a) * len)}`, .32 + value * .72, `data-feature="pcm-texture"`));
       }
 
       return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="${escapeAttr(mood.label)} reversible audio pattern">${metadata.join("")}${svgGroup("pcm_visible_time_lanes", visible)}${svgGroup("pcm_orbit_contours", rings)}${svgGroup("onset_attack_marks", attacks)}${svgGroup("chroma_harmonic_rays", harmonic)}${svgGroup("pcm_texture_field", texture)}</svg>`;
@@ -4440,13 +4429,11 @@
       const payload = reversiblePayloadForShirt(shirt);
       const source = payload?.source || {};
       const mode = payload?.reversibility || "feature-resynthesis";
-      const sourceLine = source.youtubeUrl
-        ? `元音源参照: <a href="${escapeAttr(source.youtubeUrl)}" target="_blank" rel="noreferrer">YouTubeリンク</a>`
-        : source.audioFileName
-        ? `元ファイル名: ${escapeAttr(source.audioFileName)}`
+      const sourceLine = source.retained === false
+        ? "元URL、videoId、元ファイル名はSVG内に保持していません"
         : "元音源リンクなし";
       return `<section class="panel"><div class="top"><div><p class="eyebrow">Reversible archive</p><h2>可逆性データ</h2></div><strong>SVG geometry</strong></div>
-        <p class="muted">可逆SVGには、出典・生成設定・解析特徴量を軽いmetadataとして残します。復元音の主データになるPCMは文字列で埋め込まず、書き出し時に <strong>pcm_reversible_data</strong> という保護ジオメトリへ変換します。</p>
+        <p class="muted">可逆SVGのmetadataは最小限の形式宣言だけにします。復元音の主データになるPCMは文字列で埋め込まず、書き出し時に <strong>pcm_reversible_data</strong> という保護ジオメトリへ変換します。</p>
         <div class="reversible-actions">
           <button class="secondary" onclick="downloadReversibleSvg('${shirt.id}')">可逆SVGを書き出す</button>
           <button class="secondary" onclick="downloadReversibleJson('${shirt.id}')">補助JSONを書き出す</button>
