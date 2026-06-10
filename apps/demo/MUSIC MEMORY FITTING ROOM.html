@@ -487,14 +487,16 @@
     }
     function extractReversiblePayloadFromSvg(text) {
       const svgText = String(text || "");
+      let payload = { schema: "mmfr.reversible-svg.v1", source: { type: "svg-protected-geometry", retained: false } };
       if (typeof DOMParser !== "undefined") {
         const doc = new DOMParser().parseFromString(svgText, "image/svg+xml");
         const metadata = doc.querySelector("metadata#mmfr-reversible");
-        if (metadata) return attachPcmGeometryToPayload(JSON.parse(xmlUnescape(metadata.textContent || "")), svgText);
+        if (metadata) payload = JSON.parse(xmlUnescape(metadata.textContent || ""));
+        return attachPcmGeometryToPayload(payload, svgText);
       }
       const match = svgText.match(/<metadata[^>]*id=["']mmfr-reversible["'][^>]*>([\s\S]*?)<\/metadata>/);
-      if (!match) throw new Error("mmfr-reversible metadata が見つかりません。");
-      return attachPcmGeometryToPayload(JSON.parse(xmlUnescape(match[1])), svgText);
+      if (match) payload = JSON.parse(xmlUnescape(match[1]));
+      return attachPcmGeometryToPayload(payload, svgText);
     }
     function parseYouTubeTimeToSeconds(value) {
       const text = String(value || "").trim();
@@ -892,80 +894,7 @@
     function decodePcmGeometryFromSvg(svgText) {
       const protectedPcm = decodeProtectedPcmDataFromSvg(svgText);
       if (protectedPcm) return protectedPcm;
-      const groupMatch = String(svgText || "").match(/<g\b[^>]*id=["']pcm_reversible_waveform["'][^>]*>([\s\S]*?)<\/g>/);
-      if (!groupMatch) return null;
-      const groupTag = groupMatch[0].match(/^<g\b[^>]*>/)?.[0] || "";
-      const encoding = svgAttr(groupTag, "data-encoding");
-      const body = groupMatch[1] || "";
-      const frameCount = Math.max(1, Math.round(Number(svgAttr(groupTag, "data-frame-count")) || 0));
-      const sampleRate = Math.max(1, Math.round(Number(svgAttr(groupTag, "data-sample-rate")) || 4000));
-      const duration = Math.max(1, Math.min(30, Number(svgAttr(groupTag, "data-duration")) || frameCount / sampleRate));
-      const bytes = new Uint8Array(frameCount);
-      const tags = body.match(/<path\b[^>]*>/g) || [];
-      if (encoding === "mulaw8-axis-geometry-v2") {
-        tags.forEach(tag => {
-          if (!svgAttr(tag, "data-pcm-carrier")) return;
-          const start = Math.max(0, Math.round(Number(svgAttr(tag, "data-pcm-start")) || 0));
-          const count = Math.max(1, Math.round(Number(svgAttr(tag, "data-pcm-count")) || 1));
-          const x1 = Number(svgAttr(tag, "data-x1"));
-          const y1 = Number(svgAttr(tag, "data-y1"));
-          const x2 = Number(svgAttr(tag, "data-x2"));
-          const y2 = Number(svgAttr(tag, "data-y2"));
-          const amplitude = Number(svgAttr(tag, "data-amplitude")) || 9.6;
-          if (![x1, y1, x2, y2].every(Number.isFinite)) return;
-          const dx = x2 - x1;
-          const dy = y2 - y1;
-          const len = Math.hypot(dx, dy) || 1;
-          const nx = -dy / len;
-          const ny = dx / len;
-          const d = svgAttr(tag, "d");
-          const points = [...d.matchAll(/[-+]?\d*\.?\d+(?:e[-+]?\d+)?\s+[-+]?\d*\.?\d+(?:e[-+]?\d+)?/gi)];
-          points.forEach((point, col) => {
-            const parts = point[0].trim().split(/\s+/);
-            const x = Number(parts[0]);
-            const y = Number(parts[1]);
-            const index = start + col;
-            if (index >= bytes.length || col >= count || !Number.isFinite(x) || !Number.isFinite(y)) return;
-            const t = col / Math.max(1, count - 1);
-            const centerX = x1 + dx * t;
-            const centerY = y1 + dy * t;
-            const offset = (x - centerX) * nx + (y - centerY) * ny;
-            const byte = Math.round((offset / amplitude) * 127 + 128);
-            bytes[index] = Math.max(0, Math.min(255, byte));
-          });
-        });
-      } else if (encoding === "mulaw8-geometry-v1") {
-        const rows = Math.max(1, Math.round(Number(svgAttr(groupTag, "data-rows")) || 1));
-        const cols = Math.max(1, Math.round(Number(svgAttr(groupTag, "data-cols")) || Math.ceil(frameCount / rows)));
-        const y0 = Number(svgAttr(groupTag, "data-y0")) || 286;
-        const rowGap = Number(svgAttr(groupTag, "data-row-gap")) || 20.5;
-        const amplitude = Number(svgAttr(groupTag, "data-amplitude")) || 7.6;
-        tags.forEach(tag => {
-          const row = Math.round(Number(svgAttr(tag, "data-pcm-row")));
-          if (!Number.isFinite(row) || row < 0) return;
-          const d = svgAttr(tag, "d");
-          const points = [...d.matchAll(/[-+]?\d*\.?\d+(?:e[-+]?\d+)?\s+[-+]?\d*\.?\d+(?:e[-+]?\d+)?/gi)];
-          const yBase = y0 + row * rowGap;
-          points.forEach((point, col) => {
-            const parts = point[0].trim().split(/\s+/);
-            const y = Number(parts[1]);
-            const index = row * cols + col;
-            if (index >= bytes.length || !Number.isFinite(y)) return;
-            const byte = Math.round(((y - yBase) / amplitude) * 127 + 128);
-            bytes[index] = Math.max(0, Math.min(255, byte));
-          });
-        });
-      } else {
-        return null;
-      }
-      return {
-        pcmSketch: bytesToBase64(bytes),
-        pcmSketchEncoding: "mulaw8-base64",
-        pcmSketchSampleRate: sampleRate,
-        pcmSketchDuration: duration,
-        pcmSketchFrameCount: bytes.length,
-        pcmSketchSource: "svg-geometry"
-      };
+      return null;
     }
     function stripPcmSketchFromPayload(payload) {
       const copy = JSON.parse(JSON.stringify(payload || {}));
@@ -979,8 +908,8 @@
       [copy.audioFeatures?.detail, copy.reconstructionScore?.detail].forEach(detail => {
         if (!detail) return;
         delete detail.pcmSketch;
-        detail.pcmSketchEncoding = detail.pcmSketchEncoding ? "mulaw8-svg-geometry" : detail.pcmSketchEncoding;
-        detail.pcmSketchSource = "svg-geometry";
+        detail.pcmSketchEncoding = detail.pcmSketchEncoding ? "mulaw8-svg-protected-geometry" : detail.pcmSketchEncoding;
+        detail.pcmSketchSource = "svg-protected-geometry";
       });
       delete copy.audioFeatures;
       delete copy.reconstructionScore;
@@ -991,7 +920,8 @@
     }
     function attachPcmGeometryToPayload(payload, svgText) {
       const geometryPcm = decodePcmGeometryFromSvg(svgText);
-      if (!geometryPcm || !payload) return payload;
+      if (!geometryPcm) throw new Error("pcm_reversible_data の可視保護図案からPCMを復元できません。");
+      if (!payload) return { reconstructionScore: { detail: geometryPcm } };
       const copy = JSON.parse(JSON.stringify(payload));
       if (!copy.reconstructionScore) copy.reconstructionScore = {};
       copy.reconstructionScore.detail = { ...(copy.reconstructionScore.detail || {}), ...geometryPcm };
@@ -3936,25 +3866,28 @@
         render();
         return;
       }
-      const payload = reversiblePayloadForShirt(shirt);
-      let geometryPayload = payload;
+      let geometryPayload = null;
       try {
         const reversibleSvg = reversibleSvgForShirt(shirt);
-        if (reversibleSvg) geometryPayload = extractReversiblePayloadFromSvg(reversibleSvg);
-      } catch {}
-      const rawScore = geometryPayload?.reconstructionScore || payload?.reconstructionScore || shirt?.audioFeatures || null;
+        if (!reversibleSvg) throw new Error("SVG文字列を生成できません。");
+        geometryPayload = extractReversiblePayloadFromSvg(reversibleSvg);
+      } catch (error) {
+        state.message = `復元音はSVG内の pcm_reversible_data 可視保護図案のみから再生します: ${error.message}`;
+        render();
+        return;
+      }
+      const rawScore = geometryPayload?.reconstructionScore || null;
       const score = rawScore ? makeReconstructionScore(rawScore) : null;
       if (!score) {
-        state.message = "復元音に使える特徴量がありません。";
+        state.message = "復元音に使える pcm_reversible_data 可視保護図案がありません。";
         render();
         return;
       }
       let wavRetryReason = "";
       try {
         const playback = await playReconstructionWav(score);
-        state.message = playback.source === "pcm-sketch"
-          ? `SVGの保護PCMデータレイヤーから復元音を再生しています。見た目用キャリアを崩していても約${Math.round(playback.duration)}秒の音を戻します。`
-          : `SVG内の音響譜面から、ベース・コード・メロディ・拍へ再合成しています。約${Math.round(playback.duration)}秒です。`;
+        if (playback.source !== "pcm-sketch") throw new Error("pcm_reversible_data 由来のPCMではありません。");
+        state.message = `SVG内の pcm_reversible_data 可視保護図案のみから復元音を再生しています。見た目用キャリアを崩していても約${Math.round(playback.duration)}秒の音を戻します。`;
         render();
         return;
       } catch (wavError) {
@@ -3979,6 +3912,7 @@
 
         {
           const fallback = synthesizeReconstructionSamples(score, Math.min(44100, ctx.sampleRate || 22050));
+          if (fallback.source !== "pcm-sketch") throw new Error("pcm_reversible_data 由来のPCMではありません。");
           const buffer = ctx.createBuffer(1, fallback.samples.length, fallback.sampleRate);
           buffer.getChannelData(0).set(fallback.samples);
           const source = ctx.createBufferSource();
@@ -3996,145 +3930,11 @@
               activeReconstructionContext = null;
             }
           }, Math.ceil((fallback.duration + 1) * 1000));
-          state.message = `Web Audioで復元音を再生しています。ベース・コード・メロディ・拍へ再合成しています。`;
+          state.message = `Web Audioで、SVG内の pcm_reversible_data 可視保護図案のみから復元音を再生しています。`;
           render();
           return;
         }
 
-        const energy = clamp01(score.energy ?? score.rms ?? .45);
-        const bass = clamp01(score.bass ?? .25);
-        const onset = clamp01(score.onset ?? .25);
-        const brightness = clamp01(score.brightness ?? ((Number(score.centroid) - 400) / 5200) ?? .4);
-        const chromaScore = Array.from({ length: 12 }, (_, i) => clamp01(score.chroma?.[i] ?? 0));
-        const tempo = Math.max(48, Number(score.tempo) || 96);
-        const now = ctx.currentTime + .08;
-        const duration = Math.max(4, Math.min(12, Number(score.duration) || 8));
-        const detail = normaliseAudioDetail(score.detail || {}, { ...score, energy, bass, onset, brightness });
-        const master = ctx.createGain();
-        master.gain.setValueAtTime(.0001, now);
-        detail.rms.forEach((value, i) => {
-          const t = now + (i / Math.max(1, detail.rms.length - 1)) * duration;
-          master.gain.linearRampToValueAtTime(.045 + value * (.18 + energy * .18), t);
-        });
-        master.gain.linearRampToValueAtTime(0, now + duration);
-        master.connect(ctx.destination);
-        if (detail.waveform?.length) {
-          const sampleRate = ctx.sampleRate;
-          const buffer = ctx.createBuffer(1, Math.floor(sampleRate * duration), sampleRate);
-          const data = buffer.getChannelData(0);
-          let phase = 0;
-          for (let i = 0; i < data.length; i++) {
-            const p = i / Math.max(1, data.length - 1);
-            const frame = Math.min(detail.rms.length - 1, Math.floor(p * detail.rms.length));
-            const centroidValue = detail.centroid[frame] ?? brightness;
-            const rmsValue = detail.rms[frame] ?? energy;
-            const zcrValue = detail.zeroCrossing?.[frame] ?? 0;
-            const frequency = 42 + centroidValue * 520 + zcrValue * 180;
-            phase = (phase + frequency * detail.waveform.length / sampleRate) % detail.waveform.length;
-            const a = Math.floor(phase);
-            const b = (a + 1) % detail.waveform.length;
-            const frac = phase - a;
-            const waveValue = detail.waveform[a] * (1 - frac) + detail.waveform[b] * frac;
-            data[i] = clampSigned(waveValue) * (.08 + rmsValue * .34);
-          }
-          const waveSource = ctx.createBufferSource();
-          const waveGain = ctx.createGain();
-          waveGain.gain.setValueAtTime(.38, now);
-          waveGain.gain.linearRampToValueAtTime(0, now + duration);
-          waveSource.buffer = buffer;
-          waveSource.connect(waveGain).connect(master);
-          waveSource.start(now);
-          waveSource.stop(now + duration);
-        }
-        const root = 110 * Math.pow(2, Math.round(brightness * 12) / 12);
-        const scheduleEnvelope = (param, values, min, scale) => {
-          const source = Array.isArray(values) && values.length ? values : [0];
-          param.setValueAtTime(min + clamp01(source[0]) * scale, now);
-          source.forEach((value, i) => {
-            const t = now + (i / Math.max(1, source.length - 1)) * duration;
-            param.linearRampToValueAtTime(min + clamp01(value) * scale, t);
-          });
-          param.linearRampToValueAtTime(0.0001, now + duration);
-        };
-        chromaScore.forEach((averageValue, i) => {
-          const column = detail.chromaTimeline.map(row => clamp01(row[i] ?? averageValue));
-          if (Math.max(...column, averageValue) < .06) return;
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = i % 3 === 0 ? "triangle" : "sine";
-          detail.centroid.forEach((centroidValue, frame) => {
-            const t = now + (frame / Math.max(1, detail.centroid.length - 1)) * duration;
-            const brightnessShift = Math.pow(2, (centroidValue - .5) * .42);
-            osc.frequency.linearRampToValueAtTime(root * Math.pow(2, i / 12) * brightnessShift, t);
-          });
-          scheduleEnvelope(gain.gain, column, .0001, .018 + energy * .055);
-          osc.connect(gain).connect(master);
-          osc.start(now);
-          osc.stop(now + duration);
-        });
-        const bassOsc = ctx.createOscillator();
-        const bassGain = ctx.createGain();
-        bassOsc.type = "sine";
-        detail.bass.forEach((value, i) => {
-          const t = now + (i / Math.max(1, detail.bass.length - 1)) * duration;
-          bassOsc.frequency.linearRampToValueAtTime(38 + value * 58, t);
-        });
-        scheduleEnvelope(bassGain.gain, detail.bass, .0001, .08 + bass * .22);
-        bassOsc.connect(bassGain).connect(master);
-        bassOsc.start(now);
-        bassOsc.stop(now + duration);
-        const bandFrequencies = [55, 110, 220, 440, 880, 1760, 3520, 7040];
-        bandFrequencies.forEach((frequency, band) => {
-          const values = detail.bandTimeline.map(row => clamp01(row[band] ?? 0));
-          if (Math.max(...values) < .08) return;
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = band < 2 ? "sine" : band < 5 ? "triangle" : "square";
-          osc.frequency.setValueAtTime(frequency, now);
-          scheduleEnvelope(gain.gain, values, .0001, band < 3 ? .035 : .016);
-          osc.connect(gain).connect(master);
-          osc.start(now);
-          osc.stop(now + duration);
-        });
-        const beatInterval = 60 / tempo;
-        for (let t = 0; t < duration; t += beatInterval) {
-          const click = ctx.createOscillator();
-          const clickGain = ctx.createGain();
-          click.type = "square";
-          click.frequency.setValueAtTime(220 + onset * 720, now + t);
-          clickGain.gain.setValueAtTime(.0001, now + t);
-          clickGain.gain.exponentialRampToValueAtTime(.04 + onset * .12, now + t + .012);
-          clickGain.gain.exponentialRampToValueAtTime(.0001, now + t + .08);
-          click.connect(clickGain).connect(master);
-          click.start(now + t);
-          click.stop(now + t + .1);
-        }
-        const noiseBuffer = ctx.createBuffer(1, Math.floor(ctx.sampleRate * .09), ctx.sampleRate);
-        const noiseData = noiseBuffer.getChannelData(0);
-        for (let i = 0; i < noiseData.length; i++) noiseData[i] = (Math.random() * 2 - 1) * (1 - i / noiseData.length);
-        detail.onset.forEach((value, i) => {
-          if (value < .42 && i % 8) return;
-          const t = now + (i / Math.max(1, detail.onset.length - 1)) * duration;
-          const noise = ctx.createBufferSource();
-          const gain = ctx.createGain();
-          noise.buffer = noiseBuffer;
-          gain.gain.setValueAtTime(.0001, t);
-          gain.gain.exponentialRampToValueAtTime(.018 + value * .12, t + .01);
-          gain.gain.exponentialRampToValueAtTime(.0001, t + .075);
-          noise.connect(gain).connect(master);
-          noise.start(t);
-          noise.stop(t + .09);
-        });
-        activeReconstructionTimer = setTimeout(() => {
-          if (activeReconstructionContext === ctx) {
-            try { ctx.close?.(); } catch {}
-            activeReconstructionContext = null;
-          }
-        }, Math.ceil((duration + 1) * 1000));
-        state.message = ctx.state === "running"
-          ? "高密度SVGデータから復元音を再生しています。64フレームの時間変化とクロマ行列を使っています。"
-          : "復元音を準備しました。ブラウザの音声許可が必要な場合は、もう一度ボタンを押してください。";
-        render();
       } catch (error) {
         try { ctx.close?.(); } catch {}
         if (activeReconstructionContext === ctx) activeReconstructionContext = null;

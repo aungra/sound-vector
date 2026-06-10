@@ -23,7 +23,7 @@ The long-term goal is a small, documented, inspectable format for reversible aud
 - Local audio-file analysis in the browser
 - Optional local YouTube analysis server for rights-cleared sources
 - Reversible SVG export with `metadata`, visible PCM carrier layers, and protected PCM geometry
-- Reversible SVG import that reads `pcm_reversible_data` first
+- Reversible SVG import that restores audio only from `pcm_reversible_data`
 - Illustrator-oriented layer templates in [docs/design-format](docs/design-format)
 - Preview generators for comparing different audio-to-form engines
 
@@ -49,7 +49,7 @@ Generated reversible SVGs avoid putting the PCM body into one large metadata str
 - `metadata#mmfr-reversible` stores a minimal format declaration and restoration policy.
 - `pcm_reversible_waveform` is the visible carrier layer. Designers may redraw or distort it.
 - `pcm_reversible_data` is the protected restoration layer. Keep it visible, locked, and unedited.
-- Import reads the protected geometry layer first, then falls back to visible carrier geometry where needed.
+- Import reads the protected geometry layer only. `pcm_reversible_waveform` remains editable visual expression and is not used as an audio fallback.
 - Source URLs, video IDs, local file names, and full feature bodies are not embedded in default reversible SVG exports.
 
 See [docs/design-format/README.md](docs/design-format/README.md) for the Illustrator layer rules.
