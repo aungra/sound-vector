@@ -15,7 +15,7 @@ test("round trips PCM bytes through protected SVG geometry", () => {
 
   assert.deepEqual([...decoded], [...source]);
   assert.match(layer, new RegExp(`id="${PROTECTED_PCM_LAYER_ID}"`));
-  assert.match(layer, /data-encoding="mulaw8-protected-texture-field-v1"/);
+  assert.match(layer, /data-encoding="mulaw8-protected-texture-field-v2"/);
   assert.match(layer, /data-edit-policy="lock-do-not-edit"/);
   assert.match(layer, /data-frame-count="5"/);
   assert.match(layer, /data-texture-seed="42"/);
@@ -39,6 +39,20 @@ test("uses texture seed and mode to vary protected geometry without losing bytes
   assert.match(b, /data-texture-region="fracture"/);
   assert.deepEqual([...decodePcmBytesFromProtectedLayer(`<svg>${a}</svg>`)], [...source]);
   assert.deepEqual([...decodePcmBytesFromProtectedLayer(`<svg>${b}</svg>`)], [...source]);
+});
+
+test("writes complete v2 protected texture geometry without hidden byte attributes", () => {
+  const source = Uint8Array.from({ length: 256 }, (_, index) => (index * 37) % 256);
+  const layer = encodePcmBytesToProtectedLayer(source, { textureSeed: 7, textureMode: "radial-score", textureRegion: "orbit" });
+  const lines = [...layer.matchAll(/<line\b[^>]*>/g)];
+
+  assert.equal(lines.length, source.length);
+  assert.match(layer, /data-encoding="mulaw8-protected-texture-field-v2"/);
+  assert.doesNotMatch(layer, /data-byte=/);
+  assert.doesNotMatch(layer, /data-index=/);
+  assert.doesNotMatch(layer, /display="none"/);
+  assert.doesNotMatch(layer, /stroke-opacity=/);
+  assert.deepEqual([...decodePcmBytesFromProtectedLayer(`<svg>${layer}</svg>`)], [...source]);
 });
 
 test("rejects incomplete protected texture geometry", () => {

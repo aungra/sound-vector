@@ -1,0 +1,3287 @@
+{
+  "generatedAt": "2026-06-10T17:48:26.404Z",
+  "seed": "fnv1a:url+genre",
+  "ratios": {
+    "train": 0.7,
+    "validation": 0.15,
+    "test": 0.15
+  },
+  "items": [
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=OlaTeXX3uH8",
+      "split": "train"
+    },
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ewrICrDhc9s",
+      "split": "validation"
+    },
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Mt_iO0p-ykw",
+      "split": "train"
+    },
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=_AWIqXzvX-U",
+      "split": "train"
+    },
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=x-_ym5gOnIE",
+      "split": "validation"
+    },
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=hvzQQOAjuoU",
+      "split": "train"
+    },
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=rGYljyTRRlU",
+      "split": "train"
+    },
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Z1VJWVwD2mA",
+      "split": "train"
+    },
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=OnAS7efua64",
+      "split": "train"
+    },
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=GvfbIU8LYyY",
+      "split": "test"
+    },
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=It4WxQ6dnn0",
+      "split": "train"
+    },
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=U3Ii9Q5YMeM",
+      "split": "train"
+    },
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=pgnZ4wylW8k",
+      "split": "train"
+    },
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=07dr7T5l5AI",
+      "split": "train"
+    },
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=CWu4ieBqGFg",
+      "split": "train"
+    },
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=WTxkLGBkcO0",
+      "split": "test"
+    },
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=t-mLxI8nrdc",
+      "split": "train"
+    },
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=R4S8be2xlD8",
+      "split": "validation"
+    },
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=75O11W5EZAU",
+      "split": "test"
+    },
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=rNXG7rCGEB0",
+      "split": "train"
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=9qwMegQ2btg",
+      "split": "validation"
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=nmNYVxMjEyg",
+      "split": "validation"
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=YUjERnaQZoo",
+      "split": "train"
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=AWlVtgT85kA",
+      "split": "train"
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=S2YzjvrxBZU",
+      "split": "train"
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=aImjQV6xhXc",
+      "split": "train"
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=8Qbh629rlyk",
+      "split": "test"
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=eqfmwxakJEk",
+      "split": "train"
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=cnagvkcrG14",
+      "split": "test"
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=9Y-heYRmPps",
+      "split": "train"
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=zftyULi7ZOA",
+      "split": "validation"
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=f9JrbwWL9VM",
+      "split": "train"
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=M-Gatbo91co",
+      "split": "train"
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=7a0Z2yndlOs",
+      "split": "train"
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Jvnex8Eia6U",
+      "split": "train"
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=s4miK2kxrHM",
+      "split": "test"
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=AWFQSOiI6n8",
+      "split": "train"
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=QPeYMZjwV3U",
+      "split": "train"
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=lcy5fLcAsQQ",
+      "split": "train"
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=qSj31f576ac",
+      "split": "train"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=x4JRiZmGVMo",
+      "split": "train"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=BX1Ozr_CchM",
+      "split": "train"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=kPdvdL8zKOY",
+      "split": "train"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=jkDd1DyPzlU",
+      "split": "train"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=uaYyMaQnqzA",
+      "split": "train"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=KjAF7D4l91M",
+      "split": "validation"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=g2ba85sy0M0",
+      "split": "train"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=afGdm0qHcRw",
+      "split": "train"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=56HdDm_0cb4",
+      "split": "train"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=nzlGUNP3tT4",
+      "split": "validation"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=-gzBqayDmJ8",
+      "split": "test"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=PM_PeQVlBa8",
+      "split": "train"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=vqXLk7-g8FM",
+      "split": "validation"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=1xKdKaAjw-o",
+      "split": "train"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=z0_qWYoiLzs",
+      "split": "train"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=0qYs81uHeBA",
+      "split": "test"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=NtSJWvVkKUk",
+      "split": "train"
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=uzbg0ewNcDk",
+      "split": "test"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=XWhAgV8Z3a4",
+      "split": "train"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=H-kA3UtBj4M",
+      "split": "train"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=JzqGZjFnYnA",
+      "split": "train"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=U0yIf9Tkgu4",
+      "split": "train"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=wyPKRcBTsFQ",
+      "split": "train"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=7C-VscEQugk",
+      "split": "train"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=FKnlUIak6cw",
+      "split": "test"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=1DRYouQzPrE",
+      "split": "train"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=N-q559-hhUA",
+      "split": "train"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=rTVjnBo96Ug",
+      "split": "validation"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=AN5RyeUzsso",
+      "split": "train"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=KDK7TiEiMOI",
+      "split": "validation"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Zu5chXCp1Ag",
+      "split": "test"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=jzS5jPDQFd8",
+      "split": "train"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=KQIUsc3M79w",
+      "split": "test"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=iTqQZNpjGMk",
+      "split": "train"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=fzPXozDgvYs",
+      "split": "train"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=oYoFkZs-AQk",
+      "split": "train"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=wb9xmhS9iaA",
+      "split": "validation"
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=DIyZUEMZNZc",
+      "split": "train"
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=oxAl3Jijs20",
+      "split": "test"
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=NoXYJkOeYSM",
+      "split": "train"
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=3WxCW72tb0E",
+      "split": "validation"
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=9oAqz_hdhU8",
+      "split": "train"
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=EFcefYNGCVI",
+      "split": "train"
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ICBcCDPWocg",
+      "split": "train"
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=vjC2WT7VOyE",
+      "split": "train"
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Lin3N-VSaCg",
+      "split": "train"
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=FozJo5Yr_3Y",
+      "split": "test"
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=zM4HXY1cLIY",
+      "split": "train"
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=RiqZPuwmDxg",
+      "split": "train"
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ydmfecxUC-w",
+      "split": "train"
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=kCmu8BdfaTw",
+      "split": "train"
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=wbCrYBWh62Y",
+      "split": "validation"
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ztq7-kkygZk",
+      "split": "train"
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=CfK5mpClOoI",
+      "split": "validation"
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=JR5K7GYRaxY",
+      "split": "test"
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=e7-1apEXlpA",
+      "split": "train"
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=PfymddSprEY",
+      "split": "train"
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=-STG1gYTdC0",
+      "split": "train"
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=MGJ7nmJf8Bc",
+      "split": "test"
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=NVeHtDHogLg",
+      "split": "train"
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=yEbaeLv-aOo",
+      "split": "train"
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=4-Vz6tNfV1Y",
+      "split": "train"
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=7KP7bdFv_qg",
+      "split": "train"
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=6sk9fIUZLwY",
+      "split": "train"
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=mj2k7pneiOE",
+      "split": "train"
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=nTNcCKq6V2c",
+      "split": "train"
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=SIN_yDVv4ZQ",
+      "split": "train"
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=9ZqqvrWCs3Q",
+      "split": "validation"
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Xz15UfsRs0I",
+      "split": "train"
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=7PC-AcrHEKU",
+      "split": "test"
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=aXgSHL7efKg",
+      "split": "train"
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=B2qI6UDD2uQ",
+      "split": "train"
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=nHEl497feAw",
+      "split": "train"
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Z5hmfhc2kHw",
+      "split": "train"
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=z_yDDq5LYAs",
+      "split": "test"
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=zuDbtbq44DA",
+      "split": "train"
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=QpCoSf8QmQM",
+      "split": "validation"
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=4rtT3An3x54",
+      "split": "validation"
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=_Ym7Mg4yTZc",
+      "split": "train"
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=VIy2ZDPUtzE",
+      "split": "train"
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Z-di_x9Iz5I",
+      "split": "validation"
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=U_O3YGc3CN4",
+      "split": "train"
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ka0uC-i73YU",
+      "split": "train"
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=N5lIWti4VUw",
+      "split": "test"
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=BjrF1-Qjt14",
+      "split": "train"
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=RdvUhLjcSHI",
+      "split": "train"
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=7Q-MYt9h0ZE",
+      "split": "validation"
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=48W83rMUF6o",
+      "split": "train"
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=dslAdnGcqso",
+      "split": "test"
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Kgdr2uytpDI",
+      "split": "train"
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=z9H5_zDoBrU",
+      "split": "test"
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=FVz7T_nZAIw",
+      "split": "train"
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=H6Q4s_ZdvAQ",
+      "split": "validation"
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=KUjeOc-YpV4",
+      "split": "train"
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=HmI1-KcBmlU",
+      "split": "train"
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=t-VmWl9iU3s",
+      "split": "train"
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=0Z4cbx5BOj8",
+      "split": "train"
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=sRXedGN_Ca4",
+      "split": "train"
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=6TB7GnKQiDk",
+      "split": "train"
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=hI8A14Qcv68",
+      "split": "train"
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=mFTcByqzs_k",
+      "split": "train"
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=oHA9uqRehSE",
+      "split": "train"
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=cG_wNxi8z8o",
+      "split": "train"
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=b4S9IoS1mWQ",
+      "split": "train"
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=aKcZTyojUM8",
+      "split": "validation"
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=08JS5EqyBVU",
+      "split": "test"
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=p-pTYMAXxMM",
+      "split": "train"
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=IdQ7lk776zE",
+      "split": "train"
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=WHRnvjCkTsw",
+      "split": "test"
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=sUG7EILTPsM",
+      "split": "train"
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=cVNRjPpo68I",
+      "split": "train"
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Rp4qXCneXRU",
+      "split": "train"
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=dBZyK3dHlfs",
+      "split": "train"
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=HbPf6G1DJlY",
+      "split": "test"
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=8TLssAArXuM",
+      "split": "train"
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=O3pyCGnZzYA",
+      "split": "validation"
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=-Pc4m0ee-ZM",
+      "split": "validation"
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=UPKTixAscx4",
+      "split": "train"
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=_T9_2HNFy-4",
+      "split": "train"
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=VK_Y3DGGsUU",
+      "split": "train"
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Ydfj73P1HFE",
+      "split": "validation"
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=0wBqWb43y6I",
+      "split": "test"
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=lDrCPAE5kcQ",
+      "split": "train"
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=QUo_JTeX3So",
+      "split": "train"
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=1cBZcpSeiFc",
+      "split": "train"
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=HFNZOk00D74",
+      "split": "train"
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=IST6qRfVqwY",
+      "split": "train"
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=nmjUvgdzimo",
+      "split": "train"
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=3WOZwwRH6XU",
+      "split": "train"
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=istJXUJJP0g",
+      "split": "train"
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=jm3-ojmTn-Y",
+      "split": "train"
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=1L7-9y8tT50",
+      "split": "validation"
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=UshBohrVxy0",
+      "split": "train"
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=OIe5YYhkkTg",
+      "split": "train"
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=bWurqD68u70",
+      "split": "validation"
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=VAxynFwAQ58",
+      "split": "train"
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=rlnscWuX8EY",
+      "split": "test"
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=hRubq5D-3kM",
+      "split": "test"
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=-RApHdktrdY",
+      "split": "train"
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=syhk45gQ-zA",
+      "split": "train"
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=NOAS1EZIYVE",
+      "split": "train"
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=UE3qYbB_7-E",
+      "split": "train"
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=PLGnN0Hwd0w",
+      "split": "validation"
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=3E2zP5CyLIQ",
+      "split": "train"
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=SG5aeVGCnic",
+      "split": "train"
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=cYndqo_AJQQ",
+      "split": "train"
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=NuWbvgnQ5Ag",
+      "split": "train"
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=geu3G6jdXnY",
+      "split": "validation"
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=HJRbMS4oiIQ",
+      "split": "test"
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=N8j6_rxY6Tw",
+      "split": "test"
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=BW9oPZePb9Y",
+      "split": "validation"
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=UZfaIx57UqU",
+      "split": "train"
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=C1bPG8-FewA",
+      "split": "train"
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Gj9holHsi90",
+      "split": "train"
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=iUevWEj11iw",
+      "split": "train"
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=_r8HEJojWBs",
+      "split": "train"
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Bb4jHBIXEKo",
+      "split": "test"
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=VkndVzfOeRc",
+      "split": "train"
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=wNGbsH_QLx0",
+      "split": "train"
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=_Ul_IRqtcWE",
+      "split": "train"
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=V-fOLvfrNVs",
+      "split": "train"
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=nFT8SbwDE-Y",
+      "split": "test"
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=065CyWD5b2c",
+      "split": "train"
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=raJkCwQB2CY",
+      "split": "test"
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Q_hLh4qCqpg",
+      "split": "validation"
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Cd7oaI3zGcs",
+      "split": "train"
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=lYYJbtnjbfM",
+      "split": "train"
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=IDchaeJ-u6E",
+      "split": "train"
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=718vx_927lU",
+      "split": "train"
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=KoJcrSajOZE",
+      "split": "validation"
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=x6Hwg577PII",
+      "split": "train"
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=U45_kMjzx54",
+      "split": "test"
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=8GJ3_QiEwl0",
+      "split": "train"
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=9FA15SYEs-Y",
+      "split": "validation"
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=lHoYk2mRuSQ",
+      "split": "train"
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=RBaIDoPtOOI",
+      "split": "train"
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=8uqPnY5hQDs",
+      "split": "train"
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=SrQV5x1sczs",
+      "split": "train"
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=wsz2KRqpMhI",
+      "split": "train"
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=3OqERZyCPyM",
+      "split": "train"
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=WKU8DJzipW4",
+      "split": "train"
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=dsj3o0GoQPE",
+      "split": "train"
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=1wS7UQqJ1Qc",
+      "split": "train"
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=IRa44f87oA8",
+      "split": "validation"
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=7qQg6YbSMko",
+      "split": "validation"
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=WShgQkaFlV4",
+      "split": "train"
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=F--aXPND2Dc",
+      "split": "train"
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=wsvXfK72Znw",
+      "split": "train"
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=1prweT95Mo0",
+      "split": "train"
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=X-Xxqt6Xdio",
+      "split": "validation"
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ZlM2EB9aE3A",
+      "split": "train"
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=_4IRMYuE1hI",
+      "split": "train"
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=n3EiRynr1Us",
+      "split": "train"
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=DwHpDOWhkGk",
+      "split": "test"
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=poCw2CCrfzA",
+      "split": "train"
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=noW9fM9vgJs",
+      "split": "test"
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=xK2YGMISH8I",
+      "split": "test"
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=cXCCZyX_j4I",
+      "split": "train"
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=idf4mJllZwE",
+      "split": "train"
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=D6pTSGvp7T8",
+      "split": "test"
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Ups-CSOWmqs",
+      "split": "test"
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=yAy8SW-cKH0",
+      "split": "validation"
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=SpXXaDqMmsY",
+      "split": "train"
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=qqZJcN1G8fg",
+      "split": "train"
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=t4YdKm1lSIY",
+      "split": "train"
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=TvAeZEW9sk8",
+      "split": "train"
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=HROYe8gexv0",
+      "split": "train"
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=UFvEoJcLvgM",
+      "split": "train"
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=gwFJFOl4KwA",
+      "split": "train"
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=jUDNnuQ6Its",
+      "split": "train"
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=cGKtZ54bW1g",
+      "split": "train"
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=kf7aL3vPgbg",
+      "split": "validation"
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=H2vCU8T42tA",
+      "split": "train"
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=9F7ZgwV2jXM",
+      "split": "validation"
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=4feKexbQzL8",
+      "split": "train"
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=F6JwCnKcvEI",
+      "split": "train"
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=nTqLrLF9fVw",
+      "split": "train"
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=LjwwFQ2sgTE",
+      "split": "test"
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=WdifVhXCfw8",
+      "split": "train"
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=kQdGQrx4Hmw",
+      "split": "train"
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=MLwiXCIyZG4",
+      "split": "train"
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=izN1D2AIq94",
+      "split": "train"
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=TCiiso-9Oac",
+      "split": "validation"
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=B6SA5uJhRfs",
+      "split": "train"
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=M3y8fKLUYHE",
+      "split": "test"
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=X1ccQbIAmpg",
+      "split": "train"
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=2iV_DjBu3JM",
+      "split": "train"
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=xdkR43VzZyU",
+      "split": "validation"
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=LHkKW-OmCRM",
+      "split": "train"
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=i0EC4vV7PoE",
+      "split": "train"
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=vc3JWo2iiGc",
+      "split": "train"
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=6fdr-Fiv92c",
+      "split": "train"
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=0vn4hWe_2-U",
+      "split": "train"
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=9i0lnGjsLTM",
+      "split": "test"
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=HLs0Cp8B_o4",
+      "split": "test"
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=LETyWm3kVjM",
+      "split": "train"
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ttJdr01bHr0",
+      "split": "validation"
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=5bfS4O9DUrs",
+      "split": "train"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=7aqmspL4Si4",
+      "split": "train"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=QUU99l1wcmE",
+      "split": "train"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=BXPDMUxiB_A",
+      "split": "train"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=njUXIRjX5V8",
+      "split": "train"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=K2aScPvzXVY",
+      "split": "train"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=5tqErnknRsE",
+      "split": "test"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=1CKenI4srLE",
+      "split": "train"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=GYF1QEoU82I",
+      "split": "test"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=GZ4e9O3K370",
+      "split": "test"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=j5v5oipgUIo",
+      "split": "train"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=RgkIjFS7XIY",
+      "split": "validation"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=kqy4gpiTPaA",
+      "split": "train"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=eXQHvRNgJhM",
+      "split": "train"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=lG2z7tH7uIc",
+      "split": "validation"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=1f7CuOwIENQ",
+      "split": "train"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=NjNrgYYh0fM",
+      "split": "train"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=8jBtkeTmIm4",
+      "split": "validation"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Z9o2v3SA1Co",
+      "split": "train"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=3wjAgE6CrpY",
+      "split": "train"
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=F5w6qtYAKIs",
+      "split": "train"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=S-BlgAQ7uRQ",
+      "split": "train"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=xcdOBLH_AXs",
+      "split": "train"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=VEaVhHxDIzY",
+      "split": "train"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=DwpedKWwS3w",
+      "split": "train"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=AgZJNFK1oIk",
+      "split": "train"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=KNz01ty-kTQ",
+      "split": "test"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=4S5Gvvqg_8Q",
+      "split": "train"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=jAEBmj1FbYs",
+      "split": "train"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=PE6dt6DwofA",
+      "split": "validation"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=b0uAHgn59JE",
+      "split": "validation"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=APITd7hAAdE",
+      "split": "train"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=OcXhVdTkCU8",
+      "split": "train"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=UHja6QCvwRc",
+      "split": "validation"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=STpOak4iAJY",
+      "split": "train"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=VWlcVRmfUXo",
+      "split": "test"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=RKmY0s_p_SE",
+      "split": "train"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=2snJJ-BezX8",
+      "split": "train"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=GGOCYelqfa0",
+      "split": "test"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=04zcbRDc-4E",
+      "split": "train"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=lOYvvyiQi4M",
+      "split": "train"
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=cX4T40xQHuo",
+      "split": "test"
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=EnAtyAJZRIE",
+      "split": "train"
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=UVTGs7dYLDY",
+      "split": "test"
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=motaKzBcayU",
+      "split": "train"
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=eEBoVhx_hDk",
+      "split": "train"
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Ft5ERPelESY",
+      "split": "train"
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=cwI0gbGEyuI",
+      "split": "train"
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=3BcjXnr-OSQ",
+      "split": "train"
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=zzengi_toCY",
+      "split": "validation"
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=BZt5OMF7Cwg",
+      "split": "train"
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=fRzjfOtsUcQ",
+      "split": "test"
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=KoipQr2KWnQ",
+      "split": "train"
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=XXg_mjsV_bk",
+      "split": "train"
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=xFhqZsdz-io",
+      "split": "train"
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=OjDiE55rR1o",
+      "split": "train"
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Wz_2DnMRxX0",
+      "split": "train"
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Qd7HbsQFHxs",
+      "split": "train"
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=VpQFwTfneSo",
+      "split": "train"
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=vh0Jr2Dzkvc",
+      "split": "validation"
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=MvxelmWbTj4",
+      "split": "validation"
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=y_vYqmUusHE",
+      "split": "train"
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=9Kwqdm-yJvg",
+      "split": "train"
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=YbFGbEIxSsg",
+      "split": "validation"
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=9lxwrVTGdvY",
+      "split": "train"
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=yyvp_nCM15Q",
+      "split": "train"
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=YjbMolCKCYg",
+      "split": "train"
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=--3eIRSg2RY",
+      "split": "train"
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=sRvEwXDxz_I",
+      "split": "validation"
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=5JqtsdrHJvg",
+      "split": "test"
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=9o2cV-FpoHo",
+      "split": "train"
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=f8hDX8Lcz9Q",
+      "split": "train"
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=yJdGlHjjwYU",
+      "split": "train"
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Vsig3_e3CXw",
+      "split": "validation"
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=uTA4C5QwZEg",
+      "split": "train"
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=lBKtD9TdVrI",
+      "split": "test"
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=wiOz154xmUY",
+      "split": "train"
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Jkizsc3T5fw",
+      "split": "train"
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=LrPRuKyNFn4",
+      "split": "train"
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=xaiXzrnGUyo",
+      "split": "test"
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Xi3uIGTgP6s",
+      "split": "train"
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=p2XxyBViBog",
+      "split": "test"
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=DrxPFBEr5Bo",
+      "split": "train"
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=wuj93m-48-c",
+      "split": "validation"
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ottFhv0zD_8",
+      "split": "validation"
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=rB8tFzTG3Xo",
+      "split": "train"
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=w3CF7G3IYqY",
+      "split": "train"
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=To_eBuNn0b4",
+      "split": "train"
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Jc4Y7p7VkL8",
+      "split": "train"
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=LOLE1YE_oFQ",
+      "split": "train"
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=1N9Wnqz8Rh8",
+      "split": "validation"
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=gLxzswkdRLs",
+      "split": "train"
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=cNvf0zlwe7k",
+      "split": "train"
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=mL2cYV59MIk",
+      "split": "train"
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=F226-QNX8oQ",
+      "split": "train"
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=hPrGnh7QUDo",
+      "split": "train"
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=nhddk-Xp0ak",
+      "split": "test"
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=aVd-TRRbjm8",
+      "split": "train"
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=p-Chim7O0SI",
+      "split": "test"
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=AggWyg3v71s",
+      "split": "train"
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=kup0BdoLzbg",
+      "split": "train"
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "trainingRole": "macro-only",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Q2KgJhuzOLw",
+      "split": "train"
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "trainingRole": "macro-only",
+      "youtubeUrl": "https://www.youtube.com/watch?v=_L2YZvGr_dg",
+      "split": "train"
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "trainingRole": "macro-only",
+      "youtubeUrl": "https://www.youtube.com/watch?v=s_SVhB-a7cc",
+      "split": "train"
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "trainingRole": "macro-only",
+      "youtubeUrl": "https://www.youtube.com/watch?v=taCSKu4jcuI",
+      "split": "test"
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "trainingRole": "macro-only",
+      "youtubeUrl": "https://www.youtube.com/watch?v=x5XdFbztg1I",
+      "split": "train"
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "trainingRole": "macro-only",
+      "youtubeUrl": "https://www.youtube.com/watch?v=kSIMVnPA994",
+      "split": "test"
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "trainingRole": "macro-only",
+      "youtubeUrl": "https://www.youtube.com/watch?v=_PycXs9LpEM",
+      "split": "validation"
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "trainingRole": "macro-only",
+      "youtubeUrl": "https://www.youtube.com/watch?v=n-coYYkJ7KE",
+      "split": "validation"
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "trainingRole": "macro-only",
+      "youtubeUrl": "https://www.youtube.com/watch?v=jXuuYZpEAFk",
+      "split": "validation"
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "trainingRole": "macro-only",
+      "youtubeUrl": "https://www.youtube.com/watch?v=E5BJ53oDv0U",
+      "split": "train"
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "trainingRole": "macro-only",
+      "youtubeUrl": "https://www.youtube.com/watch?v=JRq2dqAN2zE",
+      "split": "train"
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "trainingRole": "macro-only",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Pgf7Uz7Xxek",
+      "split": "train"
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "trainingRole": "macro-only",
+      "youtubeUrl": "https://www.youtube.com/watch?v=vvnkwYCXO5o",
+      "split": "test"
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "trainingRole": "macro-only",
+      "youtubeUrl": "https://www.youtube.com/watch?v=b8j49MJItOY",
+      "split": "train"
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "trainingRole": "macro-only",
+      "youtubeUrl": "https://www.youtube.com/watch?v=1XY3vnwQzy8",
+      "split": "train"
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "trainingRole": "macro-only",
+      "youtubeUrl": "https://www.youtube.com/watch?v=uNBGWenPlGo",
+      "split": "train"
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "trainingRole": "macro-only",
+      "youtubeUrl": "https://www.youtube.com/watch?v=7MrxZ9y6I2o",
+      "split": "train"
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "trainingRole": "macro-only",
+      "youtubeUrl": "https://www.youtube.com/watch?v=YxlndeU3SVY",
+      "split": "train"
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "trainingRole": "macro-only",
+      "youtubeUrl": "https://www.youtube.com/watch?v=S5PDmQNKJSc",
+      "split": "train"
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "trainingRole": "macro-only",
+      "youtubeUrl": "https://www.youtube.com/watch?v=JqZs3i0QOr4",
+      "split": "train"
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=h6NCx0wcrC4",
+      "split": "train"
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=-DHuW1h1wHw",
+      "split": "train"
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=KwIC6B_dvW4",
+      "split": "train"
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ylXk1LBvIqU",
+      "split": "validation"
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=zqNTltOGh5c",
+      "split": "train"
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=TLDflhhdPCg",
+      "split": "train"
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=owydl6k6U0s",
+      "split": "train"
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=jYO3pD95zyw",
+      "split": "validation"
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=fZ1pcOenxoo",
+      "split": "train"
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=EGwernNsL68",
+      "split": "train"
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=30FTr6G53VU",
+      "split": "test"
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=VmIZGDQp8lE",
+      "split": "train"
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=g8QnKWPYRCs",
+      "split": "train"
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Ynm5LXxV4bE",
+      "split": "train"
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=wKzQnOcxwsI",
+      "split": "train"
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=wK-c7ibMU9k",
+      "split": "validation"
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=q72jAN2F5Cs",
+      "split": "test"
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=_0TeW0lqgxc",
+      "split": "test"
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=iBTv7VpuQ2E",
+      "split": "train"
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=diHFEapOr_E",
+      "split": "train"
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Mopug-NANPo",
+      "split": "validation"
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=gXK3KRCvB-s",
+      "split": "validation"
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Nxwt_s1lM04",
+      "split": "train"
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=DJd66Cc2Jw4",
+      "split": "train"
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=anjqsYNjv28",
+      "split": "train"
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=4npYr0Zc4Nw",
+      "split": "train"
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=bJc9AwjJuR8",
+      "split": "train"
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=W_M2QP5fL_I",
+      "split": "test"
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=mPDZukqLg7Q",
+      "split": "train"
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=iW-RlcnWb7A",
+      "split": "train"
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=iVVRv2V3lgc",
+      "split": "test"
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=YuBG--STyAw",
+      "split": "validation"
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=RkubzW_-RJE",
+      "split": "train"
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=-9DxpPiE458",
+      "split": "train"
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=p_Yw0q8QVFQ",
+      "split": "train"
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=o9ZIpNEPHSY",
+      "split": "train"
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=w6mtygiagmE",
+      "split": "train"
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=fwo2O7f33C8",
+      "split": "train"
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=4j2ZJAgdrGE",
+      "split": "test"
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=o1sUaVJUeB0",
+      "split": "train"
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=TkXogna4mZI",
+      "split": "test"
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=My_pbkjwCjk",
+      "split": "train"
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Ca0-ZccWruA",
+      "split": "train"
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=EZ4yTJuUmZE",
+      "split": "train"
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=cqvbqfO7dvU",
+      "split": "train"
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=4DxL6IKmXx4",
+      "split": "train"
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Pl8pGz5fFoc",
+      "split": "validation"
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=0Uhh62MUEic",
+      "split": "train"
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=-RRWvHTQjPE",
+      "split": "train"
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=CZQ1pTMAXN0",
+      "split": "train"
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=CwkzK-F0Y00",
+      "split": "test"
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=x1FV6IrjZCY",
+      "split": "train"
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Ar4JdfPSpM4",
+      "split": "validation"
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=o6wtDPVkKqI",
+      "split": "train"
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=nU21rCWkuJw",
+      "split": "train"
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=MpYy6wwqxoo",
+      "split": "validation"
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=oomE4oltFRo",
+      "split": "train"
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=YMwYfh4Ouhk",
+      "split": "train"
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=GiWVxhYDfsY",
+      "split": "train"
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=pmanD_s7G3U",
+      "split": "test"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=sTJhfyaf8ec",
+      "split": "train"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ICNiV1IEko0",
+      "split": "validation"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=jfzEk5QSoLk",
+      "split": "train"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=OOBxsRuk2Vs",
+      "split": "train"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Qm509gYHAe0",
+      "split": "train"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=4wHHZcnDkaE",
+      "split": "train"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ZE4Q_ylGiwM",
+      "split": "train"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=sOC7r3HoaDU",
+      "split": "train"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=nfPBZxd8Mp4",
+      "split": "test"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "macroGenre": "pop",
+      "trainingRole": "fine",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Y7iDYUaNHTg",
+      "split": "test"
+    }
+  ]
+}

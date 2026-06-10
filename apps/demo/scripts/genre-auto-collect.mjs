@@ -19,6 +19,24 @@ const DEFAULT_COOKIE_FILE = path.join(TRAINING_DIR, "youtube-cookies.txt");
 
 const PER_GENRE = Math.max(1, Number(process.env.MMFR_GENRE_COLLECT_PER_GENRE || 20));
 const CANDIDATE_TARGET = Math.max(PER_GENRE, Number(process.env.MMFR_GENRE_CANDIDATES_PER_GENRE || 40));
+const TARGET_PROFILE = process.env.MMFR_GENRE_TARGET_PROFILE || "";
+const EXPANDED_TARGETS = {
+  "テクノ": 50,
+  "アンビエント": 50,
+  "ファンク": 50,
+  "ロック": 100,
+  "メタル": 100,
+  "パンク": 100,
+  "J-POP": 100,
+  "アニメソング": 100,
+  "シティ・ポップ": 100,
+  "チップチューン": 100,
+  "ドラムンベース": 100,
+  "トラップ": 100,
+  "ジャズ": 100,
+  "クラシック音楽": 100,
+  "ワールドミュージック": 100
+};
 const SEARCH_LIMIT = Math.max(8, Number(process.env.MMFR_GENRE_SEARCH_LIMIT || 8));
 const CONCURRENCY = Math.max(1, Number(process.env.MMFR_GENRE_COLLECT_CONCURRENCY || 3));
 const VALIDATE_ANALYSIS = process.env.MMFR_GENRE_COLLECT_VALIDATE === "1";
@@ -34,6 +52,11 @@ const COOKIE_FILE = process.env.MMFR_YTDLP_COOKIES_FILE || (fs.existsSync(DEFAUL
 
 const REJECT_TITLE_PATTERN = /\b(reaction|review|tutorial|lesson|explained|documentary|interview|podcast|live stream|livestream|full album|album stream|hour mix|dj set|karaoke|instrumental remake|cover version|cover by|slowed|reverb|nightcore|8d audio)\b/i;
 const POSITIVE_TITLE_PATTERN = /\b(official audio|official video|provided to youtube|topic|remastered|audio)\b/i;
+
+function targetForGenre(genre) {
+  if (TARGET_PROFILE === "score-improvement") return EXPANDED_TARGETS[genre] || 50;
+  return PER_GENRE;
+}
 
 function loadSeeds() {
   const payload = JSON.parse(fs.readFileSync(SEEDS_PATH, "utf8"));
@@ -268,6 +291,18 @@ function loadJson(pathname, fallback) {
   }
 }
 
+function existingVerifiedItems() {
+  const payloads = [loadJson(VERIFIED_PATH, null), loadJson(OUT_PATH, null)].filter(Boolean);
+  const byUrl = new Map();
+  for (const payload of payloads) {
+    const items = Array.isArray(payload) ? payload : payload.items || [];
+    for (const item of items) {
+      if (item.youtubeUrl && !byUrl.has(item.youtubeUrl)) byUrl.set(item.youtubeUrl, item);
+    }
+  }
+  return [...byUrl.values()];
+}
+
 function existingVerifiedUrls() {
   const payloads = [loadJson(VERIFIED_PATH, null), loadJson(OUT_PATH, null)].filter(Boolean);
   const urls = new Set();
@@ -278,7 +313,7 @@ function existingVerifiedUrls() {
   return urls;
 }
 
-async function collectForGenre(entry, usedUrls) {
+async function collectForGenre(entry, usedUrls, targetCount) {
   const selected = [];
   const verified = [];
   const raw = [];
@@ -317,7 +352,7 @@ async function collectForGenre(entry, usedUrls) {
         verifiedAt: ""
       };
       selected.push(row);
-      if (!row.rejectReason && !usedUrls.has(url) && verified.length < PER_GENRE) {
+      if (!row.rejectReason && !usedUrls.has(url) && verified.length < targetCount) {
         const validation = await candidateAnalyzes(url);
         if (validation.ok) {
           row.audioOk = true;
@@ -332,7 +367,7 @@ async function collectForGenre(entry, usedUrls) {
           process.stdout.write(".");
         }
       }
-      if (selected.filter(candidate => !candidate.rejectReason).length >= CANDIDATE_TARGET && verified.length >= PER_GENRE) {
+      if (selected.filter(candidate => !candidate.rejectReason).length >= CANDIDATE_TARGET && verified.length >= targetCount) {
         return { selected, verified, raw };
       }
     }
@@ -345,11 +380,13 @@ async function collectForGenre(entry, usedUrls) {
 function summarizeByGenre(items, seeds) {
   return seeds.map(seed => {
     const list = items.filter(item => item.genre === seed.genre);
+    const target = targetForGenre(seed.genre);
     return {
       genre: seed.genre,
       macroGenre: seed.macroGenre,
       count: list.length,
-      needed: Math.max(0, PER_GENRE - list.length)
+      target,
+      needed: Math.max(0, target - list.length)
     };
   });
 }
@@ -357,17 +394,25 @@ function summarizeByGenre(items, seeds) {
 async function main() {
   fs.mkdirSync(TRAINING_DIR, { recursive: true });
   const seeds = loadSeeds();
-  const usedUrls = existingVerifiedUrls();
+  const existing = existingVerifiedItems();
+  const usedUrls = new Set(existing.map(item => item.youtubeUrl).filter(Boolean));
   const allCandidates = [];
-  const allVerified = [];
+  const allVerified = [...existing];
   const report = [];
 
   let cursor = 0;
   const workers = Array.from({ length: Math.min(CONCURRENCY, seeds.length) }, async () => {
     while (cursor < seeds.length) {
       const entry = seeds[cursor++];
+      const target = targetForGenre(entry.genre);
+      const existingCount = allVerified.filter(item => item.genre === entry.genre).length;
+      if (existingCount >= target) {
+        report.push({ genre: entry.genre, macroGenre: entry.macroGenre, candidateCount: 0, verifiedCount: 0, existingCount, target, skipped: true, raw: [] });
+        continue;
+      }
+      const needed = target - existingCount;
       process.stdout.write(`${entry.genre} ... `);
-      const result = await collectForGenre(entry, usedUrls);
+      const result = await collectForGenre(entry, usedUrls, needed);
       allCandidates.push(...result.selected);
       allVerified.push(...result.verified);
       report.push({
@@ -375,9 +420,11 @@ async function main() {
         macroGenre: entry.macroGenre,
         candidateCount: result.selected.length,
         verifiedCount: result.verified.length,
+        existingCount,
+        target,
         raw: result.raw
       });
-      console.log(` candidates:${result.selected.length} verified:${result.verified.length}`);
+      console.log(` candidates:${result.selected.length} verified:${existingCount + result.verified.length}/${target}`);
     }
   });
   await Promise.all(workers);
@@ -390,6 +437,7 @@ async function main() {
     description: "YouTube-centered source candidates for genre calibration. Candidates are scored from canonical metadata, title/channel quality, duration, and reject rules.",
     collectedAt,
     perGenre: PER_GENRE,
+    targetProfile: TARGET_PROFILE || "fixed",
     candidateTarget: CANDIDATE_TARGET,
     items: allCandidates,
     summary: summarizeByGenre(allCandidates.filter(item => !item.rejectReason), seeds)
@@ -399,6 +447,7 @@ async function main() {
     collectedAt,
     endpoint: AUDIO_ENDPOINT,
     perGenre: PER_GENRE,
+    targetProfile: TARGET_PROFILE || "fixed",
     items: allVerified,
     missing: summarizeByGenre(allVerified, seeds).filter(row => row.needed > 0)
   };

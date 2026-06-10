@@ -28,7 +28,7 @@ export function encodePcmBytesToProtectedLayer(bytes, options = {}) {
 
   for (let index = 0; index < values.length; index += 1) {
     const byte = values[index];
-    const point = textureFieldPoint(index, cx, cy, radiusX, radiusY, textureSeed, textureMode, textureRegion);
+    const point = textureFieldPointV2(index, cx, cy, radiusX, radiusY, textureSeed, textureMode, textureRegion, values.length);
     const offset = ((byte - 128) / 127) * amplitude;
     const length = 2.4 + ((index * 17) % 11) * 0.18;
     const mx = point.x + point.nx * offset;
@@ -40,7 +40,7 @@ export function encodePcmBytesToProtectedLayer(bytes, options = {}) {
     lines.push(`<line x1="${num(x1)}" y1="${num(y1)}" x2="${num(x2)}" y2="${num(y2)}" stroke="#000" stroke-width=".28" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`);
   }
 
-  return `<g id="${PROTECTED_PCM_LAYER_ID}" data-layer="${PROTECTED_PCM_LAYER_ID}" data-schema="${REVERSIBLE_SVG_SCHEMA}" data-encoding="mulaw8-protected-texture-field-v1" data-sample-rate="${sampleRate}" data-channels="${channels}" data-duration="${num(duration)}" data-frame-count="${values.length}" data-cx="${num(cx)}" data-cy="${num(cy)}" data-radius-x="${num(radiusX)}" data-radius-y="${num(radiusY)}" data-texture-seed="${textureSeed}" data-texture-mode="${escapeAttr(textureMode)}" data-texture-region="${escapeAttr(textureRegion)}" data-amplitude="${num(amplitude)}" data-visual-role="locked-protected-texture-field" data-edit-policy="lock-do-not-edit">${lines.join("")}</g>`;
+  return `<g id="${PROTECTED_PCM_LAYER_ID}" data-layer="${PROTECTED_PCM_LAYER_ID}" data-schema="${REVERSIBLE_SVG_SCHEMA}" data-encoding="mulaw8-protected-texture-field-v2" data-sample-rate="${sampleRate}" data-channels="${channels}" data-duration="${num(duration)}" data-frame-count="${values.length}" data-cx="${num(cx)}" data-cy="${num(cy)}" data-radius-x="${num(radiusX)}" data-radius-y="${num(radiusY)}" data-texture-seed="${textureSeed}" data-texture-mode="${escapeAttr(textureMode)}" data-texture-region="${escapeAttr(textureRegion)}" data-amplitude="${num(amplitude)}" data-visual-role="locked-protected-texture-field" data-edit-policy="lock-do-not-edit">${lines.join("")}</g>`;
 }
 
 export function decodePcmBytesFromProtectedLayer(svgText) {
@@ -65,7 +65,7 @@ export function decodePcmBytesFromProtectedLayer(svgText) {
       return clampByte((offset / amplitude) * 127 + 128);
     }));
   }
-  if (encoding && encoding !== "mulaw8-protected-texture-field-v1") return new Uint8Array();
+  if (encoding && !["mulaw8-protected-texture-field-v1", "mulaw8-protected-texture-field-v2"].includes(encoding)) return new Uint8Array();
   const declaredFrameCount = attrNumber(group, "data-frame-count");
   if (!matches.length || (Number.isFinite(declaredFrameCount) && matches.length < declaredFrameCount)) return new Uint8Array();
   const cx = attrNumber(group, "data-cx") ?? 600;
@@ -83,7 +83,9 @@ export function decodePcmBytesFromProtectedLayer(svgText) {
     const x2 = attrNumber(tag, "x2");
     const y2 = attrNumber(tag, "y2");
     if (![x1, y1, x2, y2].every(Number.isFinite)) return 0;
-    const point = hasTextureProfile
+    const point = encoding === "mulaw8-protected-texture-field-v2"
+      ? textureFieldPointV2(index, cx, cy, radiusX, radiusY, textureSeed, textureMode, textureRegion, declaredFrameCount || matches.length)
+      : hasTextureProfile
       ? textureFieldPoint(index, cx, cy, radiusX, radiusY, textureSeed, textureMode, textureRegion)
       : legacyTextureFieldPoint(index, cx, cy, radiusX, radiusY);
     const mx = (x1 + x2) * 0.5;
@@ -181,6 +183,34 @@ function textureFieldPoint(index, cx, cy, radiusX, radiusY, seed = 0, mode = "te
     y = cy + Math.sin(angle) * radiusY * unit * (1 + Math.cos(index * 0.027 + seed * 0.0003) * 0.04) * profile.stretchY;
     angle += profile.angle;
   }
+  const regionPoint = textureRegionPoint(index, x, y, cx, cy, radiusX, radiusY, seed, region);
+  x = regionPoint.x;
+  y = regionPoint.y;
+  if (Number.isFinite(regionPoint.angle)) angle = regionPoint.angle;
+  const txAngle = profile.radialStroke ? angle : angle + Math.PI / 2;
+  const tx = Math.cos(txAngle);
+  const ty = Math.sin(txAngle);
+  const nx = -ty;
+  const ny = tx;
+  return { x, y, nx, ny, tx, ty };
+}
+
+function textureFieldPointV2(index, cx, cy, radiusX, radiusY, seed = 0, mode = "texture-field", region = "full", frameCount = 1) {
+  const profile = textureFieldProfile(mode);
+  const total = Math.max(1, Math.round(Number(frameCount) || 1));
+  const aspect = Math.max(0.35, Math.min(2.4, radiusX / Math.max(1, radiusY)));
+  const cols = Math.max(1, Math.ceil(Math.sqrt(total * aspect)));
+  const rows = Math.max(1, Math.ceil(total / cols));
+  const slot = (index + (seed % total)) % total;
+  const col = slot % cols;
+  const row = Math.floor(slot / cols);
+  const jx = (noise01(index, 31, seed) - 0.5) * 0.44;
+  const jy = (noise01(index, 32, seed) - 0.5) * 0.44;
+  const u = ((col + 0.5 + jx) / cols) * 2 - 1;
+  const v = ((row + 0.5 + jy) / rows) * 2 - 1;
+  let x = cx + u * radiusX * 0.94 * profile.stretchX;
+  let y = cy + v * radiusY * 0.9 * profile.stretchY;
+  let angle = profile.angle + (noise01(index, 33, seed) - 0.5) * Math.max(0.08, profile.angleJitter);
   const regionPoint = textureRegionPoint(index, x, y, cx, cy, radiusX, radiusY, seed, region);
   x = regionPoint.x;
   y = regionPoint.y;

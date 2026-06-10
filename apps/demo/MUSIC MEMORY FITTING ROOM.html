@@ -337,7 +337,8 @@
     }
     const keys = { creators: "mmfr.creators", tshirts: "mmfr.tshirts", sessions: "mmfr.sessions", resonances: "mmfr.resonances", apiConfig: "mmfr.apiConfig" };
     const inlineArt = {};
-    const state = { view: "home", answers: {}, moodId: null, youtubeUrl: "", audioFeatures: null, sourceMood: null, variantSalt: 0, engineId: "youtube_audio", realtime: false, tick: 0, session: null, generated: null, workId: null, message: "", genreProfiles: null };
+    let activeCollisionField = null;
+    const state = { view: "home", answers: {}, moodId: null, youtubeUrl: "", audioFeatures: null, sourceMood: null, variantSalt: 0, engineId: "youtube_audio", realtime: false, tick: 0, session: null, generated: null, workId: null, message: "", genreProfiles: null, genreModel: null };
     let realtimeTimer = null;
     let activeReconstructionContext = null;
     let activeReconstructionTimer = null;
@@ -410,10 +411,381 @@
       return `<g id="${id}" data-layer="${id}" ${attrs}>${children.join("")}</g>`;
     }
     function svgPath(d, width = 14, extra = "") {
+      if (activeCollisionField) return activeCollisionField.placePath(d, width, extra);
       return `<path d="${d}" fill="none" stroke="#000" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" ${extra}/>`;
     }
     function svgFill(d, extra = "") {
       return `<path d="${d}" fill="#000" stroke="#000" stroke-width="0" stroke-linejoin="round" ${extra}/>`;
+    }
+    function makeCollisionField({ seed = 1, style = "quiet" } = {}) {
+      const cellSize = style === "dense-impact" ? 13 : style === "burst" ? 12 : style === "grid" ? 10 : 11;
+      const occupied = new Set();
+      const pools = [];
+      const hashCell = (x, y) => `${Math.round(x / cellSize)},${Math.round(y / cellSize)}`;
+      const parsePoints = d => {
+        const numbers = String(d || "").match(/-?\d*\.?\d+(?:e[-+]?\d+)?/gi)?.map(Number) || [];
+        const points = [];
+        for (let i = 0; i < numbers.length - 1; i += 2) {
+          const x = numbers[i];
+          const y = numbers[i + 1];
+          if (Number.isFinite(x) && Number.isFinite(y)) points.push({ x, y });
+        }
+        return points;
+      };
+      const samplePoints = points => {
+        const samples = [];
+        for (let i = 1; i < points.length; i++) {
+          const a = points[i - 1];
+          const b = points[i];
+          const steps = Math.max(1, Math.ceil(Math.hypot(b.x - a.x, b.y - a.y) / 18));
+          for (let step = 0; step <= steps; step++) {
+            const t = step / steps;
+            samples.push({ x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t });
+          }
+        }
+        if (!samples.length && points[0]) samples.push(points[0]);
+        return samples;
+      };
+      const shifted = (points, dx, dy) => points.map(point => ({ x: point.x + dx, y: point.y + dy }));
+      const priorityFor = extra => {
+        const text = String(extra || "");
+        if (/outer_cloth|pressure_field|bass-pressure-column|reference-point|genre-base|name-imagery/.test(text)) return 3;
+        if (/texture|hatch|debris|trail|thread|notch/.test(text)) return 1;
+        return 2;
+      };
+      const collides = samples => samples.some(point => {
+        const gx = Math.round(point.x / cellSize);
+        const gy = Math.round(point.y / cellSize);
+        for (let y = gy - 1; y <= gy + 1; y++) {
+          for (let x = gx - 1; x <= gx + 1; x++) {
+            if (occupied.has(`${x},${y}`)) return true;
+          }
+        }
+        return false;
+      });
+      const register = samples => samples.forEach(point => occupied.add(hashCell(point.x, point.y)));
+      const offsetFor = (attempt, priority) => {
+        const angle = seed * .00037 + attempt * 2.399 + priority * .71;
+        const distance = (style === "quiet" ? 12 : style === "grid" ? 10 : style === "orbit" ? 14 : 16) * attempt;
+        return { dx: Math.cos(angle) * distance, dy: Math.sin(angle) * distance };
+      };
+      const blob = samples => {
+        const point = samples[Math.floor(samples.length / 2)] || samples[0];
+        if (!point) return "";
+        const r = style === "dense-impact" || style === "burst" ? 4.8 : 3.2;
+        pools.push(point);
+        return `<circle cx="${svgNumber(point.x)}" cy="${svgNumber(point.y)}" r="${svgNumber(r)}" fill="#000" data-feature="ink-pool" data-collision-style="${escapeAttr(style)}"/>`;
+      };
+      return {
+        collidesSamples(samples = []) {
+          return collides(samples);
+        },
+        registerSamples(samples = []) {
+          register(samples);
+        },
+        inkPoolForSamples(samples = []) {
+          return blob(samples);
+        },
+        placePath(d, width = 1, extra = "") {
+          const points = parsePoints(d);
+          const priority = priorityFor(extra);
+          const base = samplePoints(points);
+          const attempts = [
+            { dx: 0, dy: 0 },
+            offsetFor(1, priority),
+            offsetFor(2, priority),
+            offsetFor(3, priority)
+          ];
+          for (const attempt of attempts) {
+            const samples = shifted(base, attempt.dx, attempt.dy);
+            if (!collides(samples)) {
+              register(samples);
+              const transform = attempt.dx || attempt.dy ? ` transform="translate(${svgNumber(attempt.dx)} ${svgNumber(attempt.dy)})"` : "";
+              return `<path d="${d}" fill="none" stroke="#000" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"${transform} ${extra}/>`;
+            }
+          }
+          if (priority <= 1) return "";
+          register(base);
+          return `<path d="${d}" fill="none" stroke="#000" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" ${extra}/>${blob(base)}`;
+        },
+        poolCount() {
+          return pools.length;
+        },
+        reservePoints(points = []) {
+          register(points);
+        }
+      };
+    }
+    function matrixIdentity() {
+      return { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 };
+    }
+    function matrixMultiply(left, right) {
+      return {
+        a: left.a * right.a + left.c * right.b,
+        b: left.b * right.a + left.d * right.b,
+        c: left.a * right.c + left.c * right.d,
+        d: left.b * right.c + left.d * right.d,
+        e: left.a * right.e + left.c * right.f + left.e,
+        f: left.b * right.e + left.d * right.f + left.f
+      };
+    }
+    function matrixApply(matrix, point) {
+      return {
+        x: matrix.a * point.x + matrix.c * point.y + matrix.e,
+        y: matrix.b * point.x + matrix.d * point.y + matrix.f
+      };
+    }
+    function parseSvgTransform(transform) {
+      let matrix = matrixIdentity();
+      const source = String(transform || "");
+      const commands = source.match(/[a-zA-Z]+\([^)]*\)/g) || [];
+      commands.forEach(command => {
+        const name = command.match(/^[a-zA-Z]+/)?.[0] || "";
+        const values = (command.match(/-?\d*\.?\d+(?:e[-+]?\d+)?/gi) || []).map(Number);
+        let local = matrixIdentity();
+        if (name === "matrix" && values.length >= 6) {
+          local = { a: values[0], b: values[1], c: values[2], d: values[3], e: values[4], f: values[5] };
+        } else if (name === "translate") {
+          local = { ...local, e: values[0] || 0, f: values.length > 1 ? values[1] : 0 };
+        } else if (name === "scale") {
+          const sx = values[0] ?? 1;
+          const sy = values.length > 1 ? values[1] : sx;
+          local = { ...local, a: sx, d: sy };
+        } else if (name === "rotate") {
+          const angle = (values[0] || 0) * Math.PI / 180;
+          const cos = Math.cos(angle);
+          const sin = Math.sin(angle);
+          const rotate = { a: cos, b: sin, c: -sin, d: cos, e: 0, f: 0 };
+          if (values.length >= 3) {
+            const cx = values[1];
+            const cy = values[2];
+            local = matrixMultiply(
+              matrixMultiply({ ...matrixIdentity(), e: cx, f: cy }, rotate),
+              { ...matrixIdentity(), e: -cx, f: -cy }
+            );
+          } else {
+            local = rotate;
+          }
+        } else if (name === "skewX") {
+          local = { ...local, c: Math.tan((values[0] || 0) * Math.PI / 180) };
+        } else if (name === "skewY") {
+          local = { ...local, b: Math.tan((values[0] || 0) * Math.PI / 180) };
+        }
+        matrix = matrixMultiply(matrix, local);
+      });
+      return matrix;
+    }
+    function svgAttr(tag, name) {
+      const match = String(tag || "").match(new RegExp(`\\s${name}=(["'])(.*?)\\1`));
+      return match ? match[2] : "";
+    }
+    function svgTagName(tag) {
+      return String(tag || "").match(/^<\/?\s*([a-zA-Z][\w:-]*)/)?.[1] || "";
+    }
+    function isVisibleCollisionElement(tag) {
+      const text = String(tag || "");
+      if (/display\s*=\s*["']none["']/.test(text)) return false;
+      if (/visibility\s*=\s*["']hidden["']/.test(text)) return false;
+      if (/stroke\s*=\s*["']none["']/.test(text) && !/fill\s*=\s*["']#?000|fill\s*=\s*["']black/.test(text)) return false;
+      if (/fill\s*=\s*["']#fff|fill\s*=\s*["']white/.test(text) && !/stroke\s*=\s*["']#?000|stroke\s*=\s*["']black/.test(text)) return false;
+      return true;
+    }
+    function collisionPriorityForElement(tag, ancestry = []) {
+      const text = `${ancestry.join(" ")} ${tag}`;
+      if (/pcm_reversible_data|locked-protected-texture-field/.test(text)) return 4;
+      if (/outer_cloth|pressure_field|bass-pressure-column|reference-point|genre_base_family|genre_name_imagery|name-imagery/.test(text)) return 3;
+      if (/texture|hatch|debris|trail|thread|notch|detail|knot/.test(text)) return 1;
+      return 2;
+    }
+    function transformedLineSamples(a, b, matrix, spacing = 12) {
+      const p1 = matrixApply(matrix, a);
+      const p2 = matrixApply(matrix, b);
+      const steps = Math.max(1, Math.ceil(Math.hypot(p2.x - p1.x, p2.y - p1.y) / spacing));
+      const samples = [];
+      for (let i = 0; i <= steps; i++) {
+        const t = i / steps;
+        samples.push({ x: p1.x + (p2.x - p1.x) * t, y: p1.y + (p2.y - p1.y) * t });
+      }
+      return samples;
+    }
+    function elementSamplesFromTag(tag, matrix) {
+      const name = svgTagName(tag);
+      if (!isVisibleCollisionElement(tag)) return [];
+      if (name === "line") {
+        const x1 = Number(svgAttr(tag, "x1"));
+        const y1 = Number(svgAttr(tag, "y1"));
+        const x2 = Number(svgAttr(tag, "x2"));
+        const y2 = Number(svgAttr(tag, "y2"));
+        if ([x1, y1, x2, y2].every(Number.isFinite)) return transformedLineSamples({ x: x1, y: y1 }, { x: x2, y: y2 }, matrix);
+      }
+      if (name === "rect") {
+        const x = Number(svgAttr(tag, "x")) || 0;
+        const y = Number(svgAttr(tag, "y")) || 0;
+        const w = Number(svgAttr(tag, "width"));
+        const h = Number(svgAttr(tag, "height"));
+        if (Number.isFinite(w) && Number.isFinite(h)) {
+          return [
+            ...transformedLineSamples({ x, y }, { x: x + w, y }, matrix),
+            ...transformedLineSamples({ x: x + w, y }, { x: x + w, y: y + h }, matrix),
+            ...transformedLineSamples({ x: x + w, y: y + h }, { x, y: y + h }, matrix),
+            ...transformedLineSamples({ x, y: y + h }, { x, y }, matrix)
+          ];
+        }
+      }
+      if (name === "circle") {
+        const cx = Number(svgAttr(tag, "cx")) || 0;
+        const cy = Number(svgAttr(tag, "cy")) || 0;
+        const r = Number(svgAttr(tag, "r"));
+        if (Number.isFinite(r)) {
+          const samples = [];
+          const count = Math.max(16, Math.ceil((Math.PI * 2 * r) / 12));
+          for (let i = 0; i < count; i++) {
+            const a = i / count * Math.PI * 2;
+            samples.push(matrixApply(matrix, { x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r }));
+          }
+          if (/fill\s*=\s*["']#?000|fill\s*=\s*["']black/.test(tag)) samples.push(matrixApply(matrix, { x: cx, y: cy }));
+          return samples;
+        }
+      }
+      if (name === "path") return pathSamplesFromD(svgAttr(tag, "d"), matrix);
+      return [];
+    }
+    function pathSamplesFromD(d, matrix) {
+      const tokens = String(d || "").match(/[a-zA-Z]|-?\d*\.?\d+(?:e[-+]?\d+)?/g) || [];
+      const samples = [];
+      let i = 0;
+      let command = "";
+      let current = { x: 0, y: 0 };
+      let start = { x: 0, y: 0 };
+      let previousControl = null;
+      const isCommand = value => /^[a-zA-Z]$/.test(value || "");
+      const read = () => Number(tokens[i++]);
+      const addLine = (to) => {
+        samples.push(...transformedLineSamples(current, to, matrix));
+        current = to;
+        previousControl = null;
+      };
+      const addCubic = (c1, c2, to) => {
+        const steps = 18;
+        let prev = current;
+        for (let step = 1; step <= steps; step++) {
+          const t = step / steps;
+          const mt = 1 - t;
+          const p = {
+            x: mt ** 3 * current.x + 3 * mt ** 2 * t * c1.x + 3 * mt * t ** 2 * c2.x + t ** 3 * to.x,
+            y: mt ** 3 * current.y + 3 * mt ** 2 * t * c1.y + 3 * mt * t ** 2 * c2.y + t ** 3 * to.y
+          };
+          samples.push(...transformedLineSamples(prev, p, matrix, 18));
+          prev = p;
+        }
+        current = to;
+        previousControl = c2;
+      };
+      while (i < tokens.length) {
+        if (isCommand(tokens[i])) command = tokens[i++];
+        if (!command) break;
+        const relative = command === command.toLowerCase();
+        const cmd = command.toUpperCase();
+        const point = (x, y) => relative ? { x: current.x + x, y: current.y + y } : { x, y };
+        if (cmd === "M") {
+          const first = point(read(), read());
+          current = first;
+          start = first;
+          while (i < tokens.length && !isCommand(tokens[i])) addLine(point(read(), read()));
+        } else if (cmd === "L") {
+          while (i < tokens.length && !isCommand(tokens[i])) addLine(point(read(), read()));
+        } else if (cmd === "H") {
+          while (i < tokens.length && !isCommand(tokens[i])) {
+            const x = read();
+            addLine(relative ? { x: current.x + x, y: current.y } : { x, y: current.y });
+          }
+        } else if (cmd === "V") {
+          while (i < tokens.length && !isCommand(tokens[i])) {
+            const y = read();
+            addLine(relative ? { x: current.x, y: current.y + y } : { x: current.x, y });
+          }
+        } else if (cmd === "C") {
+          while (i < tokens.length && !isCommand(tokens[i])) addCubic(point(read(), read()), point(read(), read()), point(read(), read()));
+        } else if (cmd === "S") {
+          while (i < tokens.length && !isCommand(tokens[i])) {
+            const c1 = previousControl ? { x: current.x * 2 - previousControl.x, y: current.y * 2 - previousControl.y } : current;
+            addCubic(c1, point(read(), read()), point(read(), read()));
+          }
+        } else if (cmd === "Q") {
+          while (i < tokens.length && !isCommand(tokens[i])) {
+            const q = point(read(), read());
+            const to = point(read(), read());
+            addCubic(
+              { x: current.x + (q.x - current.x) * 2 / 3, y: current.y + (q.y - current.y) * 2 / 3 },
+              { x: to.x + (q.x - to.x) * 2 / 3, y: to.y + (q.y - to.y) * 2 / 3 },
+              to
+            );
+          }
+        } else if (cmd === "Z") {
+          addLine(start);
+        } else {
+          break;
+        }
+      }
+      return samples.filter(point => Number.isFinite(point.x) && Number.isFinite(point.y));
+    }
+    function postProcessVisibleGeometryCollisions(svgText, { seed = 1, style = "quiet", protectedTexture = null } = {}) {
+      const field = makeCollisionField({ seed, style });
+      if (protectedTexture) reserveProtectedPcmTexture(field, protectedTexture.seed, protectedTexture.mode, protectedTexture.region);
+      const matrixStack = [matrixIdentity()];
+      const contextStack = [];
+      const finalInkPools = [];
+      const processed = String(svgText || "").replace(/<[^>]+>/g, tag => {
+        const name = svgTagName(tag);
+        const closing = /^<\//.test(tag);
+        const selfClosing = /\/>$/.test(tag);
+        if (closing) {
+          if (["svg", "g", "defs", "clipPath", "mask", "marker"].includes(name)) {
+            matrixStack.pop();
+            contextStack.pop();
+          }
+          return tag;
+        }
+        const parentMatrix = matrixStack[matrixStack.length - 1] || matrixIdentity();
+        const localMatrix = matrixMultiply(parentMatrix, parseSvgTransform(svgAttr(tag, "transform")));
+        const ancestry = contextStack.map(item => item.id || item.name);
+        const inDefinition = contextStack.some(item => ["defs", "clipPath", "mask", "marker"].includes(item.name));
+        let replacement = tag;
+        if (!inDefinition && ["path", "line", "rect", "circle"].includes(name)) {
+          const samples = elementSamplesFromTag(tag, localMatrix);
+          if (samples.length) {
+            const priority = collisionPriorityForElement(tag, ancestry);
+            const collided = field.collidesSamples(samples);
+            if (collided && priority <= 1) {
+              replacement = "";
+            } else {
+              field.registerSamples(samples);
+              if (collided && priority >= 2) finalInkPools.push(field.inkPoolForSamples(samples));
+            }
+          }
+        }
+        if (["svg", "g", "defs", "clipPath", "mask", "marker"].includes(name) && !selfClosing) {
+          matrixStack.push(localMatrix);
+          contextStack.push({ name, id: svgAttr(tag, "id") });
+        }
+        return replacement;
+      });
+      if (!finalInkPools.length) return processed;
+      return processed.replace(/<\/svg>\s*$/, `<g id="collision_ink_pools" data-layer="collision_ink_pools" data-collision-pass="transform-aware-final-v1">${finalInkPools.join("")}</g></svg>`);
+    }
+    function reserveProtectedPcmTexture(field, seed, textureMode, textureRegion) {
+      if (!field) return;
+      const cx = 600;
+      const cy = 610;
+      const radiusX = 492;
+      const radiusY = 438;
+      const reserveCount = 1600;
+      const points = [];
+      for (let index = 0; index < reserveCount; index += 1) {
+        const point = textureFieldPointV2(index, cx, cy, radiusX, radiusY, seed, textureMode, textureRegion, reserveCount);
+        points.push({ x: point.x, y: point.y });
+      }
+      field.reservePoints(points);
     }
     function xmlEscape(value) {
       return String(value || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -469,7 +841,7 @@
           app: "SOUND VECTOR FITTING ROOM",
           engineId: shirtMeta.engineId || "realtime",
           reversibleLayer: "pcm_reversible_data",
-          protectedEncoding: "mulaw8-protected-texture-field-v1",
+          protectedEncoding: "mulaw8-protected-texture-field-v2",
           mapping: reversibleMapping()
         },
         reconstruction: {
@@ -789,7 +1161,7 @@
       const textureRegion = normaliseTextureRegion(textureOptions.region || textureOptions.textureRegion || "full");
       const amplitude = 7.6;
       const paths = Array.from(bytes, (byte, index) => {
-        const point = textureFieldPoint(index, cx, cy, radiusX, radiusY, textureSeed, textureMode, textureRegion);
+        const point = textureFieldPointV2(index, cx, cy, radiusX, radiusY, textureSeed, textureMode, textureRegion, bytes.length);
         const offset = ((byte - 128) / 127) * amplitude;
         const length = 2.4 + ((index * 17) % 11) * .18;
         const mx = point.x + point.nx * offset;
@@ -801,7 +1173,7 @@
         return `<line x1="${svgFineNumber(x1)}" y1="${svgFineNumber(y1)}" x2="${svgFineNumber(x2)}" y2="${svgFineNumber(y2)}" stroke="#000" stroke-width=".28" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`;
       });
       const attrs = [
-        `data-encoding="mulaw8-protected-texture-field-v1"`,
+        `data-encoding="mulaw8-protected-texture-field-v2"`,
         `data-sample-rate="${sampleRate}"`,
         `data-duration="${svgFineNumber(duration)}"`,
         `data-frame-count="${bytes.length}"`,
@@ -849,6 +1221,33 @@
         y = cy + Math.sin(angle) * radiusY * unit * (1 + Math.cos(index * .027 + seed * .0003) * .04) * profile.stretchY;
         angle += profile.angle;
       }
+      const regionPoint = textureRegionPoint(index, x, y, cx, cy, radiusX, radiusY, seed, region);
+      x = regionPoint.x;
+      y = regionPoint.y;
+      if (Number.isFinite(regionPoint.angle)) angle = regionPoint.angle;
+      const txAngle = profile.radialStroke ? angle : angle + Math.PI / 2;
+      const tx = Math.cos(txAngle);
+      const ty = Math.sin(txAngle);
+      const nx = -ty;
+      const ny = tx;
+      return { x, y, nx, ny, tx, ty };
+    }
+    function textureFieldPointV2(index, cx, cy, radiusX, radiusY, seed = 0, mode = "texture-field", region = "full", frameCount = 1) {
+      const profile = textureFieldProfile(mode);
+      const total = Math.max(1, Math.round(Number(frameCount) || 1));
+      const aspect = Math.max(.35, Math.min(2.4, radiusX / Math.max(1, radiusY)));
+      const cols = Math.max(1, Math.ceil(Math.sqrt(total * aspect)));
+      const rows = Math.max(1, Math.ceil(total / cols));
+      const slot = (index + (seed % total)) % total;
+      const col = slot % cols;
+      const row = Math.floor(slot / cols);
+      const jx = (textureNoise01(index, 31, seed) - .5) * .44;
+      const jy = (textureNoise01(index, 32, seed) - .5) * .44;
+      const u = ((col + .5 + jx) / cols) * 2 - 1;
+      const v = ((row + .5 + jy) / rows) * 2 - 1;
+      let x = cx + u * radiusX * .94 * profile.stretchX;
+      let y = cy + v * radiusY * .9 * profile.stretchY;
+      let angle = profile.angle + (textureNoise01(index, 33, seed) - .5) * Math.max(.08, profile.angleJitter);
       const regionPoint = textureRegionPoint(index, x, y, cx, cy, radiusX, radiusY, seed, region);
       x = regionPoint.x;
       y = regionPoint.y;
@@ -966,7 +1365,7 @@
         const groupTag = protectedGroup[0].match(/^<g\b[^>]*>/)?.[0] || "";
         const encoding = svgAttr(groupTag, "data-encoding");
         const hasRestorableGeometry = /<line\b|<path\b/.test(protectedGroup[0]);
-        if (hasRestorableGeometry && /^mulaw8-protected-(geometry|seal-band|texture-field)-v1$/.test(encoding)) return text;
+        if (hasRestorableGeometry && (/^mulaw8-protected-(geometry|seal-band)-v1$/.test(encoding) || /^mulaw8-protected-texture-field-v[12]$/.test(encoding))) return text;
       }
       const group = pcmProtectedGeometryGroupFromDetail(detail, 96000, textureFieldOptionsFromSvg(text));
       if (!group) return text;
@@ -983,7 +1382,7 @@
       const sampleRate = Math.max(1, Math.round(Number(svgAttr(groupTag, "data-sample-rate")) || 4000));
       const duration = Math.max(1, Math.min(30, Number(svgAttr(groupTag, "data-duration")) || frameCount / sampleRate));
       const bytes = new Uint8Array(frameCount);
-      if (encoding === "mulaw8-protected-texture-field-v1") {
+      if (encoding === "mulaw8-protected-texture-field-v1" || encoding === "mulaw8-protected-texture-field-v2") {
         const cx = Number(svgAttr(groupTag, "data-cx")) || 600;
         const cy = Number(svgAttr(groupTag, "data-cy")) || 610;
         const radiusX = Number(svgAttr(groupTag, "data-radius-x")) || 492;
@@ -997,7 +1396,9 @@
         if (!tags.length || tags.length < frameCount) return null;
         tags.forEach((tag, index) => {
           if (index >= bytes.length) return;
-          const point = hasTextureProfile
+          const point = encoding === "mulaw8-protected-texture-field-v2"
+            ? textureFieldPointV2(index, cx, cy, radiusX, radiusY, textureSeed, textureMode, textureRegion, frameCount)
+            : hasTextureProfile
             ? textureFieldPoint(index, cx, cy, radiusX, radiusY, textureSeed, textureMode, textureRegion)
             : legacyTextureFieldPoint(index, cx, cy, radiusX, radiusY);
           const x1 = Number(svgAttr(tag, "x1"));
@@ -1657,6 +2058,62 @@
       const avg = mean(list);
       return clamp01(Math.sqrt(list.reduce((sum, value) => sum + Math.pow(value - avg, 2), 0) / list.length) * 2.4);
     }
+    function segmentMean(values, startRatio, endRatio) {
+      const list = (Array.isArray(values) ? values : []).map(Number).filter(Number.isFinite);
+      if (!list.length) return 0;
+      const start = Math.max(0, Math.min(list.length - 1, Math.floor(list.length * startRatio)));
+      const end = Math.max(start + 1, Math.min(list.length, Math.ceil(list.length * endRatio)));
+      return mean(list.slice(start, end));
+    }
+    function peakStats(values = [], thresholdRatio = .72) {
+      const list = (Array.isArray(values) ? values : []).map(Number).filter(Number.isFinite);
+      if (!list.length) return { density: 0, regularity: 0 };
+      const max = Math.max(...list, 1);
+      const threshold = max * thresholdRatio;
+      const peaks = [];
+      for (let i = 1; i < list.length - 1; i++) {
+        if (list[i] >= threshold && list[i] >= list[i - 1] && list[i] >= list[i + 1]) peaks.push(i);
+      }
+      const intervals = peaks.slice(1).map((value, index) => value - peaks[index]).filter(value => value > 0);
+      const avg = mean(intervals);
+      const spread = intervals.length ? Math.sqrt(intervals.reduce((sum, value) => sum + Math.pow(value - avg, 2), 0) / intervals.length) : 0;
+      return {
+        density: clamp01(peaks.length / Math.max(1, list.length) * 6),
+        regularity: intervals.length > 1 ? clamp01(1 - spread / Math.max(1, avg)) : 0
+      };
+    }
+    function averageBandRatio(detail = {}, start = 0, end = 1) {
+      const rows = Array.isArray(detail.bandTimeline) ? detail.bandTimeline : [];
+      if (!rows.length) return 0;
+      let total = 0;
+      let count = 0;
+      rows.forEach(row => {
+        for (let i = start; i <= end; i++) {
+          total += Number(row?.[i] || 0);
+          count += 1;
+        }
+      });
+      return clamp01(total / Math.max(1, count));
+    }
+    function chromaMotion(rows = []) {
+      const matrix = Array.isArray(rows) ? rows : [];
+      if (matrix.length < 2) return 0;
+      let total = 0;
+      let count = 0;
+      for (let r = 1; r < matrix.length; r++) {
+        for (let c = 0; c < 12; c++) {
+          total += Math.abs(Number(matrix[r]?.[c] || 0) - Number(matrix[r - 1]?.[c] || 0));
+          count += 1;
+        }
+      }
+      return clamp01(total / Math.max(1, count) * 3);
+    }
+    function waveformSimplicity(waveform = []) {
+      const values = (Array.isArray(waveform) ? waveform : []).map(Number).filter(Number.isFinite);
+      if (values.length < 4) return 0;
+      const rounded = new Set(values.map(value => Math.round(value * 8)));
+      return clamp01(1 - rounded.size / 17);
+    }
     function chromaEntropy(chroma = []) {
       const values = Array.from({ length: 12 }, (_, i) => clamp01(chroma[i] || 0));
       const total = values.reduce((sum, value) => sum + value, 0) || 1;
@@ -1694,9 +2151,19 @@
       const detail = normaliseAudioDetail(features.detail || {}, features);
       const centroid = Number(features.centroid ?? features.spectralCentroid) || 1200;
       const bands = bandGroupRatios(detail, features);
+      const onsetPeaks = peakStats(detail.onset, .68);
       const brightness = features.highBandRatio != null
         ? Math.max(clamp01(features.brightness), clamp01(features.highBandRatio))
         : clamp01(features.brightness ?? ((centroid - 400) / 5200));
+      const rmsBuild = clamp01((segmentMean(detail.rms, .62, 1) - segmentMean(detail.rms, 0, .38)) * 1.8 + .5);
+      const chorusLift = clamp01(Math.max(0, segmentMean(detail.rms, .55, .85) - segmentMean(detail.rms, .15, .45)) * 2.4);
+      const midDensity = averageBandRatio(detail, 3, 5);
+      const guitarBand = averageBandRatio(detail, 4, 6);
+      const vocalBand = averageBandRatio(detail, 3, 5);
+      const acousticness = clamp01(chromaEntropy(features.chroma || []) * .34 + contrast(detail.rms) * .3 + bands.midBandRatio * .24 + (1 - clamp01(features.bass)) * .12);
+      const distortion = clamp01((features.energy ?? features.rms) * .22 + midDensity * .28 + (mean(detail.zeroCrossing) || 0) * .26 + contrast(detail.centroid) * .24);
+      const breakbeatDensity = clamp01(onsetPeaks.density * .42 + contrast(detail.onset) * .28 + (features.tempo >= 150 || tempoDistance(Number(features.tempo) || 96, 172) < 22 ? .3 : 0));
+      const squareWave = clamp01(waveformSimplicity(detail.waveform) * .45 + mean(detail.zeroCrossing) * .35 + bands.highBandRatio * .2);
       return {
         tempo: Math.max(45, Math.min(220, Number(features.tempo) || 96)),
         energy: clamp01(features.energy ?? features.rms),
@@ -1712,7 +2179,19 @@
         onsetContrast: contrast(detail.onset),
         bassContrast: contrast(detail.bass),
         centroidContrast: contrast(detail.centroid),
-        chromaEntropy: chromaEntropy(features.chroma || [])
+        chromaEntropy: chromaEntropy(features.chroma || []),
+        chromaMotion: chromaMotion(detail.chromaTimeline),
+        onsetDensity: onsetPeaks.density,
+        onsetRegularity: onsetPeaks.regularity,
+        rmsBuild,
+        chorusLift,
+        midDensity,
+        guitarBand,
+        vocalBand,
+        acousticness,
+        distortion,
+        breakbeatDensity,
+        squareWave
       };
     }
     function genreMetadataBoost(features = {}, genreName = "") {
@@ -1902,13 +2381,133 @@
       ambient: "ambient",
       electronic: "electronic",
       black: "black music",
+      black_music: "black music",
       rock: "rock",
       jazz: "jazz",
       pop: "pop",
       classical: "classical",
-      folk: "folk / world"
+      folk: "folk / world",
+      world: "jazz / world"
     };
     const genreToMacro = Object.fromEntries(Object.entries(macroGenreMap).flatMap(([macro, genres]) => genres.map(name => [name, macro])));
+    function canonicalModelMacro(value) {
+      const key = String(value || "").trim();
+      if (key === "black") return "black_music";
+      if (key === "folk") return "world";
+      return key;
+    }
+    function vectorArrayFromObject(vector = {}, keys = []) {
+      return keys.map(key => Number(vector[key]) || 0);
+    }
+    function standardiseVector(values = [], standardizer = {}) {
+      const means = standardizer.mean || {};
+      const stds = standardizer.std || {};
+      const keys = standardizer.keys || [];
+      return values.map((value, index) => {
+        const key = keys[index];
+        const std = Math.max(.0001, Number(stds[key]) || 1);
+        return ((Number(value) || 0) - (Number(means[key]) || 0)) / std;
+      });
+    }
+    function modelDistance(a = [], b = [], weights = []) {
+      let total = 0;
+      let weightTotal = 0;
+      for (let i = 0; i < Math.min(a.length, b.length); i++) {
+        const weight = Number(weights[i]) || 1;
+        total += Math.pow((a[i] || 0) - (b[i] || 0), 2) * weight;
+        weightTotal += weight;
+      }
+      return Math.sqrt(total / Math.max(.0001, weightTotal));
+    }
+    function normaliseModelScores(scores = {}) {
+      const entries = Object.entries(scores);
+      const max = Math.max(...entries.map(([, value]) => Number(value) || 0), .0001);
+      return Object.fromEntries(entries.map(([key, value]) => [key, clamp01((Number(value) || 0) / max)]));
+    }
+    function rankModelLabels(scores = {}, labelKey = "name", extra = {}) {
+      return Object.entries(normaliseModelScores(scores))
+        .map(([label, score]) => ({ [labelKey]: label, score: Math.round(score * 100), ...extra[label] }))
+        .sort((a, b) => b.score - a.score || String(a[labelKey]).localeCompare(String(b[labelKey])));
+    }
+    function knnScores(examples = [], target = [], labelGetter = item => item.genre, k = 11) {
+      const rows = examples
+        .map(example => ({ label: labelGetter(example), distance: modelDistance(target, example.z, example.weights) }))
+        .filter(row => row.label)
+        .sort((a, b) => a.distance - b.distance)
+        .slice(0, k);
+      const scores = {};
+      rows.forEach((row, index) => {
+        const weight = (1 / Math.pow(row.distance + .18, 2)) * (1 - index / Math.max(k * 1.4, 1));
+        scores[row.label] = (scores[row.label] || 0) + weight;
+      });
+      return scores;
+    }
+    function centroidScores(centroids = {}, target = [], weights = []) {
+      const scores = {};
+      Object.entries(centroids).forEach(([label, centroid]) => {
+        scores[label] = 1 / Math.pow(modelDistance(target, centroid, weights) + .2, 2);
+      });
+      return scores;
+    }
+    function mergeScores(a = {}, b = {}, aWeight = .64, bWeight = .36) {
+      const out = {};
+      new Set(Object.keys(a).concat(Object.keys(b))).forEach(key => {
+        out[key] = (a[key] || 0) * aWeight + (b[key] || 0) * bWeight;
+      });
+      return out;
+    }
+    function inferMusicGenresWithModel(features = {}) {
+      const model = state.genreModel;
+      if (!model?.featureKeys?.length || !Array.isArray(model.examples) || !model.examples.length) return null;
+      const vector = genreFeatureVector(features);
+      const raw = vectorArrayFromObject(vector, model.featureKeys);
+      const z = standardiseVector(raw, model.standardizer || {});
+      const weights = model.featureKeys.map(key => Number(model.featureWeights?.[key]) || 1);
+      const examples = model.examples.map(example => ({ ...example, weights, z: standardiseVector(example.values || [], model.standardizer || {}) }));
+      const macroScores = mergeScores(
+        knnScores(examples, z, item => canonicalModelMacro(item.macroGenre), model.knnK || 11),
+        centroidScores(model.centroids?.macro || {}, z, weights),
+        .66,
+        .34
+      );
+      const macroRanked = rankModelLabels(macroScores, "macro", Object.fromEntries(Object.keys(macroScores).map(macro => [macro, { label: macroGenreLabels[macro] || macro }])));
+      const selectedMacro = macroRanked[0]?.macro || "";
+      const fineExamples = examples.filter(item => item.trainingRole !== "macro-only" && canonicalModelMacro(item.macroGenre) === selectedMacro);
+      const fallbackFineExamples = examples.filter(item => item.trainingRole !== "macro-only");
+      const scopedFineExamples = fineExamples.length >= 3 ? fineExamples : fallbackFineExamples;
+      const fineCentroids = model.centroids?.fineByMacro?.[selectedMacro] || model.centroids?.fine || {};
+      const fineScores = mergeScores(
+        knnScores(scopedFineExamples, z, item => item.genre, model.knnK || 11),
+        centroidScores(fineCentroids, z, weights),
+        .68,
+        .32
+      );
+      const catalogByName = Object.fromEntries(musicGenreCatalog.map(item => [item.name, item]));
+      const ranked = rankModelLabels(fineScores, "name", Object.fromEntries(Object.keys(fineScores).map(name => {
+        const macro = canonicalModelMacro(genreToMacro[name] || selectedMacro);
+        const genre = catalogByName[name] || {};
+        return [name, {
+          family: genre.family || macro,
+          macro,
+          macroLabel: macroGenreLabels[macro] || macro,
+          macroScore: macroRanked.find(item => item.macro === macro)?.score || macroRanked[0]?.score || 0,
+          modes: genre.modes || [],
+          acousticScore: 0,
+          metaFallback: false
+        }];
+      }))).slice(0, 5);
+      const confidence = ranked[0]?.score || 0;
+      const margin = confidence - (ranked[1]?.score || 0);
+      return {
+        source: "ローカル学習データによる2段階分類器。大分類を先に判定し、その範囲内で細分類します。",
+        catalogSize: model.fineGenres?.length || musicGenreCatalog.length,
+        method: "two-stage-local-classifier",
+        confidence,
+        needsReview: confidence < 58 || margin < 8,
+        macro: macroRanked.slice(0, 4),
+        top: ranked
+      };
+    }
     function macroGenreScore(vector, macro) {
       const tempo = vector.tempo || 96;
       const energy = vector.energy || 0;
@@ -1953,7 +2552,7 @@
         })
         .sort((a, b) => b.score - a.score || a.label.localeCompare(b.label));
     }
-    function inferMusicGenres(features = {}) {
+    function inferMusicGenresWithRules(features = {}) {
       const acousticRanked = musicGenreCatalog
         .map(genre => ({ ...genre, acousticScore: genreRuleScore(features, genre) }))
         .sort((a, b) => b.acousticScore - a.acousticScore || a.name.localeCompare(b.name));
@@ -1989,6 +2588,22 @@
         macro: macroRanked.slice(0, 4).map(item => ({ macro: item.macro, label: item.label, score: Math.round(item.score * 100) })),
         top: ranked
       };
+    }
+    function inferMusicGenres(features = {}) {
+      const modelAnalysis = inferMusicGenresWithModel(features);
+      if (!modelAnalysis) return inferMusicGenresWithRules(features);
+      const ruleAnalysis = inferMusicGenresWithRules(features);
+      const modelMacros = new Set((state.genreModel?.macroGenres || []).map(canonicalModelMacro));
+      const ruleMacro = canonicalModelMacro(ruleAnalysis.macro?.[0]?.macro);
+      const ruleMacroScore = Number(ruleAnalysis.macro?.[0]?.score) || 0;
+      if (ruleMacro && !modelMacros.has(ruleMacro) && ruleMacroScore >= 66) {
+        return {
+          ...ruleAnalysis,
+          source: `${ruleAnalysis.source} 現在の学習モデルに ${ruleMacro} 系サンプルが不足しているため、この大分類はルール推定を優先しています。`,
+          method: "two-stage-audio-fallback-missing-model-macro"
+        };
+      }
+      return modelAnalysis;
     }
     function enrichFeaturesWithGenre(features = {}) {
       const genreAnalysis = inferMusicGenres(features);
@@ -2989,6 +3604,41 @@
     Object.keys(genreVisualProfiles).forEach(name => {
       if (genrePatternProfiles[name]) Object.assign(genrePatternProfiles[name], genreVisualProfiles[name]);
     });
+    const genreCollisionStyles = {
+      "アンビエント": "quiet",
+      "ドローン": "quiet",
+      "ノイズミュージック": "dense-impact",
+      "電子音楽": "grid",
+      "テクノ": "grid",
+      "ハウス": "strata",
+      "ディープ・ハウス": "quiet",
+      "トランス": "orbit",
+      "ドラムンベース": "burst",
+      "ダブステップ": "dense-impact",
+      "チップチューン": "grid",
+      "ヒップホップ": "burst",
+      "トラップ": "dense-impact",
+      "レゲエ": "strata",
+      "ダブ": "quiet",
+      "ロック": "burst",
+      "パンク": "dense-impact",
+      "ハードコア": "dense-impact",
+      "メタル": "dense-impact",
+      "ジャズ": "quiet",
+      "ファンク": "strata",
+      "ソウルミュージック": "quiet",
+      "ディスコ": "orbit",
+      "シティ・ポップ": "grid",
+      "J-POP": "grid",
+      "アニメソング": "orbit",
+      "クラシック音楽": "quiet",
+      "オペラ": "quiet",
+      "フォーク": "quiet",
+      "ワールドミュージック": "orbit"
+    };
+    Object.keys(genreCollisionStyles).forEach(name => {
+      if (genrePatternProfiles[name]) genrePatternProfiles[name].collisionStyle = genreCollisionStyles[name];
+    });
     const genreNameImageryProfiles = {
       "アンビエント": { lineCharacter: "霧のように浮く余白線", nameMotif: "mist" },
       "ドローン": { lineCharacter: "長く沈む持続線", nameMotif: "sustain" },
@@ -3086,6 +3736,7 @@
         densityBias: clampRange((genrePattern.densityBias ?? 1) + densityLift, .38, 1.48),
         strokeBias: clampRange((genrePattern.strokeBias ?? 1) + bass * .08 + onset * .06, .52, 1.52),
         textureRegion: normaliseTextureRegion(genrePattern.textureRegion || "full"),
+        collisionStyle: genrePattern.collisionStyle || "quiet",
         lineCharacter: genrePattern.lineCharacter || "ジャンル名から来る線",
         nameMotif: genrePattern.nameMotif || "generic"
       };
@@ -3122,6 +3773,10 @@
       const variantFamily = genrePattern?.variantFamily || fallbackMode;
       const layoutBias = genrePattern?.layoutBias || "audio";
       const textureMode = genrePattern?.textureMode || variantFamily;
+      const genreVisual = genrePattern ? resolveGenreVisualProfile(genrePattern, audio, seed) : resolveGenreVisualProfile({}, audio, seed);
+      const previousCollisionField = activeCollisionField;
+      activeCollisionField = makeCollisionField({ seed, style: genreVisual.collisionStyle });
+      reserveProtectedPcmTexture(activeCollisionField, seed, textureMode, genreVisual.textureRegion);
       const rand = seeded(seed || 1);
       const rms = clamp01(audio.energy ?? audio.rms);
       const bass = clamp01(audio.bass);
@@ -3658,7 +4313,6 @@
           ...makeCarrierStormGroups()
         ]
       };
-      const genreVisual = genrePattern ? resolveGenreVisualProfile(genrePattern, audio, seed) : resolveGenreVisualProfile({}, audio, seed);
       const genreFamilyTransform = (role = "base") => {
         const phase = genrePattern?.variantPhase ?? ((Math.abs(seed) % 997) / 997);
         const roleShift = role === "variant" ? 1 : 0;
@@ -3805,25 +4459,31 @@
       const surfaceGroups = genrePattern
         ? [
           ...genreDefs,
-          `<g id="genre_base_family" data-family="${baseFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-density-bias="${svgNumber(genreVisual.densityBias)}" data-stroke-bias="${svgNumber(genreVisual.strokeBias)}" transform="${genreFamilyTransform("base")}" ${clipAndMaskAttrs}>`,
+	          `<g id="genre_base_family" data-family="${baseFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-density-bias="${svgNumber(genreVisual.densityBias)}" data-stroke-bias="${svgNumber(genreVisual.strokeBias)}" data-collision-style="${escapeAttr(genreVisual.collisionStyle)}" transform="${genreFamilyTransform("base")}" ${clipAndMaskAttrs}>`,
           ...baseGroups,
           `</g>`,
           ...(variantGroups ? [
-            `<g id="genre_variant_family" data-family="${variantFamily}" data-variant-opacity="${svgNumber(genreVisual.variantOpacity)}" data-print-ink="black-opaque" transform="${genreFamilyTransform("variant")}" ${clipAndMaskAttrs}>`,
+	            `<g id="genre_variant_family" data-family="${variantFamily}" data-variant-opacity="${svgNumber(genreVisual.variantOpacity)}" data-print-ink="black-opaque" data-collision-style="${escapeAttr(genreVisual.collisionStyle)}" transform="${genreFamilyTransform("variant")}" ${clipAndMaskAttrs}>`,
             ...variantGroups,
             `</g>`
           ] : []),
-          `<g id="genre_name_imagery" data-line-character="${escapeAttr(genreVisual.lineCharacter)}" data-name-motif="${escapeAttr(genreVisual.nameMotif)}" data-print-ink="black-opaque" ${clipAndMaskAttrs}>`,
+	          `<g id="genre_name_imagery" data-line-character="${escapeAttr(genreVisual.lineCharacter)}" data-name-motif="${escapeAttr(genreVisual.nameMotif)}" data-print-ink="black-opaque" data-collision-style="${escapeAttr(genreVisual.collisionStyle)}" ${clipAndMaskAttrs}>`,
           ...makeNameImageryGroups(),
           `</g>`
         ]
         : (surfaceGroupsByMode[formMode] || surfaceGroupsByMode["cloth-field"]);
       const groups = [
-        `<g id="sound_form_surface" data-layer="sound_form_surface" data-form-mode="${formMode}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-negative-space="${genreVisual.negativeSpace}" data-line-character="${escapeAttr(genreVisual.lineCharacter)}" data-name-motif="${escapeAttr(genreVisual.nameMotif)}" transform="rotate(${svgNumber(clothTilt)} 600 600)">`,
+	        `<g id="sound_form_surface" data-layer="sound_form_surface" data-form-mode="${formMode}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-negative-space="${genreVisual.negativeSpace}" data-line-character="${escapeAttr(genreVisual.lineCharacter)}" data-name-motif="${escapeAttr(genreVisual.nameMotif)}" data-collision-style="${escapeAttr(genreVisual.collisionStyle)}" transform="rotate(${svgNumber(clothTilt)} 600 600)">`,
         ...surfaceGroups,
         `</g>`
       ];
-      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="${escapeAttr(mood.label)} reversible sound form" data-engine="reversible-sound-form-v4" data-form-mode="${formMode}" data-genre-pattern="${escapeAttr(genrePattern?.label || audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "")}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-negative-space="${genreVisual.negativeSpace}" data-line-character="${escapeAttr(genreVisual.lineCharacter)}" data-name-motif="${escapeAttr(genreVisual.nameMotif)}" data-texture-mode="${textureMode}" data-texture-region="${genreVisual.textureRegion}" data-inferred-genre="${escapeAttr(audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "")}" data-audio-fingerprint="${fingerprint.hash}" data-morphology-pass="${morph.pass}" data-refinement-passes="100" data-structural-debate-passes="30" data-genre-pattern-count="${Object.keys(genrePatternProfiles).length}" data-variant-seed="${seed}" data-iteration="${settings?.iteration || ""}">${metadata.join("")}${groups.join("")}</svg>`;
+	      const svgText = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="${escapeAttr(mood.label)} reversible sound form" data-engine="reversible-sound-form-v4" data-form-mode="${formMode}" data-genre-pattern="${escapeAttr(genrePattern?.label || audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "")}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-negative-space="${genreVisual.negativeSpace}" data-line-character="${escapeAttr(genreVisual.lineCharacter)}" data-name-motif="${escapeAttr(genreVisual.nameMotif)}" data-collision-style="${escapeAttr(genreVisual.collisionStyle)}" data-texture-mode="${textureMode}" data-texture-region="${genreVisual.textureRegion}" data-collision-pass="transform-aware-final-v1" data-inferred-genre="${escapeAttr(audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "")}" data-audio-fingerprint="${fingerprint.hash}" data-morphology-pass="${morph.pass}" data-refinement-passes="100" data-structural-debate-passes="30" data-genre-pattern-count="${Object.keys(genrePatternProfiles).length}" data-variant-seed="${seed}" data-iteration="${settings?.iteration || ""}">${metadata.join("")}${groups.join("")}</svg>`;
+	      activeCollisionField = previousCollisionField;
+	      return postProcessVisibleGeometryCollisions(svgText, {
+	        seed,
+	        style: genreVisual.collisionStyle,
+	        protectedTexture: { seed, mode: textureMode, region: genreVisual.textureRegion }
+	      });
     }
     function generateReversibleAudioPatternSvg(mood, tick = Date.now(), settings = null) {
       if (mood?.audio) return generateSoundClothReversibleSvg(mood, tick, settings);
@@ -5080,6 +5740,17 @@
     }
     async function loadCalibratedGenreProfiles() {
       if (location.protocol === "file:") return;
+      try {
+        const modelResponse = await fetch("genre-training/genre-model.json", { cache: "no-store" });
+        if (modelResponse.ok) {
+          const model = await modelResponse.json();
+          if (model?.featureKeys?.length && Array.isArray(model.examples)) {
+            state.genreModel = model;
+            render();
+            return;
+          }
+        }
+      } catch {}
       try {
         const response = await fetch("genre-training/generated-profiles.json", { cache: "no-store" });
         if (!response.ok) return;
