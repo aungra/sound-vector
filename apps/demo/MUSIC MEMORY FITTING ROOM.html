@@ -818,7 +818,7 @@
     }
     function textureFieldOptionsFromSvg(svg) {
       const rootTag = String(svg || "").match(/<svg\b[^>]*>/)?.[0] || "";
-      const mode = svgAttr(rootTag, "data-form-mode") || "texture-field";
+      const mode = svgAttr(rootTag, "data-texture-mode") || svgAttr(rootTag, "data-variant-family") || svgAttr(rootTag, "data-base-family") || svgAttr(rootTag, "data-form-mode") || "texture-field";
       const seedAttr = svgAttr(rootTag, "data-variant-seed");
       const seed = seedAttr || hashString(`${mode}|${svgAttr(rootTag, "data-audio-fingerprint") || ""}|${String(svg || "").slice(0, 360)}`);
       return { seed, mode };
@@ -2795,7 +2795,39 @@
       });
       return boosts;
     }
-    function chooseSoundFormMode(fingerprint, audio = {}, seed = 1) {
+    const genrePatternProfiles = {
+      "アンビエント": { id: "genre-ambient", label: "アンビエント", baseFamily: "memory-orbit", variantFamilies: ["cloth-field", "wave-strata", "constellation-map"], layoutBias: "orbit", textureMode: "memory-orbit" },
+      "ドローン": { id: "genre-drone", label: "ドローン", baseFamily: "topographic-pressure", variantFamilies: ["pressure-map", "memory-orbit", "cloth-field"], layoutBias: "pressure", textureMode: "topographic-pressure" },
+      "ノイズミュージック": { id: "genre-noise", label: "ノイズミュージック", baseFamily: "impact-fracture", variantFamilies: ["carrier-storm", "spectral-barcode", "topographic-pressure"], layoutBias: "fracture", textureMode: "impact-fracture" },
+      "電子音楽": { id: "genre-electronic", label: "電子音楽", baseFamily: "spectral-barcode", variantFamilies: ["spiral-core", "memory-orbit", "signal-flag"], layoutBias: "strata", textureMode: "spectral-barcode" },
+      "テクノ": { id: "genre-techno", label: "テクノ", baseFamily: "radial-score", variantFamilies: ["spectral-barcode", "wave-strata", "pressure-map"], layoutBias: "radial", textureMode: "radial-score" },
+      "ハウス": { id: "genre-house", label: "ハウス", baseFamily: "wave-strata", variantFamilies: ["radial-score", "signal-flag", "cloth-field"], layoutBias: "strata", textureMode: "wave-strata" },
+      "ディープ・ハウス": { id: "genre-deep-house", label: "ディープ・ハウス", baseFamily: "pressure-map", variantFamilies: ["memory-orbit", "wave-strata", "topographic-pressure"], layoutBias: "pressure", textureMode: "pressure-map" },
+      "トランス": { id: "genre-trance", label: "トランス", baseFamily: "spiral-core", variantFamilies: ["radial-score", "memory-orbit", "constellation-map"], layoutBias: "spiral", textureMode: "spiral-core" },
+      "ドラムンベース": { id: "genre-drum-and-bass", label: "ドラムンベース", baseFamily: "carrier-storm", variantFamilies: ["wave-strata", "impact-fracture", "radial-score"], layoutBias: "storm", textureMode: "carrier-storm" },
+      "ダブステップ": { id: "genre-dubstep", label: "ダブステップ", baseFamily: "pressure-map", variantFamilies: ["impact-fracture", "topographic-pressure", "carrier-storm"], layoutBias: "pressure", textureMode: "pressure-map" },
+      "チップチューン": { id: "genre-chiptune", label: "チップチューン", baseFamily: "spectral-barcode", variantFamilies: ["radial-score", "constellation-map", "spiral-core"], layoutBias: "grid", textureMode: "spectral-barcode" },
+      "ヒップホップ": { id: "genre-hip-hop", label: "ヒップホップ", baseFamily: "signal-flag", variantFamilies: ["pressure-map", "wave-strata", "carrier-storm"], layoutBias: "textile", textureMode: "signal-flag" },
+      "トラップ": { id: "genre-trap", label: "トラップ", baseFamily: "impact-fracture", variantFamilies: ["pressure-map", "carrier-storm", "radial-score"], layoutBias: "fracture", textureMode: "impact-fracture" },
+      "レゲエ": { id: "genre-reggae", label: "レゲエ", baseFamily: "signal-flag", variantFamilies: ["wave-strata", "cloth-field", "pressure-map"], layoutBias: "textile", textureMode: "signal-flag" },
+      "ダブ": { id: "genre-dub", label: "ダブ", baseFamily: "memory-orbit", variantFamilies: ["pressure-map", "topographic-pressure", "signal-flag"], layoutBias: "orbit", textureMode: "memory-orbit" },
+      "ロック": { id: "genre-rock", label: "ロック", baseFamily: "impact-fracture", variantFamilies: ["signal-flag", "carrier-storm", "topographic-pressure"], layoutBias: "fracture", textureMode: "impact-fracture" },
+      "パンク": { id: "genre-punk", label: "パンク", baseFamily: "carrier-storm", variantFamilies: ["impact-fracture", "radial-score", "signal-flag"], layoutBias: "storm", textureMode: "carrier-storm" },
+      "ハードコア": { id: "genre-hardcore", label: "ハードコア", baseFamily: "impact-fracture", variantFamilies: ["carrier-storm", "pressure-map", "radial-score"], layoutBias: "fracture", textureMode: "impact-fracture" },
+      "メタル": { id: "genre-metal", label: "メタル", baseFamily: "topographic-pressure", variantFamilies: ["impact-fracture", "carrier-storm", "spiral-core"], layoutBias: "pressure", textureMode: "topographic-pressure" },
+      "ジャズ": { id: "genre-jazz", label: "ジャズ", baseFamily: "constellation-map", variantFamilies: ["memory-orbit", "wave-strata", "spiral-core"], layoutBias: "orbit", textureMode: "constellation-map" },
+      "ファンク": { id: "genre-funk", label: "ファンク", baseFamily: "wave-strata", variantFamilies: ["signal-flag", "radial-score", "pressure-map"], layoutBias: "strata", textureMode: "wave-strata" },
+      "ソウルミュージック": { id: "genre-soul", label: "ソウルミュージック", baseFamily: "cloth-field", variantFamilies: ["memory-orbit", "wave-strata", "constellation-map"], layoutBias: "textile", textureMode: "cloth-field" },
+      "ディスコ": { id: "genre-disco", label: "ディスコ", baseFamily: "radial-score", variantFamilies: ["wave-strata", "spectral-barcode", "signal-flag"], layoutBias: "radial", textureMode: "radial-score" },
+      "シティ・ポップ": { id: "genre-city-pop", label: "シティ・ポップ", baseFamily: "constellation-map", variantFamilies: ["signal-flag", "memory-orbit", "wave-strata"], layoutBias: "orbit", textureMode: "constellation-map" },
+      "J-POP": { id: "genre-j-pop", label: "J-POP", baseFamily: "signal-flag", variantFamilies: ["constellation-map", "radial-score", "spiral-core"], layoutBias: "textile", textureMode: "signal-flag" },
+      "アニメソング": { id: "genre-anime-song", label: "アニメソング", baseFamily: "spiral-core", variantFamilies: ["radial-score", "constellation-map", "spectral-barcode"], layoutBias: "spiral", textureMode: "spiral-core" },
+      "クラシック音楽": { id: "genre-classical", label: "クラシック音楽", baseFamily: "constellation-map", variantFamilies: ["wave-strata", "topographic-pressure", "memory-orbit"], layoutBias: "orbit", textureMode: "constellation-map" },
+      "オペラ": { id: "genre-opera", label: "オペラ", baseFamily: "topographic-pressure", variantFamilies: ["constellation-map", "spiral-core", "wave-strata"], layoutBias: "pressure", textureMode: "topographic-pressure" },
+      "フォーク": { id: "genre-folk", label: "フォーク", baseFamily: "cloth-field", variantFamilies: ["signal-flag", "wave-strata", "memory-orbit"], layoutBias: "textile", textureMode: "cloth-field" },
+      "ワールドミュージック": { id: "genre-world", label: "ワールドミュージック", baseFamily: "radial-score", variantFamilies: ["constellation-map", "signal-flag", "wave-strata"], layoutBias: "radial", textureMode: "radial-score" }
+    };
+    function fallbackSoundFormMode(fingerprint, audio = {}, seed = 1) {
       const rand = seeded(seed || 1);
       const rms = clamp01(audio.energy ?? audio.rms);
       const bass = clamp01(audio.bass);
@@ -2804,68 +2836,7 @@
       const brightness = clamp01(audio.brightness ?? ((audio.centroid - 400) / 5200));
       const tempoNorm = clamp01(((audio.tempo || 96) - 60) / 160);
       const genreBoosts = genreModeBoosts(audio);
-      const families = [
-        {
-          id: "pressure-map",
-          bias: bass * .68 + fingerprint.gravity * .42 + rhythm * .12,
-          stance: "低域を面圧として読ませる"
-        },
-        {
-          id: "topographic-pressure",
-          bias: bass * .58 + fingerprint.bassStats.contrast * .7 + fingerprint.asymmetry * .24,
-          stance: "音圧を等高線の地形にする"
-        },
-        {
-          id: "memory-orbit",
-          bias: brightness * .58 + (1 - bass) * .24 + (fingerprint.chroma?.[fingerprint.peakPc] || 0) * .18,
-          stance: "明るい音を軌道と残響にする"
-        },
-        {
-          id: "spiral-core",
-          bias: brightness * .35 + rhythm * .28 + fingerprint.chromaX * .18 + fingerprint.pulseSpread * .25,
-          stance: "時間を渦へ巻き込む"
-        },
-        {
-          id: "wave-strata",
-          bias: rhythm * .62 + tempoNorm * .36 + fingerprint.rmsStats.contrast * .2,
-          stance: "波形を譜面の層にする"
-        },
-        {
-          id: "spectral-barcode",
-          bias: brightness * .42 + fingerprint.centroidStats.contrast * .8 + onset * .18,
-          stance: "音色を縦線密度にする"
-        },
-        {
-          id: "impact-fracture",
-          bias: onset * .68 + fingerprint.fracture * .54 + rhythm * .18,
-          stance: "立ち上がりを破片にする"
-        },
-        {
-          id: "radial-score",
-          bias: onset * .26 + tempoNorm * .38 + fingerprint.pulseSpread * .44,
-          stance: "拍を放射状スコアにする"
-        },
-        {
-          id: "constellation-map",
-          bias: .24 + Math.abs(fingerprint.chromaX) * .48 + Math.abs(fingerprint.chromaY) * .48 + brightness * .2 + (fingerprint.chroma?.[fingerprint.peakPc] || 0) * .24,
-          stance: "クロマを星図にする"
-        },
-        {
-          id: "signal-flag",
-          bias: rms * .36 + fingerprint.temporalTilt * .22 + fingerprint.clothPull * .25 + bass * .14,
-          stance: "時間波形を旗ではなく信号面にする"
-        },
-        {
-          id: "carrier-storm",
-          bias: fingerprint.density * .5 + onset * .28 + rhythm * .32,
-          stance: "PCMキャリアを嵐として見せる"
-        },
-        {
-          id: "cloth-field",
-          bias: .32 + rms * .18 + fingerprint.density * .2,
-          stance: "布状フィールドに戻す"
-        }
-      ];
+      const families = soundFormFamilies(fingerprint, audio);
       let best = null;
       for (let pass = 1; pass <= 30; pass++) {
         const candidate = families[Math.floor(rand() * families.length)] || families[0];
@@ -2880,6 +2851,41 @@
       }
       return best?.id || "cloth-field";
     }
+    function soundFormFamilies(fingerprint, audio = {}) {
+      const rms = clamp01(audio.energy ?? audio.rms);
+      const bass = clamp01(audio.bass);
+      const onset = clamp01(audio.onset);
+      const rhythm = clamp01(audio.rhythm ?? onset);
+      const brightness = clamp01(audio.brightness ?? ((audio.centroid - 400) / 5200));
+      const tempoNorm = clamp01(((audio.tempo || 96) - 60) / 160);
+      return [
+        { id: "pressure-map", bias: bass * .68 + fingerprint.gravity * .42 + rhythm * .12, stance: "低域を面圧として読ませる" },
+        { id: "topographic-pressure", bias: bass * .58 + fingerprint.bassStats.contrast * .7 + fingerprint.asymmetry * .24, stance: "音圧を等高線の地形にする" },
+        { id: "memory-orbit", bias: brightness * .58 + (1 - bass) * .24 + (fingerprint.chroma?.[fingerprint.peakPc] || 0) * .18, stance: "明るい音を軌道と残響にする" },
+        { id: "spiral-core", bias: brightness * .35 + rhythm * .28 + fingerprint.chromaX * .18 + fingerprint.pulseSpread * .25, stance: "時間を渦へ巻き込む" },
+        { id: "wave-strata", bias: rhythm * .62 + tempoNorm * .36 + fingerprint.rmsStats.contrast * .2, stance: "波形を譜面の層にする" },
+        { id: "spectral-barcode", bias: brightness * .42 + fingerprint.centroidStats.contrast * .8 + onset * .18, stance: "音色を縦線密度にする" },
+        { id: "impact-fracture", bias: onset * .68 + fingerprint.fracture * .54 + rhythm * .18, stance: "立ち上がりを破片にする" },
+        { id: "radial-score", bias: onset * .26 + tempoNorm * .38 + fingerprint.pulseSpread * .44, stance: "拍を放射状スコアにする" },
+        { id: "constellation-map", bias: .24 + Math.abs(fingerprint.chromaX) * .48 + Math.abs(fingerprint.chromaY) * .48 + brightness * .2 + (fingerprint.chroma?.[fingerprint.peakPc] || 0) * .24, stance: "クロマを星図にする" },
+        { id: "signal-flag", bias: rms * .36 + fingerprint.temporalTilt * .22 + fingerprint.clothPull * .25 + bass * .14, stance: "時間波形を旗ではなく信号面にする" },
+        { id: "carrier-storm", bias: fingerprint.density * .5 + onset * .28 + rhythm * .32, stance: "PCMキャリアを嵐として見せる" },
+        { id: "cloth-field", bias: .32 + rms * .18 + fingerprint.density * .2, stance: "布状フィールドに戻す" }
+      ];
+    }
+    function resolveGenrePattern(audio = {}, seed = 1, variantSalt = 0) {
+      const topGenre = audio.genreAnalysis?.top?.[0]?.name || audio.inferredGenre || "";
+      const profile = genrePatternProfiles[topGenre];
+      if (!profile) return null;
+      const variants = Array.isArray(profile.variantFamilies) && profile.variantFamilies.length ? profile.variantFamilies : [profile.baseFamily];
+      const variantIndex = Math.abs(Math.floor(seed + Number(variantSalt || 0) * 17 + hashString(profile.id))) % variants.length;
+      const variantFamily = variants[variantIndex] || profile.baseFamily;
+      const variantPhase = (Math.abs(seed) % 997) / 997;
+      return { ...profile, genreName: topGenre, variantFamily, variantIndex, variantPhase };
+    }
+    function chooseSoundFormMode(fingerprint, audio = {}, seed = 1) {
+      return resolveGenrePattern(audio, seed, audio.variantSalt || 0)?.id || fallbackSoundFormMode(fingerprint, audio, seed);
+    }
     function generateSoundClothReversibleSvg(mood, tick = Date.now(), settings = null) {
       const audio = mood.audio || {};
       const detail = normaliseAudioDetail(audio.detail || {}, audio);
@@ -2888,7 +2894,13 @@
       const seed = hashString(`${fingerprint.signature}|${mood.youtubeUrl || mood.audioFileName || mood.id}|sound-cloth|${tick}|${variantSalt}|${settings?.variantSeed || 0}`);
       const macroSeed = hashString(`${fingerprint.signature}|sound-cloth-macro`);
       const morph = refineSoundClothMorphology(fingerprint, audio, settings || {}, hashString(`${fingerprint.signature}|${seed}|100-pass`));
-      const formMode = chooseSoundFormMode(fingerprint, audio, seed);
+      const genrePattern = resolveGenrePattern(audio, seed, variantSalt);
+      const fallbackMode = fallbackSoundFormMode(fingerprint, audio, seed);
+      const formMode = genrePattern?.id || fallbackMode;
+      const baseFamily = genrePattern?.baseFamily || fallbackMode;
+      const variantFamily = genrePattern?.variantFamily || fallbackMode;
+      const layoutBias = genrePattern?.layoutBias || "audio";
+      const textureMode = genrePattern?.textureMode || variantFamily;
       const rand = seeded(seed || 1);
       const rms = clamp01(audio.energy ?? audio.rms);
       const bass = clamp01(audio.bass);
@@ -3377,7 +3389,7 @@
         return [svgGroup("carrier_storm_horizon", horizon), svgGroup("carrier_storm_threads", storm), svgGroup("carrier_storm_anchors", anchors)];
       };
       const metadata = [
-        `<desc>Reversible Sound Form Engine. A 100-pass audio-fingerprint morphology search, Wikipedia-derived genre estimation, and a 30-pass structural self-debate choose one of twelve macro forms. Different songs and variants therefore change the large structure, not only the line texture. Restoration PCM is added as a visible locked pcm_reversible_data internal texture on export.</desc>`,
+        `<desc>Reversible Sound Form Engine. A 100-pass audio-fingerprint morphology search, Wikipedia-derived genre estimation, and a 30-pass structural self-debate choose one of thirty genre-specific sound forms. Different songs and variants therefore change the large structure, not only the line texture. Restoration PCM is added as a visible locked pcm_reversible_data internal texture on export.</desc>`,
         `<g id="pcm_reversible_data" data-layer="pcm_reversible_data" data-status="added-on-export" data-edit-policy="lock-do-not-edit"></g>`
       ];
       const surfaceGroupsByMode = {
@@ -3425,13 +3437,34 @@
           ...makeCarrierStormGroups()
         ]
       };
-      const surfaceGroups = surfaceGroupsByMode[formMode] || surfaceGroupsByMode["cloth-field"];
+      const genreVariantTransform = () => {
+        const phase = genrePattern?.variantPhase ?? ((Math.abs(seed) % 997) / 997);
+        const rotate = (phase - .5) * 30 + (variantSalt % 5 - 2) * 3;
+        const tx = Math.sin(seed * .00031) * 34;
+        const ty = Math.cos(seed * .00027) * 28;
+        const scale = .82 + (phase * .18);
+        return `translate(${svgNumber(tx)} ${svgNumber(ty)}) rotate(${svgNumber(rotate)} 600 600) scale(${svgNumber(scale)} ${svgNumber(scale)}) translate(${svgNumber(600 * (1 - scale) / scale)} ${svgNumber(600 * (1 - scale) / scale)})`;
+      };
+      const baseGroups = surfaceGroupsByMode[baseFamily] || surfaceGroupsByMode[fallbackMode] || surfaceGroupsByMode["cloth-field"];
+      const variantGroups = variantFamily !== baseFamily ? surfaceGroupsByMode[variantFamily] : null;
+      const surfaceGroups = genrePattern
+        ? [
+          `<g id="genre_base_family" data-family="${baseFamily}" data-layout-bias="${layoutBias}">`,
+          ...baseGroups,
+          `</g>`,
+          ...(variantGroups ? [
+            `<g id="genre_variant_family" data-family="${variantFamily}" opacity=".74" transform="${genreVariantTransform()}">`,
+            ...variantGroups,
+            `</g>`
+          ] : [])
+        ]
+        : (surfaceGroupsByMode[formMode] || surfaceGroupsByMode["cloth-field"]);
       const groups = [
-        `<g id="sound_form_surface" data-layer="sound_form_surface" data-form-mode="${formMode}" transform="rotate(${svgNumber(clothTilt)} 600 600)">`,
+        `<g id="sound_form_surface" data-layer="sound_form_surface" data-form-mode="${formMode}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" transform="rotate(${svgNumber(clothTilt)} 600 600)">`,
         ...surfaceGroups,
         `</g>`
       ];
-      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="${escapeAttr(mood.label)} reversible sound form" data-engine="reversible-sound-form-v4" data-form-mode="${formMode}" data-inferred-genre="${escapeAttr(audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "")}" data-audio-fingerprint="${fingerprint.hash}" data-morphology-pass="${morph.pass}" data-refinement-passes="100" data-structural-debate-passes="30" data-variant-seed="${seed}" data-iteration="${settings?.iteration || ""}">${metadata.join("")}${groups.join("")}</svg>`;
+      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="${escapeAttr(mood.label)} reversible sound form" data-engine="reversible-sound-form-v4" data-form-mode="${formMode}" data-genre-pattern="${escapeAttr(genrePattern?.label || audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "")}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-texture-mode="${textureMode}" data-inferred-genre="${escapeAttr(audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "")}" data-audio-fingerprint="${fingerprint.hash}" data-morphology-pass="${morph.pass}" data-refinement-passes="100" data-structural-debate-passes="30" data-genre-pattern-count="${Object.keys(genrePatternProfiles).length}" data-variant-seed="${seed}" data-iteration="${settings?.iteration || ""}">${metadata.join("")}${groups.join("")}</svg>`;
     }
     function generateReversibleAudioPatternSvg(mood, tick = Date.now(), settings = null) {
       if (mood?.audio) return generateSoundClothReversibleSvg(mood, tick, settings);
@@ -4513,10 +4546,10 @@
         ? features.genreAnalysis.top.slice(0, 3).map(item => `${item.name} ${item.score}%`).join(" / ")
         : "未推定";
       return `<section class="panel"><div class="top"><div><p class="eyebrow">Pattern structure</p><h2>図柄のどこが音か</h2></div><strong>Reversible</strong></div>
-        <p class="muted">現在の仕様は <strong>REVERSIBLE SOUND FORM ENGINE v4</strong> です。音源を単一フォーマットに押し込まず、100パスの音響指紋選別、Wikipedia由来のジャンル推定、30回の構成自己ディベートで <strong>12種類のmacro form</strong> から選びます。書き出しSVGには復元用の <strong>pcm_reversible_data</strong> が見える保護図案として入ります。</p>
+        <p class="muted">現在の仕様は <strong>REVERSIBLE SOUND FORM ENGINE v4</strong> です。音源を単一フォーマットに押し込まず、100パスの音響指紋選別、Wikipedia由来のジャンル推定、30回の構成自己ディベートで <strong>30ジャンル別サウンドフォーム</strong> から選びます。書き出しSVGには復元用の <strong>pcm_reversible_data</strong> が見える保護図案として入ります。</p>
         <div class="mapping-list">
-          <p><strong>Macro Form</strong>曲ごとの大きな構造。低域、明るさ、onset、tempo、chroma重心で12種類から選ばれます。<span class="mapping-value">12 form modes / 30 debates</span></p>
-          <p><strong>Genre Guess</strong>Wikipediaの音楽ジャンル一覧を基にしたローカル推定。ジャンル候補がmacro formの選択に補正として入ります。<span class="mapping-value">${genreText}</span></p>
+          <p><strong>Genre Form</strong>曲ごとの大きな構造。推定Top1ジャンルを起点に、30種類の専用パターンから選ばれます。<span class="mapping-value">30 genre forms / 30 debates</span></p>
+          <p><strong>Genre Guess</strong>Wikipediaの音楽ジャンル一覧を基にしたローカル推定。推定Top1が専用パターンを決め、別案では同ジャンル内の副フォームが切り替わります。<span class="mapping-value">${genreText}</span></p>
           <p><strong>Pressure Field</strong>太い黒線。Bass、RMS、Rhythmを合成した音圧の流れです。<span class="mapping-value">${formatFeaturePercent(features?.bass)}</span></p>
           <p><strong>Memory Weave</strong>布の中の細い織り目。表示用PCMキャリアを布面に分散します。<span class="mapping-value">${formatPcmGeometryText(features)}</span></p>
           <p><strong>Impact / Fracture</strong>裂け目、穴、短い傷。ドラムや声の入りなどonsetの強さです。<span class="mapping-value">${formatFeaturePercent(features?.onset)}</span></p>

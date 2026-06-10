@@ -13,7 +13,7 @@
     "audio-server": "npm --workspace apps/demo run audio-server",
     "genre-collect": "npm --workspace apps/demo run genre-collect",
     "genre-train": "npm --workspace apps/demo run genre-train",
-    "test": "npm --workspace packages/reversible-svg run test",
+    "test": "npm --workspace packages/reversible-svg run test && node apps/demo/scripts/genre-patterns.test.mjs",
     "typecheck": "npm --workspace apps/demo run typecheck",
     "check": "npm run test && npm run typecheck && npm run build"
   },
