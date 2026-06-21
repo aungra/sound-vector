@@ -24,23 +24,19 @@ export function encodePcmBytesToProtectedLayer(bytes, options = {}) {
   const sampleRate = Number.isFinite(options.sampleRate) ? options.sampleRate : 8000;
   const channels = Number.isFinite(options.channels) ? options.channels : 1;
   const duration = Number.isFinite(options.duration) ? options.duration : values.length / sampleRate;
-  const lines = [];
+  const particles = [];
 
   for (let index = 0; index < values.length; index += 1) {
     const byte = values[index];
-    const point = textureFieldPointV2(index, cx, cy, radiusX, radiusY, textureSeed, textureMode, textureRegion, values.length);
+    const point = protectedParticleFieldPoint(index, cx, cy, radiusX, radiusY, textureSeed, textureMode, textureRegion, values.length);
     const offset = ((byte - 128) / 127) * amplitude;
-    const length = 2.4 + ((index * 17) % 11) * 0.18;
-    const mx = point.x + point.nx * offset;
-    const my = point.y + point.ny * offset;
-    const x1 = mx - point.tx * length * 0.5;
-    const y1 = my - point.ty * length * 0.5;
-    const x2 = mx + point.tx * length * 0.5;
-    const y2 = my + point.ty * length * 0.5;
-    lines.push(`<line x1="${num(x1)}" y1="${num(y1)}" x2="${num(x2)}" y2="${num(y2)}" stroke="#000" stroke-width=".28" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`);
+    const px = point.x + point.nx * offset;
+    const py = point.y + point.ny * offset;
+    const r = protectedParticleRadius(index, textureSeed);
+    particles.push(`<circle cx="${num(px)}" cy="${num(py)}" r="${num(r)}" fill="#000"/>`);
   }
 
-  return `<g id="${PROTECTED_PCM_LAYER_ID}" data-layer="${PROTECTED_PCM_LAYER_ID}" data-schema="${REVERSIBLE_SVG_SCHEMA}" data-encoding="mulaw8-protected-texture-field-v2" data-sample-rate="${sampleRate}" data-channels="${channels}" data-duration="${num(duration)}" data-frame-count="${values.length}" data-cx="${num(cx)}" data-cy="${num(cy)}" data-radius-x="${num(radiusX)}" data-radius-y="${num(radiusY)}" data-texture-seed="${textureSeed}" data-texture-mode="${escapeAttr(textureMode)}" data-texture-region="${escapeAttr(textureRegion)}" data-amplitude="${num(amplitude)}" data-visual-role="locked-protected-texture-field" data-edit-policy="lock-do-not-edit">${lines.join("")}</g>`;
+  return `<g id="${PROTECTED_PCM_LAYER_ID}" data-layer="${PROTECTED_PCM_LAYER_ID}" data-schema="${REVERSIBLE_SVG_SCHEMA}" data-encoding="mulaw8-protected-particle-field-v1" data-sample-rate="${sampleRate}" data-channels="${channels}" data-duration="${num(duration)}" data-frame-count="${values.length}" data-cx="${num(cx)}" data-cy="${num(cy)}" data-radius-x="${num(radiusX)}" data-radius-y="${num(radiusY)}" data-texture-seed="${textureSeed}" data-texture-mode="${escapeAttr(textureMode)}" data-texture-region="${escapeAttr(textureRegion)}" data-amplitude="${num(amplitude)}" data-visual-role="locked-protected-particle-field" data-edit-policy="lock-do-not-edit">${particles.join("")}</g>`;
 }
 
 export function decodePcmBytesFromProtectedLayer(svgText) {
@@ -49,6 +45,7 @@ export function decodePcmBytesFromProtectedLayer(svgText) {
   const encoding = attrText(group, "data-encoding");
   const amplitude = geometryAmplitude(group);
   const matches = [...group.matchAll(/<line\b[^>]*>/g)];
+  const particleMatches = [...group.matchAll(/<circle\b[^>]*>/g)];
   if (encoding === "mulaw8-protected-seal-band-v1") {
     const x0 = attrNumber(group, "data-x0") ?? 108;
     const y0 = attrNumber(group, "data-y0") ?? 108;
@@ -62,6 +59,26 @@ export function decodePcmBytesFromProtectedLayer(svgText) {
       if (!Number.isFinite(x2) || !Number.isFinite(y2)) return 0;
       const point = sealBandPoint(index, x0, y0, width, height, step);
       const offset = (x2 - point.x) * point.nx + (y2 - point.y) * point.ny;
+      return clampByte((offset / amplitude) * 127 + 128);
+    }));
+  }
+  if (encoding === "mulaw8-protected-particle-field-v1") {
+    const declaredFrameCount = attrNumber(group, "data-frame-count");
+    if (!particleMatches.length || (Number.isFinite(declaredFrameCount) && particleMatches.length < declaredFrameCount)) return new Uint8Array();
+    const cx = attrNumber(group, "data-cx") ?? 600;
+    const cy = attrNumber(group, "data-cy") ?? 610;
+    const radiusX = attrNumber(group, "data-radius-x") ?? 492;
+    const radiusY = attrNumber(group, "data-radius-y") ?? 438;
+    const textureSeed = normaliseSeed(attrText(group, "data-texture-seed") || 0);
+    const textureMode = normaliseTextureMode(attrText(group, "data-texture-mode"));
+    const textureRegion = normaliseTextureRegion(attrText(group, "data-texture-region") || "full");
+    return Uint8Array.from(particleMatches.map((match, index) => {
+      const tag = match[0];
+      const px = attrNumber(tag, "cx");
+      const py = attrNumber(tag, "cy");
+      if (![px, py].every(Number.isFinite)) return 0;
+      const point = protectedParticleFieldPoint(index, cx, cy, radiusX, radiusY, textureSeed, textureMode, textureRegion, declaredFrameCount || particleMatches.length);
+      const offset = (px - point.x) * point.nx + (py - point.y) * point.ny;
       return clampByte((offset / amplitude) * 127 + 128);
     }));
   }
@@ -93,6 +110,14 @@ export function decodePcmBytesFromProtectedLayer(svgText) {
     const offset = (mx - point.x) * point.nx + (my - point.y) * point.ny;
     return clampByte((offset / amplitude) * 127 + 128);
   }));
+}
+
+function protectedParticleFieldPoint(index, cx, cy, radiusX, radiusY, seed = 0, mode = "texture-field", region = "full", frameCount = 1) {
+  return textureFieldPointV2(index, cx, cy, radiusX, radiusY, seed, mode, region, frameCount);
+}
+
+function protectedParticleRadius(index, seed = 0) {
+  return 0.62 + noise01(index, 43, seed) * 0.82;
 }
 
 export function inspectReversibleSvg(svgText) {

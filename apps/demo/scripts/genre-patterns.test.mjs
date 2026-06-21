@@ -14,7 +14,7 @@ function loadPatternApi() {
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]);
   const appScript = scripts.at(-1).replace(
     /cleanupStoredSessions\(\);\s*render\(\);\s*loadCalibratedGenreProfiles\(\);\s*$/,
-    "globalThis.__patternApi={genrePatternProfiles,musicGenreProfiles,resolveGenrePattern,resolveGenreVisualProfile,generateSoundClothReversibleSvg};"
+    "globalThis.__patternApi={genrePatternProfiles,musicGenreProfiles,resolveGenrePattern,resolveGenreVisualProfile,generateSoundClothReversibleSvg,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg};"
   );
   const context = {
     console,
@@ -22,6 +22,8 @@ function loadPatternApi() {
     Math,
     JSON,
     URL,
+    atob: value => Buffer.from(String(value), "base64").toString("binary"),
+    btoa: value => Buffer.from(String(value), "binary").toString("base64"),
     setTimeout,
     clearTimeout,
     Blob: function Blob() {},
@@ -64,9 +66,9 @@ test("genre pattern profiles cover all calibrated genre names", () => {
   const knownTextureRegions = new Set(["full", "core", "diagonal", "bands", "orbit", "fracture", "border", "islands"]);
   const knownCollisionStyles = new Set(["quiet", "grid", "burst", "orbit", "strata", "dense-impact"]);
 
-  assert.equal(patternNames.length, 30);
+  assert.ok(patternNames.length >= 32);
   assert.deepEqual(patternNames.sort(), genreNames.sort());
-  assert.equal(new Set(patternNames.map(name => genrePatternProfiles[name].id)).size, 30);
+  assert.equal(new Set(patternNames.map(name => genrePatternProfiles[name].id)).size, patternNames.length);
 
   for (const name of genreNames) {
     const profile = genrePatternProfiles[name];
@@ -98,7 +100,21 @@ test("genre pattern profiles cover all calibrated genre names", () => {
   }
 });
 
-test("generated genre SVG uses transform-aware collision pass", () => {
+test("demo protected PCM particle layer decodes from circle geometry", () => {
+  const { pcmProtectedDataGroupFromBytes, decodeProtectedPcmDataFromSvg } = loadPatternApi();
+  const source = Uint8Array.from([0, 64, 128, 192, 255]);
+  const layer = pcmProtectedDataGroupFromBytes(source, 1, 5, { textureSeed: 12, textureMode: "memory-orbit", textureRegion: "orbit" });
+  const decoded = decodeProtectedPcmDataFromSvg(`<svg>${layer}</svg>`);
+  const decodedBytes = Buffer.from(decoded.pcmSketch, "base64");
+
+  assert.match(layer, /data-encoding="mulaw8-protected-particle-field-v1"/);
+  assert.equal((layer.match(/<circle\b/g) || []).length, source.length);
+  assert.deepEqual([...decodedBytes], [...source]);
+  assert.doesNotMatch(layer, /data-byte=/);
+  assert.doesNotMatch(layer, /data-index=/);
+});
+
+test("generated genre SVG uses aerosol particle style without SVG effects", () => {
   const { generateSoundClothReversibleSvg } = loadPatternApi();
   const mood = {
     id: "collision-fixture",
@@ -127,10 +143,15 @@ test("generated genre SVG uses transform-aware collision pass", () => {
     }
   };
   const svg = generateSoundClothReversibleSvg(mood, 1800000001234, { variantSeed: 77, iteration: "collision-test" });
-  assert.match(svg, /data-collision-pass="transform-aware-final-v1"/);
+  assert.match(svg, /data-visual-style="aerosol-particle-field-v1"/);
   assert.match(svg, /data-form-mode="genre-j-pop"/);
+  assert.match(svg, /id="aerosol_particle_field"/);
+  assert.match(svg, /<circle\b/);
   assert.doesNotMatch(svg, /stroke-opacity=/);
   assert.doesNotMatch(svg, /fill-opacity=/);
+  assert.doesNotMatch(svg, /filter=/);
+  assert.doesNotMatch(svg, /blur/);
+  assert.doesNotMatch(svg, /gradient/);
   assert.doesNotMatch(svg, /data-byte=/);
   assert.doesNotMatch(svg, /data-index=/);
 });

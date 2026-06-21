@@ -15,15 +15,15 @@ test("round trips PCM bytes through protected SVG geometry", () => {
 
   assert.deepEqual([...decoded], [...source]);
   assert.match(layer, new RegExp(`id="${PROTECTED_PCM_LAYER_ID}"`));
-  assert.match(layer, /data-encoding="mulaw8-protected-texture-field-v2"/);
+  assert.match(layer, /data-encoding="mulaw8-protected-particle-field-v1"/);
   assert.match(layer, /data-edit-policy="lock-do-not-edit"/);
   assert.match(layer, /data-frame-count="5"/);
   assert.match(layer, /data-texture-seed="42"/);
   assert.match(layer, /data-texture-mode="spiral-core"/);
   assert.match(layer, /data-texture-region="full"/);
-  assert.match(layer, /data-visual-role="locked-protected-texture-field"/);
-  assert.match(layer, /stroke="#000"/);
-  assert.match(layer, /<line\b/);
+  assert.match(layer, /data-visual-role="locked-protected-particle-field"/);
+  assert.match(layer, /fill="#000"/);
+  assert.match(layer, /<circle\b/);
   assert.doesNotMatch(layer, /data-byte=/);
   assert.doesNotMatch(layer, /data-index=/);
   assert.doesNotMatch(layer, /display="none"/);
@@ -41,26 +41,41 @@ test("uses texture seed and mode to vary protected geometry without losing bytes
   assert.deepEqual([...decodePcmBytesFromProtectedLayer(`<svg>${b}</svg>`)], [...source]);
 });
 
-test("writes complete v2 protected texture geometry without hidden byte attributes", () => {
+test("writes complete protected particle geometry without hidden byte attributes", () => {
   const source = Uint8Array.from({ length: 256 }, (_, index) => (index * 37) % 256);
   const layer = encodePcmBytesToProtectedLayer(source, { textureSeed: 7, textureMode: "radial-score", textureRegion: "orbit" });
-  const lines = [...layer.matchAll(/<line\b[^>]*>/g)];
+  const particles = [...layer.matchAll(/<circle\b[^>]*>/g)];
 
-  assert.equal(lines.length, source.length);
-  assert.match(layer, /data-encoding="mulaw8-protected-texture-field-v2"/);
+  assert.equal(particles.length, source.length);
+  assert.match(layer, /data-encoding="mulaw8-protected-particle-field-v1"/);
   assert.doesNotMatch(layer, /data-byte=/);
   assert.doesNotMatch(layer, /data-index=/);
   assert.doesNotMatch(layer, /display="none"/);
   assert.doesNotMatch(layer, /stroke-opacity=/);
+  assert.doesNotMatch(layer, /fill-opacity=/);
+  assert.doesNotMatch(layer, /filter=/);
+  assert.doesNotMatch(layer, /blur/);
+  assert.doesNotMatch(layer, /gradient/);
   assert.deepEqual([...decodePcmBytesFromProtectedLayer(`<svg>${layer}</svg>`)], [...source]);
 });
 
-test("rejects incomplete protected texture geometry", () => {
+test("rejects incomplete protected particle geometry", () => {
   const layer = encodePcmBytesToProtectedLayer([20, 80, 140], { sampleRate: 4000 });
-  const brokenLayer = layer.replace(/<line\b[^>]*><\/line>|<line\b[^>]*\/>/, "");
+  const brokenLayer = layer.replace(/<circle\b[^>]*><\/circle>|<circle\b[^>]*\/>/, "");
   const decoded = decodePcmBytesFromProtectedLayer(`<svg>${brokenLayer}</svg>`);
 
   assert.equal(decoded.length, 0);
+});
+
+test("keeps legacy texture-field v2 protected geometry readable", () => {
+  const legacyLayer = [
+    `<g id="${PROTECTED_PCM_LAYER_ID}" data-layer="${PROTECTED_PCM_LAYER_ID}" data-encoding="mulaw8-protected-texture-field-v2" data-frame-count="1" data-cx="600" data-cy="610" data-radius-x="492" data-radius-y="438" data-texture-seed="0" data-texture-mode="texture-field" data-texture-region="full" data-amplitude="7.6">`,
+    `<line x1="143.14" y1="195.39" x2="145.47" y2="195.91"/>`,
+    `</g>`
+  ].join("");
+  const decoded = decodePcmBytesFromProtectedLayer(`<svg>${legacyLayer}</svg>`);
+
+  assert.deepEqual([...decoded], [255]);
 });
 
 test("keeps legacy seal-band protected geometry readable", () => {

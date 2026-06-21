@@ -1161,19 +1161,15 @@
       const textureRegion = normaliseTextureRegion(textureOptions.region || textureOptions.textureRegion || "full");
       const amplitude = 7.6;
       const paths = Array.from(bytes, (byte, index) => {
-        const point = textureFieldPointV2(index, cx, cy, radiusX, radiusY, textureSeed, textureMode, textureRegion, bytes.length);
+        const point = protectedParticleFieldPoint(index, cx, cy, radiusX, radiusY, textureSeed, textureMode, textureRegion, bytes.length);
         const offset = ((byte - 128) / 127) * amplitude;
-        const length = 2.4 + ((index * 17) % 11) * .18;
-        const mx = point.x + point.nx * offset;
-        const my = point.y + point.ny * offset;
-        const x1 = mx - point.tx * length * .5;
-        const y1 = my - point.ty * length * .5;
-        const x2 = mx + point.tx * length * .5;
-        const y2 = my + point.ty * length * .5;
-        return `<line x1="${svgFineNumber(x1)}" y1="${svgFineNumber(y1)}" x2="${svgFineNumber(x2)}" y2="${svgFineNumber(y2)}" stroke="#000" stroke-width=".28" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`;
+        const px = point.x + point.nx * offset;
+        const py = point.y + point.ny * offset;
+        const r = protectedParticleRadius(index, textureSeed);
+        return `<circle cx="${svgFineNumber(px)}" cy="${svgFineNumber(py)}" r="${svgFineNumber(r)}" fill="#000"/>`;
       });
       const attrs = [
-        `data-encoding="mulaw8-protected-texture-field-v2"`,
+        `data-encoding="mulaw8-protected-particle-field-v1"`,
         `data-sample-rate="${sampleRate}"`,
         `data-duration="${svgFineNumber(duration)}"`,
         `data-frame-count="${bytes.length}"`,
@@ -1185,7 +1181,7 @@
         `data-texture-mode="${escapeAttr(textureMode)}"`,
         `data-texture-region="${escapeAttr(textureRegion)}"`,
         `data-amplitude="${amplitude}"`,
-        `data-visual-role="locked-protected-texture-field"`,
+        `data-visual-role="locked-protected-particle-field"`,
         `data-edit-policy="lock-do-not-edit"`
       ].join(" ");
       return svgGroupWithAttrs("pcm_reversible_data", paths, attrs);
@@ -1258,6 +1254,12 @@
       const nx = -ty;
       const ny = tx;
       return { x, y, nx, ny, tx, ty };
+    }
+    function protectedParticleFieldPoint(index, cx, cy, radiusX, radiusY, seed = 0, mode = "texture-field", region = "full", frameCount = 1) {
+      return textureFieldPointV2(index, cx, cy, radiusX, radiusY, seed, mode, region, frameCount);
+    }
+    function protectedParticleRadius(index, seed = 0) {
+      return .62 + textureNoise01(index, 43, seed) * .82;
     }
     function textureRegionPoint(index, x, y, cx, cy, radiusX, radiusY, seed = 0, region = "full") {
       const mode = normaliseTextureRegion(region);
@@ -1364,8 +1366,8 @@
       if (protectedGroup) {
         const groupTag = protectedGroup[0].match(/^<g\b[^>]*>/)?.[0] || "";
         const encoding = svgAttr(groupTag, "data-encoding");
-        const hasRestorableGeometry = /<line\b|<path\b/.test(protectedGroup[0]);
-        if (hasRestorableGeometry && (/^mulaw8-protected-(geometry|seal-band)-v1$/.test(encoding) || /^mulaw8-protected-texture-field-v[12]$/.test(encoding))) return text;
+        const hasRestorableGeometry = /<line\b|<path\b|<circle\b/.test(protectedGroup[0]);
+        if (hasRestorableGeometry && (/^mulaw8-protected-(geometry|seal-band)-v1$/.test(encoding) || /^mulaw8-protected-texture-field-v[12]$/.test(encoding) || encoding === "mulaw8-protected-particle-field-v1")) return text;
       }
       const group = pcmProtectedGeometryGroupFromDetail(detail, 96000, textureFieldOptionsFromSvg(text));
       if (!group) return text;
@@ -1382,7 +1384,28 @@
       const sampleRate = Math.max(1, Math.round(Number(svgAttr(groupTag, "data-sample-rate")) || 4000));
       const duration = Math.max(1, Math.min(30, Number(svgAttr(groupTag, "data-duration")) || frameCount / sampleRate));
       const bytes = new Uint8Array(frameCount);
-      if (encoding === "mulaw8-protected-texture-field-v1" || encoding === "mulaw8-protected-texture-field-v2") {
+      if (encoding === "mulaw8-protected-particle-field-v1") {
+        const cx = Number(svgAttr(groupTag, "data-cx")) || 600;
+        const cy = Number(svgAttr(groupTag, "data-cy")) || 610;
+        const radiusX = Number(svgAttr(groupTag, "data-radius-x")) || 492;
+        const radiusY = Number(svgAttr(groupTag, "data-radius-y")) || 438;
+        const textureSeed = normaliseTextureSeed(svgAttr(groupTag, "data-texture-seed") || 0);
+        const textureMode = normaliseTextureMode(svgAttr(groupTag, "data-texture-mode"));
+        const textureRegion = normaliseTextureRegion(svgAttr(groupTag, "data-texture-region") || "full");
+        const amplitude = Number(svgAttr(groupTag, "data-amplitude")) || 7.6;
+        const tags = body.match(/<circle\b[^>]*>/g) || [];
+        if (!tags.length || tags.length < frameCount) return null;
+        tags.forEach((tag, index) => {
+          if (index >= bytes.length) return;
+          const point = protectedParticleFieldPoint(index, cx, cy, radiusX, radiusY, textureSeed, textureMode, textureRegion, frameCount);
+          const px = Number(svgAttr(tag, "cx"));
+          const py = Number(svgAttr(tag, "cy"));
+          if (![px, py].every(Number.isFinite)) return;
+          const offset = (px - point.x) * point.nx + (py - point.y) * point.ny;
+          const byte = Math.round((offset / amplitude) * 127 + 128);
+          bytes[index] = Math.max(0, Math.min(255, byte));
+        });
+      } else if (encoding === "mulaw8-protected-texture-field-v1" || encoding === "mulaw8-protected-texture-field-v2") {
         const cx = Number(svgAttr(groupTag, "data-cx")) || 600;
         const cy = Number(svgAttr(groupTag, "data-cy")) || 610;
         const radiusX = Number(svgAttr(groupTag, "data-radius-x")) || 492;
@@ -1648,6 +1671,8 @@
       const waveform = resampleSignedSeries(source.waveform || source.signedWaveform || source.waveformSketch, 2048, 0);
       const chromaTimeline = resampleMatrix(source.chromaTimeline || source.chromaFrames, 24, 12);
       const bandTimeline = resampleMatrix(source.bandTimeline || source.bands || source.spectralBands, 32, 8);
+      const spectralRolloffTimeline = resampleSeries(source.spectralRolloff || source.spectralRolloffFrames, 32, 0);
+      const mfccTimeline = resampleMatrix(source.mfccTimeline || source.mfccFrames, 32, 3);
       return {
         version: "mmfr.audio-detail.v3",
         frameCount: 64,
@@ -1662,6 +1687,8 @@
         zeroCrossing,
         chromaTimeline,
         bandTimeline,
+        spectralRolloff: spectralRolloffTimeline,
+        mfccTimeline,
         pcmSketch: typeof source.pcmSketch === "string" ? source.pcmSketch : "",
         pcmSketchEncoding: source.pcmSketchEncoding || "",
         pcmSketchSampleRate: Number(source.pcmSketchSampleRate || 0),
@@ -1978,6 +2005,7 @@
       { name: "トラップ", family: "beat", modes: ["pressure-map", "carrier-storm"], rules: { bassMin: .68, onsetMin: .52, brightnessMin: .35 } },
       { name: "レゲエ", family: "dub", modes: ["signal-flag", "pressure-map"], rules: { tempoMin: 65, tempoMax: 105, bassMin: .56, rhythmMin: .42, brightnessMax: .62 } },
       { name: "ダブ", family: "dub", modes: ["topographic-pressure", "signal-flag"], rules: { bassMin: .66, rhythmMax: .62, brightnessMax: .54 } },
+      { name: "ブルース", family: "soul", modes: ["memory-orbit", "wave-strata"], rules: { energyMin: .34, energyMax: .72, brightnessMax: .58, rhythmMax: .62 } },
       { name: "ロック", family: "rock", modes: ["impact-fracture", "signal-flag"], rules: { energyMin: .62, onsetMin: .52, brightnessMin: .38 } },
       { name: "パンク", family: "rock", modes: ["impact-fracture", "radial-score"], rules: { tempoMin: 135, energyMin: .68, onsetMin: .62 } },
       { name: "ハードコア", family: "rock", modes: ["impact-fracture", "carrier-storm"], rules: { tempoMin: 145, energyMin: .72, onsetMin: .68 } },
@@ -1992,6 +2020,7 @@
       { name: "クラシック音楽", family: "classical", modes: ["constellation-map", "memory-orbit"], rules: { bassMax: .56, onsetMax: .58, rhythmMax: .54 } },
       { name: "オペラ", family: "classical", modes: ["memory-orbit", "spiral-core"], rules: { brightnessMin: .45, rhythmMax: .48, onsetMax: .52 } },
       { name: "フォーク", family: "folk", modes: ["signal-flag", "constellation-map"], rules: { energyMax: .62, bassMax: .52, rhythmMax: .58 } },
+      { name: "ラテン", family: "world", modes: ["radial-score", "signal-flag"], rules: { tempoMin: 90, tempoMax: 145, rhythmMin: .58, onsetMin: .42 } },
       { name: "ワールドミュージック", family: "world", modes: ["constellation-map", "radial-score"], rules: { rhythmMin: .44, onsetMin: .34 } }
     ];
     const musicGenreProfiles = {
@@ -2010,6 +2039,7 @@
       "トラップ": { tempo: 74, energy: .66, bass: .9, rhythm: .54, onset: .64, brightness: .46, zcr: .42, rmsContrast: .68, chromaEntropy: .48 },
       "レゲエ": { tempo: 82, energy: .5, bass: .72, rhythm: .52, onset: .34, brightness: .36, zcr: .22, rmsContrast: .32, chromaEntropy: .58 },
       "ダブ": { tempo: 78, energy: .44, bass: .86, rhythm: .38, onset: .26, brightness: .28, zcr: .18, rmsContrast: .42, chromaEntropy: .55 },
+      "ブルース": { tempo: 88, energy: .48, bass: .46, rhythm: .42, onset: .3, brightness: .34, zcr: .22, rmsContrast: .44, chromaEntropy: .72 },
       "ロック": { tempo: 126, energy: .72, bass: .55, rhythm: .62, onset: .64, brightness: .58, zcr: .48, rmsContrast: .58, chromaEntropy: .54 },
       "パンク": { tempo: 168, energy: .84, bass: .55, rhythm: .78, onset: .76, brightness: .62, zcr: .6, rmsContrast: .55, chromaEntropy: .48 },
       "ハードコア": { tempo: 176, energy: .9, bass: .62, rhythm: .84, onset: .84, brightness: .66, zcr: .68, rmsContrast: .68, chromaEntropy: .42 },
@@ -2024,6 +2054,7 @@
       "クラシック音楽": { tempo: 84, energy: .38, bass: .34, rhythm: .28, onset: .18, brightness: .46, zcr: .16, rmsContrast: .62, chromaEntropy: .86 },
       "オペラ": { tempo: 82, energy: .46, bass: .32, rhythm: .22, onset: .16, brightness: .58, zcr: .18, rmsContrast: .58, chromaEntropy: .78 },
       "フォーク": { tempo: 92, energy: .38, bass: .32, rhythm: .34, onset: .22, brightness: .42, zcr: .2, rmsContrast: .34, chromaEntropy: .66 },
+      "ラテン": { tempo: 118, energy: .64, bass: .52, rhythm: .78, onset: .56, brightness: .58, zcr: .34, rmsContrast: .5, chromaEntropy: .82 },
       "ワールドミュージック": { tempo: 112, energy: .58, bass: .48, rhythm: .66, onset: .48, brightness: .52, zcr: .36, rmsContrast: .5, chromaEntropy: .86 }
     };
     const genreKeywordMap = [
@@ -2037,6 +2068,7 @@
       ["トラップ", /\btrap\b/i],
       ["レゲエ", /\breggae\b/i],
       ["ダブ", /\bdub\b/i],
+      ["ブルース", /\bblues\b/i],
       ["アンビエント", /\bambient\b/i],
       ["ドローン", /\bdrone\b/i],
       ["ノイズミュージック", /\bnoise\b/i],
@@ -2048,6 +2080,7 @@
       ["パンク", /\bpunk\b/i],
       ["ロック", /\brock\b/i],
       ["クラシック音楽", /\b(classical|orchestra|symphony)\b/i],
+      ["ラテン", /\b(latin|salsa|samba|bossa|cumbia|afro.?cuban)\b/i],
       ["J-POP", /\b(j-?pop|jpop)\b/i],
       ["アニメソング", /\b(anime|anisong)\b/i]
     ];
@@ -2126,6 +2159,106 @@
       }, 0);
       return clamp01(entropy / Math.log(12));
     }
+    function bandFlux(rows = []) {
+      const matrix = Array.isArray(rows) ? rows : [];
+      if (matrix.length < 2) return 0;
+      let total = 0;
+      let count = 0;
+      for (let r = 1; r < matrix.length; r++) {
+        const prev = matrix[r - 1] || [];
+        const row = matrix[r] || [];
+        for (let c = 0; c < Math.max(prev.length, row.length); c++) {
+          total += Math.max(0, Number(row[c] || 0) - Number(prev[c] || 0));
+          count += 1;
+        }
+      }
+      return clamp01(total / Math.max(1, count) * 3.2);
+    }
+    function spectralSpread(detail = {}) {
+      const rows = Array.isArray(detail.bandTimeline) ? detail.bandTimeline : [];
+      if (!rows.length) return 0;
+      return clamp01(mean(rows.map(row => {
+        const values = Array.isArray(row) ? row.map(Number) : [];
+        const total = values.reduce((sum, value) => sum + Math.max(0, value), 0) || 1;
+        const center = values.reduce((sum, value, index) => sum + index * Math.max(0, value), 0) / total;
+        const variance = values.reduce((sum, value, index) => sum + Math.pow(index - center, 2) * Math.max(0, value), 0) / total;
+        return Math.sqrt(variance) / 3.5;
+      })));
+    }
+    function spectralRolloff(detail = {}, threshold = .85) {
+      if (Array.isArray(detail.spectralRolloff) && detail.spectralRolloff.length) return clamp01(mean(detail.spectralRolloff));
+      const rows = Array.isArray(detail.bandTimeline) ? detail.bandTimeline : [];
+      if (!rows.length) return 0;
+      return clamp01(mean(rows.map(row => {
+        const values = Array.isArray(row) ? row.map(value => Math.max(0, Number(value) || 0)) : [];
+        const total = values.reduce((sum, value) => sum + value, 0);
+        if (!total) return 0;
+        let acc = 0;
+        for (let i = 0; i < values.length; i++) {
+          acc += values[i];
+          if (acc / total >= threshold) return i / Math.max(1, values.length - 1);
+        }
+        return 1;
+      })));
+    }
+    function mfccLike(detail = {}, coefficient = 1) {
+      const coeff = Math.max(1, Math.min(3, Math.round(coefficient)));
+      if (Array.isArray(detail.mfccTimeline) && detail.mfccTimeline.length) {
+        return clamp01(mean(detail.mfccTimeline.map(row => Number(row?.[coeff - 1]) || 0)));
+      }
+      const rows = Array.isArray(detail.bandTimeline) ? detail.bandTimeline : [];
+      if (!rows.length) return 0;
+      return clamp01(mean(rows.map(row => {
+        const values = Array.from({ length: 8 }, (_, i) => Math.log(1e-4 + Math.max(0, Number(row?.[i]) || 0)));
+        const total = values.reduce((sum, value, index) => sum + value * Math.cos(Math.PI * coeff * (index + .5) / values.length), 0);
+        return total / values.length * .18 + .5;
+      })));
+    }
+    function beatGridStats(onsetValues = [], tempo = 96) {
+      const values = (Array.isArray(onsetValues) ? onsetValues : []).map(value => clamp01(value));
+      if (values.length < 4) return { tempoStability: 0, beatGridStrength: 0, syncopation: 0 };
+      const peaks = [];
+      const max = Math.max(...values, .0001);
+      values.forEach((value, index) => {
+        const prev = values[Math.max(0, index - 1)] || 0;
+        const next = values[Math.min(values.length - 1, index + 1)] || 0;
+        if (value >= max * .62 && value >= prev && value >= next) peaks.push(index);
+      });
+      if (peaks.length < 2) {
+        return { tempoStability: 0, beatGridStrength: 0, syncopation: 0 };
+      }
+      const gaps = peaks.slice(1).map((value, index) => value - peaks[index]).filter(value => value > 0);
+      const gapMean = mean(gaps);
+      const gapContrast = contrast(gaps);
+      const frameBeat = values.length * 60 / Math.max(45, Math.min(220, Number(tempo) || 96)) / 24;
+      const grid = Math.max(1, Math.min(values.length / 2, frameBeat));
+      const alignment = peaks.map(index => {
+        const offset = Math.abs(index / grid - Math.round(index / grid));
+        return 1 - Math.min(1, offset * 2);
+      });
+      const offGrid = peaks.map(index => {
+        const offset = Math.abs(index / grid - Math.round(index / grid));
+        return Math.min(1, offset * 2);
+      });
+      return {
+        tempoStability: clamp01(1 - gapContrast * 1.8),
+        beatGridStrength: clamp01(mean(alignment) * Math.min(1, peaks.length / 8)),
+        syncopation: clamp01(mean(offGrid) * Math.min(1, peaks.length / 8) + clamp01(gapMean ? gapContrast : 0) * .35)
+      };
+    }
+    function vocalBandEstimate(detail = {}, features = {}) {
+      const rows = Array.isArray(detail.bandTimeline) ? detail.bandTimeline : [];
+      const chromaRows = Array.isArray(detail.chromaTimeline) ? detail.chromaTimeline : [];
+      const bandScore = rows.length ? mean(rows.map(row => {
+        const mid = (Number(row?.[3] || 0) + Number(row?.[4] || 0) + Number(row?.[5] || 0)) / 3;
+        const low = (Number(row?.[0] || 0) + Number(row?.[1] || 0) + Number(row?.[2] || 0)) / 3;
+        const high = (Number(row?.[6] || 0) + Number(row?.[7] || 0)) / 2;
+        return clamp01(mid * 1.18 - low * .34 - high * .2 + .18);
+      })) : 0;
+      const chromaChange = chromaMotion(chromaRows);
+      const smoothness = 1 - contrast(detail.zeroCrossing || []);
+      return clamp01(bandScore * .58 + chromaChange * .22 + smoothness * .2 + clamp01(features.energy ?? features.rms) * .08);
+    }
     function bandGroupRatios(detail = {}, features = {}) {
       const rows = Array.isArray(detail.bandTimeline) ? detail.bandTimeline : [];
       if (!rows.length) {
@@ -2167,6 +2300,16 @@
       const distortion = clamp01((features.energy ?? features.rms) * .22 + midDensity * .28 + (mean(detail.zeroCrossing) || 0) * .26 + contrast(detail.centroid) * .24);
       const breakbeatDensity = clamp01(onsetPeaks.density * .42 + contrast(detail.onset) * .28 + (features.tempo >= 150 || tempoDistance(Number(features.tempo) || 96, 172) < 22 ? .3 : 0));
       const squareWave = clamp01(waveformSimplicity(detail.waveform) * .45 + mean(detail.zeroCrossing) * .35 + bands.highBandRatio * .2);
+      const spectralSpreadValue = spectralSpread(detail);
+      const bandFluxValue = bandFlux(detail.bandTimeline);
+      const zcrMean = mean(detail.zeroCrossing);
+      const percussiveRatio = clamp01(onsetPeaks.density * .46 + bandFluxValue * .34 + contrast(detail.onset) * .2);
+      const harmonicRatio = clamp01((1 - zcrMean) * .28 + chromaEntropy(features.chroma || []) * .26 + (1 - bandFluxValue) * .24 + bands.midBandRatio * .22);
+      const lowMidBalance = clamp01((bands.lowBandRatio - bands.midBandRatio) * .9 + .5);
+      const highNoiseRatio = clamp01(zcrMean * .4 + bands.highBandRatio * .34 + spectralSpreadValue * .26);
+      const pulseClarity = clamp01(onsetPeaks.regularity * .48 + (1 - contrast(detail.onset)) * .24 + clamp01(features.rhythm ?? features.onset) * .28);
+      const beatGrid = beatGridStats(detail.onset, features.tempo);
+      const vocalPresence = vocalBandEstimate(detail, features);
       return {
         tempo: Math.max(45, Math.min(220, Number(features.tempo) || 96)),
         energy: clamp01(features.energy ?? features.rms),
@@ -2194,7 +2337,22 @@
         acousticness,
         distortion,
         breakbeatDensity,
-        squareWave
+        squareWave,
+        spectralSpread: spectralSpreadValue,
+        bandFlux: bandFluxValue,
+        harmonicRatio,
+        percussiveRatio,
+        lowMidBalance,
+        highNoiseRatio,
+        pulseClarity,
+        mfcc1: mfccLike(detail, 1),
+        mfcc2: mfccLike(detail, 2),
+        mfcc3: mfccLike(detail, 3),
+        spectralRolloff: spectralRolloff(detail),
+        tempoStability: beatGrid.tempoStability,
+        beatGridStrength: beatGrid.beatGridStrength,
+        syncopation: beatGrid.syncopation,
+        vocalPresence
       };
     }
     function genreMetadataBoost(features = {}, genreName = "") {
@@ -2262,12 +2420,14 @@
         "ファンク": (rhythm > .62 && bass > .46 && onset > .42 && tempo >= 88 && tempo <= 125 ? .14 : 0),
         "ソウルミュージック": (energy >= .38 && energy <= .72 && brightness < .58 && onset < .48 ? .12 : 0),
         "ディスコ": (tempo >= 105 && tempo <= 132 && rhythm > .62 && brightness > .42 ? .13 : 0),
+        "ブルース": (energy >= .3 && energy <= .72 && brightness < .55 && onset < .5 && midBandRatio > .22 ? .14 : 0),
         "シティ・ポップ": (popTexture && tempo >= 80 && tempo <= 130 ? .14 : 0),
         "J-POP": (popTexture && energy > .42 ? .14 : 0),
         "アニメソング": (popTexture && (tempo >= 125 || onset > .45) ? .16 : 0),
         "クラシック音楽": (acousticTexture && lowBandRatio < .68 && rhythm < .55 ? .18 : 0),
         "オペラ": (acousticTexture && brightness > .14 && rhythm < .52 ? .16 : 0),
-        "フォーク": (energy < .68 && midBandRatio > .24 && onset < .55 && brightness < .42 ? .14 : 0)
+        "フォーク": (energy < .68 && midBandRatio > .24 && onset < .55 && brightness < .42 ? .14 : 0),
+        "ラテン": (rhythm > .62 && onset > .42 && tempo >= 90 && tempo <= 145 && chromaEntropy > .58 ? .15 : 0)
       };
       return clamp01(boosts[genreName] || 0);
     }
@@ -2373,12 +2533,12 @@
     const macroGenreMap = {
       ambient: ["アンビエント", "ドローン", "ノイズミュージック"],
       electronic: ["電子音楽", "テクノ", "ハウス", "ディープ・ハウス", "トランス", "ドラムンベース", "ダブステップ", "チップチューン"],
-      black: ["ヒップホップ", "トラップ", "レゲエ", "ダブ", "ファンク", "ソウルミュージック", "ディスコ"],
+      black: ["ヒップホップ", "トラップ", "レゲエ", "ダブ", "ブルース", "ファンク", "ソウルミュージック", "ディスコ"],
       rock: ["ロック", "パンク", "ハードコア", "メタル"],
       jazz: ["ジャズ"],
       pop: ["シティ・ポップ", "J-POP", "アニメソング"],
       classical: ["クラシック音楽", "オペラ"],
-      folk: ["フォーク", "ワールドミュージック"]
+      folk: ["フォーク", "ラテン", "ワールドミュージック"]
     };
     const macroGenreLabels = {
       ambient: "ambient",
@@ -2459,6 +2619,105 @@
       });
       return out;
     }
+    function applyModelCalibration(scores = {}, bias = {}, enabled = false) {
+      if (!enabled) return scores;
+      return Object.fromEntries(Object.entries(scores).map(([label, score]) => [
+        label,
+        (Number(score) || 0) * (Number(bias?.[label]) || 1)
+      ]));
+    }
+    function modelRangeSupport(value, spec = {}) {
+      const number = Number(value);
+      if (!Number.isFinite(number)) return null;
+      const hasMin = Number.isFinite(Number(spec.min));
+      const hasMax = Number.isFinite(Number(spec.max));
+      if (hasMin && number < Number(spec.min)) {
+        const tolerance = Math.max(.08, Number(spec.tolerance) || Math.abs(Number(spec.min)) * .22 || .2);
+        return clamp01(1 - (Number(spec.min) - number) / tolerance);
+      }
+      if (hasMax && number > Number(spec.max)) {
+        const tolerance = Math.max(.08, Number(spec.tolerance) || Math.abs(Number(spec.max)) * .22 || .2);
+        return clamp01(1 - (number - Number(spec.max)) / tolerance);
+      }
+      if (Number.isFinite(Number(spec.value))) {
+        const tolerance = Math.max(.08, Number(spec.tolerance) || .24);
+        return clamp01(1 - Math.abs(number - Number(spec.value)) / tolerance);
+      }
+      if (hasMin || hasMax) return 1;
+      return null;
+    }
+    function modelTempoSupport(tempo, spec = {}) {
+      const value = Number(tempo);
+      if (!Number.isFinite(value) || value <= 0) return null;
+      const candidates = [value];
+      if (spec.allowHalfTime) candidates.push(value * 2);
+      if (spec.allowDoubleTime) candidates.push(value / 2);
+      if (spec.allowHalfTime || spec.allowDoubleTime) candidates.push(value * 2, value / 2);
+      return Math.max(...candidates.map(candidate => modelRangeSupport(candidate, spec)).filter(score => score !== null), 0);
+    }
+    function modelTheoryProfileScore(raw = [], model = {}, profile = {}) {
+      const featureKeys = model.featureKeys || [];
+      const values = Object.fromEntries(featureKeys.map((key, index) => [key, Number(raw[index]) || 0]));
+      let total = 0;
+      let weightTotal = 0;
+      if (profile.tempoBpm) {
+        const score = modelTempoSupport(values.tempo, profile.tempoBpm);
+        const weight = Number(profile.tempoBpm.weight) || 1;
+        if (score !== null) {
+          total += score * weight;
+          weightTotal += weight;
+        }
+      }
+      Object.entries(profile.features || {}).forEach(([key, spec]) => {
+        if (!featureKeys.includes(key)) return;
+        const score = modelRangeSupport(values[key], spec);
+        const weight = Number(spec?.weight) || 1;
+        if (score !== null) {
+          total += score * weight;
+          weightTotal += weight;
+        }
+      });
+      return weightTotal ? total / weightTotal : 0;
+    }
+    function blendModelTheoryScores(scores = {}, raw = [], model = {}) {
+      if (!model.genreTheory?.enabled || !model.sourcePolicy?.genreTheoryPriorsEnabled) return scores;
+      const weight = Number(model.genreTheory?.weight ?? model.sourcePolicy?.genreTheoryWeight ?? 0);
+      if (!weight || !Object.keys(scores).length) return scores;
+      const profiles = model.genreTheory.profiles || {};
+      const maxScore = Math.max(...Object.values(scores).map(Number), .0001);
+      const out = { ...scores };
+      Object.keys(out).forEach(genre => {
+        const profile = profiles[genre];
+        if (!profile) return;
+        out[genre] = (Number(out[genre]) || 0) + maxScore * weight * modelTheoryProfileScore(raw, model, profile);
+      });
+      return out;
+    }
+    function modelMacroTheoryScores(raw = [], model = {}) {
+      if (!model.genreTheory?.enabled || !model.sourcePolicy?.genreTheoryPriorsEnabled) return {};
+      const weight = Number(model.genreTheory?.macroWeight ?? model.sourcePolicy?.genreTheoryMacroWeight ?? 0);
+      if (!weight) return {};
+      const out = {};
+      Object.values(model.genreTheory.profiles || {}).forEach(profile => {
+        const macro = canonicalModelMacro(profile?.macroGenre);
+        if (!macro) return;
+        out[macro] = Math.max(Number(out[macro]) || 0, modelTheoryProfileScore(raw, model, profile));
+      });
+      return Object.fromEntries(Object.entries(out).filter(([, score]) => score > 0));
+    }
+    function blendModelMacroTheoryScores(scores = {}, raw = [], model = {}) {
+      const weight = Number(model.genreTheory?.macroWeight ?? model.sourcePolicy?.genreTheoryMacroWeight ?? 0);
+      if (!weight || !Object.keys(scores).length) return scores;
+      const theoryScores = modelMacroTheoryScores(raw, model);
+      if (!Object.keys(theoryScores).length) return scores;
+      const maxScore = Math.max(...Object.values(scores).map(Number), .0001);
+      const out = { ...scores };
+      Object.entries(theoryScores).forEach(([macro, score]) => {
+        if (!(macro in out)) return;
+        out[macro] = (Number(out[macro]) || 0) + maxScore * weight * clamp01(score);
+      });
+      return out;
+    }
     function inferMusicGenresWithModel(features = {}) {
       const model = state.genreModel;
       if (!model?.featureKeys?.length || !Array.isArray(model.examples) || !model.examples.length) return null;
@@ -2467,13 +2726,16 @@
       const z = standardiseVector(raw, model.standardizer || {});
       const weights = model.featureKeys.map(key => Number(model.featureWeights?.[key]) || 1);
       const examples = model.examples.map(example => ({ ...example, weights, z: standardiseVector(example.values || [], model.standardizer || {}) }));
-      const macroScores = mergeScores(
+      const learnedMacroScores = mergeScores(
         knnScores(examples, z, item => canonicalModelMacro(item.macroGenre), model.knnK || 11),
         centroidScores(model.centroids?.macro || {}, z, weights),
         .66,
         .34
       );
-      const macroRanked = rankModelLabels(macroScores, "macro", Object.fromEntries(Object.keys(macroScores).map(macro => [macro, { label: macroGenreLabels[macro] || macro }])));
+      const macroScores = blendModelMacroTheoryScores(learnedMacroScores, raw, model);
+      const calibrationEnabled = Boolean(model.sourcePolicy?.validationCalibrationEnabled);
+      const calibratedMacroScores = applyModelCalibration(macroScores, model.calibration?.macroBias, calibrationEnabled);
+      const macroRanked = rankModelLabels(calibratedMacroScores, "macro", Object.fromEntries(Object.keys(calibratedMacroScores).map(macro => [macro, { label: macroGenreLabels[macro] || macro }])));
       const selectedMacro = macroRanked[0]?.macro || "";
       const fineExamples = examples.filter(item => item.trainingRole !== "macro-only" && canonicalModelMacro(item.macroGenre) === selectedMacro);
       const fallbackFineExamples = examples.filter(item => item.trainingRole !== "macro-only");
@@ -2485,8 +2747,10 @@
         .68,
         .32
       );
+      const theoryFineScores = blendModelTheoryScores(fineScores, raw, model);
+      const calibratedFineScores = applyModelCalibration(theoryFineScores, model.calibration?.fineBias, calibrationEnabled);
       const catalogByName = Object.fromEntries(musicGenreCatalog.map(item => [item.name, item]));
-      const ranked = rankModelLabels(fineScores, "name", Object.fromEntries(Object.keys(fineScores).map(name => {
+      const ranked = rankModelLabels(calibratedFineScores, "name", Object.fromEntries(Object.keys(calibratedFineScores).map(name => {
         const macro = canonicalModelMacro(genreToMacro[name] || selectedMacro);
         const genre = catalogByName[name] || {};
         return [name, {
@@ -3556,6 +3820,7 @@
       "トラップ": { id: "genre-trap", label: "トラップ", baseFamily: "impact-fracture", variantFamilies: ["pressure-map", "carrier-storm", "radial-score"], layoutBias: "fracture", textureMode: "impact-fracture" },
       "レゲエ": { id: "genre-reggae", label: "レゲエ", baseFamily: "signal-flag", variantFamilies: ["wave-strata", "cloth-field", "pressure-map"], layoutBias: "textile", textureMode: "signal-flag" },
       "ダブ": { id: "genre-dub", label: "ダブ", baseFamily: "memory-orbit", variantFamilies: ["pressure-map", "topographic-pressure", "signal-flag"], layoutBias: "orbit", textureMode: "memory-orbit" },
+      "ブルース": { id: "genre-blues", label: "ブルース", baseFamily: "wave-strata", variantFamilies: ["memory-orbit", "cloth-field", "constellation-map"], layoutBias: "strata", textureMode: "wave-strata" },
       "ロック": { id: "genre-rock", label: "ロック", baseFamily: "impact-fracture", variantFamilies: ["signal-flag", "carrier-storm", "topographic-pressure"], layoutBias: "fracture", textureMode: "impact-fracture" },
       "パンク": { id: "genre-punk", label: "パンク", baseFamily: "carrier-storm", variantFamilies: ["impact-fracture", "radial-score", "signal-flag"], layoutBias: "storm", textureMode: "carrier-storm" },
       "ハードコア": { id: "genre-hardcore", label: "ハードコア", baseFamily: "impact-fracture", variantFamilies: ["carrier-storm", "pressure-map", "radial-score"], layoutBias: "fracture", textureMode: "impact-fracture" },
@@ -3570,6 +3835,7 @@
       "クラシック音楽": { id: "genre-classical", label: "クラシック音楽", baseFamily: "constellation-map", variantFamilies: ["wave-strata", "topographic-pressure", "memory-orbit"], layoutBias: "orbit", textureMode: "constellation-map" },
       "オペラ": { id: "genre-opera", label: "オペラ", baseFamily: "topographic-pressure", variantFamilies: ["constellation-map", "spiral-core", "wave-strata"], layoutBias: "pressure", textureMode: "topographic-pressure" },
       "フォーク": { id: "genre-folk", label: "フォーク", baseFamily: "cloth-field", variantFamilies: ["signal-flag", "wave-strata", "memory-orbit"], layoutBias: "textile", textureMode: "cloth-field" },
+      "ラテン": { id: "genre-latin", label: "ラテン", baseFamily: "radial-score", variantFamilies: ["signal-flag", "wave-strata", "constellation-map"], layoutBias: "radial", textureMode: "radial-score" },
       "ワールドミュージック": { id: "genre-world", label: "ワールドミュージック", baseFamily: "radial-score", variantFamilies: ["constellation-map", "signal-flag", "wave-strata"], layoutBias: "radial", textureMode: "radial-score" }
     };
     const genreVisualProfiles = {
@@ -3588,6 +3854,7 @@
       "トラップ": { silhouette: "burst", negativeSpace: "center", primaryScale: 1, variantScale: .9, variantOpacity: .7, rotationBias: 18, densityBias: 1.06, strokeBias: 1.18, textureRegion: "fracture" },
       "レゲエ": { silhouette: "flag", negativeSpace: "bands", primaryScale: 1.08, variantScale: .7, variantOpacity: .42, rotationBias: -6, densityBias: .7, strokeBias: 1.02, textureRegion: "bands" },
       "ダブ": { silhouette: "terrain", negativeSpace: "border", primaryScale: 1.14, variantScale: .66, variantOpacity: .48, rotationBias: 4, densityBias: .62, strokeBias: 1.32, textureRegion: "core" },
+      "ブルース": { silhouette: "strata", negativeSpace: "center", primaryScale: .98, variantScale: .68, variantOpacity: .44, rotationBias: -8, densityBias: .62, strokeBias: .94, textureRegion: "bands" },
       "ロック": { silhouette: "burst", negativeSpace: "diagonal", primaryScale: 1.04, variantScale: .86, variantOpacity: .66, rotationBias: -18, densityBias: 1.04, strokeBias: 1.18, textureRegion: "fracture" },
       "パンク": { silhouette: "burst", negativeSpace: "fracture", primaryScale: 1.1, variantScale: .95, variantOpacity: .72, rotationBias: 26, densityBias: 1.18, strokeBias: 1.24, textureRegion: "fracture" },
       "ハードコア": { silhouette: "burst", negativeSpace: "none", primaryScale: 1.18, variantScale: .98, variantOpacity: .76, rotationBias: -26, densityBias: 1.32, strokeBias: 1.32, textureRegion: "fracture" },
@@ -3602,6 +3869,7 @@
       "クラシック音楽": { silhouette: "constellation", negativeSpace: "center", primaryScale: .9, variantScale: .64, variantOpacity: .38, rotationBias: -6, densityBias: .54, strokeBias: .74, textureRegion: "islands" },
       "オペラ": { silhouette: "terrain", negativeSpace: "center", primaryScale: 1.06, variantScale: .72, variantOpacity: .5, rotationBias: 14, densityBias: .72, strokeBias: 1.08, textureRegion: "core" },
       "フォーク": { silhouette: "flag", negativeSpace: "islands", primaryScale: .92, variantScale: .62, variantOpacity: .38, rotationBias: -14, densityBias: .52, strokeBias: .78, textureRegion: "diagonal" },
+      "ラテン": { silhouette: "ring", negativeSpace: "diagonal", primaryScale: 1.04, variantScale: .76, variantOpacity: .54, rotationBias: 18, densityBias: .92, strokeBias: .9, textureRegion: "orbit" },
       "ワールドミュージック": { silhouette: "ring", negativeSpace: "islands", primaryScale: 1, variantScale: .74, variantOpacity: .5, rotationBias: 18, densityBias: .84, strokeBias: .88, textureRegion: "orbit" }
     };
     Object.keys(genreVisualProfiles).forEach(name => {
@@ -3623,6 +3891,7 @@
       "トラップ": "dense-impact",
       "レゲエ": "strata",
       "ダブ": "quiet",
+      "ブルース": "strata",
       "ロック": "burst",
       "パンク": "dense-impact",
       "ハードコア": "dense-impact",
@@ -3637,6 +3906,7 @@
       "クラシック音楽": "quiet",
       "オペラ": "quiet",
       "フォーク": "quiet",
+      "ラテン": "orbit",
       "ワールドミュージック": "orbit"
     };
     Object.keys(genreCollisionStyles).forEach(name => {
@@ -3658,6 +3928,7 @@
       "トラップ": { lineCharacter: "鋭い三角トリル線", nameMotif: "trap-hats" },
       "レゲエ": { lineCharacter: "揺れるオフビートの帯線", nameMotif: "offbeat" },
       "ダブ": { lineCharacter: "残響で欠ける低音線", nameMotif: "echo" },
+      "ブルース": { lineCharacter: "揺らぐベンドの水平線", nameMotif: "blue-bend" },
       "ロック": { lineCharacter: "ギターの引っかき線", nameMotif: "guitar" },
       "パンク": { lineCharacter: "破れた安全ピンの線", nameMotif: "pin" },
       "ハードコア": { lineCharacter: "圧縮された衝突線", nameMotif: "impact" },
@@ -3672,6 +3943,7 @@
       "クラシック音楽": { lineCharacter: "古典的で静謐な線", nameMotif: "classical" },
       "オペラ": { lineCharacter: "劇場幕と声量のアーチ線", nameMotif: "theatre" },
       "フォーク": { lineCharacter: "手描きの素朴な弦線", nameMotif: "handmade" },
+      "ラテン": { lineCharacter: "打楽器が回る陽性の円弧線", nameMotif: "latin-pulse" },
       "ワールドミュージック": { lineCharacter: "民俗文様の円環線", nameMotif: "folk-ring" }
     };
     Object.keys(genreNameImageryProfiles).forEach(name => {
@@ -3761,7 +4033,155 @@
     function chooseSoundFormMode(fingerprint, audio = {}, seed = 1) {
       return resolveGenrePattern(audio, seed, audio.variantSalt || 0)?.id || fallbackSoundFormMode(fingerprint, audio, seed);
     }
+    function aerosolOptionsFromGenre(genrePattern, genreVisual, audio = {}, fingerprint = {}, seed = 1) {
+      const energy = clamp01(audio.energy ?? audio.rms);
+      const bass = clamp01(audio.bass);
+      const onset = clamp01(audio.onset);
+      const brightness = clamp01(audio.brightness ?? ((audio.centroid - 400) / 5200));
+      const density = clampRange((genreVisual.densityBias || 1) * (0.82 + energy * .36 + onset * .18), .48, 1.72);
+      return {
+        silhouette: genreVisual.silhouette || "flag",
+        negativeSpace: genreVisual.negativeSpace || "none",
+        textureRegion: genreVisual.textureRegion || "full",
+        nameMotif: genreVisual.nameMotif || "mist",
+        baseFamily: genrePattern?.baseFamily || "cloth-field",
+        variantFamily: genrePattern?.variantFamily || "memory-orbit",
+        density,
+        particleCount: Math.round(2400 + density * 2200 + bass * 600 + brightness * 420),
+        centerX: 600 + (fingerprint.chromaX || 0) * 90 + (fingerprint.temporalTilt || 0) * 34,
+        centerY: 604 + (fingerprint.chromaY || 0) * 72 + (fingerprint.gravity || 0) * 42 - brightness * 24,
+        spreadX: 245 + density * 74 + bass * 72,
+        spreadY: 195 + density * 52 + energy * 64,
+        drift: (fingerprint.temporalTilt || 0) * .42 + (seed % 360) * Math.PI / 1800,
+        softness: clampRange(.58 + brightness * .3 + (1 - onset) * .18, .38, .96),
+        grain: clampRange(.56 + onset * .36 + brightness * .12, .42, 1.16)
+      };
+    }
+    function aerosolNegativeSpaceReject(x, y, options) {
+      const dx = x - 600;
+      const dy = y - 600;
+      const cut = options.negativeSpace;
+      if (cut === "center" && Math.hypot(dx, dy) < 118) return true;
+      if (cut === "diagonal" && Math.abs(dy + dx * .88) < 42) return true;
+      if (cut === "border" && x > 245 && x < 955 && y > 278 && y < 922) return true;
+      if (cut === "bands" && ([376, 617, 848].some(band => Math.abs(y - band) < 34))) return true;
+      if (cut === "islands") {
+        const holes = [{ x: 368, y: 384, r: 76 }, { x: 802, y: 404, r: 58 }, { x: 714, y: 782, r: 88 }, { x: 472, y: 816, r: 54 }];
+        if (holes.some(hole => Math.hypot(x - hole.x, y - hole.y) < hole.r)) return true;
+      }
+      if (cut === "fracture" && (Math.abs(x - 594 - (y - 600) * .06) < 28 || Math.abs(y - 610 + (x - 600) * .22) < 28)) return true;
+      return false;
+    }
+    function aerosolParticlePoint(index, options, seed, byteSigned) {
+      const noise = salt => textureNoise01(index, 200 + salt, seed);
+      const angleNoise = (noise(1) - .5) * Math.PI * 2;
+      const baseAngle = index * (Math.PI * (3 - Math.sqrt(5))) + options.drift + angleNoise * .08;
+      const u = noise(2) * 2 - 1;
+      const v = noise(3) * 2 - 1;
+      const radial = Math.sqrt(noise(4));
+      const audioLift = byteSigned(index * 37 + seed);
+      let x = options.centerX;
+      let y = options.centerY;
+      let localDensity = 1;
+      const silhouette = options.silhouette;
+      if (silhouette === "ring") {
+        const ring = .46 + noise(5) * .48;
+        const a = baseAngle + audioLift * .18;
+        x += Math.cos(a) * options.spreadX * (ring + .16 * Math.sin(index * .017));
+        y += Math.sin(a) * options.spreadY * (ring + .08 * Math.cos(index * .019));
+        localDensity = Math.abs(ring - .56) < .24 ? 1.1 : .62;
+      } else if (silhouette === "burst") {
+        const ray = Math.round(baseAngle / (Math.PI * 2) * 13) / 13 * Math.PI * 2;
+        const a = ray + (noise(6) - .5) * .42 + audioLift * .12;
+        const r = Math.pow(noise(7), .42) * 1.12;
+        x += Math.cos(a) * options.spreadX * r;
+        y += Math.sin(a) * options.spreadY * r;
+        localDensity = 1.18 - r * .42;
+      } else if (silhouette === "strata" || silhouette === "flag") {
+        const bands = silhouette === "flag" ? 7 : 11;
+        const band = Math.round(noise(8) * (bands - 1));
+        const wave = Math.sin(u * Math.PI * 2 + band * .7 + seed * .0001) * (silhouette === "flag" ? 44 : 18);
+        x += u * options.spreadX * 1.62 + audioLift * 26;
+        y += (band / Math.max(1, bands - 1) - .5) * options.spreadY * 1.74 + wave + v * 18;
+        localDensity = .82 + (band % 2) * .22;
+      } else if (silhouette === "constellation") {
+        const centers = [
+          { x: -.42, y: -.24, s: .58 }, { x: .34, y: -.2, s: .48 }, { x: .2, y: .34, s: .54 }, { x: -.28, y: .3, s: .46 }, { x: 0, y: 0, s: .62 }
+        ];
+        const c = centers[index % centers.length];
+        x += c.x * options.spreadX * 1.4 + u * options.spreadX * c.s;
+        y += c.y * options.spreadY * 1.35 + v * options.spreadY * c.s;
+        localDensity = 1.04 - Math.hypot(u, v) * .16;
+      } else if (silhouette === "spiral") {
+        const t = noise(9);
+        const a = t * Math.PI * 7.4 + options.drift + audioLift * .22;
+        const r = Math.pow(t, .74) * (0.25 + noise(10) * .86);
+        x += Math.cos(a) * options.spreadX * r + Math.cos(a + Math.PI / 2) * v * 34;
+        y += Math.sin(a) * options.spreadY * r + Math.sin(a + Math.PI / 2) * v * 24;
+        localDensity = 1.08 - t * .34;
+      } else if (silhouette === "terrain") {
+        const terrain = Math.sin((u + 1) * Math.PI * 1.9 + seed * .0002) * 82 + Math.sin((u + 1) * Math.PI * 4.1) * 38;
+        x += u * options.spreadX * 1.66;
+        y += options.spreadY * .52 + terrain - Math.abs(v) * options.spreadY * .84 + audioLift * 22;
+        localDensity = v < .2 ? 1.08 : .58;
+      } else {
+        x += u * options.spreadX * (1.05 + radial * .28) + Math.cos(baseAngle) * audioLift * 34;
+        y += v * options.spreadY * (1.02 + radial * .22) + Math.sin(baseAngle) * audioLift * 28;
+        localDensity = 1 - Math.pow(Math.hypot(u, v) / 1.42, 1.8) * .46;
+      }
+      const edgeFade = 1 - Math.min(1, Math.hypot((x - options.centerX) / Math.max(1, options.spreadX * 1.75), (y - options.centerY) / Math.max(1, options.spreadY * 1.75)));
+      const density = clamp01((localDensity * .72 + edgeFade * .56) * options.softness);
+      const radius = clampRange(.28 + Math.pow(noise(11), 1.9) * (2.2 + options.grain * 1.4) + Math.max(0, audioLift) * .34, .24, 4.2);
+      return { x, y, density, radius };
+    }
+    function makeAerosolParticleGroup(options, bytes, seed) {
+      const particles = [];
+      const occupancy = new Map();
+      const maxPerCell = options.silhouette === "burst" ? 9 : options.silhouette === "strata" ? 8 : 7;
+      const byteSigned = index => (byteAt(bytes, index) - 128) / 127;
+      const attempts = options.particleCount * 3;
+      for (let index = 0; index < attempts && particles.length < options.particleCount; index += 1) {
+        const point = aerosolParticlePoint(index, options, seed, byteSigned);
+        if (point.x < 66 || point.x > 1134 || point.y < 66 || point.y > 1134) continue;
+        if (aerosolNegativeSpaceReject(point.x, point.y, options)) continue;
+        const acceptNoise = textureNoise01(index, 260, seed);
+        if (acceptNoise > point.density) continue;
+        const cell = `${Math.round(point.x / 9)},${Math.round(point.y / 9)}`;
+        const cellCount = occupancy.get(cell) || 0;
+        if (cellCount >= maxPerCell) continue;
+        occupancy.set(cell, cellCount + 1);
+        const r = point.radius * (.72 + point.density * .56);
+        particles.push(`<circle cx="${svgFineNumber(point.x)}" cy="${svgFineNumber(point.y)}" r="${svgFineNumber(r)}" fill="#000" data-feature="aerosol-particle"/>`);
+      }
+      return svgGroupWithAttrs("aerosol_particle_field", particles, `data-particle-count="${particles.length}" data-renderer="black-particle-density"`);
+    }
+    function generateAerosolParticleSoundSvg(mood, tick = Date.now(), settings = null) {
+      const audio = mood.audio || {};
+      const detail = normaliseAudioDetail(audio.detail || {}, audio);
+      const variantSalt = Number(mood.variantSalt || 0);
+      const fingerprint = audioClothFingerprint(audio, detail);
+      const seed = hashString(`${fingerprint.signature}|${mood.youtubeUrl || mood.audioFileName || mood.id}|aerosol-particle|${tick}|${variantSalt}|${settings?.variantSeed || 0}`);
+      const genrePattern = resolveGenrePattern(audio, seed, variantSalt);
+      const fallbackMode = fallbackSoundFormMode(fingerprint, audio, seed);
+      const formMode = genrePattern?.id || fallbackMode;
+      const baseFamily = genrePattern?.baseFamily || fallbackMode;
+      const variantFamily = genrePattern?.variantFamily || fallbackMode;
+      const layoutBias = genrePattern?.layoutBias || "aerosol";
+      const textureMode = genrePattern?.textureMode || variantFamily;
+      const genreVisual = genrePattern ? resolveGenreVisualProfile(genrePattern, audio, seed) : resolveGenreVisualProfile({}, audio, seed);
+      const carrierBias = clamp01(settings?.carrierDensity ?? .72);
+      const bytes = audioPatternBytes(detail, Math.round(9000 + carrierBias * 10000));
+      const options = aerosolOptionsFromGenre(genrePattern, genreVisual, audio, fingerprint, seed);
+      const particles = makeAerosolParticleGroup(options, bytes, seed);
+      const genreLabel = genrePattern?.label || audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "";
+      const metadata = [
+        `<desc>Reversible Sound Form Engine aerosol particle field. The visible design is made from black pigment particles on white background; softness and fading are produced by particle density only, with no embedded PCM text. Restoration PCM is added as a visible locked pcm_reversible_data protected particle layer on export.</desc>`,
+        `<g id="pcm_reversible_data" data-layer="pcm_reversible_data" data-status="added-on-export" data-edit-policy="lock-do-not-edit"></g>`
+      ];
+      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="${escapeAttr(mood.label)} reversible aerosol sound form" data-engine="reversible-sound-form-v4" data-visual-style="aerosol-particle-field-v1" data-form-mode="${formMode}" data-genre-pattern="${escapeAttr(genreLabel)}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-negative-space="${genreVisual.negativeSpace}" data-line-character="${escapeAttr(genreVisual.lineCharacter)}" data-name-motif="${escapeAttr(genreVisual.nameMotif)}" data-collision-style="${escapeAttr(genreVisual.collisionStyle)}" data-texture-mode="${textureMode}" data-texture-region="${genreVisual.textureRegion}" data-inferred-genre="${escapeAttr(audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "")}" data-audio-fingerprint="${fingerprint.hash}" data-refinement-passes="100" data-structural-debate-passes="30" data-genre-pattern-count="${Object.keys(genrePatternProfiles).length}" data-variant-seed="${seed}" data-iteration="${settings?.iteration || ""}"><rect width="1200" height="1200" fill="#fff"/>${metadata.join("")}<g id="sound_form_surface" data-layer="sound_form_surface" data-form-mode="${formMode}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-negative-space="${genreVisual.negativeSpace}" data-visual-style="aerosol-particle-field-v1" data-print-ink="black-opaque">${particles}</g></svg>`;
+    }
     function generateSoundClothReversibleSvg(mood, tick = Date.now(), settings = null) {
+      return generateAerosolParticleSoundSvg(mood, tick, settings);
       const audio = mood.audio || {};
       const detail = normaliseAudioDetail(audio.detail || {}, audio);
       const variantSalt = Number(mood.variantSalt || 0);
@@ -4621,7 +5041,7 @@
         id,
         creatorId: "audio-pattern-generator",
         title,
-        description: `YouTube音声の解析結果から、毎回異なる黒一色の可逆サウンドフォームを生成します。RMS推移、onset分布、chroma重心、波形断片に加え、Wikipediaの音楽ジャンル一覧を基にした推定ジャンル（${genreText}）を形状選択へ反映します。`,
+        description: `YouTube音声の解析結果から、毎回異なる黒一色の可逆エアロゾル粒子フォームを生成します。RMS推移、onset分布、chroma重心、波形断片に加え、Wikipediaの音楽ジャンル一覧を基にした推定ジャンル（${genreText}）を粒子密度と余白へ反映します。`,
         location: "Generated / Reversible Pattern",
         price: "参考生成",
         stockNote: "同じURLでは音響指紋を保ったまま別案化し、違う曲では音響指紋そのものが変わるため大きな構図も変化します。音の復元性は保護PCMレイヤーで維持します。",
@@ -5082,8 +5502,8 @@
         state.generated = generatedShirt;
         state.session = session;
         state.message = source.type === "youtube-url"
-          ? "可逆SVGから復元しました。PCMは線座標レイヤーから読み戻しています。"
-          : "可逆SVGから特徴量と線座標化PCMを復元しました。";
+          ? "可逆SVGから復元しました。PCMは保護粒子レイヤーから読み戻しています。"
+          : "可逆SVGから特徴量と粒子座標化PCMを復元しました。";
         startRealtimeIfLight(mood);
         render();
       } catch (error) {
@@ -5568,17 +5988,17 @@
         ? features.genreAnalysis.top.slice(0, 3).map(item => `${item.name} ${item.score}%`).join(" / ")
         : "未推定";
       return `<section class="panel"><div class="top"><div><p class="eyebrow">Pattern structure</p><h2>図柄のどこが音か</h2></div><strong>Reversible</strong></div>
-        <p class="muted">現在の仕様は <strong>REVERSIBLE SOUND FORM ENGINE v4</strong> です。音源を単一フォーマットに押し込まず、100パスの音響指紋選別、Wikipedia由来のジャンル推定、30回の構成自己ディベートで <strong>30ジャンル別サウンドフォーム</strong> から選びます。書き出しSVGには復元用の <strong>pcm_reversible_data</strong> が見える保護図案として入ります。</p>
+        <p class="muted">現在の仕様は <strong>REVERSIBLE SOUND FORM ENGINE v4</strong> です。音源を単一フォーマットに押し込まず、100パスの音響指紋選別、Wikipedia由来のジャンル推定、30回の構成自己ディベートで <strong>30ジャンル別エアロゾル粒子フォーム</strong> から選びます。書き出しSVGには復元用の <strong>pcm_reversible_data</strong> が見える保護粒子として入ります。</p>
         <div class="mapping-list">
           <p><strong>Genre Form</strong>曲ごとの大きな構造。推定Top1ジャンルを起点に、30種類の専用パターンから選ばれます。<span class="mapping-value">30 genre forms / 30 debates</span></p>
           <p><strong>Genre Guess</strong>Wikipediaの音楽ジャンル一覧を基にしたローカル推定。推定Top1が専用パターンを決め、別案では同ジャンル内の副フォームが切り替わります。<span class="mapping-value">${genreText}</span></p>
-          <p><strong>Pressure Field</strong>太い黒線。Bass、RMS、Rhythmを合成した音圧の流れです。<span class="mapping-value">${formatFeaturePercent(features?.bass)}</span></p>
-          <p><strong>Memory Weave</strong>布の中の細い織り目。表示用PCMキャリアを布面に分散します。<span class="mapping-value">${formatPcmGeometryText(features)}</span></p>
+          <p><strong>Aerosol Density</strong>Bass、RMS、Rhythmを黒粒子の密集と消え際へ変換します。<span class="mapping-value">${formatFeaturePercent(features?.bass)}</span></p>
+          <p><strong>Memory Grain</strong>音響指紋を粒径、散布方向、余白の揺らぎへ分散します。<span class="mapping-value">${formatPcmGeometryText(features)}</span></p>
           <p><strong>Impact / Fracture</strong>裂け目、穴、短い傷。ドラムや声の入りなどonsetの強さです。<span class="mapping-value">${formatFeaturePercent(features?.onset)}</span></p>
-          <p><strong>Tension Lines</strong>12音のクロマとスペクトル重心で方向と長さが変わる張力線です。<span class="mapping-value">12 pitch pulls</span></p>
+          <p><strong>Pitch Drift</strong>12音のクロマとスペクトル重心で粒子雲の偏りと流れが変わります。<span class="mapping-value">12 pitch pulls</span></p>
           <p><strong>Time / Strata</strong>時間軸とテンポを、反復する層・折り目・縦グリッドへ変換します。<span class="mapping-value">${formatFeatureNumber(features?.tempo, "BPM")}</span></p>
           <p><strong>Orbit Memory</strong>PCMの渦や軌道。Wrapped PCM、Black Spine、Carrier Stormの要素を補助的に統合しています。<span class="mapping-value">visible carriers</span></p>
-          <p><strong>Protected PCM</strong>主図案内の細密な内部地紋。音を戻すための本体なので、表示したままロックし、削除や変形をしないでください。<span class="mapping-value">locked protected texture</span></p>
+          <p><strong>Protected PCM</strong>主図案内に馴染む黒い保護粒子。音を戻すための本体なので、表示したままロックし、削除や変形をしないでください。<span class="mapping-value">locked protected particles</span></p>
         </div></section>`;
     }
     function refreshReversibleSoundClothShirt(shirt) {
@@ -5602,7 +6022,7 @@
       };
       shirt.art = generateReversibleAudioPatternSvg(mood, tick, null);
       shirt.engineLabel = shirt.youtubeUrl ? "YouTube Reversible Sound Form" : "Audio Reversible Sound Form";
-      shirt.description = "YouTube音声の解析結果から、黒一色の可逆サウンドフォームへ更新したパターンです。曲ごとの音響指紋と30回の構成自己ディベートによって、圧力図、軌道図、波形層、破片図、星図、渦、バーコード、放射スコアなどへ変形します。";
+      shirt.description = "YouTube音声の解析結果から、黒一色の可逆エアロゾル粒子フォームへ更新したパターンです。曲ごとの音響指紋と30回の構成自己ディベートによって、粒子密度、余白、消え際、散布方向が変化します。";
       shirt.stockNote = "旧生成結果を表示時にREVERSIBLE SOUND FORM ENGINE v4へ更新しました。復元性は保護PCMレイヤーで維持します。";
       return shirt;
     }
@@ -5647,7 +6067,7 @@
           <button class="secondary" onclick="downloadReversibleJson('${shirt.id}')">補助JSONを書き出す</button>
           <button class="secondary" onclick="playReconstructedAudio('${shirt.id}')">保護PCMデータから復元音</button>
         </div>
-        <p class="reversible-note"><strong>${mode}</strong><br>${sourceLine}<br>Illustratorでは見た目のパターン線は編集できます。音を保つには、表示したままロックした <strong>pcm_reversible_data</strong> レイヤーを削除・変形しないでください。</p>
+        <p class="reversible-note"><strong>${mode}</strong><br>${sourceLine}<br>Illustratorでは見た目の粒子群は編集できます。音を保つには、表示したままロックした <strong>pcm_reversible_data</strong> 保護粒子レイヤーを削除・変形しないでください。</p>
       </section>`;
     }
     function renderHome() {
@@ -5679,16 +6099,16 @@
         : `${state.realtime ? `<button class="secondary" onclick="pauseRealtime()">止める</button>` : `<button class="secondary" onclick="resumeRealtime()">再開</button>`} <button class="secondary" onclick="acceptRealtimeDesign()">この図案を採用</button> <button class="secondary" onclick="rerunCurrentGeneration()">別案を走らせる</button> <button class="secondary" onclick="resetMood()">もう一度選ぶ</button>`;
       const generatedStateText = isReversibleAudio ? "固定表示 / 復元データ保持" : state.realtime ? "更新中" : "停止中";
       return `<main class="wrap">
-        <section class="panel top"><div><p class="eyebrow">DELTA & DOH PRESENTS</p><h1>SOUND VECTOR FITTING ROOM</h1><p class="muted">YouTube音声を実解析し、Wikipediaの音楽ジャンル一覧を基にジャンルを推定して、毎回違う黒一色の可逆サウンドフォームへ変換します。曲によって圧力図、軌道図、波形層、破片図、星図、バーコードなどへ切り替わります。</p></div>${renderNav()}</section>
+        <section class="panel top"><div><p class="eyebrow">DELTA & DOH PRESENTS</p><h1>SOUND VECTOR FITTING ROOM</h1><p class="muted">YouTube音声を実解析し、Wikipediaの音楽ジャンル一覧を基にジャンルを推定して、毎回違う黒一色の可逆エアロゾル粒子フォームへ変換します。曲によって粒子密度、消えゆく輪郭、余白、散布方向が切り替わります。</p></div>${renderNav()}</section>
         ${!generated ? `<section class="panel"><div class="top"><div><p class="eyebrow">Real audio SVG generation</p><h2>音を読み取って図案を走らせる</h2></div><strong>Live</strong></div>
           <p class="muted">今はYouTube音声解析からの可逆サウンドフォーム生成を主ルートにしています。動画IDだけの仮生成や、旧式の球面座標SVG生成は行いません。</p>
           <div class="source-grid">
-            <article class="source-card"><p class="eyebrow">Route 1</p><h3>YouTube音声から可逆サウンドフォーム</h3><p class="muted">YouTubeリンクを解析サーバーへ送り、音声PCM・RMS・onset・クロマを読み取ります。さらにジャンルを推定し、そのジャンルに近い構成文法でSVGを生成します。</p><div class="youtube-form"><input id="youtubeUrl" type="url" value="${youtubeValue}" placeholder="https://www.youtube.com/watch?v=..." onkeydown="if(event.key==='Enter') startYoutubeGeneration()"><button class="secondary" onclick="startYoutubeGeneration()">YouTubeから生成</button></div></article>
+            <article class="source-card"><p class="eyebrow">Route 1</p><h3>YouTube音声から可逆粒子フォーム</h3><p class="muted">YouTubeリンクを解析サーバーへ送り、音声PCM・RMS・onset・クロマを読み取ります。さらにジャンルを推定し、そのジャンルに近い粒子密度場でSVGを生成します。</p><div class="youtube-form"><input id="youtubeUrl" type="url" value="${youtubeValue}" placeholder="https://www.youtube.com/watch?v=..." onkeydown="if(event.key==='Enter') startYoutubeGeneration()"><button class="secondary" onclick="startYoutubeGeneration()">YouTubeから生成</button></div></article>
             <article class="source-card"><p class="eyebrow">Route 2</p><h3>音源アップロード実解析</h3><p class="muted">mp3、wav、m4aなどを選択すると、Web Audio APIでdecodeしてRMS、低域、スペクトル重心、クロマ、onset、テンポを計算します。</p><div class="youtube-form"><input id="audioFile" type="file" accept="audio/*"><button class="secondary" onclick="startUploadedAudioGeneration()">音源から生成</button></div></article>
             <article class="source-card"><p class="eyebrow">Route 3</p><h3>可逆SVGから復元</h3><p class="muted">このアプリで書き出した可逆SVGを読み込みます。復元音はmetadataではなく、図柄内の <strong>pcm_reversible_data</strong> レイヤーから戻します。</p><div class="youtube-form"><input id="reversibleSvgFile" type="file" accept=".svg,image/svg+xml"><button class="secondary" onclick="restoreFromReversibleSvg()">SVGから復元</button></div></article>
           </div>
           ${state.message ? `<p class="tag">${state.message}</p>` : ""}
-          <div class="realtime-readout"><p><strong>Audio fingerprint</strong><br>曲ごとに構造を選択</p><p><strong>Onset / Chroma</strong><br>裂け目・軌道・張力線へ変換</p><p><strong>Protected data</strong><br>書き出しSVG内で復元用に保持</p></div>
+          <div class="realtime-readout"><p><strong>Audio fingerprint</strong><br>曲ごとに粒子構造を選択</p><p><strong>Onset / Chroma</strong><br>粒子密度・散布方向へ変換</p><p><strong>Protected data</strong><br>書き出しSVG内で保護粒子として保持</p></div>
           <div class="api-config"><label><span class="eyebrow">YouTube audio analysis server</span><input id="apiEndpoint" value="${endpointValue}" placeholder="https://example.com/api/audio-analyze"></label><button class="secondary" onclick="saveApiEndpoint()">保存</button></div></section>` :
           `<section class="panel"><div class="top"><div><p class="eyebrow">Generated design</p><h2>${generatedHeading}</h2></div><div>${generatedActions}</div></div>
           <div class="generated-layout"><article class="generated-preview">${renderShirtArt(generated)}<div class="design-spec"><p><strong>音源</strong><br>${sourceLabel}</p><p><strong>生成</strong><br>${selectedEngine.label}</p><p><strong>状態</strong><br>${generatedStateText}</p><p><strong>Genre</strong><br>${genreLabel}</p><p><strong>Tempo</strong><br>${features?.tempo ? `${features.tempo} BPM` : "local"}</p><p><strong>Centroid</strong><br>${features?.centroid ? `${features.centroid} Hz` : "SVG"}</p><p><strong>可逆PCM</strong><br>${formatPcmGeometryText(features)}</p></div></article><article><p>${generated.tags.map(t => `<span class="tag">${t}</span>`).join("")}</p><h3>${generated.title}</h3><p>${generated.description}</p>${generated.youtubeUrl ? `<p class="muted"><a href="${escapeAttr(generated.youtubeUrl)}" target="_blank" rel="noreferrer">参照YouTubeリンク</a></p>` : ""}${state.message ? `<p class="tag">${state.message}</p>` : ""}${generated.externalNote ? `<p class="tag">${generated.externalNote}</p>` : ""}<p class="muted">${generated.stockNote}</p><button class="primary" onclick="acceptRealtimeDesign();nav('work','${generated.id}')">詳細と共鳴を見る</button></article></div></section>`}

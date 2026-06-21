@@ -199,7 +199,7 @@ const sheet = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="
     .meta{font:400 15px Helvetica,Arial,sans-serif;letter-spacing:0;fill:#000}
   </style>
   <rect width="100%" height="100%" fill="#fff"/>
-  <text x="${margin}" y="${margin + 48}" class="title">30 GENRE SOUND FORMS</text>
+  <text x="${margin}" y="${margin + 48}" class="title">${genres.length} GENRE SOUND FORMS</text>
   <text x="${margin}" y="${margin + 86}" class="subtitle">Top1 genre locks the main pattern; variant family and protected texture change inside the same genre idea.</text>
   <text x="${margin}" y="${margin + 116}" class="subtitle">Each preview includes a reduced-density visible pcm_reversible_data texture field for visual checking.</text>
   ${cards}
