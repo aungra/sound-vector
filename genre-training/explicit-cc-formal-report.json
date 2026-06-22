@@ -1,0 +1,414 @@
+{
+  "generatedAt": "2026-06-21T17:21:07.363Z",
+  "downloadAudio": false,
+  "selected": 12,
+  "manifestItems": 12,
+  "byGenre": {
+    "アニメソング": 1,
+    "トラップ": 11
+  },
+  "downloadErrors": [],
+  "rejectedCount": 100,
+  "rejectedSamples": [
+    {
+      "genre": "アニメソング",
+      "title": "Aenvelora —「終焉の誓い」( Shūen No Chikai Oath At The End)",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/aenvelora-shuen-no-chikai-oath-at-the-end",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "アニメソング",
+      "title": "Ethno Indigo Records Collection Packs",
+      "source": "Internet Archive",
+      "license": "CC-BY-ND",
+      "referenceUrl": "https://archive.org/details/CollectionHeader_33",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "アニメソング",
+      "title": "We’ll Meet Again",
+      "source": "Internet Archive",
+      "license": "CC-BY",
+      "referenceUrl": "https://archive.org/details/well-meet-again_202511",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "アニメソング",
+      "title": "No Destination",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/NoDestination",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "アニメソング",
+      "title": "Echoes In The Twilight",
+      "source": "Internet Archive",
+      "license": "CC-BY",
+      "referenceUrl": "https://archive.org/details/echoes-in-the-twilight",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "アニメソング",
+      "title": "JNN050 - no-R-mal",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/JNN050-variousartists-no-R-mal",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "1993 Toyota Corolla",
+      "source": "Internet Archive",
+      "license": "CC-BY-SA",
+      "referenceUrl": "https://archive.org/details/BFTG_264",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "Other Side Cask 1",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/Other_Side_Cask_1",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "Other Side Cask 3",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/Other_Side_Cask_3",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "Other Side Cask 2",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/Other_Side_Cask_2",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "Other Side Cask 4",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/Other_Side_Cask_4",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - February 2013",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-February_2013",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - January 2009",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/TheOvernightscapeUnderground-January2009",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - January 2011",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-January_2011",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - May 2012",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-May_2012",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - May 2014",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-May_2014",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - September 2013",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-September_2013",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "Overnightscape-  Vault 1 (1969–2006)",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/Overnightscape-Vault_1_1969-2006",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - August 2014",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-August_2014",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - February 2009",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/TheOvernightscapeUnderground-February2009",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - May 2013",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-May_2013",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - September 2014",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-September_2014",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - April 2013",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-April_2013",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - July 2014",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-July_2014",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - The Rampler 1-100",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/TheOvernightscapeUnderground-TheRampler1-100",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - July 2013",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-July_2013",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "[nwscomp0005] CC Europe Mixtape side A",
+      "source": "Internet Archive",
+      "license": "CC-BY-SA",
+      "referenceUrl": "https://archive.org/details/nwscomp005",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - Day 1",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/TheOvernightscapeUnderground-Day1",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - January 2014",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-January_2014",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "[dystopiaq030] Dust Collector - Narcolepsy",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/dystopiaq030",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - November 2008",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/TheOvernightscapeUnderground-November2008",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - June 2013",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-June_2013",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - December 2013",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-December_2013",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - August 2013",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-August_2013",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - November 2013",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-November_2013",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - August 2010",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-August_2010",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "Overnightscape - Vault 2 (2007-2009)",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/Overnightscape_Vault_2_2007-2009",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - March 2014",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-March_2014",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - March 2009",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/TheOvernightscapeUnderground-March2009",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - May 2010",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-May_2010",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - December 2008",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/TheOvernightscapeUnderground-December2008",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - March 2016",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-March_2016",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - November 2015",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-November_2015",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - July 2010",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-July_2010",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape - Summer 2006",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape-Summer_2006",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape - Summer 2005",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape-Summer_2005",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - Day 2",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/TheOvernightscapeUnderground-Day2",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "Overnightscape - Midnight Cassette System",
+      "source": "Internet Archive",
+      "license": "CC0",
+      "referenceUrl": "https://archive.org/details/Overnightscape-Midnight_Cassette_System",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - June 2010",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-June_2010",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    },
+    {
+      "genre": "シティ・ポップ",
+      "title": "The Overnightscape Underground - April 2010",
+      "source": "Internet Archive",
+      "license": "CC-BY-NC-ND",
+      "referenceUrl": "https://archive.org/details/The_Overnightscape_Underground-April_2010",
+      "rejectReason": "insufficient-explicit-label-or-license"
+    }
+  ]
+}

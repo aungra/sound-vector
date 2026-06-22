@@ -1,0 +1,2546 @@
+{
+  "generatedAt": "2026-06-21T18:06:15.905Z",
+  "goal": {
+    "genreCount": 30,
+    "top1Accuracy": 80,
+    "formalSourceTypes": [
+      "cc-dataset",
+      "local-audio"
+    ],
+    "minFormalTestPerGenre": 10,
+    "defaultTargetTracks": 50,
+    "priorityTargetTracks": 100
+  },
+  "status": "needs-formal-cc-audio",
+  "summary": {
+    "seedGenres": 32,
+    "fineEvaluableGenres": 30,
+    "formalReadyGenres": 23,
+    "potentialReadyGenres": 27,
+    "passingGenres": 1,
+    "currentReferenceMacroTop1": 32.5,
+    "currentReferenceFineTop1": 14.9,
+    "currentReferenceFineTop3": 26.8,
+    "formalStatus": "available"
+  },
+  "priorityMissing": [
+    {
+      "genre": "シティ・ポップ",
+      "macroGenre": "pop",
+      "priority": true,
+      "fineEvaluable": true,
+      "totalTrainingRows": 24,
+      "formalTrainingRows": 0,
+      "potentialTrainingRows": 63,
+      "recommendedSources": [
+        {
+          "id": "local-curated-cc-folders",
+          "name": "Local curated CC audio folders",
+          "kind": "manual-verified-cc-audio",
+          "status": "required-for-gap-genres",
+          "referenceUrl": "",
+          "nextAction": "Place verified CC/public-research audio in genre-named folders on an external drive, generate a manifest with cc-manifest:from-folder, then import with cc-import."
+        },
+        {
+          "id": "internet-archive-cc-audio-search",
+          "name": "Internet Archive Creative Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://archive.org/advancedsearch.php",
+          "nextAction": "Search by genre-specific terms, verify licenseurl and audio files, then download selected audio outside the repo."
+        },
+        {
+          "id": "wikimedia-commons-audio-search",
+          "name": "Wikimedia Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia",
+          "nextAction": "Collect Commons audio candidates, review file pages and licenses, then download selected audio outside the repo."
+        }
+      ],
+      "searchTerms": [
+        "city pop creative commons",
+        "japanese city pop creative commons",
+        "future funk creative commons",
+        "vaporwave creative commons",
+        "80s japanese pop inspired creative commons"
+      ],
+      "fmaMetadataRows": 0,
+      "targetTracks": 100,
+      "missingFormalTracks": 100,
+      "missingPotentialTracks": 37,
+      "testRows": 0,
+      "minFormalTestPerGenre": 10,
+      "formalReady": false,
+      "stableTestReady": false,
+      "top1Accuracy": null,
+      "top3Accuracy": null,
+      "passesGoal": false
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "priority": true,
+      "fineEvaluable": true,
+      "totalTrainingRows": 98,
+      "formalTrainingRows": 77,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "fma-small-or-full",
+          "name": "Free Music Archive Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-download-incomplete",
+          "referenceUrl": "https://github.com/mdeff/fma",
+          "nextAction": "Resume Download FMA Small.command, unzip outside the repo, then run cc-import:fma against the FMA tracks.csv and audio root."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 120,
+      "targetTracks": 100,
+      "missingFormalTracks": 23,
+      "missingPotentialTracks": 0,
+      "testRows": 11,
+      "minFormalTestPerGenre": 10,
+      "formalReady": false,
+      "stableTestReady": true,
+      "top1Accuracy": 0,
+      "top3Accuracy": 18.2,
+      "passesGoal": false
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "priority": true,
+      "fineEvaluable": true,
+      "totalTrainingRows": 136,
+      "formalTrainingRows": 115,
+      "potentialTrainingRows": 240,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 100,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 17,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 41.2,
+      "top3Accuracy": 41.2,
+      "passesGoal": false
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "priority": true,
+      "fineEvaluable": true,
+      "totalTrainingRows": 141,
+      "formalTrainingRows": 100,
+      "potentialTrainingRows": 212,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 92,
+      "targetTracks": 100,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 17,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 23.5,
+      "top3Accuracy": 52.9,
+      "passesGoal": false
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "priority": true,
+      "fineEvaluable": true,
+      "totalTrainingRows": 141,
+      "formalTrainingRows": 103,
+      "potentialTrainingRows": 240,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        },
+        {
+          "id": "fma-small-or-full",
+          "name": "Free Music Archive Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-download-incomplete",
+          "referenceUrl": "https://github.com/mdeff/fma",
+          "nextAction": "Resume Download FMA Small.command, unzip outside the repo, then run cc-import:fma against the FMA tracks.csv and audio root."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 120,
+      "targetTracks": 100,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 15,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 6.7,
+      "top3Accuracy": 26.7,
+      "passesGoal": false
+    }
+  ],
+  "missing": [
+    {
+      "genre": "シティ・ポップ",
+      "macroGenre": "pop",
+      "priority": true,
+      "fineEvaluable": true,
+      "totalTrainingRows": 24,
+      "formalTrainingRows": 0,
+      "potentialTrainingRows": 63,
+      "recommendedSources": [
+        {
+          "id": "local-curated-cc-folders",
+          "name": "Local curated CC audio folders",
+          "kind": "manual-verified-cc-audio",
+          "status": "required-for-gap-genres",
+          "referenceUrl": "",
+          "nextAction": "Place verified CC/public-research audio in genre-named folders on an external drive, generate a manifest with cc-manifest:from-folder, then import with cc-import."
+        },
+        {
+          "id": "internet-archive-cc-audio-search",
+          "name": "Internet Archive Creative Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://archive.org/advancedsearch.php",
+          "nextAction": "Search by genre-specific terms, verify licenseurl and audio files, then download selected audio outside the repo."
+        },
+        {
+          "id": "wikimedia-commons-audio-search",
+          "name": "Wikimedia Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia",
+          "nextAction": "Collect Commons audio candidates, review file pages and licenses, then download selected audio outside the repo."
+        }
+      ],
+      "searchTerms": [
+        "city pop creative commons",
+        "japanese city pop creative commons",
+        "future funk creative commons",
+        "vaporwave creative commons",
+        "80s japanese pop inspired creative commons"
+      ],
+      "fmaMetadataRows": 0,
+      "targetTracks": 100,
+      "missingFormalTracks": 100,
+      "missingPotentialTracks": 37,
+      "testRows": 0,
+      "minFormalTestPerGenre": 10,
+      "formalReady": false,
+      "stableTestReady": false,
+      "top1Accuracy": null,
+      "top3Accuracy": null,
+      "passesGoal": false
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "priority": true,
+      "fineEvaluable": true,
+      "totalTrainingRows": 98,
+      "formalTrainingRows": 77,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "fma-small-or-full",
+          "name": "Free Music Archive Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-download-incomplete",
+          "referenceUrl": "https://github.com/mdeff/fma",
+          "nextAction": "Resume Download FMA Small.command, unzip outside the repo, then run cc-import:fma against the FMA tracks.csv and audio root."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 120,
+      "targetTracks": 100,
+      "missingFormalTracks": 23,
+      "missingPotentialTracks": 0,
+      "testRows": 11,
+      "minFormalTestPerGenre": 10,
+      "formalReady": false,
+      "stableTestReady": true,
+      "top1Accuracy": 0,
+      "top3Accuracy": 18.2,
+      "passesGoal": false
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "priority": true,
+      "fineEvaluable": true,
+      "totalTrainingRows": 136,
+      "formalTrainingRows": 115,
+      "potentialTrainingRows": 240,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 100,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 17,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 41.2,
+      "top3Accuracy": 41.2,
+      "passesGoal": false
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "priority": true,
+      "fineEvaluable": true,
+      "totalTrainingRows": 141,
+      "formalTrainingRows": 100,
+      "potentialTrainingRows": 212,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 92,
+      "targetTracks": 100,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 17,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 23.5,
+      "top3Accuracy": 52.9,
+      "passesGoal": false
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "priority": true,
+      "fineEvaluable": true,
+      "totalTrainingRows": 141,
+      "formalTrainingRows": 103,
+      "potentialTrainingRows": 240,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        },
+        {
+          "id": "fma-small-or-full",
+          "name": "Free Music Archive Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-download-incomplete",
+          "referenceUrl": "https://github.com/mdeff/fma",
+          "nextAction": "Resume Download FMA Small.command, unzip outside the repo, then run cc-import:fma against the FMA tracks.csv and audio root."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 120,
+      "targetTracks": 100,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 15,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 6.7,
+      "top3Accuracy": 26.7,
+      "passesGoal": false
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 27,
+      "formalTrainingRows": 6,
+      "potentialTrainingRows": 8,
+      "recommendedSources": [
+        {
+          "id": "local-curated-cc-folders",
+          "name": "Local curated CC audio folders",
+          "kind": "manual-verified-cc-audio",
+          "status": "required-for-gap-genres",
+          "referenceUrl": "",
+          "nextAction": "Place verified CC/public-research audio in genre-named folders on an external drive, generate a manifest with cc-manifest:from-folder, then import with cc-import."
+        },
+        {
+          "id": "internet-archive-cc-audio-search",
+          "name": "Internet Archive Creative Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://archive.org/advancedsearch.php",
+          "nextAction": "Search by genre-specific terms, verify licenseurl and audio files, then download selected audio outside the repo."
+        },
+        {
+          "id": "wikimedia-commons-audio-search",
+          "name": "Wikimedia Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia",
+          "nextAction": "Collect Commons audio candidates, review file pages and licenses, then download selected audio outside the repo."
+        }
+      ],
+      "searchTerms": [
+        "anime song creative commons",
+        "anisong creative commons",
+        "anime opening creative commons",
+        "japanese pop rock creative commons",
+        "japanese vocaloid creative commons",
+        "anime soundtrack creative commons"
+      ],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 44,
+      "missingPotentialTracks": 42,
+      "testRows": 1,
+      "minFormalTestPerGenre": 10,
+      "formalReady": false,
+      "stableTestReady": false,
+      "top1Accuracy": 0,
+      "top3Accuracy": 0,
+      "passesGoal": false
+    },
+    {
+      "genre": "ハードコア",
+      "macroGenre": "rock",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 32,
+      "formalTrainingRows": 11,
+      "potentialTrainingRows": 55,
+      "recommendedSources": [
+        {
+          "id": "local-curated-cc-folders",
+          "name": "Local curated CC audio folders",
+          "kind": "manual-verified-cc-audio",
+          "status": "required-for-gap-genres",
+          "referenceUrl": "",
+          "nextAction": "Place verified CC/public-research audio in genre-named folders on an external drive, generate a manifest with cc-manifest:from-folder, then import with cc-import."
+        },
+        {
+          "id": "internet-archive-cc-audio-search",
+          "name": "Internet Archive Creative Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://archive.org/advancedsearch.php",
+          "nextAction": "Search by genre-specific terms, verify licenseurl and audio files, then download selected audio outside the repo."
+        }
+      ],
+      "searchTerms": [
+        "hardcore punk creative commons",
+        "hardcore creative commons",
+        "punk hardcore creative commons"
+      ],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 39,
+      "missingPotentialTracks": 0,
+      "testRows": 2,
+      "minFormalTestPerGenre": 10,
+      "formalReady": false,
+      "stableTestReady": false,
+      "top1Accuracy": 0,
+      "top3Accuracy": 0,
+      "passesGoal": false
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 39,
+      "formalTrainingRows": 18,
+      "potentialTrainingRows": 64,
+      "recommendedSources": [
+        {
+          "id": "fma-small-or-full",
+          "name": "Free Music Archive Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-download-incomplete",
+          "referenceUrl": "https://github.com/mdeff/fma",
+          "nextAction": "Resume Download FMA Small.command, unzip outside the repo, then run cc-import:fma against the FMA tracks.csv and audio root."
+        },
+        {
+          "id": "local-curated-cc-folders",
+          "name": "Local curated CC audio folders",
+          "kind": "manual-verified-cc-audio",
+          "status": "required-for-gap-genres",
+          "referenceUrl": "",
+          "nextAction": "Place verified CC/public-research audio in genre-named folders on an external drive, generate a manifest with cc-manifest:from-folder, then import with cc-import."
+        },
+        {
+          "id": "internet-archive-cc-audio-search",
+          "name": "Internet Archive Creative Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://archive.org/advancedsearch.php",
+          "nextAction": "Search by genre-specific terms, verify licenseurl and audio files, then download selected audio outside the repo."
+        }
+      ],
+      "searchTerms": [
+        "deep house creative commons",
+        "deep house jamendo",
+        "creative commons deep house"
+      ],
+      "fmaMetadataRows": 9,
+      "targetTracks": 50,
+      "missingFormalTracks": 32,
+      "missingPotentialTracks": 0,
+      "testRows": 3,
+      "minFormalTestPerGenre": 10,
+      "formalReady": false,
+      "stableTestReady": false,
+      "top1Accuracy": 0,
+      "top3Accuracy": 0,
+      "passesGoal": false
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 62,
+      "formalTrainingRows": 41,
+      "potentialTrainingRows": 41,
+      "recommendedSources": [
+        {
+          "id": "local-curated-cc-folders",
+          "name": "Local curated CC audio folders",
+          "kind": "manual-verified-cc-audio",
+          "status": "required-for-gap-genres",
+          "referenceUrl": "",
+          "nextAction": "Place verified CC/public-research audio in genre-named folders on an external drive, generate a manifest with cc-manifest:from-folder, then import with cc-import."
+        },
+        {
+          "id": "internet-archive-cc-audio-search",
+          "name": "Internet Archive Creative Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://archive.org/advancedsearch.php",
+          "nextAction": "Search by genre-specific terms, verify licenseurl and audio files, then download selected audio outside the repo."
+        },
+        {
+          "id": "wikimedia-commons-audio-search",
+          "name": "Wikimedia Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia",
+          "nextAction": "Collect Commons audio candidates, review file pages and licenses, then download selected audio outside the repo."
+        },
+        {
+          "id": "ccmixter-open-remixes",
+          "name": "ccMixter Creative Commons remixes",
+          "kind": "manual-verified-cc-music",
+          "status": "manual-download-review-required",
+          "referenceUrl": "https://ccmixter.org/",
+          "nextAction": "Curate complete tracks with clear genre labels and CC licenses, save audio outside the repo, then import via cc-manifest:from-folder."
+        },
+        {
+          "id": "freesound-fsd50k-support",
+          "name": "Freesound / FSD50K CC audio support set",
+          "kind": "public-research-cc-dataset",
+          "status": "support-source-not-primary-music",
+          "referenceUrl": "https://annotator.freesound.org/fsd/",
+          "nextAction": "Use only reviewed clips that genuinely represent the target genre trait; mark datasetName clearly so they can be excluded from formal music-only evaluation if needed."
+        }
+      ],
+      "searchTerms": [
+        "trap beat creative commons",
+        "trap instrumental creative commons",
+        "southern trap creative commons",
+        "hip hop trap creative commons",
+        "trap music creative commons",
+        "808 trap beat creative commons",
+        "phonk creative commons",
+        "ccmixter trap",
+        "creative commons hip hop 808"
+      ],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 9,
+      "missingPotentialTracks": 9,
+      "testRows": 9,
+      "minFormalTestPerGenre": 10,
+      "formalReady": false,
+      "stableTestReady": false,
+      "top1Accuracy": 0,
+      "top3Accuracy": 11.1,
+      "passesGoal": false
+    },
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 101,
+      "formalTrainingRows": 80,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 17,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 5.9,
+      "top3Accuracy": 23.5,
+      "passesGoal": false
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 78,
+      "formalTrainingRows": 57,
+      "potentialTrainingRows": 57,
+      "recommendedSources": [
+        {
+          "id": "local-curated-cc-folders",
+          "name": "Local curated CC audio folders",
+          "kind": "manual-verified-cc-audio",
+          "status": "required-for-gap-genres",
+          "referenceUrl": "",
+          "nextAction": "Place verified CC/public-research audio in genre-named folders on an external drive, generate a manifest with cc-manifest:from-folder, then import with cc-import."
+        },
+        {
+          "id": "internet-archive-cc-audio-search",
+          "name": "Internet Archive Creative Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://archive.org/advancedsearch.php",
+          "nextAction": "Search by genre-specific terms, verify licenseurl and audio files, then download selected audio outside the repo."
+        },
+        {
+          "id": "wikimedia-commons-audio-search",
+          "name": "Wikimedia Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia",
+          "nextAction": "Collect Commons audio candidates, review file pages and licenses, then download selected audio outside the repo."
+        },
+        {
+          "id": "musopen-public-domain-recordings",
+          "name": "Musopen public-domain / CC classical recordings",
+          "kind": "manual-verified-public-domain-audio",
+          "status": "manual-download-review-required",
+          "referenceUrl": "https://musopen.org/music/",
+          "nextAction": "Download verified public-domain/CC recordings outside the repo, arrange them in genre-named folders, then generate a manifest with cc-manifest:from-folder."
+        }
+      ],
+      "searchTerms": [
+        "opera aria creative commons",
+        "classical vocal creative commons",
+        "opera public domain recording creative commons",
+        "soprano aria creative commons",
+        "tenor aria creative commons",
+        "operatic vocal creative commons",
+        "libre opera creative commons"
+      ],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 8,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": false,
+      "top1Accuracy": 0,
+      "top3Accuracy": 12.5,
+      "passesGoal": false
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 101,
+      "formalTrainingRows": 80,
+      "potentialTrainingRows": 240,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        },
+        {
+          "id": "fma-small-or-full",
+          "name": "Free Music Archive Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-download-incomplete",
+          "referenceUrl": "https://github.com/mdeff/fma",
+          "nextAction": "Resume Download FMA Small.command, unzip outside the repo, then run cc-import:fma against the FMA tracks.csv and audio root."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 120,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 20,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 0,
+      "top3Accuracy": 0,
+      "passesGoal": false
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 101,
+      "formalTrainingRows": 80,
+      "potentialTrainingRows": 104,
+      "recommendedSources": [
+        {
+          "id": "local-curated-cc-folders",
+          "name": "Local curated CC audio folders",
+          "kind": "manual-verified-cc-audio",
+          "status": "required-for-gap-genres",
+          "referenceUrl": "",
+          "nextAction": "Place verified CC/public-research audio in genre-named folders on an external drive, generate a manifest with cc-manifest:from-folder, then import with cc-import."
+        },
+        {
+          "id": "internet-archive-cc-audio-search",
+          "name": "Internet Archive Creative Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://archive.org/advancedsearch.php",
+          "nextAction": "Search by genre-specific terms, verify licenseurl and audio files, then download selected audio outside the repo."
+        },
+        {
+          "id": "wikimedia-commons-audio-search",
+          "name": "Wikimedia Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia",
+          "nextAction": "Collect Commons audio candidates, review file pages and licenses, then download selected audio outside the repo."
+        },
+        {
+          "id": "ccmixter-open-remixes",
+          "name": "ccMixter Creative Commons remixes",
+          "kind": "manual-verified-cc-music",
+          "status": "manual-download-review-required",
+          "referenceUrl": "https://ccmixter.org/",
+          "nextAction": "Curate complete tracks with clear genre labels and CC licenses, save audio outside the repo, then import via cc-manifest:from-folder."
+        }
+      ],
+      "searchTerms": [
+        "soul music creative commons",
+        "rnb soul creative commons",
+        "neo soul creative commons"
+      ],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 12,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 8.3,
+      "top3Accuracy": 25,
+      "passesGoal": false
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 93,
+      "formalTrainingRows": 72,
+      "potentialTrainingRows": 240,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        },
+        {
+          "id": "fma-small-or-full",
+          "name": "Free Music Archive Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-download-incomplete",
+          "referenceUrl": "https://github.com/mdeff/fma",
+          "nextAction": "Resume Download FMA Small.command, unzip outside the repo, then run cc-import:fma against the FMA tracks.csv and audio root."
+        },
+        {
+          "id": "freesound-fsd50k-support",
+          "name": "Freesound / FSD50K CC audio support set",
+          "kind": "public-research-cc-dataset",
+          "status": "support-source-not-primary-music",
+          "referenceUrl": "https://annotator.freesound.org/fsd/",
+          "nextAction": "Use only reviewed clips that genuinely represent the target genre trait; mark datasetName clearly so they can be excluded from formal music-only evaluation if needed."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 120,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 11,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 27.3,
+      "top3Accuracy": 27.3,
+      "passesGoal": false
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 109,
+      "formalTrainingRows": 88,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "fma-small-or-full",
+          "name": "Free Music Archive Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-download-incomplete",
+          "referenceUrl": "https://github.com/mdeff/fma",
+          "nextAction": "Resume Download FMA Small.command, unzip outside the repo, then run cc-import:fma against the FMA tracks.csv and audio root."
+        },
+        {
+          "id": "freesound-fsd50k-support",
+          "name": "Freesound / FSD50K CC audio support set",
+          "kind": "public-research-cc-dataset",
+          "status": "support-source-not-primary-music",
+          "referenceUrl": "https://annotator.freesound.org/fsd/",
+          "nextAction": "Use only reviewed clips that genuinely represent the target genre trait; mark datasetName clearly so they can be excluded from formal music-only evaluation if needed."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 120,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 13,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 23.1,
+      "top3Accuracy": 53.8,
+      "passesGoal": false
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 80,
+      "formalTrainingRows": 59,
+      "potentialTrainingRows": 167,
+      "recommendedSources": [
+        {
+          "id": "ccmixter-open-remixes",
+          "name": "ccMixter Creative Commons remixes",
+          "kind": "manual-verified-cc-music",
+          "status": "manual-download-review-required",
+          "referenceUrl": "https://ccmixter.org/",
+          "nextAction": "Curate complete tracks with clear genre labels and CC licenses, save audio outside the repo, then import via cc-manifest:from-folder."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 53,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 16,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 18.8,
+      "top3Accuracy": 31.3,
+      "passesGoal": false
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 79,
+      "formalTrainingRows": 58,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "fma-small-or-full",
+          "name": "Free Music Archive Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-download-incomplete",
+          "referenceUrl": "https://github.com/mdeff/fma",
+          "nextAction": "Resume Download FMA Small.command, unzip outside the repo, then run cc-import:fma against the FMA tracks.csv and audio root."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 120,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 12,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 0,
+      "top3Accuracy": 8.3,
+      "passesGoal": false
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 80,
+      "formalTrainingRows": 59,
+      "potentialTrainingRows": 131,
+      "recommendedSources": [],
+      "searchTerms": [],
+      "fmaMetadataRows": 41,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 13,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 15.4,
+      "top3Accuracy": 30.8,
+      "passesGoal": false
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 117,
+      "formalTrainingRows": 96,
+      "potentialTrainingRows": 240,
+      "recommendedSources": [
+        {
+          "id": "freesound-fsd50k-support",
+          "name": "Freesound / FSD50K CC audio support set",
+          "kind": "public-research-cc-dataset",
+          "status": "support-source-not-primary-music",
+          "referenceUrl": "https://annotator.freesound.org/fsd/",
+          "nextAction": "Use only reviewed clips that genuinely represent the target genre trait; mark datasetName clearly so they can be excluded from formal music-only evaluation if needed."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 120,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 14,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 14.3,
+      "top3Accuracy": 21.4,
+      "passesGoal": false
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 122,
+      "formalTrainingRows": 101,
+      "potentialTrainingRows": 240,
+      "recommendedSources": [],
+      "searchTerms": [],
+      "fmaMetadataRows": 120,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 17,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 17.6,
+      "top3Accuracy": 29.4,
+      "passesGoal": false
+    },
+    {
+      "genre": "パンク",
+      "macroGenre": "rock",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 98,
+      "formalTrainingRows": 77,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 15,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 33.3,
+      "top3Accuracy": 40,
+      "passesGoal": false
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 124,
+      "formalTrainingRows": 103,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "ccmixter-open-remixes",
+          "name": "ccMixter Creative Commons remixes",
+          "kind": "manual-verified-cc-music",
+          "status": "manual-download-review-required",
+          "referenceUrl": "https://ccmixter.org/",
+          "nextAction": "Curate complete tracks with clear genre labels and CC licenses, save audio outside the repo, then import via cc-manifest:from-folder."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 15,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 20,
+      "top3Accuracy": 26.7,
+      "passesGoal": false
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 94,
+      "formalTrainingRows": 73,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        },
+        {
+          "id": "ccmixter-open-remixes",
+          "name": "ccMixter Creative Commons remixes",
+          "kind": "manual-verified-cc-music",
+          "status": "manual-download-review-required",
+          "referenceUrl": "https://ccmixter.org/",
+          "nextAction": "Curate complete tracks with clear genre labels and CC licenses, save audio outside the repo, then import via cc-manifest:from-folder."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 11,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 0,
+      "top3Accuracy": 45.5,
+      "passesGoal": false
+    },
+    {
+      "genre": "フォーク",
+      "macroGenre": "world",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 104,
+      "formalTrainingRows": 83,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 12,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 8.3,
+      "top3Accuracy": 25,
+      "passesGoal": false
+    },
+    {
+      "genre": "ブルース",
+      "macroGenre": "black_music",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 78,
+      "formalTrainingRows": 78,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 11,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 0,
+      "top3Accuracy": 18.2,
+      "passesGoal": false
+    },
+    {
+      "genre": "メタル",
+      "macroGenre": "rock",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 93,
+      "formalTrainingRows": 72,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 10,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 30,
+      "top3Accuracy": 40,
+      "passesGoal": false
+    },
+    {
+      "genre": "ラテン",
+      "macroGenre": "world",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 72,
+      "formalTrainingRows": 72,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 17,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 17.6,
+      "top3Accuracy": 29.4,
+      "passesGoal": false
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 90,
+      "formalTrainingRows": 69,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 10,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 0,
+      "top3Accuracy": 10,
+      "passesGoal": false
+    },
+    {
+      "genre": "ロック",
+      "macroGenre": "rock",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 104,
+      "formalTrainingRows": 83,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 13,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 0,
+      "top3Accuracy": 15.4,
+      "passesGoal": false
+    },
+    {
+      "genre": "ワールドミュージック",
+      "macroGenre": "world",
+      "priority": false,
+      "fineEvaluable": false,
+      "totalTrainingRows": 101,
+      "formalTrainingRows": 80,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 0,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": false,
+      "top1Accuracy": 10.5,
+      "top3Accuracy": null,
+      "passesGoal": false
+    }
+  ],
+  "genres": [
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 101,
+      "formalTrainingRows": 80,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 17,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 5.9,
+      "top3Accuracy": 23.5,
+      "passesGoal": false
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "priority": true,
+      "fineEvaluable": true,
+      "totalTrainingRows": 98,
+      "formalTrainingRows": 77,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "fma-small-or-full",
+          "name": "Free Music Archive Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-download-incomplete",
+          "referenceUrl": "https://github.com/mdeff/fma",
+          "nextAction": "Resume Download FMA Small.command, unzip outside the repo, then run cc-import:fma against the FMA tracks.csv and audio root."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 120,
+      "targetTracks": 100,
+      "missingFormalTracks": 23,
+      "missingPotentialTracks": 0,
+      "testRows": 11,
+      "minFormalTestPerGenre": 10,
+      "formalReady": false,
+      "stableTestReady": true,
+      "top1Accuracy": 0,
+      "top3Accuracy": 18.2,
+      "passesGoal": false
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 117,
+      "formalTrainingRows": 96,
+      "potentialTrainingRows": 240,
+      "recommendedSources": [
+        {
+          "id": "freesound-fsd50k-support",
+          "name": "Freesound / FSD50K CC audio support set",
+          "kind": "public-research-cc-dataset",
+          "status": "support-source-not-primary-music",
+          "referenceUrl": "https://annotator.freesound.org/fsd/",
+          "nextAction": "Use only reviewed clips that genuinely represent the target genre trait; mark datasetName clearly so they can be excluded from formal music-only evaluation if needed."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 120,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 14,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 14.3,
+      "top3Accuracy": 21.4,
+      "passesGoal": false
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "priority": false,
+      "fineEvaluable": false,
+      "totalTrainingRows": 106,
+      "formalTrainingRows": 85,
+      "potentialTrainingRows": 85,
+      "recommendedSources": [],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 0,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": false,
+      "top1Accuracy": 7.1,
+      "top3Accuracy": null,
+      "passesGoal": false
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "priority": true,
+      "fineEvaluable": true,
+      "totalTrainingRows": 141,
+      "formalTrainingRows": 103,
+      "potentialTrainingRows": 240,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        },
+        {
+          "id": "fma-small-or-full",
+          "name": "Free Music Archive Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-download-incomplete",
+          "referenceUrl": "https://github.com/mdeff/fma",
+          "nextAction": "Resume Download FMA Small.command, unzip outside the repo, then run cc-import:fma against the FMA tracks.csv and audio root."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 120,
+      "targetTracks": 100,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 15,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 6.7,
+      "top3Accuracy": 26.7,
+      "passesGoal": false
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 122,
+      "formalTrainingRows": 101,
+      "potentialTrainingRows": 240,
+      "recommendedSources": [],
+      "searchTerms": [],
+      "fmaMetadataRows": 120,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 17,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 17.6,
+      "top3Accuracy": 29.4,
+      "passesGoal": false
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 39,
+      "formalTrainingRows": 18,
+      "potentialTrainingRows": 64,
+      "recommendedSources": [
+        {
+          "id": "fma-small-or-full",
+          "name": "Free Music Archive Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-download-incomplete",
+          "referenceUrl": "https://github.com/mdeff/fma",
+          "nextAction": "Resume Download FMA Small.command, unzip outside the repo, then run cc-import:fma against the FMA tracks.csv and audio root."
+        },
+        {
+          "id": "local-curated-cc-folders",
+          "name": "Local curated CC audio folders",
+          "kind": "manual-verified-cc-audio",
+          "status": "required-for-gap-genres",
+          "referenceUrl": "",
+          "nextAction": "Place verified CC/public-research audio in genre-named folders on an external drive, generate a manifest with cc-manifest:from-folder, then import with cc-import."
+        },
+        {
+          "id": "internet-archive-cc-audio-search",
+          "name": "Internet Archive Creative Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://archive.org/advancedsearch.php",
+          "nextAction": "Search by genre-specific terms, verify licenseurl and audio files, then download selected audio outside the repo."
+        }
+      ],
+      "searchTerms": [
+        "deep house creative commons",
+        "deep house jamendo",
+        "creative commons deep house"
+      ],
+      "fmaMetadataRows": 9,
+      "targetTracks": 50,
+      "missingFormalTracks": 32,
+      "missingPotentialTracks": 0,
+      "testRows": 3,
+      "minFormalTestPerGenre": 10,
+      "formalReady": false,
+      "stableTestReady": false,
+      "top1Accuracy": 0,
+      "top3Accuracy": 0,
+      "passesGoal": false
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 80,
+      "formalTrainingRows": 59,
+      "potentialTrainingRows": 131,
+      "recommendedSources": [],
+      "searchTerms": [],
+      "fmaMetadataRows": 41,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 13,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 15.4,
+      "top3Accuracy": 30.8,
+      "passesGoal": false
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 79,
+      "formalTrainingRows": 58,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "fma-small-or-full",
+          "name": "Free Music Archive Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-download-incomplete",
+          "referenceUrl": "https://github.com/mdeff/fma",
+          "nextAction": "Resume Download FMA Small.command, unzip outside the repo, then run cc-import:fma against the FMA tracks.csv and audio root."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 120,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 12,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 0,
+      "top3Accuracy": 8.3,
+      "passesGoal": false
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 93,
+      "formalTrainingRows": 72,
+      "potentialTrainingRows": 240,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        },
+        {
+          "id": "fma-small-or-full",
+          "name": "Free Music Archive Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-download-incomplete",
+          "referenceUrl": "https://github.com/mdeff/fma",
+          "nextAction": "Resume Download FMA Small.command, unzip outside the repo, then run cc-import:fma against the FMA tracks.csv and audio root."
+        },
+        {
+          "id": "freesound-fsd50k-support",
+          "name": "Freesound / FSD50K CC audio support set",
+          "kind": "public-research-cc-dataset",
+          "status": "support-source-not-primary-music",
+          "referenceUrl": "https://annotator.freesound.org/fsd/",
+          "nextAction": "Use only reviewed clips that genuinely represent the target genre trait; mark datasetName clearly so they can be excluded from formal music-only evaluation if needed."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 120,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 11,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 27.3,
+      "top3Accuracy": 27.3,
+      "passesGoal": false
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 109,
+      "formalTrainingRows": 88,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "fma-small-or-full",
+          "name": "Free Music Archive Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-download-incomplete",
+          "referenceUrl": "https://github.com/mdeff/fma",
+          "nextAction": "Resume Download FMA Small.command, unzip outside the repo, then run cc-import:fma against the FMA tracks.csv and audio root."
+        },
+        {
+          "id": "freesound-fsd50k-support",
+          "name": "Freesound / FSD50K CC audio support set",
+          "kind": "public-research-cc-dataset",
+          "status": "support-source-not-primary-music",
+          "referenceUrl": "https://annotator.freesound.org/fsd/",
+          "nextAction": "Use only reviewed clips that genuinely represent the target genre trait; mark datasetName clearly so they can be excluded from formal music-only evaluation if needed."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 120,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 13,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 23.1,
+      "top3Accuracy": 53.8,
+      "passesGoal": false
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 124,
+      "formalTrainingRows": 103,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "ccmixter-open-remixes",
+          "name": "ccMixter Creative Commons remixes",
+          "kind": "manual-verified-cc-music",
+          "status": "manual-download-review-required",
+          "referenceUrl": "https://ccmixter.org/",
+          "nextAction": "Curate complete tracks with clear genre labels and CC licenses, save audio outside the repo, then import via cc-manifest:from-folder."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 15,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 20,
+      "top3Accuracy": 26.7,
+      "passesGoal": false
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 62,
+      "formalTrainingRows": 41,
+      "potentialTrainingRows": 41,
+      "recommendedSources": [
+        {
+          "id": "local-curated-cc-folders",
+          "name": "Local curated CC audio folders",
+          "kind": "manual-verified-cc-audio",
+          "status": "required-for-gap-genres",
+          "referenceUrl": "",
+          "nextAction": "Place verified CC/public-research audio in genre-named folders on an external drive, generate a manifest with cc-manifest:from-folder, then import with cc-import."
+        },
+        {
+          "id": "internet-archive-cc-audio-search",
+          "name": "Internet Archive Creative Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://archive.org/advancedsearch.php",
+          "nextAction": "Search by genre-specific terms, verify licenseurl and audio files, then download selected audio outside the repo."
+        },
+        {
+          "id": "wikimedia-commons-audio-search",
+          "name": "Wikimedia Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia",
+          "nextAction": "Collect Commons audio candidates, review file pages and licenses, then download selected audio outside the repo."
+        },
+        {
+          "id": "ccmixter-open-remixes",
+          "name": "ccMixter Creative Commons remixes",
+          "kind": "manual-verified-cc-music",
+          "status": "manual-download-review-required",
+          "referenceUrl": "https://ccmixter.org/",
+          "nextAction": "Curate complete tracks with clear genre labels and CC licenses, save audio outside the repo, then import via cc-manifest:from-folder."
+        },
+        {
+          "id": "freesound-fsd50k-support",
+          "name": "Freesound / FSD50K CC audio support set",
+          "kind": "public-research-cc-dataset",
+          "status": "support-source-not-primary-music",
+          "referenceUrl": "https://annotator.freesound.org/fsd/",
+          "nextAction": "Use only reviewed clips that genuinely represent the target genre trait; mark datasetName clearly so they can be excluded from formal music-only evaluation if needed."
+        }
+      ],
+      "searchTerms": [
+        "trap beat creative commons",
+        "trap instrumental creative commons",
+        "southern trap creative commons",
+        "hip hop trap creative commons",
+        "trap music creative commons",
+        "808 trap beat creative commons",
+        "phonk creative commons",
+        "ccmixter trap",
+        "creative commons hip hop 808"
+      ],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 9,
+      "missingPotentialTracks": 9,
+      "testRows": 9,
+      "minFormalTestPerGenre": 10,
+      "formalReady": false,
+      "stableTestReady": false,
+      "top1Accuracy": 0,
+      "top3Accuracy": 11.1,
+      "passesGoal": false
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 90,
+      "formalTrainingRows": 69,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 10,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 0,
+      "top3Accuracy": 10,
+      "passesGoal": false
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "priority": true,
+      "fineEvaluable": true,
+      "totalTrainingRows": 141,
+      "formalTrainingRows": 100,
+      "potentialTrainingRows": 212,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 92,
+      "targetTracks": 100,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 17,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 23.5,
+      "top3Accuracy": 52.9,
+      "passesGoal": false
+    },
+    {
+      "genre": "ブルース",
+      "macroGenre": "black_music",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 78,
+      "formalTrainingRows": 78,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 11,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 0,
+      "top3Accuracy": 18.2,
+      "passesGoal": false
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 94,
+      "formalTrainingRows": 73,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        },
+        {
+          "id": "ccmixter-open-remixes",
+          "name": "ccMixter Creative Commons remixes",
+          "kind": "manual-verified-cc-music",
+          "status": "manual-download-review-required",
+          "referenceUrl": "https://ccmixter.org/",
+          "nextAction": "Curate complete tracks with clear genre labels and CC licenses, save audio outside the repo, then import via cc-manifest:from-folder."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 11,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 0,
+      "top3Accuracy": 45.5,
+      "passesGoal": false
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 101,
+      "formalTrainingRows": 80,
+      "potentialTrainingRows": 104,
+      "recommendedSources": [
+        {
+          "id": "local-curated-cc-folders",
+          "name": "Local curated CC audio folders",
+          "kind": "manual-verified-cc-audio",
+          "status": "required-for-gap-genres",
+          "referenceUrl": "",
+          "nextAction": "Place verified CC/public-research audio in genre-named folders on an external drive, generate a manifest with cc-manifest:from-folder, then import with cc-import."
+        },
+        {
+          "id": "internet-archive-cc-audio-search",
+          "name": "Internet Archive Creative Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://archive.org/advancedsearch.php",
+          "nextAction": "Search by genre-specific terms, verify licenseurl and audio files, then download selected audio outside the repo."
+        },
+        {
+          "id": "wikimedia-commons-audio-search",
+          "name": "Wikimedia Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia",
+          "nextAction": "Collect Commons audio candidates, review file pages and licenses, then download selected audio outside the repo."
+        },
+        {
+          "id": "ccmixter-open-remixes",
+          "name": "ccMixter Creative Commons remixes",
+          "kind": "manual-verified-cc-music",
+          "status": "manual-download-review-required",
+          "referenceUrl": "https://ccmixter.org/",
+          "nextAction": "Curate complete tracks with clear genre labels and CC licenses, save audio outside the repo, then import via cc-manifest:from-folder."
+        }
+      ],
+      "searchTerms": [
+        "soul music creative commons",
+        "rnb soul creative commons",
+        "neo soul creative commons"
+      ],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 12,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 8.3,
+      "top3Accuracy": 25,
+      "passesGoal": false
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 80,
+      "formalTrainingRows": 59,
+      "potentialTrainingRows": 167,
+      "recommendedSources": [
+        {
+          "id": "ccmixter-open-remixes",
+          "name": "ccMixter Creative Commons remixes",
+          "kind": "manual-verified-cc-music",
+          "status": "manual-download-review-required",
+          "referenceUrl": "https://ccmixter.org/",
+          "nextAction": "Curate complete tracks with clear genre labels and CC licenses, save audio outside the repo, then import via cc-manifest:from-folder."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 53,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 16,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 18.8,
+      "top3Accuracy": 31.3,
+      "passesGoal": false
+    },
+    {
+      "genre": "ロック",
+      "macroGenre": "rock",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 104,
+      "formalTrainingRows": 83,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 13,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 0,
+      "top3Accuracy": 15.4,
+      "passesGoal": false
+    },
+    {
+      "genre": "パンク",
+      "macroGenre": "rock",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 98,
+      "formalTrainingRows": 77,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 15,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 33.3,
+      "top3Accuracy": 40,
+      "passesGoal": false
+    },
+    {
+      "genre": "ハードコア",
+      "macroGenre": "rock",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 32,
+      "formalTrainingRows": 11,
+      "potentialTrainingRows": 55,
+      "recommendedSources": [
+        {
+          "id": "local-curated-cc-folders",
+          "name": "Local curated CC audio folders",
+          "kind": "manual-verified-cc-audio",
+          "status": "required-for-gap-genres",
+          "referenceUrl": "",
+          "nextAction": "Place verified CC/public-research audio in genre-named folders on an external drive, generate a manifest with cc-manifest:from-folder, then import with cc-import."
+        },
+        {
+          "id": "internet-archive-cc-audio-search",
+          "name": "Internet Archive Creative Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://archive.org/advancedsearch.php",
+          "nextAction": "Search by genre-specific terms, verify licenseurl and audio files, then download selected audio outside the repo."
+        }
+      ],
+      "searchTerms": [
+        "hardcore punk creative commons",
+        "hardcore creative commons",
+        "punk hardcore creative commons"
+      ],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 39,
+      "missingPotentialTracks": 0,
+      "testRows": 2,
+      "minFormalTestPerGenre": 10,
+      "formalReady": false,
+      "stableTestReady": false,
+      "top1Accuracy": 0,
+      "top3Accuracy": 0,
+      "passesGoal": false
+    },
+    {
+      "genre": "メタル",
+      "macroGenre": "rock",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 93,
+      "formalTrainingRows": 72,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 10,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 30,
+      "top3Accuracy": 40,
+      "passesGoal": false
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 101,
+      "formalTrainingRows": 80,
+      "potentialTrainingRows": 240,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        },
+        {
+          "id": "fma-small-or-full",
+          "name": "Free Music Archive Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-download-incomplete",
+          "referenceUrl": "https://github.com/mdeff/fma",
+          "nextAction": "Resume Download FMA Small.command, unzip outside the repo, then run cc-import:fma against the FMA tracks.csv and audio root."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 120,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 20,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 0,
+      "top3Accuracy": 0,
+      "passesGoal": false
+    },
+    {
+      "genre": "シティ・ポップ",
+      "macroGenre": "pop",
+      "priority": true,
+      "fineEvaluable": true,
+      "totalTrainingRows": 24,
+      "formalTrainingRows": 0,
+      "potentialTrainingRows": 63,
+      "recommendedSources": [
+        {
+          "id": "local-curated-cc-folders",
+          "name": "Local curated CC audio folders",
+          "kind": "manual-verified-cc-audio",
+          "status": "required-for-gap-genres",
+          "referenceUrl": "",
+          "nextAction": "Place verified CC/public-research audio in genre-named folders on an external drive, generate a manifest with cc-manifest:from-folder, then import with cc-import."
+        },
+        {
+          "id": "internet-archive-cc-audio-search",
+          "name": "Internet Archive Creative Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://archive.org/advancedsearch.php",
+          "nextAction": "Search by genre-specific terms, verify licenseurl and audio files, then download selected audio outside the repo."
+        },
+        {
+          "id": "wikimedia-commons-audio-search",
+          "name": "Wikimedia Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia",
+          "nextAction": "Collect Commons audio candidates, review file pages and licenses, then download selected audio outside the repo."
+        }
+      ],
+      "searchTerms": [
+        "city pop creative commons",
+        "japanese city pop creative commons",
+        "future funk creative commons",
+        "vaporwave creative commons",
+        "80s japanese pop inspired creative commons"
+      ],
+      "fmaMetadataRows": 0,
+      "targetTracks": 100,
+      "missingFormalTracks": 100,
+      "missingPotentialTracks": 37,
+      "testRows": 0,
+      "minFormalTestPerGenre": 10,
+      "formalReady": false,
+      "stableTestReady": false,
+      "top1Accuracy": null,
+      "top3Accuracy": null,
+      "passesGoal": false
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "priority": true,
+      "fineEvaluable": true,
+      "totalTrainingRows": 136,
+      "formalTrainingRows": 115,
+      "potentialTrainingRows": 240,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 100,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 17,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 41.2,
+      "top3Accuracy": 41.2,
+      "passesGoal": false
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 27,
+      "formalTrainingRows": 6,
+      "potentialTrainingRows": 8,
+      "recommendedSources": [
+        {
+          "id": "local-curated-cc-folders",
+          "name": "Local curated CC audio folders",
+          "kind": "manual-verified-cc-audio",
+          "status": "required-for-gap-genres",
+          "referenceUrl": "",
+          "nextAction": "Place verified CC/public-research audio in genre-named folders on an external drive, generate a manifest with cc-manifest:from-folder, then import with cc-import."
+        },
+        {
+          "id": "internet-archive-cc-audio-search",
+          "name": "Internet Archive Creative Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://archive.org/advancedsearch.php",
+          "nextAction": "Search by genre-specific terms, verify licenseurl and audio files, then download selected audio outside the repo."
+        },
+        {
+          "id": "wikimedia-commons-audio-search",
+          "name": "Wikimedia Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia",
+          "nextAction": "Collect Commons audio candidates, review file pages and licenses, then download selected audio outside the repo."
+        }
+      ],
+      "searchTerms": [
+        "anime song creative commons",
+        "anisong creative commons",
+        "anime opening creative commons",
+        "japanese pop rock creative commons",
+        "japanese vocaloid creative commons",
+        "anime soundtrack creative commons"
+      ],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 44,
+      "missingPotentialTracks": 42,
+      "testRows": 1,
+      "minFormalTestPerGenre": 10,
+      "formalReady": false,
+      "stableTestReady": false,
+      "top1Accuracy": 0,
+      "top3Accuracy": 0,
+      "passesGoal": false
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "priority": true,
+      "fineEvaluable": true,
+      "totalTrainingRows": 127,
+      "formalTrainingRows": 100,
+      "potentialTrainingRows": 240,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        },
+        {
+          "id": "fma-small-or-full",
+          "name": "Free Music Archive Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-download-incomplete",
+          "referenceUrl": "https://github.com/mdeff/fma",
+          "nextAction": "Resume Download FMA Small.command, unzip outside the repo, then run cc-import:fma against the FMA tracks.csv and audio root."
+        },
+        {
+          "id": "musopen-public-domain-recordings",
+          "name": "Musopen public-domain / CC classical recordings",
+          "kind": "manual-verified-public-domain-audio",
+          "status": "manual-download-review-required",
+          "referenceUrl": "https://musopen.org/music/",
+          "nextAction": "Download verified public-domain/CC recordings outside the repo, arrange them in genre-named folders, then generate a manifest with cc-manifest:from-folder."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 120,
+      "targetTracks": 100,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 16,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 81.3,
+      "top3Accuracy": 81.3,
+      "passesGoal": true
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 78,
+      "formalTrainingRows": 57,
+      "potentialTrainingRows": 57,
+      "recommendedSources": [
+        {
+          "id": "local-curated-cc-folders",
+          "name": "Local curated CC audio folders",
+          "kind": "manual-verified-cc-audio",
+          "status": "required-for-gap-genres",
+          "referenceUrl": "",
+          "nextAction": "Place verified CC/public-research audio in genre-named folders on an external drive, generate a manifest with cc-manifest:from-folder, then import with cc-import."
+        },
+        {
+          "id": "internet-archive-cc-audio-search",
+          "name": "Internet Archive Creative Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://archive.org/advancedsearch.php",
+          "nextAction": "Search by genre-specific terms, verify licenseurl and audio files, then download selected audio outside the repo."
+        },
+        {
+          "id": "wikimedia-commons-audio-search",
+          "name": "Wikimedia Commons audio search",
+          "kind": "metadata-search-source",
+          "status": "candidate-discovery-only",
+          "referenceUrl": "https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia",
+          "nextAction": "Collect Commons audio candidates, review file pages and licenses, then download selected audio outside the repo."
+        },
+        {
+          "id": "musopen-public-domain-recordings",
+          "name": "Musopen public-domain / CC classical recordings",
+          "kind": "manual-verified-public-domain-audio",
+          "status": "manual-download-review-required",
+          "referenceUrl": "https://musopen.org/music/",
+          "nextAction": "Download verified public-domain/CC recordings outside the repo, arrange them in genre-named folders, then generate a manifest with cc-manifest:from-folder."
+        }
+      ],
+      "searchTerms": [
+        "opera aria creative commons",
+        "classical vocal creative commons",
+        "opera public domain recording creative commons",
+        "soprano aria creative commons",
+        "tenor aria creative commons",
+        "operatic vocal creative commons",
+        "libre opera creative commons"
+      ],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 8,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": false,
+      "top1Accuracy": 0,
+      "top3Accuracy": 12.5,
+      "passesGoal": false
+    },
+    {
+      "genre": "フォーク",
+      "macroGenre": "world",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 104,
+      "formalTrainingRows": 83,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 12,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 8.3,
+      "top3Accuracy": 25,
+      "passesGoal": false
+    },
+    {
+      "genre": "ラテン",
+      "macroGenre": "world",
+      "priority": false,
+      "fineEvaluable": true,
+      "totalTrainingRows": 72,
+      "formalTrainingRows": 72,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 17,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": true,
+      "top1Accuracy": 17.6,
+      "top3Accuracy": 29.4,
+      "passesGoal": false
+    },
+    {
+      "genre": "ワールドミュージック",
+      "macroGenre": "world",
+      "priority": false,
+      "fineEvaluable": false,
+      "totalTrainingRows": 101,
+      "formalTrainingRows": 80,
+      "potentialTrainingRows": 120,
+      "recommendedSources": [],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 50,
+      "missingFormalTracks": 0,
+      "missingPotentialTracks": 0,
+      "testRows": 0,
+      "minFormalTestPerGenre": 10,
+      "formalReady": true,
+      "stableTestReady": false,
+      "top1Accuracy": 10.5,
+      "top3Accuracy": null,
+      "passesGoal": false
+    }
+  ]
+}

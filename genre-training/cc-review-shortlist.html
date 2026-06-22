@@ -1,0 +1,918 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CC Audio Review Shortlist</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; margin: 28px; color: #111; background: #fff; }
+    h1 { font-size: 24px; margin: 0 0 8px; letter-spacing: 0; }
+    p { max-width: 920px; line-height: 1.65; }
+    table { border-collapse: collapse; width: 100%; margin-top: 24px; }
+    th, td { border-top: 1px solid #111; padding: 10px 8px; text-align: left; vertical-align: top; font-size: 13px; }
+    th { position: sticky; top: 0; background: #fff; z-index: 1; }
+    audio { width: 260px; max-width: 28vw; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+    span { color: #555; }
+    .status { white-space: nowrap; }
+  </style>
+</head>
+<body>
+  <h1>CC Audio Review Shortlist</h1>
+  <p>候補音源を聴いて、採用するものだけ <code>genre-training/cc-review-shortlist.tsv</code> の <code>reviewStatus</code> に <code>approved</code> と記入してください。記入後に <code>npm --prefix apps/demo run cc-review:apply-shortlist</code> を実行すると、元のレビューTSVへ同期されます。</p>
+  <p>このHTMLは確認用です。正式学習に入るのは、承認後にmanifest作成、外付けキャッシュへの音源取得、特徴量インポートまで完了したものだけです。</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Status</th>
+        <th>Genre / Source</th>
+        <th>Title / Creator</th>
+        <th>License</th>
+        <th>Audio</th>
+        <th>Page</th>
+        <th>ID</th>
+      </tr>
+    </thead>
+    <tbody>
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>アニメソング</strong><br><span>Wikimedia Commons / priority 100</span></td>
+    <td>File:ANSWER TIME TRAVELING TOUR 2nd Season.wav<br><span>槇原敬之 Official Channel</span></td>
+    <td><code>CC-BY</code></td>
+    <td><audio controls preload="none" src="https://upload.wikimedia.org/wikipedia/commons/c/c5/ANSWER_TIME_TRAVELING_TOUR_2nd_Season.wav"></audio></td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:ANSWER_TIME_TRAVELING_TOUR_2nd_Season.wav" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>File:ANSWER TIME TRAVELING TOUR 2nd Season.wav</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>アニメソング</strong><br><span>Internet Archive / priority 82</span></td>
+    <td>Aenvelora —「終焉の誓い」( Shūen No Chikai Oath At The End)<br><span>Aenvelora, Aenvelora </span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/aenvelora-shuen-no-chikai-oath-at-the-end/Aenvelora%20%E2%80%94%E3%80%8C%E7%B5%82%E7%84%89%E3%81%AE%E8%AA%93%E3%81%84%E3%80%8D(Sh%C5%ABen%20no%20Chikai%20Oath%20at%20the%20End).flac"></audio></td>
+    <td><a href="https://archive.org/details/aenvelora-shuen-no-chikai-oath-at-the-end" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>aenvelora-shuen-no-chikai-oath-at-the-end</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>アニメソング</strong><br><span>Internet Archive / priority 81</span></td>
+    <td>No Destination<br><span>Worlich</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/NoDestination/09.Transitoria-TempusFugit.flac"></audio></td>
+    <td><a href="https://archive.org/details/NoDestination" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>NoDestination</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>アニメソング</strong><br><span>Internet Archive / priority 81</span></td>
+    <td>/jp/ Themesong 2<br><span>Original author insists to be attributed as &quot;Anonymous&quot;</span></td>
+    <td><code>CC-BY</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/Jp_Themesong_2/jp_Themesong_2_(Instrumental).flac"></audio></td>
+    <td><a href="https://archive.org/details/Jp_Themesong_2" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>Jp_Themesong_2</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>オペラ</strong><br><span>Wikimedia Commons / priority 100</span></td>
+    <td>File:PDP-CH - Meta Seinemeyer, soprano with Staatskapelle Berlin - La forza del destino - Sono giunta Grazie, o Dio - Verdi - Parlophon-p9116-20258.flac<br><span>http://pool.publicdomainproject.org/index.php?title=Parlophon-p9116-20258</span></td>
+    <td><code>Public Domain</code></td>
+    <td><audio controls preload="none" src="https://upload.wikimedia.org/wikipedia/commons/8/8d/PDP-CH_-_Meta_Seinemeyer%2C_soprano_with_Staatskapelle_Berlin_-_La_forza_del_destino_-_Sono_giunta_Grazie%2C_o_Dio_-_Verdi_-_Parlophon-p9116-20258.flac"></audio></td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:PDP-CH_-_Meta_Seinemeyer,_soprano_with_Staatskapelle_Berlin_-_La_forza_del_destino_-_Sono_giunta_Grazie,_o_Dio_-_Verdi_-_Parlophon-p9116-20258.flac" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>File:PDP-CH - Meta Seinemeyer, soprano with Staatskapelle Berlin - La forza del destino - Sono giunta Grazie, o Dio - Verdi - Parlophon-p9116-20258.flac</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>オペラ</strong><br><span>Wikimedia Commons / priority 100</span></td>
+    <td>File:PDP-CH - Meta Seinemeyer, soprano with Staatskapelle Berlin - La forza del destino - Deh, non m'abbandonar - Verdi - Parlophon-p9116-20259.flac<br><span>http://pool.publicdomainproject.org/index.php?title=Parlophon-p9116-20259</span></td>
+    <td><code>Public Domain</code></td>
+    <td><audio controls preload="none" src="https://upload.wikimedia.org/wikipedia/commons/9/9a/PDP-CH_-_Meta_Seinemeyer%2C_soprano_with_Staatskapelle_Berlin_-_La_forza_del_destino_-_Deh%2C_non_m%27abbandonar_-_Verdi_-_Parlophon-p9116-20259.flac"></audio></td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:PDP-CH_-_Meta_Seinemeyer,_soprano_with_Staatskapelle_Berlin_-_La_forza_del_destino_-_Deh,_non_m%27abbandonar_-_Verdi_-_Parlophon-p9116-20259.flac" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>File:PDP-CH - Meta Seinemeyer, soprano with Staatskapelle Berlin - La forza del destino - Deh, non m'abbandonar - Verdi - Parlophon-p9116-20259.flac</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>オペラ</strong><br><span>Wikimedia Commons / priority 100</span></td>
+    <td>File:J.S.Bach from Cantata BWV80 &quot;Ein' feste Burg ist unser Gott&quot;, Aria for soprano with oboe obbligato.wav<br><span>J.S.Bach</span></td>
+    <td><code>Public Domain</code></td>
+    <td><audio controls preload="none" src="https://upload.wikimedia.org/wikipedia/commons/f/fa/J.S.Bach_from_Cantata_BWV80_%22Ein%27_feste_Burg_ist_unser_Gott%22%2C_Aria_for_soprano_with_oboe_obbligato.wav"></audio></td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:J.S.Bach_from_Cantata_BWV80_%22Ein%27_feste_Burg_ist_unser_Gott%22,_Aria_for_soprano_with_oboe_obbligato.wav" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>File:J.S.Bach from Cantata BWV80 &quot;Ein' feste Burg ist unser Gott&quot;, Aria for soprano with oboe obbligato.wav</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>オペラ</strong><br><span>Internet Archive / priority 91</span></td>
+    <td>Tryad - Public Domain<br><span>Tryad</span></td>
+    <td><code>CC-BY-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/TryadTryadPublicDomain/Tryad__06__Witness.mp3"></audio></td>
+    <td><a href="https://archive.org/details/TryadTryadPublicDomain" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>TryadTryadPublicDomain</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>オペラ</strong><br><span>Internet Archive / priority 90</span></td>
+    <td>Complex Numbers - 2032: Легенда о несбывшемся грядущем. Техно-опера.<br><span>Complex Numbers</span></td>
+    <td><code>CC-BY-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/jamendo-488156/33-1957536-Complex%20Numbers-2032%20_____%202.mp3"></audio></td>
+    <td><a href="https://archive.org/details/jamendo-488156" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>jamendo-488156</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>オペラ</strong><br><span>Internet Archive / priority 77</span></td>
+    <td>Raíces 447 16012020 Samuel Maýnez Champion<br><span>Raíces UDEM</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/raices44716012020samuelmaynezchampion/Ra%C3%ADces%20447%20-%2016012020%20-%20Samuel%20Ma%C3%BDnez%20Champion.mp3"></audio></td>
+    <td><a href="https://archive.org/details/raices44716012020samuelmaynezchampion" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>raices44716012020samuelmaynezchampion</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>オペラ</strong><br><span>Internet Archive / priority 63</span></td>
+    <td>BS052 Mother Superior and Her Fields of Migraine<br><span>Radio For The Daydreamers</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/BS052/10-No_One_Ever_Comes_Here_But_Me-Dod_Av_En_Spokelse_Versjon.mp3"></audio></td>
+    <td><a href="https://archive.org/details/BS052" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>BS052</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>オペラ</strong><br><span>Internet Archive / priority 60</span></td>
+    <td>2009/05/01 Direkt Laiiw From Ze Hell Zass<br><span>Direkt Laiw From Ze Hell Zass</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/20090501DirektLaiiwFromZeHellZass/02DeuxiemePartieLeSoprano.mp3"></audio></td>
+    <td><a href="https://archive.org/details/20090501DirektLaiiwFromZeHellZass" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>20090501DirektLaiiwFromZeHellZass</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>シティ・ポップ</strong><br><span>Wikimedia Commons / priority 100</span></td>
+    <td>File:LL-Q652 (ita)-XANA000-city pop.wav<br><span>Speaker: XANA000 Recorder: XANA000</span></td>
+    <td><code>CC0</code></td>
+    <td><audio controls preload="none" src="https://upload.wikimedia.org/wikipedia/commons/6/61/LL-Q652_%28ita%29-XANA000-city_pop.wav"></audio></td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:LL-Q652_(ita)-XANA000-city_pop.wav" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>File:LL-Q652 (ita)-XANA000-city pop.wav</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>シティ・ポップ</strong><br><span>Wikimedia Commons / priority 100</span></td>
+    <td>File:RetroFuture Nasty (ISRC USUAN1200042).mp3<br><span>Kevin MacLeod</span></td>
+    <td><code>CC-BY</code></td>
+    <td><audio controls preload="none" src="https://upload.wikimedia.org/wikipedia/commons/3/39/RetroFuture_Nasty_%28ISRC_USUAN1200042%29.mp3"></audio></td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:RetroFuture_Nasty_(ISRC_USUAN1200042).mp3" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>File:RetroFuture Nasty (ISRC USUAN1200042).mp3</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>シティ・ポップ</strong><br><span>Wikimedia Commons / priority 100</span></td>
+    <td>File:RetroFuture Dirty (ISRC USUAN1200041).mp3<br><span>Kevin MacLeod</span></td>
+    <td><code>CC-BY</code></td>
+    <td><audio controls preload="none" src="https://upload.wikimedia.org/wikipedia/commons/0/05/RetroFuture_Dirty_%28ISRC_USUAN1200041%29.mp3"></audio></td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:RetroFuture_Dirty_(ISRC_USUAN1200041).mp3" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>File:RetroFuture Dirty (ISRC USUAN1200041).mp3</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>シティ・ポップ</strong><br><span>Wikimedia Commons / priority 100</span></td>
+    <td>File:RetroFuture Clean (ISRC USUAN1200040).mp3<br><span>Kevin MacLeod</span></td>
+    <td><code>CC-BY</code></td>
+    <td><audio controls preload="none" src="https://upload.wikimedia.org/wikipedia/commons/0/00/RetroFuture_Clean_%28ISRC_USUAN1200040%29.mp3"></audio></td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:RetroFuture_Clean_(ISRC_USUAN1200040).mp3" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>File:RetroFuture Clean (ISRC USUAN1200040).mp3</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>シティ・ポップ</strong><br><span>Wikimedia Commons / priority 100</span></td>
+    <td>File:LL-Q652 (ita)-XANA000-synth pop.wav<br><span>Speaker: XANA000 Recorder: XANA000</span></td>
+    <td><code>CC0</code></td>
+    <td><audio controls preload="none" src="https://upload.wikimedia.org/wikipedia/commons/3/3e/LL-Q652_%28ita%29-XANA000-synth_pop.wav"></audio></td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:LL-Q652_(ita)-XANA000-synth_pop.wav" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>File:LL-Q652 (ita)-XANA000-synth pop.wav</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>シティ・ポップ</strong><br><span>Wikimedia Commons / priority 100</span></td>
+    <td>File:Inter Album - Track 1.flac<br><span>Xedone</span></td>
+    <td><code>CC0</code></td>
+    <td><audio controls preload="none" src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Inter_Album_-_Track_1.flac"></audio></td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:Inter_Album_-_Track_1.flac" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>File:Inter Album - Track 1.flac</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>シティ・ポップ</strong><br><span>Wikimedia Commons / priority 96</span></td>
+    <td>File:ANSWER TIME TRAVELING TOUR 2nd Season.wav<br><span>槇原敬之 Official Channel</span></td>
+    <td><code>CC-BY</code></td>
+    <td><audio controls preload="none" src="https://upload.wikimedia.org/wikipedia/commons/c/c5/ANSWER_TIME_TRAVELING_TOUR_2nd_Season.wav"></audio></td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:ANSWER_TIME_TRAVELING_TOUR_2nd_Season.wav" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>File:ANSWER TIME TRAVELING TOUR 2nd Season.wav</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>シティ・ポップ</strong><br><span>Wikimedia Commons / priority 96</span></td>
+    <td>File:Soft and Furious - 07 - The Merfolk I Should Turn To Be.mp3<br><span>Soft and Furious ( https://freemusicarchive.org/music/Soft_and_Furious )</span></td>
+    <td><code>CC0</code></td>
+    <td><audio controls preload="none" src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Soft_and_Furious_-_07_-_The_Merfolk_I_Should_Turn_To_Be.mp3"></audio></td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:Soft_and_Furious_-_07_-_The_Merfolk_I_Should_Turn_To_Be.mp3" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>File:Soft and Furious - 07 - The Merfolk I Should Turn To Be.mp3</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>シティ・ポップ</strong><br><span>Internet Archive / priority 81</span></td>
+    <td>[dystopiaq030] Dust Collector - Narcolepsy<br><span>Dust Collector</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/dystopiaq030/19Wonderlost_wanderlost_wonderlustdayDreams.mp3"></audio></td>
+    <td><a href="https://archive.org/details/dystopiaq030" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>dystopiaq030</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>シティ・ポップ</strong><br><span>Internet Archive / priority 80</span></td>
+    <td>Barzin - It's Come to This [BadPanda005]<br><span>Barzin</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/badpanda005/Barzin-ItsComeToThis.mp3"></audio></td>
+    <td><a href="https://archive.org/details/badpanda005" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>badpanda005</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>シティ・ポップ</strong><br><span>Internet Archive / priority 79</span></td>
+    <td>TT 00040 BOTTLESMOKER HYPNAGOGIC REMIX<br><span>papaontacult</span></td>
+    <td><code>CC-BY-NC-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/TT00040BOTTLESMOKERHYPNAGOGICREMIX/BoredomAndFreedomcerumentric.mp3"></audio></td>
+    <td><a href="https://archive.org/details/TT00040BOTTLESMOKERHYPNAGOGICREMIX" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>TT00040BOTTLESMOKERHYPNAGOGICREMIX</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>シティ・ポップ</strong><br><span>Internet Archive / priority 77</span></td>
+    <td>Laszlo Hollyfield - Exodo [rith008]<br><span>Laszlo Hollyfield</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/rith008/08_Laszlo_Hollyfield_-_E-Motion.mp3"></audio></td>
+    <td><a href="https://archive.org/details/rith008" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>rith008</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ソウルミュージック</strong><br><span>Wikimedia Commons / priority 100</span></td>
+    <td>File:Clean Soul (ISRC USUAN1300033).mp3<br><span>Kevin MacLeod</span></td>
+    <td><code>CC-BY</code></td>
+    <td><audio controls preload="none" src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Clean_Soul_%28ISRC_USUAN1300033%29.mp3"></audio></td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:Clean_Soul_(ISRC_USUAN1300033).mp3" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>File:Clean Soul (ISRC USUAN1300033).mp3</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ソウルミュージック</strong><br><span>Wikimedia Commons / priority 100</span></td>
+    <td>File:Stole Back My Soul - Airmen of Note - United States Air Force Band.mp3<br><span>Composition: Alan Baylock; Performance: United States Air Force Band, Airmen of Note; Recording: United States Air Force</span></td>
+    <td><code>Public Domain</code></td>
+    <td><audio controls preload="none" src="https://upload.wikimedia.org/wikipedia/commons/8/85/Stole_Back_My_Soul_-_Airmen_of_Note_-_United_States_Air_Force_Band.mp3"></audio></td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:Stole_Back_My_Soul_-_Airmen_of_Note_-_United_States_Air_Force_Band.mp3" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>File:Stole Back My Soul - Airmen of Note - United States Air Force Band.mp3</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ソウルミュージック</strong><br><span>Wikimedia Commons / priority 100</span></td>
+    <td>File:LL-Q1860 (eng)-Vealhurl-soul music.wav<br><span>Speaker: Vealhurl Recorder: Vealhurl</span></td>
+    <td><code>CC0</code></td>
+    <td><audio controls preload="none" src="https://upload.wikimedia.org/wikipedia/commons/8/8b/LL-Q1860_%28eng%29-Vealhurl-soul_music.wav"></audio></td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-soul_music.wav" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>File:LL-Q1860 (eng)-Vealhurl-soul music.wav</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ソウルミュージック</strong><br><span>Wikimedia Commons / priority 100</span></td>
+    <td>File:De Piano a Forte en corda pulsada.wav<br><span>Escola Superior de Música de Catalunya (ESMUC)</span></td>
+    <td><code>CC-BY-SA</code></td>
+    <td><audio controls preload="none" src="https://upload.wikimedia.org/wikipedia/commons/9/94/De_Piano_a_Forte_en_corda_pulsada.wav"></audio></td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:De_Piano_a_Forte_en_corda_pulsada.wav" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>File:De Piano a Forte en corda pulsada.wav</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ソウルミュージック</strong><br><span>Internet Archive / priority 86</span></td>
+    <td>MNF023 Dsum &amp; Morris - Arium FL<br><span>Dsum</span></td>
+    <td><code>CC-BY-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/MNF023_Dsum_Morris--Arium_FL/02_Dsum_Morris_-_Danza_Planetaria.mp3"></audio></td>
+    <td><a href="https://archive.org/details/MNF023_Dsum_Morris--Arium_FL" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>MNF023_Dsum_Morris--Arium_FL</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ソウルミュージック</strong><br><span>Internet Archive / priority 85</span></td>
+    <td>[RAR026] Pedro Duarte - Pacific Blue EP<br><span>Pedro Duarte</span></td>
+    <td><code>CC-BY-NC-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/RAR026_Pedro_Duarte_Pacific_Blue_EP/01_Pacific_Blue.mp3"></audio></td>
+    <td><a href="https://archive.org/details/RAR026_Pedro_Duarte_Pacific_Blue_EP" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>RAR026_Pedro_Duarte_Pacific_Blue_EP</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ソウルミュージック</strong><br><span>Internet Archive / priority 85</span></td>
+    <td>The Clones of Dr. Funkenstein (2016)<br><span>chēēZ π</span></td>
+    <td><code>CC-BY-NC-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/theclonesofdrfunkenstein_2016/05%20-%20Funky%20Drummer%20(Part%201).flac"></audio></td>
+    <td><a href="https://archive.org/details/theclonesofdrfunkenstein_2016" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>theclonesofdrfunkenstein_2016</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ソウルミュージック</strong><br><span>Internet Archive / priority 81</span></td>
+    <td>[45rpm053-2012] Jared C. Balogh  - Drifting Soul<br><span>Jared C. Balogh</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/45rpm053-2012JaredC.Balogh-DriftingSoul/01Jared_C_Balog_-_Emotions_leading_To_Howhere.mp3"></audio></td>
+    <td><a href="https://archive.org/details/45rpm053-2012JaredC.Balogh-DriftingSoul" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>45rpm053-2012JaredC.Balogh-DriftingSoul</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ソウルミュージック</strong><br><span>Internet Archive / priority 81</span></td>
+    <td>[45E002-2011] Ollie Cram - Jazzstow<br><span>Ollie Cram</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/45rpm049-e2011OllieCram-Jazzstow/05spiritual_homeland.mp3"></audio></td>
+    <td><a href="https://archive.org/details/45rpm049-e2011OllieCram-Jazzstow" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>45rpm049-e2011OllieCram-Jazzstow</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ソウルミュージック</strong><br><span>Internet Archive / priority 81</span></td>
+    <td>[45E-015-2013] Trans Atlantic Rage/Balogh - I::::SOUL::::ATE VOLUME 4   <br><span>Trans Atlantic Rage/Balogh </span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/45e-015-2013TransAtlanticRagebalogh-IsoulateVolume4/02-Soul_Increments.mp3"></audio></td>
+    <td><a href="https://archive.org/details/45e-015-2013TransAtlanticRagebalogh-IsoulateVolume4" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>45e-015-2013TransAtlanticRagebalogh-IsoulateVolume4</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ソウルミュージック</strong><br><span>Internet Archive / priority 81</span></td>
+    <td>An endless Tomorrow by Enuma Elish (Spanish Metal band)<br><span>Enuma Elish (Spanish Metal Band)</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/AnEndlessTomorrowByEnumaElish/11-AnEndlessTomorrow.mp3"></audio></td>
+    <td><a href="https://archive.org/details/AnEndlessTomorrowByEnumaElish" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>AnEndlessTomorrowByEnumaElish</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ソウルミュージック</strong><br><span>Internet Archive / priority 81</span></td>
+    <td>[SRmp3 133] Grr - Snuffcraft (Sociopath Recordings)<br><span>Grr</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/SRmp3_133/SRmp3_133.mp3"></audio></td>
+    <td><a href="https://archive.org/details/SRmp3_133" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>SRmp3_133</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ソウルミュージック</strong><br><span>Internet Archive / priority 81</span></td>
+    <td>FFM-016: Gregg Plummer - Red Veil<br><span>Gregg Plummer</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/freefloatingmusic016/04%20Seekers%20Of%20Truth.flac"></audio></td>
+    <td><a href="https://archive.org/details/freefloatingmusic016" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>freefloatingmusic016</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ソウルミュージック</strong><br><span>Internet Archive / priority 80</span></td>
+    <td>[LBN037] Feminine - &quot;Lorelei&quot;<br><span></span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/LBN037Feminine-Lorelei/08.%20Coral%20Face.flac"></audio></td>
+    <td><a href="https://archive.org/details/LBN037Feminine-Lorelei" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>LBN037Feminine-Lorelei</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ソウルミュージック</strong><br><span>Internet Archive / priority 77</span></td>
+    <td>[GTakt002] Modulares Klang Konzept - Fader EP<br><span>Modulares Klang Konzept</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/gtakt002ModularesKlangKonzept-FaderEp/GTakt002_Modulares_Klang_Konzept_-_Crying_Soul_Fader_EP.mp3"></audio></td>
+    <td><a href="https://archive.org/details/gtakt002ModularesKlangKonzept-FaderEp" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>gtakt002ModularesKlangKonzept-FaderEp</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ソウルミュージック</strong><br><span>Internet Archive / priority 73</span></td>
+    <td>Noisesurfer - A New World Sampled - Promo 2012 Alternate Version<br><span>Joachim Rontxelius</span></td>
+    <td><code>CC-BY</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/Noisesurfer-ANewWorldSampled-Promo2012AlternateVersion/World10.mp3"></audio></td>
+    <td><a href="https://archive.org/details/Noisesurfer-ANewWorldSampled-Promo2012AlternateVersion" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>Noisesurfer-ANewWorldSampled-Promo2012AlternateVersion</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ディープ・ハウス</strong><br><span>Internet Archive / priority 91</span></td>
+    <td>MNF022 DCM - Elevación<br><span>DCM</span></td>
+    <td><code>CC-BY-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/MNF022_DCM--Elevacion/03_DCM_-_Oblivion.mp3"></audio></td>
+    <td><a href="https://archive.org/details/MNF022_DCM--Elevacion" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>MNF022_DCM--Elevacion</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ディープ・ハウス</strong><br><span>Internet Archive / priority 91</span></td>
+    <td>MNE007 Gartner - snk<br><span>Gartner</span></td>
+    <td><code>CC-BY-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/MNE007_Gartner--snk/12_Gartner_-_snk_12.mp3"></audio></td>
+    <td><a href="https://archive.org/details/MNE007_Gartner--snk" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>MNE007_Gartner--snk</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ディープ・ハウス</strong><br><span>Internet Archive / priority 87</span></td>
+    <td>MNF023 Dsum &amp; Morris - Arium FL<br><span>Dsum</span></td>
+    <td><code>CC-BY-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/MNF023_Dsum_Morris--Arium_FL/02_Dsum_Morris_-_Danza_Planetaria.mp3"></audio></td>
+    <td><a href="https://archive.org/details/MNF023_Dsum_Morris--Arium_FL" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>MNF023_Dsum_Morris--Arium_FL</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ディープ・ハウス</strong><br><span>Internet Archive / priority 87</span></td>
+    <td>MNF027 Dsum - Intimate<br><span>Dsum</span></td>
+    <td><code>CC-BY-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/MNF027_Dsum--Intimate/03_Dsum_-_Frolic.mp3"></audio></td>
+    <td><a href="https://archive.org/details/MNF027_Dsum--Intimate" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>MNF027_Dsum--Intimate</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ディープ・ハウス</strong><br><span>Internet Archive / priority 87</span></td>
+    <td>MNF018 Sir Leaks - Sonidos Bajotierra<br><span>Sir Leaks</span></td>
+    <td><code>CC-BY-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/MNF018_Sir_Leaks--Sonidos_Bajotierra/05_Sir_Leaks_-_Espacio_D_Tranquilo_Bobby_Remix.mp3"></audio></td>
+    <td><a href="https://archive.org/details/MNF018_Sir_Leaks--Sonidos_Bajotierra" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>MNF018_Sir_Leaks--Sonidos_Bajotierra</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ディープ・ハウス</strong><br><span>Internet Archive / priority 87</span></td>
+    <td>MNF024 Bobby Marleni - Defected Jamz Vol 2<br><span>MALA</span></td>
+    <td><code>CC-BY-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/MNF024_Bobby_Marleni--Defected_Jamz_Vol_2/06_Bobby_Marleni_-_Sexy_Sexy.mp3"></audio></td>
+    <td><a href="https://archive.org/details/MNF024_Bobby_Marleni--Defected_Jamz_Vol_2" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>MNF024_Bobby_Marleni--Defected_Jamz_Vol_2</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ディープ・ハウス</strong><br><span>Internet Archive / priority 87</span></td>
+    <td>MNS006 V.A - Colores Paralelos<br><span>Monofónicos</span></td>
+    <td><code>CC-BY-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/MNS006_VA--Colores_Paralelos/08_Christopher_-_Historias_Cortas_(Bipolar_Mix).mp3"></audio></td>
+    <td><a href="https://archive.org/details/MNS006_VA--Colores_Paralelos" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>MNS006_VA--Colores_Paralelos</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ディープ・ハウス</strong><br><span>Internet Archive / priority 87</span></td>
+    <td>MNF021 Eviru Dibad - Altitud Sur<br><span>Dsum</span></td>
+    <td><code>CC-BY-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/MNF021_Eviru_Dibad--Altitud_Sur/02_Eviru_Dibad_-_Latitudes_Intermedias.mp3"></audio></td>
+    <td><a href="https://archive.org/details/MNF021_Eviru_Dibad--Altitud_Sur" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>MNF021_Eviru_Dibad--Altitud_Sur</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ディープ・ハウス</strong><br><span>Internet Archive / priority 86</span></td>
+    <td>Follow Me<br><span>Pitchcraft</span></td>
+    <td><code>CC-BY-NC</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/tou296/01-Pitchcraft-Follow_Me.mp3"></audio></td>
+    <td><a href="https://archive.org/details/tou296" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>tou296</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ディープ・ハウス</strong><br><span>Internet Archive / priority 85</span></td>
+    <td>[RAR031] In Vitro - Falso Self En Androides EP<br><span>In Vitro</span></td>
+    <td><code>CC-BY-NC-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/RAR031_In_Vitro_Falso_Self_En_Androides_EP/03_Un_vaso_de_agua_para_dos_androides.mp3"></audio></td>
+    <td><a href="https://archive.org/details/RAR031_In_Vitro_Falso_Self_En_Androides_EP" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>RAR031_In_Vitro_Falso_Self_En_Androides_EP</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ディープ・ハウス</strong><br><span>Internet Archive / priority 85</span></td>
+    <td>[RAR036] Jak - Echo Infection EP<br><span>Jak</span></td>
+    <td><code>CC-BY-NC-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/rar036Jak-EchoInfectionEp/02_Mode_Of_Life.mp3"></audio></td>
+    <td><a href="https://archive.org/details/rar036Jak-EchoInfectionEp" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>rar036Jak-EchoInfectionEp</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ディープ・ハウス</strong><br><span>Internet Archive / priority 85</span></td>
+    <td>[RAR034] Dennis Shoker Warm Reception EP<br><span>Dennis Shoker</span></td>
+    <td><code>CC-BY-NC-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/Rar034_dennis_shoker_warmReception_ep/01_Striped.mp3"></audio></td>
+    <td><a href="https://archive.org/details/Rar034_dennis_shoker_warmReception_ep" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>Rar034_dennis_shoker_warmReception_ep</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ディープ・ハウス</strong><br><span>Internet Archive / priority 85</span></td>
+    <td>[RAR028] Chris Bulman - Colour Of Nite EP<br><span>Chris Bulman</span></td>
+    <td><code>CC-BY-NC-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/RAR028_Chris_Bulman_Colour_Of_Nite_EP/04_Wamping_Willow.mp3"></audio></td>
+    <td><a href="https://archive.org/details/RAR028_Chris_Bulman_Colour_Of_Nite_EP" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>RAR028_Chris_Bulman_Colour_Of_Nite_EP</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ディープ・ハウス</strong><br><span>Internet Archive / priority 85</span></td>
+    <td>Carousel E.P.<br><span>Aerologic</span></td>
+    <td><code>CC-BY-NC</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/tou340/Aerologic%20-%20White%20Label.mp3"></audio></td>
+    <td><a href="https://archive.org/details/tou340" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>tou340</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ディープ・ハウス</strong><br><span>Internet Archive / priority 85</span></td>
+    <td>Purple World<br><span>Astral Outlander</span></td>
+    <td><code>CC-BY-NC-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/Jamendo0132171/14%20-%20Astral%20Outlander%20-%20Spring%20Comes.ogg"></audio></td>
+    <td><a href="https://archive.org/details/Jamendo0132171" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>Jamendo0132171</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ディープ・ハウス</strong><br><span>Internet Archive / priority 85</span></td>
+    <td>Speedsound - Interstellar Troublemaker - The X Files<br><span>Speedsound</span></td>
+    <td><code>CC-BY-NC-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/jamendo-138133/01-1151479-Speedsound-Interstellar%20Troublemaker%20-%20The%20X%20Files.mp3"></audio></td>
+    <td><a href="https://archive.org/details/jamendo-138133" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>jamendo-138133</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>トラップ</strong><br><span>Internet Archive / priority 100</span></td>
+    <td>instrumental trap track <br><span>808 master</span></td>
+    <td><code>CC0</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/natbombcrap/natbombcrap.mp3"></audio></td>
+    <td><a href="https://archive.org/details/natbombcrap" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>natbombcrap</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>トラップ</strong><br><span>Wikimedia Commons / priority 100</span></td>
+    <td>File:What Is Love (ISRC USUAN1500067).mp3<br><span>Kevin MacLeod</span></td>
+    <td><code>CC-BY</code></td>
+    <td><audio controls preload="none" src="https://upload.wikimedia.org/wikipedia/commons/1/13/What_Is_Love_%28ISRC_USUAN1500067%29.mp3"></audio></td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:What_Is_Love_(ISRC_USUAN1500067).mp3" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>File:What Is Love (ISRC USUAN1500067).mp3</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>トラップ</strong><br><span>Wikimedia Commons / priority 100</span></td>
+    <td>File:Audionautix-com-ccby-trapbed.mp3<br><span>Created by Jason Shaw. Released under Creative Commons Attribution License 3.0. Required credit: &quot;music by audionautix.com&quot;. A signed release form is available at http://audionautix.com</span></td>
+    <td><code>CC-BY</code></td>
+    <td><audio controls preload="none" src="https://upload.wikimedia.org/wikipedia/commons/9/93/Audionautix-com-ccby-trapbed.mp3"></audio></td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:Audionautix-com-ccby-trapbed.mp3" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>File:Audionautix-com-ccby-trapbed.mp3</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>トラップ</strong><br><span>Wikimedia Commons / priority 100</span></td>
+    <td>File:Tre trappor upp i Urvädersgränd - SMV - SVA BB 5302 04.wav<br><span>Swedish Performing Arts Agency, Radio Sweden's recordings of folk music</span></td>
+    <td><code>CC0</code></td>
+    <td><audio controls preload="none" src="https://upload.wikimedia.org/wikipedia/commons/2/21/Tre_trappor_upp_i_Urv%C3%A4dersgr%C3%A4nd_-_SMV_-_SVA_BB_5302_04.wav"></audio></td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:Tre_trappor_upp_i_Urv%C3%A4dersgr%C3%A4nd_-_SMV_-_SVA_BB_5302_04.wav" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>File:Tre trappor upp i Urvädersgränd - SMV - SVA BB 5302 04.wav</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>トラップ</strong><br><span>Wikimedia Commons / priority 100</span></td>
+    <td>File:Everytrackanessay - Barely Alive.wav<br><span>everytrackanessay (Simplicissimus &amp;amp; Fern)</span></td>
+    <td><code>CC-BY</code></td>
+    <td><audio controls preload="none" src="https://upload.wikimedia.org/wikipedia/commons/e/ea/Everytrackanessay_-_Barely_Alive.wav"></audio></td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:Everytrackanessay_-_Barely_Alive.wav" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>File:Everytrackanessay - Barely Alive.wav</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>トラップ</strong><br><span>Wikimedia Commons / priority 96</span></td>
+    <td>File:A little 808 beat (Antti Luode).mp3<br><span>Antti Luode</span></td>
+    <td><code>CC-BY</code></td>
+    <td><audio controls preload="none" src="https://upload.wikimedia.org/wikipedia/commons/7/77/A_little_808_beat_%28Antti_Luode%29.mp3"></audio></td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:A_little_808_beat_(Antti_Luode).mp3" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>File:A little 808 beat (Antti Luode).mp3</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>トラップ</strong><br><span>Wikimedia Commons / priority 96</span></td>
+    <td>File:ZappBeats 808.wav<br><span>UnKnownrNone</span></td>
+    <td><code>CC0</code></td>
+    <td><audio controls preload="none" src="https://upload.wikimedia.org/wikipedia/commons/5/56/ZappBeats_808.wav"></audio></td>
+    <td><a href="https://commons.wikimedia.org/wiki/File:ZappBeats_808.wav" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>File:ZappBeats 808.wav</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>トラップ</strong><br><span>Internet Archive / priority 93</span></td>
+    <td>10102012 90bpm 1 3<br><span>13 Mitred Abbots</span></td>
+    <td><code>CC-BY</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/1010201290bpm13/10102012%2090bpm1_3.flac"></audio></td>
+    <td><a href="https://archive.org/details/1010201290bpm13" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>1010201290bpm13</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>トラップ</strong><br><span>Internet Archive / priority 92</span></td>
+    <td>TRAP BEAT FREE USE T RAP BASE RAP # DUB # REGGAE<br><span>(BASE RAP) Sebastián Lorca Díez</span></td>
+    <td><code>CC-BY</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/TRAPBEATFREEUSETRAPBASERAPDUBREGGAE/TrapBeatFreeUse22t-rap22BaseRapdubreggae-1db.mp3"></audio></td>
+    <td><a href="https://archive.org/details/TRAPBEATFREEUSETRAPBASERAPDUBREGGAE" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>TRAPBEATFREEUSETRAPBASERAPDUBREGGAE</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>トラップ</strong><br><span>Internet Archive / priority 91</span></td>
+    <td>The Gxod Prequel <br><span>BenJamin Banger</span></td>
+    <td><code>CC-BY-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/BenjaminBanger/The%20Gxod%20Prequel/Tupac.mp3"></audio></td>
+    <td><a href="https://archive.org/details/BenjaminBanger" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>BenjaminBanger</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>トラップ</strong><br><span>Internet Archive / priority 88</span></td>
+    <td>THE EYE TRAP RAP TRAP INSTRUMENTAL BEAT<br><span>Sebastián Lorca Díez, Youtube (BASE RAP)</span></td>
+    <td><code>CC-BY</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/THEEYETRAPRAPTRAPINSTRUMENTALBEAT/THE%20EYE%20TRAP%20-%20RAP-TRAP%20INSTRUMENTAL%20BEAT.mp3"></audio></td>
+    <td><a href="https://archive.org/details/THEEYETRAPRAPTRAPINSTRUMENTALBEAT" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>THEEYETRAPRAPTRAPINSTRUMENTALBEAT</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>トラップ</strong><br><span>Internet Archive / priority 81</span></td>
+    <td>Aenvelora - Starlit Outbreak Album Phonk<br><span>Aenvelora, Aenvelora </span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/aenvelora-cosmic-drift/Aenvelora%20-%20PulseBreaker%20Ver.%202.flac"></audio></td>
+    <td><a href="https://archive.org/details/aenvelora-cosmic-drift" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>aenvelora-cosmic-drift</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>トラップ</strong><br><span>Internet Archive / priority 81</span></td>
+    <td>Aenvelora - Generation Reset Album<br><span>Aenvelora, Aenvelora </span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/aenvelora-generation-reset/Aenvelora%20-%20Generation%20Reset.flac"></audio></td>
+    <td><a href="https://archive.org/details/aenvelora-generation-reset" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>aenvelora-generation-reset</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>トラップ</strong><br><span>Internet Archive / priority 77</span></td>
+    <td>Dalot - Levelling [pan088]<br><span>Maria Papadomanolaki</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/pan088/pan088-dalot-level_2.mp3"></audio></td>
+    <td><a href="https://archive.org/details/pan088" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>pan088</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>トラップ</strong><br><span>Internet Archive / priority 76</span></td>
+    <td>Infra Red Army - Black Body EP [ns15]<br><span>Infra Red Army</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/ns15/03-ira-optimystique.mp3"></audio></td>
+    <td><a href="https://archive.org/details/ns15" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>ns15</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>トラップ</strong><br><span>Internet Archive / priority 70</span></td>
+    <td>Aenvelora - Cyber Drift Phonk<br><span>Aenvelora, Aenvelora </span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/aenvelora-cyber-drift/Aenvelora%20-%20Midnight%20Drift.flac"></audio></td>
+    <td><a href="https://archive.org/details/aenvelora-cyber-drift" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>aenvelora-cyber-drift</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ハードコア</strong><br><span>Internet Archive / priority 84</span></td>
+    <td>RETOUR A L ANORMAL par LA 6 EME REPUBLIQUE <br><span>La 6Eme REpublique</span></td>
+    <td><code>CC-BY-NC-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/LA_SIXIEME_REPUBLIQUE_RETOUR_A_L_ANORMAL/04.ATTENTION_A_LA_MARCHE_LA_6EME_REPUBLIQUE_RETOUR_A_L_ANORMAL.flac"></audio></td>
+    <td><a href="https://archive.org/details/LA_SIXIEME_REPUBLIQUE_RETOUR_A_L_ANORMAL" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>LA_SIXIEME_REPUBLIQUE_RETOUR_A_L_ANORMAL</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ハードコア</strong><br><span>Internet Archive / priority 84</span></td>
+    <td>Junk DNA III : A Tribute to David Cronenberg<br><span>Ed End</span></td>
+    <td><code>CC-BY-NC-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/Ed_End_Junk_DNA_III/02.Fathom_Exercise_Ed_End_Junk_DNA_III%20.mp3"></audio></td>
+    <td><a href="https://archive.org/details/Ed_End_Junk_DNA_III" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>Ed_End_Junk_DNA_III</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ハードコア</strong><br><span>Internet Archive / priority 81</span></td>
+    <td>COREBACKRECORDS64<br><span>COREBACKRECORDS</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/COREBACKRECORDS64/04_MANSHA_Aku_Soku_Zan.mp3"></audio></td>
+    <td><a href="https://archive.org/details/COREBACKRECORDS64" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>COREBACKRECORDS64</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ハードコア</strong><br><span>Internet Archive / priority 81</span></td>
+    <td>Nonsense - Burning Inside<br><span>Nonsense</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/NONSENSE_-_Burning_Inside/06_Nonsense_-_Our_Showdown.mp3"></audio></td>
+    <td><a href="https://archive.org/details/NONSENSE_-_Burning_Inside" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>NONSENSE_-_Burning_Inside</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ハードコア</strong><br><span>Internet Archive / priority 81</span></td>
+    <td>[FSC004] Very Expensive Porno Movie - Fist Fuck Fever<br><span>Yes No Wave Music</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/FSC004/13__Fist_Fuck_Fever.mp3"></audio></td>
+    <td><a href="https://archive.org/details/FSC004" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>FSC004</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ハードコア</strong><br><span>Internet Archive / priority 81</span></td>
+    <td>COREBACKRECORDS72<br><span>COREBACKRECORDS</span></td>
+    <td><code>CC-BY-NC-SA</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/COREBACKRECORDS72/ThirdI_kolaboracija_Bolest_Evropa_01_Wired.mp3"></audio></td>
+    <td><a href="https://archive.org/details/COREBACKRECORDS72" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>COREBACKRECORDS72</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ハードコア</strong><br><span>Internet Archive / priority 80</span></td>
+    <td>COREBACKRECORDS53<br><span>COREBACKRECORDS</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/COREBACKRECORDS53/02_LET_SHADOWS_FEED_MY_DARK_Ciclotimic.mp3"></audio></td>
+    <td><a href="https://archive.org/details/COREBACKRECORDS53" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>COREBACKRECORDS53</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ハードコア</strong><br><span>Internet Archive / priority 80</span></td>
+    <td>COREBACKRECORDS50_Man-Sha_and_Kenji_Siratori<br><span>COREBACKRECORDS</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/COREBACKRECORDS50_Man-Sha_and_Kenji_Siratori/05_MANSHA_KENJI_SIRATORI_Insane_Asylum.mp3"></audio></td>
+    <td><a href="https://archive.org/details/COREBACKRECORDS50_Man-Sha_and_Kenji_Siratori" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>COREBACKRECORDS50_Man-Sha_and_Kenji_Siratori</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ハードコア</strong><br><span>Internet Archive / priority 80</span></td>
+    <td>COREBACKRECORDSFREETRACK01<br><span>COREBACKRECORDSFREETRACK01</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/COREBACKRECORDSFRETRACK01/FANFARE_HOOD_BRACK_AGE_lune_est_soleil_assos.mp3"></audio></td>
+    <td><a href="https://archive.org/details/COREBACKRECORDSFRETRACK01" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>COREBACKRECORDSFRETRACK01</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ハードコア</strong><br><span>Internet Archive / priority 80</span></td>
+    <td>COREBACKRECORDS14<br><span>COREBACKRECORDS014</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/COREBACKRECORDS014/02ShellDivingGraceHome.mp3"></audio></td>
+    <td><a href="https://archive.org/details/COREBACKRECORDS014" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>COREBACKRECORDS014</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ハードコア</strong><br><span>Internet Archive / priority 80</span></td>
+    <td>COREBACKRECORDSFREETRACK02<br><span>COREBACKRECORDS</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/COREBACKRECORDSFREETRACK02/KAG_RAZOR_lune_est_soleil_assos_vbr.mp3"></audio></td>
+    <td><a href="https://archive.org/details/COREBACKRECORDSFREETRACK02" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>COREBACKRECORDSFREETRACK02</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ハードコア</strong><br><span>Internet Archive / priority 80</span></td>
+    <td>COREBACKRECORDS59<br><span>COREBACKRECORDS</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/COREBACKRECORDS059/BUBEN_03_Senakos_Hay_gathering_time.mp3"></audio></td>
+    <td><a href="https://archive.org/details/COREBACKRECORDS059" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>COREBACKRECORDS059</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ハードコア</strong><br><span>Internet Archive / priority 80</span></td>
+    <td>COREBACKRECORDS63<br><span>COREBACKRECORDS</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/COREBACKRECORDS063/04_PARADEIGMA_one_Shout_at_the_one_with_the_wind.mp3"></audio></td>
+    <td><a href="https://archive.org/details/COREBACKRECORDS063" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>COREBACKRECORDS063</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ハードコア</strong><br><span>Internet Archive / priority 80</span></td>
+    <td>COREBACKRECORDS054<br><span>COREBACKRECORDS</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/COREBACKRECORDS054/08_LodemidiQuail_TrogloboticFiendBurial.mp3"></audio></td>
+    <td><a href="https://archive.org/details/COREBACKRECORDS054" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>COREBACKRECORDS054</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ハードコア</strong><br><span>Internet Archive / priority 80</span></td>
+    <td>COREBACKRECORDS57<br><span>COREBACKRECORDS</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/COREBACKRECORDS57/BUBEN_07_Significant.mp3"></audio></td>
+    <td><a href="https://archive.org/details/COREBACKRECORDS57" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>COREBACKRECORDS57</code></td>
+  </tr>
+
+  <tr>
+    <td class="status"><code>blank</code></td>
+    <td><strong>ハードコア</strong><br><span>Internet Archive / priority 80</span></td>
+    <td>COREBACKRECORDS55<br><span>COREBACKRECORDS</span></td>
+    <td><code>CC-BY-NC-ND</code></td>
+    <td><audio controls preload="none" src="https://archive.org/download/COREBACKRECORDS55/07_Waves_vbr.mp3"></audio></td>
+    <td><a href="https://archive.org/details/COREBACKRECORDS55" target="_blank" rel="noreferrer">page</a></td>
+    <td><code>COREBACKRECORDS55</code></td>
+  </tr></tbody>
+  </table>
+</body>
+</html>

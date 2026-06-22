@@ -1,0 +1,5284 @@
+{
+  "generatedAt": "2026-06-21T18:06:15.834Z",
+  "targets": [
+    "テクノ",
+    "ドローン",
+    "ダブ",
+    "シティ・ポップ"
+  ],
+  "sourceResults": "genre-training/results.json",
+  "sourceVerified": "genre-training/verified-dataset.json",
+  "summary": {
+    "テクノ": {
+      "total": 15,
+      "exact": 1,
+      "top3": 4,
+      "macroExact": 4,
+      "needsReview": 1,
+      "fineTop1Accuracy": 6.7,
+      "fineTop3Accuracy": 26.7,
+      "macroTop1Accuracy": 26.7,
+      "mostCommonWrongPredictions": [
+        {
+          "label": "レゲエ",
+          "count": 3
+        },
+        {
+          "label": "J-POP",
+          "count": 2
+        },
+        {
+          "label": "ハウス",
+          "count": 2
+        },
+        {
+          "label": "ロック",
+          "count": 2
+        },
+        {
+          "label": "アンビエント",
+          "count": 1
+        },
+        {
+          "label": "ジャズ",
+          "count": 1
+        },
+        {
+          "label": "ダブ",
+          "count": 1
+        },
+        {
+          "label": "ダブステップ",
+          "count": 1
+        },
+        {
+          "label": "ブルース",
+          "count": 1
+        }
+      ],
+      "falsePositiveSources": [
+        {
+          "label": "ハウス",
+          "count": 3
+        },
+        {
+          "label": "トラップ",
+          "count": 2
+        },
+        {
+          "label": "トランス",
+          "count": 2
+        },
+        {
+          "label": "ブルース",
+          "count": 2
+        },
+        {
+          "label": "J-POP",
+          "count": 1
+        },
+        {
+          "label": "アフリカ音楽",
+          "count": 1
+        },
+        {
+          "label": "アンビエント",
+          "count": 1
+        },
+        {
+          "label": "ダブ",
+          "count": 1
+        },
+        {
+          "label": "チップチューン",
+          "count": 1
+        },
+        {
+          "label": "ディスコ",
+          "count": 1
+        },
+        {
+          "label": "ノイズミュージック",
+          "count": 1
+        },
+        {
+          "label": "ヒップホップ",
+          "count": 1
+        }
+      ],
+      "falseNegatives": [
+        {
+          "genre": "テクノ",
+          "predicted": "レゲエ",
+          "macroGenre": "electronic",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "レゲエ",
+              "score": 100
+            },
+            {
+              "name": "トラップ",
+              "score": 86
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 82
+            },
+            {
+              "name": "ファンク",
+              "score": 71
+            },
+            {
+              "name": "ダブ",
+              "score": 40
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 66
+            },
+            {
+              "macro": "rock",
+              "score": 23
+            },
+            {
+              "macro": "pop",
+              "score": 17
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/099/099703.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/99703",
+          "trackId": "99703",
+          "canonicalArtist": "eden",
+          "canonicalTitle": "HEAVEN",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "テクノ",
+          "predicted": "J-POP",
+          "macroGenre": "electronic",
+          "predictedMacro": "pop",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "J-POP",
+              "score": 100
+            },
+            {
+              "name": "アニメソング",
+              "score": 4
+            },
+            {
+              "name": "ポップ",
+              "score": 1
+            },
+            {
+              "name": "バラード",
+              "score": 1
+            },
+            {
+              "name": "アカペラ",
+              "score": 1
+            }
+          ],
+          "macro": [
+            {
+              "macro": "pop",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 59
+            },
+            {
+              "macro": "black_music",
+              "score": 38
+            },
+            {
+              "macro": "world",
+              "score": 19
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/099/099704.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/99704",
+          "trackId": "99704",
+          "canonicalArtist": "eden",
+          "canonicalTitle": "HEAVEN_VERSION",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "テクノ",
+          "predicted": "ハウス",
+          "macroGenre": "electronic",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": true,
+          "macroExact": true,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ハウス",
+              "score": 100
+            },
+            {
+              "name": "テクノ",
+              "score": 79
+            },
+            {
+              "name": "チップチューン",
+              "score": 38
+            },
+            {
+              "name": "ディープ・ハウス",
+              "score": 30
+            },
+            {
+              "name": "トランス",
+              "score": 20
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 30
+            },
+            {
+              "macro": "world",
+              "score": 17
+            },
+            {
+              "macro": "pop",
+              "score": 7
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/144/144423.mp3",
+          "referenceUrl": "Original mix",
+          "trackId": "144423",
+          "canonicalArtist": "Angel Garcia",
+          "canonicalTitle": "Happy Jambo",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "テクノ",
+          "predicted": "ハウス",
+          "macroGenre": "electronic",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": true,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ハウス",
+              "score": 100
+            },
+            {
+              "name": "トランス",
+              "score": 39
+            },
+            {
+              "name": "チップチューン",
+              "score": 26
+            },
+            {
+              "name": "テクノ",
+              "score": 24
+            },
+            {
+              "name": "ダブステップ",
+              "score": 14
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 11
+            },
+            {
+              "macro": "ambient",
+              "score": 5
+            },
+            {
+              "macro": "pop",
+              "score": 5
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/148/148441.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/148441",
+          "trackId": "148441",
+          "canonicalArtist": "Angel Garcia",
+          "canonicalTitle": "Gugugu",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "テクノ",
+          "predicted": "ダブ",
+          "macroGenre": "electronic",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブ",
+              "score": 100
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 89
+            },
+            {
+              "name": "ディスコ",
+              "score": 62
+            },
+            {
+              "name": "ソウルミュージック",
+              "score": 36
+            },
+            {
+              "name": "レゲエ",
+              "score": 31
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 82
+            },
+            {
+              "macro": "world",
+              "score": 21
+            },
+            {
+              "macro": "pop",
+              "score": 11
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/22/24022.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/24022",
+          "trackId": "track_0024022",
+          "canonicalArtist": "Cyborgjeff",
+          "canonicalTitle": "Summer night fever",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "テクノ",
+          "predicted": "ジャズ",
+          "macroGenre": "electronic",
+          "predictedMacro": "jazz",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ジャズ",
+              "score": 100
+            },
+            {
+              "name": "フュージョン",
+              "score": 3
+            },
+            {
+              "name": "ビッグバンド",
+              "score": 3
+            }
+          ],
+          "macro": [
+            {
+              "macro": "jazz",
+              "score": 100
+            },
+            {
+              "macro": "world",
+              "score": 72
+            },
+            {
+              "macro": "ambient",
+              "score": 65
+            },
+            {
+              "macro": "rock",
+              "score": 51
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/24/24024.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/24024",
+          "trackId": "track_0024024",
+          "canonicalArtist": "Cyborgjeff",
+          "canonicalTitle": "Hidden planet",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "テクノ",
+          "predicted": "レゲエ",
+          "macroGenre": "electronic",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "レゲエ",
+              "score": 100
+            },
+            {
+              "name": "ダブ",
+              "score": 74
+            },
+            {
+              "name": "ファンク",
+              "score": 48
+            },
+            {
+              "name": "ディスコ",
+              "score": 39
+            },
+            {
+              "name": "トラップ",
+              "score": 30
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "rock",
+              "score": 41
+            },
+            {
+              "macro": "electronic",
+              "score": 28
+            },
+            {
+              "macro": "pop",
+              "score": 10
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/20/40620.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/40620",
+          "trackId": "track_0040620",
+          "canonicalArtist": "Cyborgjeff",
+          "canonicalTitle": "I want 'n-zone edit 03' (feat. Miranda)",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "テクノ",
+          "predicted": "ロック",
+          "macroGenre": "electronic",
+          "predictedMacro": "rock",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": true,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ロック",
+              "score": 100
+            },
+            {
+              "name": "チップチューン",
+              "score": 96
+            },
+            {
+              "name": "パンク",
+              "score": 80
+            },
+            {
+              "name": "ソウルミュージック",
+              "score": 43
+            },
+            {
+              "name": "ディスコ",
+              "score": 41
+            }
+          ],
+          "macro": [
+            {
+              "macro": "rock",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 83
+            },
+            {
+              "macro": "black_music",
+              "score": 82
+            },
+            {
+              "macro": "world",
+              "score": 80
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/22/40622.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/40622",
+          "trackId": "track_0040622",
+          "canonicalArtist": "Cyborgjeff",
+          "canonicalTitle": "Perfection 'n-zone long edit'",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "テクノ",
+          "predicted": "ロック",
+          "macroGenre": "electronic",
+          "predictedMacro": "rock",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ロック",
+              "score": 100
+            },
+            {
+              "name": "ハードコア",
+              "score": 50
+            },
+            {
+              "name": "パンク",
+              "score": 20
+            },
+            {
+              "name": "メタル",
+              "score": 9
+            }
+          ],
+          "macro": [
+            {
+              "macro": "rock",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 81
+            },
+            {
+              "macro": "black_music",
+              "score": 41
+            },
+            {
+              "macro": "pop",
+              "score": 31
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/23/40623.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/40623",
+          "trackId": "track_0040623",
+          "canonicalArtist": "Cyborgjeff",
+          "canonicalTitle": "Rêve en générale 'long version'",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "テクノ",
+          "predicted": "J-POP",
+          "macroGenre": "electronic",
+          "predictedMacro": "pop",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "J-POP",
+              "score": 100
+            },
+            {
+              "name": "アニメソング",
+              "score": 5
+            },
+            {
+              "name": "ポップ",
+              "score": 1
+            },
+            {
+              "name": "バラード",
+              "score": 1
+            },
+            {
+              "name": "アカペラ",
+              "score": 1
+            }
+          ],
+          "macro": [
+            {
+              "macro": "pop",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 55
+            },
+            {
+              "macro": "electronic",
+              "score": 53
+            },
+            {
+              "macro": "rock",
+              "score": 47
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/75/1011675.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/1011675",
+          "trackId": "track_1011675",
+          "canonicalArtist": "Oursvince",
+          "canonicalTitle": "Electricity, Part 2",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "テクノ",
+          "predicted": "レゲエ",
+          "macroGenre": "electronic",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "レゲエ",
+              "score": 100
+            },
+            {
+              "name": "ブルース",
+              "score": 26
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 25
+            },
+            {
+              "name": "ファンク",
+              "score": 22
+            },
+            {
+              "name": "ダブ",
+              "score": 21
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 76
+            },
+            {
+              "macro": "pop",
+              "score": 20
+            },
+            {
+              "macro": "ambient",
+              "score": 17
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/27/1064727.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/1064727",
+          "trackId": "track_1064727",
+          "canonicalArtist": "Angus",
+          "canonicalTitle": "icebeat",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "テクノ",
+          "predicted": "ブルース",
+          "macroGenre": "electronic",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": true,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ブルース",
+              "score": 100
+            },
+            {
+              "name": "ハウス",
+              "score": 90
+            },
+            {
+              "name": "テクノ",
+              "score": 88
+            },
+            {
+              "name": "ファンク",
+              "score": 85
+            },
+            {
+              "name": "ソウルミュージック",
+              "score": 60
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 86
+            },
+            {
+              "macro": "ambient",
+              "score": 44
+            },
+            {
+              "macro": "jazz",
+              "score": 21
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/41/1064741.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/1064741",
+          "trackId": "track_1064741",
+          "canonicalArtist": "Angus",
+          "canonicalTitle": "the dark side of ourselves",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "テクノ",
+          "predicted": "アンビエント",
+          "macroGenre": "electronic",
+          "predictedMacro": "ambient",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "アンビエント",
+              "score": 100
+            },
+            {
+              "name": "ノイズミュージック",
+              "score": 75
+            },
+            {
+              "name": "ドローン",
+              "score": 20
+            }
+          ],
+          "macro": [
+            {
+              "macro": "ambient",
+              "score": 100
+            },
+            {
+              "macro": "jazz",
+              "score": 66
+            },
+            {
+              "macro": "black_music",
+              "score": 37
+            },
+            {
+              "macro": "world",
+              "score": 24
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/42/1064742.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/1064742",
+          "trackId": "track_1064742",
+          "canonicalArtist": "Angus",
+          "canonicalTitle": "tomorrow",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "テクノ",
+          "predicted": "ダブステップ",
+          "macroGenre": "electronic",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": true,
+          "macroExact": true,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブステップ",
+              "score": 100
+            },
+            {
+              "name": "テクノ",
+              "score": 63
+            },
+            {
+              "name": "ハウス",
+              "score": 45
+            },
+            {
+              "name": "ドラムンベース",
+              "score": 35
+            },
+            {
+              "name": "ディープ・ハウス",
+              "score": 17
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "pop",
+              "score": 78
+            },
+            {
+              "macro": "black_music",
+              "score": 57
+            },
+            {
+              "macro": "ambient",
+              "score": 35
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/10/1077910.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/1077910",
+          "trackId": "track_1077910",
+          "canonicalArtist": "DowntownWillieBrown",
+          "canonicalTitle": "liftoff",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        }
+      ],
+      "falsePositives": [
+        {
+          "genre": "ノイズミュージック",
+          "predicted": "テクノ",
+          "macroGenre": "ambient",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": true,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "テクノ",
+              "score": 100
+            },
+            {
+              "name": "ドラムンベース",
+              "score": 94
+            },
+            {
+              "name": "ブルース",
+              "score": 79
+            },
+            {
+              "name": "ファンク",
+              "score": 74
+            },
+            {
+              "name": "ディスコ",
+              "score": 59
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 96
+            },
+            {
+              "macro": "ambient",
+              "score": 65
+            },
+            {
+              "macro": "world",
+              "score": 17
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/001/001929.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/1929",
+          "trackId": "1929",
+          "canonicalArtist": "U.S. Girls",
+          "canonicalTitle": "Buzz Chant",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ヒップホップ",
+          "predicted": "テクノ",
+          "macroGenre": "black_music",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "テクノ",
+              "score": 100
+            },
+            {
+              "name": "トランス",
+              "score": 80
+            },
+            {
+              "name": "ドラムンベース",
+              "score": 64
+            },
+            {
+              "name": "ダブステップ",
+              "score": 57
+            },
+            {
+              "name": "ハウス",
+              "score": 57
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 54
+            },
+            {
+              "macro": "rock",
+              "score": 54
+            },
+            {
+              "macro": "world",
+              "score": 48
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/010/010695.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/10695",
+          "trackId": "10695",
+          "canonicalArtist": "BOPD",
+          "canonicalTitle": "2.17.05",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ダブ",
+          "predicted": "テクノ",
+          "macroGenre": "black_music",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "テクノ",
+              "score": 100
+            },
+            {
+              "name": "ハウス",
+              "score": 81
+            },
+            {
+              "name": "ダブステップ",
+              "score": 74
+            },
+            {
+              "name": "トランス",
+              "score": 73
+            },
+            {
+              "name": "ディープ・ハウス",
+              "score": 51
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "rock",
+              "score": 45
+            },
+            {
+              "macro": "world",
+              "score": 25
+            },
+            {
+              "macro": "black_music",
+              "score": 21
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/025/025797.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/25797",
+          "trackId": "25797",
+          "canonicalArtist": "Buguinha Dub",
+          "canonicalTitle": "Adubando",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "トランス",
+          "predicted": "テクノ",
+          "macroGenre": "electronic",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": true,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "テクノ",
+              "score": 100
+            },
+            {
+              "name": "ハウス",
+              "score": 38
+            },
+            {
+              "name": "ダブステップ",
+              "score": 36
+            },
+            {
+              "name": "チップチューン",
+              "score": 20
+            },
+            {
+              "name": "ドラムンベース",
+              "score": 13
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 77
+            },
+            {
+              "macro": "pop",
+              "score": 58
+            },
+            {
+              "macro": "rock",
+              "score": 11
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/126/126899.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/126899",
+          "trackId": "126899",
+          "canonicalArtist": "SPCZ",
+          "canonicalTitle": "Kuma",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "アンビエント",
+          "predicted": "テクノ",
+          "macroGenre": "ambient",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "テクノ",
+              "score": 100
+            },
+            {
+              "name": "ダブステップ",
+              "score": 55
+            },
+            {
+              "name": "ダブ",
+              "score": 52
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 51
+            },
+            {
+              "name": "トランス",
+              "score": 43
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 85
+            },
+            {
+              "macro": "rock",
+              "score": 23
+            },
+            {
+              "macro": "pop",
+              "score": 17
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/50/950.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/950",
+          "trackId": "track_0000950",
+          "canonicalArtist": "Alexander Blu",
+          "canonicalTitle": "May",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "トランス",
+          "predicted": "テクノ",
+          "macroGenre": "electronic",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": true,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "テクノ",
+              "score": 100
+            },
+            {
+              "name": "ドラムンベース",
+              "score": 62
+            },
+            {
+              "name": "ダブステップ",
+              "score": 42
+            },
+            {
+              "name": "トランス",
+              "score": 18
+            },
+            {
+              "name": "ハウス",
+              "score": 13
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 59
+            },
+            {
+              "macro": "world",
+              "score": 34
+            },
+            {
+              "macro": "ambient",
+              "score": 26
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/24/837424.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/837424",
+          "trackId": "track_0837424",
+          "canonicalArtist": "Hiddeminside",
+          "canonicalTitle": "Polaris (intro)",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ディスコ",
+          "predicted": "テクノ",
+          "macroGenre": "black_music",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "テクノ",
+              "score": 100
+            },
+            {
+              "name": "ハウス",
+              "score": 65
+            },
+            {
+              "name": "トランス",
+              "score": 43
+            },
+            {
+              "name": "ダブステップ",
+              "score": 39
+            },
+            {
+              "name": "ドラムンベース",
+              "score": 9
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 53
+            },
+            {
+              "macro": "world",
+              "score": 35
+            },
+            {
+              "macro": "ambient",
+              "score": 12
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/66/225666.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/225666",
+          "trackId": "track_0225666",
+          "canonicalArtist": "Fhernando",
+          "canonicalTitle": "Sexed Up! (5am Main Floor Mix) [Bonus Remix]",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ハウス",
+          "predicted": "テクノ",
+          "macroGenre": "electronic",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": true,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "テクノ",
+              "score": 100
+            },
+            {
+              "name": "ダブステップ",
+              "score": 52
+            },
+            {
+              "name": "トランス",
+              "score": 51
+            },
+            {
+              "name": "ハウス",
+              "score": 37
+            },
+            {
+              "name": "ディープ・ハウス",
+              "score": 34
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 76
+            },
+            {
+              "macro": "pop",
+              "score": 11
+            },
+            {
+              "macro": "ambient",
+              "score": 8
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/15/743015.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/743015",
+          "trackId": "track_0743015",
+          "canonicalArtist": "Screw-Jay",
+          "canonicalTitle": "Accidental things",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ハウス",
+          "predicted": "テクノ",
+          "macroGenre": "electronic",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "テクノ",
+              "score": 100
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 86
+            },
+            {
+              "name": "ダブステップ",
+              "score": 62
+            },
+            {
+              "name": "レゲエ",
+              "score": 56
+            },
+            {
+              "name": "ディスコ",
+              "score": 55
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 92
+            },
+            {
+              "macro": "pop",
+              "score": 45
+            },
+            {
+              "macro": "rock",
+              "score": 44
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/18/743018.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/743018",
+          "trackId": "track_0743018",
+          "canonicalArtist": "Screw-Jay",
+          "canonicalTitle": "Opposite",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ハウス",
+          "predicted": "テクノ",
+          "macroGenre": "electronic",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": true,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "テクノ",
+              "score": 100
+            },
+            {
+              "name": "ドラムンベース",
+              "score": 91
+            },
+            {
+              "name": "チップチューン",
+              "score": 50
+            },
+            {
+              "name": "ダブステップ",
+              "score": 49
+            },
+            {
+              "name": "トランス",
+              "score": 45
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 53
+            },
+            {
+              "macro": "ambient",
+              "score": 19
+            },
+            {
+              "macro": "world",
+              "score": 9
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/19/743019.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/743019",
+          "trackId": "track_0743019",
+          "canonicalArtist": "Screw-Jay",
+          "canonicalTitle": "Processing failed (Hard Bass Mix)",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ブルース",
+          "predicted": "テクノ",
+          "macroGenre": "black_music",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "テクノ",
+              "score": 100
+            },
+            {
+              "name": "トランス",
+              "score": 54
+            },
+            {
+              "name": "レゲエ",
+              "score": 49
+            },
+            {
+              "name": "ダブ",
+              "score": 47
+            },
+            {
+              "name": "ファンク",
+              "score": 41
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 99
+            },
+            {
+              "macro": "jazz",
+              "score": 30
+            },
+            {
+              "macro": "ambient",
+              "score": 21
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/19/26219.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/26219",
+          "trackId": "track_0026219",
+          "canonicalArtist": "Jampy",
+          "canonicalTitle": "Intro",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ブルース",
+          "predicted": "テクノ",
+          "macroGenre": "black_music",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "テクノ",
+              "score": 100
+            },
+            {
+              "name": "トランス",
+              "score": 57
+            },
+            {
+              "name": "ダブステップ",
+              "score": 56
+            },
+            {
+              "name": "ハウス",
+              "score": 47
+            },
+            {
+              "name": "ディープ・ハウス",
+              "score": 35
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "rock",
+              "score": 77
+            },
+            {
+              "macro": "black_music",
+              "score": 72
+            },
+            {
+              "macro": "world",
+              "score": 45
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/28/26228.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/26228",
+          "trackId": "track_0026228",
+          "canonicalArtist": "Jampy",
+          "canonicalTitle": "Bride Destroy",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "メタル",
+          "predicted": "テクノ",
+          "macroGenre": "rock",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": true,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "テクノ",
+              "score": 100
+            },
+            {
+              "name": "ダブステップ",
+              "score": 96
+            },
+            {
+              "name": "ロック",
+              "score": 86
+            },
+            {
+              "name": "ファンク",
+              "score": 66
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 65
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 86
+            },
+            {
+              "macro": "rock",
+              "score": 81
+            },
+            {
+              "macro": "world",
+              "score": 35
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/11/76111.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/76111",
+          "trackId": "track_0076111",
+          "canonicalArtist": "Carmina",
+          "canonicalTitle": "En mon nom",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ワールドミュージック",
+          "predicted": "テクノ",
+          "macroGenre": "world",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "テクノ",
+              "score": 100
+            },
+            {
+              "name": "ダブステップ",
+              "score": 89
+            },
+            {
+              "name": "ドラムンベース",
+              "score": 60
+            },
+            {
+              "name": "トランス",
+              "score": 60
+            },
+            {
+              "name": "ハウス",
+              "score": 59
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 77
+            },
+            {
+              "macro": "world",
+              "score": 72
+            },
+            {
+              "macro": "rock",
+              "score": 29
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/35/345535.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/345535",
+          "trackId": "track_0345535",
+          "canonicalArtist": "Jose Konda",
+          "canonicalTitle": "Masiya",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "チップチューン",
+          "predicted": "テクノ",
+          "macroGenre": "electronic",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": true,
+          "macroExact": true,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "テクノ",
+              "score": 100
+            },
+            {
+              "name": "ドラムンベース",
+              "score": 62
+            },
+            {
+              "name": "チップチューン",
+              "score": 59
+            },
+            {
+              "name": "ダブステップ",
+              "score": 50
+            },
+            {
+              "name": "トランス",
+              "score": 25
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "ambient",
+              "score": 45
+            },
+            {
+              "macro": "black_music",
+              "score": 42
+            },
+            {
+              "macro": "world",
+              "score": 25
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/071/071514.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/71514",
+          "trackId": "71514",
+          "canonicalArtist": "Rhinostrich",
+          "canonicalTitle": "Shut Up",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "J-POP",
+          "predicted": "テクノ",
+          "macroGenre": "pop",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "テクノ",
+              "score": 100
+            },
+            {
+              "name": "ディープ・ハウス",
+              "score": 86
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 79
+            },
+            {
+              "name": "ハウス",
+              "score": 74
+            },
+            {
+              "name": "ソウルミュージック",
+              "score": 62
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 86
+            },
+            {
+              "macro": "pop",
+              "score": 41
+            },
+            {
+              "macro": "rock",
+              "score": 31
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "RWC Music Database: Popular Music Database",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P051.wav",
+          "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+          "trackId": "RWC-MDB-P-2001-051",
+          "canonicalArtist": "RWC Popular No.051",
+          "canonicalTitle": "RWC P051",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "アフリカ音楽",
+          "predicted": "テクノ",
+          "macroGenre": "world",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "テクノ",
+              "score": 100
+            },
+            {
+              "name": "トランス",
+              "score": 37
+            },
+            {
+              "name": "ダブステップ",
+              "score": 26
+            },
+            {
+              "name": "ハウス",
+              "score": 26
+            },
+            {
+              "name": "ドラムンベース",
+              "score": 15
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 79
+            },
+            {
+              "macro": "jazz",
+              "score": 35
+            },
+            {
+              "macro": "world",
+              "score": 20
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "RWC Music Database: Music Genre Database",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-G/RWC_G076.wav",
+          "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/rwc-mdb-g.html",
+          "trackId": "RWC-MDB-G-2001-076",
+          "canonicalArtist": "RWC Genre African No.076",
+          "canonicalTitle": "Havini Tishi Tishi",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "トラップ",
+          "predicted": "テクノ",
+          "macroGenre": "black_music",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": true,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "テクノ",
+              "score": 100
+            },
+            {
+              "name": "ダブステップ",
+              "score": 98
+            },
+            {
+              "name": "ハウス",
+              "score": 84
+            },
+            {
+              "name": "ドラムンベース",
+              "score": 54
+            },
+            {
+              "name": "ディープ・ハウス",
+              "score": 41
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 45
+            },
+            {
+              "macro": "pop",
+              "score": 42
+            },
+            {
+              "macro": "ambient",
+              "score": 24
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "Wikimedia Commons explicit CC formal candidates",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/explicit-cc-formal/トラッフ/Wikimedia-Commons-File-Audionautix-com-ccby-trapbed-mp3.mp3",
+          "referenceUrl": "https://commons.wikimedia.org/wiki/File:Audionautix-com-ccby-trapbed.mp3",
+          "trackId": "Wikimedia-Commons-File-Audionautix-com-ccby-trapbed-mp3",
+          "canonicalArtist": "Created by Jason Shaw. Released under Creative Commons Attribution License 3.0. Required credit: \"music by audionautix.com\". A signed release form is available at http://audionautix.com",
+          "canonicalTitle": "File:Audionautix-com-ccby-trapbed.mp3",
+          "labelEvidence": "explicit trap/808 wording in title, description, tags, or filename",
+          "labelConfidence": "",
+          "reviewStatus": "auto-approved-explicit-cc-label",
+          "reviewNote": "Auto-selected only when metadata contains explicit genre evidence and preferred CC license; excludes spoken, AI-tagged, mixes, and packs."
+        },
+        {
+          "genre": "トラップ",
+          "predicted": "テクノ",
+          "macroGenre": "black_music",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "テクノ",
+              "score": 100
+            },
+            {
+              "name": "ディスコ",
+              "score": 58
+            },
+            {
+              "name": "ブルース",
+              "score": 56
+            },
+            {
+              "name": "ドラムンベース",
+              "score": 43
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 40
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 88
+            },
+            {
+              "macro": "world",
+              "score": 70
+            },
+            {
+              "macro": "classical",
+              "score": 38
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA explicit sparse formal",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/140/140926.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/140926",
+          "trackId": "140926",
+          "canonicalArtist": "Nihilore",
+          "canonicalTitle": "A Different World By Night",
+          "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+          "labelConfidence": "explicit-tag",
+          "reviewStatus": "auto-approved-fma-explicit-sparse",
+          "reviewNote": "Promoted only from explicit FMA tags/title/album evidence. Artist biography and long descriptions are intentionally ignored."
+        }
+      ]
+    },
+    "ドローン": {
+      "total": 11,
+      "exact": 0,
+      "top3": 2,
+      "macroExact": 3,
+      "needsReview": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 18.2,
+      "macroTop1Accuracy": 27.3,
+      "mostCommonWrongPredictions": [
+        {
+          "label": "ブルース",
+          "count": 3
+        },
+        {
+          "label": "アンビエント",
+          "count": 2
+        },
+        {
+          "label": "クラシック音楽",
+          "count": 1
+        },
+        {
+          "label": "ジャズ",
+          "count": 1
+        },
+        {
+          "label": "ダブ",
+          "count": 1
+        },
+        {
+          "label": "ノイズミュージック",
+          "count": 1
+        },
+        {
+          "label": "メタル",
+          "count": 1
+        },
+        {
+          "label": "レゲエ",
+          "count": 1
+        }
+      ],
+      "falsePositiveSources": [
+        {
+          "label": "パンク",
+          "count": 2
+        },
+        {
+          "label": "ディスコ",
+          "count": 1
+        },
+        {
+          "label": "ドラムンベース",
+          "count": 1
+        },
+        {
+          "label": "ヒップホップ",
+          "count": 1
+        }
+      ],
+      "falseNegatives": [
+        {
+          "genre": "ドローン",
+          "predicted": "ブルース",
+          "macroGenre": "ambient",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ブルース",
+              "score": 100
+            },
+            {
+              "name": "レゲエ",
+              "score": 86
+            },
+            {
+              "name": "ソウルミュージック",
+              "score": 46
+            },
+            {
+              "name": "ダブ",
+              "score": 27
+            },
+            {
+              "name": "ファンク",
+              "score": 12
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 54
+            },
+            {
+              "macro": "ambient",
+              "score": 22
+            },
+            {
+              "macro": "world",
+              "score": 18
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/045/045387.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/45387",
+          "trackId": "45387",
+          "canonicalArtist": "Blear Moon",
+          "canonicalTitle": "Come Fly With Me",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ドローン",
+          "predicted": "アンビエント",
+          "macroGenre": "ambient",
+          "predictedMacro": "ambient",
+          "exact": false,
+          "top3": false,
+          "macroExact": true,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "アンビエント",
+              "score": 100
+            },
+            {
+              "name": "ノイズミュージック",
+              "score": 74
+            },
+            {
+              "name": "ディスコ",
+              "score": 69
+            },
+            {
+              "name": "レゲエ",
+              "score": 67
+            },
+            {
+              "name": "ブルース",
+              "score": 61
+            }
+          ],
+          "macro": [
+            {
+              "macro": "ambient",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 99
+            },
+            {
+              "macro": "jazz",
+              "score": 60
+            },
+            {
+              "macro": "classical",
+              "score": 59
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/045/045388.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/45388",
+          "trackId": "45388",
+          "canonicalArtist": "Blear Moon",
+          "canonicalTitle": "I'm Not Ready Right Now",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ドローン",
+          "predicted": "レゲエ",
+          "macroGenre": "ambient",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "レゲエ",
+              "score": 100
+            },
+            {
+              "name": "ディスコ",
+              "score": 87
+            },
+            {
+              "name": "ダブ",
+              "score": 82
+            },
+            {
+              "name": "ソウルミュージック",
+              "score": 51
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 45
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 47
+            },
+            {
+              "macro": "world",
+              "score": 15
+            },
+            {
+              "macro": "rock",
+              "score": 15
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/045/045389.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/45389",
+          "trackId": "45389",
+          "canonicalArtist": "Blear Moon",
+          "canonicalTitle": "Nort rv.",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ドローン",
+          "predicted": "ノイズミュージック",
+          "macroGenre": "ambient",
+          "predictedMacro": "ambient",
+          "exact": false,
+          "top3": true,
+          "macroExact": true,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ノイズミュージック",
+              "score": 100
+            },
+            {
+              "name": "ドローン",
+              "score": 85
+            },
+            {
+              "name": "アンビエント",
+              "score": 16
+            }
+          ],
+          "macro": [
+            {
+              "macro": "ambient",
+              "score": 100
+            },
+            {
+              "macro": "world",
+              "score": 59
+            },
+            {
+              "macro": "black_music",
+              "score": 48
+            },
+            {
+              "macro": "classical",
+              "score": 25
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/045/045390.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/45390",
+          "trackId": "45390",
+          "canonicalArtist": "Blear Moon",
+          "canonicalTitle": "Le Banc Dans Le Bois",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ドローン",
+          "predicted": "ジャズ",
+          "macroGenre": "ambient",
+          "predictedMacro": "jazz",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ジャズ",
+              "score": 100
+            },
+            {
+              "name": "クラシック音楽",
+              "score": 45
+            },
+            {
+              "name": "オペラ",
+              "score": 44
+            },
+            {
+              "name": "フュージョン",
+              "score": 10
+            },
+            {
+              "name": "ビッグバンド",
+              "score": 9
+            }
+          ],
+          "macro": [
+            {
+              "macro": "jazz",
+              "score": 100
+            },
+            {
+              "macro": "classical",
+              "score": 84
+            },
+            {
+              "macro": "electronic",
+              "score": 42
+            },
+            {
+              "macro": "world",
+              "score": 31
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/045/045391.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/45391",
+          "trackId": "45391",
+          "canonicalArtist": "Blear Moon",
+          "canonicalTitle": "Like Summer Tempests Came His Tears",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ドローン",
+          "predicted": "クラシック音楽",
+          "macroGenre": "ambient",
+          "predictedMacro": "classical",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "クラシック音楽",
+              "score": 100
+            },
+            {
+              "name": "オペラ",
+              "score": 15
+            },
+            {
+              "name": "クラシック",
+              "score": 3
+            },
+            {
+              "name": "ロマン派",
+              "score": 3
+            },
+            {
+              "name": "近現代クラシック",
+              "score": 3
+            }
+          ],
+          "macro": [
+            {
+              "macro": "classical",
+              "score": 100
+            },
+            {
+              "macro": "world",
+              "score": 64
+            },
+            {
+              "macro": "black_music",
+              "score": 33
+            },
+            {
+              "macro": "ambient",
+              "score": 30
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/045/045392.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/45392",
+          "trackId": "45392",
+          "canonicalArtist": "Blear Moon",
+          "canonicalTitle": "Intracellularisan",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ドローン",
+          "predicted": "アンビエント",
+          "macroGenre": "ambient",
+          "predictedMacro": "ambient",
+          "exact": false,
+          "top3": true,
+          "macroExact": true,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "アンビエント",
+              "score": 100
+            },
+            {
+              "name": "ドローン",
+              "score": 90
+            },
+            {
+              "name": "ノイズミュージック",
+              "score": 17
+            }
+          ],
+          "macro": [
+            {
+              "macro": "ambient",
+              "score": 100
+            },
+            {
+              "macro": "world",
+              "score": 57
+            },
+            {
+              "macro": "electronic",
+              "score": 41
+            },
+            {
+              "macro": "rock",
+              "score": 26
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/045/045393.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/45393",
+          "trackId": "45393",
+          "canonicalArtist": "Blear Moon",
+          "canonicalTitle": "Le dernier",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ドローン",
+          "predicted": "ブルース",
+          "macroGenre": "ambient",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ブルース",
+              "score": 100
+            },
+            {
+              "name": "ファンク",
+              "score": 74
+            },
+            {
+              "name": "ディスコ",
+              "score": 28
+            },
+            {
+              "name": "ソウルミュージック",
+              "score": 25
+            },
+            {
+              "name": "レゲエ",
+              "score": 17
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 56
+            },
+            {
+              "macro": "ambient",
+              "score": 53
+            },
+            {
+              "macro": "jazz",
+              "score": 35
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/113/113028.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/113028",
+          "trackId": "113028",
+          "canonicalArtist": "Malaventura",
+          "canonicalTitle": "Convicted Jazz Drones",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ドローン",
+          "predicted": "ブルース",
+          "macroGenre": "ambient",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ブルース",
+              "score": 100
+            },
+            {
+              "name": "レゲエ",
+              "score": 34
+            },
+            {
+              "name": "ソウルミュージック",
+              "score": 28
+            },
+            {
+              "name": "トラップ",
+              "score": 24
+            },
+            {
+              "name": "ディスコ",
+              "score": 19
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "classical",
+              "score": 59
+            },
+            {
+              "macro": "ambient",
+              "score": 56
+            },
+            {
+              "macro": "world",
+              "score": 48
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/000/000213.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/213",
+          "trackId": "213",
+          "canonicalArtist": "Au",
+          "canonicalTitle": "Boute",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ドローン",
+          "predicted": "ダブ",
+          "macroGenre": "ambient",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブ",
+              "score": 100
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 58
+            },
+            {
+              "name": "レゲエ",
+              "score": 31
+            },
+            {
+              "name": "ディスコ",
+              "score": 27
+            },
+            {
+              "name": "ファンク",
+              "score": 22
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 58
+            },
+            {
+              "macro": "ambient",
+              "score": 28
+            },
+            {
+              "macro": "world",
+              "score": 20
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/019/019707.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/19707",
+          "trackId": "19707",
+          "canonicalArtist": "Steffen Basho-Junghans",
+          "canonicalTitle": "Inside the Rain",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ドローン",
+          "predicted": "メタル",
+          "macroGenre": "ambient",
+          "predictedMacro": "world",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": true,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "メタル",
+              "score": 100
+            },
+            {
+              "name": "ラテン",
+              "score": 95
+            },
+            {
+              "name": "フォーク",
+              "score": 66
+            },
+            {
+              "name": "ノイズミュージック",
+              "score": 47
+            },
+            {
+              "name": "アンビエント",
+              "score": 41
+            }
+          ],
+          "macro": [
+            {
+              "macro": "world",
+              "score": 100
+            },
+            {
+              "macro": "rock",
+              "score": 90
+            },
+            {
+              "macro": "ambient",
+              "score": 76
+            },
+            {
+              "macro": "black_music",
+              "score": 54
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/027/027856.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/27856",
+          "trackId": "27856",
+          "canonicalArtist": "Hall Of Fame",
+          "canonicalTitle": "Rival",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        }
+      ],
+      "falsePositives": [
+        {
+          "genre": "ヒップホップ",
+          "predicted": "ドローン",
+          "macroGenre": "black_music",
+          "predictedMacro": "ambient",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ドローン",
+              "score": 100
+            },
+            {
+              "name": "ラテン",
+              "score": 86
+            },
+            {
+              "name": "ノイズミュージック",
+              "score": 81
+            },
+            {
+              "name": "ソウルミュージック",
+              "score": 80
+            },
+            {
+              "name": "フォーク",
+              "score": 50
+            }
+          ],
+          "macro": [
+            {
+              "macro": "ambient",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 91
+            },
+            {
+              "macro": "world",
+              "score": 84
+            },
+            {
+              "macro": "rock",
+              "score": 65
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/010/010693.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/10693",
+          "trackId": "10693",
+          "canonicalArtist": "BOPD",
+          "canonicalTitle": "6.6.05",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ドラムンベース",
+          "predicted": "ドローン",
+          "macroGenre": "electronic",
+          "predictedMacro": "ambient",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ドローン",
+              "score": 100
+            },
+            {
+              "name": "ノイズミュージック",
+              "score": 77
+            },
+            {
+              "name": "テクノ",
+              "score": 50
+            },
+            {
+              "name": "チップチューン",
+              "score": 44
+            },
+            {
+              "name": "ドラムンベース",
+              "score": 31
+            }
+          ],
+          "macro": [
+            {
+              "macro": "ambient",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 86
+            },
+            {
+              "macro": "rock",
+              "score": 52
+            },
+            {
+              "macro": "pop",
+              "score": 52
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/119/119545.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/119545",
+          "trackId": "119545",
+          "canonicalArtist": "Full Load of King",
+          "canonicalTitle": "Jungle Conflict",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "パンク",
+          "predicted": "ドローン",
+          "macroGenre": "rock",
+          "predictedMacro": "ambient",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ドローン",
+              "score": 100
+            },
+            {
+              "name": "ノイズミュージック",
+              "score": 59
+            },
+            {
+              "name": "アンビエント",
+              "score": 30
+            }
+          ],
+          "macro": [
+            {
+              "macro": "ambient",
+              "score": 100
+            },
+            {
+              "macro": "rock",
+              "score": 67
+            },
+            {
+              "macro": "world",
+              "score": 66
+            },
+            {
+              "macro": "pop",
+              "score": 50
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/99/7199.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/7199",
+          "trackId": "track_0007199",
+          "canonicalArtist": "Haine Brigade",
+          "canonicalTitle": "Rock terroriste",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ディスコ",
+          "predicted": "ドローン",
+          "macroGenre": "black_music",
+          "predictedMacro": "ambient",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ドローン",
+              "score": 100
+            },
+            {
+              "name": "ノイズミュージック",
+              "score": 89
+            },
+            {
+              "name": "アンビエント",
+              "score": 42
+            }
+          ],
+          "macro": [
+            {
+              "macro": "ambient",
+              "score": 100
+            },
+            {
+              "macro": "world",
+              "score": 69
+            },
+            {
+              "macro": "electronic",
+              "score": 67
+            },
+            {
+              "macro": "jazz",
+              "score": 50
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/90/117790.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/117790",
+          "trackId": "track_0117790",
+          "canonicalArtist": "šundrdisko",
+          "canonicalTitle": "man went to the wood and mushroom ate him",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "パンク",
+          "predicted": "ドローン",
+          "macroGenre": "rock",
+          "predictedMacro": "ambient",
+          "exact": false,
+          "top3": true,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ドローン",
+              "score": 100
+            },
+            {
+              "name": "パンク",
+              "score": 86
+            },
+            {
+              "name": "ノイズミュージック",
+              "score": 68
+            },
+            {
+              "name": "チップチューン",
+              "score": 66
+            },
+            {
+              "name": "ロック",
+              "score": 66
+            }
+          ],
+          "macro": [
+            {
+              "macro": "ambient",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 87
+            },
+            {
+              "macro": "rock",
+              "score": 85
+            },
+            {
+              "macro": "black_music",
+              "score": 74
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/110/110650.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/110650",
+          "trackId": "110650",
+          "canonicalArtist": "Il Sogno Del Marinaio",
+          "canonicalTitle": "Punkinhead Ahoy!",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        }
+      ]
+    },
+    "ダブ": {
+      "total": 17,
+      "exact": 4,
+      "top3": 9,
+      "macroExact": 10,
+      "needsReview": 3,
+      "fineTop1Accuracy": 23.5,
+      "fineTop3Accuracy": 52.9,
+      "macroTop1Accuracy": 58.8,
+      "mostCommonWrongPredictions": [
+        {
+          "label": "ヒップホップ",
+          "count": 4
+        },
+        {
+          "label": "ダブステップ",
+          "count": 3
+        },
+        {
+          "label": "J-POP",
+          "count": 1
+        },
+        {
+          "label": "テクノ",
+          "count": 1
+        },
+        {
+          "label": "ドラムンベース",
+          "count": 1
+        },
+        {
+          "label": "ハウス",
+          "count": 1
+        },
+        {
+          "label": "ラテン",
+          "count": 1
+        },
+        {
+          "label": "レゲエ",
+          "count": 1
+        }
+      ],
+      "falsePositiveSources": [
+        {
+          "label": "ダブステップ",
+          "count": 4
+        },
+        {
+          "label": "アンビエント",
+          "count": 3
+        },
+        {
+          "label": "ジャズ",
+          "count": 2
+        },
+        {
+          "label": "ハウス",
+          "count": 2
+        },
+        {
+          "label": "ブルース",
+          "count": 2
+        },
+        {
+          "label": "テクノ",
+          "count": 1
+        },
+        {
+          "label": "ドローン",
+          "count": 1
+        },
+        {
+          "label": "パンク",
+          "count": 1
+        },
+        {
+          "label": "ロック",
+          "count": 1
+        },
+        {
+          "label": "ワールドミュージック",
+          "count": 1
+        },
+        {
+          "label": "電子音楽",
+          "count": 1
+        }
+      ],
+      "falseNegatives": [
+        {
+          "genre": "ダブ",
+          "predicted": "ハウス",
+          "macroGenre": "black_music",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": true,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ハウス",
+              "score": 100
+            },
+            {
+              "name": "テクノ",
+              "score": 73
+            },
+            {
+              "name": "ダブ",
+              "score": 62
+            },
+            {
+              "name": "トランス",
+              "score": 60
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 54
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 88
+            },
+            {
+              "macro": "world",
+              "score": 40
+            },
+            {
+              "macro": "pop",
+              "score": 10
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/021/021891.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/21891",
+          "trackId": "21891",
+          "canonicalArtist": "Mikuś",
+          "canonicalTitle": "Sunrise, Nightfall",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ダブ",
+          "predicted": "ダブステップ",
+          "macroGenre": "black_music",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": true,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブステップ",
+              "score": 100
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 54
+            },
+            {
+              "name": "ダブ",
+              "score": 51
+            },
+            {
+              "name": "テクノ",
+              "score": 46
+            },
+            {
+              "name": "チップチューン",
+              "score": 45
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 87
+            },
+            {
+              "macro": "ambient",
+              "score": 54
+            },
+            {
+              "macro": "rock",
+              "score": 45
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/021/021895.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/21895",
+          "trackId": "21895",
+          "canonicalArtist": "Mikuś",
+          "canonicalTitle": "Most High Dub",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ダブ",
+          "predicted": "レゲエ",
+          "macroGenre": "black_music",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": true,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "レゲエ",
+              "score": 100
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 67
+            },
+            {
+              "name": "ファンク",
+              "score": 52
+            },
+            {
+              "name": "トラップ",
+              "score": 47
+            },
+            {
+              "name": "ソウルミュージック",
+              "score": 39
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "pop",
+              "score": 63
+            },
+            {
+              "macro": "electronic",
+              "score": 49
+            },
+            {
+              "macro": "rock",
+              "score": 48
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/025/025603.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/25603",
+          "trackId": "25603",
+          "canonicalArtist": "Ras Amerlock",
+          "canonicalTitle": "Tribute to Volfoniq (Auverne Mix)",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ダブ",
+          "predicted": "ヒップホップ",
+          "macroGenre": "black_music",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": true,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ヒップホップ",
+              "score": 100
+            },
+            {
+              "name": "レゲエ",
+              "score": 73
+            },
+            {
+              "name": "ディスコ",
+              "score": 38
+            },
+            {
+              "name": "ブルース",
+              "score": 31
+            },
+            {
+              "name": "ファンク",
+              "score": 30
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 67
+            },
+            {
+              "macro": "ambient",
+              "score": 59
+            },
+            {
+              "macro": "jazz",
+              "score": 26
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/025/025605.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/25605",
+          "trackId": "25605",
+          "canonicalArtist": "Ras Amerlock",
+          "canonicalTitle": "Tribute to Disrupt (Nah Fuk Round Riddim)",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ダブ",
+          "predicted": "ダブステップ",
+          "macroGenre": "black_music",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": true,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブステップ",
+              "score": 100
+            },
+            {
+              "name": "テクノ",
+              "score": 92
+            },
+            {
+              "name": "ノイズミュージック",
+              "score": 78
+            },
+            {
+              "name": "ドローン",
+              "score": 64
+            },
+            {
+              "name": "ハウス",
+              "score": 50
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "ambient",
+              "score": 82
+            },
+            {
+              "macro": "black_music",
+              "score": 67
+            },
+            {
+              "macro": "pop",
+              "score": 53
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/025/025609.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/25609",
+          "trackId": "25609",
+          "canonicalArtist": "Ras Amerlock",
+          "canonicalTitle": "Leipzig Im Winter",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ダブ",
+          "predicted": "ドラムンベース",
+          "macroGenre": "black_music",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ドラムンベース",
+              "score": 100
+            },
+            {
+              "name": "ハウス",
+              "score": 89
+            },
+            {
+              "name": "チップチューン",
+              "score": 40
+            },
+            {
+              "name": "テクノ",
+              "score": 40
+            },
+            {
+              "name": "ダブステップ",
+              "score": 32
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 65
+            },
+            {
+              "macro": "pop",
+              "score": 28
+            },
+            {
+              "macro": "ambient",
+              "score": 16
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/025/025795.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/25795",
+          "trackId": "25795",
+          "canonicalArtist": "Buguinha Dub",
+          "canonicalTitle": "Abre caminhos",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ダブ",
+          "predicted": "テクノ",
+          "macroGenre": "black_music",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "テクノ",
+              "score": 100
+            },
+            {
+              "name": "ハウス",
+              "score": 81
+            },
+            {
+              "name": "ダブステップ",
+              "score": 74
+            },
+            {
+              "name": "トランス",
+              "score": 73
+            },
+            {
+              "name": "ディープ・ハウス",
+              "score": 51
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "rock",
+              "score": 45
+            },
+            {
+              "macro": "world",
+              "score": 25
+            },
+            {
+              "macro": "black_music",
+              "score": 21
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/025/025797.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/25797",
+          "trackId": "25797",
+          "canonicalArtist": "Buguinha Dub",
+          "canonicalTitle": "Adubando",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ダブ",
+          "predicted": "ヒップホップ",
+          "macroGenre": "black_music",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": true,
+          "macroExact": true,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ヒップホップ",
+              "score": 100
+            },
+            {
+              "name": "ダブ",
+              "score": 54
+            },
+            {
+              "name": "レゲエ",
+              "score": 39
+            },
+            {
+              "name": "トラップ",
+              "score": 10
+            },
+            {
+              "name": "ファンク",
+              "score": 8
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 15
+            },
+            {
+              "macro": "pop",
+              "score": 11
+            },
+            {
+              "macro": "ambient",
+              "score": 6
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/025/025802.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/25802",
+          "trackId": "25802",
+          "canonicalArtist": "Buguinha Dub",
+          "canonicalTitle": "Satisfacao",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ダブ",
+          "predicted": "ラテン",
+          "macroGenre": "black_music",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": true,
+          "macroExact": true,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ラテン",
+              "score": 100
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 73
+            },
+            {
+              "name": "ダブ",
+              "score": 64
+            },
+            {
+              "name": "レゲエ",
+              "score": 42
+            },
+            {
+              "name": "チップチューン",
+              "score": 32
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "world",
+              "score": 91
+            },
+            {
+              "macro": "electronic",
+              "score": 81
+            },
+            {
+              "macro": "classical",
+              "score": 36
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/025/025804.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/25804",
+          "trackId": "25804",
+          "canonicalArtist": "Buguinha Dub",
+          "canonicalTitle": "Celebrando a vida",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ダブ",
+          "predicted": "ダブステップ",
+          "macroGenre": "black_music",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブステップ",
+              "score": 100
+            },
+            {
+              "name": "テクノ",
+              "score": 80
+            },
+            {
+              "name": "ハウス",
+              "score": 57
+            },
+            {
+              "name": "トランス",
+              "score": 29
+            },
+            {
+              "name": "チップチューン",
+              "score": 22
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 61
+            },
+            {
+              "macro": "ambient",
+              "score": 39
+            },
+            {
+              "macro": "rock",
+              "score": 35
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/053/053157.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/53157",
+          "trackId": "53157",
+          "canonicalArtist": "Ras Amerlock",
+          "canonicalTitle": "Dub Stepping Version B",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ダブ",
+          "predicted": "J-POP",
+          "macroGenre": "black_music",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "J-POP",
+              "score": 100
+            },
+            {
+              "name": "テクノ",
+              "score": 37
+            },
+            {
+              "name": "ハウス",
+              "score": 32
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 25
+            },
+            {
+              "name": "ダブ",
+              "score": 23
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "pop",
+              "score": 91
+            },
+            {
+              "macro": "black_music",
+              "score": 78
+            },
+            {
+              "macro": "ambient",
+              "score": 52
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/053/053301.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/53301",
+          "trackId": "53301",
+          "canonicalArtist": "Mikuś",
+          "canonicalTitle": "Ephemeral Dub",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ダブ",
+          "predicted": "ヒップホップ",
+          "macroGenre": "black_music",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": true,
+          "macroExact": true,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ヒップホップ",
+              "score": 100
+            },
+            {
+              "name": "ダブ",
+              "score": 59
+            },
+            {
+              "name": "レゲエ",
+              "score": 17
+            },
+            {
+              "name": "ディスコ",
+              "score": 16
+            },
+            {
+              "name": "トラップ",
+              "score": 11
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 76
+            },
+            {
+              "macro": "pop",
+              "score": 25
+            },
+            {
+              "macro": "ambient",
+              "score": 8
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/053/053302.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/53302",
+          "trackId": "53302",
+          "canonicalArtist": "Mikuś",
+          "canonicalTitle": "Tian Tan Dub",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ダブ",
+          "predicted": "ヒップホップ",
+          "macroGenre": "black_music",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": true,
+          "needsReview": true,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ヒップホップ",
+              "score": 100
+            },
+            {
+              "name": "レゲエ",
+              "score": 99
+            },
+            {
+              "name": "ファンク",
+              "score": 53
+            },
+            {
+              "name": "ソウルミュージック",
+              "score": 48
+            },
+            {
+              "name": "ダブ",
+              "score": 39
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 75
+            },
+            {
+              "macro": "world",
+              "score": 40
+            },
+            {
+              "macro": "pop",
+              "score": 15
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/117/117945.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/117945",
+          "trackId": "117945",
+          "canonicalArtist": "Buguinha Dub",
+          "canonicalTitle": "Como - Amigos Adubados",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        }
+      ],
+      "falsePositives": [
+        {
+          "genre": "ダブステップ",
+          "predicted": "ダブ",
+          "macroGenre": "electronic",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブ",
+              "score": 100
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 72
+            },
+            {
+              "name": "レゲエ",
+              "score": 51
+            },
+            {
+              "name": "ソウルミュージック",
+              "score": 35
+            },
+            {
+              "name": "ディスコ",
+              "score": 35
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "pop",
+              "score": 43
+            },
+            {
+              "macro": "electronic",
+              "score": 42
+            },
+            {
+              "macro": "rock",
+              "score": 20
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/092/092284.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/92284",
+          "trackId": "92284",
+          "canonicalArtist": "DJ Spooky",
+          "canonicalTitle": "Of Water and Ice feat. Jin-Xiang JX Yu (Dubstep Remix - Bonus Track)",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ジャズ",
+          "predicted": "ダブ",
+          "macroGenre": "jazz",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブ",
+              "score": 100
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 41
+            },
+            {
+              "name": "ソウルミュージック",
+              "score": 27
+            },
+            {
+              "name": "レゲエ",
+              "score": 18
+            },
+            {
+              "name": "トラップ",
+              "score": 17
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 46
+            },
+            {
+              "macro": "world",
+              "score": 28
+            },
+            {
+              "macro": "ambient",
+              "score": 20
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/116/116446.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/116446",
+          "trackId": "116446",
+          "canonicalArtist": "Montana Skies",
+          "canonicalTitle": "Gringo Flamenco",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ジャズ",
+          "predicted": "ダブ",
+          "macroGenre": "jazz",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブ",
+              "score": 100
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 60
+            },
+            {
+              "name": "ブルース",
+              "score": 32
+            },
+            {
+              "name": "ディスコ",
+              "score": 17
+            },
+            {
+              "name": "トラップ",
+              "score": 14
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 54
+            },
+            {
+              "macro": "ambient",
+              "score": 15
+            },
+            {
+              "macro": "world",
+              "score": 8
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/116/116455.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/116455",
+          "trackId": "116455",
+          "canonicalArtist": "Montana Skies",
+          "canonicalTitle": "Montana Skies",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "テクノ",
+          "predicted": "ダブ",
+          "macroGenre": "electronic",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブ",
+              "score": 100
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 89
+            },
+            {
+              "name": "ディスコ",
+              "score": 62
+            },
+            {
+              "name": "ソウルミュージック",
+              "score": 36
+            },
+            {
+              "name": "レゲエ",
+              "score": 31
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 82
+            },
+            {
+              "macro": "world",
+              "score": 21
+            },
+            {
+              "macro": "pop",
+              "score": 11
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/22/24022.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/24022",
+          "trackId": "track_0024022",
+          "canonicalArtist": "Cyborgjeff",
+          "canonicalTitle": "Summer night fever",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "アンビエント",
+          "predicted": "ダブ",
+          "macroGenre": "ambient",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブ",
+              "score": 100
+            },
+            {
+              "name": "ディスコ",
+              "score": 70
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 65
+            },
+            {
+              "name": "トラップ",
+              "score": 60
+            },
+            {
+              "name": "ファンク",
+              "score": 37
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "pop",
+              "score": 20
+            },
+            {
+              "macro": "rock",
+              "score": 19
+            },
+            {
+              "macro": "world",
+              "score": 19
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/51/951.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/951",
+          "trackId": "track_0000951",
+          "canonicalArtist": "Alexander Blu",
+          "canonicalTitle": "Nostalgia",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "アンビエント",
+          "predicted": "ダブ",
+          "macroGenre": "ambient",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": true,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブ",
+              "score": 100
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 96
+            },
+            {
+              "name": "ブルース",
+              "score": 71
+            },
+            {
+              "name": "レゲエ",
+              "score": 50
+            },
+            {
+              "name": "ディスコ",
+              "score": 38
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 59
+            },
+            {
+              "macro": "world",
+              "score": 26
+            },
+            {
+              "macro": "ambient",
+              "score": 20
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/05/8305.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/8305",
+          "trackId": "track_0008305",
+          "canonicalArtist": "Ben OThman",
+          "canonicalTitle": "Lounge Oud  Feat. Fawzi Chekili",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "アンビエント",
+          "predicted": "ダブ",
+          "macroGenre": "ambient",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": true,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブ",
+              "score": 100
+            },
+            {
+              "name": "テクノ",
+              "score": 98
+            },
+            {
+              "name": "レゲエ",
+              "score": 57
+            },
+            {
+              "name": "ブルース",
+              "score": 52
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 52
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 98
+            },
+            {
+              "macro": "ambient",
+              "score": 9
+            },
+            {
+              "macro": "pop",
+              "score": 8
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/09/8309.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/8309",
+          "trackId": "track_0008309",
+          "canonicalArtist": "Ben OThman",
+          "canonicalTitle": "La Marsa Chill",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ダブステップ",
+          "predicted": "ダブ",
+          "macroGenre": "electronic",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブ",
+              "score": 100
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 71
+            },
+            {
+              "name": "ファンク",
+              "score": 32
+            },
+            {
+              "name": "ブルース",
+              "score": 30
+            },
+            {
+              "name": "ソウルミュージック",
+              "score": 22
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 35
+            },
+            {
+              "macro": "world",
+              "score": 14
+            },
+            {
+              "macro": "pop",
+              "score": 11
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/00/902200.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/902200",
+          "trackId": "track_0902200",
+          "canonicalArtist": "Akashic Records",
+          "canonicalTitle": "Post Apocalyptic Dying Planet",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "パンク",
+          "predicted": "ダブ",
+          "macroGenre": "rock",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブ",
+              "score": 100
+            },
+            {
+              "name": "ファンク",
+              "score": 81
+            },
+            {
+              "name": "トラップ",
+              "score": 45
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 42
+            },
+            {
+              "name": "ソウルミュージック",
+              "score": 38
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "rock",
+              "score": 39
+            },
+            {
+              "macro": "pop",
+              "score": 37
+            },
+            {
+              "macro": "world",
+              "score": 31
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/95/7195.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/7195",
+          "trackId": "track_0007195",
+          "canonicalArtist": "Haine Brigade",
+          "canonicalTitle": "Commissariat blues",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ハウス",
+          "predicted": "ダブ",
+          "macroGenre": "electronic",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブ",
+              "score": 100
+            },
+            {
+              "name": "レゲエ",
+              "score": 49
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 36
+            },
+            {
+              "name": "ディスコ",
+              "score": 30
+            },
+            {
+              "name": "トラップ",
+              "score": 14
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 34
+            },
+            {
+              "macro": "pop",
+              "score": 24
+            },
+            {
+              "macro": "rock",
+              "score": 11
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/19/593019.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/593019",
+          "trackId": "track_0593019",
+          "canonicalArtist": "DJ Fire-Black",
+          "canonicalTitle": "Crazy Mind - Dark Town (DJ Fire-Black & Toqs remix)",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ハウス",
+          "predicted": "ダブ",
+          "macroGenre": "electronic",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブ",
+              "score": 100
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 46
+            },
+            {
+              "name": "ファンク",
+              "score": 44
+            },
+            {
+              "name": "トラップ",
+              "score": 33
+            },
+            {
+              "name": "ソウルミュージック",
+              "score": 31
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 76
+            },
+            {
+              "macro": "ambient",
+              "score": 12
+            },
+            {
+              "macro": "pop",
+              "score": 12
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/17/743017.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/743017",
+          "trackId": "track_0743017",
+          "canonicalArtist": "Screw-Jay",
+          "canonicalTitle": "The 3couples",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ダブステップ",
+          "predicted": "ダブ",
+          "macroGenre": "electronic",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブ",
+              "score": 100
+            },
+            {
+              "name": "ファンク",
+              "score": 78
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 65
+            },
+            {
+              "name": "ディスコ",
+              "score": 53
+            },
+            {
+              "name": "レゲエ",
+              "score": 51
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "pop",
+              "score": 35
+            },
+            {
+              "macro": "electronic",
+              "score": 31
+            },
+            {
+              "macro": "world",
+              "score": 31
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/90/981290.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/981290",
+          "trackId": "track_0981290",
+          "canonicalArtist": "Roger Subirana Mata",
+          "canonicalTitle": "Hymn to peace (Dubstep Remix) ",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ダブステップ",
+          "predicted": "ダブ",
+          "macroGenre": "electronic",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブ",
+              "score": 100
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 87
+            },
+            {
+              "name": "レゲエ",
+              "score": 67
+            },
+            {
+              "name": "ブルース",
+              "score": 66
+            },
+            {
+              "name": "ファンク",
+              "score": 62
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "world",
+              "score": 64
+            },
+            {
+              "macro": "rock",
+              "score": 32
+            },
+            {
+              "macro": "electronic",
+              "score": 28
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/52/1074752.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/1074752",
+          "trackId": "track_1074752",
+          "canonicalArtist": "Akashic Records",
+          "canonicalTitle": "System Malfunction (glitchstep pop)",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ロック",
+          "predicted": "ダブ",
+          "macroGenre": "rock",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブ",
+              "score": 100
+            },
+            {
+              "name": "ファンク",
+              "score": 74
+            },
+            {
+              "name": "ソウルミュージック",
+              "score": 57
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 54
+            },
+            {
+              "name": "トラップ",
+              "score": 48
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 57
+            },
+            {
+              "macro": "ambient",
+              "score": 54
+            },
+            {
+              "macro": "rock",
+              "score": 52
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/59/8459.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/8459",
+          "trackId": "track_0008459",
+          "canonicalArtist": "Narcis",
+          "canonicalTitle": "Your Eyes",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ブルース",
+          "predicted": "ダブ",
+          "macroGenre": "black_music",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": true,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブ",
+              "score": 100
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 60
+            },
+            {
+              "name": "ソウルミュージック",
+              "score": 50
+            },
+            {
+              "name": "ファンク",
+              "score": 40
+            },
+            {
+              "name": "トラップ",
+              "score": 25
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "world",
+              "score": 64
+            },
+            {
+              "macro": "electronic",
+              "score": 33
+            },
+            {
+              "macro": "ambient",
+              "score": 22
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/20/26220.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/26220",
+          "trackId": "track_0026220",
+          "canonicalArtist": "Jampy",
+          "canonicalTitle": "Noris",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ブルース",
+          "predicted": "ダブ",
+          "macroGenre": "black_music",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": true,
+          "macroExact": true,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブ",
+              "score": 100
+            },
+            {
+              "name": "ファンク",
+              "score": 68
+            },
+            {
+              "name": "ブルース",
+              "score": 68
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 64
+            },
+            {
+              "name": "トラップ",
+              "score": 52
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 74
+            },
+            {
+              "macro": "world",
+              "score": 53
+            },
+            {
+              "macro": "pop",
+              "score": 43
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/22/26222.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/26222",
+          "trackId": "track_0026222",
+          "canonicalArtist": "Jampy",
+          "canonicalTitle": "Bossa For My Brother",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ワールドミュージック",
+          "predicted": "ダブ",
+          "macroGenre": "world",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": true,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブ",
+              "score": 100
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 97
+            },
+            {
+              "name": "テクノ",
+              "score": 83
+            },
+            {
+              "name": "ブルース",
+              "score": 68
+            },
+            {
+              "name": "ファンク",
+              "score": 68
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 84
+            },
+            {
+              "macro": "jazz",
+              "score": 41
+            },
+            {
+              "macro": "rock",
+              "score": 23
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/81/345481.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/345481",
+          "trackId": "track_0345481",
+          "canonicalArtist": "Jose Konda",
+          "canonicalTitle": "Golgotha",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "電子音楽",
+          "predicted": "ダブ",
+          "macroGenre": "electronic",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブ",
+              "score": 100
+            },
+            {
+              "name": "ハウス",
+              "score": 68
+            },
+            {
+              "name": "レゲエ",
+              "score": 49
+            },
+            {
+              "name": "テクノ",
+              "score": 49
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 27
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 88
+            },
+            {
+              "macro": "pop",
+              "score": 19
+            },
+            {
+              "macro": "ambient",
+              "score": 8
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/027/027798.mp3",
+          "referenceUrl": "This work uses samples from <a href=\"http://ccmixter.org/api/query?t=upload_histogram&amp;ids=25918\" target=\"_blank\">these artists</a>",
+          "trackId": "27798",
+          "canonicalArtist": "spinningmerkaba",
+          "canonicalTitle": "Inspire Me Forever (Secret Anomaly Jonez Mix)",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ドローン",
+          "predicted": "ダブ",
+          "macroGenre": "ambient",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ダブ",
+              "score": 100
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 58
+            },
+            {
+              "name": "レゲエ",
+              "score": 31
+            },
+            {
+              "name": "ディスコ",
+              "score": 27
+            },
+            {
+              "name": "ファンク",
+              "score": 22
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 58
+            },
+            {
+              "macro": "ambient",
+              "score": 28
+            },
+            {
+              "macro": "world",
+              "score": 20
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/019/019707.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/19707",
+          "trackId": "19707",
+          "canonicalArtist": "Steffen Basho-Junghans",
+          "canonicalTitle": "Inside the Rain",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        }
+      ]
+    },
+    "シティ・ポップ": {
+      "total": 0,
+      "exact": 0,
+      "top3": 0,
+      "macroExact": 0,
+      "needsReview": 0,
+      "fineTop1Accuracy": null,
+      "fineTop3Accuracy": null,
+      "macroTop1Accuracy": null,
+      "mostCommonWrongPredictions": [],
+      "falsePositiveSources": [],
+      "falseNegatives": [],
+      "falsePositives": []
+    }
+  },
+  "cityPopLabelQuality": {
+    "verifiedRows": 24,
+    "formalRows": 0,
+    "bySourceType": [
+      {
+        "label": "(empty)",
+        "count": 20
+      },
+      {
+        "label": "cc-dataset-quarantined",
+        "count": 3
+      },
+      {
+        "label": "itunes-preview",
+        "count": 1
+      }
+    ],
+    "formalEvidence": [],
+    "adjacentFormalRows": []
+  },
+  "recommendations": [
+    "テクノはJ-POP/ハウスへの混同が残る。four-on-floor/kick gridを直接入れる前に、テクノtest誤判定だけで分離度検定する。",
+    "ドローンは現在Top1が0。ambient/classical/blues系との混同を個別に見て、sustain/transient特徴量の局所適用を検討する。",
+    "ダブはヒップホップ/ダブステップと混同。低域だけでなくreverbTail/offbeat/highBand暗さの複合条件をダブ候補内に限定して使う。"
+  ]
+}

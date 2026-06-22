@@ -1,0 +1,395 @@
+{
+  "generatedAt": "2026-06-20T13:49:14.870Z",
+  "manifests": [
+    {
+      "path": "../../../../tmp/mmfr-rwc-test/rwc-manifest.json",
+      "exists": true,
+      "items": 2
+    }
+  ],
+  "requiredFields": [
+    "genre",
+    "macroGenre",
+    "filePath",
+    "license",
+    "licenseUrl",
+    "referenceUrl"
+  ],
+  "allowedLicenses": [
+    "CC0",
+    "CC-BY",
+    "CC-BY-SA",
+    "CC-BY-NC",
+    "CC-BY-NC-SA",
+    "CC-BY-ND",
+    "CC-BY-NC-ND",
+    "CREATIVE COMMONS",
+    "RESEARCH-USE-COPYRIGHT-CLEARED"
+  ],
+  "summary": {
+    "totalRows": 2,
+    "readyRows": 2,
+    "rejectedRows": 0,
+    "readyFineGenres": 0,
+    "candidateFineGenres": 0
+  },
+  "rejectedByReason": {},
+  "readyByGenre": {
+    "J-POP": 2
+  },
+  "byGenre": [
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "fineEvaluable": true,
+      "priority": true,
+      "target": 100,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 100,
+      "topReasons": []
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "fineEvaluable": false,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "fineEvaluable": true,
+      "priority": true,
+      "target": 100,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 100,
+      "topReasons": []
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "fineEvaluable": true,
+      "priority": true,
+      "target": 100,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 100,
+      "topReasons": []
+    },
+    {
+      "genre": "ブルース",
+      "macroGenre": "black_music",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "ロック",
+      "macroGenre": "rock",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "パンク",
+      "macroGenre": "rock",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "ハードコア",
+      "macroGenre": "rock",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "メタル",
+      "macroGenre": "rock",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "シティ・ポップ",
+      "macroGenre": "pop",
+      "fineEvaluable": true,
+      "priority": true,
+      "target": 100,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 100,
+      "topReasons": []
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "fineEvaluable": true,
+      "priority": true,
+      "target": 100,
+      "candidateRows": 2,
+      "readyRows": 2,
+      "missingReadyRows": 98,
+      "topReasons": []
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "fineEvaluable": true,
+      "priority": true,
+      "target": 100,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 100,
+      "topReasons": []
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "フォーク",
+      "macroGenre": "world",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "ラテン",
+      "macroGenre": "world",
+      "fineEvaluable": true,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    },
+    {
+      "genre": "ワールドミュージック",
+      "macroGenre": "world",
+      "fineEvaluable": false,
+      "priority": false,
+      "target": 50,
+      "candidateRows": 0,
+      "readyRows": 0,
+      "missingReadyRows": 50,
+      "topReasons": []
+    }
+  ],
+  "sampleRejected": []
+}

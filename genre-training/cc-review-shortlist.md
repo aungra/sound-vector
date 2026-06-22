@@ -1,0 +1,468 @@
+# CC Audio Review Shortlist
+
+Generated: 2026-06-11T14:55:17.153Z
+
+Internet Archive と Wikimedia Commons の未承認候補を統合した確認用リストです。ここでは自動承認しません。採用する場合は `sourceReviewQueue` の元TSVで `reviewStatus` を `approved` にしてください。
+
+まとめて確認する場合は、この `cc-review-shortlist.tsv` の `reviewStatus` に `approved` / `rejected` / `needs-review` を書き、`npm --prefix apps/demo run cc-review:apply-shortlist` を実行すると元TSVへ同期できます。
+
+## アニメソング (4)
+
+- 100 / Wikimedia Commons / CC-BY / File:ANSWER TIME TRAVELING TOUR 2nd Season.wav / 槇原敬之 Official Channel
+  - Page: https://commons.wikimedia.org/wiki/File:ANSWER_TIME_TRAVELING_TOUR_2nd_Season.wav
+  - Audio: https://upload.wikimedia.org/wikipedia/commons/c/c5/ANSWER_TIME_TRAVELING_TOUR_2nd_Season.wav
+  - Review TSV: genre-training/wikimedia-commons-review-queue.tsv
+  - id: File:ANSWER TIME TRAVELING TOUR 2nd Season.wav
+- 82 / Internet Archive / CC-BY-NC-ND / Aenvelora —「終焉の誓い」( Shūen No Chikai Oath At The End) / Aenvelora, Aenvelora
+  - Page: https://archive.org/details/aenvelora-shuen-no-chikai-oath-at-the-end
+  - Audio: https://archive.org/download/aenvelora-shuen-no-chikai-oath-at-the-end/Aenvelora%20%E2%80%94%E3%80%8C%E7%B5%82%E7%84%89%E3%81%AE%E8%AA%93%E3%81%84%E3%80%8D(Sh%C5%ABen%20no%20Chikai%20Oath%20at%20the%20End).flac
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: aenvelora-shuen-no-chikai-oath-at-the-end
+- 81 / Internet Archive / CC-BY-NC-ND / No Destination / Worlich
+  - Page: https://archive.org/details/NoDestination
+  - Audio: https://archive.org/download/NoDestination/09.Transitoria-TempusFugit.flac
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: NoDestination
+- 81 / Internet Archive / CC-BY / /jp/ Themesong 2 / Original author insists to be attributed as "Anonymous"
+  - Page: https://archive.org/details/Jp_Themesong_2
+  - Audio: https://archive.org/download/Jp_Themesong_2/jp_Themesong_2_(Instrumental).flac
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: Jp_Themesong_2
+
+## オペラ (8)
+
+- 100 / Wikimedia Commons / Public Domain / File:PDP-CH - Meta Seinemeyer, soprano with Staatskapelle Berlin - La forza del destino - Sono giunta Grazie, o Dio - Verdi - Parlophon-p9116-20258.flac / http://pool.publicdomainproject.org/index.php?title=Parlophon-p9116-20258
+  - Page: https://commons.wikimedia.org/wiki/File:PDP-CH_-_Meta_Seinemeyer,_soprano_with_Staatskapelle_Berlin_-_La_forza_del_destino_-_Sono_giunta_Grazie,_o_Dio_-_Verdi_-_Parlophon-p9116-20258.flac
+  - Audio: https://upload.wikimedia.org/wikipedia/commons/8/8d/PDP-CH_-_Meta_Seinemeyer%2C_soprano_with_Staatskapelle_Berlin_-_La_forza_del_destino_-_Sono_giunta_Grazie%2C_o_Dio_-_Verdi_-_Parlophon-p9116-20258.flac
+  - Review TSV: genre-training/wikimedia-commons-review-queue.tsv
+  - id: File:PDP-CH - Meta Seinemeyer, soprano with Staatskapelle Berlin - La forza del destino - Sono giunta Grazie, o Dio - Verdi - Parlophon-p9116-20258.flac
+- 100 / Wikimedia Commons / Public Domain / File:PDP-CH - Meta Seinemeyer, soprano with Staatskapelle Berlin - La forza del destino - Deh, non m'abbandonar - Verdi - Parlophon-p9116-20259.flac / http://pool.publicdomainproject.org/index.php?title=Parlophon-p9116-20259
+  - Page: https://commons.wikimedia.org/wiki/File:PDP-CH_-_Meta_Seinemeyer,_soprano_with_Staatskapelle_Berlin_-_La_forza_del_destino_-_Deh,_non_m%27abbandonar_-_Verdi_-_Parlophon-p9116-20259.flac
+  - Audio: https://upload.wikimedia.org/wikipedia/commons/9/9a/PDP-CH_-_Meta_Seinemeyer%2C_soprano_with_Staatskapelle_Berlin_-_La_forza_del_destino_-_Deh%2C_non_m%27abbandonar_-_Verdi_-_Parlophon-p9116-20259.flac
+  - Review TSV: genre-training/wikimedia-commons-review-queue.tsv
+  - id: File:PDP-CH - Meta Seinemeyer, soprano with Staatskapelle Berlin - La forza del destino - Deh, non m'abbandonar - Verdi - Parlophon-p9116-20259.flac
+- 100 / Wikimedia Commons / Public Domain / File:J.S.Bach from Cantata BWV80 "Ein' feste Burg ist unser Gott", Aria for soprano with oboe obbligato.wav / J.S.Bach
+  - Page: https://commons.wikimedia.org/wiki/File:J.S.Bach_from_Cantata_BWV80_%22Ein%27_feste_Burg_ist_unser_Gott%22,_Aria_for_soprano_with_oboe_obbligato.wav
+  - Audio: https://upload.wikimedia.org/wikipedia/commons/f/fa/J.S.Bach_from_Cantata_BWV80_%22Ein%27_feste_Burg_ist_unser_Gott%22%2C_Aria_for_soprano_with_oboe_obbligato.wav
+  - Review TSV: genre-training/wikimedia-commons-review-queue.tsv
+  - id: File:J.S.Bach from Cantata BWV80 "Ein' feste Burg ist unser Gott", Aria for soprano with oboe obbligato.wav
+- 91 / Internet Archive / CC-BY-SA / Tryad - Public Domain / Tryad
+  - Page: https://archive.org/details/TryadTryadPublicDomain
+  - Audio: https://archive.org/download/TryadTryadPublicDomain/Tryad__06__Witness.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: TryadTryadPublicDomain
+- 90 / Internet Archive / CC-BY-SA / Complex Numbers - 2032: Легенда о несбывшемся грядущем. Техно-опера. / Complex Numbers
+  - Page: https://archive.org/details/jamendo-488156
+  - Audio: https://archive.org/download/jamendo-488156/33-1957536-Complex%20Numbers-2032%20_____%202.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: jamendo-488156
+- 77 / Internet Archive / CC-BY-NC-ND / Raíces 447 16012020 Samuel Maýnez Champion / Raíces UDEM
+  - Page: https://archive.org/details/raices44716012020samuelmaynezchampion
+  - Audio: https://archive.org/download/raices44716012020samuelmaynezchampion/Ra%C3%ADces%20447%20-%2016012020%20-%20Samuel%20Ma%C3%BDnez%20Champion.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: raices44716012020samuelmaynezchampion
+- 63 / Internet Archive / CC-BY-NC-ND / BS052 Mother Superior and Her Fields of Migraine / Radio For The Daydreamers
+  - Page: https://archive.org/details/BS052
+  - Audio: https://archive.org/download/BS052/10-No_One_Ever_Comes_Here_But_Me-Dod_Av_En_Spokelse_Versjon.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: BS052
+- 60 / Internet Archive / CC-BY-NC-ND / 2009/05/01 Direkt Laiiw From Ze Hell Zass / Direkt Laiw From Ze Hell Zass
+  - Page: https://archive.org/details/20090501DirektLaiiwFromZeHellZass
+  - Audio: https://archive.org/download/20090501DirektLaiiwFromZeHellZass/02DeuxiemePartieLeSoprano.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: 20090501DirektLaiiwFromZeHellZass
+
+## シティ・ポップ (12)
+
+- 100 / Wikimedia Commons / CC0 / File:LL-Q652 (ita)-XANA000-city pop.wav / Speaker: XANA000 Recorder: XANA000
+  - Page: https://commons.wikimedia.org/wiki/File:LL-Q652_(ita)-XANA000-city_pop.wav
+  - Audio: https://upload.wikimedia.org/wikipedia/commons/6/61/LL-Q652_%28ita%29-XANA000-city_pop.wav
+  - Review TSV: genre-training/wikimedia-commons-review-queue.tsv
+  - id: File:LL-Q652 (ita)-XANA000-city pop.wav
+- 100 / Wikimedia Commons / CC-BY / File:RetroFuture Nasty (ISRC USUAN1200042).mp3 / Kevin MacLeod
+  - Page: https://commons.wikimedia.org/wiki/File:RetroFuture_Nasty_(ISRC_USUAN1200042).mp3
+  - Audio: https://upload.wikimedia.org/wikipedia/commons/3/39/RetroFuture_Nasty_%28ISRC_USUAN1200042%29.mp3
+  - Review TSV: genre-training/wikimedia-commons-review-queue.tsv
+  - id: File:RetroFuture Nasty (ISRC USUAN1200042).mp3
+- 100 / Wikimedia Commons / CC-BY / File:RetroFuture Dirty (ISRC USUAN1200041).mp3 / Kevin MacLeod
+  - Page: https://commons.wikimedia.org/wiki/File:RetroFuture_Dirty_(ISRC_USUAN1200041).mp3
+  - Audio: https://upload.wikimedia.org/wikipedia/commons/0/05/RetroFuture_Dirty_%28ISRC_USUAN1200041%29.mp3
+  - Review TSV: genre-training/wikimedia-commons-review-queue.tsv
+  - id: File:RetroFuture Dirty (ISRC USUAN1200041).mp3
+- 100 / Wikimedia Commons / CC-BY / File:RetroFuture Clean (ISRC USUAN1200040).mp3 / Kevin MacLeod
+  - Page: https://commons.wikimedia.org/wiki/File:RetroFuture_Clean_(ISRC_USUAN1200040).mp3
+  - Audio: https://upload.wikimedia.org/wikipedia/commons/0/00/RetroFuture_Clean_%28ISRC_USUAN1200040%29.mp3
+  - Review TSV: genre-training/wikimedia-commons-review-queue.tsv
+  - id: File:RetroFuture Clean (ISRC USUAN1200040).mp3
+- 100 / Wikimedia Commons / CC0 / File:LL-Q652 (ita)-XANA000-synth pop.wav / Speaker: XANA000 Recorder: XANA000
+  - Page: https://commons.wikimedia.org/wiki/File:LL-Q652_(ita)-XANA000-synth_pop.wav
+  - Audio: https://upload.wikimedia.org/wikipedia/commons/3/3e/LL-Q652_%28ita%29-XANA000-synth_pop.wav
+  - Review TSV: genre-training/wikimedia-commons-review-queue.tsv
+  - id: File:LL-Q652 (ita)-XANA000-synth pop.wav
+- 100 / Wikimedia Commons / CC0 / File:Inter Album - Track 1.flac / Xedone
+  - Page: https://commons.wikimedia.org/wiki/File:Inter_Album_-_Track_1.flac
+  - Audio: https://upload.wikimedia.org/wikipedia/commons/3/3e/Inter_Album_-_Track_1.flac
+  - Review TSV: genre-training/wikimedia-commons-review-queue.tsv
+  - id: File:Inter Album - Track 1.flac
+- 96 / Wikimedia Commons / CC-BY / File:ANSWER TIME TRAVELING TOUR 2nd Season.wav / 槇原敬之 Official Channel
+  - Page: https://commons.wikimedia.org/wiki/File:ANSWER_TIME_TRAVELING_TOUR_2nd_Season.wav
+  - Audio: https://upload.wikimedia.org/wikipedia/commons/c/c5/ANSWER_TIME_TRAVELING_TOUR_2nd_Season.wav
+  - Review TSV: genre-training/wikimedia-commons-review-queue.tsv
+  - id: File:ANSWER TIME TRAVELING TOUR 2nd Season.wav
+- 96 / Wikimedia Commons / CC0 / File:Soft and Furious - 07 - The Merfolk I Should Turn To Be.mp3 / Soft and Furious ( https://freemusicarchive.org/music/Soft_and_Furious )
+  - Page: https://commons.wikimedia.org/wiki/File:Soft_and_Furious_-_07_-_The_Merfolk_I_Should_Turn_To_Be.mp3
+  - Audio: https://upload.wikimedia.org/wikipedia/commons/a/ad/Soft_and_Furious_-_07_-_The_Merfolk_I_Should_Turn_To_Be.mp3
+  - Review TSV: genre-training/wikimedia-commons-review-queue.tsv
+  - id: File:Soft and Furious - 07 - The Merfolk I Should Turn To Be.mp3
+- 81 / Internet Archive / CC-BY-NC-ND / [dystopiaq030] Dust Collector - Narcolepsy / Dust Collector
+  - Page: https://archive.org/details/dystopiaq030
+  - Audio: https://archive.org/download/dystopiaq030/19Wonderlost_wanderlost_wonderlustdayDreams.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: dystopiaq030
+- 80 / Internet Archive / CC-BY-NC-ND / Barzin - It's Come to This [BadPanda005] / Barzin
+  - Page: https://archive.org/details/badpanda005
+  - Audio: https://archive.org/download/badpanda005/Barzin-ItsComeToThis.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: badpanda005
+- 79 / Internet Archive / CC-BY-NC-SA / TT 00040 BOTTLESMOKER HYPNAGOGIC REMIX / papaontacult
+  - Page: https://archive.org/details/TT00040BOTTLESMOKERHYPNAGOGICREMIX
+  - Audio: https://archive.org/download/TT00040BOTTLESMOKERHYPNAGOGICREMIX/BoredomAndFreedomcerumentric.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: TT00040BOTTLESMOKERHYPNAGOGICREMIX
+- 77 / Internet Archive / CC-BY-NC-ND / Laszlo Hollyfield - Exodo [rith008] / Laszlo Hollyfield
+  - Page: https://archive.org/details/rith008
+  - Audio: https://archive.org/download/rith008/08_Laszlo_Hollyfield_-_E-Motion.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: rith008
+
+## ソウルミュージック (16)
+
+- 100 / Wikimedia Commons / CC-BY / File:Clean Soul (ISRC USUAN1300033).mp3 / Kevin MacLeod
+  - Page: https://commons.wikimedia.org/wiki/File:Clean_Soul_(ISRC_USUAN1300033).mp3
+  - Audio: https://upload.wikimedia.org/wikipedia/commons/f/f7/Clean_Soul_%28ISRC_USUAN1300033%29.mp3
+  - Review TSV: genre-training/wikimedia-commons-review-queue.tsv
+  - id: File:Clean Soul (ISRC USUAN1300033).mp3
+- 100 / Wikimedia Commons / Public Domain / File:Stole Back My Soul - Airmen of Note - United States Air Force Band.mp3 / Composition: Alan Baylock; Performance: United States Air Force Band, Airmen of Note; Recording: United States Air Force
+  - Page: https://commons.wikimedia.org/wiki/File:Stole_Back_My_Soul_-_Airmen_of_Note_-_United_States_Air_Force_Band.mp3
+  - Audio: https://upload.wikimedia.org/wikipedia/commons/8/85/Stole_Back_My_Soul_-_Airmen_of_Note_-_United_States_Air_Force_Band.mp3
+  - Review TSV: genre-training/wikimedia-commons-review-queue.tsv
+  - id: File:Stole Back My Soul - Airmen of Note - United States Air Force Band.mp3
+- 100 / Wikimedia Commons / CC0 / File:LL-Q1860 (eng)-Vealhurl-soul music.wav / Speaker: Vealhurl Recorder: Vealhurl
+  - Page: https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-soul_music.wav
+  - Audio: https://upload.wikimedia.org/wikipedia/commons/8/8b/LL-Q1860_%28eng%29-Vealhurl-soul_music.wav
+  - Review TSV: genre-training/wikimedia-commons-review-queue.tsv
+  - id: File:LL-Q1860 (eng)-Vealhurl-soul music.wav
+- 100 / Wikimedia Commons / CC-BY-SA / File:De Piano a Forte en corda pulsada.wav / Escola Superior de Música de Catalunya (ESMUC)
+  - Page: https://commons.wikimedia.org/wiki/File:De_Piano_a_Forte_en_corda_pulsada.wav
+  - Audio: https://upload.wikimedia.org/wikipedia/commons/9/94/De_Piano_a_Forte_en_corda_pulsada.wav
+  - Review TSV: genre-training/wikimedia-commons-review-queue.tsv
+  - id: File:De Piano a Forte en corda pulsada.wav
+- 86 / Internet Archive / CC-BY-SA / MNF023 Dsum & Morris - Arium FL / Dsum
+  - Page: https://archive.org/details/MNF023_Dsum_Morris--Arium_FL
+  - Audio: https://archive.org/download/MNF023_Dsum_Morris--Arium_FL/02_Dsum_Morris_-_Danza_Planetaria.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: MNF023_Dsum_Morris--Arium_FL
+- 85 / Internet Archive / CC-BY-NC-SA / [RAR026] Pedro Duarte - Pacific Blue EP / Pedro Duarte
+  - Page: https://archive.org/details/RAR026_Pedro_Duarte_Pacific_Blue_EP
+  - Audio: https://archive.org/download/RAR026_Pedro_Duarte_Pacific_Blue_EP/01_Pacific_Blue.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: RAR026_Pedro_Duarte_Pacific_Blue_EP
+- 85 / Internet Archive / CC-BY-NC-SA / The Clones of Dr. Funkenstein (2016) / chēēZ π
+  - Page: https://archive.org/details/theclonesofdrfunkenstein_2016
+  - Audio: https://archive.org/download/theclonesofdrfunkenstein_2016/05%20-%20Funky%20Drummer%20(Part%201).flac
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: theclonesofdrfunkenstein_2016
+- 81 / Internet Archive / CC-BY-NC-ND / [45rpm053-2012] Jared C. Balogh  - Drifting Soul / Jared C. Balogh
+  - Page: https://archive.org/details/45rpm053-2012JaredC.Balogh-DriftingSoul
+  - Audio: https://archive.org/download/45rpm053-2012JaredC.Balogh-DriftingSoul/01Jared_C_Balog_-_Emotions_leading_To_Howhere.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: 45rpm053-2012JaredC.Balogh-DriftingSoul
+- 81 / Internet Archive / CC-BY-NC-ND / [45E002-2011] Ollie Cram - Jazzstow / Ollie Cram
+  - Page: https://archive.org/details/45rpm049-e2011OllieCram-Jazzstow
+  - Audio: https://archive.org/download/45rpm049-e2011OllieCram-Jazzstow/05spiritual_homeland.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: 45rpm049-e2011OllieCram-Jazzstow
+- 81 / Internet Archive / CC-BY-NC-ND / [45E-015-2013] Trans Atlantic Rage/Balogh - I::::SOUL::::ATE VOLUME 4    / Trans Atlantic Rage/Balogh
+  - Page: https://archive.org/details/45e-015-2013TransAtlanticRagebalogh-IsoulateVolume4
+  - Audio: https://archive.org/download/45e-015-2013TransAtlanticRagebalogh-IsoulateVolume4/02-Soul_Increments.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: 45e-015-2013TransAtlanticRagebalogh-IsoulateVolume4
+- 81 / Internet Archive / CC-BY-NC-ND / An endless Tomorrow by Enuma Elish (Spanish Metal band) / Enuma Elish (Spanish Metal Band)
+  - Page: https://archive.org/details/AnEndlessTomorrowByEnumaElish
+  - Audio: https://archive.org/download/AnEndlessTomorrowByEnumaElish/11-AnEndlessTomorrow.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: AnEndlessTomorrowByEnumaElish
+- 81 / Internet Archive / CC-BY-NC-ND / [SRmp3 133] Grr - Snuffcraft (Sociopath Recordings) / Grr
+  - Page: https://archive.org/details/SRmp3_133
+  - Audio: https://archive.org/download/SRmp3_133/SRmp3_133.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: SRmp3_133
+- 81 / Internet Archive / CC-BY-NC-ND / FFM-016: Gregg Plummer - Red Veil / Gregg Plummer
+  - Page: https://archive.org/details/freefloatingmusic016
+  - Audio: https://archive.org/download/freefloatingmusic016/04%20Seekers%20Of%20Truth.flac
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: freefloatingmusic016
+- 80 / Internet Archive / CC-BY-NC-ND / [LBN037] Feminine - "Lorelei" /
+  - Page: https://archive.org/details/LBN037Feminine-Lorelei
+  - Audio: https://archive.org/download/LBN037Feminine-Lorelei/08.%20Coral%20Face.flac
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: LBN037Feminine-Lorelei
+- 77 / Internet Archive / CC-BY-NC-ND / [GTakt002] Modulares Klang Konzept - Fader EP / Modulares Klang Konzept
+  - Page: https://archive.org/details/gtakt002ModularesKlangKonzept-FaderEp
+  - Audio: https://archive.org/download/gtakt002ModularesKlangKonzept-FaderEp/GTakt002_Modulares_Klang_Konzept_-_Crying_Soul_Fader_EP.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: gtakt002ModularesKlangKonzept-FaderEp
+- 73 / Internet Archive / CC-BY / Noisesurfer - A New World Sampled - Promo 2012 Alternate Version / Joachim Rontxelius
+  - Page: https://archive.org/details/Noisesurfer-ANewWorldSampled-Promo2012AlternateVersion
+  - Audio: https://archive.org/download/Noisesurfer-ANewWorldSampled-Promo2012AlternateVersion/World10.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: Noisesurfer-ANewWorldSampled-Promo2012AlternateVersion
+
+## ディープ・ハウス (16)
+
+- 91 / Internet Archive / CC-BY-SA / MNF022 DCM - Elevación / DCM
+  - Page: https://archive.org/details/MNF022_DCM--Elevacion
+  - Audio: https://archive.org/download/MNF022_DCM--Elevacion/03_DCM_-_Oblivion.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: MNF022_DCM--Elevacion
+- 91 / Internet Archive / CC-BY-SA / MNE007 Gartner - snk / Gartner
+  - Page: https://archive.org/details/MNE007_Gartner--snk
+  - Audio: https://archive.org/download/MNE007_Gartner--snk/12_Gartner_-_snk_12.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: MNE007_Gartner--snk
+- 87 / Internet Archive / CC-BY-SA / MNF023 Dsum & Morris - Arium FL / Dsum
+  - Page: https://archive.org/details/MNF023_Dsum_Morris--Arium_FL
+  - Audio: https://archive.org/download/MNF023_Dsum_Morris--Arium_FL/02_Dsum_Morris_-_Danza_Planetaria.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: MNF023_Dsum_Morris--Arium_FL
+- 87 / Internet Archive / CC-BY-SA / MNF027 Dsum - Intimate / Dsum
+  - Page: https://archive.org/details/MNF027_Dsum--Intimate
+  - Audio: https://archive.org/download/MNF027_Dsum--Intimate/03_Dsum_-_Frolic.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: MNF027_Dsum--Intimate
+- 87 / Internet Archive / CC-BY-SA / MNF018 Sir Leaks - Sonidos Bajotierra / Sir Leaks
+  - Page: https://archive.org/details/MNF018_Sir_Leaks--Sonidos_Bajotierra
+  - Audio: https://archive.org/download/MNF018_Sir_Leaks--Sonidos_Bajotierra/05_Sir_Leaks_-_Espacio_D_Tranquilo_Bobby_Remix.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: MNF018_Sir_Leaks--Sonidos_Bajotierra
+- 87 / Internet Archive / CC-BY-SA / MNF024 Bobby Marleni - Defected Jamz Vol 2 / MALA
+  - Page: https://archive.org/details/MNF024_Bobby_Marleni--Defected_Jamz_Vol_2
+  - Audio: https://archive.org/download/MNF024_Bobby_Marleni--Defected_Jamz_Vol_2/06_Bobby_Marleni_-_Sexy_Sexy.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: MNF024_Bobby_Marleni--Defected_Jamz_Vol_2
+- 87 / Internet Archive / CC-BY-SA / MNS006 V.A - Colores Paralelos / Monofónicos
+  - Page: https://archive.org/details/MNS006_VA--Colores_Paralelos
+  - Audio: https://archive.org/download/MNS006_VA--Colores_Paralelos/08_Christopher_-_Historias_Cortas_(Bipolar_Mix).mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: MNS006_VA--Colores_Paralelos
+- 87 / Internet Archive / CC-BY-SA / MNF021 Eviru Dibad - Altitud Sur / Dsum
+  - Page: https://archive.org/details/MNF021_Eviru_Dibad--Altitud_Sur
+  - Audio: https://archive.org/download/MNF021_Eviru_Dibad--Altitud_Sur/02_Eviru_Dibad_-_Latitudes_Intermedias.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: MNF021_Eviru_Dibad--Altitud_Sur
+- 86 / Internet Archive / CC-BY-NC / Follow Me / Pitchcraft
+  - Page: https://archive.org/details/tou296
+  - Audio: https://archive.org/download/tou296/01-Pitchcraft-Follow_Me.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: tou296
+- 85 / Internet Archive / CC-BY-NC-SA / [RAR031] In Vitro - Falso Self En Androides EP / In Vitro
+  - Page: https://archive.org/details/RAR031_In_Vitro_Falso_Self_En_Androides_EP
+  - Audio: https://archive.org/download/RAR031_In_Vitro_Falso_Self_En_Androides_EP/03_Un_vaso_de_agua_para_dos_androides.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: RAR031_In_Vitro_Falso_Self_En_Androides_EP
+- 85 / Internet Archive / CC-BY-NC-SA / [RAR036] Jak - Echo Infection EP / Jak
+  - Page: https://archive.org/details/rar036Jak-EchoInfectionEp
+  - Audio: https://archive.org/download/rar036Jak-EchoInfectionEp/02_Mode_Of_Life.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: rar036Jak-EchoInfectionEp
+- 85 / Internet Archive / CC-BY-NC-SA / [RAR034] Dennis Shoker Warm Reception EP / Dennis Shoker
+  - Page: https://archive.org/details/Rar034_dennis_shoker_warmReception_ep
+  - Audio: https://archive.org/download/Rar034_dennis_shoker_warmReception_ep/01_Striped.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: Rar034_dennis_shoker_warmReception_ep
+- 85 / Internet Archive / CC-BY-NC-SA / [RAR028] Chris Bulman - Colour Of Nite EP / Chris Bulman
+  - Page: https://archive.org/details/RAR028_Chris_Bulman_Colour_Of_Nite_EP
+  - Audio: https://archive.org/download/RAR028_Chris_Bulman_Colour_Of_Nite_EP/04_Wamping_Willow.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: RAR028_Chris_Bulman_Colour_Of_Nite_EP
+- 85 / Internet Archive / CC-BY-NC / Carousel E.P. / Aerologic
+  - Page: https://archive.org/details/tou340
+  - Audio: https://archive.org/download/tou340/Aerologic%20-%20White%20Label.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: tou340
+- 85 / Internet Archive / CC-BY-NC-SA / Purple World / Astral Outlander
+  - Page: https://archive.org/details/Jamendo0132171
+  - Audio: https://archive.org/download/Jamendo0132171/14%20-%20Astral%20Outlander%20-%20Spring%20Comes.ogg
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: Jamendo0132171
+- 85 / Internet Archive / CC-BY-NC-SA / Speedsound - Interstellar Troublemaker - The X Files / Speedsound
+  - Page: https://archive.org/details/jamendo-138133
+  - Audio: https://archive.org/download/jamendo-138133/01-1151479-Speedsound-Interstellar%20Troublemaker%20-%20The%20X%20Files.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: jamendo-138133
+
+## トラップ (16)
+
+- 100 / Internet Archive / CC0 / instrumental trap track  / 808 master
+  - Page: https://archive.org/details/natbombcrap
+  - Audio: https://archive.org/download/natbombcrap/natbombcrap.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: natbombcrap
+- 100 / Wikimedia Commons / CC-BY / File:What Is Love (ISRC USUAN1500067).mp3 / Kevin MacLeod
+  - Page: https://commons.wikimedia.org/wiki/File:What_Is_Love_(ISRC_USUAN1500067).mp3
+  - Audio: https://upload.wikimedia.org/wikipedia/commons/1/13/What_Is_Love_%28ISRC_USUAN1500067%29.mp3
+  - Review TSV: genre-training/wikimedia-commons-review-queue.tsv
+  - id: File:What Is Love (ISRC USUAN1500067).mp3
+- 100 / Wikimedia Commons / CC-BY / File:Audionautix-com-ccby-trapbed.mp3 / Created by Jason Shaw. Released under Creative Commons Attribution License 3.0. Required credit: "music by audionautix.com". A signed release form is available at http://audionautix.com
+  - Page: https://commons.wikimedia.org/wiki/File:Audionautix-com-ccby-trapbed.mp3
+  - Audio: https://upload.wikimedia.org/wikipedia/commons/9/93/Audionautix-com-ccby-trapbed.mp3
+  - Review TSV: genre-training/wikimedia-commons-review-queue.tsv
+  - id: File:Audionautix-com-ccby-trapbed.mp3
+- 100 / Wikimedia Commons / CC0 / File:Tre trappor upp i Urvädersgränd - SMV - SVA BB 5302 04.wav / Swedish Performing Arts Agency, Radio Sweden's recordings of folk music
+  - Page: https://commons.wikimedia.org/wiki/File:Tre_trappor_upp_i_Urv%C3%A4dersgr%C3%A4nd_-_SMV_-_SVA_BB_5302_04.wav
+  - Audio: https://upload.wikimedia.org/wikipedia/commons/2/21/Tre_trappor_upp_i_Urv%C3%A4dersgr%C3%A4nd_-_SMV_-_SVA_BB_5302_04.wav
+  - Review TSV: genre-training/wikimedia-commons-review-queue.tsv
+  - id: File:Tre trappor upp i Urvädersgränd - SMV - SVA BB 5302 04.wav
+- 100 / Wikimedia Commons / CC-BY / File:Everytrackanessay - Barely Alive.wav / everytrackanessay (Simplicissimus &amp; Fern)
+  - Page: https://commons.wikimedia.org/wiki/File:Everytrackanessay_-_Barely_Alive.wav
+  - Audio: https://upload.wikimedia.org/wikipedia/commons/e/ea/Everytrackanessay_-_Barely_Alive.wav
+  - Review TSV: genre-training/wikimedia-commons-review-queue.tsv
+  - id: File:Everytrackanessay - Barely Alive.wav
+- 96 / Wikimedia Commons / CC-BY / File:A little 808 beat (Antti Luode).mp3 / Antti Luode
+  - Page: https://commons.wikimedia.org/wiki/File:A_little_808_beat_(Antti_Luode).mp3
+  - Audio: https://upload.wikimedia.org/wikipedia/commons/7/77/A_little_808_beat_%28Antti_Luode%29.mp3
+  - Review TSV: genre-training/wikimedia-commons-review-queue.tsv
+  - id: File:A little 808 beat (Antti Luode).mp3
+- 96 / Wikimedia Commons / CC0 / File:ZappBeats 808.wav / UnKnownrNone
+  - Page: https://commons.wikimedia.org/wiki/File:ZappBeats_808.wav
+  - Audio: https://upload.wikimedia.org/wikipedia/commons/5/56/ZappBeats_808.wav
+  - Review TSV: genre-training/wikimedia-commons-review-queue.tsv
+  - id: File:ZappBeats 808.wav
+- 93 / Internet Archive / CC-BY / 10102012 90bpm 1 3 / 13 Mitred Abbots
+  - Page: https://archive.org/details/1010201290bpm13
+  - Audio: https://archive.org/download/1010201290bpm13/10102012%2090bpm1_3.flac
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: 1010201290bpm13
+- 92 / Internet Archive / CC-BY / TRAP BEAT FREE USE T RAP BASE RAP # DUB # REGGAE / (BASE RAP) Sebastián Lorca Díez
+  - Page: https://archive.org/details/TRAPBEATFREEUSETRAPBASERAPDUBREGGAE
+  - Audio: https://archive.org/download/TRAPBEATFREEUSETRAPBASERAPDUBREGGAE/TrapBeatFreeUse22t-rap22BaseRapdubreggae-1db.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: TRAPBEATFREEUSETRAPBASERAPDUBREGGAE
+- 91 / Internet Archive / CC-BY-SA / The Gxod Prequel  / BenJamin Banger
+  - Page: https://archive.org/details/BenjaminBanger
+  - Audio: https://archive.org/download/BenjaminBanger/The%20Gxod%20Prequel/Tupac.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: BenjaminBanger
+- 88 / Internet Archive / CC-BY / THE EYE TRAP RAP TRAP INSTRUMENTAL BEAT / Sebastián Lorca Díez, Youtube (BASE RAP)
+  - Page: https://archive.org/details/THEEYETRAPRAPTRAPINSTRUMENTALBEAT
+  - Audio: https://archive.org/download/THEEYETRAPRAPTRAPINSTRUMENTALBEAT/THE%20EYE%20TRAP%20-%20RAP-TRAP%20INSTRUMENTAL%20BEAT.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: THEEYETRAPRAPTRAPINSTRUMENTALBEAT
+- 81 / Internet Archive / CC-BY-NC-ND / Aenvelora - Starlit Outbreak Album Phonk / Aenvelora, Aenvelora
+  - Page: https://archive.org/details/aenvelora-cosmic-drift
+  - Audio: https://archive.org/download/aenvelora-cosmic-drift/Aenvelora%20-%20PulseBreaker%20Ver.%202.flac
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: aenvelora-cosmic-drift
+- 81 / Internet Archive / CC-BY-NC-ND / Aenvelora - Generation Reset Album / Aenvelora, Aenvelora
+  - Page: https://archive.org/details/aenvelora-generation-reset
+  - Audio: https://archive.org/download/aenvelora-generation-reset/Aenvelora%20-%20Generation%20Reset.flac
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: aenvelora-generation-reset
+- 77 / Internet Archive / CC-BY-NC-ND / Dalot - Levelling [pan088] / Maria Papadomanolaki
+  - Page: https://archive.org/details/pan088
+  - Audio: https://archive.org/download/pan088/pan088-dalot-level_2.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: pan088
+- 76 / Internet Archive / CC-BY-NC-ND / Infra Red Army - Black Body EP [ns15] / Infra Red Army
+  - Page: https://archive.org/details/ns15
+  - Audio: https://archive.org/download/ns15/03-ira-optimystique.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: ns15
+- 70 / Internet Archive / CC-BY-NC-ND / Aenvelora - Cyber Drift Phonk / Aenvelora, Aenvelora
+  - Page: https://archive.org/details/aenvelora-cyber-drift
+  - Audio: https://archive.org/download/aenvelora-cyber-drift/Aenvelora%20-%20Midnight%20Drift.flac
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: aenvelora-cyber-drift
+
+## ハードコア (16)
+
+- 84 / Internet Archive / CC-BY-NC-SA / RETOUR A L ANORMAL par LA 6 EME REPUBLIQUE  / La 6Eme REpublique
+  - Page: https://archive.org/details/LA_SIXIEME_REPUBLIQUE_RETOUR_A_L_ANORMAL
+  - Audio: https://archive.org/download/LA_SIXIEME_REPUBLIQUE_RETOUR_A_L_ANORMAL/04.ATTENTION_A_LA_MARCHE_LA_6EME_REPUBLIQUE_RETOUR_A_L_ANORMAL.flac
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: LA_SIXIEME_REPUBLIQUE_RETOUR_A_L_ANORMAL
+- 84 / Internet Archive / CC-BY-NC-SA / Junk DNA III : A Tribute to David Cronenberg / Ed End
+  - Page: https://archive.org/details/Ed_End_Junk_DNA_III
+  - Audio: https://archive.org/download/Ed_End_Junk_DNA_III/02.Fathom_Exercise_Ed_End_Junk_DNA_III%20.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: Ed_End_Junk_DNA_III
+- 81 / Internet Archive / CC-BY-NC-ND / COREBACKRECORDS64 / COREBACKRECORDS
+  - Page: https://archive.org/details/COREBACKRECORDS64
+  - Audio: https://archive.org/download/COREBACKRECORDS64/04_MANSHA_Aku_Soku_Zan.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: COREBACKRECORDS64
+- 81 / Internet Archive / CC-BY-NC-ND / Nonsense - Burning Inside / Nonsense
+  - Page: https://archive.org/details/NONSENSE_-_Burning_Inside
+  - Audio: https://archive.org/download/NONSENSE_-_Burning_Inside/06_Nonsense_-_Our_Showdown.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: NONSENSE_-_Burning_Inside
+- 81 / Internet Archive / CC-BY-NC-ND / [FSC004] Very Expensive Porno Movie - Fist Fuck Fever / Yes No Wave Music
+  - Page: https://archive.org/details/FSC004
+  - Audio: https://archive.org/download/FSC004/13__Fist_Fuck_Fever.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: FSC004
+- 81 / Internet Archive / CC-BY-NC-SA / COREBACKRECORDS72 / COREBACKRECORDS
+  - Page: https://archive.org/details/COREBACKRECORDS72
+  - Audio: https://archive.org/download/COREBACKRECORDS72/ThirdI_kolaboracija_Bolest_Evropa_01_Wired.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: COREBACKRECORDS72
+- 80 / Internet Archive / CC-BY-NC-ND / COREBACKRECORDS53 / COREBACKRECORDS
+  - Page: https://archive.org/details/COREBACKRECORDS53
+  - Audio: https://archive.org/download/COREBACKRECORDS53/02_LET_SHADOWS_FEED_MY_DARK_Ciclotimic.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: COREBACKRECORDS53
+- 80 / Internet Archive / CC-BY-NC-ND / COREBACKRECORDS50_Man-Sha_and_Kenji_Siratori / COREBACKRECORDS
+  - Page: https://archive.org/details/COREBACKRECORDS50_Man-Sha_and_Kenji_Siratori
+  - Audio: https://archive.org/download/COREBACKRECORDS50_Man-Sha_and_Kenji_Siratori/05_MANSHA_KENJI_SIRATORI_Insane_Asylum.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: COREBACKRECORDS50_Man-Sha_and_Kenji_Siratori
+- 80 / Internet Archive / CC-BY-NC-ND / COREBACKRECORDSFREETRACK01 / COREBACKRECORDSFREETRACK01
+  - Page: https://archive.org/details/COREBACKRECORDSFRETRACK01
+  - Audio: https://archive.org/download/COREBACKRECORDSFRETRACK01/FANFARE_HOOD_BRACK_AGE_lune_est_soleil_assos.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: COREBACKRECORDSFRETRACK01
+- 80 / Internet Archive / CC-BY-NC-ND / COREBACKRECORDS14 / COREBACKRECORDS014
+  - Page: https://archive.org/details/COREBACKRECORDS014
+  - Audio: https://archive.org/download/COREBACKRECORDS014/02ShellDivingGraceHome.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: COREBACKRECORDS014
+- 80 / Internet Archive / CC-BY-NC-ND / COREBACKRECORDSFREETRACK02 / COREBACKRECORDS
+  - Page: https://archive.org/details/COREBACKRECORDSFREETRACK02
+  - Audio: https://archive.org/download/COREBACKRECORDSFREETRACK02/KAG_RAZOR_lune_est_soleil_assos_vbr.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: COREBACKRECORDSFREETRACK02
+- 80 / Internet Archive / CC-BY-NC-ND / COREBACKRECORDS59 / COREBACKRECORDS
+  - Page: https://archive.org/details/COREBACKRECORDS059
+  - Audio: https://archive.org/download/COREBACKRECORDS059/BUBEN_03_Senakos_Hay_gathering_time.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: COREBACKRECORDS059
+- 80 / Internet Archive / CC-BY-NC-ND / COREBACKRECORDS63 / COREBACKRECORDS
+  - Page: https://archive.org/details/COREBACKRECORDS063
+  - Audio: https://archive.org/download/COREBACKRECORDS063/04_PARADEIGMA_one_Shout_at_the_one_with_the_wind.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: COREBACKRECORDS063
+- 80 / Internet Archive / CC-BY-NC-ND / COREBACKRECORDS054 / COREBACKRECORDS
+  - Page: https://archive.org/details/COREBACKRECORDS054
+  - Audio: https://archive.org/download/COREBACKRECORDS054/08_LodemidiQuail_TrogloboticFiendBurial.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: COREBACKRECORDS054
+- 80 / Internet Archive / CC-BY-NC-ND / COREBACKRECORDS57 / COREBACKRECORDS
+  - Page: https://archive.org/details/COREBACKRECORDS57
+  - Audio: https://archive.org/download/COREBACKRECORDS57/BUBEN_07_Significant.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: COREBACKRECORDS57
+- 80 / Internet Archive / CC-BY-NC-ND / COREBACKRECORDS55 / COREBACKRECORDS
+  - Page: https://archive.org/details/COREBACKRECORDS55
+  - Audio: https://archive.org/download/COREBACKRECORDS55/07_Waves_vbr.mp3
+  - Review TSV: genre-training/internet-archive-review-queue.tsv
+  - id: COREBACKRECORDS55

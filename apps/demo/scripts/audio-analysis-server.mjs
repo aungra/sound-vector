@@ -320,12 +320,38 @@ function normaliseAudioDetail(raw = {}, fallback = {}) {
     zeroCrossing: resampleSeries(raw.zeroCrossing || raw.zcr || raw.zeroCrossingFrames, 64, 0),
     chromaTimeline: resampleMatrix(raw.chromaTimeline || raw.chromaFrames, 24, 12),
     bandTimeline: resampleMatrix(raw.bandTimeline || raw.bands || raw.spectralBands, 32, 8),
+    spectralRolloff: resampleSeries(raw.spectralRolloff || raw.spectralRolloffFrames, 32, 0),
+    mfccTimeline: resampleMatrix(raw.mfccTimeline || raw.mfccFrames, 32, 3),
     pcmSketch: typeof raw.pcmSketch === "string" ? raw.pcmSketch : "",
     pcmSketchEncoding: raw.pcmSketchEncoding || "",
     pcmSketchSampleRate: Number(raw.pcmSketchSampleRate || 0),
     pcmSketchDuration: Number(raw.pcmSketchDuration || 0),
     pcmSketchFrameCount: Number(raw.pcmSketchFrameCount || 0)
   };
+}
+
+function spectralRolloffFramesFromBands(rows = [], threshold = .85) {
+  return rows.map(row => {
+    const values = Array.isArray(row) ? row.map(value => Math.max(0, Number(value) || 0)) : [];
+    const total = values.reduce((sum, value) => sum + value, 0);
+    if (!total) return 0;
+    let acc = 0;
+    for (let i = 0; i < values.length; i++) {
+      acc += values[i];
+      if (acc / total >= threshold) return i / Math.max(1, values.length - 1);
+    }
+    return 1;
+  });
+}
+
+function mfccLikeFramesFromBands(rows = []) {
+  return rows.map(row => {
+    const values = Array.from({ length: 8 }, (_, i) => Math.log(1e-4 + Math.max(0, Number(row?.[i]) || 0)));
+    return [1, 2, 3].map(coeff => {
+      const total = values.reduce((sum, value, index) => sum + value * Math.cos(Math.PI * coeff * (index + .5) / values.length), 0);
+      return clamp01(total / values.length * .18 + .5);
+    });
+  });
 }
 
 function goertzelPower(samples, start, size, sampleRate, frequency) {
@@ -497,6 +523,7 @@ function analyzeFloat32Pcm(buffer, sampleRate = 22050) {
   const bassFrameMax = Math.max(...bassFrameRaw, 1);
   const chromaFrameMax = Math.max(...chromaFrameRows.flat(), 1);
   const bandFrameMax = Math.max(...bandFrameRows.flat(), 1);
+  const normalisedBandRows = bandFrameRows.map(row => row.map(value => value / bandFrameMax));
   const zcrMax = Math.max(...zcrFrames, 1);
   const pcmSketch = pcmSketchFromSamples(samples, sampleRate, 11025, 24);
   const detail = normaliseAudioDetail({
@@ -507,7 +534,9 @@ function analyzeFloat32Pcm(buffer, sampleRate = 22050) {
     bass: bassFrameRaw.map(value => value / bassFrameMax),
     centroid: centroidFrameRaw.map(value => clamp01((value - 400) / 5200)),
     chromaTimeline: chromaFrameRows.map(row => row.map(value => value / chromaFrameMax)),
-    bandTimeline: bandFrameRows.map(row => row.map(value => value / bandFrameMax)),
+    bandTimeline: normalisedBandRows,
+    spectralRolloff: spectralRolloffFramesFromBands(normalisedBandRows),
+    mfccTimeline: mfccLikeFramesFromBands(normalisedBandRows),
     ...pcmSketch
   }, { energy, bass, brightness, onset, temporalProfile });
 
@@ -609,15 +638,103 @@ async function analyzeYouTube(youtubeUrl, options = {}) {
   }
 }
 
+async function analyzePreviewUrl(previewUrl, options = {}) {
+  if (!previewUrl || !/^https?:\/\//.test(previewUrl)) throw new Error("Preview URL is missing.");
+  const tools = await resolveTools();
+  if (!tools.ffmpeg) {
+    throw new Error(`Missing required command: ffmpeg. Run "Install Audio Tools.command" first, then restart this server.`);
+  }
+  const duration = Math.max(1, Math.min(30, Number(options.durationSeconds || 30)));
+  const { stdout } = await run(tools.ffmpeg, [
+    "-hide_banner",
+    "-loglevel", "error",
+    "-i", previewUrl,
+    "-t", String(duration),
+    "-ac", "1",
+    "-ar", "22050",
+    "-f", "f32le",
+    "pipe:1"
+  ], { timeoutMs: 90000 });
+  if (!stdout.length) throw new Error("No audio was decoded from preview URL.");
+  return {
+    ...analyzeFloat32Pcm(stdout, 22050),
+    source: "itunes-preview-analysis-server",
+    sourceType: "itunes-preview",
+    sourceUrl: previewUrl,
+    previewUrl,
+    normalizedUrl: previewUrl,
+    analysisWindowSeconds: duration,
+    previewMeta: options.previewMeta || {}
+  };
+}
+
+async function analyzeLocalFile(filePath, options = {}) {
+  const targetPath = path.resolve(String(filePath || ""));
+  if (!targetPath) throw new Error("Local audio file path is missing.");
+  if (!fs.existsSync(targetPath)) throw new Error(`Local audio file was not found: ${targetPath}`);
+  const tools = await resolveTools();
+  if (!tools.ffmpeg) {
+    throw new Error(`Missing required command: ffmpeg. Run "Install Audio Tools.command" first, then restart this server.`);
+  }
+  const duration = Math.max(1, Math.min(180, Number(options.durationSeconds || ANALYSIS_WINDOW_SECONDS || 60)));
+  const startSeconds = Math.max(0, Math.floor(Number(options.startSeconds || 0)));
+  const ffmpegArgs = [
+    "-hide_banner",
+    "-loglevel", "error"
+  ];
+  if (startSeconds > 0) ffmpegArgs.push("-ss", String(startSeconds));
+  ffmpegArgs.push(
+    "-i", targetPath,
+    "-t", String(duration),
+    "-ac", "1",
+    "-ar", "22050",
+    "-f", "f32le",
+    "pipe:1"
+  );
+  const { stdout } = await run(tools.ffmpeg, ffmpegArgs, { timeoutMs: 180000 });
+  if (!stdout.length) throw new Error(`No audio was decoded from local file: ${targetPath}`);
+  return {
+    ...analyzeFloat32Pcm(stdout, 22050),
+    source: "local-audio-analysis-server",
+    sourceType: options.sourceType || "cc-dataset",
+    sourceUrl: targetPath,
+    normalizedUrl: targetPath,
+    startSeconds,
+    analysisWindowSeconds: duration,
+    localMeta: options.localMeta || {}
+  };
+}
+
 async function handleAnalyze(req, res) {
   try {
     const body = JSON.parse(await readBody(req) || "{}");
-    if (body.action !== "analyze-youtube") {
+    if (body.action === "analyze-youtube") {
+      const features = await analyzeYouTube(body.youtubeUrl, { startSeconds: body.startSeconds });
+      sendJson(res, 200, { ok: true, source: "youtube-audio-analysis-server", features });
+      return;
+    }
+    if (body.action === "analyze-preview-url") {
+      const features = await analyzePreviewUrl(body.previewUrl || body.sourceUrl, {
+        durationSeconds: body.durationSeconds,
+        previewMeta: body.previewMeta
+      });
+      sendJson(res, 200, { ok: true, source: "itunes-preview-analysis-server", features });
+      return;
+    }
+    if (body.action === "analyze-local-file") {
+      const features = await analyzeLocalFile(body.filePath || body.sourceUrl, {
+        durationSeconds: body.durationSeconds,
+        startSeconds: body.startSeconds,
+        sourceType: body.sourceType,
+        localMeta: body.localMeta
+      });
+      sendJson(res, 200, { ok: true, source: "local-audio-analysis-server", features });
+      return;
+    }
+    {
       sendJson(res, 400, { ok: false, error: "Unsupported action." });
       return;
     }
-    const features = await analyzeYouTube(body.youtubeUrl, { startSeconds: body.startSeconds });
-    sendJson(res, 200, { ok: true, source: "youtube-audio-analysis-server", features });
   } catch (error) {
     const message = String(error?.message || "");
     const rateLimited = isYouTubeRateLimitError(message);

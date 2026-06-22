@@ -1,0 +1,133 @@
+{
+  "description": "Public/research dataset registry for filling J-POP / City Pop / Anime Song gaps. Audio must stay outside this repository; only features and references are persisted.",
+  "updatedAt": "2026-06-20",
+  "sources": [
+    {
+      "id": "rwc-popular-music",
+      "name": "RWC Music Database: Popular Music Database",
+      "priority": "highest",
+      "status": "requires-user-acquisition",
+      "homepage": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+      "licenseType": "research-use-copyright-cleared",
+      "redistribution": "not-allowed",
+      "audioPolicy": "external-local-audio-only",
+      "recommendedUse": "formal training after user obtains the dataset and places audio on external storage",
+      "targetGenres": [
+        {
+          "genre": "J-POP",
+          "macroGenre": "pop",
+          "trainingRole": "fine",
+          "notes": "Use Japanese-lyrics popular music style tracks from RWC-MDB-P-2001."
+        }
+      ],
+      "why": "Official research dataset with Japanese popular music-style songs and cleared research-use rights."
+    },
+    {
+      "id": "rwc-music-genre",
+      "name": "RWC Music Database: Music Genre Database",
+      "priority": "high",
+      "status": "requires-user-acquisition",
+      "homepage": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+      "licenseType": "research-use-copyright-cleared",
+      "redistribution": "not-allowed",
+      "audioPolicy": "external-local-audio-only",
+      "recommendedUse": "macro/fine balancing for popular, rock, dance, jazz, Latin, classical, world, vocals, and traditional Japanese music",
+      "targetGenres": [
+        {
+          "genre": "電子音楽",
+          "macroGenre": "electronic",
+          "trainingRole": "macro-only"
+        },
+        {
+          "genre": "ワールドミュージック",
+          "macroGenre": "world",
+          "trainingRole": "macro-only"
+        }
+      ],
+      "why": "Contains genre-balanced pieces and can improve macro boundaries once acquired."
+    },
+    {
+      "id": "animetab",
+      "name": "AnimeTAB",
+      "priority": "medium",
+      "status": "symbolic-data-only",
+      "homepage": "https://arxiv.org/abs/2210.03027",
+      "licenseType": "public-research-symbolic-dataset",
+      "redistribution": "check-project-license",
+      "audioPolicy": "do-not-treat-as-audio-training-source",
+      "recommendedUse": "metadata/symbolic reference for anime/game music structure; not formal audio features unless paired with licensed audio",
+      "targetGenres": [
+        {
+          "genre": "アニメソング",
+          "macroGenre": "pop",
+          "trainingRole": "reference-only"
+        }
+      ],
+      "why": "Anime/game music-oriented dataset, but it is tablature/MusicXML rather than source audio."
+    },
+    {
+      "id": "jpop-singing-techniques",
+      "name": "J-POP singing techniques annotation dataset",
+      "priority": "medium",
+      "status": "annotations-only-commercial-recordings",
+      "homepage": "https://arxiv.org/abs/2210.17367",
+      "licenseType": "research-annotations",
+      "redistribution": "audio-not-included",
+      "audioPolicy": "do-not-import-audio-without separate rights",
+      "recommendedUse": "feature design reference for vocal/J-POP traits; not formal audio training unless user supplies licensed local audio",
+      "targetGenres": [
+        {
+          "genre": "J-POP",
+          "macroGenre": "pop",
+          "trainingRole": "reference-only"
+        }
+      ],
+      "why": "Real J-POP annotation work, useful for vocal feature design, but based on commercial songs."
+    },
+    {
+      "id": "openverse-vocaloid-reviewed",
+      "name": "Openverse/Jamendo reviewed VOCALOID subset",
+      "priority": "low",
+      "status": "partially-imported",
+      "homepage": "https://api.openverse.engineering/v1/",
+      "licenseType": "creative-commons",
+      "redistribution": "depends-on-item-license",
+      "audioPolicy": "external-local-audio-only",
+      "recommendedUse": "small Anime Song supplement only; keep manually reviewed",
+      "targetGenres": [
+        {
+          "genre": "アニメソング",
+          "macroGenre": "pop",
+          "trainingRole": "fine"
+        }
+      ],
+      "why": "Currently only a small number of high-confidence VOCALOID/Jamendo candidates passed review."
+    },
+    {
+      "id": "explicit-citypop-anime-review-queue",
+      "name": "Explicit City Pop / Anime Song Review Queue",
+      "priority": "highest-for-sparse-labels",
+      "status": "review-required",
+      "homepage": "genre-training/explicit-citypop-anime-review.html",
+      "licenseType": "creative-commons-or-public-research-per-item",
+      "redistribution": "depends-on-item-license",
+      "audioPolicy": "external-local-audio-only; persist-features-only",
+      "recommendedUse": "promote only exact, manually approved, locally available audio rows into formal training",
+      "targetGenres": [
+        {
+          "genre": "シティ・ポップ",
+          "macroGenre": "pop",
+          "trainingRole": "fine",
+          "notes": "Keep strict. Do not map future funk, synthpop, AOR, or Japanese boogie to exact city-pop without explicit source labels."
+        },
+        {
+          "genre": "アニメソング",
+          "macroGenre": "pop",
+          "trainingRole": "fine",
+          "notes": "Keep strict. Vocaloid, game music, anime house, and symbolic-only sources are adjacent/reference unless explicitly licensed and labeled as anime song."
+        }
+      ],
+      "why": "These two labels are sparse and easy to corrupt with adjacent music. The queue preserves exact/adjacent separation and requires review before formal import."
+    }
+  ]
+}

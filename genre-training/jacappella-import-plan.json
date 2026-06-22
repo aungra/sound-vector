@@ -1,0 +1,19 @@
+{
+  "generatedAt": "2026-06-21T07:15:58.246Z",
+  "download": true,
+  "tokenAvailable": true,
+  "candidateMixtures": 45,
+  "manifestItems": 45,
+  "byGenre": {
+    "バラード": 5,
+    "ボサノヴァ": 5,
+    "電子音楽": 5,
+    "演歌": 5,
+    "ジャズ": 5,
+    "ポップ": 5,
+    "パンク": 5,
+    "レゲエ": 5,
+    "ソウルミュージック": 5
+  },
+  "downloadErrors": []
+}

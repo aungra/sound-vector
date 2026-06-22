@@ -1,0 +1,69 @@
+{
+  "generatedAt": "2026-06-11T14:39:42.281Z",
+  "reviewQueue": "genre-training/internet-archive-review-queue.tsv",
+  "manifestPath": "genre-training/internet-archive-cc-source-manifest.json",
+  "summary": {
+    "reviewRows": 218,
+    "approvedRows": 0,
+    "highPriorityRows": 123,
+    "manifestRows": 0,
+    "localAudioReadyRows": 0,
+    "localAudioMissingRows": 0,
+    "importReady": false
+  },
+  "byGenre": [
+    {
+      "genre": "アニメソング",
+      "target": 50,
+      "approvedRows": 0,
+      "manifestRows": 0,
+      "localAudioReadyRows": 0,
+      "missingPotentialRows": 43,
+      "missingFormalRows": 50
+    },
+    {
+      "genre": "オペラ",
+      "target": 50,
+      "approvedRows": 0,
+      "manifestRows": 0,
+      "localAudioReadyRows": 0,
+      "missingPotentialRows": 45,
+      "missingFormalRows": 50
+    },
+    {
+      "genre": "シティ・ポップ",
+      "target": 100,
+      "approvedRows": 0,
+      "manifestRows": 0,
+      "localAudioReadyRows": 0,
+      "missingPotentialRows": 45,
+      "missingFormalRows": 100
+    },
+    {
+      "genre": "ソウルミュージック",
+      "target": 50,
+      "approvedRows": 0,
+      "manifestRows": 0,
+      "localAudioReadyRows": 0,
+      "missingPotentialRows": 1,
+      "missingFormalRows": 50
+    },
+    {
+      "genre": "トラップ",
+      "target": 50,
+      "approvedRows": 0,
+      "manifestRows": 0,
+      "localAudioReadyRows": 0,
+      "missingPotentialRows": 33,
+      "missingFormalRows": 50
+    }
+  ],
+  "nextCommands": [
+    "npm --prefix apps/demo run ia-cc-manifest",
+    "npm --prefix apps/demo run ia-cc-download-approved",
+    "npm --prefix apps/demo run cc-import:ia",
+    "npm --prefix apps/demo run genre-train:cached",
+    "npm --prefix apps/demo run genre-goal-report"
+  ],
+  "localAudioMissing": []
+}

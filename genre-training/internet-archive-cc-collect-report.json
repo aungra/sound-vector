@@ -1,0 +1,59 @@
+{
+  "generatedAt": "2026-06-19T01:46:45.144Z",
+  "source": "Internet Archive Advanced Search + metadata API",
+  "limitPerGenre": 20,
+  "onlyMissing": false,
+  "genres": [
+    {
+      "genre": "シティ・ポップ",
+      "macroGenre": "pop",
+      "terms": [
+        "city pop creative commons",
+        "japanese city pop creative commons",
+        "future funk creative commons",
+        "vaporwave creative commons",
+        "80s japanese pop inspired creative commons"
+      ],
+      "accepted": 14
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "terms": [
+        "anime song creative commons",
+        "anisong creative commons",
+        "anime opening creative commons",
+        "japanese pop rock creative commons",
+        "japanese vocaloid creative commons",
+        "anime soundtrack creative commons"
+      ],
+      "accepted": 0
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "terms": [
+        "opera aria creative commons",
+        "classical vocal creative commons",
+        "opera public domain recording creative commons",
+        "soprano aria creative commons",
+        "tenor aria creative commons",
+        "operatic vocal creative commons",
+        "libre opera creative commons"
+      ],
+      "accepted": 0
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "terms": [
+        "deep house creative commons",
+        "deep house jamendo",
+        "creative commons deep house"
+      ],
+      "accepted": 13
+    }
+  ],
+  "errors": [],
+  "totalCandidates": 253
+}

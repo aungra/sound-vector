@@ -1,0 +1,3 @@
+trackId,genre,macroGenre,trainingRole,filePath,referenceUrl,license,licenseUrl,canonicalArtist,canonicalTitle,notes
+RWC-MDB-P-2001-001,J-POP,pop,fine,/Volumes/EXTERNAL/RWC-MDB-P-2001/audio/RWC-MDB-P-2001-001.wav,https://staff.aist.go.jp/m.goto/RWC-MDB/,RESEARCH-USE-COPYRIGHT-CLEARED,https://staff.aist.go.jp/m.goto/RWC-MDB/,,RWC-MDB-P-2001 No.001,Replace filePath after obtaining RWC Popular Music Database.
+RWC-MDB-P-2001-002,J-POP,pop,fine,/Volumes/EXTERNAL/RWC-MDB-P-2001/audio/RWC-MDB-P-2001-002.wav,https://staff.aist.go.jp/m.goto/RWC-MDB/,RESEARCH-USE-COPYRIGHT-CLEARED,https://staff.aist.go.jp/m.goto/RWC-MDB/,,RWC-MDB-P-2001 No.002,Duplicate rows up to the Japanese popular music-style subset available in your local copy.

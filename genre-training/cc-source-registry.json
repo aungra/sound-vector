@@ -1,0 +1,189 @@
+{
+  "description": "Candidate Creative Commons / public research sources for reaching 30 fine genres at 80% Top1. Audio must be verified and analyzed locally before becoming formal training data.",
+  "version": 1,
+  "sources": [
+    {
+      "id": "mtg-jamendo",
+      "name": "MTG-Jamendo Dataset",
+      "kind": "public-research-cc-dataset",
+      "status": "metadata-ready-audio-required",
+      "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+      "licenseNote": "Built from Jamendo tracks under Creative Commons licenses; per-track license is parsed from audio_licenses.txt.",
+      "localManifest": "genre-training/mtg-jamendo-manifest.preview.json",
+      "recommendedFor": [
+        "J-POP",
+        "クラシック音楽",
+        "ダブ",
+        "テクノ",
+        "アンビエント",
+        "ジャズ",
+        "ダブステップ",
+        "パンク",
+        "メタル",
+        "ロック",
+        "ブルース",
+        "ラテン",
+        "レゲエ",
+        "ファンク",
+        "フォーク"
+      ],
+      "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+    },
+    {
+      "id": "fma-small-or-full",
+      "name": "Free Music Archive Dataset",
+      "kind": "public-research-cc-dataset",
+      "status": "metadata-ready-audio-download-incomplete",
+      "referenceUrl": "https://github.com/mdeff/fma",
+      "licenseNote": "FMA is a Creative Commons music dataset; use real audio features for formal training, not FMA precomputed metadata vectors.",
+      "localManifest": "",
+      "recommendedFor": [
+        "ドローン",
+        "チップチューン",
+        "ドラムンベース",
+        "ディープ・ハウス",
+        "テクノ",
+        "ダブステップ",
+        "ジャズ",
+        "クラシック音楽"
+      ],
+      "nextAction": "Resume Download FMA Small.command, unzip outside the repo, then run cc-import:fma against the FMA tracks.csv and audio root."
+    },
+    {
+      "id": "local-curated-cc-folders",
+      "name": "Local curated CC audio folders",
+      "kind": "manual-verified-cc-audio",
+      "status": "required-for-gap-genres",
+      "referenceUrl": "",
+      "licenseNote": "Use only files with track-level license and reference URLs. The importer rejects repo-local audio and Artlist.",
+      "localManifest": "genre-training/cc-source-manifest.json",
+      "recommendedFor": [
+        "シティ・ポップ",
+        "アニメソング",
+        "オペラ",
+        "トラップ",
+        "ハードコア",
+        "ディープ・ハウス",
+        "ソウルミュージック"
+      ],
+      "nextAction": "Place verified CC/public-research audio in genre-named folders on an external drive, generate a manifest with cc-manifest:from-folder, then import with cc-import."
+    },
+    {
+      "id": "internet-archive-cc-audio-search",
+      "name": "Internet Archive Creative Commons audio search",
+      "kind": "metadata-search-source",
+      "status": "candidate-discovery-only",
+      "referenceUrl": "https://archive.org/advancedsearch.php",
+      "licenseNote": "Only use items with explicit Creative Commons license metadata and downloadable audio files; manually review before formal import.",
+      "localManifest": "",
+      "recommendedFor": [
+        "シティ・ポップ",
+        "アニメソング",
+        "オペラ",
+        "トラップ",
+        "ハードコア",
+        "ディープ・ハウス",
+        "ソウルミュージック"
+      ],
+      "nextAction": "Search by genre-specific terms, verify licenseurl and audio files, then download selected audio outside the repo."
+    },
+    {
+      "id": "wikimedia-commons-audio-search",
+      "name": "Wikimedia Commons audio search",
+      "kind": "metadata-search-source",
+      "status": "candidate-discovery-only",
+      "referenceUrl": "https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia",
+      "licenseNote": "Use only files with explicit Commons license metadata and downloadable audio MIME. Manually review the file page before formal import.",
+      "localManifest": "genre-training/wikimedia-commons-audio-candidates.json",
+      "recommendedFor": [
+        "アニメソング",
+        "オペラ",
+        "シティ・ポップ",
+        "トラップ",
+        "ソウルミュージック"
+      ],
+      "nextAction": "Collect Commons audio candidates, review file pages and licenses, then download selected audio outside the repo."
+    },
+    {
+      "id": "musopen-public-domain-recordings",
+      "name": "Musopen public-domain / CC classical recordings",
+      "kind": "manual-verified-public-domain-audio",
+      "status": "manual-download-review-required",
+      "referenceUrl": "https://musopen.org/music/",
+      "licenseNote": "Musopen focuses on public-domain and openly reusable classical recordings. Verify the recording-level license before import.",
+      "localManifest": "genre-training/cc-source-manifest.json",
+      "recommendedFor": [
+        "クラシック音楽",
+        "オペラ"
+      ],
+      "nextAction": "Download verified public-domain/CC recordings outside the repo, arrange them in genre-named folders, then generate a manifest with cc-manifest:from-folder."
+    },
+    {
+      "id": "ccmixter-open-remixes",
+      "name": "ccMixter Creative Commons remixes",
+      "kind": "manual-verified-cc-music",
+      "status": "manual-download-review-required",
+      "referenceUrl": "https://ccmixter.org/",
+      "licenseNote": "ccMixter hosts Creative Commons music, remix packs, and a cappellas. Verify track-level license and avoid stems-only rows unless the target genre is clear.",
+      "localManifest": "genre-training/cc-source-manifest.json",
+      "recommendedFor": [
+        "トラップ",
+        "ソウルミュージック",
+        "ファンク",
+        "ヒップホップ",
+        "ディスコ"
+      ],
+      "nextAction": "Curate complete tracks with clear genre labels and CC licenses, save audio outside the repo, then import via cc-manifest:from-folder."
+    },
+    {
+      "id": "freesound-fsd50k-support",
+      "name": "Freesound / FSD50K CC audio support set",
+      "kind": "public-research-cc-dataset",
+      "status": "support-source-not-primary-music",
+      "referenceUrl": "https://annotator.freesound.org/fsd/",
+      "licenseNote": "Freesound/FSD50K waveforms are Creative Commons, but many files are sound events rather than full music. Use only as support data for timbre/onset/noise traits, not as the main genre label source.",
+      "localManifest": "genre-training/cc-source-manifest.json",
+      "recommendedFor": [
+        "ノイズミュージック",
+        "チップチューン",
+        "トラップ",
+        "ダブステップ"
+      ],
+      "nextAction": "Use only reviewed clips that genuinely represent the target genre trait; mark datasetName clearly so they can be excluded from formal music-only evaluation if needed."
+    }
+  ],
+  "gapGenreSearchTerms": {
+    "シティ・ポップ": ["city pop creative commons", "japanese city pop creative commons", "future funk creative commons", "vaporwave creative commons", "80s japanese pop inspired creative commons"],
+    "アニメソング": [
+      "anime song creative commons",
+      "anisong creative commons",
+      "anime opening creative commons",
+      "japanese pop rock creative commons",
+      "japanese vocaloid creative commons",
+      "anime soundtrack creative commons"
+    ],
+    "オペラ": [
+      "opera aria creative commons",
+      "classical vocal creative commons",
+      "opera public domain recording creative commons",
+      "soprano aria creative commons",
+      "tenor aria creative commons",
+      "operatic vocal creative commons",
+      "libre opera creative commons"
+    ],
+    "トラップ": [
+      "trap beat creative commons",
+      "trap instrumental creative commons",
+      "southern trap creative commons",
+      "hip hop trap creative commons",
+      "trap music creative commons",
+      "808 trap beat creative commons",
+      "phonk creative commons",
+      "ccmixter trap",
+      "creative commons hip hop 808"
+    ],
+    "ハードコア": ["hardcore punk creative commons", "hardcore creative commons", "punk hardcore creative commons"],
+    "ディープ・ハウス": ["deep house creative commons", "deep house jamendo", "creative commons deep house"],
+    "ソウルミュージック": ["soul music creative commons", "rnb soul creative commons", "neo soul creative commons"]
+  }
+}

@@ -1,0 +1,262 @@
+# Internet Archive CC Review Shortlist
+
+Generated: 2026-06-11T14:39:42.162Z
+
+リスクフラグなし、reviewPriorityが高い順の確認候補です。ここでも自動承認はしていません。聴いて問題ないものだけ元のTSVで `reviewStatus` を `approved` にしてください。
+
+## アニメソング (3)
+
+- 82 / CC-BY-NC-ND / Aenvelora —「終焉の誓い」( Shūen No Chikai Oath At The End) / Aenvelora, Aenvelora
+  - Archive: https://archive.org/details/aenvelora-shuen-no-chikai-oath-at-the-end
+  - Audio: https://archive.org/download/aenvelora-shuen-no-chikai-oath-at-the-end/Aenvelora%20%E2%80%94%E3%80%8C%E7%B5%82%E7%84%89%E3%81%AE%E8%AA%93%E3%81%84%E3%80%8D(Sh%C5%ABen%20no%20Chikai%20Oath%20at%20the%20End).flac
+  - id: aenvelora-shuen-no-chikai-oath-at-the-end
+- 81 / CC-BY-NC-ND / No Destination / Worlich
+  - Archive: https://archive.org/details/NoDestination
+  - Audio: https://archive.org/download/NoDestination/09.Transitoria-TempusFugit.flac
+  - id: NoDestination
+- 81 / CC-BY / /jp/ Themesong 2 / Original author insists to be attributed as "Anonymous"
+  - Archive: https://archive.org/details/Jp_Themesong_2
+  - Audio: https://archive.org/download/Jp_Themesong_2/jp_Themesong_2_(Instrumental).flac
+  - id: Jp_Themesong_2
+
+## オペラ (5)
+
+- 91 / CC-BY-SA / Tryad - Public Domain / Tryad
+  - Archive: https://archive.org/details/TryadTryadPublicDomain
+  - Audio: https://archive.org/download/TryadTryadPublicDomain/Tryad__06__Witness.mp3
+  - id: TryadTryadPublicDomain
+- 90 / CC-BY-SA / Complex Numbers - 2032: Легенда о несбывшемся грядущем. Техно-опера. / Complex Numbers
+  - Archive: https://archive.org/details/jamendo-488156
+  - Audio: https://archive.org/download/jamendo-488156/33-1957536-Complex%20Numbers-2032%20_____%202.mp3
+  - id: jamendo-488156
+- 77 / CC-BY-NC-ND / Raíces 447 16012020 Samuel Maýnez Champion / Raíces UDEM
+  - Archive: https://archive.org/details/raices44716012020samuelmaynezchampion
+  - Audio: https://archive.org/download/raices44716012020samuelmaynezchampion/Ra%C3%ADces%20447%20-%2016012020%20-%20Samuel%20Ma%C3%BDnez%20Champion.mp3
+  - id: raices44716012020samuelmaynezchampion
+- 63 / CC-BY-NC-ND / BS052 Mother Superior and Her Fields of Migraine / Radio For The Daydreamers
+  - Archive: https://archive.org/details/BS052
+  - Audio: https://archive.org/download/BS052/10-No_One_Ever_Comes_Here_But_Me-Dod_Av_En_Spokelse_Versjon.mp3
+  - id: BS052
+- 60 / CC-BY-NC-ND / 2009/05/01 Direkt Laiiw From Ze Hell Zass / Direkt Laiw From Ze Hell Zass
+  - Archive: https://archive.org/details/20090501DirektLaiiwFromZeHellZass
+  - Audio: https://archive.org/download/20090501DirektLaiiwFromZeHellZass/02DeuxiemePartieLeSoprano.mp3
+  - id: 20090501DirektLaiiwFromZeHellZass
+
+## シティ・ポップ (4)
+
+- 81 / CC-BY-NC-ND / [dystopiaq030] Dust Collector - Narcolepsy / Dust Collector
+  - Archive: https://archive.org/details/dystopiaq030
+  - Audio: https://archive.org/download/dystopiaq030/19Wonderlost_wanderlost_wonderlustdayDreams.mp3
+  - id: dystopiaq030
+- 80 / CC-BY-NC-ND / Barzin - It's Come to This [BadPanda005] / Barzin
+  - Archive: https://archive.org/details/badpanda005
+  - Audio: https://archive.org/download/badpanda005/Barzin-ItsComeToThis.mp3
+  - id: badpanda005
+- 79 / CC-BY-NC-SA / TT 00040 BOTTLESMOKER HYPNAGOGIC REMIX / papaontacult
+  - Archive: https://archive.org/details/TT00040BOTTLESMOKERHYPNAGOGICREMIX
+  - Audio: https://archive.org/download/TT00040BOTTLESMOKERHYPNAGOGICREMIX/BoredomAndFreedomcerumentric.mp3
+  - id: TT00040BOTTLESMOKERHYPNAGOGICREMIX
+- 77 / CC-BY-NC-ND / Laszlo Hollyfield - Exodo [rith008] / Laszlo Hollyfield
+  - Archive: https://archive.org/details/rith008
+  - Audio: https://archive.org/download/rith008/08_Laszlo_Hollyfield_-_E-Motion.mp3
+  - id: rith008
+
+## ソウルミュージック (12)
+
+- 86 / CC-BY-SA / MNF023 Dsum & Morris - Arium FL / Dsum
+  - Archive: https://archive.org/details/MNF023_Dsum_Morris--Arium_FL
+  - Audio: https://archive.org/download/MNF023_Dsum_Morris--Arium_FL/02_Dsum_Morris_-_Danza_Planetaria.mp3
+  - id: MNF023_Dsum_Morris--Arium_FL
+- 85 / CC-BY-NC-SA / [RAR026] Pedro Duarte - Pacific Blue EP / Pedro Duarte
+  - Archive: https://archive.org/details/RAR026_Pedro_Duarte_Pacific_Blue_EP
+  - Audio: https://archive.org/download/RAR026_Pedro_Duarte_Pacific_Blue_EP/01_Pacific_Blue.mp3
+  - id: RAR026_Pedro_Duarte_Pacific_Blue_EP
+- 85 / CC-BY-NC-SA / The Clones of Dr. Funkenstein (2016) / chēēZ π
+  - Archive: https://archive.org/details/theclonesofdrfunkenstein_2016
+  - Audio: https://archive.org/download/theclonesofdrfunkenstein_2016/05%20-%20Funky%20Drummer%20(Part%201).flac
+  - id: theclonesofdrfunkenstein_2016
+- 81 / CC-BY-NC-ND / [45rpm053-2012] Jared C. Balogh  - Drifting Soul / Jared C. Balogh
+  - Archive: https://archive.org/details/45rpm053-2012JaredC.Balogh-DriftingSoul
+  - Audio: https://archive.org/download/45rpm053-2012JaredC.Balogh-DriftingSoul/01Jared_C_Balog_-_Emotions_leading_To_Howhere.mp3
+  - id: 45rpm053-2012JaredC.Balogh-DriftingSoul
+- 81 / CC-BY-NC-ND / [45E002-2011] Ollie Cram - Jazzstow / Ollie Cram
+  - Archive: https://archive.org/details/45rpm049-e2011OllieCram-Jazzstow
+  - Audio: https://archive.org/download/45rpm049-e2011OllieCram-Jazzstow/05spiritual_homeland.mp3
+  - id: 45rpm049-e2011OllieCram-Jazzstow
+- 81 / CC-BY-NC-ND / [45E-015-2013] Trans Atlantic Rage/Balogh - I::::SOUL::::ATE VOLUME 4    / Trans Atlantic Rage/Balogh
+  - Archive: https://archive.org/details/45e-015-2013TransAtlanticRagebalogh-IsoulateVolume4
+  - Audio: https://archive.org/download/45e-015-2013TransAtlanticRagebalogh-IsoulateVolume4/02-Soul_Increments.mp3
+  - id: 45e-015-2013TransAtlanticRagebalogh-IsoulateVolume4
+- 81 / CC-BY-NC-ND / An endless Tomorrow by Enuma Elish (Spanish Metal band) / Enuma Elish (Spanish Metal Band)
+  - Archive: https://archive.org/details/AnEndlessTomorrowByEnumaElish
+  - Audio: https://archive.org/download/AnEndlessTomorrowByEnumaElish/11-AnEndlessTomorrow.mp3
+  - id: AnEndlessTomorrowByEnumaElish
+- 81 / CC-BY-NC-ND / [SRmp3 133] Grr - Snuffcraft (Sociopath Recordings) / Grr
+  - Archive: https://archive.org/details/SRmp3_133
+  - Audio: https://archive.org/download/SRmp3_133/SRmp3_133.mp3
+  - id: SRmp3_133
+- 81 / CC-BY-NC-ND / FFM-016: Gregg Plummer - Red Veil / Gregg Plummer
+  - Archive: https://archive.org/details/freefloatingmusic016
+  - Audio: https://archive.org/download/freefloatingmusic016/04%20Seekers%20Of%20Truth.flac
+  - id: freefloatingmusic016
+- 80 / CC-BY-NC-ND / [LBN037] Feminine - "Lorelei" /
+  - Archive: https://archive.org/details/LBN037Feminine-Lorelei
+  - Audio: https://archive.org/download/LBN037Feminine-Lorelei/08.%20Coral%20Face.flac
+  - id: LBN037Feminine-Lorelei
+- 77 / CC-BY-NC-ND / [GTakt002] Modulares Klang Konzept - Fader EP / Modulares Klang Konzept
+  - Archive: https://archive.org/details/gtakt002ModularesKlangKonzept-FaderEp
+  - Audio: https://archive.org/download/gtakt002ModularesKlangKonzept-FaderEp/GTakt002_Modulares_Klang_Konzept_-_Crying_Soul_Fader_EP.mp3
+  - id: gtakt002ModularesKlangKonzept-FaderEp
+- 73 / CC-BY / Noisesurfer - A New World Sampled - Promo 2012 Alternate Version / Joachim Rontxelius
+  - Archive: https://archive.org/details/Noisesurfer-ANewWorldSampled-Promo2012AlternateVersion
+  - Audio: https://archive.org/download/Noisesurfer-ANewWorldSampled-Promo2012AlternateVersion/World10.mp3
+  - id: Noisesurfer-ANewWorldSampled-Promo2012AlternateVersion
+
+## ディープ・ハウス (12)
+
+- 91 / CC-BY-SA / MNF022 DCM - Elevación / DCM
+  - Archive: https://archive.org/details/MNF022_DCM--Elevacion
+  - Audio: https://archive.org/download/MNF022_DCM--Elevacion/03_DCM_-_Oblivion.mp3
+  - id: MNF022_DCM--Elevacion
+- 91 / CC-BY-SA / MNE007 Gartner - snk / Gartner
+  - Archive: https://archive.org/details/MNE007_Gartner--snk
+  - Audio: https://archive.org/download/MNE007_Gartner--snk/12_Gartner_-_snk_12.mp3
+  - id: MNE007_Gartner--snk
+- 87 / CC-BY-SA / MNF023 Dsum & Morris - Arium FL / Dsum
+  - Archive: https://archive.org/details/MNF023_Dsum_Morris--Arium_FL
+  - Audio: https://archive.org/download/MNF023_Dsum_Morris--Arium_FL/02_Dsum_Morris_-_Danza_Planetaria.mp3
+  - id: MNF023_Dsum_Morris--Arium_FL
+- 87 / CC-BY-SA / MNF027 Dsum - Intimate / Dsum
+  - Archive: https://archive.org/details/MNF027_Dsum--Intimate
+  - Audio: https://archive.org/download/MNF027_Dsum--Intimate/03_Dsum_-_Frolic.mp3
+  - id: MNF027_Dsum--Intimate
+- 87 / CC-BY-SA / MNF018 Sir Leaks - Sonidos Bajotierra / Sir Leaks
+  - Archive: https://archive.org/details/MNF018_Sir_Leaks--Sonidos_Bajotierra
+  - Audio: https://archive.org/download/MNF018_Sir_Leaks--Sonidos_Bajotierra/05_Sir_Leaks_-_Espacio_D_Tranquilo_Bobby_Remix.mp3
+  - id: MNF018_Sir_Leaks--Sonidos_Bajotierra
+- 87 / CC-BY-SA / MNF024 Bobby Marleni - Defected Jamz Vol 2 / MALA
+  - Archive: https://archive.org/details/MNF024_Bobby_Marleni--Defected_Jamz_Vol_2
+  - Audio: https://archive.org/download/MNF024_Bobby_Marleni--Defected_Jamz_Vol_2/06_Bobby_Marleni_-_Sexy_Sexy.mp3
+  - id: MNF024_Bobby_Marleni--Defected_Jamz_Vol_2
+- 87 / CC-BY-SA / MNS006 V.A - Colores Paralelos / Monofónicos
+  - Archive: https://archive.org/details/MNS006_VA--Colores_Paralelos
+  - Audio: https://archive.org/download/MNS006_VA--Colores_Paralelos/08_Christopher_-_Historias_Cortas_(Bipolar_Mix).mp3
+  - id: MNS006_VA--Colores_Paralelos
+- 87 / CC-BY-SA / MNF021 Eviru Dibad - Altitud Sur / Dsum
+  - Archive: https://archive.org/details/MNF021_Eviru_Dibad--Altitud_Sur
+  - Audio: https://archive.org/download/MNF021_Eviru_Dibad--Altitud_Sur/02_Eviru_Dibad_-_Latitudes_Intermedias.mp3
+  - id: MNF021_Eviru_Dibad--Altitud_Sur
+- 86 / CC-BY-NC / Follow Me / Pitchcraft
+  - Archive: https://archive.org/details/tou296
+  - Audio: https://archive.org/download/tou296/01-Pitchcraft-Follow_Me.mp3
+  - id: tou296
+- 85 / CC-BY-NC-SA / [RAR031] In Vitro - Falso Self En Androides EP / In Vitro
+  - Archive: https://archive.org/details/RAR031_In_Vitro_Falso_Self_En_Androides_EP
+  - Audio: https://archive.org/download/RAR031_In_Vitro_Falso_Self_En_Androides_EP/03_Un_vaso_de_agua_para_dos_androides.mp3
+  - id: RAR031_In_Vitro_Falso_Self_En_Androides_EP
+- 85 / CC-BY-NC-SA / [RAR036] Jak - Echo Infection EP / Jak
+  - Archive: https://archive.org/details/rar036Jak-EchoInfectionEp
+  - Audio: https://archive.org/download/rar036Jak-EchoInfectionEp/02_Mode_Of_Life.mp3
+  - id: rar036Jak-EchoInfectionEp
+- 85 / CC-BY-NC-SA / [RAR034] Dennis Shoker Warm Reception EP / Dennis Shoker
+  - Archive: https://archive.org/details/Rar034_dennis_shoker_warmReception_ep
+  - Audio: https://archive.org/download/Rar034_dennis_shoker_warmReception_ep/01_Striped.mp3
+  - id: Rar034_dennis_shoker_warmReception_ep
+
+## トラップ (11)
+
+- 100 / CC0 / instrumental trap track  / 808 master
+  - Archive: https://archive.org/details/natbombcrap
+  - Audio: https://archive.org/download/natbombcrap/natbombcrap.mp3
+  - id: natbombcrap
+- 93 / CC-BY / 10102012 90bpm 1 3 / 13 Mitred Abbots
+  - Archive: https://archive.org/details/1010201290bpm13
+  - Audio: https://archive.org/download/1010201290bpm13/10102012%2090bpm1_3.flac
+  - id: 1010201290bpm13
+- 92 / CC-BY / TRAP BEAT FREE USE T RAP BASE RAP # DUB # REGGAE / (BASE RAP) Sebastián Lorca Díez
+  - Archive: https://archive.org/details/TRAPBEATFREEUSETRAPBASERAPDUBREGGAE
+  - Audio: https://archive.org/download/TRAPBEATFREEUSETRAPBASERAPDUBREGGAE/TrapBeatFreeUse22t-rap22BaseRapdubreggae-1db.mp3
+  - id: TRAPBEATFREEUSETRAPBASERAPDUBREGGAE
+- 91 / CC-BY-SA / The Gxod Prequel  / BenJamin Banger
+  - Archive: https://archive.org/details/BenjaminBanger
+  - Audio: https://archive.org/download/BenjaminBanger/The%20Gxod%20Prequel/Tupac.mp3
+  - id: BenjaminBanger
+- 88 / CC-BY / THE EYE TRAP RAP TRAP INSTRUMENTAL BEAT / Sebastián Lorca Díez, Youtube (BASE RAP)
+  - Archive: https://archive.org/details/THEEYETRAPRAPTRAPINSTRUMENTALBEAT
+  - Audio: https://archive.org/download/THEEYETRAPRAPTRAPINSTRUMENTALBEAT/THE%20EYE%20TRAP%20-%20RAP-TRAP%20INSTRUMENTAL%20BEAT.mp3
+  - id: THEEYETRAPRAPTRAPINSTRUMENTALBEAT
+- 81 / CC-BY-NC-ND / Aenvelora - Starlit Outbreak Album Phonk / Aenvelora, Aenvelora
+  - Archive: https://archive.org/details/aenvelora-cosmic-drift
+  - Audio: https://archive.org/download/aenvelora-cosmic-drift/Aenvelora%20-%20PulseBreaker%20Ver.%202.flac
+  - id: aenvelora-cosmic-drift
+- 81 / CC-BY-NC-ND / Aenvelora - Generation Reset Album / Aenvelora, Aenvelora
+  - Archive: https://archive.org/details/aenvelora-generation-reset
+  - Audio: https://archive.org/download/aenvelora-generation-reset/Aenvelora%20-%20Generation%20Reset.flac
+  - id: aenvelora-generation-reset
+- 77 / CC-BY-NC-ND / Dalot - Levelling [pan088] / Maria Papadomanolaki
+  - Archive: https://archive.org/details/pan088
+  - Audio: https://archive.org/download/pan088/pan088-dalot-level_2.mp3
+  - id: pan088
+- 76 / CC-BY-NC-ND / Infra Red Army - Black Body EP [ns15] / Infra Red Army
+  - Archive: https://archive.org/details/ns15
+  - Audio: https://archive.org/download/ns15/03-ira-optimystique.mp3
+  - id: ns15
+- 70 / CC-BY-NC-ND / Aenvelora - Cyber Drift Phonk / Aenvelora, Aenvelora
+  - Archive: https://archive.org/details/aenvelora-cyber-drift
+  - Audio: https://archive.org/download/aenvelora-cyber-drift/Aenvelora%20-%20Midnight%20Drift.flac
+  - id: aenvelora-cyber-drift
+- 63 / CC-BY-NC-ND / Open Metalcast Instrumetalcast #6: Tragedy of Slow and Low / Craig Maloney
+  - Archive: https://archive.org/details/OpenMetalcastInstrumetalcast6TragedyOfSlowAndLow
+  - Audio: https://archive.org/download/OpenMetalcastInstrumetalcast6TragedyOfSlowAndLow/open_metalcast_instrumetalcast_006.mp3
+  - id: OpenMetalcastInstrumetalcast6TragedyOfSlowAndLow
+
+## ハードコア (12)
+
+- 84 / CC-BY-NC-SA / RETOUR A L ANORMAL par LA 6 EME REPUBLIQUE  / La 6Eme REpublique
+  - Archive: https://archive.org/details/LA_SIXIEME_REPUBLIQUE_RETOUR_A_L_ANORMAL
+  - Audio: https://archive.org/download/LA_SIXIEME_REPUBLIQUE_RETOUR_A_L_ANORMAL/04.ATTENTION_A_LA_MARCHE_LA_6EME_REPUBLIQUE_RETOUR_A_L_ANORMAL.flac
+  - id: LA_SIXIEME_REPUBLIQUE_RETOUR_A_L_ANORMAL
+- 84 / CC-BY-NC-SA / Junk DNA III : A Tribute to David Cronenberg / Ed End
+  - Archive: https://archive.org/details/Ed_End_Junk_DNA_III
+  - Audio: https://archive.org/download/Ed_End_Junk_DNA_III/02.Fathom_Exercise_Ed_End_Junk_DNA_III%20.mp3
+  - id: Ed_End_Junk_DNA_III
+- 81 / CC-BY-NC-ND / COREBACKRECORDS64 / COREBACKRECORDS
+  - Archive: https://archive.org/details/COREBACKRECORDS64
+  - Audio: https://archive.org/download/COREBACKRECORDS64/04_MANSHA_Aku_Soku_Zan.mp3
+  - id: COREBACKRECORDS64
+- 81 / CC-BY-NC-ND / Nonsense - Burning Inside / Nonsense
+  - Archive: https://archive.org/details/NONSENSE_-_Burning_Inside
+  - Audio: https://archive.org/download/NONSENSE_-_Burning_Inside/06_Nonsense_-_Our_Showdown.mp3
+  - id: NONSENSE_-_Burning_Inside
+- 81 / CC-BY-NC-ND / [FSC004] Very Expensive Porno Movie - Fist Fuck Fever / Yes No Wave Music
+  - Archive: https://archive.org/details/FSC004
+  - Audio: https://archive.org/download/FSC004/13__Fist_Fuck_Fever.mp3
+  - id: FSC004
+- 81 / CC-BY-NC-SA / COREBACKRECORDS72 / COREBACKRECORDS
+  - Archive: https://archive.org/details/COREBACKRECORDS72
+  - Audio: https://archive.org/download/COREBACKRECORDS72/ThirdI_kolaboracija_Bolest_Evropa_01_Wired.mp3
+  - id: COREBACKRECORDS72
+- 80 / CC-BY-NC-ND / COREBACKRECORDS53 / COREBACKRECORDS
+  - Archive: https://archive.org/details/COREBACKRECORDS53
+  - Audio: https://archive.org/download/COREBACKRECORDS53/02_LET_SHADOWS_FEED_MY_DARK_Ciclotimic.mp3
+  - id: COREBACKRECORDS53
+- 80 / CC-BY-NC-ND / COREBACKRECORDS50_Man-Sha_and_Kenji_Siratori / COREBACKRECORDS
+  - Archive: https://archive.org/details/COREBACKRECORDS50_Man-Sha_and_Kenji_Siratori
+  - Audio: https://archive.org/download/COREBACKRECORDS50_Man-Sha_and_Kenji_Siratori/05_MANSHA_KENJI_SIRATORI_Insane_Asylum.mp3
+  - id: COREBACKRECORDS50_Man-Sha_and_Kenji_Siratori
+- 80 / CC-BY-NC-ND / COREBACKRECORDSFREETRACK01 / COREBACKRECORDSFREETRACK01
+  - Archive: https://archive.org/details/COREBACKRECORDSFRETRACK01
+  - Audio: https://archive.org/download/COREBACKRECORDSFRETRACK01/FANFARE_HOOD_BRACK_AGE_lune_est_soleil_assos.mp3
+  - id: COREBACKRECORDSFRETRACK01
+- 80 / CC-BY-NC-ND / COREBACKRECORDS14 / COREBACKRECORDS014
+  - Archive: https://archive.org/details/COREBACKRECORDS014
+  - Audio: https://archive.org/download/COREBACKRECORDS014/02ShellDivingGraceHome.mp3
+  - id: COREBACKRECORDS014
+- 80 / CC-BY-NC-ND / COREBACKRECORDSFREETRACK02 / COREBACKRECORDS
+  - Archive: https://archive.org/details/COREBACKRECORDSFREETRACK02
+  - Audio: https://archive.org/download/COREBACKRECORDSFREETRACK02/KAG_RAZOR_lune_est_soleil_assos_vbr.mp3
+  - id: COREBACKRECORDSFREETRACK02
+- 80 / CC-BY-NC-ND / COREBACKRECORDS59 / COREBACKRECORDS
+  - Archive: https://archive.org/details/COREBACKRECORDS059
+  - Audio: https://archive.org/download/COREBACKRECORDS059/BUBEN_03_Senakos_Hay_gathering_time.mp3
+  - id: COREBACKRECORDS059

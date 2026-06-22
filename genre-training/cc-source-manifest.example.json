@@ -1,0 +1,17 @@
+{
+  "description": "Creative Commons / public research dataset manifest example. Keep audio files outside the repo; this app stores features only.",
+  "items": [
+    {
+      "datasetName": "FMA or other CC dataset name",
+      "trackId": "example-000001",
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "filePath": "/Volumes/ExternalDataset/audio/example.mp3",
+      "referenceUrl": "https://example.org/track/example-000001",
+      "license": "CC-BY",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "canonicalArtist": "Example Artist",
+      "canonicalTitle": "Example Track"
+    }
+  ]
+}

@@ -1,0 +1,233 @@
+{
+  "generatedAt": "2026-06-14T07:13:57.036Z",
+  "splitFile": "genre-training/dataset-splits.json",
+  "modelFile": "genre-training/genre-model.json",
+  "summary": {
+    "rows": 933,
+    "rowsWithArtist": 933,
+    "artistGenreGroups": 287,
+    "leakingArtistGenreGroups": 0,
+    "trainRows": 526,
+    "validationRows": 202,
+    "testRows": 205
+  },
+  "byGenre": [
+    {
+      "genre": "J-POP",
+      "train": 9,
+      "validation": 2,
+      "test": 9,
+      "unknown": 0,
+      "rows": 20,
+      "artistRows": 20
+    },
+    {
+      "genre": "アニメソング",
+      "train": 8,
+      "validation": 2,
+      "test": 10,
+      "unknown": 0,
+      "rows": 20,
+      "artistRows": 20
+    },
+    {
+      "genre": "アンビエント",
+      "train": 26,
+      "validation": 6,
+      "test": 15,
+      "unknown": 0,
+      "rows": 47,
+      "artistRows": 47
+    },
+    {
+      "genre": "オペラ",
+      "train": 12,
+      "validation": 2,
+      "test": 10,
+      "unknown": 0,
+      "rows": 24,
+      "artistRows": 24
+    },
+    {
+      "genre": "クラシック音楽",
+      "train": 10,
+      "validation": 9,
+      "test": 7,
+      "unknown": 0,
+      "rows": 26,
+      "artistRows": 26
+    },
+    {
+      "genre": "シティ・ポップ",
+      "train": 5,
+      "validation": 0,
+      "test": 5,
+      "unknown": 0,
+      "rows": 10,
+      "artistRows": 10
+    },
+    {
+      "genre": "ジャズ",
+      "train": 24,
+      "validation": 12,
+      "test": 6,
+      "unknown": 0,
+      "rows": 42,
+      "artistRows": 42
+    },
+    {
+      "genre": "ソウルミュージック",
+      "train": 29,
+      "validation": 10,
+      "test": 8,
+      "unknown": 0,
+      "rows": 47,
+      "artistRows": 47
+    },
+    {
+      "genre": "ダブ",
+      "train": 41,
+      "validation": 15,
+      "test": 14,
+      "unknown": 0,
+      "rows": 70,
+      "artistRows": 70
+    },
+    {
+      "genre": "ダブステップ",
+      "train": 31,
+      "validation": 6,
+      "test": 7,
+      "unknown": 0,
+      "rows": 44,
+      "artistRows": 44
+    },
+    {
+      "genre": "チップチューン",
+      "train": 36,
+      "validation": 8,
+      "test": 14,
+      "unknown": 0,
+      "rows": 58,
+      "artistRows": 58
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "train": 12,
+      "validation": 8,
+      "test": 4,
+      "unknown": 0,
+      "rows": 24,
+      "artistRows": 24
+    },
+    {
+      "genre": "ディスコ",
+      "train": 16,
+      "validation": 10,
+      "test": 4,
+      "unknown": 0,
+      "rows": 30,
+      "artistRows": 30
+    },
+    {
+      "genre": "テクノ",
+      "train": 19,
+      "validation": 17,
+      "test": 9,
+      "unknown": 0,
+      "rows": 45,
+      "artistRows": 45
+    },
+    {
+      "genre": "トラップ",
+      "train": 13,
+      "validation": 0,
+      "test": 7,
+      "unknown": 0,
+      "rows": 20,
+      "artistRows": 20
+    },
+    {
+      "genre": "ドラムンベース",
+      "train": 12,
+      "validation": 13,
+      "test": 3,
+      "unknown": 0,
+      "rows": 28,
+      "artistRows": 28
+    },
+    {
+      "genre": "トランス",
+      "train": 10,
+      "validation": 11,
+      "test": 8,
+      "unknown": 0,
+      "rows": 29,
+      "artistRows": 29
+    },
+    {
+      "genre": "ドローン",
+      "train": 28,
+      "validation": 10,
+      "test": 9,
+      "unknown": 0,
+      "rows": 47,
+      "artistRows": 47
+    },
+    {
+      "genre": "ノイズミュージック",
+      "train": 47,
+      "validation": 10,
+      "test": 11,
+      "unknown": 0,
+      "rows": 68,
+      "artistRows": 68
+    },
+    {
+      "genre": "ハウス",
+      "train": 45,
+      "validation": 13,
+      "test": 10,
+      "unknown": 0,
+      "rows": 68,
+      "artistRows": 68
+    },
+    {
+      "genre": "ヒップホップ",
+      "train": 44,
+      "validation": 17,
+      "test": 9,
+      "unknown": 0,
+      "rows": 70,
+      "artistRows": 70
+    },
+    {
+      "genre": "ファンク",
+      "train": 25,
+      "validation": 9,
+      "test": 6,
+      "unknown": 0,
+      "rows": 40,
+      "artistRows": 40
+    },
+    {
+      "genre": "レゲエ",
+      "train": 13,
+      "validation": 12,
+      "test": 11,
+      "unknown": 0,
+      "rows": 36,
+      "artistRows": 36
+    },
+    {
+      "genre": "電子音楽",
+      "train": 11,
+      "validation": 0,
+      "test": 9,
+      "unknown": 0,
+      "rows": 20,
+      "artistRows": 20
+    }
+  ],
+  "leaks": []
+}

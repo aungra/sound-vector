@@ -1,0 +1,43 @@
+{
+  "generatedAt": "2026-06-19T01:46:44.306Z",
+  "source": "Wikimedia Commons API",
+  "limitPerGenre": 20,
+  "genres": [
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "accepted": 2,
+      "terms": [
+        "anime song audio",
+        "anime soundtrack audio",
+        "japanese pop song audio",
+        "vocaloid song audio"
+      ]
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "accepted": 20,
+      "terms": [
+        "opera aria audio",
+        "soprano aria audio",
+        "tenor aria audio",
+        "opera vocal audio",
+        "classical vocal audio"
+      ]
+    },
+    {
+      "genre": "シティ・ポップ",
+      "macroGenre": "pop",
+      "accepted": 2,
+      "terms": [
+        "city pop audio",
+        "future funk audio",
+        "japanese pop audio",
+        "synth pop audio"
+      ]
+    }
+  ],
+  "errors": [],
+  "totalCandidates": 46
+}

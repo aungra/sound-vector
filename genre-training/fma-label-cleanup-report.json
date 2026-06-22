@@ -1,0 +1,306 @@
+{
+  "cleanedAt": "2026-06-14T09:35:06.789Z",
+  "removed": 50,
+  "removedRows": [
+    {
+      "trackId": "track_0000247",
+      "title": "Je le veux aussi",
+      "artist": "Both",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0000759",
+      "title": "Sunlight",
+      "artist": "Vavrek",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0000760",
+      "title": "World that you know",
+      "artist": "Vavrek",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0000761",
+      "title": "Modern Life",
+      "artist": "Vavrek",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0000762",
+      "title": "Healing Luna",
+      "artist": "Vavrek",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0000763",
+      "title": "Dance",
+      "artist": "Vavrek",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0000764",
+      "title": "Peace on earth",
+      "artist": "Vavrek",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0000765",
+      "title": "Bedtime",
+      "artist": "Vavrek",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0000766",
+      "title": "Balance",
+      "artist": "Vavrek",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0000808",
+      "title": "Seven Months",
+      "artist": "AMPM",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0000809",
+      "title": "Silver Spoon",
+      "artist": "AMPM",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0000810",
+      "title": "Say me Good Bye",
+      "artist": "AMPM",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0000843",
+      "title": "Perdre le Nord",
+      "artist": "AMPM",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0000844",
+      "title": "Politique d'autruche",
+      "artist": "AMPM",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0001101",
+      "title": "Axel",
+      "artist": "Both",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0001106",
+      "title": "La forteresse vide",
+      "artist": "Both",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0001260",
+      "title": "Comfort",
+      "artist": "Talking Cure",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0001261",
+      "title": "Chanson pour elle",
+      "artist": "Talking Cure",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0001262",
+      "title": "Mud",
+      "artist": "Talking Cure",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0001263",
+      "title": "A Song Of Suicide",
+      "artist": "Talking Cure",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0001264",
+      "title": "A Mediocre Man",
+      "artist": "Talking Cure",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0001265",
+      "title": "A Grain Of Sand",
+      "artist": "Talking Cure",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0001266",
+      "title": "A Rolling Stone",
+      "artist": "Talking Cure",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0001267",
+      "title": "Freundliche Welt",
+      "artist": "Talking Cure",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0001729",
+      "title": "La vie des bêtes",
+      "artist": "AS-POTIRONT!",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0001730",
+      "title": "Anastasia",
+      "artist": "AS-POTIRONT!",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0001731",
+      "title": "Visite champêtre",
+      "artist": "AS-POTIRONT!",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0001732",
+      "title": "Texto",
+      "artist": "AS-POTIRONT!",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0001733",
+      "title": "Le Bal des pendus",
+      "artist": "AS-POTIRONT!",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0003097",
+      "title": "Sous le soleil Jamaique",
+      "artist": "DRDJEKILL",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0003098",
+      "title": "Amour pas touche",
+      "artist": "DRDJEKILL",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0003099",
+      "title": "Toi, fais ce que tu voudras",
+      "artist": "DRDJEKILL",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0003101",
+      "title": "Il importe de n'être rien",
+      "artist": "DRDJEKILL",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0003102",
+      "title": "I love you and you love me",
+      "artist": "DRDJEKILL",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0003103",
+      "title": "J'm'imaginais (version française)",
+      "artist": "DRDJEKILL",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0003346",
+      "title": "Hey Girl",
+      "artist": "Mel's",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0003347",
+      "title": "Un Sentier",
+      "artist": "Mel's",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0003348",
+      "title": "Une Nuit",
+      "artist": "Mel's",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0003349",
+      "title": "Traverse le Temps",
+      "artist": "Mel's",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0003350",
+      "title": "Hey Girl (english version)",
+      "artist": "Mel's",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0003983",
+      "title": "LE MONDE EST \"AFFAIRES\"",
+      "artist": "DRDJEKILL",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0003984",
+      "title": "BONNE CHANCE",
+      "artist": "DRDJEKILL",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0004241",
+      "title": "Je vais bien",
+      "artist": "El Manu",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0004242",
+      "title": "Capotes à un Franc",
+      "artist": "El Manu",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0004243",
+      "title": "La mort de Dieu",
+      "artist": "El Manu",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0004245",
+      "title": "Le Temps",
+      "artist": "El Manu",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0004246",
+      "title": "Egoïste",
+      "artist": "El Manu",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0004247",
+      "title": "Le Vent",
+      "artist": "El Manu",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0004248",
+      "title": "Pipi sous la pluie",
+      "artist": "El Manu",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    },
+    {
+      "trackId": "track_0004249",
+      "title": "Copain-Copine",
+      "artist": "El Manu",
+      "reason": "mtg-jamendo-pop-is-not-jpop"
+    }
+  ]
+}

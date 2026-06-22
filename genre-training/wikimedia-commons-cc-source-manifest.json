@@ -1,0 +1,62 @@
+{
+  "description": "Wikimedia Commons CC/Public Domain audio manifest. Audio files must live outside the repo; review candidates before formal import.",
+  "generatedAt": "2026-06-19T02:07:49.052Z",
+  "sourceCandidates": "genre-training/wikimedia-commons-audio-candidates.json",
+  "reviewQueue": "genre-training/wikimedia-commons-review-queue.tsv",
+  "audioRoot": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/wikimedia-commons",
+  "downloadAudio": true,
+  "acceptUnreviewed": false,
+  "items": [
+    {
+      "source": "Wikimedia Commons",
+      "sourceType": "cc-dataset",
+      "datasetName": "Wikimedia Commons Audio",
+      "trackId": "File:PDP-CH - Meta Seinemeyer, soprano with Staatskapelle Berlin - La forza del destino - Sono giunta Grazie, o Dio - Verdi - Parlophon-p9116-20258.flac",
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "filePath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/wikimedia-commons/オヘ-ラ/File-PDP-CH-Meta-Seinemeyer-soprano-with-Staatskapelle-Berlin-La-forza-del-destino-Sono-giunta-Grazi.flac",
+      "license": "Public Domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:PDP-CH_-_Meta_Seinemeyer,_soprano_with_Staatskapelle_Berlin_-_La_forza_del_destino_-_Sono_giunta_Grazie,_o_Dio_-_Verdi_-_Parlophon-p9116-20258.flac",
+      "referenceUrl": "https://commons.wikimedia.org/wiki/File:PDP-CH_-_Meta_Seinemeyer,_soprano_with_Staatskapelle_Berlin_-_La_forza_del_destino_-_Sono_giunta_Grazie,_o_Dio_-_Verdi_-_Parlophon-p9116-20258.flac",
+      "canonicalArtist": "http://pool.publicdomainproject.org/index.php?title=Parlophon-p9116-20258",
+      "canonicalTitle": "File:PDP-CH - Meta Seinemeyer, soprano with Staatskapelle Berlin - La forza del destino - Sono giunta Grazie, o Dio - Verdi - Parlophon-p9116-20258.flac",
+      "originalAudioUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8d/PDP-CH_-_Meta_Seinemeyer%2C_soprano_with_Staatskapelle_Berlin_-_La_forza_del_destino_-_Sono_giunta_Grazie%2C_o_Dio_-_Verdi_-_Parlophon-p9116-20258.flac",
+      "audioStoragePolicy": "external-local-audio; persist-features-only",
+      "reviewStatus": "approved"
+    },
+    {
+      "source": "Wikimedia Commons",
+      "sourceType": "cc-dataset",
+      "datasetName": "Wikimedia Commons Audio",
+      "trackId": "File:PDP-CH - Meta Seinemeyer, soprano with Staatskapelle Berlin - La forza del destino - Deh, non m'abbandonar - Verdi - Parlophon-p9116-20259.flac",
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "filePath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/wikimedia-commons/オヘ-ラ/File-PDP-CH-Meta-Seinemeyer-soprano-with-Staatskapelle-Berlin-La-forza-del-destino-Deh-non-m-abbando.flac",
+      "license": "Public Domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:PDP-CH_-_Meta_Seinemeyer,_soprano_with_Staatskapelle_Berlin_-_La_forza_del_destino_-_Deh,_non_m%27abbandonar_-_Verdi_-_Parlophon-p9116-20259.flac",
+      "referenceUrl": "https://commons.wikimedia.org/wiki/File:PDP-CH_-_Meta_Seinemeyer,_soprano_with_Staatskapelle_Berlin_-_La_forza_del_destino_-_Deh,_non_m%27abbandonar_-_Verdi_-_Parlophon-p9116-20259.flac",
+      "canonicalArtist": "http://pool.publicdomainproject.org/index.php?title=Parlophon-p9116-20259",
+      "canonicalTitle": "File:PDP-CH - Meta Seinemeyer, soprano with Staatskapelle Berlin - La forza del destino - Deh, non m'abbandonar - Verdi - Parlophon-p9116-20259.flac",
+      "originalAudioUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9a/PDP-CH_-_Meta_Seinemeyer%2C_soprano_with_Staatskapelle_Berlin_-_La_forza_del_destino_-_Deh%2C_non_m%27abbandonar_-_Verdi_-_Parlophon-p9116-20259.flac",
+      "audioStoragePolicy": "external-local-audio; persist-features-only",
+      "reviewStatus": "approved"
+    },
+    {
+      "source": "Wikimedia Commons",
+      "sourceType": "cc-dataset",
+      "datasetName": "Wikimedia Commons Audio",
+      "trackId": "File:J.S.Bach from Cantata BWV80 \"Ein' feste Burg ist unser Gott\", Aria for soprano with oboe obbligato.wav",
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "filePath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/wikimedia-commons/オヘ-ラ/File-J-S-Bach-from-Cantata-BWV80-Ein-feste-Burg-ist-unser-Gott-Aria-for-soprano-with-oboe-obbligato-.wav",
+      "license": "Public Domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:J.S.Bach_from_Cantata_BWV80_%22Ein%27_feste_Burg_ist_unser_Gott%22,_Aria_for_soprano_with_oboe_obbligato.wav",
+      "referenceUrl": "https://commons.wikimedia.org/wiki/File:J.S.Bach_from_Cantata_BWV80_%22Ein%27_feste_Burg_ist_unser_Gott%22,_Aria_for_soprano_with_oboe_obbligato.wav",
+      "canonicalArtist": "J.S.Bach",
+      "canonicalTitle": "File:J.S.Bach from Cantata BWV80 \"Ein' feste Burg ist unser Gott\", Aria for soprano with oboe obbligato.wav",
+      "originalAudioUrl": "https://upload.wikimedia.org/wikipedia/commons/f/fa/J.S.Bach_from_Cantata_BWV80_%22Ein%27_feste_Burg_ist_unser_Gott%22%2C_Aria_for_soprano_with_oboe_obbligato.wav",
+      "audioStoragePolicy": "external-local-audio; persist-features-only",
+      "reviewStatus": "approved"
+    }
+  ]
+}

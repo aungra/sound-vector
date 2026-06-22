@@ -1,0 +1,479 @@
+{
+  "version": "sound-vector-genre-theory.v1",
+  "generatedAt": "2026-06-21",
+  "description": "Weak music-theory priors for genre classification. These profiles are not labels and should not override audio evidence; they add small support when measured features match known genre characteristics.",
+  "sources": [
+    {
+      "id": "mir-overview",
+      "url": "https://arxiv.org/abs/1612.01840",
+      "note": "FMA paper: genre labels are hierarchical/noisy; audio features and train/validation/test splits are important."
+    },
+    {
+      "id": "techno",
+      "url": "https://en.wikipedia.org/wiki/Techno",
+      "note": "Techno: 120-150 BPM, 4/4, repetitive, electronic instruments, rhythm-oriented."
+    },
+    {
+      "id": "house",
+      "url": "https://en.wikipedia.org/wiki/House_music",
+      "note": "House: repetitive four-on-the-floor, 115-130 BPM, off-beat hats, drum machines, basslines, vocals optional."
+    },
+    {
+      "id": "dnb",
+      "url": "https://en.wikipedia.org/wiki/Drum_and_bass",
+      "note": "Drum and bass: fast breakbeats around 165-185 BPM with heavy bass/sub-bass."
+    },
+    {
+      "id": "dubstep",
+      "url": "https://en.wikipedia.org/wiki/Dubstep",
+      "note": "Dubstep: syncopated/shuffled 132-142 BPM rhythms, strong sub-bass and sparse half-time feel."
+    },
+    {
+      "id": "ambient",
+      "url": "https://en.wikipedia.org/wiki/Ambient_music",
+      "note": "Ambient: tone/atmosphere over traditional rhythm, sustained textures, low beat density."
+    },
+    {
+      "id": "city-pop",
+      "url": "https://en.wikipedia.org/wiki/City_pop",
+      "note": "City pop: loose Japanese urban pop label drawing on funk, disco, R&B, AOR, soft rock, boogie, jazz fusion and synth production."
+    },
+    {
+      "id": "punk",
+      "url": "https://en.wikipedia.org/wiki/Punk_rock",
+      "note": "Punk rock: stripped-down guitars/bass/drums/vocals, fast tempos, distorted power chords, less syncopation."
+    },
+    {
+      "id": "metal",
+      "url": "https://en.wikipedia.org/wiki/Heavy_metal_music",
+      "note": "Heavy metal: loud distorted guitars, emphatic rhythms, dense bass/drums, vigorous vocals and riffs."
+    },
+    {
+      "id": "funk",
+      "url": "https://en.wikipedia.org/wiki/Funk",
+      "note": "Funk: syncopated groove, prominent bassline, emphasis on the first beat, danceable interlocking rhythms."
+    },
+    {
+      "id": "hiphop",
+      "url": "https://en.wikipedia.org/wiki/Hip-hop_music",
+      "note": "Hip-hop: rapping over beats, sampling, loops, turntablism and drum-machine/sampler production."
+    },
+    {
+      "id": "trance",
+      "url": "https://en.wikipedia.org/wiki/Trance_music",
+      "note": "Trance: 120-150 BPM, repeated melodic phrases, long builds and peaks/drops."
+    }
+  ],
+  "profiles": {
+    "アンビエント": {
+      "macroGenre": "ambient",
+      "notes": "atmosphere, low beat density, sustained tone",
+      "tempoBpm": { "min": 40, "max": 110, "weight": 0.4 },
+      "features": {
+        "onsetDensity": { "max": 0.42, "weight": 1.2 },
+        "onsetRegularity": { "max": 0.5, "weight": 0.8 },
+        "energy": { "max": 0.58, "weight": 0.7 },
+        "acousticness": { "min": 0.35, "weight": 0.5 },
+        "centroidContrast": { "min": 0.36, "weight": 0.5 },
+        "percussiveRatio": { "max": 0.45, "weight": 0.7 },
+        "sustainRatio": { "min": 0.48, "weight": 0.75 },
+        "transientScarcity": { "min": 0.48, "weight": 0.85 }
+      }
+    },
+    "ドローン": {
+      "macroGenre": "ambient",
+      "notes": "sustained or slowly changing tones, very low onset density",
+      "tempoBpm": { "min": 30, "max": 95, "weight": 0.25 },
+      "features": {
+        "onsetDensity": { "max": 0.28, "weight": 1.4 },
+        "onsetRegularity": { "max": 0.38, "weight": 0.9 },
+        "chromaMotion": { "max": 0.45, "weight": 0.8 },
+        "rmsContrast": { "max": 0.55, "weight": 0.5 },
+        "percussiveRatio": { "max": 0.32, "weight": 0.9 },
+        "sustainRatio": { "min": 0.58, "weight": 1.15 },
+        "transientScarcity": { "min": 0.62, "weight": 1.2 }
+      }
+    },
+    "ノイズミュージック": {
+      "macroGenre": "ambient",
+      "notes": "noise texture, high zero-crossing/high-frequency energy, unstable tonality",
+      "features": {
+        "zcr": { "min": 0.48, "weight": 1.2 },
+        "highNoiseRatio": { "min": 0.5, "weight": 1.1 },
+        "highBandRatio": { "min": 0.2, "weight": 0.7 },
+        "chromaEntropy": { "max": 0.7, "weight": 0.4 },
+        "harmonicRatio": { "max": 0.45, "weight": 0.8 }
+      }
+    },
+    "電子音楽": {
+      "macroGenre": "electronic",
+      "notes": "broad electronic macro label; synth/drum-machine production",
+      "tempoBpm": { "min": 80, "max": 160, "weight": 0.45 },
+      "features": {
+        "acousticness": { "max": 0.55, "weight": 0.9 },
+        "squareWave": { "min": 0.25, "weight": 0.7 },
+        "pulseClarity": { "min": 0.35, "weight": 0.6 },
+        "bandFlux": { "min": 0.28, "weight": 0.5 }
+      }
+    },
+    "テクノ": {
+      "macroGenre": "electronic",
+      "notes": "120-150 BPM, repetitive 4/4, rhythm over melody, synthetic timbre",
+      "tempoBpm": { "min": 120, "max": 150, "weight": 1.25 },
+      "features": {
+        "onsetRegularity": { "min": 0.62, "weight": 1.2 },
+        "beatGridStrength": { "min": 0.55, "weight": 1.1 },
+        "fourOnFloor": { "min": 0.52, "weight": 1.25 },
+        "kickGrid": { "min": 0.48, "weight": 1.05 },
+        "pulseClarity": { "min": 0.58, "weight": 1.0 },
+        "acousticness": { "max": 0.42, "weight": 0.9 },
+        "vocalPresence": { "max": 0.48, "weight": 0.5 },
+        "chromaMotion": { "max": 0.7, "weight": 0.4 }
+      }
+    },
+    "ハウス": {
+      "macroGenre": "electronic",
+      "notes": "115-130 BPM, four-on-the-floor, bassline, vocals possible",
+      "tempoBpm": { "min": 115, "max": 130, "weight": 1.2 },
+      "features": {
+        "onsetRegularity": { "min": 0.62, "weight": 1.1 },
+        "beatGridStrength": { "min": 0.55, "weight": 1.0 },
+        "fourOnFloor": { "min": 0.5, "weight": 1.0 },
+        "kickGrid": { "min": 0.42, "weight": 0.75 },
+        "offbeatEmphasis": { "min": 0.28, "weight": 0.45 },
+        "bass": { "min": 0.35, "weight": 0.7 },
+        "lowBandRatio": { "min": 0.25, "weight": 0.5 },
+        "vocalPresence": { "min": 0.2, "max": 0.85, "weight": 0.35 }
+      }
+    },
+    "ディープ・ハウス": {
+      "macroGenre": "electronic",
+      "notes": "house grid with warmer/deeper bass and smoother energy",
+      "tempoBpm": { "min": 110, "max": 126, "weight": 1.1 },
+      "features": {
+        "onsetRegularity": { "min": 0.58, "weight": 0.9 },
+        "beatGridStrength": { "min": 0.48, "weight": 0.8 },
+        "fourOnFloor": { "min": 0.42, "weight": 0.75 },
+        "kickGrid": { "min": 0.38, "weight": 0.55 },
+        "lowBandRatio": { "min": 0.32, "weight": 0.9 },
+        "highBandRatio": { "max": 0.34, "weight": 0.5 },
+        "energy": { "min": 0.38, "max": 0.78, "weight": 0.6 }
+      }
+    },
+    "トランス": {
+      "macroGenre": "electronic",
+      "notes": "120-150 BPM, repeated melodic phrases and build-ups",
+      "tempoBpm": { "min": 125, "max": 150, "weight": 1.15 },
+      "features": {
+        "beatGridStrength": { "min": 0.55, "weight": 0.9 },
+        "chromaMotion": { "min": 0.45, "weight": 0.8 },
+        "chorusLift": { "min": 0.38, "weight": 0.6 },
+        "brightness": { "min": 0.35, "weight": 0.45 },
+        "acousticness": { "max": 0.48, "weight": 0.6 }
+      }
+    },
+    "ドラムンベース": {
+      "macroGenre": "electronic",
+      "notes": "165-185 BPM, fast breakbeats, heavy bass/sub-bass",
+      "tempoBpm": { "min": 160, "max": 185, "weight": 1.35, "allowHalfTime": true },
+      "features": {
+        "breakbeatDensity": { "min": 0.58, "weight": 1.4 },
+        "breakbeatIrregularity": { "min": 0.48, "weight": 1.15 },
+        "onsetDensity": { "min": 0.58, "weight": 1.0 },
+        "syncopation": { "min": 0.45, "weight": 0.8 },
+        "lowBandRatio": { "min": 0.3, "weight": 0.8 },
+        "bass": { "min": 0.35, "weight": 0.7 }
+      }
+    },
+    "ダブステップ": {
+      "macroGenre": "electronic",
+      "notes": "132-142 BPM, syncopated/half-time feel, strong sub-bass",
+      "tempoBpm": { "min": 132, "max": 142, "weight": 1.25, "allowHalfTime": true },
+      "features": {
+        "lowBandRatio": { "min": 0.38, "weight": 1.2 },
+        "bass": { "min": 0.42, "weight": 1.1 },
+        "syncopation": { "min": 0.38, "weight": 0.8 },
+        "onsetRegularity": { "min": 0.35, "max": 0.78, "weight": 0.5 },
+        "highBandRatio": { "max": 0.42, "weight": 0.35 }
+      }
+    },
+    "チップチューン": {
+      "macroGenre": "electronic",
+      "notes": "simple waveform/square-wave timbre, high ZCR, synthetic melody",
+      "tempoBpm": { "min": 90, "max": 180, "weight": 0.45 },
+      "features": {
+        "squareWave": { "min": 0.48, "weight": 1.4 },
+        "zcr": { "min": 0.38, "weight": 0.8 },
+        "acousticness": { "max": 0.35, "weight": 0.9 },
+        "chromaMotion": { "min": 0.42, "weight": 0.55 },
+        "harmonicRatio": { "min": 0.45, "weight": 0.4 }
+      }
+    },
+    "ヒップホップ": {
+      "macroGenre": "black_music",
+      "notes": "beats/loops, rap vocal presence, sampling, low-mid body",
+      "tempoBpm": { "min": 70, "max": 115, "weight": 0.9, "allowDoubleTime": true },
+      "features": {
+        "vocalPresence": { "min": 0.38, "weight": 1.1 },
+        "vocalBand": { "min": 0.32, "weight": 0.9 },
+        "onsetRegularity": { "min": 0.4, "weight": 0.7 },
+        "lowMidBalance": { "min": 0.35, "weight": 0.7 },
+        "acousticness": { "max": 0.62, "weight": 0.4 }
+      }
+    },
+    "トラップ": {
+      "macroGenre": "black_music",
+      "notes": "808/sub-bass, sparse high hats, half/double-time tempo ambiguity",
+      "tempoBpm": { "min": 65, "max": 85, "weight": 0.7, "allowDoubleTime": true },
+      "features": {
+        "bass": { "min": 0.48, "weight": 1.2 },
+        "lowBandRatio": { "min": 0.38, "weight": 1.0 },
+        "highBandRatio": { "min": 0.14, "weight": 0.45 },
+        "syncopation": { "min": 0.32, "weight": 0.55 },
+        "onsetDensity": { "min": 0.35, "max": 0.8, "weight": 0.5 }
+      }
+    },
+    "レゲエ": {
+      "macroGenre": "black_music",
+      "notes": "offbeat skank, strong bass, slower groove",
+      "tempoBpm": { "min": 65, "max": 100, "weight": 0.85, "allowDoubleTime": true },
+      "features": {
+        "bass": { "min": 0.4, "weight": 1.0 },
+        "lowBandRatio": { "min": 0.34, "weight": 0.9 },
+        "syncopation": { "min": 0.38, "weight": 0.8 },
+        "offbeatEmphasis": { "min": 0.32, "weight": 0.85 },
+        "onsetRegularity": { "min": 0.35, "weight": 0.5 },
+        "highBandRatio": { "max": 0.36, "weight": 0.35 }
+      }
+    },
+    "ダブ": {
+      "macroGenre": "black_music",
+      "notes": "reggae-derived bass, sparse arrangement, echo/reverb space",
+      "tempoBpm": { "min": 65, "max": 105, "weight": 0.75, "allowDoubleTime": true },
+      "features": {
+        "bass": { "min": 0.45, "weight": 1.1 },
+        "lowBandRatio": { "min": 0.38, "weight": 1.1 },
+        "onsetDensity": { "max": 0.58, "weight": 0.7 },
+        "highBandRatio": { "max": 0.32, "weight": 0.6 },
+        "centroidContrast": { "min": 0.35, "weight": 0.45 },
+        "reverbTail": { "min": 0.36, "weight": 0.85 },
+        "transientScarcity": { "min": 0.38, "weight": 0.6 }
+      }
+    },
+    "ブルース": {
+      "macroGenre": "black_music",
+      "notes": "acoustic/electric guitar, midrange, swing/shuffle tendency",
+      "tempoBpm": { "min": 60, "max": 140, "weight": 0.35 },
+      "features": {
+        "guitarBand": { "min": 0.28, "weight": 0.85 },
+        "midBandRatio": { "min": 0.28, "weight": 0.65 },
+        "acousticness": { "min": 0.28, "weight": 0.45 },
+        "chromaEntropy": { "min": 0.48, "weight": 0.4 },
+        "vocalPresence": { "min": 0.2, "weight": 0.35 }
+      }
+    },
+    "ファンク": {
+      "macroGenre": "black_music",
+      "notes": "syncopated bass/guitar groove, prominent low end, danceable interlocking rhythms",
+      "tempoBpm": { "min": 85, "max": 125, "weight": 0.65 },
+      "features": {
+        "syncopation": { "min": 0.42, "weight": 1.1 },
+        "offbeatEmphasis": { "min": 0.35, "weight": 0.8 },
+        "bass": { "min": 0.36, "weight": 1.0 },
+        "lowMidBalance": { "min": 0.34, "weight": 0.8 },
+        "onsetRegularity": { "min": 0.42, "weight": 0.7 },
+        "vocalPresence": { "min": 0.25, "weight": 0.4 }
+      }
+    },
+    "ソウルミュージック": {
+      "macroGenre": "black_music",
+      "notes": "lead vocal focus, groove, warm midrange",
+      "tempoBpm": { "min": 65, "max": 125, "weight": 0.45 },
+      "features": {
+        "vocalPresence": { "min": 0.45, "weight": 1.2 },
+        "vocalBand": { "min": 0.38, "weight": 1.0 },
+        "lowMidBalance": { "min": 0.3, "weight": 0.6 },
+        "chromaMotion": { "min": 0.35, "weight": 0.45 },
+        "energy": { "min": 0.32, "max": 0.82, "weight": 0.35 }
+      }
+    },
+    "ディスコ": {
+      "macroGenre": "black_music",
+      "notes": "dance pop/funk with four-on-the-floor, bright rhythmic production",
+      "tempoBpm": { "min": 105, "max": 130, "weight": 0.9 },
+      "features": {
+        "beatGridStrength": { "min": 0.5, "weight": 0.8 },
+        "onsetRegularity": { "min": 0.52, "weight": 0.8 },
+        "bass": { "min": 0.3, "weight": 0.6 },
+        "brightness": { "min": 0.32, "weight": 0.45 },
+        "vocalPresence": { "min": 0.25, "weight": 0.35 }
+      }
+    },
+    "ロック": {
+      "macroGenre": "rock",
+      "notes": "electric guitar/bass/drums, midrange energy, vocals",
+      "tempoBpm": { "min": 80, "max": 170, "weight": 0.35 },
+      "features": {
+        "guitarBand": { "min": 0.35, "weight": 1.1 },
+        "midDensity": { "min": 0.35, "weight": 0.85 },
+        "distortion": { "min": 0.28, "weight": 0.75 },
+        "onsetDensity": { "min": 0.38, "weight": 0.55 },
+        "vocalPresence": { "min": 0.25, "weight": 0.35 }
+      }
+    },
+    "パンク": {
+      "macroGenre": "rock",
+      "notes": "fast stripped-down distorted guitars, dry heavy drums, low complexity",
+      "tempoBpm": { "min": 130, "max": 210, "weight": 0.65 },
+      "features": {
+        "distortion": { "min": 0.4, "weight": 1.1 },
+        "guitarBand": { "min": 0.38, "weight": 1.0 },
+        "onsetDensity": { "min": 0.5, "weight": 0.8 },
+        "syncopation": { "max": 0.58, "weight": 0.45 },
+        "acousticness": { "max": 0.55, "weight": 0.35 }
+      }
+    },
+    "ハードコア": {
+      "macroGenre": "rock",
+      "notes": "very fast/aggressive punk-derived impact",
+      "tempoBpm": { "min": 150, "max": 230, "weight": 0.75 },
+      "features": {
+        "distortion": { "min": 0.48, "weight": 1.2 },
+        "onsetDensity": { "min": 0.58, "weight": 1.0 },
+        "energy": { "min": 0.55, "weight": 0.7 },
+        "highNoiseRatio": { "min": 0.35, "weight": 0.7 },
+        "guitarBand": { "min": 0.38, "weight": 0.8 }
+      }
+    },
+    "メタル": {
+      "macroGenre": "rock",
+      "notes": "distorted guitars, riffs, emphatic rhythms, dense low/mid energy",
+      "tempoBpm": { "min": 80, "max": 210, "weight": 0.35 },
+      "features": {
+        "distortion": { "min": 0.5, "weight": 1.35 },
+        "guitarBand": { "min": 0.42, "weight": 1.1 },
+        "midDensity": { "min": 0.4, "weight": 0.8 },
+        "highNoiseRatio": { "min": 0.35, "weight": 0.75 },
+        "energy": { "min": 0.52, "weight": 0.65 }
+      }
+    },
+    "ジャズ": {
+      "macroGenre": "jazz",
+      "notes": "acoustic or electric ensemble, swing/syncopation, harmonic/chroma complexity",
+      "tempoBpm": { "min": 60, "max": 220, "weight": 0.2 },
+      "features": {
+        "chromaEntropy": { "min": 0.62, "weight": 1.1 },
+        "chromaMotion": { "min": 0.45, "weight": 0.9 },
+        "syncopation": { "min": 0.35, "weight": 0.75 },
+        "acousticness": { "min": 0.35, "weight": 0.65 },
+        "midBandRatio": { "min": 0.28, "weight": 0.45 }
+      }
+    },
+    "シティ・ポップ": {
+      "macroGenre": "pop",
+      "notes": "Japanese urban pop vibe, funk/disco/R&B/AOR/soft rock/boogie/jazz fusion/synth production",
+      "tempoBpm": { "min": 85, "max": 128, "weight": 0.55 },
+      "features": {
+        "vocalPresence": { "min": 0.34, "weight": 0.75 },
+        "vocalBand": { "min": 0.3, "weight": 0.65 },
+        "vocalBandStability": { "min": 0.36, "weight": 0.55 },
+        "bass": { "min": 0.28, "weight": 0.55 },
+        "syncopation": { "min": 0.3, "weight": 0.45 },
+        "offbeatEmphasis": { "min": 0.25, "weight": 0.35 },
+        "brightness": { "min": 0.28, "weight": 0.45 },
+        "chromaMotion": { "min": 0.36, "weight": 0.45 },
+        "structureRecurrence": { "min": 0.28, "weight": 0.45 }
+      }
+    },
+    "J-POP": {
+      "macroGenre": "pop",
+      "notes": "vocal-led Japanese pop, chorus lift, bright midrange, stable song form",
+      "tempoBpm": { "min": 75, "max": 170, "weight": 0.35 },
+      "features": {
+        "vocalPresence": { "min": 0.42, "weight": 1.15 },
+        "vocalBand": { "min": 0.34, "weight": 0.95 },
+        "vocalBandStability": { "min": 0.38, "weight": 0.75 },
+        "chorusLift": { "min": 0.34, "weight": 0.75 },
+        "rmsBuild": { "min": 0.28, "weight": 0.55 },
+        "structureRecurrence": { "min": 0.32, "weight": 0.55 },
+        "brightness": { "min": 0.28, "weight": 0.4 },
+        "chromaMotion": { "min": 0.36, "weight": 0.45 }
+      }
+    },
+    "アニメソング": {
+      "macroGenre": "pop",
+      "notes": "high-energy vocal pop/rock/electronic anime theme tendency with strong hooks",
+      "tempoBpm": { "min": 90, "max": 190, "weight": 0.35 },
+      "features": {
+        "vocalPresence": { "min": 0.42, "weight": 1.0 },
+        "vocalBandStability": { "min": 0.35, "weight": 0.55 },
+        "chorusLift": { "min": 0.38, "weight": 0.8 },
+        "energy": { "min": 0.45, "weight": 0.65 },
+        "structureRecurrence": { "min": 0.3, "weight": 0.45 },
+        "brightness": { "min": 0.32, "weight": 0.55 },
+        "chromaMotion": { "min": 0.42, "weight": 0.55 },
+        "onsetDensity": { "min": 0.38, "weight": 0.4 }
+      }
+    },
+    "クラシック音楽": {
+      "macroGenre": "classical",
+      "notes": "acoustic orchestral/chamber tradition, high dynamics, low beat grid",
+      "tempoBpm": { "min": 40, "max": 180, "weight": 0.2 },
+      "features": {
+        "acousticness": { "min": 0.55, "weight": 1.25 },
+        "rmsContrast": { "min": 0.35, "weight": 0.9 },
+        "beatGridStrength": { "max": 0.48, "weight": 0.7 },
+        "percussiveRatio": { "max": 0.48, "weight": 0.6 },
+        "chromaEntropy": { "min": 0.55, "weight": 0.6 }
+      }
+    },
+    "オペラ": {
+      "macroGenre": "classical",
+      "notes": "classical vocal focus with large dynamics and acoustic accompaniment",
+      "tempoBpm": { "min": 45, "max": 170, "weight": 0.15 },
+      "features": {
+        "vocalPresence": { "min": 0.5, "weight": 1.2 },
+        "vocalBand": { "min": 0.45, "weight": 1.0 },
+        "acousticness": { "min": 0.48, "weight": 0.85 },
+        "rmsContrast": { "min": 0.35, "weight": 0.75 },
+        "beatGridStrength": { "max": 0.55, "weight": 0.45 }
+      }
+    },
+    "フォーク": {
+      "macroGenre": "world",
+      "notes": "acoustic voice/guitar or traditional song, moderate energy",
+      "tempoBpm": { "min": 55, "max": 150, "weight": 0.25 },
+      "features": {
+        "acousticness": { "min": 0.45, "weight": 1.0 },
+        "vocalPresence": { "min": 0.3, "weight": 0.6 },
+        "midBandRatio": { "min": 0.28, "weight": 0.5 },
+        "energy": { "max": 0.72, "weight": 0.45 },
+        "beatGridStrength": { "max": 0.65, "weight": 0.35 }
+      }
+    },
+    "ラテン": {
+      "macroGenre": "world",
+      "notes": "dance/percussion, syncopation, bright acoustic/electric ensemble",
+      "tempoBpm": { "min": 85, "max": 180, "weight": 0.35 },
+      "features": {
+        "syncopation": { "min": 0.42, "weight": 1.0 },
+        "onsetRegularity": { "min": 0.42, "weight": 0.75 },
+        "chromaMotion": { "min": 0.45, "weight": 0.65 },
+        "brightness": { "min": 0.28, "weight": 0.45 },
+        "acousticness": { "min": 0.25, "weight": 0.35 }
+      }
+    },
+    "ワールドミュージック": {
+      "macroGenre": "world",
+      "notes": "broad macro label; varied acoustic timbres, non-pop rhythmic/harmonic patterns",
+      "tempoBpm": { "min": 50, "max": 190, "weight": 0.15 },
+      "features": {
+        "acousticness": { "min": 0.32, "weight": 0.7 },
+        "chromaEntropy": { "min": 0.5, "weight": 0.6 },
+        "chromaMotion": { "min": 0.38, "weight": 0.55 },
+        "syncopation": { "min": 0.28, "weight": 0.45 },
+        "spectralSpread": { "min": 0.25, "weight": 0.35 }
+      }
+    }
+  }
+}

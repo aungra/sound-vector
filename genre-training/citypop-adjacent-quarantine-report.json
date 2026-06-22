@@ -1,0 +1,37 @@
+{
+  "generatedAt": "2026-06-21T18:02:52.340Z",
+  "verifiedDatasetPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/verified-dataset.json",
+  "changedCount": 3,
+  "changed": [
+    {
+      "trackId": "Wikimedia-Commons-File-RetroFuture-Nasty-ISRC-USUAN1200042-mp3",
+      "title": "File:RetroFuture Nasty (ISRC USUAN1200042).mp3",
+      "artist": "Kevin MacLeod",
+      "previousSourceType": "cc-dataset",
+      "nextSourceType": "cc-dataset-quarantined",
+      "previousTrainingRole": "fine",
+      "nextTrainingRole": "macro-only",
+      "referenceUrl": "https://commons.wikimedia.org/wiki/File:RetroFuture_Nasty_(ISRC_USUAN1200042).mp3"
+    },
+    {
+      "trackId": "Wikimedia-Commons-File-RetroFuture-Dirty-ISRC-USUAN1200041-mp3",
+      "title": "File:RetroFuture Dirty (ISRC USUAN1200041).mp3",
+      "artist": "Kevin MacLeod",
+      "previousSourceType": "cc-dataset",
+      "nextSourceType": "cc-dataset-quarantined",
+      "previousTrainingRole": "fine",
+      "nextTrainingRole": "macro-only",
+      "referenceUrl": "https://commons.wikimedia.org/wiki/File:RetroFuture_Dirty_(ISRC_USUAN1200041).mp3"
+    },
+    {
+      "trackId": "Wikimedia-Commons-File-RetroFuture-Clean-ISRC-USUAN1200040-mp3",
+      "title": "File:RetroFuture Clean (ISRC USUAN1200040).mp3",
+      "artist": "Kevin MacLeod",
+      "previousSourceType": "cc-dataset",
+      "nextSourceType": "cc-dataset-quarantined",
+      "previousTrainingRole": "fine",
+      "nextTrainingRole": "macro-only",
+      "referenceUrl": "https://commons.wikimedia.org/wiki/File:RetroFuture_Clean_(ISRC_USUAN1200040).mp3"
+    }
+  ]
+}

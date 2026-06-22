@@ -2246,6 +2246,80 @@
         syncopation: clamp01(mean(offGrid) * Math.min(1, peaks.length / 8) + clamp01(gapMean ? gapContrast : 0) * .35)
       };
     }
+    function gridPulseEnergy(values = [], tempo = 96, phase = 0, duration = 24) {
+      const list = (Array.isArray(values) ? values : []).map(value => clamp01(value));
+      if (list.length < 8) return 0;
+      const beatCount = Math.max(2, (Number(tempo) || 96) / 60 * Math.max(8, Number(duration) || 24));
+      const beatPeriod = list.length / beatCount;
+      if (!Number.isFinite(beatPeriod) || beatPeriod < .35) return 0;
+      let weighted = 0;
+      let weightTotal = 0;
+      for (let index = 0; index < list.length; index++) {
+        const beatPosition = index / beatPeriod;
+        const local = beatPosition - Math.floor(beatPosition);
+        const distance = Math.min(Math.abs(local - phase), 1 - Math.abs(local - phase));
+        const weight = Math.exp(-Math.pow(distance / .18, 2));
+        weighted += list[index] * weight;
+        weightTotal += weight;
+      }
+      const onGrid = weighted / Math.max(.0001, weightTotal);
+      const avg = mean(list) || .0001;
+      return clamp01((onGrid / avg - .72) * .72);
+    }
+    function recurrenceScore(values = [], minLag = 6, maxLag = 28) {
+      const list = (Array.isArray(values) ? values : []).map(Number).filter(Number.isFinite);
+      if (list.length < minLag + 4) return 0;
+      const avg = mean(list);
+      const centered = list.map(value => value - avg);
+      const energy = centered.reduce((sum, value) => sum + value * value, 0) || 1;
+      let best = 0;
+      for (let lag = minLag; lag <= Math.min(maxLag, Math.floor(list.length / 2)); lag++) {
+        let dot = 0;
+        for (let i = 0; i < list.length - lag; i++) dot += centered[i] * centered[i + lag];
+        best = Math.max(best, dot / energy);
+      }
+      return clamp01(best * 1.8);
+    }
+    function rhythmicTheoryFeatures(detail = {}, features = {}, beatGrid = {}, onsetPeaks = {}) {
+      const duration = Number(features.analysisWindowSeconds || detail.pcmSketchDuration || 24) || 24;
+      const onsetValues = detail.onset || [];
+      const bassValues = detail.bass || [];
+      const rmsValues = detail.rms || [];
+      const tempo = Number(features.tempo) || 96;
+      const onBeat = gridPulseEnergy(onsetValues, tempo, 0, duration);
+      const bassOnBeat = gridPulseEnergy(bassValues, tempo, 0, duration);
+      const offbeat = gridPulseEnergy(onsetValues, tempo, .5, duration);
+      const fourOnFloor = clamp01(onBeat * .58 + bassOnBeat * .42 + (beatGrid.beatGridStrength || 0) * .18 - (beatGrid.syncopation || 0) * .16);
+      const kickGrid = clamp01(bassOnBeat * .62 + onBeat * .28 + (beatGrid.tempoStability || 0) * .1);
+      const breakbeatTempo = tempoDistance(tempo, 172) < 20 || tempoDistance(tempo * 2, 172) < 20 || tempoDistance(tempo / 2, 172) < 20;
+      const breakbeatIrregularity = clamp01((beatGrid.syncopation || 0) * .42 + (onsetPeaks.density || 0) * .24 + (1 - fourOnFloor) * .22 + (breakbeatTempo ? .16 : 0));
+      const rmsContinuity = clamp01(1 - mean((Array.isArray(rmsValues) ? rmsValues : []).slice(1).map((value, index) => Math.abs(Number(value) - Number(rmsValues[index])))) * 3.4);
+      const transientScarcity = clamp01(1 - (onsetPeaks.density || 0) * .7 - contrast(onsetValues) * .28 + rmsContinuity * .18);
+      const activeFrames = (Array.isArray(rmsValues) ? rmsValues : []).filter(value => Number(value) > mean(rmsValues) * .55).length;
+      const sustainRatio = clamp01(activeFrames / Math.max(1, rmsValues.length) * .46 + rmsContinuity * .34 + transientScarcity * .2);
+      const onsetList = (Array.isArray(onsetValues) ? onsetValues : []).map(value => clamp01(value));
+      const rmsList = (Array.isArray(rmsValues) ? rmsValues : []).map(value => clamp01(value));
+      const peakLimit = Math.max(...onsetList, .0001) * .68;
+      const tails = [];
+      onsetList.forEach((value, index) => {
+        if (index >= onsetList.length - 5 || value < peakLimit) return;
+        const attack = rmsList[index] || value || .0001;
+        const tail = mean(rmsList.slice(index + 2, index + 6));
+        tails.push(tail / Math.max(.0001, attack));
+      });
+      const reverbTail = clamp01(mean(tails) * .78 + transientScarcity * .16 + (1 - clamp01(features.brightness)) * .06);
+      const structureRecurrence = clamp01(recurrenceScore(rmsValues, 6, 26) * .62 + recurrenceScore((detail.centroid || []), 6, 26) * .18 + recurrenceScore((detail.bass || []), 6, 26) * .2);
+      return {
+        fourOnFloor,
+        kickGrid,
+        offbeatEmphasis: offbeat,
+        breakbeatIrregularity,
+        sustainRatio,
+        transientScarcity,
+        reverbTail,
+        structureRecurrence
+      };
+    }
     function vocalBandEstimate(detail = {}, features = {}) {
       const rows = Array.isArray(detail.bandTimeline) ? detail.bandTimeline : [];
       const chromaRows = Array.isArray(detail.chromaTimeline) ? detail.chromaTimeline : [];
@@ -2258,6 +2332,12 @@
       const chromaChange = chromaMotion(chromaRows);
       const smoothness = 1 - contrast(detail.zeroCrossing || []);
       return clamp01(bandScore * .58 + chromaChange * .22 + smoothness * .2 + clamp01(features.energy ?? features.rms) * .08);
+    }
+    function vocalBandStabilityEstimate(detail = {}, vocalPresence = 0) {
+      const rows = Array.isArray(detail.bandTimeline) ? detail.bandTimeline : [];
+      if (!rows.length) return clamp01(vocalPresence * .5);
+      const vocalSeries = rows.map(row => (Number(row?.[3] || 0) + Number(row?.[4] || 0) + Number(row?.[5] || 0)) / 3);
+      return clamp01((1 - contrast(vocalSeries)) * .52 + clamp01(vocalPresence) * .32 + recurrenceScore(vocalSeries, 4, 18) * .16);
     }
     function bandGroupRatios(detail = {}, features = {}) {
       const rows = Array.isArray(detail.bandTimeline) ? detail.bandTimeline : [];
@@ -2310,6 +2390,8 @@
       const pulseClarity = clamp01(onsetPeaks.regularity * .48 + (1 - contrast(detail.onset)) * .24 + clamp01(features.rhythm ?? features.onset) * .28);
       const beatGrid = beatGridStats(detail.onset, features.tempo);
       const vocalPresence = vocalBandEstimate(detail, features);
+      const rhythmicTheory = rhythmicTheoryFeatures(detail, features, beatGrid, onsetPeaks);
+      const vocalBandStability = vocalBandStabilityEstimate(detail, vocalPresence);
       return {
         tempo: Math.max(45, Math.min(220, Number(features.tempo) || 96)),
         energy: clamp01(features.energy ?? features.rms),
@@ -2338,6 +2420,15 @@
         distortion,
         breakbeatDensity,
         squareWave,
+        fourOnFloor: rhythmicTheory.fourOnFloor,
+        kickGrid: rhythmicTheory.kickGrid,
+        offbeatEmphasis: rhythmicTheory.offbeatEmphasis,
+        breakbeatIrregularity: rhythmicTheory.breakbeatIrregularity,
+        sustainRatio: rhythmicTheory.sustainRatio,
+        transientScarcity: rhythmicTheory.transientScarcity,
+        reverbTail: rhythmicTheory.reverbTail,
+        structureRecurrence: rhythmicTheory.structureRecurrence,
+        vocalBandStability,
         spectralSpread: spectralSpreadValue,
         bandFlux: bandFluxValue,
         harmonicRatio,
@@ -2612,6 +2703,25 @@
       });
       return scores;
     }
+    function distributionScores(distributions = {}, target = [], weights = []) {
+      const scores = {};
+      Object.entries(distributions || {}).forEach(([label, stats]) => {
+        const meanVector = Array.isArray(stats?.mean) ? stats.mean : [];
+        const stdVector = Array.isArray(stats?.std) ? stats.std : [];
+        let total = 0;
+        let weightTotal = 0;
+        for (let index = 0; index < Math.min(target.length, meanVector.length); index++) {
+          const weight = Number(weights[index]) || 1;
+          const std = Math.max(.18, Number(stdVector[index]) || 1);
+          total += Math.pow(((target[index] || 0) - (meanVector[index] || 0)) / std, 2) * weight;
+          weightTotal += weight;
+        }
+        const distance = Math.sqrt(total / Math.max(.0001, weightTotal));
+        const support = Math.min(1.18, Math.max(.82, Math.log1p(Number(stats?.count) || 1) / Math.log(24)));
+        scores[label] = (1 / Math.pow(distance + .34, 2)) * support;
+      });
+      return scores;
+    }
     function mergeScores(a = {}, b = {}, aWeight = .64, bWeight = .36) {
       const out = {};
       new Set(Object.keys(a).concat(Object.keys(b))).forEach(key => {
@@ -2726,12 +2836,15 @@
       const z = standardiseVector(raw, model.standardizer || {});
       const weights = model.featureKeys.map(key => Number(model.featureWeights?.[key]) || 1);
       const examples = model.examples.map(example => ({ ...example, weights, z: standardiseVector(example.values || [], model.standardizer || {}) }));
-      const learnedMacroScores = mergeScores(
+      const baseMacroScores = mergeScores(
         knnScores(examples, z, item => canonicalModelMacro(item.macroGenre), model.knnK || 11),
         centroidScores(model.centroids?.macro || {}, z, weights),
         .66,
         .34
       );
+      const learnedMacroScores = model.sourcePolicy?.distributionClassifierEnabled
+        ? mergeScores(baseMacroScores, distributionScores(model.distributions?.macro || {}, z, weights), .74, .26)
+        : baseMacroScores;
       const macroScores = blendModelMacroTheoryScores(learnedMacroScores, raw, model);
       const calibrationEnabled = Boolean(model.sourcePolicy?.validationCalibrationEnabled);
       const calibratedMacroScores = applyModelCalibration(macroScores, model.calibration?.macroBias, calibrationEnabled);
@@ -2741,12 +2854,20 @@
       const fallbackFineExamples = examples.filter(item => item.trainingRole !== "macro-only");
       const scopedFineExamples = fineExamples.length >= 3 ? fineExamples : fallbackFineExamples;
       const fineCentroids = model.centroids?.fineByMacro?.[selectedMacro] || model.centroids?.fine || {};
-      const fineScores = mergeScores(
+      const baseFineScores = mergeScores(
         knnScores(scopedFineExamples, z, item => item.genre, model.knnK || 11),
         centroidScores(fineCentroids, z, weights),
         .68,
         .32
       );
+      const fineScores = model.sourcePolicy?.distributionClassifierEnabled
+        ? mergeScores(
+          baseFineScores,
+          distributionScores(model.distributions?.fineByMacro?.[selectedMacro] || model.distributions?.fine || {}, z, weights),
+          .76,
+          .24
+        )
+        : baseFineScores;
       const theoryFineScores = blendModelTheoryScores(fineScores, raw, model);
       const calibratedFineScores = applyModelCalibration(theoryFineScores, model.calibration?.fineBias, calibrationEnabled);
       const catalogByName = Object.fromEntries(musicGenreCatalog.map(item => [item.name, item]));

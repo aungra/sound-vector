@@ -1,0 +1,29 @@
+{
+  "importedAt": "2026-06-11T12:14:30.643Z",
+  "fmaDir": "/Users/kahanishimoto/Documents/MUSICTee/.external-data/fma/fma_metadata",
+  "tracksPath": "/Users/kahanishimoto/Documents/MUSICTee/.external-data/fma/fma_metadata/tracks.csv",
+  "featuresPath": "/Users/kahanishimoto/Documents/MUSICTee/.external-data/fma/fma_metadata/features.csv",
+  "weakOnly": true,
+  "limitPerGenre": 120,
+  "imported": 1395,
+  "importedByGenre": {
+    "J-POP": 120,
+    "ノイズミュージック": 120,
+    "ジャズ": 120,
+    "テクノ": 120,
+    "ディスコ": 53,
+    "クラシック音楽": 120,
+    "ドローン": 120,
+    "チップチューン": 120,
+    "ハウス": 120,
+    "ダブ": 92,
+    "ダブステップ": 120,
+    "ドラムンベース": 120,
+    "トランス": 41,
+    "ディープ・ハウス": 9
+  },
+  "rejectedByReason": {
+    "not-in-current-weak-genre-set": 15159,
+    "genre-limit-reached": 8329
+  }
+}

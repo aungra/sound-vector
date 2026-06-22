@@ -1,0 +1,565 @@
+{
+  "generatedAt": "2026-06-21T16:50:04.404Z",
+  "configCount": 8,
+  "best": {
+    "config": {
+      "name": "best-no-macro-heuristics",
+      "env": {
+        "MMFR_DISTRIBUTION_CLASSIFIER": "1",
+        "MMFR_SEPARABILITY_WEIGHTS": "1",
+        "MMFR_ENABLE_MACRO_HEURISTICS": "0"
+      }
+    },
+    "objectiveScore": 95.024,
+    "summary": {
+      "macroTop1Accuracy": 31.6,
+      "fineTop1Accuracy": 15.5,
+      "fineTop3Accuracy": 26.3,
+      "needsReviewRate": 15.4,
+      "dubPredictionRate": 5.9,
+      "formalSummary": {
+        "evaluationMode": "formal-cc-audio-stable-genres",
+        "total": 368,
+        "fineTotal": 335,
+        "macroTop1Accuracy": 33.4,
+        "fineTop1Accuracy": 17.9,
+        "fineTop3Accuracy": 29.9,
+        "needsReviewRate": 15.5,
+        "dubPredictionRate": 6.8,
+        "sourceTypes": [
+          "cc-dataset",
+          "local-audio"
+        ],
+        "minTestPerGenre": 10,
+        "stableGenreCount": 26,
+        "status": "available",
+        "note": "Formal score uses only CC/local audio genres with enough test rows."
+      }
+    },
+    "featureCount": 27
+  },
+  "runs": [
+    {
+      "ok": true,
+      "startedAt": "2026-06-21T16:24:49.350Z",
+      "finishedAt": "2026-06-21T16:28:00.680Z",
+      "durationSeconds": 191,
+      "config": {
+        "name": "best-theory-off",
+        "env": {
+          "MMFR_DISTRIBUTION_CLASSIFIER": "1",
+          "MMFR_SEPARABILITY_WEIGHTS": "1",
+          "MMFR_ENABLE_GENRE_THEORY_PRIORS": "0"
+        }
+      },
+      "objectiveScore": 93.032,
+      "summary": {
+        "macroTop1Accuracy": 31.6,
+        "fineTop1Accuracy": 14.9,
+        "fineTop3Accuracy": 26.3,
+        "needsReviewRate": 15.9,
+        "dubPredictionRate": 5.2,
+        "formalSummary": {
+          "evaluationMode": "formal-cc-audio-stable-genres",
+          "total": 368,
+          "fineTotal": 335,
+          "macroTop1Accuracy": 33.2,
+          "fineTop1Accuracy": 17.3,
+          "fineTop3Accuracy": 29.9,
+          "needsReviewRate": 16.6,
+          "dubPredictionRate": 6,
+          "sourceTypes": [
+            "cc-dataset",
+            "local-audio"
+          ],
+          "minTestPerGenre": 10,
+          "stableGenreCount": 26,
+          "status": "available",
+          "note": "Formal score uses only CC/local audio genres with enough test rows."
+        }
+      },
+      "modelPolicy": {
+        "strictCcOnly": true,
+        "formalSourceTypes": [
+          "cc-dataset",
+          "local-audio"
+        ],
+        "fmaMetadataEnabled": false,
+        "itunesPreviewEnabled": false,
+        "macroHeuristicsEnabled": true,
+        "validationCalibrationEnabled": false,
+        "strictTwoStageEnabled": false,
+        "softTwoStageEnabled": true,
+        "balancedKnnEnabled": false,
+        "distributionClassifierEnabled": true,
+        "separabilityWeightsEnabled": true,
+        "genreTheoryPriorsEnabled": false,
+        "theoryGenreFeaturesEnabled": false,
+        "genreTheoryWeight": 0.05,
+        "genreTheoryMacroWeight": 0.034999999999999996,
+        "fmaAudioWeight": 0.82,
+        "extendedGenreFeaturesEnabled": false,
+        "advancedGenreFeaturesEnabled": false,
+        "note": "FMA metadata and iTunes previews are comparison-only unless explicitly enabled. Formal evaluation uses CC/local audio only."
+      },
+      "featureCount": 27
+    },
+    {
+      "ok": true,
+      "startedAt": "2026-06-21T16:28:00.709Z",
+      "finishedAt": "2026-06-21T16:31:09.475Z",
+      "durationSeconds": 189,
+      "config": {
+        "name": "best-theory-light",
+        "env": {
+          "MMFR_DISTRIBUTION_CLASSIFIER": "1",
+          "MMFR_SEPARABILITY_WEIGHTS": "1",
+          "MMFR_GENRE_THEORY_WEIGHT": "0.03",
+          "MMFR_GENRE_THEORY_MACRO_WEIGHT": "0.02"
+        }
+      },
+      "objectiveScore": 92.344,
+      "summary": {
+        "macroTop1Accuracy": 31.6,
+        "fineTop1Accuracy": 14.7,
+        "fineTop3Accuracy": 26.5,
+        "needsReviewRate": 15.7,
+        "dubPredictionRate": 5.9,
+        "formalSummary": {
+          "evaluationMode": "formal-cc-audio-stable-genres",
+          "total": 368,
+          "fineTotal": 335,
+          "macroTop1Accuracy": 33.2,
+          "fineTop1Accuracy": 17,
+          "fineTop3Accuracy": 30.1,
+          "needsReviewRate": 16,
+          "dubPredictionRate": 6.8,
+          "sourceTypes": [
+            "cc-dataset",
+            "local-audio"
+          ],
+          "minTestPerGenre": 10,
+          "stableGenreCount": 26,
+          "status": "available",
+          "note": "Formal score uses only CC/local audio genres with enough test rows."
+        }
+      },
+      "modelPolicy": {
+        "strictCcOnly": true,
+        "formalSourceTypes": [
+          "cc-dataset",
+          "local-audio"
+        ],
+        "fmaMetadataEnabled": false,
+        "itunesPreviewEnabled": false,
+        "macroHeuristicsEnabled": true,
+        "validationCalibrationEnabled": false,
+        "strictTwoStageEnabled": false,
+        "softTwoStageEnabled": true,
+        "balancedKnnEnabled": false,
+        "distributionClassifierEnabled": true,
+        "separabilityWeightsEnabled": true,
+        "genreTheoryPriorsEnabled": true,
+        "theoryGenreFeaturesEnabled": false,
+        "genreTheoryWeight": 0.03,
+        "genreTheoryMacroWeight": 0.02,
+        "fmaAudioWeight": 0.82,
+        "extendedGenreFeaturesEnabled": false,
+        "advancedGenreFeaturesEnabled": false,
+        "note": "FMA metadata and iTunes previews are comparison-only unless explicitly enabled. Formal evaluation uses CC/local audio only."
+      },
+      "featureCount": 27
+    },
+    {
+      "ok": true,
+      "startedAt": "2026-06-21T16:31:09.503Z",
+      "finishedAt": "2026-06-21T16:34:18.045Z",
+      "durationSeconds": 189,
+      "config": {
+        "name": "best-theory-strong",
+        "env": {
+          "MMFR_DISTRIBUTION_CLASSIFIER": "1",
+          "MMFR_SEPARABILITY_WEIGHTS": "1",
+          "MMFR_GENRE_THEORY_WEIGHT": "0.08",
+          "MMFR_GENRE_THEORY_MACRO_WEIGHT": "0.06"
+        }
+      },
+      "objectiveScore": 91.961,
+      "summary": {
+        "macroTop1Accuracy": 32.1,
+        "fineTop1Accuracy": 14.7,
+        "fineTop3Accuracy": 26,
+        "needsReviewRate": 16.6,
+        "dubPredictionRate": 5.9,
+        "formalSummary": {
+          "evaluationMode": "formal-cc-audio-stable-genres",
+          "total": 368,
+          "fineTotal": 335,
+          "macroTop1Accuracy": 33.7,
+          "fineTop1Accuracy": 17,
+          "fineTop3Accuracy": 29.6,
+          "needsReviewRate": 16.6,
+          "dubPredictionRate": 6.8,
+          "sourceTypes": [
+            "cc-dataset",
+            "local-audio"
+          ],
+          "minTestPerGenre": 10,
+          "stableGenreCount": 26,
+          "status": "available",
+          "note": "Formal score uses only CC/local audio genres with enough test rows."
+        }
+      },
+      "modelPolicy": {
+        "strictCcOnly": true,
+        "formalSourceTypes": [
+          "cc-dataset",
+          "local-audio"
+        ],
+        "fmaMetadataEnabled": false,
+        "itunesPreviewEnabled": false,
+        "macroHeuristicsEnabled": true,
+        "validationCalibrationEnabled": false,
+        "strictTwoStageEnabled": false,
+        "softTwoStageEnabled": true,
+        "balancedKnnEnabled": false,
+        "distributionClassifierEnabled": true,
+        "separabilityWeightsEnabled": true,
+        "genreTheoryPriorsEnabled": true,
+        "theoryGenreFeaturesEnabled": false,
+        "genreTheoryWeight": 0.08,
+        "genreTheoryMacroWeight": 0.06,
+        "fmaAudioWeight": 0.82,
+        "extendedGenreFeaturesEnabled": false,
+        "advancedGenreFeaturesEnabled": false,
+        "note": "FMA metadata and iTunes previews are comparison-only unless explicitly enabled. Formal evaluation uses CC/local audio only."
+      },
+      "featureCount": 27
+    },
+    {
+      "ok": true,
+      "startedAt": "2026-06-21T16:34:18.076Z",
+      "finishedAt": "2026-06-21T16:37:27.200Z",
+      "durationSeconds": 189,
+      "config": {
+        "name": "best-fma-full",
+        "env": {
+          "MMFR_DISTRIBUTION_CLASSIFIER": "1",
+          "MMFR_SEPARABILITY_WEIGHTS": "1",
+          "MMFR_FMA_AUDIO_WEIGHT": "1"
+        }
+      },
+      "objectiveScore": 90.622,
+      "summary": {
+        "macroTop1Accuracy": 31.6,
+        "fineTop1Accuracy": 13.9,
+        "fineTop3Accuracy": 27.3,
+        "needsReviewRate": 15.9,
+        "dubPredictionRate": 5.2,
+        "formalSummary": {
+          "evaluationMode": "formal-cc-audio-stable-genres",
+          "total": 368,
+          "fineTotal": 335,
+          "macroTop1Accuracy": 33.4,
+          "fineTop1Accuracy": 16.1,
+          "fineTop3Accuracy": 31,
+          "needsReviewRate": 16.6,
+          "dubPredictionRate": 6,
+          "sourceTypes": [
+            "cc-dataset",
+            "local-audio"
+          ],
+          "minTestPerGenre": 10,
+          "stableGenreCount": 26,
+          "status": "available",
+          "note": "Formal score uses only CC/local audio genres with enough test rows."
+        }
+      },
+      "modelPolicy": {
+        "strictCcOnly": true,
+        "formalSourceTypes": [
+          "cc-dataset",
+          "local-audio"
+        ],
+        "fmaMetadataEnabled": false,
+        "itunesPreviewEnabled": false,
+        "macroHeuristicsEnabled": true,
+        "validationCalibrationEnabled": false,
+        "strictTwoStageEnabled": false,
+        "softTwoStageEnabled": true,
+        "balancedKnnEnabled": false,
+        "distributionClassifierEnabled": true,
+        "separabilityWeightsEnabled": true,
+        "genreTheoryPriorsEnabled": true,
+        "theoryGenreFeaturesEnabled": false,
+        "genreTheoryWeight": 0.05,
+        "genreTheoryMacroWeight": 0.034999999999999996,
+        "fmaAudioWeight": 1,
+        "extendedGenreFeaturesEnabled": false,
+        "advancedGenreFeaturesEnabled": false,
+        "note": "FMA metadata and iTunes previews are comparison-only unless explicitly enabled. Formal evaluation uses CC/local audio only."
+      },
+      "featureCount": 27
+    },
+    {
+      "ok": true,
+      "startedAt": "2026-06-21T16:37:27.231Z",
+      "finishedAt": "2026-06-21T16:40:40.598Z",
+      "durationSeconds": 193,
+      "config": {
+        "name": "best-fma-light",
+        "env": {
+          "MMFR_DISTRIBUTION_CLASSIFIER": "1",
+          "MMFR_SEPARABILITY_WEIGHTS": "1",
+          "MMFR_FMA_AUDIO_WEIGHT": "0.6"
+        }
+      },
+      "objectiveScore": 86.828,
+      "summary": {
+        "macroTop1Accuracy": 33,
+        "fineTop1Accuracy": 13.4,
+        "fineTop3Accuracy": 25,
+        "needsReviewRate": 14.7,
+        "dubPredictionRate": 6.2,
+        "formalSummary": {
+          "evaluationMode": "formal-cc-audio-stable-genres",
+          "total": 368,
+          "fineTotal": 335,
+          "macroTop1Accuracy": 34.8,
+          "fineTop1Accuracy": 15.5,
+          "fineTop3Accuracy": 28.4,
+          "needsReviewRate": 16,
+          "dubPredictionRate": 7.1,
+          "sourceTypes": [
+            "cc-dataset",
+            "local-audio"
+          ],
+          "minTestPerGenre": 10,
+          "stableGenreCount": 26,
+          "status": "available",
+          "note": "Formal score uses only CC/local audio genres with enough test rows."
+        }
+      },
+      "modelPolicy": {
+        "strictCcOnly": true,
+        "formalSourceTypes": [
+          "cc-dataset",
+          "local-audio"
+        ],
+        "fmaMetadataEnabled": false,
+        "itunesPreviewEnabled": false,
+        "macroHeuristicsEnabled": true,
+        "validationCalibrationEnabled": false,
+        "strictTwoStageEnabled": false,
+        "softTwoStageEnabled": true,
+        "balancedKnnEnabled": false,
+        "distributionClassifierEnabled": true,
+        "separabilityWeightsEnabled": true,
+        "genreTheoryPriorsEnabled": true,
+        "theoryGenreFeaturesEnabled": false,
+        "genreTheoryWeight": 0.05,
+        "genreTheoryMacroWeight": 0.034999999999999996,
+        "fmaAudioWeight": 0.6,
+        "extendedGenreFeaturesEnabled": false,
+        "advancedGenreFeaturesEnabled": false,
+        "note": "FMA metadata and iTunes previews are comparison-only unless explicitly enabled. Formal evaluation uses CC/local audio only."
+      },
+      "featureCount": 27
+    },
+    {
+      "ok": true,
+      "startedAt": "2026-06-21T16:40:40.628Z",
+      "finishedAt": "2026-06-21T16:43:48.344Z",
+      "durationSeconds": 188,
+      "config": {
+        "name": "best-no-macro-heuristics",
+        "env": {
+          "MMFR_DISTRIBUTION_CLASSIFIER": "1",
+          "MMFR_SEPARABILITY_WEIGHTS": "1",
+          "MMFR_ENABLE_MACRO_HEURISTICS": "0"
+        }
+      },
+      "objectiveScore": 95.024,
+      "summary": {
+        "macroTop1Accuracy": 31.6,
+        "fineTop1Accuracy": 15.5,
+        "fineTop3Accuracy": 26.3,
+        "needsReviewRate": 15.4,
+        "dubPredictionRate": 5.9,
+        "formalSummary": {
+          "evaluationMode": "formal-cc-audio-stable-genres",
+          "total": 368,
+          "fineTotal": 335,
+          "macroTop1Accuracy": 33.4,
+          "fineTop1Accuracy": 17.9,
+          "fineTop3Accuracy": 29.9,
+          "needsReviewRate": 15.5,
+          "dubPredictionRate": 6.8,
+          "sourceTypes": [
+            "cc-dataset",
+            "local-audio"
+          ],
+          "minTestPerGenre": 10,
+          "stableGenreCount": 26,
+          "status": "available",
+          "note": "Formal score uses only CC/local audio genres with enough test rows."
+        }
+      },
+      "modelPolicy": {
+        "strictCcOnly": true,
+        "formalSourceTypes": [
+          "cc-dataset",
+          "local-audio"
+        ],
+        "fmaMetadataEnabled": false,
+        "itunesPreviewEnabled": false,
+        "macroHeuristicsEnabled": false,
+        "validationCalibrationEnabled": false,
+        "strictTwoStageEnabled": false,
+        "softTwoStageEnabled": true,
+        "balancedKnnEnabled": false,
+        "distributionClassifierEnabled": true,
+        "separabilityWeightsEnabled": true,
+        "genreTheoryPriorsEnabled": true,
+        "theoryGenreFeaturesEnabled": false,
+        "genreTheoryWeight": 0.05,
+        "genreTheoryMacroWeight": 0.034999999999999996,
+        "fmaAudioWeight": 0.82,
+        "extendedGenreFeaturesEnabled": false,
+        "advancedGenreFeaturesEnabled": false,
+        "note": "FMA metadata and iTunes previews are comparison-only unless explicitly enabled. Formal evaluation uses CC/local audio only."
+      },
+      "featureCount": 27
+    },
+    {
+      "ok": true,
+      "startedAt": "2026-06-21T16:43:48.374Z",
+      "finishedAt": "2026-06-21T16:46:54.402Z",
+      "durationSeconds": 186,
+      "config": {
+        "name": "best-hard-macro-gate",
+        "env": {
+          "MMFR_DISTRIBUTION_CLASSIFIER": "1",
+          "MMFR_SEPARABILITY_WEIGHTS": "1",
+          "MMFR_SOFT_TWO_STAGE": "0"
+        }
+      },
+      "objectiveScore": 93.91,
+      "summary": {
+        "macroTop1Accuracy": 31.8,
+        "fineTop1Accuracy": 14.7,
+        "fineTop3Accuracy": 28.1,
+        "needsReviewRate": 19.5,
+        "dubPredictionRate": 5.5,
+        "formalSummary": {
+          "evaluationMode": "formal-cc-audio-stable-genres",
+          "total": 368,
+          "fineTotal": 335,
+          "macroTop1Accuracy": 33.4,
+          "fineTop1Accuracy": 17,
+          "fineTop3Accuracy": 32.2,
+          "needsReviewRate": 19.8,
+          "dubPredictionRate": 6.3,
+          "sourceTypes": [
+            "cc-dataset",
+            "local-audio"
+          ],
+          "minTestPerGenre": 10,
+          "stableGenreCount": 26,
+          "status": "available",
+          "note": "Formal score uses only CC/local audio genres with enough test rows."
+        }
+      },
+      "modelPolicy": {
+        "strictCcOnly": true,
+        "formalSourceTypes": [
+          "cc-dataset",
+          "local-audio"
+        ],
+        "fmaMetadataEnabled": false,
+        "itunesPreviewEnabled": false,
+        "macroHeuristicsEnabled": true,
+        "validationCalibrationEnabled": false,
+        "strictTwoStageEnabled": false,
+        "softTwoStageEnabled": false,
+        "balancedKnnEnabled": false,
+        "distributionClassifierEnabled": true,
+        "separabilityWeightsEnabled": true,
+        "genreTheoryPriorsEnabled": true,
+        "theoryGenreFeaturesEnabled": false,
+        "genreTheoryWeight": 0.05,
+        "genreTheoryMacroWeight": 0.034999999999999996,
+        "fmaAudioWeight": 0.82,
+        "extendedGenreFeaturesEnabled": false,
+        "advancedGenreFeaturesEnabled": false,
+        "note": "FMA metadata and iTunes previews are comparison-only unless explicitly enabled. Formal evaluation uses CC/local audio only."
+      },
+      "featureCount": 27
+    },
+    {
+      "ok": true,
+      "startedAt": "2026-06-21T16:46:54.432Z",
+      "finishedAt": "2026-06-21T16:50:04.355Z",
+      "durationSeconds": 190,
+      "config": {
+        "name": "best-with-theory-features",
+        "env": {
+          "MMFR_DISTRIBUTION_CLASSIFIER": "1",
+          "MMFR_SEPARABILITY_WEIGHTS": "1",
+          "MMFR_ENABLE_THEORY_GENRE_FEATURES": "1"
+        }
+      },
+      "objectiveScore": 83.819,
+      "summary": {
+        "macroTop1Accuracy": 31.1,
+        "fineTop1Accuracy": 12.4,
+        "fineTop3Accuracy": 26.5,
+        "needsReviewRate": 17.1,
+        "dubPredictionRate": 6.7,
+        "formalSummary": {
+          "evaluationMode": "formal-cc-audio-stable-genres",
+          "total": 368,
+          "fineTotal": 335,
+          "macroTop1Accuracy": 32.9,
+          "fineTop1Accuracy": 14.3,
+          "fineTop3Accuracy": 29.9,
+          "needsReviewRate": 16.3,
+          "dubPredictionRate": 7.1,
+          "sourceTypes": [
+            "cc-dataset",
+            "local-audio"
+          ],
+          "minTestPerGenre": 10,
+          "stableGenreCount": 26,
+          "status": "available",
+          "note": "Formal score uses only CC/local audio genres with enough test rows."
+        }
+      },
+      "modelPolicy": {
+        "strictCcOnly": true,
+        "formalSourceTypes": [
+          "cc-dataset",
+          "local-audio"
+        ],
+        "fmaMetadataEnabled": false,
+        "itunesPreviewEnabled": false,
+        "macroHeuristicsEnabled": true,
+        "validationCalibrationEnabled": false,
+        "strictTwoStageEnabled": false,
+        "softTwoStageEnabled": true,
+        "balancedKnnEnabled": false,
+        "distributionClassifierEnabled": true,
+        "separabilityWeightsEnabled": true,
+        "genreTheoryPriorsEnabled": true,
+        "theoryGenreFeaturesEnabled": true,
+        "genreTheoryWeight": 0.05,
+        "genreTheoryMacroWeight": 0.034999999999999996,
+        "fmaAudioWeight": 0.82,
+        "extendedGenreFeaturesEnabled": false,
+        "advancedGenreFeaturesEnabled": false,
+        "note": "FMA metadata and iTunes previews are comparison-only unless explicitly enabled. Formal evaluation uses CC/local audio only."
+      },
+      "featureCount": 36
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "generatedAt": "2026-06-11T14:55:43.402Z",
+  "totals": {
+    "reviewRows": 262,
+    "approvedRows": 0,
+    "shortlistRows": 168,
+    "manifestRows": 0,
+    "localAudioReadyRows": 0
+  },
+  "sources": [
+    {
+      "id": "internet-archive",
+      "reviewQueue": "genre-training/internet-archive-review-queue.tsv",
+      "manifest": "genre-training/internet-archive-cc-source-manifest.json",
+      "reviewRows": 218,
+      "approvedRows": 0,
+      "shortlistRows": 146,
+      "manifestRows": 0,
+      "localAudioReadyRows": 0,
+      "approvedByGenre": {},
+      "shortlistByGenre": {
+        "アニメソング": 3,
+        "オペラ": 5,
+        "シティ・ポップ": 4,
+        "ソウルミュージック": 27,
+        "ディープ・ハウス": 49,
+        "トラップ": 11,
+        "ハードコア": 47
+      },
+      "manifestByGenre": {},
+      "readyByGenre": {}
+    },
+    {
+      "id": "wikimedia-commons",
+      "reviewQueue": "genre-training/wikimedia-commons-review-queue.tsv",
+      "manifest": "genre-training/wikimedia-commons-cc-source-manifest.json",
+      "reviewRows": 44,
+      "approvedRows": 0,
+      "shortlistRows": 22,
+      "manifestRows": 0,
+      "localAudioReadyRows": 0,
+      "approvedByGenre": {},
+      "shortlistByGenre": {
+        "アニメソング": 1,
+        "オペラ": 3,
+        "シティ・ポップ": 8,
+        "ソウルミュージック": 4,
+        "トラップ": 6
+      },
+      "manifestByGenre": {},
+      "readyByGenre": {}
+    }
+  ],
+  "nextCommands": [
+    "npm --prefix apps/demo run ia-cc-manifest",
+    "npm --prefix apps/demo run wiki-cc-manifest",
+    "npm --prefix apps/demo run ia-cc-download-approved",
+    "npm --prefix apps/demo run wiki-cc-download-approved",
+    "npm --prefix apps/demo run cc-import:ia",
+    "npm --prefix apps/demo run cc-import:wiki",
+    "npm --prefix apps/demo run genre-train:cached",
+    "npm --prefix apps/demo run genre-goal-report"
+  ]
+}

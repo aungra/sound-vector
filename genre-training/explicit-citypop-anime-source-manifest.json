@@ -1,0 +1,6 @@
+{
+  "description": "Approved explicit city-pop/anime-song source manifest. Generated from review TSV; empty until reviewed.",
+  "generatedAt": "2026-06-21T17:21:11.267Z",
+  "reviewTsv": "genre-training/explicit-citypop-anime-review.tsv",
+  "items": []
+}

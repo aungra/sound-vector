@@ -3,4 +3,12 @@ node_modules/
 .next/
 out/
 .tools/
+.external-data/
+genre-training/cache-paths.local.json
+genre-training/cc-source-manifest.json
+genre-training/mtg-jamendo-manifest.preview.json
+genre-training/youtube-cookies.txt
+genre-training/score-search/*/genre-model.json
+genre-training/score-search/*/result.json
+genre-training/score-search/*/results.json
 tsconfig.tsbuildinfo

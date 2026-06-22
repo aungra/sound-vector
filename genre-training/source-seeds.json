@@ -4,12 +4,12 @@
   "macroGenres": {
     "ambient": ["アンビエント", "ドローン", "ノイズミュージック"],
     "electronic": ["電子音楽", "テクノ", "ハウス", "ディープ・ハウス", "トランス", "ドラムンベース", "ダブステップ", "チップチューン"],
-    "black_music": ["ヒップホップ", "トラップ", "レゲエ", "ダブ", "ファンク", "ソウルミュージック", "ディスコ"],
+    "black_music": ["ヒップホップ", "トラップ", "レゲエ", "ダブ", "ブルース", "ファンク", "ソウルミュージック", "ディスコ"],
     "rock": ["ロック", "パンク", "ハードコア", "メタル"],
     "jazz": ["ジャズ"],
     "pop": ["シティ・ポップ", "J-POP", "アニメソング"],
     "classical": ["クラシック音楽", "オペラ"],
-    "world": ["フォーク", "ワールドミュージック"]
+    "world": ["フォーク", "ラテン", "ワールドミュージック"]
   },
   "genres": [
     {
@@ -208,6 +208,19 @@
       ]
     },
     {
+      "genre": "ブルース",
+      "macroGenre": "black_music",
+      "searchTerms": ["blues official audio", "classic blues topic", "electric blues track"],
+      "tracks": [
+        { "artist": "Muddy Waters", "title": "Mannish Boy" },
+        { "artist": "B.B. King", "title": "The Thrill Is Gone" },
+        { "artist": "Howlin' Wolf", "title": "Smokestack Lightning" },
+        { "artist": "Robert Johnson", "title": "Cross Road Blues" },
+        { "artist": "John Lee Hooker", "title": "Boom Boom" },
+        { "artist": "Etta James", "title": "I'd Rather Go Blind" }
+      ]
+    },
+    {
       "genre": "ファンク",
       "macroGenre": "black_music",
       "searchTerms": ["funk official audio", "classic funk topic", "funk music track"],
@@ -387,6 +400,19 @@
         { "artist": "Simon and Garfunkel", "title": "The Sound of Silence" },
         { "artist": "Nick Drake", "title": "Pink Moon" },
         { "artist": "Fairport Convention", "title": "Who Knows Where the Time Goes" }
+      ]
+    },
+    {
+      "genre": "ラテン",
+      "macroGenre": "world",
+      "searchTerms": ["latin music official audio", "salsa official audio", "bossa nova official audio", "cumbia track"],
+      "tracks": [
+        { "artist": "Tito Puente", "title": "Oye Como Va" },
+        { "artist": "João Gilberto", "title": "Chega de Saudade" },
+        { "artist": "Celia Cruz", "title": "La Vida Es Un Carnaval" },
+        { "artist": "Buena Vista Social Club", "title": "El Cuarto de Tula" },
+        { "artist": "Los Lobos", "title": "La Bamba" },
+        { "artist": "Rubén Blades", "title": "Pedro Navaja" }
       ]
     },
     {

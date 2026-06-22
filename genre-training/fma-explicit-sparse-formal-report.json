@@ -1,0 +1,289 @@
+{
+  "generatedAt": "2026-06-20T18:15:32.563Z",
+  "selected": 30,
+  "counts": {
+    "トラップ": 30,
+    "アニメソング": 0,
+    "シティ・ポップ": 0
+  },
+  "rejected": {
+    "noEvidence": 106378,
+    "noMacro": 0,
+    "noLicense": 0,
+    "existing": 1,
+    "noAudio": 165,
+    "genreLimit": 0
+  },
+  "sampleItems": [
+    {
+      "genre": "トラップ",
+      "trackId": "123964",
+      "title": "5-11-15",
+      "artist": "BenJamin Banger",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "123965",
+      "title": "Freestlye 30",
+      "artist": "BenJamin Banger",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "123966",
+      "title": "Bruce Wayne",
+      "artist": "BenJamin Banger",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "123968",
+      "title": "Michael Van Allen",
+      "artist": "BenJamin Banger",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "123969",
+      "title": "Ric Flair",
+      "artist": "BenJamin Banger",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "123970",
+      "title": "Agoge",
+      "artist": "BenJamin Banger",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "123971",
+      "title": "Freestyle 32",
+      "artist": "BenJamin Banger",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "123972",
+      "title": "Awkward Romance",
+      "artist": "BenJamin Banger",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "123973",
+      "title": "Ric Flair 1.5",
+      "artist": "BenJamin Banger",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "123974",
+      "title": "Everything New (2015)",
+      "artist": "BenJamin Banger",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "123975",
+      "title": "AYYYYYYYYYYYYYY",
+      "artist": "BenJamin Banger",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "123976",
+      "title": "Big Gete Star",
+      "artist": "BenJamin Banger",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "123977",
+      "title": "Freestyle 33",
+      "artist": "BenJamin Banger",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "123978",
+      "title": "Fuck Yall, Im Goin Pop",
+      "artist": "BenJamin Banger",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "123979",
+      "title": "Moments",
+      "artist": "BenJamin Banger",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "123980",
+      "title": "Ric Flair 2",
+      "artist": "BenJamin Banger",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "132448",
+      "title": "Liberosis (Instrumental)",
+      "artist": "Nihilore",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "140922",
+      "title": "Morning Bell",
+      "artist": "Nihilore",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "140923",
+      "title": "Whispers Invoke Paranoia",
+      "artist": "Nihilore",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "140924",
+      "title": "Authenticity",
+      "artist": "Nihilore",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "140925",
+      "title": "Set Fire to Creation",
+      "artist": "Nihilore",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "140926",
+      "title": "A Different World By Night",
+      "artist": "Nihilore",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "140933",
+      "title": "Evening Drum",
+      "artist": "Nihilore",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "140934",
+      "title": "The Absurd",
+      "artist": "Nihilore",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "154303",
+      "title": "In It to Win It",
+      "artist": "Fleslit",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "154305",
+      "title": "Calm Flight",
+      "artist": "Fleslit",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "154306",
+      "title": "Yummy",
+      "artist": "Fleslit",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "154307",
+      "title": "12:01 AM",
+      "artist": "Fleslit",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "154308",
+      "title": "MIA",
+      "artist": "Fleslit",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    },
+    {
+      "genre": "トラップ",
+      "trackId": "154309",
+      "title": "A1 Symphony",
+      "artist": "Fleslit",
+      "labelEvidence": "FMA track/album/artist tags contain explicit trap/phonk/808 wording",
+      "labelConfidence": "explicit-tag",
+      "license": "CC-BY"
+    }
+  ]
+}

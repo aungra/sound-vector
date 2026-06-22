@@ -1,0 +1,835 @@
+{
+  "collectedAt": "2026-06-10T18:28:40.373Z",
+  "source": "iTunesPreview",
+  "countries": [
+    "JP",
+    "US"
+  ],
+  "perGenre": 1,
+  "candidateTarget": 20,
+  "validateAnalysis": true,
+  "report": [
+    {
+      "genre": "アンビエント",
+      "macroGenre": "ambient",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Brian Eno An Ending Ascent",
+          "country": "JP",
+          "count": 117,
+          "titles": [
+            "ブライアン・イーノ - An Ending (Ascent)",
+            "ブライアン・イーノ - An Ending (Ascent)",
+            "Tyler Rix - An Ending (Ascent)",
+            "ブライアン・イーノ - アン・エンディング (Remastered 2019)"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ドローン",
+      "macroGenre": "ambient",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "La Monte Young The Well Tuned Piano",
+          "country": "JP",
+          "count": 2,
+          "titles": [
+            "ノエル・アクショテ - The Well-Tuned Piano (Arr. for Guitar)",
+            "ノエル・アクショテ - Keyboard Study No. 2 (Arr. for Guitar)"
+          ]
+        },
+        {
+          "query": "La Monte Young The Well Tuned Piano",
+          "country": "US",
+          "count": 2,
+          "titles": [
+            "Noël Akchoté - The Well-Tuned Piano (Arr. for Guitar)",
+            "Noël Akchoté - Keyboard Study No. 2 (Arr. for Guitar)"
+          ]
+        },
+        {
+          "query": "Eliane Radigue Trilogie de la Mort",
+          "country": "JP",
+          "count": 6,
+          "titles": [
+            "Eliane Radique - Kyema (Intermediate States)",
+            "Eliane Radique - Kailasha",
+            "Eliane Radigue - Kyema",
+            "Eliane Radique - Koume"
+          ]
+        },
+        {
+          "query": "Eliane Radigue Trilogie de la Mort",
+          "country": "US",
+          "count": 6,
+          "titles": [
+            "Eliane Radique - Kyema (Intermediate States)",
+            "Eliane Radique - Kailasha",
+            "Eliane Radique - Koume",
+            "Eliane Radigue - Kyema"
+          ]
+        },
+        {
+          "query": "Sunn O))) Big Church",
+          "country": "JP",
+          "count": 101,
+          "titles": [
+            "sunn O))) - Big Church [megszentségteleníthetetlenségeskedéseitekért]",
+            "sunn O))) - Big Church [megszentségteleníthetetlenségeskedéseitekért]",
+            "Scott Walker & sunn O))) - Herod 2014",
+            "カトリーナ&ザ・ウェイブス - Walking On Sunshine"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ノイズミュージック",
+      "macroGenre": "ambient",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Merzbow Woodpecker No. 1",
+          "country": "JP",
+          "count": 5,
+          "titles": [
+            "Merzbow - Woodpecker No. 1",
+            "Merzbow - Woodpecker No. 1 (Remastered)",
+            "Merzbow - Woodpecker No. 1 (Remastered)",
+            "Merzbow - Woodpecker No. 2"
+          ]
+        },
+        {
+          "query": "Merzbow Woodpecker No. 1",
+          "country": "US",
+          "count": 5,
+          "titles": [
+            "Merzbow - Woodpecker No. 1",
+            "Merzbow - Woodpecker No. 1 (Remastered)",
+            "Merzbow - Woodpecker No. 2",
+            "Merzbow - Woodpecker No. 2 (Remastered)"
+          ]
+        },
+        {
+          "query": "Whitehouse Why You Never Became a Dancer",
+          "country": "JP",
+          "count": 3,
+          "titles": [
+            "Dafne & Unusual Magic - How I Became A House",
+            "パニック!アット・ザ・ディスコ - House of Memories",
+            "Charles Wesley Godwin - Headwaters"
+          ]
+        },
+        {
+          "query": "Whitehouse Why You Never Became a Dancer",
+          "country": "US",
+          "count": 1,
+          "titles": [
+            "Dafne & Unusual Magic - How I Became A House"
+          ]
+        },
+        {
+          "query": "Masonna Spectrum Ripper",
+          "country": "JP",
+          "count": 26,
+          "titles": [
+            "MASONNA - Part I",
+            "MASONNA - Spectrum Ripper",
+            "MASONNA - Part II",
+            "MASONNA - Part III"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "電子音楽",
+      "macroGenre": "electronic",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Kraftwerk Computer World",
+          "country": "JP",
+          "count": 29,
+          "titles": [
+            "クラフトワーク - Computer World",
+            "クラフトワーク - Computer World 2",
+            "クラフトワーク - Computer Love",
+            "クラフトワーク - Home Computer"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Jeff Mills The Bells",
+          "country": "JP",
+          "count": 121,
+          "titles": [
+            "ジェフ・ミルズ - The Bells",
+            "ジェフ・ミルズ - The Bells (Mixed)",
+            "ジェフ・ミルズ - The Bells",
+            "ジェフ・ミルズ - The Bells (Mixed)"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Frankie Knuckles Your Love",
+          "country": "JP",
+          "count": 195,
+          "titles": [
+            "Frankie Knuckles - Your Love (Mixed)",
+            "Frankie Knuckles - Your Love",
+            "Frankie Knuckles - Your Love (Belocca & Soneec Remix) [Mixed]",
+            "Frankie Knuckles - Your Love (You Got the Love Remix)"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Larry Heard What About This Love",
+          "country": "JP",
+          "count": 199,
+          "titles": [
+            "ブルーノ・マーズ - Talking to the Moon",
+            "サム・スミス - Too Good at Goodbyes",
+            "ケイティ・ペリー - Birthday",
+            "ハリー・スタイルズ - American Girls"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Energy 52 Cafe Del Mar",
+          "country": "JP",
+          "count": 172,
+          "titles": [
+            "ENERGY 52 - Café Del Mar (Three 'N One Radio Edit)",
+            "ENERGY 52 - Cafe Del Mar (Three 'n' One Remix)",
+            "ENERGY 52 - Café del Mar (Paul van Dyk’s SHINE Remix)",
+            "ENERGY 52 - Café Del Mar (Dale Middleton Remix)"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Goldie Inner City Life",
+          "country": "JP",
+          "count": 63,
+          "titles": [
+            "ゴールディー - Inner City Life",
+            "ゴールディー - Inner City Life (Baby Boy's Edit)",
+            "ゴールディー - Inner City Life (Radio Edit)",
+            "ゴールディー - Inner City Life (dBridge's 'Sonic Nostalgia Mix')"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Skream Midnight Request Line",
+          "country": "JP",
+          "count": 16,
+          "titles": [
+            "スクリーム - Midnight Request Line (Mala Remix)",
+            "スクリーム - Midnight Request Line",
+            "スクリーム - Midnight Request Line",
+            "スクリーム - Midnight Request Line (Cocky Balboa Juke Mix) [Mixed]"
+          ]
+        },
+        {
+          "query": "Skream Midnight Request Line",
+          "country": "US",
+          "count": 16,
+          "titles": [
+            "Skream - Midnight Request Line",
+            "Skream - Midnight Request Line",
+            "Skream - Midnight Request Line (Mala Remix)",
+            "Skream - Midnight Request Line (Hot Chip Remix)"
+          ]
+        },
+        {
+          "query": "Benga 26 Basslines",
+          "country": "JP",
+          "count": 4,
+          "titles": [
+            "Benga - 26 Basslines",
+            "Benga - 26 Basslines (Mixed)",
+            "Benga, チェイス&ステイタス & Bou - 26 Basslines / Baddadan (feat. IRah, Flowdan, Trigga & Takura) [bullet tooth Remix] [Mixed]",
+            "Benga - 26 Basslines (Mixed)"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Anamanaguchi Airbrushed",
+          "country": "JP",
+          "count": 5,
+          "titles": [
+            "Anamanaguchi - Airbrushed",
+            "Anamanaguchi - Airbrushed (RAC Remix)",
+            "Anamanaguchi - Airbrushed",
+            "Anamanaguchi - Airbrushed (Rac Remix)"
+          ]
+        },
+        {
+          "query": "Anamanaguchi Airbrushed",
+          "country": "US",
+          "count": 3,
+          "titles": [
+            "Anamanaguchi - Airbrushed",
+            "Anamanaguchi - Airbrushed (Rac Remix)",
+            "Anamanaguchi - Penpal (Cover Version)"
+          ]
+        },
+        {
+          "query": "Bit Shifter Reformat the Planet",
+          "country": "JP",
+          "count": 1,
+          "titles": [
+            "ビット・シフター - Reformat the Planet"
+          ]
+        },
+        {
+          "query": "Bit Shifter Reformat the Planet",
+          "country": "US",
+          "count": 1,
+          "titles": [
+            "Bit Shifter - Reformat the Planet"
+          ]
+        },
+        {
+          "query": "Nullsleep Her Lazer Light Eyes",
+          "country": "JP",
+          "count": 1,
+          "titles": [
+            "ヌルスリープ - Her Lazer Light Eyes"
+          ]
+        },
+        {
+          "query": "Nullsleep Her Lazer Light Eyes",
+          "country": "US",
+          "count": 1,
+          "titles": [
+            "Nullsleep - Her Lazer Light Eyes"
+          ]
+        },
+        {
+          "query": "Sabrepulse Arcanine",
+          "country": "JP",
+          "count": 1,
+          "titles": [
+            "Sabrepulse - Arcanine"
+          ]
+        },
+        {
+          "query": "Sabrepulse Arcanine",
+          "country": "US",
+          "count": 1,
+          "titles": [
+            "Sabrepulse - Arcanine"
+          ]
+        },
+        {
+          "query": "YMCK Magical 8bit Tour",
+          "country": "JP",
+          "count": 9,
+          "titles": [
+            "YMCK - Magical 8bit Tour",
+            "YMCK, WONFU - Magical 8bit Tour (Covered by 旺福)",
+            "YMCK - Les étoiles feat. MC8bit",
+            "YMCK - 宇宙を定める法則の彼方"
+          ]
+        },
+        {
+          "query": "YMCK Magical 8bit Tour",
+          "country": "US",
+          "count": 3,
+          "titles": [
+            "YMCK - Magical 8Bit Tour",
+            "YMCK, WONFU - Magical 8bit Tour (Covered by WONFU)",
+            "YMCK - Les étoiles (feat. MC8bit)"
+          ]
+        },
+        {
+          "query": "Disasterpeace Adventure",
+          "country": "JP",
+          "count": 9,
+          "titles": [
+            "Disasterpeace - Adventure",
+            "Daniel Olsén & Disasterpeace - Adventure",
+            "Disasterpeace - Island Cleanup Adventure",
+            "Souleye & Disasterpeace - Pulse of Adventure (BONUS)"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ヒップホップ",
+      "macroGenre": "black_music",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Nas N.Y. State of Mind",
+          "country": "JP",
+          "count": 200,
+          "titles": [
+            "Nas - N.Y. State of Mind",
+            "Nas - N.Y. State of Mind (Mixed)",
+            "Nas - N.Y. State of Mind",
+            "Nas - N.Y. State of Mind, Pt. ll"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "T.I. What You Know",
+          "country": "JP",
+          "count": 187,
+          "titles": [
+            "T.I. - What You Know",
+            "T.I. - What You Know",
+            "T.I. - What You Know (Instrumental)",
+            "T.I. - What You Know (Mixed)"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Bob Marley Natural Mystic",
+          "country": "JP",
+          "count": 199,
+          "titles": [
+            "ボブ・マーリー - Natural Mystic",
+            "ボブ・マーリー & ザ・ウェイラーズ - Natural Mystic (Live at The Stanley Theatre, Pittsburgh, PA, 09/23/80)",
+            "ボブ・マーリー - Natural Mystic",
+            "ボブ・マーリー - Natural Mystic (Live)"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ダブ",
+      "macroGenre": "black_music",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "King Tubby King Tubby Meets Rockers Uptown",
+          "country": "JP",
+          "count": 54,
+          "titles": [
+            "King Tubby Meets Rockers Uptown - Baby I Love You So Dub",
+            "オーガスタス・パブロ - King Tubby Meets Rockers Uptown",
+            "オーガスタス・パブロ - King Tubby Meets Rockers Uptown",
+            "オーガスタス・パブロ - King Tubby Meets Rockers Uptown"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ファンク",
+      "macroGenre": "black_music",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "James Brown The Payback",
+          "country": "JP",
+          "count": 190,
+          "titles": [
+            "ジェームス・ブラウン - The Payback",
+            "ジェームス・ブラウン - The Payback (Mixed)",
+            "ジェームス・ブラウン - The Payback (Mixed)",
+            "ジェームス・ブラウン - The Payback"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Aretha Franklin Respect",
+          "country": "JP",
+          "count": 200,
+          "titles": [
+            "アレサ・フランクリン - Respect",
+            "アレサ・フランクリン - Respect",
+            "アレサ・フランクリン - Respect",
+            "アレサ・フランクリン - Respect"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ディスコ",
+      "macroGenre": "black_music",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Donna Summer I Feel Love",
+          "country": "JP",
+          "count": 171,
+          "titles": [
+            "ドナ・サマー - アイ・フィール・ラヴ (Edit)",
+            "ドナ・サマー - アイ・フィール・ラヴ (12\" Version)",
+            "ドナ・サマー - アイ・フィール・ラヴ",
+            "ドナ・サマー - アイ・フィール・ラヴ"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ロック",
+      "macroGenre": "rock",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "The Rolling Stones Jumpin Jack Flash",
+          "country": "JP",
+          "count": 195,
+          "titles": [
+            "ザ・ローリング・ストーンズ - Jumpin Jack Flash",
+            "ザ・ローリング・ストーンズ - Jumpin' Jack Flash",
+            "ザ・ローリング・ストーンズ - Jumpin' Jack Flash (Live at University of Leeds / 1971)",
+            "ザ・ローリング・ストーンズ - Jumpin' Jack Flash (Live)"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "パンク",
+      "macroGenre": "rock",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Ramones Blitzkrieg Bop",
+          "country": "JP",
+          "count": 187,
+          "titles": [
+            "ラモーンズ - Blitzkrieg Bop",
+            "ラモーンズ - Blitzkrieg Bop (40th Anniversary Mono Mix)",
+            "ラモーンズ - Blitzkrieg Bop (Stereo Version) [Single Version]",
+            "ラモーンズ - Blitzkrieg Bop (Mono Version) [Single Version]"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ハードコア",
+      "macroGenre": "rock",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Black Flag Rise Above",
+          "country": "JP",
+          "count": 197,
+          "titles": [
+            "Black Flag - Rise Above",
+            "Black Flag - Rise Above (Mixed)",
+            "Kid Dynamite - Rise Above (Black Flag Cover)",
+            "Dez Cadena, Evan Taylor, Glen Fitten, ジミー・デストリ, Kyle Cadena, Smokey Hormel, Steve Fissel & Tim Luntzel - Rise Above"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "メタル",
+      "macroGenre": "rock",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Black Sabbath Iron Man",
+          "country": "JP",
+          "count": 175,
+          "titles": [
+            "Black Sabbath - Iron Man (2009 Remaster)",
+            "Black Sabbath - Iron Man (2012 - Remaster)",
+            "Black Sabbath - Iron Man (2009 - Remaster)",
+            "Black Sabbath - Iron Man (2009 Remaster)"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Miles Davis So What",
+          "country": "JP",
+          "count": 199,
+          "titles": [
+            "マイルス・デイヴィス - So What",
+            "マイルス・デイヴィス - So What [2022 Remaster] [Live at Philharmonic Hall, New York, NY - February 1964]",
+            "マイルス・デイヴィス - So What (Live)",
+            "マイルス・デイヴィス - So What (Live)"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "シティ・ポップ",
+      "macroGenre": "pop",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Mariya Takeuchi Plastic Love",
+          "country": "JP",
+          "count": 198,
+          "titles": [
+            "竹内まりや - プラスティック・ラブ",
+            "Friday Night Plans - Plastic Love",
+            "TOKYO CITYPOP CANDY - Plastic Love (Cover)",
+            "竹内まりや - プラスティック・ラブ"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Hikaru Utada Automatic",
+          "country": "JP",
+          "count": 110,
+          "titles": [
+            "宇多田ヒカル - Automatic (2024 Mix)",
+            "宇多田ヒカル - Automatic",
+            "宇多田ヒカル - Automatic (Remastered 2014)",
+            "宇多田ヒカル - Automatic (Live Version)"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "アニメソング",
+      "macroGenre": "pop",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Yoko Takahashi A Cruel Angel's Thesis",
+          "country": "JP",
+          "count": 46,
+          "titles": [
+            "高橋洋子 - 残酷な天使のテーゼ",
+            "高橋洋子 - 残酷な天使のテーゼ",
+            "高橋洋子 - 残酷な天使のテーゼ",
+            "高橋洋子 - 残酷な天使のテーゼ (2009VERSION)"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "クラシック音楽",
+      "macroGenre": "classical",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Ludwig van Beethoven Symphony No. 5",
+          "country": "JP",
+          "count": 200,
+          "titles": [
+            "ヘルベルト・フォン・カラヤン & ベルリン・フィルハーモニー管弦楽団 - Symphony No. 5 in C Minor, Op. 67: I. Allegro con brio (2018 Remastered Version)",
+            "ヘルベルト・フォン・カラヤン & ベルリン・フィルハーモニー管弦楽団 - Symphony No. 5 in C Minor, Op. 67: IV. Allegro (2018 Remastered Version)",
+            "ヘルベルト・フォン・カラヤン & ベルリン・フィルハーモニー管弦楽団 - Symphony No. 5 in C Minor, Op. 67: II. Andante con moto (2018 Remastered Version)",
+            "ヘルベルト・フォン・カラヤン & ベルリン・フィルハーモニー管弦楽団 - Symphony No. 5 in C Minor, Op. 67: III. Scherzo. Allegro - Trio (2018 Remastered Version)"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Luciano Pavarotti Nessun Dorma",
+          "country": "JP",
+          "count": 200,
+          "titles": [
+            "ルチアーノ・パヴァロッティ, ジョン・オールディス合唱団, ワンズワース・スクール少年合唱団, ロンドン・フィルハーモニー管弦楽団 & ズービン・メータ - 歌劇《トゥーランドット》 第3幕: 誰も寝てはならぬ",
+            "ホセ・カレーラス, ズービン・メータ, ローマ歌劇場管弦楽団, プラシド・ドミンゴ, フィレンツェ五月音楽祭管弦楽団 & ルチアーノ・パヴァロッティ - Encore: Nessun dorma",
+            "ルチアーノ・パヴァロッティ, プラシド・ドミンゴ, ホセ・カレーラス, ローマ歌劇場管弦楽団, フィレンツェ五月音楽祭管弦楽団 & ズービン・メータ - 誰も寝てはならぬ(歌劇《トゥーランドット》から) [Live In Rome / 1990 Remastered 2013]",
+            "ルチアーノ・パヴァロッティ, ローマ歌劇場管弦楽団, フィレンツェ五月音楽祭管弦楽団 & ズービン・メータ - 歌劇《トゥーランドット》 / 第3幕: 誰も寝てはならぬ (ライヴ)"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "フォーク",
+      "macroGenre": "world",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Bob Dylan Blowin in the Wind",
+          "country": "JP",
+          "count": 188,
+          "titles": [
+            "ボブ・ディラン - Blowin' In the Wind",
+            "ボブ・ディラン - Blowin' In the Wind",
+            "ボブ・ディラン & ザ・バンド - Blowin' In the Wind (Live at LA Forum, Inglewood, CA - February 1974)",
+            "ボブ・ディラン & ザ・バンド - Blowin' in the Wind (Live at Madison Square Garden, New York City, NY - January 30, 1974)"
+          ]
+        }
+      ]
+    },
+    {
+      "genre": "ワールドミュージック",
+      "macroGenre": "world",
+      "candidateCount": 20,
+      "verifiedCount": 1,
+      "existingCount": 0,
+      "target": 1,
+      "raw": [
+        {
+          "query": "Buena Vista Social Club Chan Chan",
+          "country": "JP",
+          "count": 192,
+          "titles": [
+            "ブエナ・ビスタ・ソシアル・クラブ - Chan Chan (Monitor Mix)",
+            "ブエナ・ビスタ・ソシアル・クラブ - Chan Chan (Live)",
+            "ブエナ・ビスタ・ソシアル・クラブ - Chan Chan",
+            "ブエナ・ビスタ・ソシアル・クラブ - Chan Chan (2021 - Remaster)"
+          ]
+        }
+      ]
+    }
+  ]
+}
