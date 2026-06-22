@@ -8,6 +8,24 @@ import { fileURLToPath } from "node:url";
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const DEMO_DIR = path.resolve(SCRIPT_DIR, "..");
 const HTML_PATH = path.join(DEMO_DIR, "MUSIC MEMORY FITTING ROOM.html");
+const knownAerosolArchetypes = new Set([
+  "bass-horizon",
+  "blade-plume",
+  "chamber-constellation",
+  "crescent",
+  "curtain-fall",
+  "dense-core-trail",
+  "diagonal-wash",
+  "double-lobe",
+  "fan-spray",
+  "lattice-mist",
+  "pixel-swarm",
+  "ring-rupture",
+  "scattered-islands",
+  "split-cloud",
+  "theatre-arch",
+  "vertical-plume"
+]);
 
 function loadPatternApi() {
   const html = fs.readFileSync(HTML_PATH, "utf8");
@@ -145,6 +163,12 @@ test("generated genre SVG uses aerosol particle style without SVG effects", () =
   const svg = generateSoundClothReversibleSvg(mood, 1800000001234, { variantSeed: 77, iteration: "collision-test" });
   assert.match(svg, /data-visual-style="aerosol-particle-field-v1"/);
   assert.match(svg, /data-form-mode="genre-j-pop"/);
+  assert.match(svg, /data-aerosol-archetype="/);
+  assert.match(svg, /data-aerosol-topology="/);
+  assert.match(svg, /data-classifier-method="/);
+  assert.match(svg, /data-macro-genre="/);
+  const archetype = svg.match(/data-aerosol-archetype="([^"]+)"/)?.[1] || "";
+  assert.ok(knownAerosolArchetypes.has(archetype), `unknown aerosol archetype ${archetype}`);
   assert.match(svg, /id="aerosol_particle_field"/);
   assert.match(svg, /<circle\b/);
   assert.doesNotMatch(svg, /stroke-opacity=/);
@@ -152,6 +176,85 @@ test("generated genre SVG uses aerosol particle style without SVG effects", () =
   assert.doesNotMatch(svg, /filter=/);
   assert.doesNotMatch(svg, /blur/);
   assert.doesNotMatch(svg, /gradient/);
+  assert.doesNotMatch(svg, /data-shape-turn=/);
+  assert.doesNotMatch(svg, /data-shape-aspect/);
   assert.doesNotMatch(svg, /data-byte=/);
   assert.doesNotMatch(svg, /data-index=/);
+});
+
+test("aerosol renderer varies particle archetypes across classifier genres", () => {
+  const { generateSoundClothReversibleSvg } = loadPatternApi();
+  const genres = ["アンビエント", "テクノ", "ダブ", "パンク", "ジャズ", "J-POP", "クラシック音楽", "ワールドミュージック"];
+  const archetypes = genres.map((genre, index) => {
+    const svg = generateSoundClothReversibleSvg({
+      id: `archetype-${index}`,
+      label: genre,
+      audioFileName: `${genre}.wav`,
+      variantSalt: index,
+      audio: {
+        inferredGenre: genre,
+        genreAnalysis: {
+          method: "two-stage-local-classifier",
+          macro: [{ macro: "", score: 94 }],
+          top: [{ name: genre, score: 96 }, { name: "電子音楽", score: 62 }]
+        },
+        energy: 0.42 + index * 0.05,
+        rms: 0.42 + index * 0.05,
+        bass: 0.35 + (index % 3) * 0.18,
+        onset: 0.26 + (index % 4) * 0.13,
+        rhythm: 0.36 + (index % 5) * 0.1,
+        brightness: 0.22 + (index % 6) * 0.11,
+        tempo: 84 + index * 9,
+        centroid: 900 + index * 460,
+        chroma: Array.from({ length: 12 }, (_, pc) => pc === index % 12 ? 0.88 : 0.22),
+        detail: {
+          rms: Array.from({ length: 32 }, (_, i) => 0.45 + Math.sin(i * 0.2 + index) * 0.16),
+          bass: Array.from({ length: 32 }, (_, i) => 0.42 + Math.cos(i * 0.16 + index) * 0.14),
+          centroid: Array.from({ length: 32 }, (_, i) => 0.38 + Math.sin(i * 0.11 + index) * 0.12),
+          onset: Array.from({ length: 32 }, (_, i) => i % 8 === 0 ? 0.86 : 0.22),
+          waveform: Array.from({ length: 96 }, (_, i) => Math.sin(i * 0.21 + index) * 0.62)
+        }
+      }
+    }, 1800000100000 + index * 917, { variantSeed: index * 31 });
+    return svg.match(/data-aerosol-archetype="([^"]+)"/)?.[1] || "";
+  });
+  assert.ok(new Set(archetypes).size >= 6, `too few archetypes: ${archetypes.join(", ")}`);
+  archetypes.forEach(archetype => assert.ok(knownAerosolArchetypes.has(archetype), `unknown aerosol archetype ${archetype}`));
+});
+
+test("aerosol renderer varies topology without relying on transform-only differences", () => {
+  const { generateSoundClothReversibleSvg } = loadPatternApi();
+  const genres = ["テクノ", "ダブステップ", "チップチューン", "パンク", "メタル", "フォーク", "ラテン"];
+  const topologies = genres.map((genre, index) => {
+    const svg = generateSoundClothReversibleSvg({
+      id: `topology-${index}`,
+      label: genre,
+      audioFileName: `${genre}.wav`,
+      variantSalt: 1,
+      audio: {
+        inferredGenre: genre,
+        genreAnalysis: { method: "two-stage-local-classifier", top: [{ name: genre, score: 98 }] },
+        energy: 0.66,
+        rms: 0.66,
+        bass: 0.58,
+        onset: 0.62,
+        rhythm: 0.7,
+        brightness: 0.48,
+        tempo: 124,
+        centroid: 2800,
+        chroma: Array.from({ length: 12 }, (_, pc) => pc % 4 === 0 ? 0.8 : 0.2),
+        detail: {
+          rms: Array.from({ length: 32 }, (_, i) => 0.5 + Math.sin(i * 0.19) * 0.16),
+          bass: Array.from({ length: 32 }, (_, i) => 0.5 + Math.cos(i * 0.15) * 0.14),
+          centroid: Array.from({ length: 32 }, (_, i) => 0.5 + Math.sin(i * 0.12) * 0.12),
+          onset: Array.from({ length: 32 }, (_, i) => i % 6 === 0 ? 0.9 : 0.2),
+          waveform: Array.from({ length: 96 }, (_, i) => Math.sin(i * 0.23) * 0.64)
+        }
+      }
+    }, 1800000200000 + index * 101, { variantSeed: index * 17 });
+    assert.doesNotMatch(svg, /data-shape-turn=/);
+    assert.doesNotMatch(svg, /data-shape-aspect/);
+    return svg.match(/data-aerosol-topology="([^"]+)"/)?.[1] || "";
+  });
+  assert.ok(new Set(topologies).size >= genres.length - 1, `too few topologies: ${topologies.join(", ")}`);
 });

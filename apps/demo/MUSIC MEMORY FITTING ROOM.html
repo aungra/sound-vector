@@ -2736,54 +2736,171 @@
         (Number(score) || 0) * (Number(bias?.[label]) || 1)
       ]));
     }
-    function popStyleDisplayName(styleHint) {
-      return styleHint === "city_pop" ? "シティ・ポップ" : "pop_other";
+    function modelStyleFamilies(model = {}) {
+      const families = model.sourcePolicy?.styleClassifierFamilies || {};
+      if (Object.keys(families).length) return families;
+      if (!model.sourcePolicy?.popStyleClassifierEnabled) return {};
+      return {
+        pop: {
+          other: "pop_other",
+          weightMultipliers: {
+            tempo: 1.08,
+            bass: 1.18,
+            rhythm: 1.16,
+            brightness: 1.14,
+            chromaEntropy: 1.18,
+            chromaMotion: 1.12,
+            rmsContrast: 1.08,
+            chorusLift: .92,
+            vocalBand: .94,
+            distortion: .82,
+            guitarBand: .84
+          },
+          targets: {
+            city_pop: { label: "シティ・ポップ", source: "styleHint", genre: "", boostFineGenre: "" }
+          }
+        }
+      };
     }
-    function popStyleLabelForExample(example = {}) {
-      if (canonicalModelMacro(example.macroGenre) !== "pop" || example.trainingRole === "macro-only") return "";
-      return example.styleHint === "city_pop" ? "city_pop" : "pop_other";
+    function modelStyleDisplayName(model = {}, styleHint = "") {
+      const families = modelStyleFamilies(model);
+      for (const config of Object.values(families)) {
+        if (config.targets?.[styleHint]) return config.targets[styleHint].label || styleHint;
+        if (config.other === styleHint) return styleHint;
+      }
+      return styleHint || "";
     }
-    function popStyleWeights(model = {}) {
+    function modelStyleFamilyForExample(example = {}, families = {}) {
+      const macro = canonicalModelMacro(example.macroGenre);
+      return families[macro] && example.trainingRole !== "macro-only" ? macro : "";
+    }
+    function modelStyleLabelForExample(example = {}, families = {}) {
+      const family = modelStyleFamilyForExample(example, families);
+      if (!family) return "";
+      const config = families[family] || {};
+      for (const [styleHint, target] of Object.entries(config.targets || {})) {
+        if (target.source === "styleHint" && example.styleHint === styleHint) return styleHint;
+        if (target.source === "genre" && example.genre === target.genre) return styleHint;
+      }
+      return config.other || "";
+    }
+    function modelStyleWeights(model = {}, family = "") {
       const keys = model.featureKeys || [];
       const base = model.featureWeights || {};
-      const popMultipliers = model.macroFeatureMultipliers?.pop || {};
-      const styleMultipliers = {
-        tempo: 1.08,
-        bass: 1.18,
-        rhythm: 1.16,
-        brightness: 1.14,
-        chromaEntropy: 1.18,
-        chromaMotion: 1.12,
-        rmsContrast: 1.08,
-        chorusLift: .92,
-        vocalBand: .94,
-        distortion: .82,
-        guitarBand: .84
-      };
+      const macroMultipliers = model.macroFeatureMultipliers?.[family] || {};
+      const styleMultipliers = modelStyleFamilies(model)[family]?.weightMultipliers || {};
       return keys.map(key => (
         Number(base[key] || 1) *
-        Number(popMultipliers[key] || 1) *
+        Number(macroMultipliers[key] || 1) *
         Number(styleMultipliers[key] || 1)
       ));
     }
-    function inferPopStyleWithModel(model = {}, examples = [], target = []) {
-      if (!model.sourcePolicy?.popStyleClassifierEnabled) return [];
-      const popExamples = examples.filter(example => popStyleLabelForExample(example));
-      if (!popExamples.some(example => example.styleHint === "city_pop")) return [];
-      const weights = popStyleWeights(model);
-      const prepared = popExamples.map(example => ({ ...example, weights }));
+    function modelFineGenreForStyle(model = {}, styleHint = "") {
+      for (const config of Object.values(modelStyleFamilies(model))) {
+        const target = config.targets?.[styleHint];
+        if (target?.boostFineGenre) return target.boostFineGenre;
+      }
+      return "";
+    }
+    function boostModelFineScoresWithStyle(scores = {}, styleRanked = [], model = {}) {
+      if (!styleRanked.length || !Object.keys(scores).length) return scores;
+      const maxScore = Math.max(...Object.values(scores).map(Number), .0001);
+      const out = { ...scores };
+      styleRanked.slice(0, 3).forEach((style, index) => {
+        const fineGenre = modelFineGenreForStyle(model, style.style);
+        if (!fineGenre || !(fineGenre in out)) return;
+        const confidence = clamp01((Number(style.score) || 0) / 100);
+        const weight = index === 0 ? .42 : index === 1 ? .27 : .15;
+        out[fineGenre] = (Number(out[fineGenre]) || 0) + maxScore * confidence * weight;
+      });
+      return out;
+    }
+    function modelRankedScore(rows = [], key, label) {
+      const item = rows.find(row => row?.[key] === label || row?.label === label);
+      return clamp01((Number(item?.score) || 0) / 100);
+    }
+    function modelStyleFamilyScore(styleByFamily = {}, family, styleHint) {
+      return modelRankedScore(styleByFamily[family] || [], "style", styleHint);
+    }
+    function applyModelFineFalsePositiveGuards(scores = {}, raw = [], model = {}, macroRanked = [], styleByFamily = {}) {
+      if (!Object.keys(scores).length) return scores;
+      const keys = model.featureKeys || [];
+      const values = Object.fromEntries(keys.map((key, index) => [key, Number(raw[index]) || 0]));
+      const out = { ...scores };
+      const macro = {
+        ambient: modelRankedScore(macroRanked, "macro", "ambient"),
+        black_music: modelRankedScore(macroRanked, "macro", "black_music"),
+        electronic: modelRankedScore(macroRanked, "macro", "electronic")
+      };
+      const style = {
+        drone: modelStyleFamilyScore(styleByFamily, "ambient", "drone"),
+        ambientOther: modelStyleFamilyScore(styleByFamily, "ambient", "ambient_other"),
+        dub: modelStyleFamilyScore(styleByFamily, "black_music", "dub"),
+        blackOther: modelStyleFamilyScore(styleByFamily, "black_music", "black_music_other"),
+        techno: modelStyleFamilyScore(styleByFamily, "electronic", "techno"),
+        electronicOther: modelStyleFamilyScore(styleByFamily, "electronic", "electronic_other")
+      };
+      if ("テクノ" in out) {
+        let multiplier = 1;
+        if (macro.electronic < .72) multiplier *= .76;
+        if ((values.rhythm || 0) < .42 || (values.onset || 0) < .16) multiplier *= .84;
+        if (((values.tempo || 0) < 112 || (values.tempo || 0) > 150) && style.techno < .52) multiplier *= .9;
+        if (macro.black_music > .6 && (values.bass || 0) > .62 && style.techno < .58) multiplier *= .84;
+        if (style.electronicOther > style.techno + .16 && style.techno < .58) multiplier *= .82;
+        out["テクノ"] *= multiplier;
+      }
+      if ("ダブ" in out) {
+        let multiplier = 1;
+        if (macro.black_music < .72) multiplier *= .76;
+        if (macro.electronic > macro.black_music && style.dub < .56) multiplier *= .88;
+        if (((values.bass || 0) < .72 || (values.lowBandRatio || 0) < .55) && style.dub < .56) multiplier *= .9;
+        if ((values.brightness || 0) > .5 || (values.highBandRatio || 0) > .34) multiplier *= .84;
+        if ((values.rhythm || 0) > .74 || (values.onset || 0) > .62) multiplier *= .82;
+        if (style.blackOther > style.dub + .16 && style.dub < .56) multiplier *= .84;
+        out["ダブ"] *= multiplier;
+      }
+      if ("ドローン" in out) {
+        let multiplier = 1;
+        if (macro.ambient < .72) multiplier *= .76;
+        if ((values.energy || 0) > .84 || (values.rhythm || 0) > .52 || (values.onset || 0) > .38) multiplier *= .76;
+        if (((values.rhythm || 0) > .44 || (values.onset || 0) > .34) && style.drone < .56) multiplier *= .86;
+        if ((values.energy || 0) > .9 && style.drone < .5) multiplier *= .9;
+        if ((values.brightness || 0) > .56 || (values.zcr || 0) > .2) multiplier *= .84;
+        if (style.ambientOther > style.drone + .16 && style.drone < .54) multiplier *= .84;
+        out["ドローン"] *= multiplier;
+      }
+      return out;
+    }
+    function inferStyleFamilyWithModel(model = {}, examples = [], target = [], family = "") {
+      const families = modelStyleFamilies(model);
+      const config = families[family];
+      if (!config) return [];
+      const styleExamples = examples.filter(example => modelStyleFamilyForExample(example, families) === family);
+      if (!styleExamples.some(example => Object.keys(config.targets || {}).includes(modelStyleLabelForExample(example, families)))) return [];
+      const weights = modelStyleWeights(model, family);
+      const prepared = styleExamples.map(example => ({ ...example, weights }));
       const baseScores = mergeScores(
-        knnScores(prepared, target, popStyleLabelForExample, model.knnK || 11),
-        centroidScores(model.centroids?.popStyle || {}, target, weights),
-        .72,
-        .28
+        knnScores(prepared, target, example => modelStyleLabelForExample(example, families), model.knnK || 11),
+        centroidScores(model.centroids?.styleByFamily?.[family] || (family === "pop" ? model.centroids?.popStyle || {} : {}), target, weights),
+        .86,
+        .14
       );
       const styleScores = model.sourcePolicy?.distributionClassifierEnabled
-        ? mergeScores(baseScores, distributionScores(model.distributions?.popStyle || {}, target, weights), .78, .22)
+        ? mergeScores(baseScores, distributionScores(model.distributions?.styleByFamily?.[family] || (family === "pop" ? model.distributions?.popStyle || {} : {}), target, weights), .9, .1)
         : baseScores;
       return rankModelLabels(styleScores, "style", Object.fromEntries(Object.keys(styleScores).map(style => [style, {
-        name: popStyleDisplayName(style)
+        name: modelStyleDisplayName(model, style),
+        family
       }]))).slice(0, 4);
+    }
+    function inferStylesWithModel(model = {}, examples = [], target = [], selectedMacro = "") {
+      const families = modelStyleFamilies(model);
+      const byFamily = Object.fromEntries(Object.keys(families).map(family => [
+        family,
+        inferStyleFamilyWithModel(model, examples, target, family)
+      ]));
+      const selected = byFamily[selectedMacro] || Object.values(byFamily).find(list => list.length) || [];
+      return { selected, byFamily };
     }
     function modelRangeSupport(value, spec = {}) {
       const number = Number(value);
@@ -2917,8 +3034,11 @@
           .24
         )
         : baseFineScores;
+      const styleInference = inferStylesWithModel(model, examples, z, selectedMacro);
       const theoryFineScores = blendModelTheoryScores(fineScores, raw, model);
-      const calibratedFineScores = applyModelCalibration(theoryFineScores, model.calibration?.fineBias, calibrationEnabled);
+      const styleBoostedFineScores = boostModelFineScoresWithStyle(theoryFineScores, styleInference.selected, model);
+      const guardedFineScores = applyModelFineFalsePositiveGuards(styleBoostedFineScores, raw, model, macroRanked, styleInference.byFamily);
+      const calibratedFineScores = applyModelCalibration(guardedFineScores, model.calibration?.fineBias, calibrationEnabled);
       const catalogByName = Object.fromEntries(musicGenreCatalog.map(item => [item.name, item]));
       const ranked = rankModelLabels(calibratedFineScores, "name", Object.fromEntries(Object.keys(calibratedFineScores).map(name => {
         const macro = canonicalModelMacro(genreToMacro[name] || selectedMacro);
@@ -2935,7 +3055,7 @@
       }))).slice(0, 5);
       const confidence = ranked[0]?.score || 0;
       const margin = confidence - (ranked[1]?.score || 0);
-      const styleRanked = inferPopStyleWithModel(model, examples, z);
+      const styleRanked = styleInference.selected;
       return {
         source: "ローカル学習データによる2段階分類器。大分類を先に判定し、その範囲内で細分類します。",
         catalogSize: model.fineGenres?.length || musicGenreCatalog.length,
@@ -2944,7 +3064,8 @@
         needsReview: confidence < 58 || margin < 8,
         macro: macroRanked.slice(0, 4),
         style: styleRanked,
-        inferredStyle: styleRanked[0]?.style === "city_pop" ? "シティ・ポップ" : "",
+        styleByFamily: styleInference.byFamily,
+        inferredStyle: styleRanked[0]?.name || "",
         top: ranked
       };
     }
@@ -4211,26 +4332,234 @@
     function chooseSoundFormMode(fingerprint, audio = {}, seed = 1) {
       return resolveGenrePattern(audio, seed, audio.variantSalt || 0)?.id || fallbackSoundFormMode(fingerprint, audio, seed);
     }
+    const genreAerosolArchetypes = {
+      "アンビエント": ["chamber-constellation", "crescent", "scattered-islands"],
+      "ドローン": ["vertical-plume", "dense-core-trail", "bass-horizon"],
+      "ノイズミュージック": ["ring-rupture", "split-cloud", "blade-plume"],
+      "電子音楽": ["lattice-mist", "vertical-plume", "ring-rupture"],
+      "テクノ": ["lattice-mist", "ring-rupture", "curtain-fall"],
+      "ハウス": ["curtain-fall", "bass-horizon", "diagonal-wash"],
+      "ディープ・ハウス": ["bass-horizon", "dense-core-trail", "crescent"],
+      "トランス": ["crescent", "fan-spray", "ring-rupture"],
+      "ドラムンベース": ["diagonal-wash", "split-cloud", "blade-plume"],
+      "ダブステップ": ["dense-core-trail", "ring-rupture", "bass-horizon"],
+      "チップチューン": ["pixel-swarm", "lattice-mist", "scattered-islands"],
+      "ヒップホップ": ["bass-horizon", "split-cloud", "diagonal-wash"],
+      "トラップ": ["blade-plume", "fan-spray", "split-cloud"],
+      "レゲエ": ["bass-horizon", "curtain-fall", "scattered-islands"],
+      "ダブ": ["dense-core-trail", "crescent", "bass-horizon"],
+      "ブルース": ["bass-horizon", "chamber-constellation", "curtain-fall"],
+      "ロック": ["blade-plume", "ring-rupture", "diagonal-wash"],
+      "パンク": ["split-cloud", "blade-plume", "ring-rupture"],
+      "ハードコア": ["ring-rupture", "blade-plume", "split-cloud"],
+      "メタル": ["blade-plume", "dense-core-trail", "ring-rupture"],
+      "ジャズ": ["chamber-constellation", "scattered-islands", "crescent"],
+      "ファンク": ["diagonal-wash", "curtain-fall", "fan-spray"],
+      "ソウルミュージック": ["double-lobe", "chamber-constellation", "bass-horizon"],
+      "ディスコ": ["ring-rupture", "fan-spray", "lattice-mist"],
+      "シティ・ポップ": ["scattered-islands", "lattice-mist", "diagonal-wash"],
+      "J-POP": ["fan-spray", "double-lobe", "pixel-swarm"],
+      "アニメソング": ["fan-spray", "crescent", "ring-rupture"],
+      "クラシック音楽": ["chamber-constellation", "crescent", "curtain-fall"],
+      "オペラ": ["theatre-arch", "vertical-plume", "crescent"],
+      "フォーク": ["scattered-islands", "curtain-fall", "chamber-constellation"],
+      "ラテン": ["fan-spray", "ring-rupture", "diagonal-wash"],
+      "ワールドミュージック": ["ring-rupture", "scattered-islands", "crescent"]
+    };
+    const macroAerosolArchetypes = {
+      ambient: ["chamber-constellation", "vertical-plume", "crescent"],
+      electronic: ["lattice-mist", "ring-rupture", "curtain-fall"],
+      black_music: ["bass-horizon", "dense-core-trail", "split-cloud"],
+      black: ["bass-horizon", "dense-core-trail", "split-cloud"],
+      rock: ["blade-plume", "ring-rupture", "split-cloud"],
+      jazz: ["chamber-constellation", "scattered-islands", "crescent"],
+      pop: ["fan-spray", "double-lobe", "pixel-swarm"],
+      classical: ["chamber-constellation", "theatre-arch", "crescent"],
+      world: ["ring-rupture", "scattered-islands", "diagonal-wash"],
+      folk: ["scattered-islands", "curtain-fall", "ring-rupture"]
+    };
+    const genreAerosolTopologies = {
+      "アンビエント": "open-crescent-void",
+      "ドローン": "low-ridge-mass",
+      "ノイズミュージック": "ruptured-ring-cross",
+      "電子音楽": "twin-circuit-bars",
+      "テクノ": "single-machine-donut",
+      "ハウス": "stacked-floor-steps",
+      "ディープ・ハウス": "valley-bass-cut",
+      "トランス": "comet-crescent-core",
+      "ドラムンベース": "breakbeat-stair-rails",
+      "ダブステップ": "heavy-center-hole",
+      "チップチューン": "missing-pixel-grid",
+      "ヒップホップ": "bass-slab-tag",
+      "トラップ": "fan-triangle-hole",
+      "レゲエ": "offbeat-stripe-gap",
+      "ダブ": "dub-delay-void-columns",
+      "ブルース": "bent-horizon-pocket",
+      "ロック": "broken-orbit-notch",
+      "パンク": "scratch-only-scars",
+      "ハードコア": "hard-chevron-impact",
+      "メタル": "blade-gate-impact",
+      "ジャズ": "jazz-offcenter-cymbal",
+      "ファンク": "funk-step-grid",
+      "ソウルミュージック": "voice-double-pool",
+      "ディスコ": "mirror-donut-breaks",
+      "シティ・ポップ": "window-grid-void",
+      "J-POP": "pop-ribbon-burst",
+      "アニメソング": "transformation-ring",
+      "クラシック音楽": "classical-staff-rests",
+      "オペラ": "stage-arch-plume",
+      "フォーク": "handmade-thread-columns",
+      "ラテン": "percussion-split-ring",
+      "ワールドミュージック": "world-compass-routes"
+    };
+    const genreAerosolPrimaryArchetypes = {
+      "アンビエント": "crescent",
+      "ドローン": "bass-horizon",
+      "ノイズミュージック": "ring-rupture",
+      "電子音楽": "lattice-mist",
+      "テクノ": "ring-rupture",
+      "ハウス": "curtain-fall",
+      "ディープ・ハウス": "dense-core-trail",
+      "トランス": "crescent",
+      "ドラムンベース": "diagonal-wash",
+      "ダブステップ": "dense-core-trail",
+      "チップチューン": "pixel-swarm",
+      "ヒップホップ": "split-cloud",
+      "トラップ": "fan-spray",
+      "レゲエ": "curtain-fall",
+      "ダブ": "curtain-fall",
+      "ブルース": "crescent",
+      "ロック": "blade-plume",
+      "パンク": "blade-plume",
+      "ハードコア": "blade-plume",
+      "メタル": "blade-plume",
+      "ジャズ": "chamber-constellation",
+      "ファンク": "lattice-mist",
+      "ソウルミュージック": "chamber-constellation",
+      "ディスコ": "ring-rupture",
+      "シティ・ポップ": "lattice-mist",
+      "J-POP": "split-cloud",
+      "アニメソング": "ring-rupture",
+      "クラシック音楽": "lattice-mist",
+      "オペラ": "theatre-arch",
+      "フォーク": "curtain-fall",
+      "ラテン": "fan-spray",
+      "ワールドミュージック": "fan-spray"
+    };
+    function classifierVisualSignal(audio = {}) {
+      const analysis = audio.genreAnalysis || {};
+      const top = analysis.top?.[0] || {};
+      const second = analysis.top?.[1] || {};
+      const macroTop = analysis.macro?.[0] || {};
+      const macroSecond = analysis.macro?.[1] || {};
+      const topGenre = top.name || audio.inferredGenre || "";
+      const macro = canonicalModelMacro(macroTop.macro || top.macro || genreToMacro[topGenre] || "");
+      const runnerMacro = canonicalModelMacro(macroSecond.macro || second.macro || genreToMacro[second.name] || "");
+      const confidence = clampRange(top.score ?? analysis.confidence ?? 0, 0, 100);
+      const margin = clampRange(confidence - (Number(second.score) || 0), 0, 100);
+      const macroScore = clampRange(macroTop.score ?? top.macroScore ?? 0, 0, 100);
+      const macroMargin = clampRange(macroScore - (Number(macroSecond.score) || 0), 0, 100);
+      const ambiguity = clamp01((1 - margin / 34) * .7 + (1 - macroMargin / 32) * .3);
+      return {
+        method: analysis.method || "unknown-classifier",
+        topGenre,
+        macro: macro || canonicalModelMacro(genreToMacro[topGenre] || ""),
+        macroScore,
+        runnerMacro,
+        confidence,
+        margin,
+        ambiguity,
+        family: top.family || macro || ""
+      };
+    }
+    function fallbackAerosolArchetypeFromSilhouette(silhouette = "") {
+      return {
+        ring: "ring-rupture",
+        burst: "fan-spray",
+        strata: "curtain-fall",
+        flag: "diagonal-wash",
+        constellation: "chamber-constellation",
+        spiral: "crescent",
+        terrain: "bass-horizon",
+        block: "lattice-mist"
+      }[silhouette] || "dense-core-trail";
+    }
+    function resolveAerosolArchetype(genrePattern = {}, genreVisual = {}, audio = {}, seed = 1) {
+      const signal = classifierVisualSignal(audio);
+      const genreName = genrePattern?.genreName || genrePattern?.label || signal.topGenre || "";
+      const primaryArchetype = genreAerosolPrimaryArchetypes[genreName] || "";
+      const genreChoices = genreAerosolArchetypes[genreName] || [];
+      const macroChoices = macroAerosolArchetypes[signal.macro] || macroAerosolArchetypes[genreToMacro[signal.topGenre]] || [];
+      const baseChoices = genreChoices.length ? genreChoices : macroChoices;
+      const choices = baseChoices.length ? baseChoices : [fallbackAerosolArchetypeFromSilhouette(genreVisual.silhouette)];
+      const variantIndex = Math.abs(Math.floor(seed + hashString(`${signal.topGenre}|${signal.macro}|aerosol`) + (audio.variantSalt || 0) * 19)) % choices.length;
+      let archetype = primaryArchetype || choices[variantIndex] || choices[0];
+      const runnerChoices = signal.runnerMacro && signal.runnerMacro !== signal.macro ? (macroAerosolArchetypes[signal.runnerMacro] || []) : [];
+      if (!primaryArchetype && signal.ambiguity > .72 && runnerChoices.length) {
+        archetype = (Math.abs(seed) % 2) ? "split-cloud" : runnerChoices[Math.abs(seed) % runnerChoices.length];
+      }
+      return { archetype, ...signal };
+    }
+    function resolveAerosolTopology(genrePattern = {}, signal = {}) {
+      const genre = genrePattern?.genreName || genrePattern?.label || signal.topGenre || "";
+      return genreAerosolTopologies[genre] || `${signal.macro || "unknown"}-classifier-field`;
+    }
+    function aerosolTopologyInkBoost(topology = "") {
+      return ({
+        "twin-circuit-bars": 1.55,
+        "stacked-floor-steps": 1.42,
+        "echo-satellite-blocks": 1.48,
+        "quiet-arc-chamber": 1.72,
+        "handmade-thread-columns": 1.38,
+        "stage-arch-plume": 1.34,
+        "window-grid-void": 1.28,
+        "missing-pixel-grid": 1.26,
+        "five-island-chord": 1.22,
+        "low-ridge-mass": 1.18,
+        "valley-bass-cut": 1.2,
+        "bent-horizon-pocket": 1.16,
+        "hard-chevron-impact": 1.22,
+        "blade-gate-impact": 1.28,
+        "ruptured-ring-cross": 1.18,
+        "mirror-donut-breaks": 1.18
+      })[topology] || 1;
+    }
     function aerosolOptionsFromGenre(genrePattern, genreVisual, audio = {}, fingerprint = {}, seed = 1) {
       const energy = clamp01(audio.energy ?? audio.rms);
       const bass = clamp01(audio.bass);
       const onset = clamp01(audio.onset);
       const brightness = clamp01(audio.brightness ?? ((audio.centroid - 400) / 5200));
       const density = clampRange((genreVisual.densityBias || 1) * (0.82 + energy * .36 + onset * .18), .48, 1.72);
+      const classifier = resolveAerosolArchetype(genrePattern, genreVisual, audio, seed);
+      const wideConfidence = clamp01((classifier.confidence - 48) / 44);
+      const ambiguitySpread = classifier.ambiguity * 58;
+      const topology = resolveAerosolTopology(genrePattern, classifier);
+      const inkBoost = aerosolTopologyInkBoost(topology);
       return {
+        archetype: classifier.archetype,
+        topology,
+        inkBoost,
+        classifierMethod: classifier.method,
+        macroGenre: classifier.macro,
+        macroScore: classifier.macroScore,
+        classifierConfidence: classifier.confidence,
+        classifierMargin: classifier.margin,
+        classifierAmbiguity: classifier.ambiguity,
+        runnerMacro: classifier.runnerMacro,
         silhouette: genreVisual.silhouette || "flag",
         negativeSpace: genreVisual.negativeSpace || "none",
         textureRegion: genreVisual.textureRegion || "full",
         nameMotif: genreVisual.nameMotif || "mist",
+        genreName: genrePattern?.genreName || genrePattern?.label || classifier.topGenre || "",
         baseFamily: genrePattern?.baseFamily || "cloth-field",
         variantFamily: genrePattern?.variantFamily || "memory-orbit",
         density,
-        particleCount: Math.round(2400 + density * 2200 + bass * 600 + brightness * 420),
-        centerX: 600 + (fingerprint.chromaX || 0) * 90 + (fingerprint.temporalTilt || 0) * 34,
-        centerY: 604 + (fingerprint.chromaY || 0) * 72 + (fingerprint.gravity || 0) * 42 - brightness * 24,
-        spreadX: 245 + density * 74 + bass * 72,
-        spreadY: 195 + density * 52 + energy * 64,
-        drift: (fingerprint.temporalTilt || 0) * .42 + (seed % 360) * Math.PI / 1800,
+        particleCount: Math.round((2400 + density * 2200 + bass * 600 + brightness * 420) * clampRange(.92 + (inkBoost - 1) * .42, .92, 1.28)),
+        centerX: 600 + (fingerprint.chromaX || 0) * (74 + wideConfidence * 44) + (fingerprint.temporalTilt || 0) * 42 + ambiguitySpread * ((seed % 2) ? 1 : -1),
+        centerY: 604 + (fingerprint.chromaY || 0) * (64 + wideConfidence * 36) + (fingerprint.gravity || 0) * 48 - brightness * 30,
+        spreadX: 232 + density * 82 + bass * 88 + classifier.ambiguity * 44,
+        spreadY: 176 + density * 58 + energy * 76 + (1 - wideConfidence) * 24,
+        drift: (fingerprint.temporalTilt || 0) * .48 + (seed % 360) * Math.PI / 1800 + classifier.ambiguity * .32,
         softness: clampRange(.58 + brightness * .3 + (1 - onset) * .18, .38, .96),
         grain: clampRange(.56 + onset * .36 + brightness * .12, .42, 1.16)
       };
@@ -4250,6 +4579,9 @@
       if (cut === "fracture" && (Math.abs(x - 594 - (y - 600) * .06) < 28 || Math.abs(y - 610 + (x - 600) * .22) < 28)) return true;
       return false;
     }
+    function aerosolTopologyOwnsNegativeSpace(topology = "") {
+      return Boolean(topology && genreAerosolTopologies && Object.values(genreAerosolTopologies).includes(topology));
+    }
     function aerosolParticlePoint(index, options, seed, byteSigned) {
       const noise = salt => textureNoise01(index, 200 + salt, seed);
       const angleNoise = (noise(1) - .5) * Math.PI * 2;
@@ -4261,8 +4593,520 @@
       let x = options.centerX;
       let y = options.centerY;
       let localDensity = 1;
+      let forcedVoid = false;
+      const archetype = options.archetype || "";
+      const topology = options.topology || "";
       const silhouette = options.silhouette;
-      if (silhouette === "ring") {
+      if (archetype === "split-cloud") {
+        if (topology === "pop-ribbon-burst") {
+          const burst = Math.floor(noise(12) * 7);
+          const a = -Math.PI * .82 + burst * Math.PI * .28;
+          const r = .28 + noise(13) * .62;
+          x += Math.cos(a) * options.spreadX * r + u * options.spreadX * .08;
+          y += Math.sin(a) * options.spreadY * r + Math.sin((u + 1) * Math.PI * 2.6) * 22 + v * options.spreadY * .08;
+          if (burst === 3 && r < .42) forcedVoid = true;
+          localDensity = 1.02 - r * .22;
+        } else if (topology === "bass-slab-tag") {
+          const block = Math.floor(noise(12) * 4);
+          const blocks = [
+            { x: -.54, y: .18, w: .42, h: .16 },
+            { x: -.06, y: .02, w: .34, h: .18 },
+            { x: .42, y: -.16, w: .28, h: .14 },
+            { x: .55, y: .28, w: .18, h: .16 }
+          ];
+          const b = blocks[block] || blocks[0];
+          x += b.x * options.spreadX * 1.2 + u * options.spreadX * b.w;
+          y += b.y * options.spreadY * 1.1 + v * options.spreadY * b.h;
+          localDensity = .98 - Math.hypot(u, v) * .12;
+        } else if (topology === "quartered-split-cloud") {
+          const quadrant = Math.floor(noise(12) * 4);
+          const qx = quadrant % 2 ? 1 : -1;
+          const qy = quadrant > 1 ? 1 : -1;
+          x += qx * options.spreadX * .48 + u * options.spreadX * .34;
+          y += qy * options.spreadY * .42 + v * options.spreadY * .3;
+          localDensity = .92 - Math.hypot(u, v) * .16;
+        } else {
+        const side = noise(12) > .48 ? 1 : -1;
+        const tilt = options.drift + side * .42;
+        const stretch = .72 + noise(13) * .56;
+        x += side * options.spreadX * (.54 + options.classifierAmbiguity * .28) + Math.cos(tilt) * u * options.spreadX * stretch + v * 28;
+        y += side * options.spreadY * .12 + Math.sin(tilt) * u * options.spreadY * .7 + v * options.spreadY * (.46 + noise(14) * .22);
+        localDensity = .94 - Math.abs(u) * .18 + options.classifierAmbiguity * .28;
+        }
+      } else if (archetype === "vertical-plume") {
+        if (topology === "stage-arch-plume") {
+          const arch = noise(15) < .42;
+          if (arch) {
+            const t = noise(16);
+            const a = Math.PI * (.1 + t * .8);
+            x += Math.cos(a) * options.spreadX * .78 + u * 28;
+            y += -Math.sin(a) * options.spreadY * .72 + options.spreadY * .34 + v * 26;
+            localDensity = .96 + Math.sin(t * Math.PI) * .18;
+          } else {
+            x += u * options.spreadX * .24;
+            y += (noise(17) - .5) * options.spreadY * 1.72;
+            localDensity = .88;
+          }
+        } else {
+        const plume = Math.pow(noise(15), .58);
+        const sway = Math.sin(plume * Math.PI * 3.2 + seed * .0002) * (24 + options.spreadX * .12);
+        x += u * options.spreadX * (.26 + (1 - plume) * .38) + sway + audioLift * 18;
+        y += (plume - .5) * options.spreadY * 2.15 - Math.abs(v) * options.spreadY * .22;
+        localDensity = 1.12 - plume * .32;
+        }
+      } else if (archetype === "diagonal-wash") {
+        if (topology === "breakbeat-stair-rails") {
+          const rail = Math.floor(noise(16) * 8);
+          const step = Math.floor(noise(17) * 5);
+          const side = rail % 2 ? 1 : -1;
+          const yRows = [-.58, -.4, -.22, .2, .38, .56, -.04, .04];
+          x += (step / 4 - .5) * options.spreadX * 1.72 + side * 38 + u * options.spreadX * .1;
+          y += (yRows[rail] || 0) * options.spreadY * 1.15 + (step % 2 ? 18 : -18) + v * options.spreadY * .05;
+          if (Math.abs(y - options.centerY) < options.spreadY * .12 && step > 1 && step < 4) forcedVoid = true;
+          localDensity = .88 + (rail % 2) * .12 - Math.abs(v) * .24;
+        } else if (topology === "syncopated-sash") {
+          const hit = Math.floor(noise(16) * 11);
+          const t = hit / 10 - .5;
+          const snap = hit % 4 === 0 ? -.34 : hit % 4 === 1 ? .08 : hit % 4 === 2 ? .38 : -.02;
+          x += t * options.spreadX * 1.74 + u * options.spreadX * .045;
+          y += snap * options.spreadY + Math.sin(hit * 2.1) * 18 + v * options.spreadY * .045;
+          if (hit === 5 || hit === 6 || Math.abs(v) > .58) forcedVoid = true;
+          localDensity = .72 + (hit % 3) * .14;
+        } else if (topology === "two-sash-break") {
+          const lane = noise(16) > .5 ? 1 : -1;
+          const gap = topology === "syncopated-sash" && Math.abs(u) < .22;
+          const a = options.drift + lane * Math.PI * .18;
+          if (gap) forcedVoid = true;
+          x += Math.cos(a) * u * options.spreadX * 1.46 + Math.cos(a + Math.PI / 2) * v * options.spreadY * .28 + lane * 92;
+          y += Math.sin(a) * u * options.spreadY * 1.16 + Math.sin(a + Math.PI / 2) * v * options.spreadY * .3 - lane * 54;
+          localDensity = Math.max(localDensity, .82 - Math.abs(v) * .24);
+        } else {
+        const t = u;
+        const normal = v * (options.spreadY * .34 + noise(16) * 36);
+        const a = options.drift + Math.PI * .22;
+        x += Math.cos(a) * t * options.spreadX * 1.92 + Math.cos(a + Math.PI / 2) * normal;
+        y += Math.sin(a) * t * options.spreadY * 1.42 + Math.sin(a + Math.PI / 2) * normal + audioLift * 24;
+        localDensity = .98 - Math.abs(v) * .28;
+        }
+      } else if (archetype === "double-lobe") {
+        if (topology === "voice-double-pool") {
+          const pool = noise(17) > .52 ? 1 : -1;
+          x += pool * options.spreadX * .38 + u * options.spreadX * .42;
+          y += Math.sin(u * Math.PI) * options.spreadY * .12 + v * options.spreadY * .38;
+          localDensity = 1.04 - Math.hypot(u, v) * .18;
+        } else {
+        const upper = noise(17) > .5 ? 1 : -1;
+        const lobeAngle = options.drift + upper * Math.PI * .36;
+        x += Math.cos(lobeAngle) * options.spreadX * .34 + u * options.spreadX * (.58 + noise(18) * .22);
+        y += upper * options.spreadY * .54 + v * options.spreadY * (.46 + noise(19) * .18);
+        localDensity = 1.02 - Math.hypot(u, v) * .18;
+        }
+      } else if (archetype === "crescent") {
+        if (topology === "comet-crescent-core") {
+          const t = Math.pow(noise(20), .72);
+          const tail = noise(21) < .78;
+          if (tail) {
+            const curve = Math.sin(t * Math.PI * 1.35) * options.spreadX * .34;
+            x += -options.spreadX * .48 + t * options.spreadX * 1.14 + curve + v * 22;
+            y += options.spreadY * .56 - t * options.spreadY * 1.36 + Math.sin(t * Math.PI * 2.1) * 24 + u * 18;
+            localDensity = 1.08 - t * .32;
+          } else {
+            x += options.spreadX * .48 + u * options.spreadX * .16;
+            y += -options.spreadY * .5 + v * options.spreadY * .14;
+            localDensity = 1.04;
+          }
+        } else if (topology === "bent-horizon-pocket") {
+          const t = noise(20);
+          const bend = Math.sin((t - .12) * Math.PI) * options.spreadY * .34;
+          x += (t - .5) * options.spreadX * 1.46 + u * options.spreadX * .06;
+          y += options.spreadY * .14 + bend + v * options.spreadY * .08;
+          if (t > .36 && t < .54 && Math.abs(v) < .5) forcedVoid = true;
+          localDensity = .82 + Math.sin(t * Math.PI) * .18;
+        } else {
+        const t = noise(20);
+        const arcStart = topology === "open-crescent-void" ? .34 : .18;
+        const arcSpan = topology === "open-crescent-void" ? 1.18 : 1.46;
+        const a = options.drift + Math.PI * (arcStart + t * arcSpan) + audioLift * .12;
+        const band = topology === "open-crescent-void" ? .72 + noise(21) * .18 + v * .06 : .66 + noise(21) * .24 + v * .08;
+        x += Math.cos(a) * options.spreadX * band + Math.cos(a + Math.PI / 2) * u * 36;
+        y += Math.sin(a) * options.spreadY * band + Math.sin(a + Math.PI / 2) * u * 28;
+        if (topology === "comet-crescent-core" && noise(22) < .22) {
+          x = options.centerX + u * options.spreadX * .22;
+          y = options.centerY + v * options.spreadY * .18;
+          localDensity = 1.08;
+        }
+        if (topology === "open-crescent-void" && Math.hypot(x - options.centerX, y - options.centerY) < options.spreadY * .42) forcedVoid = true;
+        localDensity = .94 + Math.sin(t * Math.PI) * .28;
+        }
+      } else if (archetype === "scattered-islands") {
+        const centers = topology === "syncopated-sash" ? [
+          { x: -.54, y: .22, s: .16 }, { x: -.2, y: -.2, s: .15 }, { x: .08, y: .16, s: .14 },
+          { x: .38, y: -.12, s: .16 }, { x: .58, y: .3, s: .13 }
+        ] : topology === "offbeat-stripe-gap" ? [
+          { x: -.56, y: -.22, s: .14 }, { x: -.18, y: .04, s: .16 }, { x: .24, y: -.18, s: .14 },
+          { x: .5, y: .12, s: .15 }, { x: -.36, y: .38, s: .13 }, { x: .12, y: .42, s: .13 }
+        ] : topology === "bent-horizon-pocket" ? [
+          { x: -.62, y: .12, s: .18 }, { x: -.28, y: -.08, s: .2 }, { x: .08, y: .02, s: .16 },
+          { x: .42, y: .18, s: .18 }, { x: .1, y: .42, s: .14 }
+        ] : topology === "handmade-thread-columns" ? [
+          { x: -.54, y: -.34, s: .12 }, { x: -.34, y: -.02, s: .12 }, { x: -.12, y: .3, s: .12 },
+          { x: .16, y: -.26, s: .12 }, { x: .36, y: .08, s: .12 }, { x: .56, y: .34, s: .12 }
+        ] : topology === "five-island-chord" ? [
+          { x: -.68, y: -.42, s: .12 }, { x: -.32, y: .18, s: .13 }, { x: .06, y: -.28, s: .11 },
+          { x: .42, y: .34, s: .12 }, { x: .7, y: -.08, s: .1 }
+        ] : topology === "ritual-ring-islands" ? [
+          { x: -.74, y: -.44, s: .13 }, { x: -.56, y: .28, s: .14 }, { x: -.18, y: -.08, s: .12 },
+          { x: .16, y: .44, s: .15 }, { x: .48, y: -.36, s: .13 }, { x: .74, y: .18, s: .12 }
+        ] : [
+          { x: -.56, y: -.34, s: .34 }, { x: .52, y: -.28, s: .28 }, { x: .38, y: .48, s: .36 },
+          { x: -.46, y: .38, s: .3 }, { x: -.02, y: .02, s: .22 }, { x: .08, y: -.62, s: .24 }
+        ];
+        const c = centers[Math.floor(noise(22) * centers.length) % centers.length];
+        x += c.x * options.spreadX * 1.58 + u * options.spreadX * c.s;
+        y += c.y * options.spreadY * 1.5 + v * options.spreadY * c.s;
+        if (topology === "bent-horizon-pocket" && Math.hypot(x - (options.centerX - options.spreadX * .08), y - (options.centerY + options.spreadY * .1)) < options.spreadY * .22) forcedVoid = true;
+        localDensity = .82 + c.s * .72 - Math.hypot(u, v) * .12;
+      } else if (archetype === "dense-core-trail") {
+        if (topology === "echo-satellite-blocks") {
+          const echo = Math.floor(noise(24) * 5);
+          const echoX = [-.82, -.46, -.12, .34, .72][echo] || 0;
+          const row = echo % 2 ? -.18 : .24;
+          x += echoX * options.spreadX + u * options.spreadX * (.09 - echo * .006);
+          y += row * options.spreadY + v * options.spreadY * (.08 + echo * .01);
+          if (echo === 2 || Math.hypot(x - options.centerX, y - options.centerY) < options.spreadY * .52) forcedVoid = true;
+          localDensity = .74 - echo * .045;
+        } else if (topology === "valley-bass-cut") {
+          const side = noise(23) > .5 ? 1 : -1;
+          const rim = noise(24) < .72;
+          if (rim) {
+            x += side * options.spreadX * (.42 + Math.abs(u) * .28) + u * options.spreadX * .2;
+            y += options.spreadY * .28 + Math.abs(u) * options.spreadY * .34 + v * options.spreadY * .18;
+            localDensity = 1.02 - Math.abs(v) * .16;
+          } else {
+            x += u * options.spreadX * .24;
+            y += options.spreadY * .64 + v * options.spreadY * .16;
+            localDensity = .76;
+          }
+          if (Math.abs(u) < .34 && v < .42) forcedVoid = true;
+        } else if (topology === "heavy-center-hole") {
+          const side = noise(23) > .5 ? 1 : -1;
+          const coreBand = noise(24) < .42;
+          if (coreBand) {
+            x += side * options.spreadX * .36 + u * options.spreadX * .18;
+            y += v * options.spreadY * .86;
+            if (Math.abs(x - options.centerX) < options.spreadX * .28) forcedVoid = true;
+            localDensity = 1.14 - Math.abs(u) * .18;
+          } else {
+            x += side * options.spreadX * .82 + u * options.spreadX * .14;
+            y += (noise(25) - .5) * options.spreadY * .42 + v * options.spreadY * .16;
+            localDensity = .92;
+          }
+        } else {
+        const tail = noise(23) < .38 + options.classifierAmbiguity * .22;
+        if (tail) {
+          const t = noise(24);
+          const a = options.drift + Math.PI * .08;
+          x += Math.cos(a) * options.spreadX * (t * 1.75 - .32) + Math.cos(a + Math.PI / 2) * v * options.spreadY * .22;
+          y += Math.sin(a) * options.spreadY * (t * 1.12 - .2) + Math.sin(a + Math.PI / 2) * v * options.spreadY * .18;
+          localDensity = .88 - t * .22;
+        } else {
+          x += u * options.spreadX * .58 + audioLift * 24;
+          y += v * options.spreadY * .46;
+          localDensity = 1.18 - Math.hypot(u, v) * .22;
+        }
+        }
+      } else if (archetype === "lattice-mist" || archetype === "pixel-swarm") {
+        const columns = topology === "twin-circuit-bars" ? 7 : archetype === "pixel-swarm" ? 8 : 13;
+        const rows = topology === "twin-circuit-bars" ? 6 : archetype === "pixel-swarm" ? 7 : 10;
+        const gx = Math.round(noise(25) * (columns - 1)) / Math.max(1, columns - 1) - .5;
+        const gy = Math.round(noise(26) * (rows - 1)) / Math.max(1, rows - 1) - .5;
+        if (topology === "funk-step-grid") {
+          const step = Math.floor(noise(25) * 8);
+          const row = step % 4;
+          const xStep = step / 7 - .5;
+          const yStep = [.32, -.08, .18, -.34][row] || 0;
+          x += xStep * options.spreadX * 1.62 + u * options.spreadX * .055;
+          y += yStep * options.spreadY + v * options.spreadY * .055;
+          if ((step === 3 || step === 4) && Math.abs(v) < .42) forcedVoid = true;
+          localDensity = .72 + (row % 2) * .16;
+        } else if (topology === "classical-staff-rests") {
+          const staff = Math.floor(noise(25) * 5);
+          const rest = Math.floor(noise(26) * 6);
+          const rests = [-.74, -.48, -.18, .12, .44, .72];
+          x += rests[rest] * options.spreadX + (noise(27) - .5) * 10;
+          y += (staff - 2) * options.spreadY * .14 + (noise(28) - .5) * 8;
+          if ((rest === 2 || rest === 3) && staff === 2) forcedVoid = true;
+          localDensity = .5 + (staff === 2 ? .08 : .16);
+        } else {
+        if ((topology === "missing-pixel-grid" && Math.abs(gx) < .14 && gy > -.28)
+          || (topology === "window-grid-void" && Math.abs(gx - .18) < .16 && Math.abs(gy + .08) < .22)
+          || (topology === "twin-circuit-bars" && Math.abs(gy) < .16 && Math.abs(gx) < .24)) {
+          forcedVoid = true;
+        }
+        const jitter = archetype === "pixel-swarm" ? 18 : 10;
+        if (topology === "twin-circuit-bars") {
+          const side = gx < 0 ? -1 : 1;
+          x += side * options.spreadX * .64 + (Math.abs(gx) - .25) * options.spreadX * .36 + (noise(27) - .5) * jitter;
+          y += gy * options.spreadY * 1.42 + (noise(28) - .5) * jitter;
+        } else if (topology === "window-grid-void") {
+          const tower = Math.floor(noise(27) * 5);
+          const towerX = [-.72, -.42, -.08, .34, .68][tower] || 0;
+          const row = Math.round(noise(28) * 5) / 5 - .5;
+          if (tower === 2 && row > -.24 && row < .28) forcedVoid = true;
+          x += towerX * options.spreadX + (gx - Math.round(gx * 2) / 2) * options.spreadX * .22 + (noise(29) - .5) * 8;
+          y += row * options.spreadY * 1.52 + Math.sin((tower + 1) * .9) * 18 + (noise(30) - .5) * 8;
+          localDensity = .78 + (tower % 2) * .18 + (row < -.2 ? .1 : 0);
+        } else {
+          x += gx * options.spreadX * 1.86 + (noise(27) - .5) * jitter + audioLift * 8;
+          y += gy * options.spreadY * 1.58 + (noise(28) - .5) * jitter;
+        }
+        localDensity = Math.max(localDensity, archetype === "pixel-swarm" ? .94 + ((Math.abs(gx * 10) % 2) * .12) : .86 + (1 - Math.abs(gy)) * .24);
+        }
+      } else if (archetype === "ring-rupture") {
+        if (topology === "mirror-donut-breaks") {
+          const spoke = Math.floor(noise(29) * 12);
+          const mirrorRow = Math.floor(noise(30) * 4);
+          const a = spoke / 12 * Math.PI * 2 + (mirrorRow % 2 ? .13 : -.13);
+          const radiusStep = [.38, .56, .76, .94][mirrorRow] || .64;
+          const tileTangential = (noise(31) - .5) * 34;
+          const tileRadial = (noise(32) - .5) * 18;
+          x += Math.cos(a) * options.spreadX * radiusStep + Math.cos(a + Math.PI / 2) * tileTangential + Math.cos(a) * tileRadial;
+          y += Math.sin(a) * options.spreadY * radiusStep + Math.sin(a + Math.PI / 2) * tileTangential + Math.sin(a) * tileRadial;
+          if ((spoke + mirrorRow) % 4 === 0 && Math.abs(u) < .18) forcedVoid = true;
+          localDensity = .9 + mirrorRow * .06;
+        } else {
+        const segmentCount = topology === "single-machine-donut" ? 16 : topology === "transformation-ring" ? 7 : 9;
+        const segment = Math.floor(noise(29) * segmentCount);
+        const gapCount = topology === "mirror-donut-breaks" || topology === "percussion-split-ring" ? 3 : topology === "ruptured-ring-cross" ? 4 : 1;
+        const gap = Array.from({ length: gapCount }, (_, i) => (Math.abs(seed) + i * 3) % segmentCount).some(target => Math.abs(segment - target) <= 1);
+        const a = topology === "ruptured-ring-cross"
+          ? options.drift + (noise(30) - .5) * Math.PI * .34
+          : topology === "mirror-donut-breaks"
+          ? Math.floor(noise(30) * 8) / 8 * Math.PI * 2 + (noise(31) - .5) * .18
+          : topology === "transformation-ring"
+          ? (segment / segmentCount) * Math.PI * 2 + (noise(30) - .5) * .16
+          : baseAngle + segment * .03 + audioLift * .14;
+        const ring = topology === "single-machine-donut"
+          ? .82 + (segment % 2) * .1
+          : topology === "ruptured-ring-cross" ? .72 + noise(32) * .16
+          : topology === "mirror-donut-breaks" ? .48 + noise(32) * .42
+          : .58 + noise(30) * .38 + (gap ? .24 : 0);
+        if (topology === "single-machine-donut" && (segment === 3 || segment === 11) && Math.abs(v) < .4) forcedVoid = true;
+        if (topology === "broken-orbit-notch" && segment === 2) forcedVoid = true;
+        if (topology === "ruptured-ring-cross" && Math.abs(v) < .18 && noise(31) < .55) forcedVoid = true;
+        const chunkX = topology === "ruptured-ring-cross" ? 64 : topology === "mirror-donut-breaks" ? 42 : gap ? 74 : 28;
+        const chunkY = topology === "ruptured-ring-cross" ? 46 : topology === "mirror-donut-breaks" ? 34 : gap ? 58 : 24;
+        if (topology === "ruptured-ring-cross") {
+          const corner = Math.floor(noise(32) * 4);
+          const sx = corner % 2 ? 1 : -1;
+          const sy = corner > 1 ? 1 : -1;
+          x += sx * options.spreadX * (.62 + noise(33) * .18) + u * options.spreadX * .2;
+          y += sy * options.spreadY * (.52 + noise(34) * .22) + v * options.spreadY * .2;
+          if (Math.hypot(x - options.centerX, y - options.centerY) < options.spreadY * .72) forcedVoid = true;
+        } else if (topology === "single-machine-donut") {
+          const side = Math.abs(Math.cos(a)) > Math.abs(Math.sin(a));
+          x += Math.sign(Math.cos(a)) * options.spreadX * (side ? .82 : .54) + u * 22;
+          y += Math.sign(Math.sin(a)) * options.spreadY * (side ? .48 : .78) + v * 22;
+        } else {
+          x += Math.cos(a) * options.spreadX * ring + u * chunkX;
+          y += Math.sin(a) * options.spreadY * ring + v * chunkY;
+        }
+        if (topology === "transformation-ring" && noise(31) < .18) {
+          x = options.centerX + Math.cos(a) * options.spreadX * .26 + u * 18;
+          y = options.centerY + Math.sin(a) * options.spreadY * .26 + v * 18;
+        }
+        if (topology === "mirror-donut-breaks" && noise(33) < .28) {
+          x = options.centerX + u * options.spreadX * .2;
+          y = options.centerY + v * options.spreadY * .2;
+          localDensity = .68;
+        }
+        localDensity = Math.max(localDensity, gap ? .42 : 1.08);
+        }
+      } else if (archetype === "fan-spray") {
+        if (topology === "world-compass-routes") {
+          const route = Math.floor(noise(31) * 8);
+          const a = route / 8 * Math.PI * 2 + (noise(32) - .5) * .08;
+          const r = .28 + Math.pow(noise(33), .64) * .82;
+          x += Math.cos(a) * options.spreadX * r + Math.cos(a + Math.PI / 2) * v * 10;
+          y += Math.sin(a) * options.spreadY * r + Math.sin(a + Math.PI / 2) * v * 10;
+          if (r < .38 || (route % 2 === 0 && Math.abs(v) > .46)) forcedVoid = true;
+          localDensity = .74 + (route % 2) * .12 - r * .16;
+        } else if (topology === "fan-triangle-hole" || topology === "pop-ribbon-burst") {
+          const arm = Math.floor(noise(31) * (topology === "pop-ribbon-burst" ? 5 : 3));
+          const a = -Math.PI * .72 + arm * Math.PI * .24 + (noise(32) - .5) * .16;
+          const r = Math.pow(noise(33), .5);
+          const centerHole = r < .22;
+          x += Math.cos(a) * options.spreadX * r * 1.42 + u * 18;
+          y += Math.sin(a) * options.spreadY * r * 1.38 + v * 24 + options.spreadY * .32;
+          if (centerHole) forcedVoid = true;
+          localDensity = centerHole ? .1 : 1.04 - r * .28;
+        } else {
+        const fan = (noise(31) - .5) * Math.PI * (.52 + options.classifierAmbiguity * .22);
+        const a = options.drift - Math.PI * .5 + fan + audioLift * .16;
+        const r = Math.pow(noise(32), .46);
+        x += Math.cos(a) * options.spreadX * r * 1.55 + u * 26;
+        y += Math.sin(a) * options.spreadY * r * 1.45 + v * 34 + options.spreadY * .28;
+        localDensity = 1.12 - r * .36;
+        }
+      } else if (archetype === "bass-horizon") {
+        const t = u;
+        const wave = topology === "low-ridge-mass"
+          ? -Math.pow(Math.abs(t), 1.8) * 54 + Math.sin((t + 1) * Math.PI * 1.2) * 10
+          : topology === "valley-bass-cut"
+          ? Math.abs(t) * 92 - 76
+          : Math.sin((t + 1) * Math.PI * 2.4 + seed * .0002) * (22 + options.grain * 18);
+        if (topology === "bass-slab-tag") {
+          const slab = noise(33) < .72;
+          x += t * options.spreadX * (slab ? 1.82 : .54) + (slab ? 0 : options.spreadX * .64);
+          y += options.spreadY * .38 + wave + v * options.spreadY * (slab ? .22 : .16);
+          localDensity = slab ? .96 - Math.abs(v) * .18 : 1.06;
+        } else {
+          const width = topology === "low-ridge-mass" ? 2.12 : topology === "valley-bass-cut" ? 1.42 : 1.95;
+          const thickness = topology === "low-ridge-mass" ? .18 : topology === "valley-bass-cut" ? .2 : .28 + noise(33) * .22;
+          x += t * options.spreadX * width + audioLift * (topology === "low-ridge-mass" ? 8 : 22);
+          y += options.spreadY * .42 + wave + v * options.spreadY * thickness;
+        }
+        if (topology === "bent-horizon-pocket" && Math.abs(t + .18) < .22 && Math.abs(v) < .36) forcedVoid = true;
+        if (topology === "valley-bass-cut" && Math.abs(t) < .28 && v > -.2) forcedVoid = true;
+        if (topology !== "bass-slab-tag") localDensity = .98 - Math.abs(v) * .22;
+      } else if (archetype === "chamber-constellation") {
+        const centers = topology === "voice-double-pool" ? [
+          { x: -.34, y: -.1, s: .18 }, { x: -.08, y: -.28, s: .13 }, { x: .28, y: .08, s: .18 },
+          { x: .04, y: .28, s: .14 }, { x: .0, y: .0, s: .1 }
+        ] : topology === "jazz-offcenter-cymbal" ? [
+          { x: -.68, y: -.06, s: .07 }, { x: -.38, y: -.32, s: .08 }, { x: -.04, y: -.42, s: .07 },
+          { x: .32, y: -.24, s: .08 }, { x: .58, y: .12, s: .07 }, { x: .18, y: .42, s: .06 }
+        ] : topology === "five-island-chord" ? [
+          { x: -.7, y: -.3, s: .08 }, { x: -.36, y: .24, s: .09 }, { x: -.02, y: -.06, s: .07 },
+          { x: .36, y: .34, s: .08 }, { x: .68, y: -.22, s: .07 }
+        ] : topology === "quiet-arc-chamber" ? [
+          { x: -.62, y: -.44, s: .08 }, { x: -.22, y: -.18, s: .07 }, { x: .2, y: .1, s: .08 },
+          { x: .58, y: .38, s: .07 }
+        ] : [
+          { x: -.24, y: -.5, s: .22 }, { x: .36, y: -.28, s: .18 }, { x: -.42, y: .18, s: .24 },
+          { x: .18, y: .36, s: .2 }, { x: .04, y: -.02, s: .14 }
+        ];
+        const c = centers[Math.floor(noise(34) * centers.length) % centers.length];
+        x += c.x * options.spreadX * 1.34 + u * options.spreadX * c.s;
+        y += c.y * options.spreadY * 1.42 + v * options.spreadY * c.s;
+        if (topology === "quiet-arc-chamber" && noise(35) < .34) forcedVoid = true;
+        if (topology === "five-island-chord" && Math.hypot(u, v) > .78) forcedVoid = true;
+        if (topology === "jazz-offcenter-cymbal" && (Math.hypot(u, v) > .64 || noise(35) < .18)) forcedVoid = true;
+        localDensity = .72 + c.s * .76;
+      } else if (archetype === "curtain-fall") {
+        const column = Math.round(noise(35) * 8) / 8 - .5;
+        const fall = noise(36);
+        if (topology === "handmade-thread-columns" && Math.abs(column) < .12) forcedVoid = true;
+        if (topology === "classical-staff-rests") {
+          const staff = Math.floor(noise(36) * 5);
+          const rest = Math.floor(noise(37) * 4);
+          const restX = [-.64, -.24, .2, .58][rest] || 0;
+          x += restX * options.spreadX + u * options.spreadX * .055;
+          y += (staff - 2) * options.spreadY * .18 + v * options.spreadY * .045;
+          if (rest === 1 && staff === 2) forcedVoid = true;
+          localDensity = .58 + staff * .045;
+        } else if (topology === "dub-delay-void-columns") {
+          const echo = Math.floor(noise(36) * 6);
+          const xColumns = [-.78, -.5, -.24, .12, .44, .72];
+          x += xColumns[echo] * options.spreadX + u * options.spreadX * (.045 + echo * .004);
+          y += (fall - .5) * options.spreadY * (.92 - echo * .08) + v * 10;
+          if (echo === 2 || Math.abs(x - options.centerX) < options.spreadX * .18) forcedVoid = true;
+          localDensity = .7 - echo * .055;
+        } else if (topology === "offbeat-stripe-gap") {
+          const stripe = Math.floor(noise(36) * 5);
+          const offbeat = stripe % 2 ? .18 : -.18;
+          if (Math.abs(column - offbeat) < .12) forcedVoid = true;
+          x += (column + offbeat * .34) * options.spreadX * 1.44 + (noise(37) - .5) * 28;
+          y += (stripe / 4 - .5) * options.spreadY * 1.46 + v * 18;
+          localDensity = .9 + (stripe % 2) * .1;
+        } else if (topology === "handmade-thread-columns") {
+          const thread = Math.floor(noise(36) * 7);
+          const lean = (thread % 2 ? 1 : -1) * .05;
+          x += (thread / 6 - .5) * options.spreadX * 1.55 + u * options.spreadX * .045 + fall * options.spreadX * lean;
+          y += (fall - .5) * options.spreadY * 1.75 + Math.sin(fall * Math.PI * 5 + thread) * 10 + v * 12;
+          if ((thread === 2 || thread === 4) && fall > .36 && fall < .58) forcedVoid = true;
+          localDensity = .68 + (thread % 3) * .08;
+        } else if (topology === "stacked-floor-steps") {
+          const step = Math.round(fall * 4) / 4;
+          x += column * options.spreadX * 1.54 + (noise(37) - .5) * 24;
+          y += (step - .5) * options.spreadY * 1.62 + Math.sin(column * 10) * 18;
+          localDensity = Math.max(localDensity, .88 + step * .1);
+        } else {
+        x += column * options.spreadX * 1.74 + (noise(37) - .5) * 34 + audioLift * 10;
+        y += (fall - .5) * options.spreadY * 1.82 + Math.sin(column * 16 + fall * 5) * 24;
+        localDensity = .9 + (1 - fall) * .18;
+        }
+      } else if (archetype === "blade-plume") {
+        if (topology === "scratch-only-scars") {
+          const scratch = Math.floor(noise(38) * 7);
+          const t = u;
+          const lane = scratch / 6 - .5;
+          const slash = scratch % 2 ? 1 : -1;
+          x += t * options.spreadX * .92 + lane * options.spreadX * .46 + v * 6;
+          y += slash * t * options.spreadY * .58 + lane * options.spreadY * .34 + v * options.spreadY * .025;
+          if (Math.abs(v) > .08 || (scratch % 3 === 1 && t > -.14 && t < .28) || (scratch % 4 === 0 && t < -.28)) forcedVoid = true;
+          localDensity = .22 + (scratch % 2) * .08 - Math.abs(v) * .72;
+        } else if (topology === "two-sash-break") {
+          const rail = Math.floor(noise(38) * 6);
+          const t = u;
+          const offset = (rail - 2.5) * options.spreadY * .16;
+          const skip = rail === 2 && t > -.12 && t < .28;
+          x += t * options.spreadX * 1.68 + (rail % 2 ? 42 : -42) + v * 12;
+          y += -t * options.spreadY * .64 + offset + v * options.spreadY * .06;
+          if (skip) forcedVoid = true;
+          localDensity = .9 - Math.abs(v) * .28 + (rail % 2) * .08;
+        } else if (topology === "broken-orbit-notch") {
+          const scratch = noise(38) < .72;
+          if (scratch) {
+            const side = noise(39) > .5 ? 1 : -1;
+            const string = Math.floor(noise(40) * 5);
+            x += side * options.spreadX * (.62 + string * .035) + u * options.spreadX * .08;
+            y += (string - 2) * options.spreadY * .16 + v * options.spreadY * .26 + Math.sin(u * Math.PI * 2.4) * 18;
+            if (Math.abs(x - options.centerX) < options.spreadX * .34) forcedVoid = true;
+            localDensity = .96 - Math.abs(v) * .18;
+          } else {
+            const notch = noise(39) > .5 ? -1 : 1;
+            x += notch * options.spreadX * .82 + u * 26;
+            y += -options.spreadY * .46 + v * 34;
+            localDensity = .72;
+          }
+        } else if (topology === "hard-chevron-impact" || topology === "blade-gate-impact") {
+          if (topology === "blade-gate-impact") {
+            const side = noise(38) > .5 ? 1 : -1;
+            const vertical = noise(39) < .72;
+            if (vertical) {
+              x += side * options.spreadX * .38 + u * options.spreadX * .12;
+              y += v * options.spreadY * .92;
+            } else {
+              x += u * options.spreadX * .44;
+              y += options.spreadY * .5 + v * options.spreadY * .12;
+            }
+            if (Math.abs(u) < .18 && vertical) forcedVoid = true;
+            localDensity = vertical ? .98 - Math.abs(u) * .16 : .86;
+          } else {
+            const arm = noise(38) > .5 ? 1 : -1;
+            const a = arm * Math.PI * .32;
+            const t = Math.pow(noise(39), .48);
+            x += Math.cos(a) * options.spreadX * (t * 1.26) + Math.cos(a + Math.PI / 2) * v * 32;
+            y += Math.sin(a) * options.spreadY * (t * 1.08) + Math.sin(a + Math.PI / 2) * v * 28;
+            localDensity = 1.1 - t * .18;
+          }
+        } else {
+        const blade = noise(38) > .52 ? 1 : -1;
+        const a = options.drift + blade * Math.PI * .32;
+        const t = Math.pow(noise(39), .54);
+        x += Math.cos(a) * options.spreadX * (t * 1.55 - .28) + Math.cos(a + Math.PI / 2) * v * 42;
+        y += Math.sin(a) * options.spreadY * (t * 1.28 - .18) + Math.sin(a + Math.PI / 2) * v * 34;
+        localDensity = 1.04 - t * .24 + Math.abs(v) * .06;
+        }
+      } else if (archetype === "theatre-arch") {
+        const t = noise(40);
+        const a = Math.PI * (.08 + t * .84);
+        const arch = .58 + noise(41) * .3;
+        x += Math.cos(a) * options.spreadX * arch + u * 42;
+        y += -Math.sin(a) * options.spreadY * arch + options.spreadY * .34 + v * 30;
+        localDensity = .88 + Math.sin(t * Math.PI) * .24;
+      } else if (silhouette === "ring") {
         const ring = .46 + noise(5) * .48;
         const a = baseAngle + audioLift * .18;
         x += Math.cos(a) * options.spreadX * (ring + .16 * Math.sin(index * .017));
@@ -4307,21 +5151,25 @@
         y += v * options.spreadY * (1.02 + radial * .22) + Math.sin(baseAngle) * audioLift * 28;
         localDensity = 1 - Math.pow(Math.hypot(u, v) / 1.42, 1.8) * .46;
       }
+      if (forcedVoid) localDensity = .04;
       const edgeFade = 1 - Math.min(1, Math.hypot((x - options.centerX) / Math.max(1, options.spreadX * 1.75), (y - options.centerY) / Math.max(1, options.spreadY * 1.75)));
-      const density = clamp01((localDensity * .72 + edgeFade * .56) * options.softness);
-      const radius = clampRange(.28 + Math.pow(noise(11), 1.9) * (2.2 + options.grain * 1.4) + Math.max(0, audioLift) * .34, .24, 4.2);
+      const inkBoost = options.inkBoost || 1;
+      const density = clamp01((localDensity * .72 + edgeFade * .56) * options.softness * clampRange(.96 + (inkBoost - 1) * .22, .96, 1.18));
+      const radius = clampRange((.28 + Math.pow(noise(11), 1.9) * (2.2 + options.grain * 1.4) + Math.max(0, audioLift) * .34) * inkBoost, .24, 5.2);
       return { x, y, density, radius };
     }
     function makeAerosolParticleGroup(options, bytes, seed) {
       const particles = [];
       const occupancy = new Map();
-      const maxPerCell = options.silhouette === "burst" ? 9 : options.silhouette === "strata" ? 8 : 7;
+      const maxPerCell = ["ring-rupture", "blade-plume", "split-cloud"].includes(options.archetype)
+        ? 8
+        : ["chamber-constellation", "scattered-islands", "lattice-mist", "pixel-swarm"].includes(options.archetype) ? 5 : 7;
       const byteSigned = index => (byteAt(bytes, index) - 128) / 127;
       const attempts = options.particleCount * 3;
       for (let index = 0; index < attempts && particles.length < options.particleCount; index += 1) {
         const point = aerosolParticlePoint(index, options, seed, byteSigned);
         if (point.x < 66 || point.x > 1134 || point.y < 66 || point.y > 1134) continue;
-        if (aerosolNegativeSpaceReject(point.x, point.y, options)) continue;
+        if (!aerosolTopologyOwnsNegativeSpace(options.topology) && aerosolNegativeSpaceReject(point.x, point.y, options)) continue;
         const acceptNoise = textureNoise01(index, 260, seed);
         if (acceptNoise > point.density) continue;
         const cell = `${Math.round(point.x / 9)},${Math.round(point.y / 9)}`;
@@ -4331,7 +5179,7 @@
         const r = point.radius * (.72 + point.density * .56);
         particles.push(`<circle cx="${svgFineNumber(point.x)}" cy="${svgFineNumber(point.y)}" r="${svgFineNumber(r)}" fill="#000" data-feature="aerosol-particle"/>`);
       }
-      return svgGroupWithAttrs("aerosol_particle_field", particles, `data-particle-count="${particles.length}" data-renderer="black-particle-density"`);
+      return svgGroupWithAttrs("aerosol_particle_field", particles, `data-particle-count="${particles.length}" data-renderer="black-particle-density" data-aerosol-archetype="${escapeAttr(options.archetype || "")}" data-aerosol-topology="${escapeAttr(options.topology || "")}" data-macro-genre="${escapeAttr(options.macroGenre || "")}" data-macro-score="${svgFineNumber(options.macroScore || 0)}" data-classifier-confidence="${svgFineNumber(options.classifierConfidence || 0)}"`);
     }
     function generateAerosolParticleSoundSvg(mood, tick = Date.now(), settings = null) {
       const audio = mood.audio || {};
@@ -4356,7 +5204,7 @@
         `<desc>Reversible Sound Form Engine aerosol particle field. The visible design is made from black pigment particles on white background; softness and fading are produced by particle density only, with no embedded PCM text. Restoration PCM is added as a visible locked pcm_reversible_data protected particle layer on export.</desc>`,
         `<g id="pcm_reversible_data" data-layer="pcm_reversible_data" data-status="added-on-export" data-edit-policy="lock-do-not-edit"></g>`
       ];
-      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="${escapeAttr(mood.label)} reversible aerosol sound form" data-engine="reversible-sound-form-v4" data-visual-style="aerosol-particle-field-v1" data-form-mode="${formMode}" data-genre-pattern="${escapeAttr(genreLabel)}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-negative-space="${genreVisual.negativeSpace}" data-line-character="${escapeAttr(genreVisual.lineCharacter)}" data-name-motif="${escapeAttr(genreVisual.nameMotif)}" data-collision-style="${escapeAttr(genreVisual.collisionStyle)}" data-texture-mode="${textureMode}" data-texture-region="${genreVisual.textureRegion}" data-inferred-genre="${escapeAttr(audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "")}" data-audio-fingerprint="${fingerprint.hash}" data-refinement-passes="100" data-structural-debate-passes="30" data-genre-pattern-count="${Object.keys(genrePatternProfiles).length}" data-variant-seed="${seed}" data-iteration="${settings?.iteration || ""}"><rect width="1200" height="1200" fill="#fff"/>${metadata.join("")}<g id="sound_form_surface" data-layer="sound_form_surface" data-form-mode="${formMode}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-negative-space="${genreVisual.negativeSpace}" data-visual-style="aerosol-particle-field-v1" data-print-ink="black-opaque">${particles}</g></svg>`;
+      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="${escapeAttr(mood.label)} reversible aerosol sound form" data-engine="reversible-sound-form-v4" data-visual-style="aerosol-particle-field-v1" data-aerosol-archetype="${escapeAttr(options.archetype || "")}" data-aerosol-topology="${escapeAttr(options.topology || "")}" data-classifier-method="${escapeAttr(options.classifierMethod || "")}" data-macro-genre="${escapeAttr(options.macroGenre || "")}" data-macro-score="${svgFineNumber(options.macroScore || 0)}" data-classifier-confidence="${svgFineNumber(options.classifierConfidence || 0)}" data-classifier-margin="${svgFineNumber(options.classifierMargin || 0)}" data-classifier-ambiguity="${svgFineNumber(options.classifierAmbiguity || 0)}" data-runner-macro="${escapeAttr(options.runnerMacro || "")}" data-form-mode="${formMode}" data-genre-pattern="${escapeAttr(genreLabel)}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-negative-space="${genreVisual.negativeSpace}" data-line-character="${escapeAttr(genreVisual.lineCharacter)}" data-name-motif="${escapeAttr(genreVisual.nameMotif)}" data-collision-style="${escapeAttr(genreVisual.collisionStyle)}" data-texture-mode="${textureMode}" data-texture-region="${genreVisual.textureRegion}" data-inferred-genre="${escapeAttr(audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "")}" data-audio-fingerprint="${fingerprint.hash}" data-refinement-passes="100" data-structural-debate-passes="30" data-genre-pattern-count="${Object.keys(genrePatternProfiles).length}" data-variant-seed="${seed}" data-iteration="${settings?.iteration || ""}"><rect width="1200" height="1200" fill="#fff"/>${metadata.join("")}<g id="sound_form_surface" data-layer="sound_form_surface" data-form-mode="${formMode}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-negative-space="${genreVisual.negativeSpace}" data-aerosol-archetype="${escapeAttr(options.archetype || "")}" data-aerosol-topology="${escapeAttr(options.topology || "")}" data-visual-style="aerosol-particle-field-v1" data-print-ink="black-opaque">${particles}</g></svg>`;
     }
     function generateSoundClothReversibleSvg(mood, tick = Date.now(), settings = null) {
       return generateAerosolParticleSoundSvg(mood, tick, settings);
