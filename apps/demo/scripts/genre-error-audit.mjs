@@ -12,6 +12,7 @@ const CITYPOP_CANDIDATES_PATH = path.join(TRAINING_DIR, "explicit-citypop-anime-
 const OUT_JSON = path.join(TRAINING_DIR, "target-genre-error-audit.json");
 const OUT_MD = path.join(TRAINING_DIR, "target-genre-error-audit.md");
 const TARGETS = ["テクノ", "ドローン", "ダブ", "シティ・ポップ"];
+const CITY_POP_STYLE_HINT = "city_pop";
 
 function readJson(target, fallback = null) {
   try {
@@ -66,6 +67,8 @@ function compactRow(row = {}, meta = {}) {
   return {
     genre: row.genre,
     predicted: row.predicted,
+    styleHint: row.styleHint,
+    predictedStyleName: row.predictedStyleName,
     macroGenre: row.macroGenre,
     predictedMacro: row.predictedMacro,
     exact: Boolean(row.exact),
@@ -74,6 +77,7 @@ function compactRow(row = {}, meta = {}) {
     needsReview: Boolean(row.needsReview),
     confidence: row.confidence,
     top: (row.top || []).slice(0, 5),
+    style: (row.style || []).slice(0, 4),
     macro: (row.macro || []).slice(0, 4),
     sourceType: row.sourceType || meta.sourceType,
     datasetName: meta.datasetName || "",
@@ -127,34 +131,41 @@ const audit = {
 };
 
 for (const genre of TARGETS) {
-  const rows = resultRows.filter(row => row.genre === genre);
-  const falseNegatives = rows.filter(row => !row.exact);
-  const falsePositives = resultRows.filter(row => row.genre !== genre && row.predicted === genre);
+  const isCityPop = genre === "シティ・ポップ";
+  const rows = isCityPop
+    ? resultRows.filter(row => row.styleHint === CITY_POP_STYLE_HINT)
+    : resultRows.filter(row => row.genre === genre);
+  const falseNegatives = isCityPop
+    ? rows.filter(row => !row.styleExact)
+    : rows.filter(row => !row.exact);
+  const falsePositives = isCityPop
+    ? resultRows.filter(row => row.styleHint !== CITY_POP_STYLE_HINT && row.predictedStyle === CITY_POP_STYLE_HINT)
+    : resultRows.filter(row => row.genre !== genre && row.predicted === genre);
   const enrichedFalseNegatives = falseNegatives.map(row => compactRow(row, metaFor(row, verifiedByKey.get(sourceKey(row)) || {})));
   const enrichedFalsePositives = falsePositives.map(row => compactRow(row, metaFor(row, verifiedByKey.get(sourceKey(row)) || {})));
   audit.summary[genre] = {
     total: rows.length,
-    exact: rows.filter(row => row.exact).length,
-    top3: rows.filter(row => row.top3).length,
+    exact: isCityPop ? rows.filter(row => row.styleExact).length : rows.filter(row => row.exact).length,
+    top3: isCityPop ? rows.filter(row => row.styleTop3).length : rows.filter(row => row.top3).length,
     macroExact: rows.filter(row => row.macroExact).length,
     needsReview: rows.filter(row => row.needsReview).length,
-    fineTop1Accuracy: rows.length ? Math.round(rows.filter(row => row.exact).length / rows.length * 1000) / 10 : null,
-    fineTop3Accuracy: rows.length ? Math.round(rows.filter(row => row.top3).length / rows.length * 1000) / 10 : null,
+    fineTop1Accuracy: rows.length ? Math.round((isCityPop ? rows.filter(row => row.styleExact).length : rows.filter(row => row.exact).length) / rows.length * 1000) / 10 : null,
+    fineTop3Accuracy: rows.length ? Math.round((isCityPop ? rows.filter(row => row.styleTop3).length : rows.filter(row => row.top3).length) / rows.length * 1000) / 10 : null,
     macroTop1Accuracy: rows.length ? Math.round(rows.filter(row => row.macroExact).length / rows.length * 1000) / 10 : null,
-    mostCommonWrongPredictions: countBy(falseNegatives, row => row.predicted).slice(0, 12),
-    falsePositiveSources: countBy(falsePositives, row => row.genre).slice(0, 12),
+    mostCommonWrongPredictions: countBy(falseNegatives, row => isCityPop ? row.predictedStyleName || row.predictedStyle : row.predicted).slice(0, 12),
+    falsePositiveSources: countBy(falsePositives, row => isCityPop ? row.genre : row.genre).slice(0, 12),
     falseNegatives: enrichedFalseNegatives,
     falsePositives: enrichedFalsePositives.slice(0, 60)
   };
 }
 
-const cityRows = verifiedItems.filter(item => item.genre === "シティ・ポップ");
+const cityRows = verifiedItems.filter(item => item.styleHint === CITY_POP_STYLE_HINT);
 const formalCityRows = cityRows.filter(item => ["cc-dataset", "local-audio"].includes(item.sourceType) && item.trainingRole !== "macro-only");
 audit.cityPopLabelQuality = {
   verifiedRows: cityRows.length,
   formalRows: formalCityRows.length,
   bySourceType: countBy(cityRows, item => item.sourceType),
-  formalEvidence: formalCityRows.map(item => compactRow({ genre: item.genre }, metaFor(item, item))),
+  formalEvidence: formalCityRows.map(item => compactRow({ genre: item.genre, styleHint: item.styleHint }, metaFor(item, item))),
   adjacentFormalRows: formalCityRows
     .map(item => metaFor(item, item))
     .filter(item => /adjacent|future funk|retrofuture|synth[- ]?pop|AOR|Kevin MacLeod/i.test(`${item.labelEvidence || ""} ${item.reviewNote || ""} ${item.canonicalArtist || ""} ${item.canonicalTitle || ""}`))
@@ -170,8 +181,8 @@ if (audit.summary["ドローン"]?.fineTop1Accuracy === 0) {
 if (audit.summary["ダブ"]?.mostCommonWrongPredictions?.some(item => ["ヒップホップ", "ダブステップ"].includes(item.label))) {
   audit.recommendations.push("ダブはヒップホップ/ダブステップと混同。低域だけでなくreverbTail/offbeat/highBand暗さの複合条件をダブ候補内に限定して使う。");
 }
-if (audit.cityPopLabelQuality.adjacentFormalRows.length) {
-  audit.recommendations.push("シティ・ポップformal rowsに隣接ラベル由来が含まれる。明示ラベル音源が増えるまで、これらはformal fineから外す候補。");
+if (audit.cityPopLabelQuality.formalRows) {
+  audit.recommendations.push("シティ・ポップはgenre正解ではなくcity_pop styleHintとして評価する。RWC由来の代理情報なので、J-POP正解を壊さない補助判定として扱う。");
 }
 
 function mdTable(rows, columns) {

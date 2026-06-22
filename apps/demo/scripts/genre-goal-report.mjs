@@ -19,6 +19,7 @@ const PRIORITY_TARGET_TRACKS = Math.max(DEFAULT_TARGET_TRACKS, Number(process.en
 const FORMAL_SOURCE_TYPES = new Set(["cc-dataset", "local-audio"]);
 const FINE_EXCLUDED = new Set(["電子音楽", "ワールドミュージック"]);
 const PRIORITY_GENRES = new Set(["シティ・ポップ", "J-POP", "ドローン", "クラシック音楽", "ダブ", "テクノ"]);
+const CITY_POP_STYLE_HINT = "city_pop";
 
 function loadJson(pathname, fallback) {
   if (!fs.existsSync(pathname)) return fallback;
@@ -56,19 +57,32 @@ function countByGenre(items, predicate = () => true) {
   }, {});
 }
 
+function countCityPopStyle(items, predicate = () => true) {
+  return items.reduce((acc, item) => {
+    if (!predicate(item)) return acc;
+    if (item.styleHint === CITY_POP_STYLE_HINT) acc += 1;
+    return acc;
+  }, 0);
+}
+
 function resultByGenre() {
   const results = loadJson(RESULTS_PATH, {});
   const map = new Map();
   (results.byGenre || []).forEach(item => {
     map.set(item.genre, item);
   });
-  return { results, map };
+  const styleMap = new Map();
+  (results.byStyle || []).forEach(item => {
+    styleMap.set(item.displayName || item.styleHint, item);
+    styleMap.set(item.styleHint, item);
+  });
+  return { results, map, styleMap };
 }
 
 function buildReport() {
   const seeds = seedGenres();
   const items = verifiedItems();
-  const { results, map: resultMap } = resultByGenre();
+  const { results, map: resultMap, styleMap } = resultByGenre();
   const coverage = loadJson(COVERAGE_REPORT_PATH, {});
   const coverageByGenre = new Map((coverage.genres || []).map(row => [row.genre, row]));
   const totalCounts = countByGenre(items, item => item.sourceType !== "fma-metadata");
@@ -76,9 +90,15 @@ function buildReport() {
   const fmaCounts = countByGenre(items, item => item.sourceType === "fma-metadata");
   const rows = seeds.map(seed => {
     const result = resultMap.get(seed.genre) || {};
+    const styleResult = seed.genre === "シティ・ポップ" ? styleMap.get("シティ・ポップ") || styleMap.get(CITY_POP_STYLE_HINT) || {} : null;
     const priority = PRIORITY_GENRES.has(seed.genre);
     const targetTracks = priority ? PRIORITY_TARGET_TRACKS : DEFAULT_TARGET_TRACKS;
-    const formalCount = formalCounts[seed.genre] || 0;
+    const formalCount = seed.genre === "シティ・ポップ"
+      ? countCityPopStyle(items, item => FORMAL_SOURCE_TYPES.has(item.sourceType))
+      : formalCounts[seed.genre] || 0;
+    const totalCount = seed.genre === "シティ・ポップ"
+      ? countCityPopStyle(items, item => item.sourceType !== "fma-metadata")
+      : totalCounts[seed.genre] || 0;
     const coverageRow = coverageByGenre.get(seed.genre) || {};
     const potentialRows = Number(coverageRow.totalPotentialRows || 0) || Math.max(
       Number(coverageRow.manifestCandidateRows || 0),
@@ -87,15 +107,18 @@ function buildReport() {
       Number(coverageRow.wikimediaCandidateRows || 0)
     );
     const formalReady = formalCount >= targetTracks;
-    const stableTestReady = Number(result.fineTotal || 0) >= MIN_FORMAL_TEST_PER_GENRE && formalCount > 0;
+    const testRows = seed.genre === "シティ・ポップ" ? Number(styleResult?.total || 0) : Number(result.fineTotal || 0);
+    const stableTestReady = testRows >= MIN_FORMAL_TEST_PER_GENRE && formalCount > 0;
     const fineEvaluable = !FINE_EXCLUDED.has(seed.genre);
-    const accuracy = fineEvaluable ? result.fineTop1Accuracy ?? null : result.macroTop1Accuracy ?? null;
+    const accuracy = seed.genre === "シティ・ポップ"
+      ? styleResult?.styleTop1Accuracy ?? null
+      : fineEvaluable ? result.fineTop1Accuracy ?? null : result.macroTop1Accuracy ?? null;
     return {
       genre: seed.genre,
       macroGenre: seed.macroGenre,
       priority,
       fineEvaluable,
-      totalTrainingRows: totalCounts[seed.genre] || 0,
+      totalTrainingRows: totalCount,
       formalTrainingRows: formalCount,
       potentialTrainingRows: Math.max(formalCount, potentialRows),
       recommendedSources: coverageRow.recommendedSources || [],
@@ -104,12 +127,14 @@ function buildReport() {
       targetTracks,
       missingFormalTracks: Math.max(0, targetTracks - formalCount),
       missingPotentialTracks: Math.max(0, targetTracks - Math.max(formalCount, potentialRows)),
-      testRows: result.fineTotal || 0,
+      testRows,
       minFormalTestPerGenre: MIN_FORMAL_TEST_PER_GENRE,
       formalReady,
       stableTestReady,
       top1Accuracy: accuracy,
-      top3Accuracy: fineEvaluable ? result.fineTop3Accuracy ?? null : null,
+      top3Accuracy: seed.genre === "シティ・ポップ"
+        ? styleResult?.styleTop3Accuracy ?? null
+        : fineEvaluable ? result.fineTop3Accuracy ?? null : null,
       passesGoal: formalReady && stableTestReady && Number(accuracy) >= GOAL_ACCURACY
     };
   });

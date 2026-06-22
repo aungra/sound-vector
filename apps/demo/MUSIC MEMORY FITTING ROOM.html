@@ -2736,6 +2736,55 @@
         (Number(score) || 0) * (Number(bias?.[label]) || 1)
       ]));
     }
+    function popStyleDisplayName(styleHint) {
+      return styleHint === "city_pop" ? "シティ・ポップ" : "pop_other";
+    }
+    function popStyleLabelForExample(example = {}) {
+      if (canonicalModelMacro(example.macroGenre) !== "pop" || example.trainingRole === "macro-only") return "";
+      return example.styleHint === "city_pop" ? "city_pop" : "pop_other";
+    }
+    function popStyleWeights(model = {}) {
+      const keys = model.featureKeys || [];
+      const base = model.featureWeights || {};
+      const popMultipliers = model.macroFeatureMultipliers?.pop || {};
+      const styleMultipliers = {
+        tempo: 1.08,
+        bass: 1.18,
+        rhythm: 1.16,
+        brightness: 1.14,
+        chromaEntropy: 1.18,
+        chromaMotion: 1.12,
+        rmsContrast: 1.08,
+        chorusLift: .92,
+        vocalBand: .94,
+        distortion: .82,
+        guitarBand: .84
+      };
+      return keys.map(key => (
+        Number(base[key] || 1) *
+        Number(popMultipliers[key] || 1) *
+        Number(styleMultipliers[key] || 1)
+      ));
+    }
+    function inferPopStyleWithModel(model = {}, examples = [], target = []) {
+      if (!model.sourcePolicy?.popStyleClassifierEnabled) return [];
+      const popExamples = examples.filter(example => popStyleLabelForExample(example));
+      if (!popExamples.some(example => example.styleHint === "city_pop")) return [];
+      const weights = popStyleWeights(model);
+      const prepared = popExamples.map(example => ({ ...example, weights }));
+      const baseScores = mergeScores(
+        knnScores(prepared, target, popStyleLabelForExample, model.knnK || 11),
+        centroidScores(model.centroids?.popStyle || {}, target, weights),
+        .72,
+        .28
+      );
+      const styleScores = model.sourcePolicy?.distributionClassifierEnabled
+        ? mergeScores(baseScores, distributionScores(model.distributions?.popStyle || {}, target, weights), .78, .22)
+        : baseScores;
+      return rankModelLabels(styleScores, "style", Object.fromEntries(Object.keys(styleScores).map(style => [style, {
+        name: popStyleDisplayName(style)
+      }]))).slice(0, 4);
+    }
     function modelRangeSupport(value, spec = {}) {
       const number = Number(value);
       if (!Number.isFinite(number)) return null;
@@ -2886,6 +2935,7 @@
       }))).slice(0, 5);
       const confidence = ranked[0]?.score || 0;
       const margin = confidence - (ranked[1]?.score || 0);
+      const styleRanked = inferPopStyleWithModel(model, examples, z);
       return {
         source: "ローカル学習データによる2段階分類器。大分類を先に判定し、その範囲内で細分類します。",
         catalogSize: model.fineGenres?.length || musicGenreCatalog.length,
@@ -2893,6 +2943,8 @@
         confidence,
         needsReview: confidence < 58 || margin < 8,
         macro: macroRanked.slice(0, 4),
+        style: styleRanked,
+        inferredStyle: styleRanked[0]?.style === "city_pop" ? "シティ・ポップ" : "",
         top: ranked
       };
     }
@@ -2995,7 +3047,12 @@
     }
     function enrichFeaturesWithGenre(features = {}) {
       const genreAnalysis = inferMusicGenres(features);
-      return { ...features, genreAnalysis, inferredGenre: genreAnalysis.top[0]?.name || "" };
+      return {
+        ...features,
+        genreAnalysis,
+        inferredGenre: genreAnalysis.top[0]?.name || "",
+        inferredStyle: genreAnalysis.inferredStyle || ""
+      };
     }
     function createYouTubeMood(url, features) {
       features = enrichFeaturesWithGenre(features);
@@ -3007,7 +3064,7 @@
         id: `youtube-${id}-${startSeconds}`,
         label: `YouTube ${id}${startSeconds ? ` @ ${youtubeStartLabel(startSeconds)}` : ""}`,
         cue: "YouTubeリンクから音響特徴量を読み取り、波形・スペクトル・リズム・クロマを一色SVGへ変換。",
-        tags: unique(audioTags(features).concat(features.genreAnalysis?.top?.slice(0, 3).map(item => item.name) || [])),
+        tags: unique(audioTags(features).concat(features.inferredStyle ? [features.inferredStyle] : []).concat(features.genreAnalysis?.top?.slice(0, 3).map(item => item.name) || [])),
         seed: hashString(`${id || urlForStorage}@${startSeconds}`),
         pattern: "youtube_audio",
         youtubeUrl: urlForStorage,
@@ -3021,7 +3078,7 @@
         id: `upload-${hashString(fileName).toString(36)}`,
         label: fileName.replace(/\.[^.]+$/, ""),
         cue: "アップロードされた音源をブラウザ内で実解析し、波形・スペクトル・リズム・クロマを一色SVGへ変換。",
-        tags: unique(audioTags(features).concat(features.genreAnalysis?.top?.slice(0, 3).map(item => item.name) || [])),
+        tags: unique(audioTags(features).concat(features.inferredStyle ? [features.inferredStyle] : []).concat(features.genreAnalysis?.top?.slice(0, 3).map(item => item.name) || [])),
         seed: hashString(fileName),
         pattern: "uploaded_audio",
         audioFileName: fileName,
@@ -5143,6 +5200,7 @@
       const genreText = audio?.genreAnalysis?.top?.length
         ? audio.genreAnalysis.top.slice(0, 3).map(item => `${item.name} ${item.score}%`).join(" / ")
         : "未推定";
+      const styleText = audio?.inferredStyle ? ` / style ${audio.inferredStyle}` : "";
       const loop = runPersonaImprovementLoop(mood, tick);
       const payload = buildReversiblePayload(mood, tick, {
         id,
@@ -5162,11 +5220,11 @@
         id,
         creatorId: "audio-pattern-generator",
         title,
-        description: `YouTube音声の解析結果から、毎回異なる黒一色の可逆エアロゾル粒子フォームを生成します。RMS推移、onset分布、chroma重心、波形断片に加え、Wikipediaの音楽ジャンル一覧を基にした推定ジャンル（${genreText}）を粒子密度と余白へ反映します。`,
+        description: `YouTube音声の解析結果から、毎回異なる黒一色の可逆エアロゾル粒子フォームを生成します。RMS推移、onset分布、chroma重心、波形断片に加え、Wikipediaの音楽ジャンル一覧を基にした推定ジャンル（${genreText}${styleText}）を粒子密度と余白へ反映します。`,
         location: "Generated / Reversible Pattern",
         price: "参考生成",
         stockNote: "同じURLでは音響指紋を保ったまま別案化し、違う曲では音響指紋そのものが変わるため大きな構図も変化します。音の復元性は保護PCMレイヤーで維持します。",
-        tags: unique(["可逆", "YouTube解析", "PCM"].concat(mood.tags || []).concat(audio?.genreAnalysis?.top?.map(item => item.name) || [])).slice(0, 10),
+        tags: unique(["可逆", "YouTube解析", "PCM"].concat(mood.tags || []).concat(audio?.inferredStyle ? [audio.inferredStyle] : []).concat(audio?.genreAnalysis?.top?.map(item => item.name) || [])).slice(0, 10),
         image: "",
         art,
         generated: true,

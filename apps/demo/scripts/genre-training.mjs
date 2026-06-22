@@ -68,6 +68,9 @@ const PRIORITY_GENRE_TARGETS = {
   "テクノ": 100
 };
 const DEFAULT_GENRE_TARGET = 50;
+const CITY_POP_STYLE_HINT = "city_pop";
+const CITY_POP_STYLE_LABEL = "シティ・ポップ";
+const POP_OTHER_STYLE_HINT = "pop_other";
 const BASE_VECTOR_KEYS = [
   "tempo", "energy", "bass", "lowBandRatio", "midBandRatio", "highBandRatio",
   "rhythm", "onset", "brightness", "zcr", "rmsContrast", "onsetContrast",
@@ -311,6 +314,9 @@ function loadDataset() {
         index,
         genre: String(item.genre || "").trim(),
         macroGenre: canonicalMacro(item.macroGenre || ""),
+        styleHint: String(item.styleHint || "").trim(),
+        styleConfidence: Number(item.styleConfidence || item.cityPopStyleScore || 0) || null,
+        styleEvidence: String(item.styleEvidence || "").trim(),
         trainingRole: item.trainingRole || trainingRoleForGenre(String(item.genre || "").trim()),
         youtubeUrl: String(item.youtubeUrl || item.url || "").trim(),
         previewUrl: String(item.previewUrl || "").trim(),
@@ -555,6 +561,8 @@ async function analyzeYoutube(item, cache, endpoint = DEFAULT_ENDPOINT) {
     cache.items[key] = {
       genre: item.genre,
       macroGenre: item.macroGenre,
+      styleHint: item.styleHint,
+      styleConfidence: item.styleConfidence,
       trainingRole: item.trainingRole,
       sourceType: item.sourceType,
       sourceUrl: item.sourceUrl,
@@ -601,6 +609,8 @@ async function analyzeYoutube(item, cache, endpoint = DEFAULT_ENDPOINT) {
   cache.items[key] = {
     genre: item.genre,
     macroGenre: item.macroGenre,
+    styleHint: item.styleHint,
+    styleConfidence: item.styleConfidence,
     trainingRole: item.trainingRole,
     sourceType: item.sourceType,
     sourceUrl: item.sourceUrl,
@@ -661,7 +671,8 @@ function makeSplits(rows) {
   };
   rows.forEach(row => {
     if (row.sourceType === "fma-metadata") return;
-    const key = row.trainingRole === "macro-only" ? `macro:${row.macroGenre}:${row.genre}` : `fine:${row.genre}`;
+    const stylePart = row.styleHint ? `:style:${row.styleHint}` : "";
+    const key = row.trainingRole === "macro-only" ? `macro:${row.macroGenre}:${row.genre}` : `fine:${row.genre}${stylePart}`;
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(row);
   });
@@ -945,10 +956,16 @@ function buildCentroids(examples) {
   const macroGroups = new Map();
   const fineGroups = new Map();
   const fineByMacroGroups = new Map();
+  const popStyleGroups = new Map();
   examples.forEach(example => {
     const macro = canonicalMacro(example.macroGenre);
     if (!macroGroups.has(macro)) macroGroups.set(macro, []);
     macroGroups.get(macro).push(example);
+    const popStyle = popStyleLabelForRow(example);
+    if (popStyle) {
+      if (!popStyleGroups.has(popStyle)) popStyleGroups.set(popStyle, []);
+      popStyleGroups.get(popStyle).push(example);
+    }
     if (example.trainingRole !== "macro-only") {
       if (!fineGroups.has(example.genre)) fineGroups.set(example.genre, []);
       fineGroups.get(example.genre).push(example);
@@ -965,7 +982,8 @@ function buildCentroids(examples) {
   return {
     macro: Object.fromEntries([...macroGroups.entries()].map(([macro, items]) => [macro, averageVectors(items)])),
     fine: Object.fromEntries([...fineGroups.entries()].map(([genre, items]) => [genre, averageVectors(items)])),
-    fineByMacro
+    fineByMacro,
+    popStyle: Object.fromEntries([...popStyleGroups.entries()].map(([style, items]) => [style, averageVectors(items)]))
   };
 }
 
@@ -973,10 +991,16 @@ function buildDistributions(examples) {
   const macroGroups = new Map();
   const fineGroups = new Map();
   const fineByMacroGroups = new Map();
+  const popStyleGroups = new Map();
   examples.forEach(example => {
     const macro = canonicalMacro(example.macroGenre);
     if (!macroGroups.has(macro)) macroGroups.set(macro, []);
     macroGroups.get(macro).push(example);
+    const popStyle = popStyleLabelForRow(example);
+    if (popStyle) {
+      if (!popStyleGroups.has(popStyle)) popStyleGroups.set(popStyle, []);
+      popStyleGroups.get(popStyle).push(example);
+    }
     if (example.trainingRole !== "macro-only") {
       if (!fineGroups.has(example.genre)) fineGroups.set(example.genre, []);
       fineGroups.get(example.genre).push(example);
@@ -993,7 +1017,8 @@ function buildDistributions(examples) {
   return {
     macro: Object.fromEntries([...macroGroups.entries()].map(([macro, items]) => [macro, distributionVector(items)])),
     fine: Object.fromEntries([...fineGroups.entries()].map(([genre, items]) => [genre, distributionVector(items)])),
-    fineByMacro
+    fineByMacro,
+    popStyle: Object.fromEntries([...popStyleGroups.entries()].map(([style, items]) => [style, distributionVector(items)]))
   };
 }
 
@@ -1113,11 +1138,64 @@ function weightsForMacro(macro, baseWeights = FEATURE_WEIGHTS) {
   ]));
 }
 
+function popStyleLabelForRow(row = {}) {
+  if (canonicalMacro(row.macroGenre) !== "pop" || row.trainingRole === "macro-only") return "";
+  return row.styleHint === CITY_POP_STYLE_HINT ? CITY_POP_STYLE_HINT : POP_OTHER_STYLE_HINT;
+}
+
+function styleDisplayName(styleHint) {
+  return styleHint === CITY_POP_STYLE_HINT ? CITY_POP_STYLE_LABEL : "pop_other";
+}
+
+function weightsForPopStyle(baseWeights = FEATURE_WEIGHTS) {
+  const popWeights = weightsForMacro("pop", baseWeights);
+  const multipliers = {
+    tempo: 1.08,
+    bass: 1.18,
+    rhythm: 1.16,
+    brightness: 1.14,
+    chromaEntropy: 1.18,
+    chromaMotion: 1.12,
+    rmsContrast: 1.08,
+    chorusLift: .92,
+    vocalBand: .94,
+    distortion: .82,
+    guitarBand: .84
+  };
+  return Object.fromEntries(VECTOR_KEYS.map(key => [
+    key,
+    Math.round((Number(popWeights[key] || 1) * Number(multipliers[key] || 1)) * 10000) / 10000
+  ]));
+}
+
 function rankScores(scores) {
   const max = Math.max(...Object.values(scores).map(Number), .0001);
   return Object.entries(scores)
     .map(([label, score]) => ({ label, score: Math.round((score / max) * 1000) / 10 }))
     .sort((a, b) => b.score - a.score || a.label.localeCompare(b.label));
+}
+
+function classifyPopStyle(target, examples, model) {
+  const popExamples = examples.filter(example => popStyleLabelForRow(example));
+  const labels = new Set(popExamples.map(popStyleLabelForRow));
+  if (!labels.has(CITY_POP_STYLE_HINT) || popExamples.length < 8) return [];
+  const styleWeights = weightsForPopStyle(model.featureWeights);
+  const baseScores = mergeScores(
+    scoreKnn(popExamples, target, popStyleLabelForRow, styleWeights, model.knnK),
+    scoreCentroids(model.centroids.popStyle || {}, target, styleWeights),
+    .72,
+    .28
+  );
+  const styleScores = ENABLE_DISTRIBUTION_CLASSIFIER ? mergeScores(
+    baseScores,
+    scoreDistributions(model.distributions?.popStyle || {}, target, styleWeights),
+    .78,
+    .22
+  ) : baseScores;
+  return rankScores(styleScores).map(item => ({
+    ...item,
+    displayName: styleDisplayName(item.label)
+  }));
 }
 
 function classify(values, model) {
@@ -1195,9 +1273,10 @@ function classify(values, model) {
   }
   const calibratedFineScores = applyFineCalibration(fineScores, model.calibration);
   const fineRanked = rankScores(calibratedFineScores);
+  const styleRanked = classifyPopStyle(target, examples, model);
   const confidence = fineRanked[0]?.score || 0;
   const margin = confidence - (fineRanked[1]?.score || 0);
-  return { macroRanked, fineRanked, confidence, needsReview: confidence < 58 || margin < 8 };
+  return { macroRanked, fineRanked, styleRanked, confidence, needsReview: confidence < 58 || margin < 8 };
 }
 
 function applyFineCalibration(scores, calibration = {}) {
@@ -1313,6 +1392,8 @@ function buildModel(rows) {
       fmaAudioWeight: FMA_AUDIO_WEIGHT,
       extendedGenreFeaturesEnabled: ENABLE_EXTENDED_GENRE_FEATURES,
       advancedGenreFeaturesEnabled: ENABLE_ADVANCED_GENRE_FEATURES,
+      popStyleClassifierEnabled: true,
+      popStyleClassifierLabels: [CITY_POP_STYLE_HINT, POP_OTHER_STYLE_HINT],
       note: "FMA metadata and iTunes previews are comparison-only unless explicitly enabled. Formal evaluation uses CC/local audio only."
     },
     standardizer,
@@ -1339,6 +1420,8 @@ function buildModel(rows) {
     examples: activeTrainRows.map(row => ({
       genre: row.genre,
         macroGenre: canonicalMacro(row.macroGenre),
+        styleHint: row.styleHint,
+        styleConfidence: row.styleConfidence,
         trainingRole: row.trainingRole,
         split: row.split,
         sourceType: row.sourceType,
@@ -1365,10 +1448,13 @@ function evaluate(rows, model) {
       const predicted = classify(row.values, model);
       const topFine = predicted.fineRanked.map(item => item.label);
       const topMacro = predicted.macroRanked.map(item => item.label);
+      const topStyle = predicted.styleRanked.map(item => item.label);
       const fineEvaluable = row.trainingRole !== "macro-only";
+      const styleEvaluable = canonicalMacro(row.macroGenre) === "pop" && Boolean(row.styleHint);
       return {
         genre: row.genre,
         macroGenre: canonicalMacro(row.macroGenre),
+        styleHint: row.styleHint || "",
         trainingRole: row.trainingRole,
         split: row.split,
         sourceType: row.sourceType,
@@ -1378,13 +1464,18 @@ function evaluate(rows, model) {
         previewUrl: row.previewUrl,
         predicted: topFine[0] || "",
         predictedMacro: topMacro[0] || "",
+        predictedStyle: topStyle[0] || "",
+        predictedStyleName: styleDisplayName(topStyle[0] || ""),
         exact: fineEvaluable ? topFine[0] === row.genre : null,
         top3: fineEvaluable ? topFine.slice(0, 3).includes(row.genre) : null,
+        styleExact: styleEvaluable ? topStyle[0] === row.styleHint : null,
+        styleTop3: styleEvaluable ? topStyle.slice(0, 3).includes(row.styleHint) : null,
         macroExact: topMacro[0] === canonicalMacro(row.macroGenre),
         needsReview: predicted.needsReview,
         confidence: predicted.confidence,
         top: predicted.fineRanked.slice(0, 5).map(item => ({ name: item.label, score: Math.round(item.score) })),
-        macro: predicted.macroRanked.slice(0, 4).map(item => ({ macro: item.label, score: Math.round(item.score) }))
+        macro: predicted.macroRanked.slice(0, 4).map(item => ({ macro: item.label, score: Math.round(item.score) })),
+        style: predicted.styleRanked.slice(0, 4).map(item => ({ style: item.label, name: item.displayName, score: Math.round(item.score) }))
       };
     });
   const topConfusions = (list, actualKey, predictedKey, exactKey) => Object.values(list.reduce((acc, row) => {
@@ -1426,14 +1517,18 @@ function evaluate(rows, model) {
   const summarize = (list, label) => {
     const fine = list.filter(row => row.exact !== null);
     const macro = list.filter(row => row.macroExact !== null);
+    const style = list.filter(row => row.styleExact !== null);
     const dubPredictions = list.filter(row => row.predicted === "ダブ").length;
     return {
       evaluationMode: label,
       total: list.length,
       fineTotal: fine.length,
+      styleTotal: style.length,
       macroTop1Accuracy: macro.length ? Math.round(macro.filter(row => row.macroExact).length / macro.length * 1000) / 10 : null,
       fineTop1Accuracy: fine.length ? Math.round(fine.filter(row => row.exact).length / fine.length * 1000) / 10 : null,
       fineTop3Accuracy: fine.length ? Math.round(fine.filter(row => row.top3).length / fine.length * 1000) / 10 : null,
+      styleTop1Accuracy: style.length ? Math.round(style.filter(row => row.styleExact).length / style.length * 1000) / 10 : null,
+      styleTop3Accuracy: style.length ? Math.round(style.filter(row => row.styleTop3).length / style.length * 1000) / 10 : null,
       needsReviewRate: list.length ? Math.round(list.filter(row => row.needsReview).length / list.length * 1000) / 10 : null,
       dubPredictionRate: list.length ? Math.round(dubPredictions / list.length * 1000) / 10 : null
     };
@@ -1494,6 +1589,21 @@ function evaluate(rows, model) {
       }, {})).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([label, count]) => ({ label, count }))
     };
   });
+  const byStyle = [...new Set(results.map(row => row.styleHint).filter(Boolean))].sort().map(styleHint => {
+    const list = results.filter(row => row.styleHint === styleHint);
+    return {
+      styleHint,
+      displayName: styleDisplayName(styleHint),
+      total: list.length,
+      styleTop1Accuracy: list.length ? Math.round(list.filter(row => row.styleExact).length / list.length * 1000) / 10 : null,
+      styleTop3Accuracy: list.length ? Math.round(list.filter(row => row.styleTop3).length / list.length * 1000) / 10 : null,
+      mostCommonPredictions: Object.entries(list.reduce((acc, row) => {
+        const key = row.predictedStyleName || row.predictedStyle || "unknown";
+        acc[key] = (acc[key] || 0) + 1;
+        return acc;
+      }, {})).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([label, count]) => ({ label, count }))
+    };
+  });
   const weakGenres = byGenre
     .filter(row => row.fineTotal && (row.fineTop1Accuracy < 55 || row.fineTop3Accuracy < 70))
     .sort((a, b) => (a.fineTop1Accuracy ?? 0) - (b.fineTop1Accuracy ?? 0) || (a.fineTop3Accuracy ?? 0) - (b.fineTop3Accuracy ?? 0));
@@ -1520,6 +1630,7 @@ function evaluate(rows, model) {
       macroConfusionMatrix: confusionMatrix(results, "macroGenre", "predictedMacro")
     },
     byGenre,
+    byStyle,
     weakGenres,
     results
   };
@@ -1593,6 +1704,8 @@ async function main() {
     items: rows.map(row => ({
       genre: row.genre,
       macroGenre: canonicalMacro(row.macroGenre),
+      styleHint: row.styleHint,
+      styleConfidence: row.styleConfidence,
       trainingRole: row.trainingRole,
       sourceType: row.sourceType,
       sourceUrl: row.sourceUrl,
@@ -1618,6 +1731,7 @@ async function main() {
     summary: evaluation.summary,
     diagnostics: evaluation.diagnostics,
     byGenre: evaluation.byGenre,
+    byStyle: evaluation.byStyle,
     weakGenres: evaluation.weakGenres,
     results: evaluation.results,
     errors: analyzedRows.filter(row => row.error)

@@ -1,11 +1,12 @@
 {
-  "generatedAt": "2026-06-22T03:51:31.817Z",
+  "generatedAt": "2026-06-22T05:19:23.287Z",
   "dryRun": false,
   "verifiedDatasetPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/verified-dataset.json",
   "limit": 60,
-  "restoredPreviousSurrogates": 70,
+  "restoredPreviousSurrogates": 80,
   "candidates": 100,
   "selected": 60,
+  "styleHint": "city_pop",
   "selectedTrackIds": [
     "RWC-MDB-P-2001-018",
     "RWC-MDB-P-2001-024",
@@ -610,5 +611,5 @@
       "rhythm": 0.4518906779536357
     }
   ],
-  "note": "Surrogate labels are transparent and reversible; they are not exact city-pop labels."
+  "note": "Rows remain genre=J-POP. city_pop is a transparent style hint for the pop-internal classifier, not an exact city-pop label."
 }

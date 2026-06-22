@@ -12,7 +12,9 @@ const REPORT_PATH = path.join(TRAINING_DIR, "rwc-citypop-surrogate-report.json")
 
 const LIMIT = Math.max(0, Math.min(100, Number(process.env.MMFR_RWC_CITYPOP_LIMIT || 70)));
 const DRY_RUN = process.env.MMFR_RWC_CITYPOP_DRY_RUN === "1";
-const STATUS = "citypop-surrogate-rwc-japanese-pop";
+const LEGACY_STATUS = "citypop-surrogate-rwc-japanese-pop";
+const STATUS = "citypop-stylehint-rwc-japanese-pop";
+const STYLE_HINT = "city_pop";
 
 function readJson(target, fallback = null) {
   try {
@@ -103,9 +105,21 @@ function isRwcPopular(item = {}) {
 function restorePreviousSurrogates(items) {
   let restored = 0;
   const next = items.map(item => {
-    if (item.reviewStatus !== STATUS) return item;
+    if (![LEGACY_STATUS, STATUS].includes(item.reviewStatus)) return item;
     restored += 1;
-    const { cityPopSurrogateScore, cityPopSurrogateRank, cityPopSurrogateBasis, originalGenre, ...rest } = item;
+    const {
+      cityPopSurrogateScore,
+      cityPopSurrogateRank,
+      cityPopSurrogateBasis,
+      cityPopStyleScore,
+      cityPopStyleRank,
+      cityPopStyleBasis,
+      originalGenre,
+      styleHint,
+      styleConfidence,
+      styleEvidence,
+      ...rest
+    } = item;
     return {
       ...rest,
       genre: originalGenre || "J-POP",
@@ -135,26 +149,29 @@ function main() {
     const selectedItem = selected.find(row => row.trackId === item.trackId) || item;
     return {
       ...item,
-      genre: "シティ・ポップ",
+      genre: "J-POP",
       macroGenre: "pop",
       trainingRole: "fine",
-      originalGenre: "J-POP",
+      styleHint: STYLE_HINT,
+      styleConfidence: selectedItem.cityPopSurrogateScore,
+      styleEvidence: "RWC Popular Japanese-pop source selected as a city-pop style hint by audio-theory fit; not an official RWC city-pop label.",
       reviewStatus: STATUS,
-      labelEvidence: "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
-      reviewNote: "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence.",
-      cityPopSurrogateScore: selectedItem.cityPopSurrogateScore,
-      cityPopSurrogateRank: selected.findIndex(row => row.trackId === item.trackId) + 1,
-      cityPopSurrogateBasis: "tempo 85-128, bass/groove, brightness, chroma complexity, recurrence, vocal-mid proxy"
+      labelEvidence: "RWC Popular Japanese-pop source selected as J-POP with city_pop styleHint; not an official RWC city-pop genre label.",
+      reviewNote: "Style hint for pop-internal classifier shaping. Keep genre as J-POP so the surrogate does not steal formal J-POP training rows.",
+      cityPopStyleScore: selectedItem.cityPopSurrogateScore,
+      cityPopStyleRank: selected.findIndex(row => row.trackId === item.trackId) + 1,
+      cityPopStyleBasis: "tempo 85-128, bass/groove, brightness, chroma complexity, recurrence, vocal-mid proxy"
     };
   });
 
   const manifestItems = selected.map((item, index) => ({
     source: item.source || "RWC",
     sourceType: "local-audio",
-    datasetName: "RWC Popular City Pop Surrogate",
+    datasetName: "RWC Popular City Pop Style Hint",
     trackId: item.trackId,
-    genre: "シティ・ポップ",
+    genre: "J-POP",
     macroGenre: "pop",
+    styleHint: STYLE_HINT,
     trainingRole: "fine",
     filePath: item.filePath,
     sourceUrl: item.sourceUrl || item.filePath,
@@ -163,10 +180,11 @@ function main() {
     licenseUrl: item.licenseUrl,
     canonicalArtist: item.canonicalArtist,
     canonicalTitle: item.canonicalTitle,
-    labelEvidence: "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+    labelEvidence: "RWC Popular Japanese-pop source selected as J-POP with city_pop styleHint; not an official RWC city-pop genre label.",
     reviewStatus: STATUS,
-    cityPopSurrogateScore: item.cityPopSurrogateScore,
-    cityPopSurrogateRank: index + 1,
+    styleEvidence: "RWC Popular Japanese-pop source selected as a city-pop style hint by audio-theory fit; not an official RWC city-pop label.",
+    cityPopStyleScore: item.cityPopSurrogateScore,
+    cityPopStyleRank: index + 1,
     audioStoragePolicy: "external-local-audio; persist-features-only"
   }));
 
@@ -175,10 +193,10 @@ function main() {
     fs.writeFileSync(targetPath, `${JSON.stringify(nextPayload, null, 2)}\n`);
   }
   fs.writeFileSync(MANIFEST_PATH, `${JSON.stringify({
-    description: "RWC Popular city-pop surrogate manifest. These rows are Japanese-pop research audio selected by audio-theory fit, not official city-pop labels.",
+    description: "RWC Popular city-pop styleHint manifest. These rows remain J-POP and receive a city_pop style hint by audio-theory fit; they are not official city-pop genre labels.",
     generatedAt: new Date().toISOString(),
     verifiedDatasetPath: targetPath,
-    policy: "Use only as a surrogate training bridge until exact city-pop research audio is available.",
+    policy: "Use only as a pop-internal style hint until exact city-pop research audio is available. Do not treat these rows as official city-pop genre labels.",
     items: manifestItems
   }, null, 2)}\n`);
   fs.writeFileSync(REPORT_PATH, `${JSON.stringify({
@@ -189,6 +207,7 @@ function main() {
     restoredPreviousSurrogates: restored.restored,
     candidates: candidates.length,
     selected: selected.length,
+    styleHint: STYLE_HINT,
     selectedTrackIds: selected.map(item => item.trackId),
     selectedSummary: selected.map(item => ({
       trackId: item.trackId,
@@ -199,7 +218,7 @@ function main() {
       brightness: item.features?.brightness,
       rhythm: item.features?.rhythm
     })),
-    note: "Surrogate labels are transparent and reversible; they are not exact city-pop labels."
+    note: "Rows remain genre=J-POP. city_pop is a transparent style hint for the pop-internal classifier, not an exact city-pop label."
   }, null, 2)}\n`);
 
   console.log(JSON.stringify({
