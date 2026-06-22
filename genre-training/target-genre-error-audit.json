@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-21T18:06:15.834Z",
+  "generatedAt": "2026-06-22T03:55:03.737Z",
   "targets": [
     "テクノ",
     "ドローン",
@@ -12,11 +12,11 @@
     "テクノ": {
       "total": 15,
       "exact": 1,
-      "top3": 4,
+      "top3": 5,
       "macroExact": 4,
-      "needsReview": 1,
+      "needsReview": 0,
       "fineTop1Accuracy": 6.7,
-      "fineTop3Accuracy": 26.7,
+      "fineTop3Accuracy": 33.3,
       "macroTop1Accuracy": 26.7,
       "mostCommonWrongPredictions": [
         {
@@ -24,7 +24,7 @@
           "count": 3
         },
         {
-          "label": "J-POP",
+          "label": "シティ・ポップ",
           "count": 2
         },
         {
@@ -70,12 +70,12 @@
           "count": 2
         },
         {
-          "label": "ブルース",
+          "label": "ヒップホップ",
           "count": 2
         },
         {
-          "label": "J-POP",
-          "count": 1
+          "label": "ブルース",
+          "count": 2
         },
         {
           "label": "アフリカ音楽",
@@ -102,7 +102,7 @@
           "count": 1
         },
         {
-          "label": "ヒップホップ",
+          "label": "メタル",
           "count": 1
         }
       ],
@@ -128,7 +128,7 @@
             },
             {
               "name": "ヒップホップ",
-              "score": 82
+              "score": 83
             },
             {
               "name": "ファンク",
@@ -146,15 +146,15 @@
             },
             {
               "macro": "electronic",
-              "score": 66
-            },
-            {
-              "macro": "rock",
-              "score": 23
+              "score": 67
             },
             {
               "macro": "pop",
-              "score": 17
+              "score": 25
+            },
+            {
+              "macro": "rock",
+              "score": 24
             }
           ],
           "sourceType": "cc-dataset",
@@ -171,7 +171,7 @@
         },
         {
           "genre": "テクノ",
-          "predicted": "J-POP",
+          "predicted": "シティ・ポップ",
           "macroGenre": "electronic",
           "predictedMacro": "pop",
           "exact": false,
@@ -181,8 +181,12 @@
           "confidence": 100,
           "top": [
             {
-              "name": "J-POP",
+              "name": "シティ・ポップ",
               "score": 100
+            },
+            {
+              "name": "J-POP",
+              "score": 5
             },
             {
               "name": "アニメソング",
@@ -194,10 +198,6 @@
             },
             {
               "name": "バラード",
-              "score": 1
-            },
-            {
-              "name": "アカペラ",
               "score": 1
             }
           ],
@@ -212,7 +212,7 @@
             },
             {
               "macro": "black_music",
-              "score": 38
+              "score": 39
             },
             {
               "macro": "world",
@@ -277,8 +277,8 @@
               "score": 17
             },
             {
-              "macro": "pop",
-              "score": 7
+              "macro": "ambient",
+              "score": 6
             }
           ],
           "sourceType": "cc-dataset",
@@ -402,7 +402,7 @@
             },
             {
               "macro": "pop",
-              "score": 11
+              "score": 10
             }
           ],
           "sourceType": "cc-dataset",
@@ -448,7 +448,7 @@
             },
             {
               "macro": "world",
-              "score": 72
+              "score": 69
             },
             {
               "macro": "ambient",
@@ -456,7 +456,7 @@
             },
             {
               "macro": "rock",
-              "score": 51
+              "score": 53
             }
           ],
           "sourceType": "cc-dataset",
@@ -510,14 +510,14 @@
             },
             {
               "macro": "rock",
-              "score": 41
+              "score": 40
             },
             {
               "macro": "electronic",
               "score": 28
             },
             {
-              "macro": "pop",
+              "macro": "classical",
               "score": 10
             }
           ],
@@ -541,7 +541,7 @@
           "exact": false,
           "top3": false,
           "macroExact": false,
-          "needsReview": true,
+          "needsReview": false,
           "confidence": 100,
           "top": [
             {
@@ -549,20 +549,20 @@
               "score": 100
             },
             {
+              "name": "ラテン",
+              "score": 90
+            },
+            {
               "name": "チップチューン",
-              "score": 96
+              "score": 90
             },
             {
               "name": "パンク",
-              "score": 80
+              "score": 74
             },
             {
-              "name": "ソウルミュージック",
-              "score": 43
-            },
-            {
-              "name": "ディスコ",
-              "score": 41
+              "name": "メタル",
+              "score": 24
             }
           ],
           "macro": [
@@ -575,12 +575,12 @@
               "score": 83
             },
             {
-              "macro": "black_music",
-              "score": 82
+              "macro": "world",
+              "score": 75
             },
             {
-              "macro": "world",
-              "score": 80
+              "macro": "black_music",
+              "score": 66
             }
           ],
           "sourceType": "cc-dataset",
@@ -630,15 +630,15 @@
             },
             {
               "macro": "electronic",
-              "score": 81
+              "score": 79
+            },
+            {
+              "macro": "pop",
+              "score": 46
             },
             {
               "macro": "black_music",
               "score": 41
-            },
-            {
-              "macro": "pop",
-              "score": 31
             }
           ],
           "sourceType": "cc-dataset",
@@ -655,34 +655,34 @@
         },
         {
           "genre": "テクノ",
-          "predicted": "J-POP",
+          "predicted": "シティ・ポップ",
           "macroGenre": "electronic",
           "predictedMacro": "pop",
           "exact": false,
-          "top3": false,
+          "top3": true,
           "macroExact": false,
           "needsReview": false,
           "confidence": 100,
           "top": [
             {
-              "name": "J-POP",
+              "name": "シティ・ポップ",
               "score": 100
             },
             {
-              "name": "アニメソング",
-              "score": 5
+              "name": "ヒップホップ",
+              "score": 46
             },
             {
-              "name": "ポップ",
-              "score": 1
+              "name": "テクノ",
+              "score": 42
             },
             {
-              "name": "バラード",
-              "score": 1
+              "name": "レゲエ",
+              "score": 31
             },
             {
-              "name": "アカペラ",
-              "score": 1
+              "name": "ダブ",
+              "score": 21
             }
           ],
           "macro": [
@@ -692,15 +692,15 @@
             },
             {
               "macro": "black_music",
-              "score": 55
+              "score": 90
             },
             {
               "macro": "electronic",
-              "score": 53
+              "score": 87
             },
             {
               "macro": "rock",
-              "score": 47
+              "score": 78
             }
           ],
           "sourceType": "cc-dataset",
@@ -731,6 +731,10 @@
               "score": 100
             },
             {
+              "name": "ダブ",
+              "score": 26
+            },
+            {
               "name": "ブルース",
               "score": 26
             },
@@ -741,10 +745,6 @@
             {
               "name": "ファンク",
               "score": 22
-            },
-            {
-              "name": "ダブ",
-              "score": 21
             }
           ],
           "macro": [
@@ -754,15 +754,15 @@
             },
             {
               "macro": "electronic",
-              "score": 76
-            },
-            {
-              "macro": "pop",
-              "score": 20
+              "score": 74
             },
             {
               "macro": "ambient",
               "score": 17
+            },
+            {
+              "macro": "world",
+              "score": 11
             }
           ],
           "sourceType": "cc-dataset",
@@ -798,7 +798,7 @@
             },
             {
               "name": "テクノ",
-              "score": 88
+              "score": 87
             },
             {
               "name": "ファンク",
@@ -931,16 +931,16 @@
               "score": 100
             },
             {
-              "macro": "pop",
-              "score": 78
+              "macro": "black_music",
+              "score": 56
             },
             {
-              "macro": "black_music",
-              "score": 57
+              "macro": "pop",
+              "score": 42
             },
             {
               "macro": "ambient",
-              "score": 35
+              "score": 33
             }
           ],
           "sourceType": "cc-dataset",
@@ -1000,7 +1000,7 @@
             },
             {
               "macro": "ambient",
-              "score": 65
+              "score": 66
             },
             {
               "macro": "world",
@@ -1119,16 +1119,16 @@
               "score": 100
             },
             {
+              "macro": "pop",
+              "score": 66
+            },
+            {
               "macro": "rock",
-              "score": 45
+              "score": 31
             },
             {
               "macro": "world",
-              "score": 25
-            },
-            {
-              "macro": "black_music",
-              "score": 21
+              "score": 22
             }
           ],
           "sourceType": "cc-dataset",
@@ -1159,20 +1159,20 @@
               "score": 100
             },
             {
+              "name": "トラップ",
+              "score": 62
+            },
+            {
               "name": "ハウス",
-              "score": 38
+              "score": 39
             },
             {
               "name": "ダブステップ",
               "score": 36
             },
             {
-              "name": "チップチューン",
-              "score": 20
-            },
-            {
-              "name": "ドラムンベース",
-              "score": 13
+              "name": "ダブ",
+              "score": 27
             }
           ],
           "macro": [
@@ -1181,16 +1181,16 @@
               "score": 100
             },
             {
-              "macro": "black_music",
-              "score": 77
+              "macro": "pop",
+              "score": 79
             },
             {
-              "macro": "pop",
-              "score": 58
+              "macro": "black_music",
+              "score": 76
             },
             {
               "macro": "rock",
-              "score": 11
+              "score": 12
             }
           ],
           "sourceType": "cc-dataset",
@@ -1230,7 +1230,7 @@
             },
             {
               "name": "ヒップホップ",
-              "score": 51
+              "score": 50
             },
             {
               "name": "トランス",
@@ -1252,7 +1252,7 @@
             },
             {
               "macro": "pop",
-              "score": 17
+              "score": 16
             }
           ],
           "sourceType": "cc-dataset",
@@ -1306,15 +1306,15 @@
             },
             {
               "macro": "black_music",
-              "score": 59
+              "score": 58
             },
             {
               "macro": "world",
-              "score": 34
+              "score": 35
             },
             {
               "macro": "ambient",
-              "score": 26
+              "score": 27
             }
           ],
           "sourceType": "cc-dataset",
@@ -1324,6 +1324,68 @@
           "trackId": "track_0837424",
           "canonicalArtist": "Hiddeminside",
           "canonicalTitle": "Polaris (intro)",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ヒップホップ",
+          "predicted": "テクノ",
+          "macroGenre": "black_music",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "テクノ",
+              "score": 100
+            },
+            {
+              "name": "ダブステップ",
+              "score": 67
+            },
+            {
+              "name": "ハウス",
+              "score": 53
+            },
+            {
+              "name": "トランス",
+              "score": 43
+            },
+            {
+              "name": "ディープ・ハウス",
+              "score": 37
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 81
+            },
+            {
+              "macro": "rock",
+              "score": 28
+            },
+            {
+              "macro": "ambient",
+              "score": 25
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/25/76725.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/76725",
+          "trackId": "track_0076725",
+          "canonicalArtist": "Miguel Prod",
+          "canonicalTitle": "01 - fuori quarantena intro",
           "labelEvidence": "",
           "labelConfidence": "",
           "reviewStatus": "",
@@ -1358,7 +1420,7 @@
             },
             {
               "name": "ドラムンベース",
-              "score": 9
+              "score": 10
             }
           ],
           "macro": [
@@ -1430,11 +1492,11 @@
             },
             {
               "macro": "black_music",
-              "score": 76
+              "score": 77
             },
             {
               "macro": "pop",
-              "score": 11
+              "score": 10
             },
             {
               "macro": "ambient",
@@ -1470,7 +1532,7 @@
             },
             {
               "name": "ヒップホップ",
-              "score": 86
+              "score": 87
             },
             {
               "name": "ダブステップ",
@@ -1478,7 +1540,7 @@
             },
             {
               "name": "レゲエ",
-              "score": 56
+              "score": 57
             },
             {
               "name": "ディスコ",
@@ -1495,12 +1557,12 @@
               "score": 92
             },
             {
-              "macro": "pop",
-              "score": 45
+              "macro": "rock",
+              "score": 43
             },
             {
-              "macro": "rock",
-              "score": 44
+              "macro": "pop",
+              "score": 37
             }
           ],
           "sourceType": "cc-dataset",
@@ -1523,7 +1585,7 @@
           "exact": false,
           "top3": false,
           "macroExact": true,
-          "needsReview": false,
+          "needsReview": true,
           "confidence": 100,
           "top": [
             {
@@ -1532,14 +1594,14 @@
             },
             {
               "name": "ドラムンベース",
-              "score": 91
-            },
-            {
-              "name": "チップチューン",
-              "score": 50
+              "score": 93
             },
             {
               "name": "ダブステップ",
+              "score": 49
+            },
+            {
+              "name": "チップチューン",
               "score": 49
             },
             {
@@ -1554,7 +1616,7 @@
             },
             {
               "macro": "black_music",
-              "score": 53
+              "score": 52
             },
             {
               "macro": "ambient",
@@ -1594,7 +1656,7 @@
             },
             {
               "name": "トランス",
-              "score": 54
+              "score": 53
             },
             {
               "name": "レゲエ",
@@ -1602,11 +1664,11 @@
             },
             {
               "name": "ダブ",
-              "score": 47
+              "score": 46
             },
             {
               "name": "ファンク",
-              "score": 41
+              "score": 40
             }
           ],
           "macro": [
@@ -1656,15 +1718,15 @@
             },
             {
               "name": "トランス",
-              "score": 57
+              "score": 58
             },
             {
               "name": "ダブステップ",
-              "score": 56
+              "score": 55
             },
             {
               "name": "ハウス",
-              "score": 47
+              "score": 51
             },
             {
               "name": "ディープ・ハウス",
@@ -1722,15 +1784,15 @@
             },
             {
               "name": "ロック",
-              "score": 86
+              "score": 94
             },
             {
               "name": "ファンク",
-              "score": 66
+              "score": 68
             },
             {
               "name": "ヒップホップ",
-              "score": 65
+              "score": 67
             }
           ],
           "macro": [
@@ -1740,15 +1802,15 @@
             },
             {
               "macro": "black_music",
-              "score": 86
+              "score": 88
             },
             {
               "macro": "rock",
-              "score": 81
+              "score": 85
             },
             {
               "macro": "world",
-              "score": 35
+              "score": 36
             }
           ],
           "sourceType": "cc-dataset",
@@ -1784,7 +1846,7 @@
             },
             {
               "name": "ドラムンベース",
-              "score": 60
+              "score": 61
             },
             {
               "name": "トランス",
@@ -1864,11 +1926,11 @@
             },
             {
               "macro": "ambient",
-              "score": 45
+              "score": 44
             },
             {
               "macro": "black_music",
-              "score": 42
+              "score": 40
             },
             {
               "macro": "world",
@@ -1882,68 +1944,6 @@
           "trackId": "71514",
           "canonicalArtist": "Rhinostrich",
           "canonicalTitle": "Shut Up",
-          "labelEvidence": "",
-          "labelConfidence": "",
-          "reviewStatus": "",
-          "reviewNote": ""
-        },
-        {
-          "genre": "J-POP",
-          "predicted": "テクノ",
-          "macroGenre": "pop",
-          "predictedMacro": "electronic",
-          "exact": false,
-          "top3": false,
-          "macroExact": false,
-          "needsReview": false,
-          "confidence": 100,
-          "top": [
-            {
-              "name": "テクノ",
-              "score": 100
-            },
-            {
-              "name": "ディープ・ハウス",
-              "score": 86
-            },
-            {
-              "name": "ヒップホップ",
-              "score": 79
-            },
-            {
-              "name": "ハウス",
-              "score": 74
-            },
-            {
-              "name": "ソウルミュージック",
-              "score": 62
-            }
-          ],
-          "macro": [
-            {
-              "macro": "electronic",
-              "score": 100
-            },
-            {
-              "macro": "black_music",
-              "score": 86
-            },
-            {
-              "macro": "pop",
-              "score": 41
-            },
-            {
-              "macro": "rock",
-              "score": 31
-            }
-          ],
-          "sourceType": "cc-dataset",
-          "datasetName": "RWC Music Database: Popular Music Database",
-          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P051.wav",
-          "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
-          "trackId": "RWC-MDB-P-2001-051",
-          "canonicalArtist": "RWC Popular No.051",
-          "canonicalTitle": "RWC P051",
           "labelEvidence": "",
           "labelConfidence": "",
           "reviewStatus": "",
@@ -1974,7 +1974,7 @@
             },
             {
               "name": "ハウス",
-              "score": 26
+              "score": 25
             },
             {
               "name": "ドラムンベース",
@@ -2050,15 +2050,15 @@
             },
             {
               "macro": "black_music",
-              "score": 45
-            },
-            {
-              "macro": "pop",
-              "score": 42
+              "score": 44
             },
             {
               "macro": "ambient",
-              "score": 24
+              "score": 22
+            },
+            {
+              "macro": "world",
+              "score": 16
             }
           ],
           "sourceType": "cc-dataset",
@@ -2182,8 +2182,8 @@
       ],
       "falsePositiveSources": [
         {
-          "label": "パンク",
-          "count": 2
+          "label": "ジャズ",
+          "count": 1
         },
         {
           "label": "ディスコ",
@@ -2191,6 +2191,10 @@
         },
         {
           "label": "ドラムンベース",
+          "count": 1
+        },
+        {
+          "label": "パンク",
           "count": 1
         },
         {
@@ -2238,11 +2242,11 @@
             },
             {
               "macro": "electronic",
-              "score": 54
+              "score": 52
             },
             {
               "macro": "ambient",
-              "score": 22
+              "score": 21
             },
             {
               "macro": "world",
@@ -2286,7 +2290,7 @@
             },
             {
               "name": "レゲエ",
-              "score": 67
+              "score": 66
             },
             {
               "name": "ブルース",
@@ -2308,7 +2312,7 @@
             },
             {
               "macro": "classical",
-              "score": 59
+              "score": 58
             }
           ],
           "sourceType": "cc-dataset",
@@ -2362,15 +2366,15 @@
             },
             {
               "macro": "electronic",
-              "score": 47
+              "score": 46
             },
             {
-              "macro": "world",
-              "score": 15
+              "macro": "pop",
+              "score": 24
             },
             {
               "macro": "rock",
-              "score": 15
+              "score": 14
             }
           ],
           "sourceType": "cc-dataset",
@@ -2402,7 +2406,7 @@
             },
             {
               "name": "ドローン",
-              "score": 85
+              "score": 86
             },
             {
               "name": "アンビエント",
@@ -2464,7 +2468,7 @@
             },
             {
               "name": "フュージョン",
-              "score": 10
+              "score": 11
             },
             {
               "name": "ビッグバンド",
@@ -2482,11 +2486,11 @@
             },
             {
               "macro": "electronic",
-              "score": 42
+              "score": 40
             },
             {
               "macro": "world",
-              "score": 31
+              "score": 32
             }
           ],
           "sourceType": "cc-dataset",
@@ -2580,11 +2584,11 @@
             },
             {
               "name": "ドローン",
-              "score": 90
+              "score": 91
             },
             {
               "name": "ノイズミュージック",
-              "score": 17
+              "score": 18
             }
           ],
           "macro": [
@@ -2656,15 +2660,15 @@
             },
             {
               "macro": "electronic",
-              "score": 56
+              "score": 60
             },
             {
               "macro": "ambient",
-              "score": 53
+              "score": 56
             },
             {
               "macro": "jazz",
-              "score": 35
+              "score": 38
             }
           ],
           "sourceType": "cc-dataset",
@@ -2704,11 +2708,11 @@
             },
             {
               "name": "トラップ",
-              "score": 24
+              "score": 23
             },
             {
               "name": "ディスコ",
-              "score": 19
+              "score": 18
             }
           ],
           "macro": [
@@ -2780,15 +2784,15 @@
             },
             {
               "macro": "electronic",
-              "score": 58
+              "score": 64
             },
             {
               "macro": "ambient",
-              "score": 28
+              "score": 30
             },
             {
-              "macro": "world",
-              "score": 20
+              "macro": "pop",
+              "score": 25
             }
           ],
           "sourceType": "cc-dataset",
@@ -2820,7 +2824,7 @@
             },
             {
               "name": "ラテン",
-              "score": 95
+              "score": 94
             },
             {
               "name": "フォーク",
@@ -2828,11 +2832,11 @@
             },
             {
               "name": "ノイズミュージック",
-              "score": 47
+              "score": 48
             },
             {
               "name": "アンビエント",
-              "score": 41
+              "score": 42
             }
           ],
           "macro": [
@@ -2884,7 +2888,7 @@
             },
             {
               "name": "ラテン",
-              "score": 86
+              "score": 85
             },
             {
               "name": "ノイズミュージック",
@@ -2892,7 +2896,7 @@
             },
             {
               "name": "ソウルミュージック",
-              "score": 80
+              "score": 78
             },
             {
               "name": "フォーク",
@@ -2914,7 +2918,7 @@
             },
             {
               "macro": "rock",
-              "score": 65
+              "score": 66
             }
           ],
           "sourceType": "cc-dataset",
@@ -2924,6 +2928,68 @@
           "trackId": "10693",
           "canonicalArtist": "BOPD",
           "canonicalTitle": "6.6.05",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ジャズ",
+          "predicted": "ドローン",
+          "macroGenre": "jazz",
+          "predictedMacro": "ambient",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ドローン",
+              "score": 100
+            },
+            {
+              "name": "ノイズミュージック",
+              "score": 86
+            },
+            {
+              "name": "ハウス",
+              "score": 76
+            },
+            {
+              "name": "ダブステップ",
+              "score": 73
+            },
+            {
+              "name": "テクノ",
+              "score": 57
+            }
+          ],
+          "macro": [
+            {
+              "macro": "ambient",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 93
+            },
+            {
+              "macro": "rock",
+              "score": 65
+            },
+            {
+              "macro": "black_music",
+              "score": 55
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/116/116449.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/116449",
+          "trackId": "116449",
+          "canonicalArtist": "Montana Skies",
+          "canonicalTitle": "Lift (with six string electric cello)",
           "labelEvidence": "",
           "labelConfidence": "",
           "reviewStatus": "",
@@ -2949,16 +3015,8 @@
               "score": 77
             },
             {
-              "name": "テクノ",
-              "score": 50
-            },
-            {
-              "name": "チップチューン",
-              "score": 44
-            },
-            {
-              "name": "ドラムンベース",
-              "score": 31
+              "name": "アンビエント",
+              "score": 13
             }
           ],
           "macro": [
@@ -2968,15 +3026,15 @@
             },
             {
               "macro": "electronic",
-              "score": 86
+              "score": 71
             },
             {
               "macro": "rock",
-              "score": 52
+              "score": 50
             },
             {
               "macro": "pop",
-              "score": 52
+              "score": 47
             }
           ],
           "sourceType": "cc-dataset",
@@ -2986,60 +3044,6 @@
           "trackId": "119545",
           "canonicalArtist": "Full Load of King",
           "canonicalTitle": "Jungle Conflict",
-          "labelEvidence": "",
-          "labelConfidence": "",
-          "reviewStatus": "",
-          "reviewNote": ""
-        },
-        {
-          "genre": "パンク",
-          "predicted": "ドローン",
-          "macroGenre": "rock",
-          "predictedMacro": "ambient",
-          "exact": false,
-          "top3": false,
-          "macroExact": false,
-          "needsReview": false,
-          "confidence": 100,
-          "top": [
-            {
-              "name": "ドローン",
-              "score": 100
-            },
-            {
-              "name": "ノイズミュージック",
-              "score": 59
-            },
-            {
-              "name": "アンビエント",
-              "score": 30
-            }
-          ],
-          "macro": [
-            {
-              "macro": "ambient",
-              "score": 100
-            },
-            {
-              "macro": "rock",
-              "score": 67
-            },
-            {
-              "macro": "world",
-              "score": 66
-            },
-            {
-              "macro": "pop",
-              "score": 50
-            }
-          ],
-          "sourceType": "cc-dataset",
-          "datasetName": "MTG-Jamendo",
-          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/99/7199.low.mp3",
-          "referenceUrl": "http://www.jamendo.com/track/7199",
-          "trackId": "track_0007199",
-          "canonicalArtist": "Haine Brigade",
-          "canonicalTitle": "Rock terroriste",
           "labelEvidence": "",
           "labelConfidence": "",
           "reviewStatus": "",
@@ -3075,16 +3079,16 @@
               "score": 100
             },
             {
-              "macro": "world",
-              "score": 69
+              "macro": "electronic",
+              "score": 66
             },
             {
-              "macro": "electronic",
-              "score": 67
+              "macro": "world",
+              "score": 66
             },
             {
               "macro": "jazz",
-              "score": 50
+              "score": 49
             }
           ],
           "sourceType": "cc-dataset",
@@ -3116,7 +3120,7 @@
             },
             {
               "name": "パンク",
-              "score": 86
+              "score": 72
             },
             {
               "name": "ノイズミュージック",
@@ -3124,11 +3128,11 @@
             },
             {
               "name": "チップチューン",
-              "score": 66
+              "score": 65
             },
             {
-              "name": "ロック",
-              "score": 66
+              "name": "アンビエント",
+              "score": 57
             }
           ],
           "macro": [
@@ -3138,15 +3142,15 @@
             },
             {
               "macro": "electronic",
-              "score": 87
+              "score": 86
             },
             {
               "macro": "rock",
-              "score": 85
+              "score": 76
             },
             {
               "macro": "black_music",
-              "score": 74
+              "score": 70
             }
           ],
           "sourceType": "cc-dataset",
@@ -3166,11 +3170,11 @@
     "ダブ": {
       "total": 17,
       "exact": 4,
-      "top3": 9,
+      "top3": 8,
       "macroExact": 10,
       "needsReview": 3,
       "fineTop1Accuracy": 23.5,
-      "fineTop3Accuracy": 52.9,
+      "fineTop3Accuracy": 47.1,
       "macroTop1Accuracy": 58.8,
       "mostCommonWrongPredictions": [
         {
@@ -3182,7 +3186,7 @@
           "count": 3
         },
         {
-          "label": "J-POP",
+          "label": "シティ・ポップ",
           "count": 1
         },
         {
@@ -3208,11 +3212,11 @@
       ],
       "falsePositiveSources": [
         {
-          "label": "ダブステップ",
-          "count": 4
+          "label": "アンビエント",
+          "count": 3
         },
         {
-          "label": "アンビエント",
+          "label": "ダブステップ",
           "count": 3
         },
         {
@@ -3259,7 +3263,7 @@
           "macroGenre": "black_music",
           "predictedMacro": "electronic",
           "exact": false,
-          "top3": true,
+          "top3": false,
           "macroExact": false,
           "needsReview": false,
           "confidence": 100,
@@ -3273,16 +3277,16 @@
               "score": 73
             },
             {
-              "name": "ダブ",
-              "score": 62
+              "name": "ヒップホップ",
+              "score": 61
             },
             {
               "name": "トランス",
               "score": 60
             },
             {
-              "name": "ヒップホップ",
-              "score": 54
+              "name": "ダブ",
+              "score": 55
             }
           ],
           "macro": [
@@ -3339,11 +3343,11 @@
               "score": 51
             },
             {
-              "name": "テクノ",
-              "score": 46
+              "name": "チップチューン",
+              "score": 45
             },
             {
-              "name": "チップチューン",
+              "name": "テクノ",
               "score": 45
             }
           ],
@@ -3415,16 +3419,16 @@
               "score": 100
             },
             {
+              "macro": "rock",
+              "score": 56
+            },
+            {
               "macro": "pop",
-              "score": 63
+              "score": 52
             },
             {
               "macro": "electronic",
               "score": 49
-            },
-            {
-              "macro": "rock",
-              "score": 48
             }
           ],
           "sourceType": "cc-dataset",
@@ -3456,19 +3460,19 @@
             },
             {
               "name": "レゲエ",
-              "score": 73
+              "score": 76
             },
             {
               "name": "ディスコ",
-              "score": 38
+              "score": 39
             },
             {
               "name": "ブルース",
-              "score": 31
+              "score": 32
             },
             {
               "name": "ファンク",
-              "score": 30
+              "score": 31
             }
           ],
           "macro": [
@@ -3478,11 +3482,11 @@
             },
             {
               "macro": "electronic",
-              "score": 67
+              "score": 63
             },
             {
               "macro": "ambient",
-              "score": 59
+              "score": 57
             },
             {
               "macro": "jazz",
@@ -3526,7 +3530,7 @@
             },
             {
               "name": "ドローン",
-              "score": 64
+              "score": 63
             },
             {
               "name": "ハウス",
@@ -3544,11 +3548,11 @@
             },
             {
               "macro": "black_music",
-              "score": 67
+              "score": 65
             },
             {
-              "macro": "pop",
-              "score": 53
+              "macro": "rock",
+              "score": 52
             }
           ],
           "sourceType": "cc-dataset",
@@ -3580,7 +3584,7 @@
             },
             {
               "name": "ハウス",
-              "score": 89
+              "score": 90
             },
             {
               "name": "チップチューン",
@@ -3663,16 +3667,16 @@
               "score": 100
             },
             {
+              "macro": "pop",
+              "score": 66
+            },
+            {
               "macro": "rock",
-              "score": 45
+              "score": 31
             },
             {
               "macro": "world",
-              "score": 25
-            },
-            {
-              "macro": "black_music",
-              "score": 21
+              "score": 22
             }
           ],
           "sourceType": "cc-dataset",
@@ -3730,7 +3734,7 @@
             },
             {
               "macro": "pop",
-              "score": 11
+              "score": 10
             },
             {
               "macro": "ambient",
@@ -3766,7 +3770,7 @@
             },
             {
               "name": "ヒップホップ",
-              "score": 73
+              "score": 74
             },
             {
               "name": "ダブ",
@@ -3796,7 +3800,7 @@
             },
             {
               "macro": "classical",
-              "score": 36
+              "score": 37
             }
           ],
           "sourceType": "cc-dataset",
@@ -3828,19 +3832,19 @@
             },
             {
               "name": "テクノ",
-              "score": 80
+              "score": 79
             },
             {
               "name": "ハウス",
-              "score": 57
+              "score": 59
             },
             {
               "name": "トランス",
-              "score": 29
+              "score": 31
             },
             {
               "name": "チップチューン",
-              "score": 22
+              "score": 20
             }
           ],
           "macro": [
@@ -3850,15 +3854,15 @@
             },
             {
               "macro": "black_music",
-              "score": 61
+              "score": 65
             },
             {
               "macro": "ambient",
-              "score": 39
+              "score": 42
             },
             {
               "macro": "rock",
-              "score": 35
+              "score": 39
             }
           ],
           "sourceType": "cc-dataset",
@@ -3875,7 +3879,7 @@
         },
         {
           "genre": "ダブ",
-          "predicted": "J-POP",
+          "predicted": "シティ・ポップ",
           "macroGenre": "black_music",
           "predictedMacro": "electronic",
           "exact": false,
@@ -3885,24 +3889,24 @@
           "confidence": 100,
           "top": [
             {
-              "name": "J-POP",
+              "name": "シティ・ポップ",
               "score": 100
             },
             {
               "name": "テクノ",
-              "score": 37
+              "score": 45
             },
             {
               "name": "ハウス",
-              "score": 32
+              "score": 38
             },
             {
               "name": "ヒップホップ",
-              "score": 25
+              "score": 30
             },
             {
               "name": "ダブ",
-              "score": 23
+              "score": 27
             }
           ],
           "macro": [
@@ -3912,7 +3916,7 @@
             },
             {
               "macro": "pop",
-              "score": 91
+              "score": 89
             },
             {
               "macro": "black_music",
@@ -3952,7 +3956,7 @@
             },
             {
               "name": "ダブ",
-              "score": 59
+              "score": 61
             },
             {
               "name": "レゲエ",
@@ -3964,7 +3968,7 @@
             },
             {
               "name": "トラップ",
-              "score": 11
+              "score": 12
             }
           ],
           "macro": [
@@ -3974,11 +3978,11 @@
             },
             {
               "macro": "electronic",
-              "score": 76
+              "score": 77
             },
             {
               "macro": "pop",
-              "score": 25
+              "score": 27
             },
             {
               "macro": "ambient",
@@ -4014,7 +4018,7 @@
             },
             {
               "name": "レゲエ",
-              "score": 99
+              "score": 98
             },
             {
               "name": "ファンク",
@@ -4036,7 +4040,7 @@
             },
             {
               "macro": "electronic",
-              "score": 75
+              "score": 77
             },
             {
               "macro": "world",
@@ -4078,11 +4082,11 @@
             },
             {
               "name": "ヒップホップ",
-              "score": 72
+              "score": 73
             },
             {
               "name": "レゲエ",
-              "score": 51
+              "score": 50
             },
             {
               "name": "ソウルミュージック",
@@ -4099,16 +4103,16 @@
               "score": 100
             },
             {
-              "macro": "pop",
-              "score": 43
-            },
-            {
               "macro": "electronic",
-              "score": 42
+              "score": 37
             },
             {
               "macro": "rock",
-              "score": 20
+              "score": 24
+            },
+            {
+              "macro": "ambient",
+              "score": 19
             }
           ],
           "sourceType": "cc-dataset",
@@ -4140,11 +4144,11 @@
             },
             {
               "name": "ヒップホップ",
-              "score": 41
+              "score": 43
             },
             {
               "name": "ソウルミュージック",
-              "score": 27
+              "score": 28
             },
             {
               "name": "レゲエ",
@@ -4162,7 +4166,7 @@
             },
             {
               "macro": "electronic",
-              "score": 46
+              "score": 52
             },
             {
               "macro": "world",
@@ -4224,11 +4228,11 @@
             },
             {
               "macro": "electronic",
-              "score": 54
+              "score": 57
             },
             {
               "macro": "ambient",
-              "score": 15
+              "score": 16
             },
             {
               "macro": "world",
@@ -4294,7 +4298,7 @@
             },
             {
               "macro": "pop",
-              "score": 11
+              "score": 10
             }
           ],
           "sourceType": "cc-dataset",
@@ -4347,16 +4351,16 @@
               "score": 100
             },
             {
-              "macro": "pop",
-              "score": 20
-            },
-            {
               "macro": "rock",
               "score": 19
             },
             {
               "macro": "world",
               "score": 19
+            },
+            {
+              "macro": "pop",
+              "score": 18
             }
           ],
           "sourceType": "cc-dataset",
@@ -4388,19 +4392,19 @@
             },
             {
               "name": "ヒップホップ",
-              "score": 96
+              "score": 92
             },
             {
               "name": "ブルース",
-              "score": 71
+              "score": 69
             },
             {
               "name": "レゲエ",
-              "score": 50
+              "score": 49
             },
             {
               "name": "ディスコ",
-              "score": 38
+              "score": 37
             }
           ],
           "macro": [
@@ -4454,15 +4458,15 @@
             },
             {
               "name": "レゲエ",
-              "score": 57
+              "score": 54
             },
             {
               "name": "ブルース",
-              "score": 52
+              "score": 51
             },
             {
               "name": "ヒップホップ",
-              "score": 52
+              "score": 51
             }
           ],
           "macro": [
@@ -4479,7 +4483,7 @@
               "score": 9
             },
             {
-              "macro": "pop",
+              "macro": "world",
               "score": 8
             }
           ],
@@ -4538,7 +4542,7 @@
             },
             {
               "macro": "world",
-              "score": 14
+              "score": 13
             },
             {
               "macro": "pop",
@@ -4574,7 +4578,7 @@
             },
             {
               "name": "ファンク",
-              "score": 81
+              "score": 82
             },
             {
               "name": "トラップ",
@@ -4596,15 +4600,15 @@
             },
             {
               "macro": "rock",
-              "score": 39
-            },
-            {
-              "macro": "pop",
-              "score": 37
+              "score": 38
             },
             {
               "macro": "world",
-              "score": 31
+              "score": 30
+            },
+            {
+              "macro": "ambient",
+              "score": 23
             }
           ],
           "sourceType": "cc-dataset",
@@ -4636,7 +4640,7 @@
             },
             {
               "name": "レゲエ",
-              "score": 49
+              "score": 48
             },
             {
               "name": "ヒップホップ",
@@ -4658,14 +4662,14 @@
             },
             {
               "macro": "electronic",
-              "score": 34
-            },
-            {
-              "macro": "pop",
-              "score": 24
+              "score": 31
             },
             {
               "macro": "rock",
+              "score": 12
+            },
+            {
+              "macro": "pop",
               "score": 11
             }
           ],
@@ -4728,7 +4732,7 @@
             },
             {
               "macro": "pop",
-              "score": 12
+              "score": 11
             }
           ],
           "sourceType": "cc-dataset",
@@ -4760,11 +4764,11 @@
             },
             {
               "name": "ファンク",
-              "score": 78
+              "score": 77
             },
             {
               "name": "ヒップホップ",
-              "score": 65
+              "score": 64
             },
             {
               "name": "ディスコ",
@@ -4781,16 +4785,16 @@
               "score": 100
             },
             {
-              "macro": "pop",
-              "score": 35
-            },
-            {
               "macro": "electronic",
               "score": 31
             },
             {
               "macro": "world",
-              "score": 31
+              "score": 30
+            },
+            {
+              "macro": "classical",
+              "score": 27
             }
           ],
           "sourceType": "cc-dataset",
@@ -4800,68 +4804,6 @@
           "trackId": "track_0981290",
           "canonicalArtist": "Roger Subirana Mata",
           "canonicalTitle": "Hymn to peace (Dubstep Remix) ",
-          "labelEvidence": "",
-          "labelConfidence": "",
-          "reviewStatus": "",
-          "reviewNote": ""
-        },
-        {
-          "genre": "ダブステップ",
-          "predicted": "ダブ",
-          "macroGenre": "electronic",
-          "predictedMacro": "black_music",
-          "exact": false,
-          "top3": false,
-          "macroExact": false,
-          "needsReview": false,
-          "confidence": 100,
-          "top": [
-            {
-              "name": "ダブ",
-              "score": 100
-            },
-            {
-              "name": "ヒップホップ",
-              "score": 87
-            },
-            {
-              "name": "レゲエ",
-              "score": 67
-            },
-            {
-              "name": "ブルース",
-              "score": 66
-            },
-            {
-              "name": "ファンク",
-              "score": 62
-            }
-          ],
-          "macro": [
-            {
-              "macro": "black_music",
-              "score": 100
-            },
-            {
-              "macro": "world",
-              "score": 64
-            },
-            {
-              "macro": "rock",
-              "score": 32
-            },
-            {
-              "macro": "electronic",
-              "score": 28
-            }
-          ],
-          "sourceType": "cc-dataset",
-          "datasetName": "MTG-Jamendo",
-          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/52/1074752.low.mp3",
-          "referenceUrl": "http://www.jamendo.com/track/1074752",
-          "trackId": "track_1074752",
-          "canonicalArtist": "Akashic Records",
-          "canonicalTitle": "System Malfunction (glitchstep pop)",
           "labelEvidence": "",
           "labelConfidence": "",
           "reviewStatus": "",
@@ -4905,16 +4847,16 @@
               "score": 100
             },
             {
-              "macro": "electronic",
-              "score": 57
-            },
-            {
-              "macro": "ambient",
-              "score": 54
+              "macro": "pop",
+              "score": 71
             },
             {
               "macro": "rock",
-              "score": 52
+              "score": 67
+            },
+            {
+              "macro": "electronic",
+              "score": 65
             }
           ],
           "sourceType": "cc-dataset",
@@ -4946,19 +4888,19 @@
             },
             {
               "name": "ヒップホップ",
-              "score": 60
+              "score": 48
             },
             {
               "name": "ソウルミュージック",
-              "score": 50
+              "score": 47
             },
             {
               "name": "ファンク",
-              "score": 40
+              "score": 37
             },
             {
               "name": "トラップ",
-              "score": 25
+              "score": 23
             }
           ],
           "macro": [
@@ -5008,7 +4950,7 @@
             },
             {
               "name": "ファンク",
-              "score": 68
+              "score": 69
             },
             {
               "name": "ブルース",
@@ -5016,11 +4958,11 @@
             },
             {
               "name": "ヒップホップ",
-              "score": 64
+              "score": 65
             },
             {
               "name": "トラップ",
-              "score": 52
+              "score": 53
             }
           ],
           "macro": [
@@ -5030,15 +4972,15 @@
             },
             {
               "macro": "electronic",
-              "score": 74
+              "score": 73
             },
             {
               "macro": "world",
-              "score": 53
+              "score": 50
             },
             {
-              "macro": "pop",
-              "score": 43
+              "macro": "ambient",
+              "score": 21
             }
           ],
           "sourceType": "cc-dataset",
@@ -5070,18 +5012,18 @@
             },
             {
               "name": "ヒップホップ",
-              "score": 97
+              "score": 98
             },
             {
               "name": "テクノ",
-              "score": 83
+              "score": 90
+            },
+            {
+              "name": "トランス",
+              "score": 69
             },
             {
               "name": "ブルース",
-              "score": 68
-            },
-            {
-              "name": "ファンク",
               "score": 68
             }
           ],
@@ -5092,15 +5034,15 @@
             },
             {
               "macro": "electronic",
-              "score": 84
+              "score": 88
             },
             {
               "macro": "jazz",
-              "score": 41
+              "score": 42
             },
             {
               "macro": "rock",
-              "score": 23
+              "score": 24
             }
           ],
           "sourceType": "cc-dataset",
@@ -5132,19 +5074,19 @@
             },
             {
               "name": "ハウス",
-              "score": 68
+              "score": 62
             },
             {
               "name": "レゲエ",
-              "score": 49
+              "score": 48
             },
             {
               "name": "テクノ",
-              "score": 49
+              "score": 45
             },
             {
               "name": "ヒップホップ",
-              "score": 27
+              "score": 29
             }
           ],
           "macro": [
@@ -5154,15 +5096,15 @@
             },
             {
               "macro": "electronic",
-              "score": 88
-            },
-            {
-              "macro": "pop",
-              "score": 19
+              "score": 84
             },
             {
               "macro": "ambient",
-              "score": 8
+              "score": 7
+            },
+            {
+              "macro": "pop",
+              "score": 7
             }
           ],
           "sourceType": "cc-dataset",
@@ -5216,15 +5158,15 @@
             },
             {
               "macro": "electronic",
-              "score": 58
+              "score": 64
             },
             {
               "macro": "ambient",
-              "score": 28
+              "score": 30
             },
             {
-              "macro": "world",
-              "score": 20
+              "macro": "pop",
+              "score": 25
             }
           ],
           "sourceType": "cc-dataset",
@@ -5242,24 +5184,874 @@
       ]
     },
     "シティ・ポップ": {
-      "total": 0,
-      "exact": 0,
-      "top3": 0,
-      "macroExact": 0,
-      "needsReview": 0,
-      "fineTop1Accuracy": null,
-      "fineTop3Accuracy": null,
-      "macroTop1Accuracy": null,
-      "mostCommonWrongPredictions": [],
-      "falsePositiveSources": [],
-      "falseNegatives": [],
-      "falsePositives": []
+      "total": 10,
+      "exact": 6,
+      "top3": 6,
+      "macroExact": 5,
+      "needsReview": 1,
+      "fineTop1Accuracy": 60,
+      "fineTop3Accuracy": 60,
+      "macroTop1Accuracy": 50,
+      "mostCommonWrongPredictions": [
+        {
+          "label": "ハードコア",
+          "count": 1
+        },
+        {
+          "label": "パンク",
+          "count": 1
+        },
+        {
+          "label": "ラテン",
+          "count": 1
+        },
+        {
+          "label": "レゲエ",
+          "count": 1
+        }
+      ],
+      "falsePositiveSources": [
+        {
+          "label": "J-POP",
+          "count": 2
+        },
+        {
+          "label": "テクノ",
+          "count": 2
+        },
+        {
+          "label": "ダブ",
+          "count": 1
+        },
+        {
+          "label": "ノイズミュージック",
+          "count": 1
+        },
+        {
+          "label": "パンク",
+          "count": 1
+        },
+        {
+          "label": "ヒップホップ",
+          "count": 1
+        },
+        {
+          "label": "ファンク",
+          "count": 1
+        }
+      ],
+      "falseNegatives": [
+        {
+          "genre": "シティ・ポップ",
+          "predicted": "パンク",
+          "macroGenre": "pop",
+          "predictedMacro": "rock",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "パンク",
+              "score": 100
+            },
+            {
+              "name": "ロック",
+              "score": 82
+            },
+            {
+              "name": "ハードコア",
+              "score": 40
+            },
+            {
+              "name": "メタル",
+              "score": 27
+            }
+          ],
+          "macro": [
+            {
+              "macro": "rock",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 67
+            },
+            {
+              "macro": "black_music",
+              "score": 13
+            },
+            {
+              "macro": "pop",
+              "score": 13
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "RWC Music Database: Popular Music Database",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P041.wav",
+          "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+          "trackId": "RWC-MDB-P-2001-041",
+          "canonicalArtist": "RWC Popular No.041",
+          "canonicalTitle": "RWC P041",
+          "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+          "labelConfidence": "",
+          "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+          "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+        },
+        {
+          "genre": "シティ・ポップ",
+          "predicted": "ハードコア",
+          "macroGenre": "pop",
+          "predictedMacro": "rock",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ハードコア",
+              "score": 100
+            },
+            {
+              "name": "メタル",
+              "score": 83
+            },
+            {
+              "name": "パンク",
+              "score": 49
+            },
+            {
+              "name": "ロック",
+              "score": 44
+            }
+          ],
+          "macro": [
+            {
+              "macro": "rock",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 71
+            },
+            {
+              "macro": "pop",
+              "score": 50
+            },
+            {
+              "macro": "ambient",
+              "score": 49
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "RWC Music Database: Popular Music Database",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P049.wav",
+          "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+          "trackId": "RWC-MDB-P-2001-049",
+          "canonicalArtist": "RWC Popular No.049",
+          "canonicalTitle": "RWC P049",
+          "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+          "labelConfidence": "",
+          "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+          "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+        },
+        {
+          "genre": "シティ・ポップ",
+          "predicted": "レゲエ",
+          "macroGenre": "pop",
+          "predictedMacro": "black_music",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "レゲエ",
+              "score": 100
+            },
+            {
+              "name": "ファンク",
+              "score": 77
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 60
+            },
+            {
+              "name": "ダブ",
+              "score": 43
+            },
+            {
+              "name": "ブルース",
+              "score": 24
+            }
+          ],
+          "macro": [
+            {
+              "macro": "black_music",
+              "score": 100
+            },
+            {
+              "macro": "pop",
+              "score": 18
+            },
+            {
+              "macro": "rock",
+              "score": 11
+            },
+            {
+              "macro": "electronic",
+              "score": 10
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "RWC Music Database: Popular Music Database",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P059.wav",
+          "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+          "trackId": "RWC-MDB-P-2001-059",
+          "canonicalArtist": "RWC Popular No.059",
+          "canonicalTitle": "RWC P059",
+          "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+          "labelConfidence": "",
+          "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+          "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+        },
+        {
+          "genre": "シティ・ポップ",
+          "predicted": "ラテン",
+          "macroGenre": "pop",
+          "predictedMacro": "world",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "ラテン",
+              "score": 100
+            },
+            {
+              "name": "フォーク",
+              "score": 35
+            },
+            {
+              "name": "カントリー",
+              "score": 4
+            },
+            {
+              "name": "サンバ",
+              "score": 3
+            },
+            {
+              "name": "フラメンコ",
+              "score": 2
+            }
+          ],
+          "macro": [
+            {
+              "macro": "world",
+              "score": 100
+            },
+            {
+              "macro": "rock",
+              "score": 46
+            },
+            {
+              "macro": "black_music",
+              "score": 41
+            },
+            {
+              "macro": "pop",
+              "score": 41
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "RWC Music Database: Popular Music Database",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P073.wav",
+          "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+          "trackId": "RWC-MDB-P-2001-073",
+          "canonicalArtist": "RWC Popular No.073",
+          "canonicalTitle": "RWC P073",
+          "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+          "labelConfidence": "",
+          "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+          "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+        }
+      ],
+      "falsePositives": [
+        {
+          "genre": "ヒップホップ",
+          "predicted": "シティ・ポップ",
+          "macroGenre": "black_music",
+          "predictedMacro": "pop",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "シティ・ポップ",
+              "score": 100
+            },
+            {
+              "name": "J-POP",
+              "score": 61
+            },
+            {
+              "name": "ディープ・ハウス",
+              "score": 47
+            },
+            {
+              "name": "テクノ",
+              "score": 44
+            },
+            {
+              "name": "ダブステップ",
+              "score": 24
+            }
+          ],
+          "macro": [
+            {
+              "macro": "pop",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 96
+            },
+            {
+              "macro": "black_music",
+              "score": 43
+            },
+            {
+              "macro": "rock",
+              "score": 28
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/000/000676.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/676",
+          "trackId": "676",
+          "canonicalArtist": "Fanatic",
+          "canonicalTitle": "The Tension",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ノイズミュージック",
+          "predicted": "シティ・ポップ",
+          "macroGenre": "ambient",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "シティ・ポップ",
+              "score": 100
+            },
+            {
+              "name": "チップチューン",
+              "score": 40
+            },
+            {
+              "name": "テクノ",
+              "score": 32
+            },
+            {
+              "name": "ハウス",
+              "score": 30
+            },
+            {
+              "name": "ディープ・ハウス",
+              "score": 28
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "pop",
+              "score": 84
+            },
+            {
+              "macro": "black_music",
+              "score": 29
+            },
+            {
+              "macro": "ambient",
+              "score": 20
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/026/026629.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/26629",
+          "trackId": "26629",
+          "canonicalArtist": "NOISE64",
+          "canonicalTitle": "Heroic Hexa Epic",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ダブ",
+          "predicted": "シティ・ポップ",
+          "macroGenre": "black_music",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "シティ・ポップ",
+              "score": 100
+            },
+            {
+              "name": "テクノ",
+              "score": 45
+            },
+            {
+              "name": "ハウス",
+              "score": 38
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 30
+            },
+            {
+              "name": "ダブ",
+              "score": 27
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "pop",
+              "score": 89
+            },
+            {
+              "macro": "black_music",
+              "score": 78
+            },
+            {
+              "macro": "ambient",
+              "score": 52
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/053/053301.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/53301",
+          "trackId": "53301",
+          "canonicalArtist": "Mikuś",
+          "canonicalTitle": "Ephemeral Dub",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "テクノ",
+          "predicted": "シティ・ポップ",
+          "macroGenre": "electronic",
+          "predictedMacro": "pop",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "シティ・ポップ",
+              "score": 100
+            },
+            {
+              "name": "J-POP",
+              "score": 5
+            },
+            {
+              "name": "アニメソング",
+              "score": 4
+            },
+            {
+              "name": "ポップ",
+              "score": 1
+            },
+            {
+              "name": "バラード",
+              "score": 1
+            }
+          ],
+          "macro": [
+            {
+              "macro": "pop",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 59
+            },
+            {
+              "macro": "black_music",
+              "score": 39
+            },
+            {
+              "macro": "world",
+              "score": 19
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/099/099704.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/99704",
+          "trackId": "99704",
+          "canonicalArtist": "eden",
+          "canonicalTitle": "HEAVEN_VERSION",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "ファンク",
+          "predicted": "シティ・ポップ",
+          "macroGenre": "black_music",
+          "predictedMacro": "electronic",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "シティ・ポップ",
+              "score": 100
+            },
+            {
+              "name": "テクノ",
+              "score": 43
+            },
+            {
+              "name": "J-POP",
+              "score": 39
+            },
+            {
+              "name": "チップチューン",
+              "score": 32
+            },
+            {
+              "name": "ドラムンベース",
+              "score": 30
+            }
+          ],
+          "macro": [
+            {
+              "macro": "electronic",
+              "score": 100
+            },
+            {
+              "macro": "pop",
+              "score": 95
+            },
+            {
+              "macro": "black_music",
+              "score": 73
+            },
+            {
+              "macro": "rock",
+              "score": 70
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "FMA",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/121/121451.mp3",
+          "referenceUrl": "https://freemusicarchive.org/track/121451",
+          "trackId": "121451",
+          "canonicalArtist": "Dan Lizard",
+          "canonicalTitle": "Make It Funky",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "テクノ",
+          "predicted": "シティ・ポップ",
+          "macroGenre": "electronic",
+          "predictedMacro": "pop",
+          "exact": false,
+          "top3": true,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "シティ・ポップ",
+              "score": 100
+            },
+            {
+              "name": "ヒップホップ",
+              "score": 46
+            },
+            {
+              "name": "テクノ",
+              "score": 42
+            },
+            {
+              "name": "レゲエ",
+              "score": 31
+            },
+            {
+              "name": "ダブ",
+              "score": 21
+            }
+          ],
+          "macro": [
+            {
+              "macro": "pop",
+              "score": 100
+            },
+            {
+              "macro": "black_music",
+              "score": 90
+            },
+            {
+              "macro": "electronic",
+              "score": 87
+            },
+            {
+              "macro": "rock",
+              "score": 78
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/75/1011675.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/1011675",
+          "trackId": "track_1011675",
+          "canonicalArtist": "Oursvince",
+          "canonicalTitle": "Electricity, Part 2",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "パンク",
+          "predicted": "シティ・ポップ",
+          "macroGenre": "rock",
+          "predictedMacro": "ambient",
+          "exact": false,
+          "top3": false,
+          "macroExact": false,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "シティ・ポップ",
+              "score": 100
+            },
+            {
+              "name": "ドローン",
+              "score": 80
+            },
+            {
+              "name": "ノイズミュージック",
+              "score": 47
+            },
+            {
+              "name": "J-POP",
+              "score": 32
+            },
+            {
+              "name": "アンビエント",
+              "score": 24
+            }
+          ],
+          "macro": [
+            {
+              "macro": "ambient",
+              "score": 100
+            },
+            {
+              "macro": "pop",
+              "score": 90
+            },
+            {
+              "macro": "rock",
+              "score": 66
+            },
+            {
+              "macro": "world",
+              "score": 54
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "MTG-Jamendo",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/99/7199.low.mp3",
+          "referenceUrl": "http://www.jamendo.com/track/7199",
+          "trackId": "track_0007199",
+          "canonicalArtist": "Haine Brigade",
+          "canonicalTitle": "Rock terroriste",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": ""
+        },
+        {
+          "genre": "J-POP",
+          "predicted": "シティ・ポップ",
+          "macroGenre": "pop",
+          "predictedMacro": "pop",
+          "exact": false,
+          "top3": true,
+          "macroExact": true,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "シティ・ポップ",
+              "score": 100
+            },
+            {
+              "name": "J-POP",
+              "score": 23
+            },
+            {
+              "name": "アニメソング",
+              "score": 5
+            },
+            {
+              "name": "ポップ",
+              "score": 1
+            },
+            {
+              "name": "バラード",
+              "score": 1
+            }
+          ],
+          "macro": [
+            {
+              "macro": "pop",
+              "score": 100
+            },
+            {
+              "macro": "electronic",
+              "score": 64
+            },
+            {
+              "macro": "rock",
+              "score": 44
+            },
+            {
+              "macro": "ambient",
+              "score": 42
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "RWC Music Database: Popular Music Database",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P001.wav",
+          "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+          "trackId": "RWC-MDB-P-2001-001",
+          "canonicalArtist": "RWC Popular No.001",
+          "canonicalTitle": "RWC P001",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": "Restored from city-pop surrogate selection before reselection."
+        },
+        {
+          "genre": "J-POP",
+          "predicted": "シティ・ポップ",
+          "macroGenre": "pop",
+          "predictedMacro": "pop",
+          "exact": false,
+          "top3": true,
+          "macroExact": true,
+          "needsReview": false,
+          "confidence": 100,
+          "top": [
+            {
+              "name": "シティ・ポップ",
+              "score": 100
+            },
+            {
+              "name": "J-POP",
+              "score": 6
+            },
+            {
+              "name": "アニメソング",
+              "score": 4
+            },
+            {
+              "name": "ポップ",
+              "score": 1
+            },
+            {
+              "name": "バラード",
+              "score": 1
+            }
+          ],
+          "macro": [
+            {
+              "macro": "pop",
+              "score": 100
+            },
+            {
+              "macro": "world",
+              "score": 38
+            },
+            {
+              "macro": "black_music",
+              "score": 28
+            },
+            {
+              "macro": "electronic",
+              "score": 18
+            }
+          ],
+          "sourceType": "cc-dataset",
+          "datasetName": "RWC Music Database: Popular Music Database",
+          "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P030.wav",
+          "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+          "trackId": "RWC-MDB-P-2001-030",
+          "canonicalArtist": "RWC Popular No.030",
+          "canonicalTitle": "RWC P030",
+          "labelEvidence": "",
+          "labelConfidence": "",
+          "reviewStatus": "",
+          "reviewNote": "Restored from city-pop surrogate selection before reselection."
+        }
+      ]
     }
   },
   "cityPopLabelQuality": {
-    "verifiedRows": 24,
-    "formalRows": 0,
+    "verifiedRows": 84,
+    "formalRows": 60,
     "bySourceType": [
+      {
+        "label": "cc-dataset",
+        "count": 60
+      },
       {
         "label": "(empty)",
         "count": 20
@@ -5273,11 +6065,1211 @@
         "count": 1
       }
     ],
-    "formalEvidence": [],
+    "formalEvidence": [
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P002.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-002",
+        "canonicalArtist": "RWC Popular No.002",
+        "canonicalTitle": "RWC P002",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P004.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-004",
+        "canonicalArtist": "RWC Popular No.004",
+        "canonicalTitle": "RWC P004",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P006.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-006",
+        "canonicalArtist": "RWC Popular No.006",
+        "canonicalTitle": "RWC P006",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P007.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-007",
+        "canonicalArtist": "RWC Popular No.007",
+        "canonicalTitle": "RWC P007",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P008.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-008",
+        "canonicalArtist": "RWC Popular No.008",
+        "canonicalTitle": "RWC P008",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P010.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-010",
+        "canonicalArtist": "RWC Popular No.010",
+        "canonicalTitle": "RWC P010",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P011.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-011",
+        "canonicalArtist": "RWC Popular No.011",
+        "canonicalTitle": "RWC P011",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P012.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-012",
+        "canonicalArtist": "RWC Popular No.012",
+        "canonicalTitle": "RWC P012",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P014.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-014",
+        "canonicalArtist": "RWC Popular No.014",
+        "canonicalTitle": "RWC P014",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P015.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-015",
+        "canonicalArtist": "RWC Popular No.015",
+        "canonicalTitle": "RWC P015",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P016.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-016",
+        "canonicalArtist": "RWC Popular No.016",
+        "canonicalTitle": "RWC P016",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P017.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-017",
+        "canonicalArtist": "RWC Popular No.017",
+        "canonicalTitle": "RWC P017",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P018.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-018",
+        "canonicalArtist": "RWC Popular No.018",
+        "canonicalTitle": "RWC P018",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P019.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-019",
+        "canonicalArtist": "RWC Popular No.019",
+        "canonicalTitle": "RWC P019",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P020.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-020",
+        "canonicalArtist": "RWC Popular No.020",
+        "canonicalTitle": "RWC P020",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P021.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-021",
+        "canonicalArtist": "RWC Popular No.021",
+        "canonicalTitle": "RWC P021",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P022.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-022",
+        "canonicalArtist": "RWC Popular No.022",
+        "canonicalTitle": "RWC P022",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P023.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-023",
+        "canonicalArtist": "RWC Popular No.023",
+        "canonicalTitle": "RWC P023",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P024.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-024",
+        "canonicalArtist": "RWC Popular No.024",
+        "canonicalTitle": "RWC P024",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P025.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-025",
+        "canonicalArtist": "RWC Popular No.025",
+        "canonicalTitle": "RWC P025",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P029.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-029",
+        "canonicalArtist": "RWC Popular No.029",
+        "canonicalTitle": "RWC P029",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P031.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-031",
+        "canonicalArtist": "RWC Popular No.031",
+        "canonicalTitle": "RWC P031",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P032.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-032",
+        "canonicalArtist": "RWC Popular No.032",
+        "canonicalTitle": "RWC P032",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P033.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-033",
+        "canonicalArtist": "RWC Popular No.033",
+        "canonicalTitle": "RWC P033",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P035.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-035",
+        "canonicalArtist": "RWC Popular No.035",
+        "canonicalTitle": "RWC P035",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P036.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-036",
+        "canonicalArtist": "RWC Popular No.036",
+        "canonicalTitle": "RWC P036",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P038.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-038",
+        "canonicalArtist": "RWC Popular No.038",
+        "canonicalTitle": "RWC P038",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P040.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-040",
+        "canonicalArtist": "RWC Popular No.040",
+        "canonicalTitle": "RWC P040",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P041.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-041",
+        "canonicalArtist": "RWC Popular No.041",
+        "canonicalTitle": "RWC P041",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P042.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-042",
+        "canonicalArtist": "RWC Popular No.042",
+        "canonicalTitle": "RWC P042",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P044.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-044",
+        "canonicalArtist": "RWC Popular No.044",
+        "canonicalTitle": "RWC P044",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P045.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-045",
+        "canonicalArtist": "RWC Popular No.045",
+        "canonicalTitle": "RWC P045",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P047.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-047",
+        "canonicalArtist": "RWC Popular No.047",
+        "canonicalTitle": "RWC P047",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P048.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-048",
+        "canonicalArtist": "RWC Popular No.048",
+        "canonicalTitle": "RWC P048",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P049.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-049",
+        "canonicalArtist": "RWC Popular No.049",
+        "canonicalTitle": "RWC P049",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P050.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-050",
+        "canonicalArtist": "RWC Popular No.050",
+        "canonicalTitle": "RWC P050",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P051.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-051",
+        "canonicalArtist": "RWC Popular No.051",
+        "canonicalTitle": "RWC P051",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P052.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-052",
+        "canonicalArtist": "RWC Popular No.052",
+        "canonicalTitle": "RWC P052",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P053.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-053",
+        "canonicalArtist": "RWC Popular No.053",
+        "canonicalTitle": "RWC P053",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P054.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-054",
+        "canonicalArtist": "RWC Popular No.054",
+        "canonicalTitle": "RWC P054",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P056.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-056",
+        "canonicalArtist": "RWC Popular No.056",
+        "canonicalTitle": "RWC P056",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P057.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-057",
+        "canonicalArtist": "RWC Popular No.057",
+        "canonicalTitle": "RWC P057",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P058.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-058",
+        "canonicalArtist": "RWC Popular No.058",
+        "canonicalTitle": "RWC P058",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P059.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-059",
+        "canonicalArtist": "RWC Popular No.059",
+        "canonicalTitle": "RWC P059",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P061.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-061",
+        "canonicalArtist": "RWC Popular No.061",
+        "canonicalTitle": "RWC P061",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P063.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-063",
+        "canonicalArtist": "RWC Popular No.063",
+        "canonicalTitle": "RWC P063",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P068.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-068",
+        "canonicalArtist": "RWC Popular No.068",
+        "canonicalTitle": "RWC P068",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P073.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-073",
+        "canonicalArtist": "RWC Popular No.073",
+        "canonicalTitle": "RWC P073",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P074.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-074",
+        "canonicalArtist": "RWC Popular No.074",
+        "canonicalTitle": "RWC P074",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P081.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-081",
+        "canonicalArtist": "RWC Popular No.081",
+        "canonicalTitle": "RWC P081",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P084.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-084",
+        "canonicalArtist": "RWC Popular No.084",
+        "canonicalTitle": "RWC P084",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P085.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-085",
+        "canonicalArtist": "RWC Popular No.085",
+        "canonicalTitle": "RWC P085",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P088.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-088",
+        "canonicalArtist": "RWC Popular No.088",
+        "canonicalTitle": "RWC P088",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P090.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-090",
+        "canonicalArtist": "RWC Popular No.090",
+        "canonicalTitle": "RWC P090",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P091.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-091",
+        "canonicalArtist": "RWC Popular No.091",
+        "canonicalTitle": "RWC P091",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P092.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-092",
+        "canonicalArtist": "RWC Popular No.092",
+        "canonicalTitle": "RWC P092",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P093.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-093",
+        "canonicalArtist": "RWC Popular No.093",
+        "canonicalTitle": "RWC P093",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P096.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-096",
+        "canonicalArtist": "RWC Popular No.096",
+        "canonicalTitle": "RWC P096",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P098.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-098",
+        "canonicalArtist": "RWC Popular No.098",
+        "canonicalTitle": "RWC P098",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      },
+      {
+        "genre": "シティ・ポップ",
+        "exact": false,
+        "top3": false,
+        "macroExact": false,
+        "needsReview": false,
+        "top": [],
+        "macro": [],
+        "sourceType": "cc-dataset",
+        "datasetName": "RWC Music Database: Popular Music Database",
+        "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/rwc/RWC-MDB-P-2001/RWC-P/RWC_P100.wav",
+        "referenceUrl": "https://staff.aist.go.jp/m.goto/RWC-MDB/",
+        "trackId": "RWC-MDB-P-2001-100",
+        "canonicalArtist": "RWC Popular No.100",
+        "canonicalTitle": "RWC P100",
+        "labelEvidence": "RWC Popular Japanese-pop source selected as a city-pop surrogate by audio-theory fit; not an official RWC city-pop label.",
+        "labelConfidence": "",
+        "reviewStatus": "citypop-surrogate-rwc-japanese-pop",
+        "reviewNote": "Surrogate label for score improvement and classifier shaping. Keep separate from exact city-pop evidence."
+      }
+    ],
     "adjacentFormalRows": []
   },
   "recommendations": [
-    "テクノはJ-POP/ハウスへの混同が残る。four-on-floor/kick gridを直接入れる前に、テクノtest誤判定だけで分離度検定する。",
     "ドローンは現在Top1が0。ambient/classical/blues系との混同を個別に見て、sustain/transient特徴量の局所適用を検討する。",
     "ダブはヒップホップ/ダブステップと混同。低域だけでなくreverbTail/offbeat/highBand暗さの複合条件をダブ候補内に限定して使う。"
   ]

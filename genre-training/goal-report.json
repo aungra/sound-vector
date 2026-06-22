@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-21T18:06:15.905Z",
+  "generatedAt": "2026-06-22T03:55:03.749Z",
   "goal": {
     "genreCount": 30,
     "top1Accuracy": 80,
@@ -15,22 +15,53 @@
   "summary": {
     "seedGenres": 32,
     "fineEvaluableGenres": 30,
-    "formalReadyGenres": 23,
+    "formalReadyGenres": 22,
     "potentialReadyGenres": 27,
     "passingGenres": 1,
-    "currentReferenceMacroTop1": 32.5,
-    "currentReferenceFineTop1": 14.9,
-    "currentReferenceFineTop3": 26.8,
+    "currentReferenceMacroTop1": 33,
+    "currentReferenceFineTop1": 15.1,
+    "currentReferenceFineTop3": 27.4,
     "formalStatus": "available"
   },
   "priorityMissing": [
+    {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "priority": true,
+      "fineEvaluable": true,
+      "totalTrainingRows": 76,
+      "formalTrainingRows": 55,
+      "potentialTrainingRows": 240,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 100,
+      "missingFormalTracks": 45,
+      "missingPotentialTracks": 0,
+      "testRows": 10,
+      "minFormalTestPerGenre": 10,
+      "formalReady": false,
+      "stableTestReady": true,
+      "top1Accuracy": 10,
+      "top3Accuracy": 30,
+      "passesGoal": false
+    },
     {
       "genre": "シティ・ポップ",
       "macroGenre": "pop",
       "priority": true,
       "fineEvaluable": true,
-      "totalTrainingRows": 24,
-      "formalTrainingRows": 0,
+      "totalTrainingRows": 84,
+      "formalTrainingRows": 60,
       "potentialTrainingRows": 63,
       "recommendedSources": [
         {
@@ -67,14 +98,14 @@
       ],
       "fmaMetadataRows": 0,
       "targetTracks": 100,
-      "missingFormalTracks": 100,
+      "missingFormalTracks": 40,
       "missingPotentialTracks": 37,
-      "testRows": 0,
+      "testRows": 10,
       "minFormalTestPerGenre": 10,
       "formalReady": false,
-      "stableTestReady": false,
-      "top1Accuracy": null,
-      "top3Accuracy": null,
+      "stableTestReady": true,
+      "top1Accuracy": 60,
+      "top3Accuracy": 60,
       "passesGoal": false
     },
     {
@@ -109,37 +140,6 @@
       "passesGoal": false
     },
     {
-      "genre": "J-POP",
-      "macroGenre": "pop",
-      "priority": true,
-      "fineEvaluable": true,
-      "totalTrainingRows": 136,
-      "formalTrainingRows": 115,
-      "potentialTrainingRows": 240,
-      "recommendedSources": [
-        {
-          "id": "mtg-jamendo",
-          "name": "MTG-Jamendo Dataset",
-          "kind": "public-research-cc-dataset",
-          "status": "metadata-ready-audio-required",
-          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
-          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
-        }
-      ],
-      "searchTerms": [],
-      "fmaMetadataRows": 0,
-      "targetTracks": 100,
-      "missingFormalTracks": 0,
-      "missingPotentialTracks": 0,
-      "testRows": 17,
-      "minFormalTestPerGenre": 10,
-      "formalReady": true,
-      "stableTestReady": true,
-      "top1Accuracy": 41.2,
-      "top3Accuracy": 41.2,
-      "passesGoal": false
-    },
-    {
       "genre": "ダブ",
       "macroGenre": "black_music",
       "priority": true,
@@ -167,7 +167,7 @@
       "formalReady": true,
       "stableTestReady": true,
       "top1Accuracy": 23.5,
-      "top3Accuracy": 52.9,
+      "top3Accuracy": 47.1,
       "passesGoal": false
     },
     {
@@ -206,18 +206,49 @@
       "formalReady": true,
       "stableTestReady": true,
       "top1Accuracy": 6.7,
-      "top3Accuracy": 26.7,
+      "top3Accuracy": 33.3,
       "passesGoal": false
     }
   ],
   "missing": [
     {
+      "genre": "J-POP",
+      "macroGenre": "pop",
+      "priority": true,
+      "fineEvaluable": true,
+      "totalTrainingRows": 76,
+      "formalTrainingRows": 55,
+      "potentialTrainingRows": 240,
+      "recommendedSources": [
+        {
+          "id": "mtg-jamendo",
+          "name": "MTG-Jamendo Dataset",
+          "kind": "public-research-cc-dataset",
+          "status": "metadata-ready-audio-required",
+          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
+          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
+        }
+      ],
+      "searchTerms": [],
+      "fmaMetadataRows": 0,
+      "targetTracks": 100,
+      "missingFormalTracks": 45,
+      "missingPotentialTracks": 0,
+      "testRows": 10,
+      "minFormalTestPerGenre": 10,
+      "formalReady": false,
+      "stableTestReady": true,
+      "top1Accuracy": 10,
+      "top3Accuracy": 30,
+      "passesGoal": false
+    },
+    {
       "genre": "シティ・ポップ",
       "macroGenre": "pop",
       "priority": true,
       "fineEvaluable": true,
-      "totalTrainingRows": 24,
-      "formalTrainingRows": 0,
+      "totalTrainingRows": 84,
+      "formalTrainingRows": 60,
       "potentialTrainingRows": 63,
       "recommendedSources": [
         {
@@ -254,14 +285,14 @@
       ],
       "fmaMetadataRows": 0,
       "targetTracks": 100,
-      "missingFormalTracks": 100,
+      "missingFormalTracks": 40,
       "missingPotentialTracks": 37,
-      "testRows": 0,
+      "testRows": 10,
       "minFormalTestPerGenre": 10,
       "formalReady": false,
-      "stableTestReady": false,
-      "top1Accuracy": null,
-      "top3Accuracy": null,
+      "stableTestReady": true,
+      "top1Accuracy": 60,
+      "top3Accuracy": 60,
       "passesGoal": false
     },
     {
@@ -296,37 +327,6 @@
       "passesGoal": false
     },
     {
-      "genre": "J-POP",
-      "macroGenre": "pop",
-      "priority": true,
-      "fineEvaluable": true,
-      "totalTrainingRows": 136,
-      "formalTrainingRows": 115,
-      "potentialTrainingRows": 240,
-      "recommendedSources": [
-        {
-          "id": "mtg-jamendo",
-          "name": "MTG-Jamendo Dataset",
-          "kind": "public-research-cc-dataset",
-          "status": "metadata-ready-audio-required",
-          "referenceUrl": "https://github.com/MTG/mtg-jamendo-dataset",
-          "nextAction": "Download or mount MTG-Jamendo audio-low outside the repo, then run cc-manifest:mtg-jamendo without MMFR_MTG_ALLOW_MISSING_AUDIO."
-        }
-      ],
-      "searchTerms": [],
-      "fmaMetadataRows": 0,
-      "targetTracks": 100,
-      "missingFormalTracks": 0,
-      "missingPotentialTracks": 0,
-      "testRows": 17,
-      "minFormalTestPerGenre": 10,
-      "formalReady": true,
-      "stableTestReady": true,
-      "top1Accuracy": 41.2,
-      "top3Accuracy": 41.2,
-      "passesGoal": false
-    },
-    {
       "genre": "ダブ",
       "macroGenre": "black_music",
       "priority": true,
@@ -354,7 +354,7 @@
       "formalReady": true,
       "stableTestReady": true,
       "top1Accuracy": 23.5,
-      "top3Accuracy": 52.9,
+      "top3Accuracy": 47.1,
       "passesGoal": false
     },
     {
@@ -393,7 +393,7 @@
       "formalReady": true,
       "stableTestReady": true,
       "top1Accuracy": 6.7,
-      "top3Accuracy": 26.7,
+      "top3Accuracy": 33.3,
       "passesGoal": false
     },
     {
@@ -645,7 +645,7 @@
       "formalReady": true,
       "stableTestReady": true,
       "top1Accuracy": 5.9,
-      "top3Accuracy": 23.5,
+      "top3Accuracy": 29.4,
       "passesGoal": false
     },
     {
@@ -805,7 +805,7 @@
       "minFormalTestPerGenre": 10,
       "formalReady": true,
       "stableTestReady": true,
-      "top1Accuracy": 8.3,
+      "top1Accuracy": 16.7,
       "top3Accuracy": 25,
       "passesGoal": false
     },
@@ -891,7 +891,7 @@
       "minFormalTestPerGenre": 10,
       "formalReady": true,
       "stableTestReady": true,
-      "top1Accuracy": 23.1,
+      "top1Accuracy": 30.8,
       "top3Accuracy": 53.8,
       "passesGoal": false
     },
@@ -1090,8 +1090,8 @@
       "minFormalTestPerGenre": 10,
       "formalReady": true,
       "stableTestReady": true,
-      "top1Accuracy": 20,
-      "top3Accuracy": 26.7,
+      "top1Accuracy": 13.3,
+      "top3Accuracy": 20,
       "passesGoal": false
     },
     {
@@ -1130,7 +1130,7 @@
       "formalReady": true,
       "stableTestReady": true,
       "top1Accuracy": 0,
-      "top3Accuracy": 45.5,
+      "top3Accuracy": 54.5,
       "passesGoal": false
     },
     {
@@ -1223,7 +1223,7 @@
       "formalReady": true,
       "stableTestReady": true,
       "top1Accuracy": 30,
-      "top3Accuracy": 40,
+      "top3Accuracy": 30,
       "passesGoal": false
     },
     {
@@ -1285,7 +1285,7 @@
       "formalReady": true,
       "stableTestReady": true,
       "top1Accuracy": 0,
-      "top3Accuracy": 10,
+      "top3Accuracy": 20,
       "passesGoal": false
     },
     {
@@ -1371,7 +1371,7 @@
       "formalReady": true,
       "stableTestReady": true,
       "top1Accuracy": 5.9,
-      "top3Accuracy": 23.5,
+      "top3Accuracy": 29.4,
       "passesGoal": false
     },
     {
@@ -1454,7 +1454,7 @@
       "minFormalTestPerGenre": 10,
       "formalReady": true,
       "stableTestReady": false,
-      "top1Accuracy": 7.1,
+      "top1Accuracy": 14.3,
       "top3Accuracy": null,
       "passesGoal": false
     },
@@ -1494,7 +1494,7 @@
       "formalReady": true,
       "stableTestReady": true,
       "top1Accuracy": 6.7,
-      "top3Accuracy": 26.7,
+      "top3Accuracy": 33.3,
       "passesGoal": false
     },
     {
@@ -1705,7 +1705,7 @@
       "minFormalTestPerGenre": 10,
       "formalReady": true,
       "stableTestReady": true,
-      "top1Accuracy": 23.1,
+      "top1Accuracy": 30.8,
       "top3Accuracy": 53.8,
       "passesGoal": false
     },
@@ -1736,8 +1736,8 @@
       "minFormalTestPerGenre": 10,
       "formalReady": true,
       "stableTestReady": true,
-      "top1Accuracy": 20,
-      "top3Accuracy": 26.7,
+      "top1Accuracy": 13.3,
+      "top3Accuracy": 20,
       "passesGoal": false
     },
     {
@@ -1841,7 +1841,7 @@
       "formalReady": true,
       "stableTestReady": true,
       "top1Accuracy": 0,
-      "top3Accuracy": 10,
+      "top3Accuracy": 20,
       "passesGoal": false
     },
     {
@@ -1872,7 +1872,7 @@
       "formalReady": true,
       "stableTestReady": true,
       "top1Accuracy": 23.5,
-      "top3Accuracy": 52.9,
+      "top3Accuracy": 47.1,
       "passesGoal": false
     },
     {
@@ -1942,7 +1942,7 @@
       "formalReady": true,
       "stableTestReady": true,
       "top1Accuracy": 0,
-      "top3Accuracy": 45.5,
+      "top3Accuracy": 54.5,
       "passesGoal": false
     },
     {
@@ -2000,7 +2000,7 @@
       "minFormalTestPerGenre": 10,
       "formalReady": true,
       "stableTestReady": true,
-      "top1Accuracy": 8.3,
+      "top1Accuracy": 16.7,
       "top3Accuracy": 25,
       "passesGoal": false
     },
@@ -2168,7 +2168,7 @@
       "formalReady": true,
       "stableTestReady": true,
       "top1Accuracy": 30,
-      "top3Accuracy": 40,
+      "top3Accuracy": 30,
       "passesGoal": false
     },
     {
@@ -2215,8 +2215,8 @@
       "macroGenre": "pop",
       "priority": true,
       "fineEvaluable": true,
-      "totalTrainingRows": 24,
-      "formalTrainingRows": 0,
+      "totalTrainingRows": 84,
+      "formalTrainingRows": 60,
       "potentialTrainingRows": 63,
       "recommendedSources": [
         {
@@ -2253,14 +2253,14 @@
       ],
       "fmaMetadataRows": 0,
       "targetTracks": 100,
-      "missingFormalTracks": 100,
+      "missingFormalTracks": 40,
       "missingPotentialTracks": 37,
-      "testRows": 0,
+      "testRows": 10,
       "minFormalTestPerGenre": 10,
       "formalReady": false,
-      "stableTestReady": false,
-      "top1Accuracy": null,
-      "top3Accuracy": null,
+      "stableTestReady": true,
+      "top1Accuracy": 60,
+      "top3Accuracy": 60,
       "passesGoal": false
     },
     {
@@ -2268,8 +2268,8 @@
       "macroGenre": "pop",
       "priority": true,
       "fineEvaluable": true,
-      "totalTrainingRows": 136,
-      "formalTrainingRows": 115,
+      "totalTrainingRows": 76,
+      "formalTrainingRows": 55,
       "potentialTrainingRows": 240,
       "recommendedSources": [
         {
@@ -2284,14 +2284,14 @@
       "searchTerms": [],
       "fmaMetadataRows": 0,
       "targetTracks": 100,
-      "missingFormalTracks": 0,
+      "missingFormalTracks": 45,
       "missingPotentialTracks": 0,
-      "testRows": 17,
+      "testRows": 10,
       "minFormalTestPerGenre": 10,
-      "formalReady": true,
+      "formalReady": false,
       "stableTestReady": true,
-      "top1Accuracy": 41.2,
-      "top3Accuracy": 41.2,
+      "top1Accuracy": 10,
+      "top3Accuracy": 30,
       "passesGoal": false
     },
     {

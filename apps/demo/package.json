@@ -20,6 +20,7 @@
     "rwc-popular-import": "MMFR_CC_MANIFEST_PATH=../../genre-training/rwc-popular-cc-source-manifest.json MMFR_CC_WEAK_ONLY=0 MMFR_CC_LIMIT_PER_GENRE=120 node scripts/cc-source-import.mjs",
     "rwc-genre-manifest": "node scripts/rwc-genre-manifest.mjs",
     "rwc-genre-import": "MMFR_CC_MANIFEST_PATH=../../genre-training/rwc-genre-cc-source-manifest.json MMFR_CC_WEAK_ONLY=0 MMFR_CC_LIMIT_PER_GENRE=120 node scripts/cc-source-import.mjs",
+    "rwc-citypop-surrogate": "node scripts/rwc-citypop-surrogate-manifest.mjs",
     "cc-manifest:mtg-jamendo": "node scripts/mtg-jamendo-manifest.mjs",
     "cc-manifest:audit": "node scripts/cc-manifest-audit.mjs",
     "mtg-audio-plan": "node scripts/mtg-jamendo-audio-plan.mjs",

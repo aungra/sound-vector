@@ -1,0 +1,614 @@
+{
+  "generatedAt": "2026-06-22T03:51:31.817Z",
+  "dryRun": false,
+  "verifiedDatasetPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/verified-dataset.json",
+  "limit": 60,
+  "restoredPreviousSurrogates": 70,
+  "candidates": 100,
+  "selected": 60,
+  "selectedTrackIds": [
+    "RWC-MDB-P-2001-018",
+    "RWC-MDB-P-2001-024",
+    "RWC-MDB-P-2001-050",
+    "RWC-MDB-P-2001-085",
+    "RWC-MDB-P-2001-014",
+    "RWC-MDB-P-2001-044",
+    "RWC-MDB-P-2001-052",
+    "RWC-MDB-P-2001-019",
+    "RWC-MDB-P-2001-040",
+    "RWC-MDB-P-2001-091",
+    "RWC-MDB-P-2001-006",
+    "RWC-MDB-P-2001-048",
+    "RWC-MDB-P-2001-016",
+    "RWC-MDB-P-2001-092",
+    "RWC-MDB-P-2001-017",
+    "RWC-MDB-P-2001-081",
+    "RWC-MDB-P-2001-010",
+    "RWC-MDB-P-2001-061",
+    "RWC-MDB-P-2001-042",
+    "RWC-MDB-P-2001-051",
+    "RWC-MDB-P-2001-032",
+    "RWC-MDB-P-2001-004",
+    "RWC-MDB-P-2001-008",
+    "RWC-MDB-P-2001-023",
+    "RWC-MDB-P-2001-007",
+    "RWC-MDB-P-2001-020",
+    "RWC-MDB-P-2001-049",
+    "RWC-MDB-P-2001-053",
+    "RWC-MDB-P-2001-011",
+    "RWC-MDB-P-2001-015",
+    "RWC-MDB-P-2001-031",
+    "RWC-MDB-P-2001-096",
+    "RWC-MDB-P-2001-098",
+    "RWC-MDB-P-2001-002",
+    "RWC-MDB-P-2001-033",
+    "RWC-MDB-P-2001-021",
+    "RWC-MDB-P-2001-012",
+    "RWC-MDB-P-2001-054",
+    "RWC-MDB-P-2001-058",
+    "RWC-MDB-P-2001-093",
+    "RWC-MDB-P-2001-045",
+    "RWC-MDB-P-2001-073",
+    "RWC-MDB-P-2001-088",
+    "RWC-MDB-P-2001-035",
+    "RWC-MDB-P-2001-084",
+    "RWC-MDB-P-2001-041",
+    "RWC-MDB-P-2001-047",
+    "RWC-MDB-P-2001-038",
+    "RWC-MDB-P-2001-057",
+    "RWC-MDB-P-2001-029",
+    "RWC-MDB-P-2001-068",
+    "RWC-MDB-P-2001-090",
+    "RWC-MDB-P-2001-063",
+    "RWC-MDB-P-2001-022",
+    "RWC-MDB-P-2001-036",
+    "RWC-MDB-P-2001-056",
+    "RWC-MDB-P-2001-059",
+    "RWC-MDB-P-2001-100",
+    "RWC-MDB-P-2001-025",
+    "RWC-MDB-P-2001-074"
+  ],
+  "selectedSummary": [
+    {
+      "trackId": "RWC-MDB-P-2001-018",
+      "title": "RWC P018",
+      "score": 0.848,
+      "tempo": 108,
+      "bass": 0.7459981521767265,
+      "brightness": 0.5081103380172005,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-024",
+      "title": "RWC P024",
+      "score": 0.837,
+      "tempo": 129,
+      "bass": 0.7543595342927376,
+      "brightness": 0.5193379079029364,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-050",
+      "title": "RWC P050",
+      "score": 0.836,
+      "tempo": 112,
+      "bass": 0.717018604086982,
+      "brightness": 0.5597582435497002,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-085",
+      "title": "RWC P085",
+      "score": 0.833,
+      "tempo": 99,
+      "bass": 0.7021224791390034,
+      "brightness": 0.4269503288691636,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-014",
+      "title": "RWC P014",
+      "score": 0.829,
+      "tempo": 117,
+      "bass": 0.5077102504329055,
+      "brightness": 0.518149126387754,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-044",
+      "title": "RWC P044",
+      "score": 0.828,
+      "tempo": 123,
+      "bass": 0.9290182529473832,
+      "brightness": 0.4494221907608446,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-052",
+      "title": "RWC P052",
+      "score": 0.826,
+      "tempo": 112,
+      "bass": 0.6710626518328492,
+      "brightness": 0.3794756341736897,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-019",
+      "title": "RWC P019",
+      "score": 0.825,
+      "tempo": 129,
+      "bass": 0.6583882300169811,
+      "brightness": 0.6011807123089684,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-040",
+      "title": "RWC P040",
+      "score": 0.822,
+      "tempo": 123,
+      "bass": 0.757554161179679,
+      "brightness": 0.40547930694137707,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-091",
+      "title": "RWC P091",
+      "score": 0.82,
+      "tempo": 123,
+      "bass": 0.9970634989972078,
+      "brightness": 0.27372442587515566,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-006",
+      "title": "RWC P006",
+      "score": 0.819,
+      "tempo": 117,
+      "bass": 0.791433560042423,
+      "brightness": 0.5713975169496027,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-048",
+      "title": "RWC P048",
+      "score": 0.819,
+      "tempo": 112,
+      "bass": 0.822180392978532,
+      "brightness": 0.27023046275595114,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-016",
+      "title": "RWC P016",
+      "score": 0.818,
+      "tempo": 123,
+      "bass": 0.9385881761978303,
+      "brightness": 0.38979295249304413,
+      "rhythm": 0.9793333991098079
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-092",
+      "title": "RWC P092",
+      "score": 0.818,
+      "tempo": 89,
+      "bass": 0.9766559204095023,
+      "brightness": 0.474110592833634,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-017",
+      "title": "RWC P017",
+      "score": 0.817,
+      "tempo": 129,
+      "bass": 0.846415376898525,
+      "brightness": 0.3267943582596707,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-081",
+      "title": "RWC P081",
+      "score": 0.816,
+      "tempo": 117,
+      "bass": 0.8127178052935742,
+      "brightness": 0.22791665544511702,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-010",
+      "title": "RWC P010",
+      "score": 0.813,
+      "tempo": 99,
+      "bass": 0.6111922450639954,
+      "brightness": 0.5852711551311716,
+      "rhythm": 0.9865843798034765
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-061",
+      "title": "RWC P061",
+      "score": 0.81,
+      "tempo": 123,
+      "bass": 0.8219318074199872,
+      "brightness": 0.4279682195868418,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-042",
+      "title": "RWC P042",
+      "score": 0.809,
+      "tempo": 129,
+      "bass": 0.7701204572528024,
+      "brightness": 0.5441255033198423,
+      "rhythm": 0.9438799988074567
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-051",
+      "title": "RWC P051",
+      "score": 0.809,
+      "tempo": 103,
+      "bass": 0.7246483417324416,
+      "brightness": 0.331577646920502,
+      "rhythm": 0.9264101294161953
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-032",
+      "title": "RWC P032",
+      "score": 0.806,
+      "tempo": 99,
+      "bass": 0.8539554278602373,
+      "brightness": 0.5768175119386325,
+      "rhythm": 0.8132877183087412
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-004",
+      "title": "RWC P004",
+      "score": 0.805,
+      "tempo": 112,
+      "bass": 0.7639404091114662,
+      "brightness": 0.3798923760071789,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-008",
+      "title": "RWC P008",
+      "score": 0.804,
+      "tempo": 129,
+      "bass": 0.8035562899094643,
+      "brightness": 0.5270959414859954,
+      "rhythm": 0.746411397420309
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-023",
+      "title": "RWC P023",
+      "score": 0.804,
+      "tempo": 86,
+      "bass": 0.8767649529870586,
+      "brightness": 0.45958856303445406,
+      "rhythm": 0.7840900304976112
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-007",
+      "title": "RWC P007",
+      "score": 0.801,
+      "tempo": 81,
+      "bass": 0.6531274907415395,
+      "brightness": 0.43591276945099083,
+      "rhythm": 0.8312950536529401
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-020",
+      "title": "RWC P020",
+      "score": 0.797,
+      "tempo": 129,
+      "bass": 0.9358493831418864,
+      "brightness": 0.3651321203995146,
+      "rhythm": 0.8534463953359136
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-049",
+      "title": "RWC P049",
+      "score": 0.797,
+      "tempo": 99,
+      "bass": 0.9202884568332631,
+      "brightness": 0.3047268127650367,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-053",
+      "title": "RWC P053",
+      "score": 0.797,
+      "tempo": 129,
+      "bass": 0.7538208106857714,
+      "brightness": 0.48958414003206707,
+      "rhythm": 0.8427664597896142
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-011",
+      "title": "RWC P011",
+      "score": 0.796,
+      "tempo": 103,
+      "bass": 0.5937002139540603,
+      "brightness": 0.2933316832752245,
+      "rhythm": 0.8027364762793562
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-015",
+      "title": "RWC P015",
+      "score": 0.795,
+      "tempo": 86,
+      "bass": 0.5552479854579269,
+      "brightness": 0.4910757110339099,
+      "rhythm": 0.7591018553500791
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-031",
+      "title": "RWC P031",
+      "score": 0.792,
+      "tempo": 86,
+      "bass": 1,
+      "brightness": 0.16502531909816973,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-096",
+      "title": "RWC P096",
+      "score": 0.792,
+      "tempo": 129,
+      "bass": 0.981223609045802,
+      "brightness": 0.44271737472413997,
+      "rhythm": 0.8379243866549272
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-098",
+      "title": "RWC P098",
+      "score": 0.792,
+      "tempo": 108,
+      "bass": 1,
+      "brightness": 0.2916486641475603,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-002",
+      "title": "RWC P002",
+      "score": 0.791,
+      "tempo": 99,
+      "bass": 1,
+      "brightness": 0.48238530148505765,
+      "rhythm": 0.8870159690938172
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-033",
+      "title": "RWC P033",
+      "score": 0.788,
+      "tempo": 123,
+      "bass": 1,
+      "brightness": 0.30136366629302835,
+      "rhythm": 0.8462394938791589
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-021",
+      "title": "RWC P021",
+      "score": 0.787,
+      "tempo": 99,
+      "bass": 1,
+      "brightness": 0.377002601057853,
+      "rhythm": 0.8109375611820906
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-012",
+      "title": "RWC P012",
+      "score": 0.782,
+      "tempo": 81,
+      "bass": 0.6134130801565204,
+      "brightness": 0.38434657760094876,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-054",
+      "title": "RWC P054",
+      "score": 0.78,
+      "tempo": 123,
+      "bass": 0.6637914793704008,
+      "brightness": 0.35830919160550206,
+      "rhythm": 0.5652331533726296
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-058",
+      "title": "RWC P058",
+      "score": 0.78,
+      "tempo": 117,
+      "bass": 0.8107002709993701,
+      "brightness": 0.38010400512811177,
+      "rhythm": 0.6574152587853015
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-093",
+      "title": "RWC P093",
+      "score": 0.78,
+      "tempo": 123,
+      "bass": 0.7874810842262344,
+      "brightness": 0.5388837530073205,
+      "rhythm": 0.7044427378569672
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-045",
+      "title": "RWC P045",
+      "score": 0.779,
+      "tempo": 103,
+      "bass": 0.7500339139737092,
+      "brightness": 0.33760099311422925,
+      "rhythm": 0.6094152371649694
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-073",
+      "title": "RWC P073",
+      "score": 0.778,
+      "tempo": 99,
+      "bass": 0.8695419344559361,
+      "brightness": 0.3609165453345687,
+      "rhythm": 0.6860304765435765
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-088",
+      "title": "RWC P088",
+      "score": 0.776,
+      "tempo": 117,
+      "bass": 1,
+      "brightness": 0.33097811845205066,
+      "rhythm": 0.8899631462161853
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-035",
+      "title": "RWC P035",
+      "score": 0.775,
+      "tempo": 136,
+      "bass": 0.8057886424022933,
+      "brightness": 0.44199700952324605,
+      "rhythm": 0.9490343487084523
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-084",
+      "title": "RWC P084",
+      "score": 0.774,
+      "tempo": 92,
+      "bass": 1,
+      "brightness": 0.23897228625677056,
+      "rhythm": 0.8445231147594399
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-041",
+      "title": "RWC P041",
+      "score": 0.772,
+      "tempo": 99,
+      "bass": 0.8015030073093236,
+      "brightness": 0.33417187065261605,
+      "rhythm": 0.6646149986021912
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-047",
+      "title": "RWC P047",
+      "score": 0.769,
+      "tempo": 96,
+      "bass": 0.5082497510367859,
+      "brightness": 0.2461111111111111,
+      "rhythm": 0.7042710345606624
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-038",
+      "title": "RWC P038",
+      "score": 0.768,
+      "tempo": 99,
+      "bass": 0.920879379100458,
+      "brightness": 0.4042080647662854,
+      "rhythm": 0.6697968171509299
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-057",
+      "title": "RWC P057",
+      "score": 0.768,
+      "tempo": 92,
+      "bass": 0.8119727454902825,
+      "brightness": 0.6403120424591142,
+      "rhythm": 0.6753783928211959
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-029",
+      "title": "RWC P029",
+      "score": 0.765,
+      "tempo": 136,
+      "bass": 0.6247047502992669,
+      "brightness": 0.6771802278123576,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-068",
+      "title": "RWC P068",
+      "score": 0.762,
+      "tempo": 92,
+      "bass": 0.5748422172255191,
+      "brightness": 0.2711408776527187,
+      "rhythm": 0.6405330811692811
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-090",
+      "title": "RWC P090",
+      "score": 0.759,
+      "tempo": 129,
+      "bass": 0.9429000734871351,
+      "brightness": 0.3686905171881097,
+      "rhythm": 0.6512541999600306
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-063",
+      "title": "RWC P063",
+      "score": 0.756,
+      "tempo": 86,
+      "bass": 0.6711924744794657,
+      "brightness": 0.3450527271198073,
+      "rhythm": 0.488722485161459
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-022",
+      "title": "RWC P022",
+      "score": 0.752,
+      "tempo": 136,
+      "bass": 0.9787873076689158,
+      "brightness": 0.41688324160656515,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-036",
+      "title": "RWC P036",
+      "score": 0.751,
+      "tempo": 108,
+      "bass": 0.5975877341489557,
+      "brightness": 0.6745916247950875,
+      "rhythm": 0.45556051443994167
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-056",
+      "title": "RWC P056",
+      "score": 0.751,
+      "tempo": 76,
+      "bass": 0.8612580858415502,
+      "brightness": 0.2554453168346563,
+      "rhythm": 0.8614878050976175
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-059",
+      "title": "RWC P059",
+      "score": 0.751,
+      "tempo": 129,
+      "bass": 0.9726254336262427,
+      "brightness": 0.3496010035450966,
+      "rhythm": 0.6957294357381838
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-100",
+      "title": "RWC P100",
+      "score": 0.75,
+      "tempo": 108,
+      "bass": 0.8963848203656447,
+      "brightness": 0.3439466545913341,
+      "rhythm": 0.44649263640625725
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-025",
+      "title": "RWC P025",
+      "score": 0.749,
+      "tempo": 136,
+      "bass": 0.9272750807092244,
+      "brightness": 0.2325049276399917,
+      "rhythm": 1
+    },
+    {
+      "trackId": "RWC-MDB-P-2001-074",
+      "title": "RWC P074",
+      "score": 0.748,
+      "tempo": 92,
+      "bass": 0.7871243352224501,
+      "brightness": 0.2742208440382635,
+      "rhythm": 0.4518906779536357
+    }
+  ],
+  "note": "Surrogate labels are transparent and reversible; they are not exact city-pop labels."
+}

@@ -9,16 +9,66 @@ Generated: 2026-06-22
 - Quarantined 3 existing Kevin MacLeod `RetroFuture` rows from formal fine training.
 - Rebuilt the formal cached model and refreshed the goal report.
 - Re-ran pattern tests.
+- Added an RWC Popular city-pop surrogate flow and selected 60 Japanese-pop research-audio rows by city-pop audio-theory fit.
 
 ## Current Scores
 
 | metric | value |
 | --- | ---: |
-| Macro Top1 | 32.5% |
-| Fine Top1 | 14.9% |
-| Fine Top3 | 26.8% |
-| Needs review | 13.3% |
-| Dub prediction rate | 5.5% |
+| Macro Top1 | 33.0% |
+| Fine Top1 | 15.1% |
+| Fine Top3 | 27.4% |
+| Needs review | 13.4% |
+| Dub prediction rate | 5.2% |
+
+## RWC City-Pop Surrogate Update
+
+RWC Popular is not an official `シティ・ポップ` dataset, so these rows are not treated as exact city-pop evidence. They are transparent surrogate labels for shaping the classifier until exact city-pop research audio is available.
+
+Source basis:
+
+- RWC Music Database is copyright-cleared for research use and includes the Popular Music Database.
+- The RWC overview describes the Popular Music Database as 100 songs, including 80 songs with Japanese lyrics in the style of Japanese popular music.
+- RWC use is research-only; source audio stays outside this repository and only features/metadata are stored here.
+
+Implementation:
+
+- Added `apps/demo/scripts/rwc-citypop-surrogate-manifest.mjs`.
+- Added npm script `rwc-citypop-surrogate`.
+- Generated `genre-training/rwc-citypop-surrogate-source-manifest.json`.
+- Generated `genre-training/rwc-citypop-surrogate-report.json`.
+- Applied `MMFR_RWC_CITYPOP_LIMIT=60`.
+- Each selected row has `reviewStatus: citypop-surrogate-rwc-japanese-pop`.
+- Each selected row keeps `labelEvidence` saying it is not an official RWC city-pop label.
+
+Score after applying limit 60:
+
+| metric | before | after |
+| --- | ---: | ---: |
+| Macro Top1 | 32.5% | 33.0% |
+| Fine Top1 | 14.9% | 15.1% |
+| Fine Top3 | 26.8% | 27.4% |
+| Formal Macro Top1 | 34.2% | 34.5% |
+| Formal Fine Top1 | 17.3% | 17.5% |
+| Formal Fine Top3 | 30.4% | 31.1% |
+| Dub prediction rate | 5.5% | 5.2% |
+
+City-pop/J-Pop after update:
+
+| genre | formal rows | test rows | Fine Top1 | Fine Top3 |
+| --- | ---: | ---: | ---: | ---: |
+| シティ・ポップ | 60 | 10 | 60.0% | 60.0% |
+| J-POP | 55 | 10 | 10.0% | 30.0% |
+
+Limit search:
+
+| city-pop surrogate limit | Fine Top1 | Fine Top3 | City Pop Top1 | J-POP Top1 | note |
+| ---: | ---: | ---: | ---: | ---: | --- |
+| 30 | 14.9% | 26.0% | 20.0% | 25.0% | conservative, but city-pop weak |
+| 40 | 15.2% | 26.5% | 50.0% | 27.3% | best Fine Top1, but city-pop test rows below formal threshold |
+| 50 | 14.3% | 25.8% | 30.0% | 10.0% | worse |
+| 60 | 15.1% | 27.4% | 60.0% | 10.0% | best balance for formal threshold |
+| 70 | 14.4% | 25.8% | 40.0% | 0.0% | too many J-POP rows moved |
 
 ## Target Genre Audit
 
@@ -27,7 +77,7 @@ Generated: 2026-06-22
 | テクノ | 15 | 6.7% | 26.7% | 26.7% | レゲエ/J-POP/ハウス/ロックへ分散。FMA/MTG側のラベル粒度と音響特徴が弱い。 |
 | ドローン | 11 | 0% | 18.2% | 27.3% | アンビエントだけでなくブルース/クラシック/ジャズへ飛ぶ。sustain/transient特徴がまだ足りない。 |
 | ダブ | 17 | 23.5% | 52.9% | 58.8% | ヒップホップ/ダブステップと混同。低域だけでなく高域の暗さ、空間、offbeatが必要。 |
-| シティ・ポップ | 0 | n/a | n/a | n/a | formal fine評価に使える明示ラベル音源が0件。 |
+| シティ・ポップ | 10 | 60.0% | 60.0% | 50.0% | RWC Popular由来の日本ポップ系代理ラベルで評価可能化。J-POPとの境界監査が次課題。 |
 
 ## City Pop Reinforcement
 
