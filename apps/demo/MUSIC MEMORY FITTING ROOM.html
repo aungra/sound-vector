@@ -4639,6 +4639,18 @@
         "mirror-donut-breaks": 1.18
       })[topology] || 1;
     }
+    function aerosolGestureParticleBoost(gestureMode = "") {
+      return ({
+        "moon-breath": 1.22,
+        "comet-hook": 1.82,
+        "bent-smile-pocket": 1.28,
+        "quiet-staff-rests": 1.26,
+        "stage-arch-cloud": 1.58,
+        "offcenter-cymbal-dots": 1.24,
+        "voice-pools": 1.18,
+        "echo-steps": 1.16
+      })[gestureMode] || 1;
+    }
     function aerosolOptionsFromGenre(genrePattern, genreVisual, audio = {}, fingerprint = {}, seed = 1) {
       const energy = clamp01(audio.energy ?? audio.rms);
       const bass = clamp01(audio.bass);
@@ -4651,6 +4663,7 @@
       const topology = resolveAerosolTopology(genrePattern, classifier);
       const inkBoost = aerosolTopologyInkBoost(topology);
       const exclusiveLayout = genreAerosolExclusiveLayout(genrePattern?.genreName || genrePattern?.label || classifier.topGenre || "");
+      const particleBoost = aerosolGestureParticleBoost(exclusiveLayout.gestureMode);
       return {
         archetype: classifier.archetype,
         topology,
@@ -4671,7 +4684,7 @@
         baseFamily: genrePattern?.baseFamily || "cloth-field",
         variantFamily: genrePattern?.variantFamily || "memory-orbit",
         density,
-        particleCount: Math.round((2400 + density * 2200 + bass * 600 + brightness * 420) * clampRange(.92 + (inkBoost - 1) * .42, .92, 1.28)),
+        particleCount: Math.round((2400 + density * 2200 + bass * 600 + brightness * 420) * clampRange(.92 + (inkBoost - 1) * .42, .92, 1.28) * particleBoost),
         centerX: 600 + (fingerprint.chromaX || 0) * (74 + wideConfidence * 44) + (fingerprint.temporalTilt || 0) * 42 + ambiguitySpread * ((seed % 2) ? 1 : -1),
         centerY: 604 + (fingerprint.chromaY || 0) * (64 + wideConfidence * 36) + (fingerprint.gravity || 0) * 48 - brightness * 30,
         spreadX: 232 + density * 82 + bass * 88 + classifier.ambiguity * 44,
@@ -4716,9 +4729,9 @@
       let pull = .28;
       if (mode === "moon-breath") {
         const a = Math.PI * (.45 + t * 1.12);
-        gx = cx + Math.cos(a) * options.spreadX * (.86 + q * .22) - options.spreadX * .18;
+        gx = cx + Math.cos(a) * options.spreadX * (1.12 + q * .32) - options.spreadX * .18 + sourceY * options.spreadX * .48;
         gy = cy + Math.sin(a) * options.spreadY * (.68 + q * .18) - options.spreadY * .08;
-        pull = .5;
+        pull = .46;
       } else if (mode === "long-sinking-ridge") {
         gx = cx + (t - .5) * options.spreadX * 2.5;
         gy = cy + options.spreadY * (.34 + Math.sin(t * Math.PI * 1.35) * .18) + (q - .5) * options.spreadY * .18;
@@ -4736,9 +4749,9 @@
         pull = .58;
       } else if (mode === "machine-bead-ring") {
         const bead = Math.round((angle + Math.PI) / (Math.PI * 2) * 12) / 12 * Math.PI * 2 + zonePhase * .08;
-        gx = cx + Math.cos(bead) * options.spreadX * (.78 + (arm % 2) * .14);
-        gy = cy + Math.sin(bead) * options.spreadY * (.72 + (arm % 3) * .08);
-        pull = .54;
+        gx = cx + Math.cos(bead) * options.spreadX * (1.08 + (arm % 2) * .18) + sourceX * options.spreadX * .08;
+        gy = cy + Math.sin(bead) * options.spreadY * (.96 + (arm % 3) * .12) + sourceY * options.spreadY * .08;
+        pull = .58;
       } else if (mode === "tilted-floor-canopy") {
         const row = Math.round(q * 5) / 5 - .5;
         gx = cx + (t - .5) * options.spreadX * 2.18 + row * options.spreadX * .18;
@@ -4750,8 +4763,8 @@
         pull = .48;
       } else if (mode === "comet-hook") {
         const a = -Math.PI * .2 + t * Math.PI * 1.15;
-        gx = cx + Math.cos(a) * options.spreadX * (.72 + q * .42) + t * options.spreadX * .42 + sourceY * options.spreadX * .48;
-        gy = cy + Math.sin(a) * options.spreadY * (.56 + q * .36) - t * options.spreadY * .52 + sourceX * options.spreadY * .12;
+        gx = cx + Math.cos(a) * options.spreadX * (.72 + q * .42) + t * options.spreadX * .42 + sourceY * options.spreadX * .48 + (noise(106) - .5) * options.spreadX * .9;
+        gy = cy + Math.sin(a) * options.spreadY * (.56 + q * .36) - t * options.spreadY * .52 + sourceX * options.spreadY * .12 + (noise(107) - .5) * options.spreadY * .32;
         pull = .5;
       } else if (mode === "broken-step-rails") {
         const step = Math.floor(t * 6);
@@ -4856,9 +4869,9 @@
         pull = .48;
       } else if (mode === "stage-arch-cloud") {
         const a = Math.PI * (.08 + t * .84);
-        gx = cx + Math.cos(a) * options.spreadX * (.66 + q * .26) + sourceY * options.spreadX * .5;
-        gy = cy - Math.sin(a) * options.spreadY * (.72 + q * .2) + options.spreadY * .38 + sourceX * options.spreadY * .1;
-        pull = .5;
+        gx = cx + Math.cos(a) * options.spreadX * (.92 + q * .34) + sourceY * options.spreadX * .72 + (noise(108) - .5) * options.spreadX * .32;
+        gy = cy - Math.sin(a) * options.spreadY * (.78 + q * .24) + options.spreadY * .38 + sourceX * options.spreadY * .14;
+        pull = .46;
       } else if (mode === "hand-thread-columns") {
         const thread = arm % 7;
         gx = cx + (thread / 6 - .5) * options.spreadX * 1.7 + Math.sin(q * Math.PI * 4 + thread) * 12;

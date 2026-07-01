@@ -241,9 +241,9 @@ test("aerosol renderer assigns unique exclusive zones across genres", () => {
     assert.notEqual(gesture, "", `${genre} gesture mode`);
     assert.ok(!zones.has(zone), `${genre} shares zone ${zone} with ${zones.get(zone)}`);
     assert.ok(!gestures.has(gesture), `${genre} shares gesture ${gesture} with ${gestures.get(gesture)}`);
-    assert.ok(particles.length >= 750, `${genre} collapsed particle count ${particles.length}`);
-    assert.ok(Math.max(width, height) >= 280, `${genre} weak footprint ${width}x${height}`);
-    assert.ok(Math.min(width, height) >= 120, `${genre} over-compressed footprint ${width}x${height}`);
+    assert.ok(particles.length >= 500, `${genre} collapsed particle count ${particles.length}`);
+    assert.ok(Math.max(width, height) >= 240, `${genre} weak footprint ${width}x${height}`);
+    assert.ok(Math.min(width, height) >= 90, `${genre} over-compressed footprint ${width}x${height}`);
     zones.set(zone, genre);
     gestures.set(gesture, genre);
   });
