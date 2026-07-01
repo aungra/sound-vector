@@ -196,7 +196,7 @@ const cards = genres.map((genre, index) => {
   </g>`;
 }).join("\n");
 
-const sheet = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="30 genre-specific sound form preview">
+const sheet = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="${genres.length} genre-specific sound form preview">
   <style>
     .title{font:500 58px Helvetica,Arial,sans-serif;letter-spacing:0;fill:#000}
     .subtitle{font:400 21px Helvetica,Arial,sans-serif;letter-spacing:0;fill:#000}

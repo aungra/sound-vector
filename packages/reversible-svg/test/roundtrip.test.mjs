@@ -21,6 +21,7 @@ test("round trips PCM bytes through protected SVG geometry", () => {
   assert.match(layer, /data-texture-seed="42"/);
   assert.match(layer, /data-texture-mode="spiral-core"/);
   assert.match(layer, /data-texture-region="full"/);
+  assert.match(layer, /data-protected-texture-shape="field"/);
   assert.match(layer, /data-visual-role="locked-protected-particle-field"/);
   assert.match(layer, /fill="#000"/);
   assert.match(layer, /<circle\b/);
@@ -39,6 +40,18 @@ test("uses texture seed and mode to vary protected geometry without losing bytes
   assert.match(b, /data-texture-region="fracture"/);
   assert.deepEqual([...decodePcmBytesFromProtectedLayer(`<svg>${a}</svg>`)], [...source]);
   assert.deepEqual([...decodePcmBytesFromProtectedLayer(`<svg>${b}</svg>`)], [...source]);
+});
+
+test("varies protected particle shape without losing bytes", () => {
+  const source = Uint8Array.from({ length: 64 }, (_, index) => (index * 19 + 7) % 256);
+  const crescent = encodePcmBytesToProtectedLayer(source, { textureSeed: 91, textureMode: "memory-orbit", textureRegion: "orbit", textureShape: "crescent" });
+  const pillars = encodePcmBytesToProtectedLayer(source, { textureSeed: 91, textureMode: "memory-orbit", textureRegion: "orbit", textureShape: "vertical-pillars" });
+
+  assert.notEqual(crescent, pillars);
+  assert.match(crescent, /data-protected-texture-shape="crescent"/);
+  assert.match(pillars, /data-protected-texture-shape="vertical-pillars"/);
+  assert.deepEqual([...decodePcmBytesFromProtectedLayer(`<svg>${crescent}</svg>`)], [...source]);
+  assert.deepEqual([...decodePcmBytesFromProtectedLayer(`<svg>${pillars}</svg>`)], [...source]);
 });
 
 test("writes complete protected particle geometry without hidden byte attributes", () => {

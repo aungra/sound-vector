@@ -121,11 +121,12 @@ test("genre pattern profiles cover all calibrated genre names", () => {
 test("demo protected PCM particle layer decodes from circle geometry", () => {
   const { pcmProtectedDataGroupFromBytes, decodeProtectedPcmDataFromSvg } = loadPatternApi();
   const source = Uint8Array.from([0, 64, 128, 192, 255]);
-  const layer = pcmProtectedDataGroupFromBytes(source, 1, 5, { textureSeed: 12, textureMode: "memory-orbit", textureRegion: "orbit" });
+  const layer = pcmProtectedDataGroupFromBytes(source, 1, 5, { textureSeed: 12, textureMode: "memory-orbit", textureRegion: "orbit", textureShape: "spark-ring" });
   const decoded = decodeProtectedPcmDataFromSvg(`<svg>${layer}</svg>`);
   const decodedBytes = Buffer.from(decoded.pcmSketch, "base64");
 
   assert.match(layer, /data-encoding="mulaw8-protected-particle-field-v1"/);
+  assert.match(layer, /data-protected-texture-shape="spark-ring"/);
   assert.equal((layer.match(/<circle\b/g) || []).length, source.length);
   assert.deepEqual([...decodedBytes], [...source]);
   assert.doesNotMatch(layer, /data-byte=/);
@@ -170,6 +171,8 @@ test("generated genre SVG uses aerosol particle style without SVG effects", () =
   assert.match(svg, /data-gesture-mode="/);
   assert.match(svg, /data-classifier-method="/);
   assert.match(svg, /data-macro-genre="/);
+  assert.match(svg, /id="aerosol_bold_structure"/);
+  assert.match(svg, /data-structure-strength="high"/);
   const archetype = svg.match(/data-aerosol-archetype="([^"]+)"/)?.[1] || "";
   assert.ok(knownAerosolArchetypes.has(archetype), `unknown aerosol archetype ${archetype}`);
   assert.match(svg, /id="aerosol_particle_field"/);
@@ -183,6 +186,59 @@ test("generated genre SVG uses aerosol particle style without SVG effects", () =
   assert.doesNotMatch(svg, /data-shape-aspect/);
   assert.doesNotMatch(svg, /data-byte=/);
   assert.doesNotMatch(svg, /data-index=/);
+});
+
+test("song-specific renderer is stable for the same audio fingerprint", () => {
+  const { generateSoundClothReversibleSvg } = loadPatternApi();
+  const baseMood = {
+    id: "stable-song",
+    label: "stable song",
+    audioFileName: "stable-song.wav",
+    variantSalt: 0,
+    audio: {
+      inferredGenre: "トランス",
+      genreAnalysis: { top: [{ name: "トランス", score: 98 }] },
+      energy: 0.64,
+      rms: 0.64,
+      bass: 0.42,
+      onset: 0.5,
+      rhythm: 0.72,
+      brightness: 0.68,
+      tempo: 136,
+      centroid: 4200,
+      chroma: Array.from({ length: 12 }, (_, index) => index % 4 === 0 ? 0.8 : 0.18),
+      detail: {
+        rms: Array.from({ length: 32 }, (_, index) => 0.5 + Math.sin(index * 0.2) * 0.16),
+        bass: Array.from({ length: 32 }, (_, index) => 0.38 + Math.cos(index * 0.15) * 0.11),
+        centroid: Array.from({ length: 32 }, (_, index) => 0.62 + Math.sin(index * 0.13) * 0.1),
+        onset: Array.from({ length: 32 }, (_, index) => index % 6 === 0 ? 0.88 : 0.18),
+        waveform: Array.from({ length: 96 }, (_, index) => Math.sin(index * 0.23) * 0.62)
+      }
+    }
+  };
+  const sameA = generateSoundClothReversibleSvg(baseMood, 1800000000000, { variantSeed: 1, iteration: "a" });
+  const sameB = generateSoundClothReversibleSvg({ ...baseMood, variantSalt: 99 }, 1900000000000, { variantSeed: 999, iteration: "b" });
+  const different = generateSoundClothReversibleSvg({
+    ...baseMood,
+    id: "different-song",
+    audioFileName: "different-song.wav",
+    audio: {
+      ...baseMood.audio,
+      tempo: 92,
+      centroid: 1200,
+      brightness: 0.22,
+      bass: 0.78,
+      inferredGenre: "ダブ",
+      genreAnalysis: { top: [{ name: "ダブ", score: 98 }] },
+      detail: {
+        ...baseMood.audio.detail,
+        waveform: Array.from({ length: 96 }, (_, index) => Math.sin(index * 0.09 + 1.4) * 0.74)
+      }
+    }
+  }, 1800000000000, { variantSeed: 1, iteration: "a" });
+
+  assert.equal(sameA, sameB);
+  assert.notEqual(sameA, different);
 });
 
 test("aerosol renderer assigns unique exclusive zones across genres", () => {
