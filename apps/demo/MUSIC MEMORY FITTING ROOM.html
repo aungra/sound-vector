@@ -4869,9 +4869,9 @@
         pull = .48;
       } else if (mode === "stage-arch-cloud") {
         const a = Math.PI * (.08 + t * .84);
-        gx = cx + Math.cos(a) * options.spreadX * (.92 + q * .34) + sourceY * options.spreadX * .72 + (noise(108) - .5) * options.spreadX * .32;
-        gy = cy - Math.sin(a) * options.spreadY * (.78 + q * .24) + options.spreadY * .38 + sourceX * options.spreadY * .14;
-        pull = .46;
+        gx = cx + Math.cos(a) * options.spreadX * (1.22 + q * .42) + sourceY * options.spreadX * .92 + (noise(108) - .5) * options.spreadX * .7;
+        gy = cy - Math.sin(a) * options.spreadY * (.92 + q * .28) + options.spreadY * .38 + sourceX * options.spreadY * .2 + (noise(109) - .5) * options.spreadY * .22;
+        pull = .6;
       } else if (mode === "hand-thread-columns") {
         const thread = arm % 7;
         gx = cx + (thread / 6 - .5) * options.spreadX * 1.7 + Math.sin(q * Math.PI * 4 + thread) * 12;
