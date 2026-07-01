@@ -1,0 +1,66 @@
+{
+  "generatedAt": "2026-06-30T14:29:14.599Z",
+  "verifiedPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/verified-dataset.json",
+  "restorePolicy": "official model/results restored after each experiment",
+  "bestCandidate": "",
+  "runs": [
+    {
+      "name": "mtg-funk-macro-only",
+      "rules": [
+        {
+          "datasetName": "MTG-Jamendo",
+          "genre": "ファンク",
+          "macroGenre": "black_music"
+        }
+      ],
+      "changedRows": 50,
+      "startedAt": "2026-06-30T14:25:58.806Z",
+      "finishedAt": "2026-06-30T14:29:14.568Z",
+      "durationSeconds": 196,
+      "metrics": {
+        "macroTop1Accuracy": 32.7,
+        "fineTop1Accuracy": 19.7,
+        "fineTop3Accuracy": 36.8,
+        "needsReviewRate": 11.7,
+        "dubPredictionRate": 10.1,
+        "formalMacroTop1Accuracy": 34.2,
+        "formalFineTop1Accuracy": 23,
+        "formalFineTop3Accuracy": 41.5,
+        "formalNeedsReviewRate": 11.8,
+        "formalDubPredictionRate": 10.7,
+        "formalStableGenreCount": 27,
+        "ambientTop1": 5.9,
+        "rockTop1": 0,
+        "discoTop1": 12.5,
+        "funkTop1": 0,
+        "latinTop1": 17.6
+      },
+      "objectiveScore": 119.682,
+      "decision": "reject-dub-guardrail"
+    },
+    {
+      "name": "baseline",
+      "changedRows": 0,
+      "metrics": {
+        "macroTop1Accuracy": 32.5,
+        "fineTop1Accuracy": 18.6,
+        "fineTop3Accuracy": 36,
+        "needsReviewRate": 14.4,
+        "dubPredictionRate": 9.3,
+        "formalMacroTop1Accuracy": 33.6,
+        "formalFineTop1Accuracy": 21.7,
+        "formalFineTop3Accuracy": 40.8,
+        "formalNeedsReviewRate": 14.7,
+        "formalDubPredictionRate": 10,
+        "formalStableGenreCount": 27,
+        "ambientTop1": 5.9,
+        "rockTop1": 0,
+        "discoTop1": 6.3,
+        "funkTop1": 0,
+        "latinTop1": 17.6
+      },
+      "objectiveScore": 117.174,
+      "decision": "reference"
+    }
+  ]
+}

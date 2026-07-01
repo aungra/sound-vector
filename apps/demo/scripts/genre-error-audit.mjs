@@ -12,7 +12,13 @@ const CITYPOP_CANDIDATES_PATH = path.join(TRAINING_DIR, "explicit-citypop-anime-
 const OUT_JSON = path.join(TRAINING_DIR, "target-genre-error-audit.json");
 const OUT_MD = path.join(TRAINING_DIR, "target-genre-error-audit.md");
 const TARGETS = ["テクノ", "ドローン", "ダブ", "シティ・ポップ"];
-const CITY_POP_STYLE_HINT = "city_pop";
+const STYLE_TARGETS_BY_GENRE = {
+  "シティ・ポップ": "city_pop",
+  "テクノ": "techno",
+  "ドローン": "drone",
+  "ダブ": "dub"
+};
+const CITY_POP_STYLE_HINT = STYLE_TARGETS_BY_GENRE["シティ・ポップ"];
 
 function readJson(target, fallback = null) {
   try {
@@ -132,18 +138,27 @@ const audit = {
 
 for (const genre of TARGETS) {
   const isCityPop = genre === "シティ・ポップ";
+  const styleHint = STYLE_TARGETS_BY_GENRE[genre] || "";
   const rows = isCityPop
-    ? resultRows.filter(row => row.styleHint === CITY_POP_STYLE_HINT)
+    ? resultRows.filter(row => row.styleTarget === styleHint || row.styleHint === styleHint)
     : resultRows.filter(row => row.genre === genre);
+  const styleRows = styleHint
+    ? resultRows.filter(row => row.styleTarget === styleHint || row.styleHint === styleHint || (!isCityPop && row.genre === genre))
+    : [];
   const falseNegatives = isCityPop
     ? rows.filter(row => !row.styleExact)
     : rows.filter(row => !row.exact);
   const falsePositives = isCityPop
-    ? resultRows.filter(row => row.styleHint !== CITY_POP_STYLE_HINT && row.predictedStyle === CITY_POP_STYLE_HINT)
+    ? resultRows.filter(row => row.styleTarget !== styleHint && row.styleHint !== styleHint && row.predictedStyle === styleHint)
     : resultRows.filter(row => row.genre !== genre && row.predicted === genre);
+  const styleFalseNegatives = styleHint ? styleRows.filter(row => !row.styleExact) : [];
+  const styleFalsePositives = styleHint
+    ? resultRows.filter(row => row.styleTarget !== styleHint && row.styleHint !== styleHint && row.predictedStyle === styleHint)
+    : [];
   const enrichedFalseNegatives = falseNegatives.map(row => compactRow(row, metaFor(row, verifiedByKey.get(sourceKey(row)) || {})));
   const enrichedFalsePositives = falsePositives.map(row => compactRow(row, metaFor(row, verifiedByKey.get(sourceKey(row)) || {})));
   audit.summary[genre] = {
+    styleHint,
     total: rows.length,
     exact: isCityPop ? rows.filter(row => row.styleExact).length : rows.filter(row => row.exact).length,
     top3: isCityPop ? rows.filter(row => row.styleTop3).length : rows.filter(row => row.top3).length,
@@ -152,8 +167,13 @@ for (const genre of TARGETS) {
     fineTop1Accuracy: rows.length ? Math.round((isCityPop ? rows.filter(row => row.styleExact).length : rows.filter(row => row.exact).length) / rows.length * 1000) / 10 : null,
     fineTop3Accuracy: rows.length ? Math.round((isCityPop ? rows.filter(row => row.styleTop3).length : rows.filter(row => row.top3).length) / rows.length * 1000) / 10 : null,
     macroTop1Accuracy: rows.length ? Math.round(rows.filter(row => row.macroExact).length / rows.length * 1000) / 10 : null,
+    styleTotal: styleRows.length,
+    styleTop1Accuracy: styleRows.length ? Math.round(styleRows.filter(row => row.styleExact).length / styleRows.length * 1000) / 10 : null,
+    styleTop3Accuracy: styleRows.length ? Math.round(styleRows.filter(row => row.styleTop3).length / styleRows.length * 1000) / 10 : null,
     mostCommonWrongPredictions: countBy(falseNegatives, row => isCityPop ? row.predictedStyleName || row.predictedStyle : row.predicted).slice(0, 12),
     falsePositiveSources: countBy(falsePositives, row => isCityPop ? row.genre : row.genre).slice(0, 12),
+    styleWrongPredictions: countBy(styleFalseNegatives, row => row.predictedStyleName || row.predictedStyle).slice(0, 12),
+    styleFalsePositiveSources: countBy(styleFalsePositives, row => row.genre).slice(0, 12),
     falseNegatives: enrichedFalseNegatives,
     falsePositives: enrichedFalsePositives.slice(0, 60)
   };
@@ -177,6 +197,9 @@ if (audit.summary["テクノ"]?.mostCommonWrongPredictions?.some(item => item.la
 }
 if (audit.summary["ドローン"]?.fineTop1Accuracy === 0) {
   audit.recommendations.push("ドローンは現在Top1が0。ambient/classical/blues系との混同を個別に見て、sustain/transient特徴量の局所適用を検討する。");
+}
+if (Number(audit.summary["ドローン"]?.styleTop1Accuracy || 0) < 50) {
+  audit.recommendations.push("ドローンはstyle補助でsustain/transient scarcityをさらに強める。genre本体へ直接入れるよりambient内補助分類で先に分離度を上げる。");
 }
 if (audit.summary["ダブ"]?.mostCommonWrongPredictions?.some(item => ["ヒップホップ", "ダブステップ"].includes(item.label))) {
   audit.recommendations.push("ダブはヒップホップ/ダブステップと混同。低域だけでなくreverbTail/offbeat/highBand暗さの複合条件をダブ候補内に限定して使う。");
@@ -205,9 +228,11 @@ const md = [
     total: audit.summary[genre].total,
     top1: audit.summary[genre].fineTop1Accuracy,
     top3: audit.summary[genre].fineTop3Accuracy,
+    styleTop1: audit.summary[genre].styleTop1Accuracy,
+    styleTop3: audit.summary[genre].styleTop3Accuracy,
     macro: audit.summary[genre].macroTop1Accuracy,
     needsReview: audit.summary[genre].needsReview
-  })), ["genre", "total", "top1", "top3", "macro", "needsReview"]),
+  })), ["genre", "total", "top1", "top3", "styleTop1", "styleTop3", "macro", "needsReview"]),
   "",
   "## Wrong Prediction Patterns",
   "",
@@ -215,6 +240,10 @@ const md = [
     `### ${genre}`,
     "",
     mdTable(audit.summary[genre].mostCommonWrongPredictions, ["label", "count"]),
+    "",
+    "Style-layer wrong predictions:",
+    "",
+    mdTable(audit.summary[genre].styleWrongPredictions, ["label", "count"]),
     "",
     "False positives from:",
     "",

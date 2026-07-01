@@ -19,7 +19,13 @@ const PRIORITY_TARGET_TRACKS = Math.max(DEFAULT_TARGET_TRACKS, Number(process.en
 const FORMAL_SOURCE_TYPES = new Set(["cc-dataset", "local-audio"]);
 const FINE_EXCLUDED = new Set(["電子音楽", "ワールドミュージック"]);
 const PRIORITY_GENRES = new Set(["シティ・ポップ", "J-POP", "ドローン", "クラシック音楽", "ダブ", "テクノ"]);
-const CITY_POP_STYLE_HINT = "city_pop";
+const STYLE_TARGETS_BY_GENRE = {
+  "シティ・ポップ": "city_pop",
+  "テクノ": "techno",
+  "ドローン": "drone",
+  "ダブ": "dub"
+};
+const CITY_POP_STYLE_HINT = STYLE_TARGETS_BY_GENRE["シティ・ポップ"];
 
 function loadJson(pathname, fallback) {
   if (!fs.existsSync(pathname)) return fallback;
@@ -65,6 +71,18 @@ function countCityPopStyle(items, predicate = () => true) {
   }, 0);
 }
 
+function countStyleTarget(items, styleHint, predicate = () => true) {
+  return items.reduce((acc, item) => {
+    if (!predicate(item)) return acc;
+    if (item.styleHint === styleHint || (styleHint !== CITY_POP_STYLE_HINT && item.genre === styleHintToGenre(styleHint))) acc += 1;
+    return acc;
+  }, 0);
+}
+
+function styleHintToGenre(styleHint) {
+  return Object.entries(STYLE_TARGETS_BY_GENRE).find(([, hint]) => hint === styleHint)?.[0] || "";
+}
+
 function resultByGenre() {
   const results = loadJson(RESULTS_PATH, {});
   const map = new Map();
@@ -87,17 +105,26 @@ function buildReport() {
   const coverageByGenre = new Map((coverage.genres || []).map(row => [row.genre, row]));
   const totalCounts = countByGenre(items, item => item.sourceType !== "fma-metadata");
   const formalCounts = countByGenre(items, item => FORMAL_SOURCE_TYPES.has(item.sourceType));
+  const formalFineCounts = countByGenre(items, item => FORMAL_SOURCE_TYPES.has(item.sourceType) && item.trainingRole !== "macro-only");
+  const formalMacroOnlyCounts = countByGenre(items, item => FORMAL_SOURCE_TYPES.has(item.sourceType) && item.trainingRole === "macro-only");
   const fmaCounts = countByGenre(items, item => item.sourceType === "fma-metadata");
   const rows = seeds.map(seed => {
     const result = resultMap.get(seed.genre) || {};
-    const styleResult = seed.genre === "シティ・ポップ" ? styleMap.get("シティ・ポップ") || styleMap.get(CITY_POP_STYLE_HINT) || {} : null;
+    const styleHint = STYLE_TARGETS_BY_GENRE[seed.genre] || "";
+    const styleResult = styleHint ? styleMap.get(seed.genre) || styleMap.get(styleHint) || {} : null;
     const priority = PRIORITY_GENRES.has(seed.genre);
     const targetTracks = priority ? PRIORITY_TARGET_TRACKS : DEFAULT_TARGET_TRACKS;
-    const formalCount = seed.genre === "シティ・ポップ"
-      ? countCityPopStyle(items, item => FORMAL_SOURCE_TYPES.has(item.sourceType))
+    const formalCount = styleHint && seed.genre === "シティ・ポップ"
+      ? countStyleTarget(items, styleHint, item => FORMAL_SOURCE_TYPES.has(item.sourceType))
+      : formalFineCounts[seed.genre] || 0;
+    const formalSourceRows = styleHint && seed.genre === "シティ・ポップ"
+      ? countStyleTarget(items, styleHint, item => FORMAL_SOURCE_TYPES.has(item.sourceType))
       : formalCounts[seed.genre] || 0;
-    const totalCount = seed.genre === "シティ・ポップ"
-      ? countCityPopStyle(items, item => item.sourceType !== "fma-metadata")
+    const formalMacroOnlyRows = styleHint && seed.genre === "シティ・ポップ"
+      ? 0
+      : formalMacroOnlyCounts[seed.genre] || 0;
+    const totalCount = styleHint && seed.genre === "シティ・ポップ"
+      ? countStyleTarget(items, styleHint, item => item.sourceType !== "fma-metadata")
       : totalCounts[seed.genre] || 0;
     const coverageRow = coverageByGenre.get(seed.genre) || {};
     const potentialRows = Number(coverageRow.totalPotentialRows || 0) || Math.max(
@@ -113,13 +140,18 @@ function buildReport() {
     const accuracy = seed.genre === "シティ・ポップ"
       ? styleResult?.styleTop1Accuracy ?? null
       : fineEvaluable ? result.fineTop1Accuracy ?? null : result.macroTop1Accuracy ?? null;
+    const styleAccuracy = styleResult?.styleTop1Accuracy ?? null;
+    const styleTop3Accuracy = styleResult?.styleTop3Accuracy ?? null;
     return {
       genre: seed.genre,
       macroGenre: seed.macroGenre,
+      styleHint,
       priority,
       fineEvaluable,
       totalTrainingRows: totalCount,
       formalTrainingRows: formalCount,
+      formalSourceRows,
+      formalMacroOnlyRows,
       potentialTrainingRows: Math.max(formalCount, potentialRows),
       recommendedSources: coverageRow.recommendedSources || [],
       searchTerms: coverageRow.searchTerms || [],
@@ -135,6 +167,11 @@ function buildReport() {
       top3Accuracy: seed.genre === "シティ・ポップ"
         ? styleResult?.styleTop3Accuracy ?? null
         : fineEvaluable ? result.fineTop3Accuracy ?? null : null,
+      genreTop1Accuracy: fineEvaluable ? result.fineTop1Accuracy ?? null : null,
+      genreTop3Accuracy: fineEvaluable ? result.fineTop3Accuracy ?? null : null,
+      macroTop1Accuracy: result.macroTop1Accuracy ?? null,
+      styleTop1Accuracy: styleAccuracy,
+      styleTop3Accuracy,
       passesGoal: formalReady && stableTestReady && Number(accuracy) >= GOAL_ACCURACY
     };
   });
@@ -170,6 +207,8 @@ function buildReport() {
       currentReferenceMacroTop1: results.summary?.macroTop1Accuracy ?? null,
       currentReferenceFineTop1: results.summary?.fineTop1Accuracy ?? null,
       currentReferenceFineTop3: results.summary?.fineTop3Accuracy ?? null,
+      currentReferenceStyleTop1: results.summary?.styleTop1Accuracy ?? null,
+      currentReferenceStyleTop3: results.summary?.styleTop3Accuracy ?? null,
       formalStatus: results.summary?.formalSummary?.status || "unknown"
     },
     priorityMissing: missing.filter(row => row.priority).slice(0, 12),
@@ -184,11 +223,14 @@ console.log(JSON.stringify({
   status: report.status,
   goal: report.goal,
   summary: report.summary,
-  priorityMissing: report.priorityMissing.map(row => ({
-    genre: row.genre,
-    formalTrainingRows: row.formalTrainingRows,
-    missingFormalTracks: row.missingFormalTracks,
-    top1Accuracy: row.top1Accuracy
-  }))
+    priorityMissing: report.priorityMissing.map(row => ({
+      genre: row.genre,
+      styleHint: row.styleHint,
+      formalTrainingRows: row.formalTrainingRows,
+      missingFormalTracks: row.missingFormalTracks,
+      top1Accuracy: row.top1Accuracy,
+      genreTop1Accuracy: row.genreTop1Accuracy,
+      styleTop1Accuracy: row.styleTop1Accuracy
+    }))
 }, null, 2));
 console.log(`Wrote ${path.relative(ROOT, REPORT_PATH)}`);

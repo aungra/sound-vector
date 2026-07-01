@@ -1,0 +1,175 @@
+{
+  "generatedAt": "2026-06-30T11:55:35.990Z",
+  "source": "Freesound API",
+  "dryRun": true,
+  "licenseFilter": "license:(\"Creative Commons 0\" OR \"Attribution\")",
+  "minDuration": 2,
+  "maxDuration": 45,
+  "queryPlan": [
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "role": "primary",
+      "query": "techno loop"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "role": "primary",
+      "query": "minimal techno loop"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "role": "primary",
+      "query": "acid techno loop"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "role": "primary",
+      "query": "warehouse techno loop"
+    },
+    {
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "role": "primary",
+      "query": "909 techno loop"
+    },
+    {
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "role": "same-macro-contrast",
+      "query": "house loop"
+    },
+    {
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "role": "same-macro-contrast",
+      "query": "trance loop"
+    },
+    {
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "role": "same-macro-contrast",
+      "query": "drum and bass loop"
+    },
+    {
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "role": "same-macro-contrast",
+      "query": "dubstep loop"
+    },
+    {
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "role": "same-macro-contrast",
+      "query": "chiptune loop"
+    }
+  ],
+  "errors": [
+    "FREESOUND_API_TOKEN is missing. Dry-run wrote query plan only."
+  ],
+  "items": [
+    {
+      "source": "Freesound",
+      "sourceType": "freesound-query-plan",
+      "query": "dubstep loop",
+      "genre": "ダブステップ",
+      "macroGenre": "electronic",
+      "role": "same-macro-contrast",
+      "reviewStatus": "needs-api-token",
+      "rejectReason": "dry-run-no-api-token"
+    },
+    {
+      "source": "Freesound",
+      "sourceType": "freesound-query-plan",
+      "query": "chiptune loop",
+      "genre": "チップチューン",
+      "macroGenre": "electronic",
+      "role": "same-macro-contrast",
+      "reviewStatus": "needs-api-token",
+      "rejectReason": "dry-run-no-api-token"
+    },
+    {
+      "source": "Freesound",
+      "sourceType": "freesound-query-plan",
+      "query": "techno loop",
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "role": "primary",
+      "reviewStatus": "needs-api-token",
+      "rejectReason": "dry-run-no-api-token"
+    },
+    {
+      "source": "Freesound",
+      "sourceType": "freesound-query-plan",
+      "query": "minimal techno loop",
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "role": "primary",
+      "reviewStatus": "needs-api-token",
+      "rejectReason": "dry-run-no-api-token"
+    },
+    {
+      "source": "Freesound",
+      "sourceType": "freesound-query-plan",
+      "query": "acid techno loop",
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "role": "primary",
+      "reviewStatus": "needs-api-token",
+      "rejectReason": "dry-run-no-api-token"
+    },
+    {
+      "source": "Freesound",
+      "sourceType": "freesound-query-plan",
+      "query": "warehouse techno loop",
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "role": "primary",
+      "reviewStatus": "needs-api-token",
+      "rejectReason": "dry-run-no-api-token"
+    },
+    {
+      "source": "Freesound",
+      "sourceType": "freesound-query-plan",
+      "query": "909 techno loop",
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "role": "primary",
+      "reviewStatus": "needs-api-token",
+      "rejectReason": "dry-run-no-api-token"
+    },
+    {
+      "source": "Freesound",
+      "sourceType": "freesound-query-plan",
+      "query": "drum and bass loop",
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "role": "same-macro-contrast",
+      "reviewStatus": "needs-api-token",
+      "rejectReason": "dry-run-no-api-token"
+    },
+    {
+      "source": "Freesound",
+      "sourceType": "freesound-query-plan",
+      "query": "trance loop",
+      "genre": "トランス",
+      "macroGenre": "electronic",
+      "role": "same-macro-contrast",
+      "reviewStatus": "needs-api-token",
+      "rejectReason": "dry-run-no-api-token"
+    },
+    {
+      "source": "Freesound",
+      "sourceType": "freesound-query-plan",
+      "query": "house loop",
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "role": "same-macro-contrast",
+      "reviewStatus": "needs-api-token",
+      "rejectReason": "dry-run-no-api-token"
+    }
+  ]
+}

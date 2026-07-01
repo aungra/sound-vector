@@ -175,6 +175,7 @@ const cards = genres.map((genre, index) => {
   const formMode = root.match(/data-form-mode="([^"]+)"/)?.[1] || "";
   const archetype = root.match(/data-aerosol-archetype="([^"]+)"/)?.[1] || "";
   const topology = root.match(/data-aerosol-topology="([^"]+)"/)?.[1] || "";
+  const gestureMode = root.match(/data-gesture-mode="([^"]+)"/)?.[1] || "";
   const macroGenre = root.match(/data-macro-genre="([^"]+)"/)?.[1] || "";
   const baseFamily = root.match(/data-base-family="([^"]+)"/)?.[1] || "";
   const variantFamily = root.match(/data-variant-family="([^"]+)"/)?.[1] || "";
@@ -190,7 +191,7 @@ const cards = genres.map((genre, index) => {
     <text x="28" y="${artY - y + artSize + 42}" class="genre">${escapeXml(index + 1).padStart(2, "0")} ${escapeXml(genre)}</text>
     <text x="28" y="${artY - y + artSize + 70}" class="meta">${escapeXml(formMode)}</text>
     <text x="28" y="${artY - y + artSize + 96}" class="meta">${escapeXml(archetype)} / ${escapeXml(macroGenre)}</text>
-    <text x="28" y="${artY - y + artSize + 112}" class="meta">${escapeXml(topology)}</text>
+    <text x="28" y="${artY - y + artSize + 112}" class="meta">${escapeXml(gestureMode || topology)}</text>
     <text x="28" y="${artY - y + artSize + 136}" class="meta">${escapeXml(nameMotif)} / ${escapeXml(lineCharacter)}</text>
   </g>`;
 }).join("\n");

@@ -1,0 +1,178 @@
+{
+  "generatedAt": "2026-06-29T13:40:27.268Z",
+  "objective": "Move from open-ended global tuning to one data-quality sprint with explicit formal audio and contrast rows.",
+  "target": {
+    "genre": "テクノ",
+    "macroGenre": "electronic",
+    "bucket": "data-gap",
+    "formalFineRows": 32,
+    "testRows": 9,
+    "fineTop1Accuracy": 0,
+    "fineTop3Accuracy": 11.1,
+    "styleTop1Accuracy": 22.2,
+    "commonPredictions": [
+      {
+        "label": "ダブ",
+        "count": 4
+      },
+      {
+        "label": "ヒップホップ",
+        "count": 3
+      },
+      {
+        "label": "ハウス",
+        "count": 2
+      },
+      {
+        "label": "ファンク",
+        "count": 1
+      },
+      {
+        "label": "ドローン",
+        "count": 1
+      }
+    ]
+  },
+  "scoreGate": {
+    "minimumFormalFineRowsAfterImport": 80,
+    "minimumTestRows": 10,
+    "passToNextStage": "Only tune weights after formal rows and test coverage are stable. If Top3 remains low, audit source labels/features before reranking.",
+    "failFastRules": [
+      "Do not promote broad macro labels as exact fine labels.",
+      "Do not mix AI-training-prohibited commercial stock music into formal training.",
+      "Do not copy source audio into this repository.",
+      "If a source uses mixed licenses, generate separate manifests or edit per-track license fields before import."
+    ]
+  },
+  "externalAudioRoot": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/acquisition-sprints/techno-20260629",
+  "expectedFolderLayout": [
+    {
+      "folder": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/acquisition-sprints/techno-20260629/テクノ",
+      "genre": "テクノ",
+      "role": "primary",
+      "targetRows": 48
+    },
+    {
+      "folder": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/acquisition-sprints/techno-20260629/ハウス",
+      "genre": "ハウス",
+      "role": "same-macro-contrast",
+      "targetRows": 15
+    },
+    {
+      "folder": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/acquisition-sprints/techno-20260629/トランス",
+      "genre": "トランス",
+      "role": "same-macro-contrast",
+      "targetRows": 15
+    },
+    {
+      "folder": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/acquisition-sprints/techno-20260629/ドラムンベース",
+      "genre": "ドラムンベース",
+      "role": "same-macro-contrast",
+      "targetRows": 15
+    },
+    {
+      "folder": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/acquisition-sprints/techno-20260629/ダブステップ",
+      "genre": "ダブステップ",
+      "role": "same-macro-contrast",
+      "targetRows": 15
+    },
+    {
+      "folder": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/acquisition-sprints/techno-20260629/チップチューン",
+      "genre": "チップチューン",
+      "role": "same-macro-contrast",
+      "targetRows": 15
+    },
+    {
+      "folder": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/acquisition-sprints/techno-20260629/ダブ",
+      "genre": "ダブ",
+      "role": "hard-negative",
+      "targetRows": 10
+    },
+    {
+      "folder": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/acquisition-sprints/techno-20260629/ヒップホップ",
+      "genre": "ヒップホップ",
+      "role": "hard-negative",
+      "targetRows": 10
+    },
+    {
+      "folder": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/acquisition-sprints/techno-20260629/ファンク",
+      "genre": "ファンク",
+      "role": "hard-negative",
+      "targetRows": 10
+    }
+  ],
+  "rowsToCollect": [
+    {
+      "genre": "テクノ",
+      "role": "primary",
+      "rows": 48,
+      "reason": "Exact formal fine rows for the target label. Use only tracks whose source explicitly labels this genre/style."
+    },
+    {
+      "genre": "ハウス",
+      "role": "same-macro-contrast",
+      "rows": 15,
+      "reason": "Close contrast inside electronic; prevents the target from absorbing neighboring electronic/pop/acoustic styles."
+    },
+    {
+      "genre": "トランス",
+      "role": "same-macro-contrast",
+      "rows": 15,
+      "reason": "Close contrast inside electronic; prevents the target from absorbing neighboring electronic/pop/acoustic styles."
+    },
+    {
+      "genre": "ドラムンベース",
+      "role": "same-macro-contrast",
+      "rows": 15,
+      "reason": "Close contrast inside electronic; prevents the target from absorbing neighboring electronic/pop/acoustic styles."
+    },
+    {
+      "genre": "ダブステップ",
+      "role": "same-macro-contrast",
+      "rows": 15,
+      "reason": "Close contrast inside electronic; prevents the target from absorbing neighboring electronic/pop/acoustic styles."
+    },
+    {
+      "genre": "チップチューン",
+      "role": "same-macro-contrast",
+      "rows": 15,
+      "reason": "Close contrast inside electronic; prevents the target from absorbing neighboring electronic/pop/acoustic styles."
+    },
+    {
+      "genre": "ダブ",
+      "role": "hard-negative",
+      "rows": 10,
+      "reason": "Frequent wrong prediction for the target; add clean examples so the classifier learns the boundary."
+    },
+    {
+      "genre": "ヒップホップ",
+      "role": "hard-negative",
+      "rows": 10,
+      "reason": "Frequent wrong prediction for the target; add clean examples so the classifier learns the boundary."
+    },
+    {
+      "genre": "ファンク",
+      "role": "hard-negative",
+      "rows": 10,
+      "reason": "Frequent wrong prediction for the target; add clean examples so the classifier learns the boundary."
+    }
+  ],
+  "manifestPath": "genre-training/techno-acquisition-sprint-manifest.json",
+  "planPath": "genre-training/techno-acquisition-sprint.json",
+  "markdownPath": "genre-training/techno-acquisition-sprint.md",
+  "commands": [
+    "MMFR_CC_DATASET_NAME='explicit-techno-sprint-20260629' MMFR_CC_LICENSE='REPLACE_WITH_LICENSE' MMFR_CC_LICENSE_URL='REPLACE_WITH_SOURCE_LICENSE_URL' MMFR_CC_REFERENCE_URL='REPLACE_WITH_DATASET_OR_COLLECTION_URL' MMFR_CC_MANIFEST_OUTPUT='/Users/kahanishimoto/Documents/MUSICTee/genre-training/techno-acquisition-sprint-manifest.json' npm --prefix apps/demo run cc-manifest:from-folder -- '/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/acquisition-sprints/techno-20260629'",
+    "MMFR_CC_MANIFEST_PATH='/Users/kahanishimoto/Documents/MUSICTee/genre-training/techno-acquisition-sprint-manifest.json' MMFR_CC_WEAK_ONLY=0 npm --prefix apps/demo run cc-import",
+    "npm --prefix apps/demo run genre-train:formal-cached",
+    "npm --prefix apps/demo run genre-goal-report",
+    "npm --prefix apps/demo run genre-reset-roadmap",
+    "npm --prefix apps/demo run genre-acquisition-sprint -- 'テクノ'"
+  ],
+  "reviewChecklist": [
+    "Folder names must match source-seeds genre labels exactly.",
+    "Each accepted track must have explicit genre/style labeling from the dataset, collection page, or metadata.",
+    "Prefer full-length or stable 30s+ public research/CC files; avoid previews with unclear licensing.",
+    "Reject live sets, DJ mixes, covers, and broad electronic-only labels for exact techno/pop substyle targets.",
+    "After import, inspect target confusion before changing model weights."
+  ]
+}

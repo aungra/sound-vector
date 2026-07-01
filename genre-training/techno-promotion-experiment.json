@@ -1,0 +1,906 @@
+{
+  "generatedAt": "2026-06-29T17:23:25.603Z",
+  "promotionMode": "strict",
+  "maxPromotions": 20,
+  "maxPerArtist": 3,
+  "verifiedPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/verified-dataset.json",
+  "tempVerifiedPath": "/tmp/mmfr-techno-promotion-bLnjBO/verified-dataset.json",
+  "promoted": [
+    {
+      "trackId": "track_0704400",
+      "title": "ANACONDA (techno)",
+      "artist": "Ostenvegr",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 11
+    },
+    {
+      "trackId": "track_0761659",
+      "title": "Move For Energy",
+      "artist": "DJ Mar.S. Aka One Milk",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 7
+    },
+    {
+      "trackId": "track_0936440",
+      "title": "Raver's Future",
+      "artist": "DJ Mar.S. Aka One Milk",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 7
+    },
+    {
+      "trackId": "track_0761661",
+      "title": "Space Factor",
+      "artist": "DJ Mar.S. Aka One Milk",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 7
+    },
+    {
+      "trackId": "track_0040572",
+      "title": "Hyper Active",
+      "artist": "ED3-STUDIO",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 7
+    },
+    {
+      "trackId": "track_1116722",
+      "title": "Lost In Space",
+      "artist": "The Clone Dj",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 7
+    },
+    {
+      "trackId": "track_0490362",
+      "title": "Feelin' for You (Jumpstyle Edit)",
+      "artist": "DJ Mar.S.",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 6
+    },
+    {
+      "trackId": "track_0268526",
+      "title": "White Zone - Multiversum (Original Mix)",
+      "artist": "White Zone",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 6
+    },
+    {
+      "trackId": "track_1064741",
+      "title": "the dark side of ourselves",
+      "artist": "Angus",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 5
+    },
+    {
+      "trackId": "track_1011675",
+      "title": "Electricity, Part 2",
+      "artist": "Oursvince",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 5
+    },
+    {
+      "trackId": "track_0938999",
+      "title": "Remember 90's (original mix)",
+      "artist": "J.L.T",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 4
+    },
+    {
+      "trackId": "track_0979813",
+      "title": "Akusmatic - Back and Forth",
+      "artist": "AKUSMATiC",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 3
+    },
+    {
+      "trackId": "track_0941037",
+      "title": "Akusmatic - Out of nothing",
+      "artist": "AKUSMATiC",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 3
+    },
+    {
+      "trackId": "track_0024024",
+      "title": "Hidden planet",
+      "artist": "Cyborgjeff",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 3
+    },
+    {
+      "trackId": "track_0040620",
+      "title": "I want 'n-zone edit 03' (feat. Miranda)",
+      "artist": "Cyborgjeff",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 3
+    },
+    {
+      "trackId": "track_0040622",
+      "title": "Perfection 'n-zone long edit'",
+      "artist": "Cyborgjeff",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 3
+    },
+    {
+      "trackId": "track_0490364",
+      "title": "Keep Holding",
+      "artist": "DJ Mar.S.",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 3
+    },
+    {
+      "trackId": "track_0490363",
+      "title": "Rain Down ",
+      "artist": "DJ Mar.S.",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 3
+    },
+    {
+      "trackId": "track_0030686",
+      "title": "Soul Blaster",
+      "artist": "ED3-STUDIO",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 3
+    },
+    {
+      "trackId": "track_0162647",
+      "title": "Asteroid",
+      "artist": "Electrance",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 3
+    }
+  ],
+  "skipped": [
+    {
+      "trackId": "track_0044210",
+      "title": "Noize-R & NTX 13 - Industrial Drummers",
+      "artist": "Sonocore Records",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "validation-quality-holdout-mtg-techno",
+      "reason": "known-hard-miss"
+    },
+    {
+      "trackId": "track_0044216",
+      "title": "DJ Guit - Fuck Everybody",
+      "artist": "Sonocore Records",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "validation-quality-holdout-mtg-techno",
+      "reason": "known-hard-miss"
+    },
+    {
+      "trackId": "track_0240538",
+      "title": "Elise (remix)",
+      "artist": "James Fox",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "validation-quality-holdout-mtg-techno",
+      "reason": "known-hard-miss"
+    },
+    {
+      "trackId": "track_0761660",
+      "title": "No Longer Techno",
+      "artist": "DJ Mar.S. Aka One Milk",
+      "tags": "genre---techno",
+      "previousTrainingRole": "fine",
+      "previousReviewStatus": "selective-mtg-jamendo-techno-fine-restore",
+      "reason": "not-explicit-techno-tag-or-title-block"
+    },
+    {
+      "trackId": "track_1145056",
+      "title": "Dyn-9",
+      "artist": "JCRZ",
+      "tags": "",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "reason": "not-explicit-techno-tag-or-title-block"
+    },
+    {
+      "trackId": "track_1205640",
+      "title": "Lokomotive rockt!",
+      "artist": "sofamusik",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "quarantined-score-regression",
+      "reason": "previous-review-block"
+    },
+    {
+      "trackId": "track_1205641",
+      "title": "Hektisch",
+      "artist": "sofamusik",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "quarantined-score-regression",
+      "reason": "previous-review-block"
+    },
+    {
+      "trackId": "track_1209479",
+      "title": "Der springende Punkt",
+      "artist": "sofamusik",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "quarantined-score-regression",
+      "reason": "previous-review-block"
+    },
+    {
+      "trackId": "track_1209480",
+      "title": "Putzlichtgewitter",
+      "artist": "sofamusik",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "quarantined-score-regression",
+      "reason": "previous-review-block"
+    },
+    {
+      "trackId": "track_1209802",
+      "title": "ADSR",
+      "artist": "sofamusik",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "quarantined-score-regression",
+      "reason": "previous-review-block"
+    },
+    {
+      "trackId": "track_1245862",
+      "title": "TERRAIN",
+      "artist": "Mr Oziro",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "quarantined-score-regression",
+      "reason": "previous-review-block"
+    },
+    {
+      "trackId": "track_1278989",
+      "title": "Floating",
+      "artist": "Doc",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "quarantined-score-regression",
+      "reason": "previous-review-block"
+    },
+    {
+      "trackId": "track_1279223",
+      "title": "Running",
+      "artist": "Doc",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "quarantined-score-regression",
+      "reason": "previous-review-block"
+    },
+    {
+      "trackId": "track_1279236",
+      "title": "Spaceship Trip",
+      "artist": "Doc",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "quarantined-score-regression",
+      "reason": "previous-review-block"
+    },
+    {
+      "trackId": "track_1298823",
+      "title": "Nightcrawler",
+      "artist": "magagog",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "quarantined-score-regression",
+      "reason": "previous-review-block"
+    },
+    {
+      "trackId": "track_1299909",
+      "title": "EXCUBITOR",
+      "artist": "magagog",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "quarantined-score-regression",
+      "reason": "previous-review-block"
+    },
+    {
+      "trackId": "track_1299924",
+      "title": "patience",
+      "artist": "magagog",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "quarantined-score-regression",
+      "reason": "previous-review-block"
+    },
+    {
+      "trackId": "track_1299926",
+      "title": "Rainmacker",
+      "artist": "magagog",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "quarantined-score-regression",
+      "reason": "previous-review-block"
+    },
+    {
+      "trackId": "track_1299928",
+      "title": "Spin Ride",
+      "artist": "magagog",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "quarantined-score-regression",
+      "reason": "previous-review-block"
+    },
+    {
+      "trackId": "track_1299934",
+      "title": "Sugar Scull",
+      "artist": "magagog",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "quarantined-score-regression",
+      "reason": "previous-review-block"
+    },
+    {
+      "trackId": "track_1300000",
+      "title": "Luminiferous Aether",
+      "artist": "SoLaRiS",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "quarantined-score-regression",
+      "reason": "previous-review-block"
+    },
+    {
+      "trackId": "track_1306653",
+      "title": "Paramatra",
+      "artist": "SoLaRiS",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "quarantined-score-regression",
+      "reason": "previous-review-block"
+    },
+    {
+      "trackId": "track_0024022",
+      "title": "Summer night fever",
+      "artist": "Cyborgjeff",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 3,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0040623",
+      "title": "Rêve en générale 'long version'",
+      "artist": "Cyborgjeff",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 3,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0044209",
+      "title": "NTX 13 - Etheral Presence",
+      "artist": "Sonocore Records",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0044211",
+      "title": "V-Bass - Control",
+      "artist": "Sonocore Records",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0044212",
+      "title": "Noize-R - Bad Dreams",
+      "artist": "Sonocore Records",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0044214",
+      "title": "DJ Toxik Waste - Dawn",
+      "artist": "Sonocore Records",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 3,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0044215",
+      "title": "NTX 13 - Dr Maniac",
+      "artist": "Sonocore Records",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0049223",
+      "title": "Dreamaker 2003",
+      "artist": "ISItheDreaMakeR",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0162650",
+      "title": "Ibiza2",
+      "artist": "Electrance",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 3,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0162653",
+      "title": "Headache",
+      "artist": "Electrance",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 3,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0182513",
+      "title": "Take a dream",
+      "artist": "Max Crisafulli",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0201991",
+      "title": "Air",
+      "artist": "Krischan",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0232125",
+      "title": "Dots",
+      "artist": "humeka",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0243529",
+      "title": "survivre dans le futur",
+      "artist": " ENIGMA63",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0243531",
+      "title": "D'ici ou d'ailleurs",
+      "artist": " ENIGMA63",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0243533",
+      "title": "un monde lointain(découverte)",
+      "artist": " ENIGMA63",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0253236",
+      "title": "lovebug",
+      "artist": "Transient",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0253265",
+      "title": "qoqqoq",
+      "artist": "Transient",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0268527",
+      "title": "White Zone - Multiversum (Planet Earth Mix)",
+      "artist": "White Zone",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 3,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0296683",
+      "title": "White Zone - Demand for Equality",
+      "artist": "White Zone",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 3,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0298387",
+      "title": "OOH!THE BABY JESUS un",
+      "artist": "Nudge",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0560076",
+      "title": "Someone´s watching you",
+      "artist": "Soundway",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0667640",
+      "title": "Narkotraffik",
+      "artist": "emilixdj",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 3,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0756227",
+      "title": "Rising Sun",
+      "artist": "JCRZ",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0761658",
+      "title": "Stompin'",
+      "artist": "DJ Mar.S. Aka One Milk",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 7,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_0761662",
+      "title": "Fallin'",
+      "artist": "DJ Mar.S. Aka One Milk",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 3,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_1048593",
+      "title": "Infinity",
+      "artist": "Diavoloops",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_1050998",
+      "title": "belief in fairytales",
+      "artist": "Simplefixty",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_1054084",
+      "title": "Trancephony-in-g-minor",
+      "artist": "TbO&Vega",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": -3,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_1064727",
+      "title": "icebeat",
+      "artist": "Angus",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_1064742",
+      "title": "tomorrow",
+      "artist": "Angus",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_1072906",
+      "title": "Gepzene - Crap on the Pillow",
+      "artist": "Gepzene",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_1072912",
+      "title": "Gepzene - Bird",
+      "artist": "Gepzene",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_1077910",
+      "title": "liftoff",
+      "artist": "DowntownWillieBrown",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_1088826",
+      "title": "Piwopx",
+      "artist": "DJ Mar.S. Aka One Milk",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 3,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_1088827",
+      "title": "Tsal kä salew",
+      "artist": "DJ Mar.S. Aka One Milk",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 3,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_1109349",
+      "title": "Sweet Savage",
+      "artist": "JCRZ",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_1109358",
+      "title": "Warhol Exhibition (Re-exhibited Mix)",
+      "artist": "JCRZ",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_1116719",
+      "title": "Final Solution",
+      "artist": "The Clone Dj",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 3,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_1135797",
+      "title": "GOOGMAK",
+      "artist": "Mr Oziro",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_1194246",
+      "title": "Die Ruhe vor dem Sturm",
+      "artist": "sofamusik",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_1194248",
+      "title": "Der Orgelwahn",
+      "artist": "sofamusik",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_1197762",
+      "title": "Flow",
+      "artist": "Celtic Rhythm",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    },
+    {
+      "trackId": "track_1205639",
+      "title": "Non plus ultra",
+      "artist": "sofamusik",
+      "tags": "genre---techno",
+      "previousTrainingRole": "macro-only",
+      "previousReviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "score": 1,
+      "reason": "not-selected-by-strict-cap"
+    }
+  ],
+  "baseline": {
+    "macroTop1Accuracy": 32.1,
+    "fineTop1Accuracy": 17.9,
+    "fineTop3Accuracy": 35.3,
+    "formalFineTop1Accuracy": 20.8,
+    "formalFineTop3Accuracy": 39.8,
+    "styleTop1Accuracy": 51,
+    "needsReviewRate": 12.1,
+    "dubPredictionRate": 9.3,
+    "formalDubPredictionRate": 10,
+    "technoFineTotal": 9,
+    "technoFineTop1Accuracy": 0,
+    "technoFineTop3Accuracy": 11.1,
+    "technoMacroTop1Accuracy": 36.8,
+    "technoMostCommonPredictions": [
+      {
+        "label": "ダブ",
+        "count": 4
+      },
+      {
+        "label": "ヒップホップ",
+        "count": 3
+      },
+      {
+        "label": "ハウス",
+        "count": 2
+      },
+      {
+        "label": "ファンク",
+        "count": 1
+      },
+      {
+        "label": "ドローン",
+        "count": 1
+      }
+    ]
+  },
+  "experiment": {
+    "macroTop1Accuracy": 32.2,
+    "fineTop1Accuracy": 17,
+    "fineTop3Accuracy": 33.3,
+    "formalFineTop1Accuracy": 19.6,
+    "formalFineTop3Accuracy": 37.5,
+    "styleTop1Accuracy": 48,
+    "needsReviewRate": 15.6,
+    "dubPredictionRate": 8.8,
+    "formalDubPredictionRate": 9.5,
+    "technoFineTotal": 10,
+    "technoFineTop1Accuracy": 0,
+    "technoFineTop3Accuracy": 0,
+    "technoMacroTop1Accuracy": 30,
+    "technoMostCommonPredictions": [
+      {
+        "label": "ハウス",
+        "count": 5
+      },
+      {
+        "label": "レゲエ",
+        "count": 4
+      },
+      {
+        "label": "ヒップホップ",
+        "count": 3
+      },
+      {
+        "label": "ダブ",
+        "count": 2
+      },
+      {
+        "label": "トラップ",
+        "count": 1
+      }
+    ]
+  },
+  "accepted": false,
+  "recommendation": "Experiment does not pass the guardrails. Keep the current holdout rules and acquire cleaner explicit techno data instead of broad promotion."
+}

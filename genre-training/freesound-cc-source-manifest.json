@@ -1,0 +1,8 @@
+{
+  "description": "Generated from reviewed Freesound CC candidates. Source audio stays outside this repository; cc-import persists features only.",
+  "generatedAt": "2026-06-30T11:55:41.256Z",
+  "reviewTsv": "genre-training/freesound-cc-review.tsv",
+  "audioRoot": "/tmp/mmfr-empty-freesound-audio",
+  "items": [],
+  "rejected": []
+}

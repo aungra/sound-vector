@@ -12,6 +12,8 @@ const DATASET_NAME = process.env.MMFR_CC_DATASET_NAME || "Creative Commons local
 const LICENSE = process.env.MMFR_CC_LICENSE || "CC-BY";
 const LICENSE_URL = process.env.MMFR_CC_LICENSE_URL || "https://creativecommons.org/licenses/by/4.0/";
 const REFERENCE_URL = process.env.MMFR_CC_REFERENCE_URL || "";
+const SEGMENT_TYPE = process.env.MMFR_CC_SEGMENT_TYPE || "";
+const SOURCE_TAGS = process.env.MMFR_CC_SOURCE_TAGS || "";
 const AUDIO_EXTENSIONS = new Set([".mp3", ".wav", ".flac", ".m4a", ".ogg", ".aif", ".aiff"]);
 const REQUIRED = ["genre", "macroGenre", "filePath", "license", "licenseUrl", "referenceUrl"];
 
@@ -90,6 +92,8 @@ if (!AUDIO_ROOT || !fs.existsSync(AUDIO_ROOT)) {
       referenceUrl: REFERENCE_URL || `file://${filePath}`,
       license: LICENSE,
       licenseUrl: LICENSE_URL,
+      segmentType: SEGMENT_TYPE,
+      tags: SOURCE_TAGS,
       canonicalArtist: "",
       canonicalTitle: trackTitle(filePath)
     }];

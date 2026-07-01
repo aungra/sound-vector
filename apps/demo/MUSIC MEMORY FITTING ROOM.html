@@ -4096,12 +4096,30 @@
       const boosts = {};
       const top = audio.genreAnalysis?.top || [];
       top.slice(0, 5).forEach((genre, index) => {
-        const weight = Math.max(.08, (Number(genre.score) || 0) / 100) * (.36 - index * .045);
+        const weight = genreVisualWeight(genre, index, top) / 100 * (.36 - index * .045);
         (genre.modes || []).forEach(mode => {
           boosts[mode] = (boosts[mode] || 0) + weight;
         });
       });
       return boosts;
+    }
+    function genreVisualWeight(genre = {}, index = 0, top = []) {
+      const raw = Math.max(0, Math.min(100, Number(genre.score) || 0));
+      const rankedFloor = [76, 58, 42, 30, 22][index] || Math.max(12, 22 - index * 3);
+      const first = Number(top?.[0]?.score) || 0;
+      const second = Number(top?.[1]?.score) || 0;
+      const ambiguityPenalty = index > 0 && first - second < 8 ? 6 : 0;
+      return Math.round(Math.max(raw, rankedFloor - ambiguityPenalty));
+    }
+    function genreDisplayText(genreAnalysis = null, limit = 3) {
+      const top = genreAnalysis?.top || [];
+      if (!top.length) return "未推定";
+      return top.slice(0, limit).map((item, index) => {
+        const raw = Math.round(Number(item.score) || 0);
+        const visual = genreVisualWeight(item, index, top);
+        const suffix = raw > 0 && raw < visual ? ` (${raw}% raw)` : "";
+        return `${item.name} ${visual}%${suffix}`;
+      }).join(" / ");
     }
     const genrePatternProfiles = {
       "アンビエント": { id: "genre-ambient", label: "アンビエント", baseFamily: "memory-orbit", variantFamilies: ["cloth-field", "wave-strata", "constellation-map"], layoutBias: "orbit", textureMode: "memory-orbit" },
@@ -4446,6 +4464,103 @@
       "ラテン": "fan-spray",
       "ワールドミュージック": "fan-spray"
     };
+    const genreAerosolExclusiveLayouts = {
+      "アンビエント": { zone: 0, category: "upper-left-quiet-crescent" },
+      "ドローン": { zone: 1, category: "upper-low-ridge" },
+      "ノイズミュージック": { zone: 2, category: "upper-corner-fracture" },
+      "電子音楽": { zone: 3, category: "upper-circuit-bars" },
+      "テクノ": { zone: 4, category: "upper-machine-node" },
+      "ハウス": { zone: 5, category: "upper-stacked-floor" },
+      "ディープ・ハウス": { zone: 6, category: "upper-bass-valley" },
+      "トランス": { zone: 7, category: "upper-right-comet" },
+      "ドラムンベース": { zone: 8, category: "mid-left-breakbeat-steps" },
+      "ダブステップ": { zone: 9, category: "mid-heavy-columns" },
+      "チップチューン": { zone: 10, category: "mid-pixel-grid" },
+      "ヒップホップ": { zone: 11, category: "mid-bass-slab" },
+      "トラップ": { zone: 12, category: "mid-triangle-fan" },
+      "レゲエ": { zone: 13, category: "mid-offbeat-stripes" },
+      "ダブ": { zone: 14, category: "mid-delay-columns" },
+      "ブルース": { zone: 15, category: "mid-right-bent-note" },
+      "ロック": { zone: 16, category: "low-left-broken-string" },
+      "パンク": { zone: 17, category: "low-scratch-only" },
+      "ハードコア": { zone: 18, category: "low-chevron-impact" },
+      "メタル": { zone: 19, category: "low-blade-gate" },
+      "ジャズ": { zone: 20, category: "low-offcenter-cymbal" },
+      "ファンク": { zone: 21, category: "low-syncopated-grid" },
+      "ソウルミュージック": { zone: 22, category: "low-voice-pools" },
+      "ディスコ": { zone: 23, category: "low-right-mirror-tiles" },
+      "シティ・ポップ": { zone: 24, category: "bottom-left-window-grid" },
+      "J-POP": { zone: 25, category: "bottom-pop-burst" },
+      "アニメソング": { zone: 26, category: "bottom-transform-ring" },
+      "クラシック音楽": { zone: 27, category: "bottom-staff-rests" },
+      "オペラ": { zone: 28, category: "bottom-stage-arch" },
+      "フォーク": { zone: 29, category: "bottom-handmade-thread" },
+      "ラテン": { zone: 30, category: "bottom-percussion-fan" },
+      "ワールドミュージック": { zone: 31, category: "bottom-right-compass-routes" }
+    };
+    const genreAerosolGestureModes = {
+      "アンビエント": "moon-breath",
+      "ドローン": "long-sinking-ridge",
+      "ノイズミュージック": "four-burns",
+      "電子音楽": "split-circuit-gates",
+      "テクノ": "machine-bead-ring",
+      "ハウス": "tilted-floor-canopy",
+      "ディープ・ハウス": "bass-ledge-shadows",
+      "トランス": "comet-hook",
+      "ドラムンベース": "broken-step-rails",
+      "ダブステップ": "wobble-pillars",
+      "チップチューン": "missing-pixel-mask",
+      "ヒップホップ": "heavy-tag-slab",
+      "トラップ": "triangular-hats",
+      "レゲエ": "offbeat-ribbons",
+      "ダブ": "echo-steps",
+      "ブルース": "bent-smile-pocket",
+      "ロック": "broken-string-fan",
+      "パンク": "scratch-only-burst",
+      "ハードコア": "compressed-chevron",
+      "メタル": "blade-gate",
+      "ジャズ": "offcenter-cymbal-dots",
+      "ファンク": "syncopated-steps",
+      "ソウルミュージック": "voice-pools",
+      "ディスコ": "mirror-tile-orbit",
+      "シティ・ポップ": "floating-window-blocks",
+      "J-POP": "pop-starburst",
+      "アニメソング": "transformation-spark",
+      "クラシック音楽": "quiet-staff-rests",
+      "オペラ": "stage-arch-cloud",
+      "フォーク": "hand-thread-columns",
+      "ラテン": "percussion-petal-ring",
+      "ワールドミュージック": "compass-route-bloom"
+    };
+    function genreAerosolExclusiveLayout(genreName = "") {
+      const layout = genreAerosolExclusiveLayouts[genreName] || { zone: 31, category: "fallback-exclusive-zone" };
+      const columns = 8;
+      const rows = 4;
+      const zone = Math.max(0, Math.min(columns * rows - 1, Number(layout.zone) || 0));
+      const col = zone % columns;
+      const row = Math.floor(zone / columns);
+      const marginX = 72;
+      const marginY = 82;
+      const gapX = 18;
+      const gapY = 24;
+      const cellW = (1200 - marginX * 2 - gapX * (columns - 1)) / columns;
+      const cellH = (1200 - marginY * 2 - gapY * (rows - 1)) / rows;
+      return {
+        ...layout,
+        zone,
+        col,
+        row,
+        gestureMode: genreAerosolGestureModes[genreName] || layout.category || "open-field",
+        focusX: 190 + (columns <= 1 ? 0 : col / (columns - 1)) * 820,
+        focusY: 190 + (rows <= 1 ? 0 : row / (rows - 1)) * 820,
+        voidX: 600 + (col - (columns - 1) / 2) * 76,
+        voidY: 600 + (row - (rows - 1) / 2) * 106,
+        x: marginX + col * (cellW + gapX),
+        y: marginY + row * (cellH + gapY),
+        w: cellW,
+        h: cellH
+      };
+    }
     function classifierVisualSignal(audio = {}) {
       const analysis = audio.genreAnalysis || {};
       const top = analysis.top?.[0] || {};
@@ -4535,9 +4650,11 @@
       const ambiguitySpread = classifier.ambiguity * 58;
       const topology = resolveAerosolTopology(genrePattern, classifier);
       const inkBoost = aerosolTopologyInkBoost(topology);
+      const exclusiveLayout = genreAerosolExclusiveLayout(genrePattern?.genreName || genrePattern?.label || classifier.topGenre || "");
       return {
         archetype: classifier.archetype,
         topology,
+        exclusiveLayout,
         inkBoost,
         classifierMethod: classifier.method,
         macroGenre: classifier.macro,
@@ -4581,6 +4698,247 @@
     }
     function aerosolTopologyOwnsNegativeSpace(topology = "") {
       return Boolean(topology && genreAerosolTopologies && Object.values(genreAerosolTopologies).includes(topology));
+    }
+    function applyAerosolGestureMode(point, options = {}, layout = {}, sourceX = 0, sourceY = 0, noise = () => .5) {
+      const mode = layout.gestureMode || "open-field";
+      const cx = options.centerX || 600;
+      const cy = options.centerY || 600;
+      const focusX = Number.isFinite(layout.focusX) ? layout.focusX : cx;
+      const focusY = Number.isFinite(layout.focusY) ? layout.focusY : cy;
+      const zonePhase = ((Number(layout.zone) || 0) % 8) / 8 * Math.PI * 2;
+      const t = clamp01((sourceX + 1) * .5);
+      const q = clamp01((sourceY + 1) * .5);
+      const angle = Math.atan2(sourceY, sourceX);
+      const radius = clampRange(Math.hypot(sourceX, sourceY), 0, 1.35);
+      const arm = Math.floor(noise(101) * 9);
+      let gx = point.x;
+      let gy = point.y;
+      let pull = .28;
+      if (mode === "moon-breath") {
+        const a = Math.PI * (.45 + t * 1.12);
+        gx = cx + Math.cos(a) * options.spreadX * (.86 + q * .22) - options.spreadX * .18;
+        gy = cy + Math.sin(a) * options.spreadY * (.68 + q * .18) - options.spreadY * .08;
+        pull = .5;
+      } else if (mode === "long-sinking-ridge") {
+        gx = cx + (t - .5) * options.spreadX * 2.5;
+        gy = cy + options.spreadY * (.34 + Math.sin(t * Math.PI * 1.35) * .18) + (q - .5) * options.spreadY * .18;
+        pull = .58;
+      } else if (mode === "four-burns") {
+        const sx = arm % 2 ? 1 : -1;
+        const sy = arm % 4 > 1 ? 1 : -1;
+        gx = cx + sx * options.spreadX * (.5 + noise(102) * .16) + (sourceX * .18 + sourceY * .04) * options.spreadX;
+        gy = cy + sy * options.spreadY * (.5 + noise(103) * .2) + (sourceY * .18 - sourceX * .04) * options.spreadY;
+        pull = .62;
+      } else if (mode === "split-circuit-gates") {
+        const gate = arm % 2 ? 1 : -1;
+        gx = cx + gate * options.spreadX * (.55 + Math.round(q * 2) * .08) + (sourceX * .08) * options.spreadX;
+        gy = cy + (Math.round(sourceY * 3) / 3) * options.spreadY * 1.2;
+        pull = .58;
+      } else if (mode === "machine-bead-ring") {
+        const bead = Math.round((angle + Math.PI) / (Math.PI * 2) * 12) / 12 * Math.PI * 2 + zonePhase * .08;
+        gx = cx + Math.cos(bead) * options.spreadX * (.78 + (arm % 2) * .14);
+        gy = cy + Math.sin(bead) * options.spreadY * (.72 + (arm % 3) * .08);
+        pull = .54;
+      } else if (mode === "tilted-floor-canopy") {
+        const row = Math.round(q * 5) / 5 - .5;
+        gx = cx + (t - .5) * options.spreadX * 2.18 + row * options.spreadX * .18;
+        gy = cy + row * options.spreadY * 1.4 + Math.sin(t * Math.PI * 2.2) * 22;
+        pull = .52;
+      } else if (mode === "bass-ledge-shadows") {
+        gx = cx + (t - .5) * options.spreadX * (1.55 + q * .34);
+        gy = cy + options.spreadY * (.46 + Math.abs(sourceX) * .16) + (q - .5) * options.spreadY * .18;
+        pull = .48;
+      } else if (mode === "comet-hook") {
+        const a = -Math.PI * .2 + t * Math.PI * 1.15;
+        gx = cx + Math.cos(a) * options.spreadX * (.72 + q * .42) + t * options.spreadX * .42 + sourceY * options.spreadX * .48;
+        gy = cy + Math.sin(a) * options.spreadY * (.56 + q * .36) - t * options.spreadY * .52 + sourceX * options.spreadY * .12;
+        pull = .5;
+      } else if (mode === "broken-step-rails") {
+        const step = Math.floor(t * 6);
+        gx = cx + (step / 5 - .5) * options.spreadX * 2.05 + (q - .5) * 34;
+        gy = cy + ((step % 2 ? .24 : -.24) + sourceY * .16) * options.spreadY;
+        pull = .56;
+      } else if (mode === "wobble-pillars") {
+        const pillar = [-.52, -.16, .18, .5][arm % 4];
+        gx = cx + pillar * options.spreadX + Math.sin(q * Math.PI * 3 + arm) * 18;
+        gy = cy + (q - .5) * options.spreadY * 1.75;
+        pull = .56;
+      } else if (mode === "missing-pixel-mask") {
+        gx = cx + (Math.round(sourceX * 4) / 4) * options.spreadX * 1.45;
+        gy = cy + (Math.round(sourceY * 3) / 3) * options.spreadY * 1.15;
+        pull = .5;
+      } else if (mode === "heavy-tag-slab") {
+        const slab = arm % 3;
+        gx = cx + (t - .5) * options.spreadX * (slab === 1 ? 1.75 : 1.2) + (slab - 1) * 86;
+        gy = cy + [.22, -.06, .34][slab] * options.spreadY + sourceY * options.spreadY * .11;
+        pull = .62;
+      } else if (mode === "triangular-hats") {
+        const ray = [-.68, -.5, -.32, -.14, .04][arm % 5] * Math.PI;
+        gx = cx + Math.cos(ray) * options.spreadX * radius * 1.25;
+        gy = cy + Math.sin(ray) * options.spreadY * radius * 1.08 + options.spreadY * .34;
+        pull = .56;
+      } else if (mode === "offbeat-ribbons") {
+        const ribbon = arm % 4;
+        gx = cx + (t - .5) * options.spreadX * 2 + Math.sin(t * Math.PI * 2) * 24;
+        gy = cy + (ribbon - 1.5) * options.spreadY * .32 + (ribbon % 2 ? 28 : -28);
+        pull = .5;
+      } else if (mode === "echo-steps") {
+        const echo = arm % 6;
+        gx = cx + (echo / 5 - .5) * options.spreadX * 1.7 + sourceX * options.spreadX * (.08 - echo * .006);
+        gy = cy + (q - .5) * options.spreadY * (.62 - echo * .05) + echo * 10;
+        pull = .54;
+      } else if (mode === "bent-smile-pocket") {
+        gx = cx + (t - .5) * options.spreadX * 1.65;
+        gy = cy + Math.sin(t * Math.PI) * options.spreadY * .5 + sourceY * options.spreadY * .36;
+        pull = .5;
+      } else if (mode === "broken-string-fan") {
+        const string = arm % 5;
+        gx = cx + (string - 2) * options.spreadX * .24 + sourceX * options.spreadX * .18;
+        gy = cy + (sourceX * (string % 2 ? .48 : -.48) + sourceY * .18) * options.spreadY;
+        pull = .58;
+      } else if (mode === "scratch-only-burst") {
+        const scratch = arm % 7;
+        gx = cx + (t - .5) * options.spreadX * 1.9 + (scratch - 3) * 34;
+        gy = cy + (t - .5) * options.spreadY * (scratch % 2 ? .7 : -.7) + (scratch - 3) * 22;
+        pull = .64;
+      } else if (mode === "compressed-chevron") {
+        const side = arm % 2 ? 1 : -1;
+        gx = cx + side * Math.abs(sourceX) * options.spreadX * 1.05;
+        gy = cy + sourceX * side * options.spreadY * .68 + sourceY * options.spreadY * .18;
+        pull = .62;
+      } else if (mode === "blade-gate") {
+        const side = arm % 2 ? 1 : -1;
+        gx = cx + side * options.spreadX * .45 + sourceX * options.spreadX * .16;
+        gy = cy + sourceY * options.spreadY * 1.08;
+        pull = .6;
+      } else if (mode === "offcenter-cymbal-dots") {
+        const dot = arm % 6;
+        const a = dot / 6 * Math.PI * 2 + .4;
+        gx = cx - options.spreadX * .22 + Math.cos(a) * options.spreadX * (.42 + noise(104) * .12);
+        gy = cy - options.spreadY * .12 + Math.sin(a) * options.spreadY * (.34 + noise(105) * .12);
+        pull = .55;
+      } else if (mode === "syncopated-steps") {
+        const hit = arm % 8;
+        gx = cx + (hit / 7 - .5) * options.spreadX * 1.9;
+        gy = cy + ([.28, -.22, .08, -.38, .18, -.04, .34, -.16][hit] || 0) * options.spreadY;
+        pull = .58;
+      } else if (mode === "voice-pools") {
+        const pool = arm % 2 ? 1 : -1;
+        gx = cx + pool * options.spreadX * .36 + sourceX * options.spreadX * .35;
+        gy = cy + Math.sin(sourceX * Math.PI) * options.spreadY * .16 + sourceY * options.spreadY * .3;
+        pull = .5;
+      } else if (mode === "mirror-tile-orbit") {
+        const tile = arm % 10;
+        const a = tile / 10 * Math.PI * 2;
+        gx = cx + Math.cos(a) * options.spreadX * (.42 + (tile % 3) * .16);
+        gy = cy + Math.sin(a) * options.spreadY * (.42 + (tile % 2) * .18);
+        pull = .52;
+      } else if (mode === "floating-window-blocks") {
+        const block = arm % 5;
+        gx = cx + [-.58, -.24, .18, .52, .02][block] * options.spreadX + sourceX * options.spreadX * .08;
+        gy = cy + [-.34, .2, -.08, .28, .48][block] * options.spreadY + sourceY * options.spreadY * .08;
+        pull = .58;
+      } else if (mode === "pop-starburst") {
+        const a = (arm % 9) / 9 * Math.PI * 2;
+        gx = cx + Math.cos(a) * options.spreadX * (.22 + radius * 1.02);
+        gy = cy + Math.sin(a) * options.spreadY * (.22 + radius * .92);
+        pull = .58;
+      } else if (mode === "transformation-spark") {
+        const petal = arm % 7;
+        const a = petal / 7 * Math.PI * 2 + Math.sin(q * Math.PI) * .22;
+        gx = cx + Math.cos(a) * options.spreadX * (.34 + q * .72);
+        gy = cy + Math.sin(a) * options.spreadY * (.34 + q * .66);
+        pull = .58;
+      } else if (mode === "quiet-staff-rests") {
+        const staff = arm % 5;
+        gx = cx + (t - .5) * options.spreadX * 1.4;
+        gy = cy + (staff - 2) * options.spreadY * .17 + sourceY * 10;
+        pull = .48;
+      } else if (mode === "stage-arch-cloud") {
+        const a = Math.PI * (.08 + t * .84);
+        gx = cx + Math.cos(a) * options.spreadX * (.66 + q * .26) + sourceY * options.spreadX * .5;
+        gy = cy - Math.sin(a) * options.spreadY * (.72 + q * .2) + options.spreadY * .38 + sourceX * options.spreadY * .1;
+        pull = .5;
+      } else if (mode === "hand-thread-columns") {
+        const thread = arm % 7;
+        gx = cx + (thread / 6 - .5) * options.spreadX * 1.7 + Math.sin(q * Math.PI * 4 + thread) * 12;
+        gy = cy + (q - .5) * options.spreadY * 1.7;
+        pull = .52;
+      } else if (mode === "percussion-petal-ring") {
+        const petal = arm % 8;
+        const a = petal / 8 * Math.PI * 2;
+        gx = cx + Math.cos(a) * options.spreadX * (.44 + Math.abs(sourceX) * .54);
+        gy = cy + Math.sin(a) * options.spreadY * (.44 + Math.abs(sourceY) * .46);
+        pull = .56;
+      } else if (mode === "compass-route-bloom") {
+        const route = arm % 8;
+        const a = route / 8 * Math.PI * 2;
+        gx = focusX * .16 + (cx + Math.cos(a) * options.spreadX * (.28 + t * .9)) * .84;
+        gy = focusY * .16 + (cy + Math.sin(a) * options.spreadY * (.28 + t * .86)) * .84;
+        pull = .56;
+      }
+      return {
+        ...point,
+        x: point.x * (1 - pull) + gx * pull,
+        y: point.y * (1 - pull) + gy * pull
+      };
+    }
+    function applyGenreExclusiveAerosolLayout(point, options = {}, seed = 1, noise = () => .5) {
+      const layout = options.exclusiveLayout;
+      if (!layout) return point;
+      const sourceX = clampRange((point.x - options.centerX) / Math.max(1, options.spreadX * 2.1), -1, 1);
+      const sourceY = clampRange((point.y - options.centerY) / Math.max(1, options.spreadY * 2.1), -1, 1);
+      const category = layout.category || "";
+      let nx = sourceX;
+      let ny = sourceY;
+      let structurePull = .16;
+      let focusPull = .18;
+      if (category.includes("vertical") || category.includes("columns") || category.includes("thread")) {
+        nx *= .42;
+        ny = clampRange(sourceY * 1.08, -1, 1);
+        structurePull = .34;
+        focusPull = .2;
+      } else if (category.includes("staff") || category.includes("stripes") || category.includes("floor")) {
+        nx = clampRange(sourceX * 1.08, -1, 1);
+        ny *= .42;
+        structurePull = .34;
+        focusPull = .18;
+      } else if (category.includes("scratch") || category.includes("breakbeat") || category.includes("string")) {
+        const skew = category.includes("scratch") ? .42 : .24;
+        nx = clampRange(sourceX + sourceY * skew, -1, 1);
+        ny = clampRange(sourceY * .44 + sourceX * .18, -1, 1);
+        structurePull = .3;
+        focusPull = .14;
+      } else if (category.includes("compass") || category.includes("fan") || category.includes("comet")) {
+        const angle = Math.atan2(sourceY, sourceX) + (layout.zone % 3 - 1) * .14;
+        const radius = clampRange(Math.hypot(sourceX, sourceY), 0, 1);
+        nx = Math.cos(angle) * radius;
+        ny = Math.sin(angle) * radius;
+        structurePull = .24;
+        focusPull = .24;
+      } else if (category.includes("grid") || category.includes("circuit") || category.includes("pixel")) {
+        nx = Math.round(sourceX * 3) / 3;
+        ny = Math.round(sourceY * 3) / 3;
+        structurePull = .38;
+        focusPull = .16;
+      } else if (category.includes("cymbal") || category.includes("voice") || category.includes("node")) {
+        nx = clampRange(sourceX * .72 + (noise(91) - .5) * .12, -1, 1);
+        ny = clampRange(sourceY * .72 + (noise(92) - .5) * .12, -1, 1);
+        structurePull = .28;
+        focusPull = .22;
+      }
+      const shapedX = options.centerX + nx * options.spreadX * 1.74;
+      const shapedY = options.centerY + ny * options.spreadY * 1.68;
+      const focusX = Number.isFinite(layout.focusX) ? layout.focusX : 600;
+      const focusY = Number.isFinite(layout.focusY) ? layout.focusY : 600;
+      const focusGate = .55 + noise(93) * .45;
+      const wholeFormX = point.x * (1 - structurePull) + shapedX * structurePull;
+      const wholeFormY = point.y * (1 - structurePull) + shapedY * structurePull;
+      return applyAerosolGestureMode({
+        ...point,
+        x: wholeFormX * (1 - focusPull * focusGate) + focusX * focusPull * focusGate,
+        y: wholeFormY * (1 - focusPull * focusGate) + focusY * focusPull * focusGate
+      }, options, layout, sourceX, sourceY, noise);
     }
     function aerosolParticlePoint(index, options, seed, byteSigned) {
       const noise = salt => textureNoise01(index, 200 + salt, seed);
@@ -5156,7 +5514,7 @@
       const inkBoost = options.inkBoost || 1;
       const density = clamp01((localDensity * .72 + edgeFade * .56) * options.softness * clampRange(.96 + (inkBoost - 1) * .22, .96, 1.18));
       const radius = clampRange((.28 + Math.pow(noise(11), 1.9) * (2.2 + options.grain * 1.4) + Math.max(0, audioLift) * .34) * inkBoost, .24, 5.2);
-      return { x, y, density, radius };
+      return applyGenreExclusiveAerosolLayout({ x, y, density, radius }, options, seed, noise);
     }
     function makeAerosolParticleGroup(options, bytes, seed) {
       const particles = [];
@@ -5179,7 +5537,8 @@
         const r = point.radius * (.72 + point.density * .56);
         particles.push(`<circle cx="${svgFineNumber(point.x)}" cy="${svgFineNumber(point.y)}" r="${svgFineNumber(r)}" fill="#000" data-feature="aerosol-particle"/>`);
       }
-      return svgGroupWithAttrs("aerosol_particle_field", particles, `data-particle-count="${particles.length}" data-renderer="black-particle-density" data-aerosol-archetype="${escapeAttr(options.archetype || "")}" data-aerosol-topology="${escapeAttr(options.topology || "")}" data-macro-genre="${escapeAttr(options.macroGenre || "")}" data-macro-score="${svgFineNumber(options.macroScore || 0)}" data-classifier-confidence="${svgFineNumber(options.classifierConfidence || 0)}"`);
+      const exclusiveLayout = options.exclusiveLayout || {};
+      return svgGroupWithAttrs("aerosol_particle_field", particles, `data-particle-count="${particles.length}" data-renderer="black-particle-density" data-aerosol-archetype="${escapeAttr(options.archetype || "")}" data-aerosol-topology="${escapeAttr(options.topology || "")}" data-exclusive-zone="${svgFineNumber(exclusiveLayout.zone ?? -1)}" data-composition-category="${escapeAttr(exclusiveLayout.category || "")}" data-gesture-mode="${escapeAttr(exclusiveLayout.gestureMode || "")}" data-macro-genre="${escapeAttr(options.macroGenre || "")}" data-macro-score="${svgFineNumber(options.macroScore || 0)}" data-classifier-confidence="${svgFineNumber(options.classifierConfidence || 0)}"`);
     }
     function generateAerosolParticleSoundSvg(mood, tick = Date.now(), settings = null) {
       const audio = mood.audio || {};
@@ -5200,11 +5559,12 @@
       const options = aerosolOptionsFromGenre(genrePattern, genreVisual, audio, fingerprint, seed);
       const particles = makeAerosolParticleGroup(options, bytes, seed);
       const genreLabel = genrePattern?.label || audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "";
+      const exclusiveLayout = options.exclusiveLayout || {};
       const metadata = [
         `<desc>Reversible Sound Form Engine aerosol particle field. The visible design is made from black pigment particles on white background; softness and fading are produced by particle density only, with no embedded PCM text. Restoration PCM is added as a visible locked pcm_reversible_data protected particle layer on export.</desc>`,
         `<g id="pcm_reversible_data" data-layer="pcm_reversible_data" data-status="added-on-export" data-edit-policy="lock-do-not-edit"></g>`
       ];
-      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="${escapeAttr(mood.label)} reversible aerosol sound form" data-engine="reversible-sound-form-v4" data-visual-style="aerosol-particle-field-v1" data-aerosol-archetype="${escapeAttr(options.archetype || "")}" data-aerosol-topology="${escapeAttr(options.topology || "")}" data-classifier-method="${escapeAttr(options.classifierMethod || "")}" data-macro-genre="${escapeAttr(options.macroGenre || "")}" data-macro-score="${svgFineNumber(options.macroScore || 0)}" data-classifier-confidence="${svgFineNumber(options.classifierConfidence || 0)}" data-classifier-margin="${svgFineNumber(options.classifierMargin || 0)}" data-classifier-ambiguity="${svgFineNumber(options.classifierAmbiguity || 0)}" data-runner-macro="${escapeAttr(options.runnerMacro || "")}" data-form-mode="${formMode}" data-genre-pattern="${escapeAttr(genreLabel)}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-negative-space="${genreVisual.negativeSpace}" data-line-character="${escapeAttr(genreVisual.lineCharacter)}" data-name-motif="${escapeAttr(genreVisual.nameMotif)}" data-collision-style="${escapeAttr(genreVisual.collisionStyle)}" data-texture-mode="${textureMode}" data-texture-region="${genreVisual.textureRegion}" data-inferred-genre="${escapeAttr(audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "")}" data-audio-fingerprint="${fingerprint.hash}" data-refinement-passes="100" data-structural-debate-passes="30" data-genre-pattern-count="${Object.keys(genrePatternProfiles).length}" data-variant-seed="${seed}" data-iteration="${settings?.iteration || ""}"><rect width="1200" height="1200" fill="#fff"/>${metadata.join("")}<g id="sound_form_surface" data-layer="sound_form_surface" data-form-mode="${formMode}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-negative-space="${genreVisual.negativeSpace}" data-aerosol-archetype="${escapeAttr(options.archetype || "")}" data-aerosol-topology="${escapeAttr(options.topology || "")}" data-visual-style="aerosol-particle-field-v1" data-print-ink="black-opaque">${particles}</g></svg>`;
+      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="${escapeAttr(mood.label)} reversible aerosol sound form" data-engine="reversible-sound-form-v4" data-visual-style="aerosol-particle-field-v1" data-aerosol-archetype="${escapeAttr(options.archetype || "")}" data-aerosol-topology="${escapeAttr(options.topology || "")}" data-exclusive-zone="${svgFineNumber(exclusiveLayout.zone ?? -1)}" data-exclusive-zone-col="${svgFineNumber(exclusiveLayout.col ?? -1)}" data-exclusive-zone-row="${svgFineNumber(exclusiveLayout.row ?? -1)}" data-composition-category="${escapeAttr(exclusiveLayout.category || "")}" data-gesture-mode="${escapeAttr(exclusiveLayout.gestureMode || "")}" data-classifier-method="${escapeAttr(options.classifierMethod || "")}" data-macro-genre="${escapeAttr(options.macroGenre || "")}" data-macro-score="${svgFineNumber(options.macroScore || 0)}" data-classifier-confidence="${svgFineNumber(options.classifierConfidence || 0)}" data-classifier-margin="${svgFineNumber(options.classifierMargin || 0)}" data-classifier-ambiguity="${svgFineNumber(options.classifierAmbiguity || 0)}" data-runner-macro="${escapeAttr(options.runnerMacro || "")}" data-form-mode="${formMode}" data-genre-pattern="${escapeAttr(genreLabel)}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-negative-space="${genreVisual.negativeSpace}" data-line-character="${escapeAttr(genreVisual.lineCharacter)}" data-name-motif="${escapeAttr(genreVisual.nameMotif)}" data-collision-style="${escapeAttr(genreVisual.collisionStyle)}" data-texture-mode="${textureMode}" data-texture-region="${genreVisual.textureRegion}" data-inferred-genre="${escapeAttr(audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "")}" data-audio-fingerprint="${fingerprint.hash}" data-refinement-passes="100" data-structural-debate-passes="30" data-genre-pattern-count="${Object.keys(genrePatternProfiles).length}" data-variant-seed="${seed}" data-iteration="${settings?.iteration || ""}"><rect width="1200" height="1200" fill="#fff"/>${metadata.join("")}<g id="sound_form_surface" data-layer="sound_form_surface" data-form-mode="${formMode}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-negative-space="${genreVisual.negativeSpace}" data-aerosol-archetype="${escapeAttr(options.archetype || "")}" data-aerosol-topology="${escapeAttr(options.topology || "")}" data-exclusive-zone="${svgFineNumber(exclusiveLayout.zone ?? -1)}" data-composition-category="${escapeAttr(exclusiveLayout.category || "")}" data-gesture-mode="${escapeAttr(exclusiveLayout.gestureMode || "")}" data-visual-style="aerosol-particle-field-v1" data-print-ink="black-opaque">${particles}</g></svg>`;
     }
     function generateSoundClothReversibleSvg(mood, tick = Date.now(), settings = null) {
       return generateAerosolParticleSoundSvg(mood, tick, settings);
@@ -6045,9 +6405,7 @@
       const id = `reversible-audio-${mood.id}-${Math.floor(tick).toString(36)}`;
       const title = `${mood.label} の可逆サウンドフォーム`;
       const engineId = isYouTube ? "youtube_reversible" : "audio_reversible";
-      const genreText = audio?.genreAnalysis?.top?.length
-        ? audio.genreAnalysis.top.slice(0, 3).map(item => `${item.name} ${item.score}%`).join(" / ")
-        : "未推定";
+      const genreText = genreDisplayText(audio?.genreAnalysis, 3);
       const styleText = audio?.inferredStyle ? ` / style ${audio.inferredStyle}` : "";
       const loop = runPersonaImprovementLoop(mood, tick);
       const payload = buildReversiblePayload(mood, tick, {
@@ -7011,9 +7369,7 @@
       return shirt?.engineId === "youtube_reversible" || shirt?.engineId === "audio_reversible";
     }
     function renderReversiblePatternExplanation(features = null) {
-      const genreText = features?.genreAnalysis?.top?.length
-        ? features.genreAnalysis.top.slice(0, 3).map(item => `${item.name} ${item.score}%`).join(" / ")
-        : "未推定";
+      const genreText = genreDisplayText(features?.genreAnalysis, 3);
       return `<section class="panel"><div class="top"><div><p class="eyebrow">Pattern structure</p><h2>図柄のどこが音か</h2></div><strong>Reversible</strong></div>
         <p class="muted">現在の仕様は <strong>REVERSIBLE SOUND FORM ENGINE v4</strong> です。音源を単一フォーマットに押し込まず、100パスの音響指紋選別、Wikipedia由来のジャンル推定、30回の構成自己ディベートで <strong>30ジャンル別エアロゾル粒子フォーム</strong> から選びます。書き出しSVGには復元用の <strong>pcm_reversible_data</strong> が見える保護粒子として入ります。</p>
         <div class="mapping-list">
@@ -7117,9 +7473,7 @@
       const youtubeValue = escapeAttr(state.youtubeUrl || generated?.youtubeUrl || "");
       const features = generated?.audioFeatures || state.audioFeatures || null;
       const sourceLabel = generated?.youtubeUrl ? `YouTube ${features?.id || ""}` : generated?.audioFileName || selectedMood?.label || "";
-      const genreLabel = features?.genreAnalysis?.top?.length
-        ? features.genreAnalysis.top.slice(0, 2).map(item => `${item.name} ${item.score}%`).join(" / ")
-        : "未推定";
+      const genreLabel = genreDisplayText(features?.genreAnalysis, 2);
       const generatedHeading = isReversibleAudio ? "生成した可逆パターン" : state.realtime ? `<span class="live-dot"></span>リアルタイム生成中` : "生成した図案";
       const generatedActions = isReversibleAudio
         ? `<button class="secondary" onclick="acceptRealtimeDesign()">このパターンを採用</button> <button class="secondary" onclick="rerunCurrentGeneration()">別パターンを生成</button> <button class="secondary" onclick="resetMood()">URLを入れ直す</button>`

@@ -1,0 +1,92 @@
+{
+  "generatedAt": "2026-06-22T08:58:00.000Z",
+  "baseline": {
+    "name": "stable-holdout-baseline",
+    "env": {
+      "MMFR_GENRE_STRICT_CC_ONLY": "1",
+      "MMFR_GENRE_TRAIN_CACHE_ONLY": "1",
+      "MMFR_GENRE_TRAIN_QUIET": "1"
+    },
+    "macroTop1Accuracy": 32.2,
+    "fineTop1Accuracy": 16.8,
+    "fineTop3Accuracy": 28.5,
+    "needsReviewRate": 16.8,
+    "dubPredictionRate": 7.2,
+    "formalFineTop1Accuracy": 19.7,
+    "formalFineTop3Accuracy": 32.1,
+    "formalDubPredictionRate": 7.9
+  },
+  "experiments": [
+    {
+      "name": "advanced-features",
+      "env": {
+        "MMFR_ADVANCED_GENRE_FEATURES": "1"
+      },
+      "enabledFeatures": [
+        "mfcc1",
+        "mfcc2",
+        "mfcc3",
+        "spectralRolloff",
+        "tempoStability",
+        "beatGridStrength",
+        "syncopation",
+        "vocalPresence"
+      ],
+      "macroTop1Accuracy": 31.3,
+      "fineTop1Accuracy": 15.4,
+      "fineTop3Accuracy": 29.3,
+      "needsReviewRate": 13.4,
+      "dubPredictionRate": 7.8,
+      "decision": "reject-as-primary",
+      "reason": "Fine Top3 improved, but Fine Top1 dropped by 1.4 points. Keep for future low-confidence reranking experiments, not primary model."
+    },
+    {
+      "name": "theory-features",
+      "env": {
+        "MMFR_ENABLE_THEORY_GENRE_FEATURES": "1"
+      },
+      "enabledFeatures": [
+        "fourOnFloor",
+        "kickGrid",
+        "offbeatEmphasis",
+        "breakbeatIrregularity",
+        "sustainRatio",
+        "transientScarcity",
+        "reverbTail",
+        "structureRecurrence",
+        "vocalBandStability"
+      ],
+      "macroTop1Accuracy": 33.8,
+      "fineTop1Accuracy": 14.5,
+      "fineTop3Accuracy": 27.7,
+      "needsReviewRate": 14.5,
+      "dubPredictionRate": 6.0,
+      "decision": "reject-as-primary",
+      "reason": "Macro Top1 and dub control improved, but Fine Top1/Top3 regressed. Useful as a future macro/dub guard signal only."
+    },
+    {
+      "name": "extended-features",
+      "env": {
+        "MMFR_EXTENDED_GENRE_FEATURES": "1"
+      },
+      "enabledFeatures": [
+        "spectralSpread",
+        "bandFlux",
+        "harmonicRatio",
+        "percussiveRatio",
+        "lowMidBalance",
+        "highNoiseRatio",
+        "pulseClarity"
+      ],
+      "macroTop1Accuracy": 33.6,
+      "fineTop1Accuracy": 14.0,
+      "fineTop3Accuracy": 30.2,
+      "needsReviewRate": 11.9,
+      "dubPredictionRate": 8.1,
+      "decision": "reject-as-primary",
+      "reason": "Fine Top3 and needsReview improved, but Fine Top1 dropped by 2.8 points. Candidate for Top3/reranking support only."
+    }
+  ],
+  "adoptedPrimaryModel": "stable-holdout-baseline",
+  "nextAction": "Do not enable broad advanced/theory/extended feature sets as the primary classifier yet. Use them in a secondary reranker for low-margin predictions or add per-macro feature gates after validation."
+}

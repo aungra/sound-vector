@@ -1,0 +1,877 @@
+{
+  "generatedAt": "2026-06-22T10:24:26.651Z",
+  "total": 75,
+  "technoTop1": 10,
+  "technoTop3": 17,
+  "top1Candidates": [
+    {
+      "split": "train",
+      "trackId": "track_0030664",
+      "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/64/30664.low.mp3",
+      "artist": "ED3-STUDIO",
+      "title": "Fate",
+      "predicted": "テクノ",
+      "predictedMacro": "electronic",
+      "confidence": 100,
+      "top": [
+        {
+          "name": "テクノ",
+          "score": 100
+        },
+        {
+          "name": "チップチューン",
+          "score": 61
+        },
+        {
+          "name": "ダブステップ",
+          "score": 41
+        },
+        {
+          "name": "ディープ・ハウス",
+          "score": 36
+        },
+        {
+          "name": "ハウス",
+          "score": 9
+        }
+      ],
+      "macro": [
+        {
+          "macro": "electronic",
+          "score": 100
+        },
+        {
+          "macro": "pop",
+          "score": 19
+        },
+        {
+          "macro": "ambient",
+          "score": 8
+        },
+        {
+          "macro": "black_music",
+          "score": 2
+        }
+      ],
+      "style": []
+    },
+    {
+      "split": "train",
+      "trackId": "track_0044210",
+      "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/10/44210.low.mp3",
+      "artist": "Sonocore Records",
+      "title": "Noize-R & NTX 13 - Industrial Drummers",
+      "predicted": "テクノ",
+      "predictedMacro": "electronic",
+      "confidence": 100,
+      "top": [
+        {
+          "name": "テクノ",
+          "score": 100
+        },
+        {
+          "name": "ダブステップ",
+          "score": 89
+        },
+        {
+          "name": "トランス",
+          "score": 53
+        },
+        {
+          "name": "ハウス",
+          "score": 44
+        },
+        {
+          "name": "チップチューン",
+          "score": 31
+        }
+      ],
+      "macro": [
+        {
+          "macro": "electronic",
+          "score": 100
+        },
+        {
+          "macro": "black_music",
+          "score": 19
+        },
+        {
+          "macro": "ambient",
+          "score": 11
+        },
+        {
+          "macro": "pop",
+          "score": 2
+        }
+      ],
+      "style": []
+    },
+    {
+      "split": "train",
+      "trackId": "track_0044216",
+      "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/16/44216.low.mp3",
+      "artist": "Sonocore Records",
+      "title": "DJ Guit - Fuck Everybody",
+      "predicted": "テクノ",
+      "predictedMacro": "electronic",
+      "confidence": 100,
+      "top": [
+        {
+          "name": "テクノ",
+          "score": 100
+        },
+        {
+          "name": "チップチューン",
+          "score": 85
+        },
+        {
+          "name": "ダブステップ",
+          "score": 52
+        },
+        {
+          "name": "ディープ・ハウス",
+          "score": 14
+        },
+        {
+          "name": "トランス",
+          "score": 11
+        }
+      ],
+      "macro": [
+        {
+          "macro": "electronic",
+          "score": 100
+        },
+        {
+          "macro": "black_music",
+          "score": 24
+        },
+        {
+          "macro": "pop",
+          "score": 6
+        },
+        {
+          "macro": "rock",
+          "score": 2
+        }
+      ],
+      "style": []
+    },
+    {
+      "split": "train",
+      "trackId": "track_0044217",
+      "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/17/44217.low.mp3",
+      "artist": "Sonocore Records",
+      "title": "DJ Toxik Waste - The Law Of The Underworld",
+      "predicted": "テクノ",
+      "predictedMacro": "electronic",
+      "confidence": 100,
+      "top": [
+        {
+          "name": "テクノ",
+          "score": 100
+        },
+        {
+          "name": "ダブステップ",
+          "score": 83
+        },
+        {
+          "name": "チップチューン",
+          "score": 71
+        },
+        {
+          "name": "ディープ・ハウス",
+          "score": 36
+        },
+        {
+          "name": "トランス",
+          "score": 16
+        }
+      ],
+      "macro": [
+        {
+          "macro": "electronic",
+          "score": 100
+        },
+        {
+          "macro": "black_music",
+          "score": 12
+        },
+        {
+          "macro": "rock",
+          "score": 11
+        },
+        {
+          "macro": "pop",
+          "score": 7
+        }
+      ],
+      "style": []
+    },
+    {
+      "split": "validation",
+      "trackId": "track_0181995",
+      "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/95/181995.low.mp3",
+      "artist": "Max Crisafulli",
+      "title": "Solar nebula",
+      "predicted": "テクノ",
+      "predictedMacro": "electronic",
+      "confidence": 100,
+      "top": [
+        {
+          "name": "テクノ",
+          "score": 100
+        },
+        {
+          "name": "ダブステップ",
+          "score": 70
+        },
+        {
+          "name": "ハウス",
+          "score": 61
+        },
+        {
+          "name": "ディープ・ハウス",
+          "score": 49
+        },
+        {
+          "name": "トランス",
+          "score": 46
+        }
+      ],
+      "macro": [
+        {
+          "macro": "electronic",
+          "score": 100
+        },
+        {
+          "macro": "black_music",
+          "score": 58
+        },
+        {
+          "macro": "pop",
+          "score": 51
+        },
+        {
+          "macro": "ambient",
+          "score": 16
+        }
+      ],
+      "style": []
+    },
+    {
+      "split": "train",
+      "trackId": "track_0240538",
+      "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/38/240538.low.mp3",
+      "artist": "James Fox",
+      "title": "Elise (remix)",
+      "predicted": "テクノ",
+      "predictedMacro": "electronic",
+      "confidence": 100,
+      "top": [
+        {
+          "name": "テクノ",
+          "score": 100
+        },
+        {
+          "name": "トランス",
+          "score": 63
+        },
+        {
+          "name": "ハウス",
+          "score": 49
+        },
+        {
+          "name": "チップチューン",
+          "score": 42
+        },
+        {
+          "name": "ディープ・ハウス",
+          "score": 11
+        }
+      ],
+      "macro": [
+        {
+          "macro": "electronic",
+          "score": 100
+        },
+        {
+          "macro": "black_music",
+          "score": 20
+        },
+        {
+          "macro": "world",
+          "score": 4
+        },
+        {
+          "macro": "pop",
+          "score": 1
+        }
+      ],
+      "style": []
+    },
+    {
+      "split": "validation",
+      "trackId": "track_0658536",
+      "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/36/658536.low.mp3",
+      "artist": "Avanea",
+      "title": "Es werde Licht-que la lumiere soit Part.III",
+      "predicted": "テクノ",
+      "predictedMacro": "electronic",
+      "confidence": 100,
+      "top": [
+        {
+          "name": "テクノ",
+          "score": 100
+        },
+        {
+          "name": "ダブステップ",
+          "score": 65
+        },
+        {
+          "name": "トランス",
+          "score": 46
+        },
+        {
+          "name": "ハウス",
+          "score": 31
+        },
+        {
+          "name": "ディープ・ハウス",
+          "score": 18
+        }
+      ],
+      "macro": [
+        {
+          "macro": "electronic",
+          "score": 100
+        },
+        {
+          "macro": "pop",
+          "score": 41
+        },
+        {
+          "macro": "rock",
+          "score": 28
+        },
+        {
+          "macro": "black_music",
+          "score": 26
+        }
+      ],
+      "style": []
+    },
+    {
+      "split": "train",
+      "trackId": "track_0761660",
+      "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/60/761660.low.mp3",
+      "artist": "DJ Mar.S. Aka One Milk",
+      "title": "No Longer Techno",
+      "predicted": "テクノ",
+      "predictedMacro": "electronic",
+      "confidence": 100,
+      "top": [
+        {
+          "name": "テクノ",
+          "score": 100
+        },
+        {
+          "name": "トランス",
+          "score": 81
+        },
+        {
+          "name": "ハウス",
+          "score": 59
+        },
+        {
+          "name": "チップチューン",
+          "score": 54
+        },
+        {
+          "name": "ダブステップ",
+          "score": 23
+        }
+      ],
+      "macro": [
+        {
+          "macro": "electronic",
+          "score": 100
+        },
+        {
+          "macro": "black_music",
+          "score": 16
+        },
+        {
+          "macro": "ambient",
+          "score": 4
+        },
+        {
+          "macro": "world",
+          "score": 3
+        }
+      ],
+      "style": []
+    },
+    {
+      "split": "train",
+      "trackId": "track_1109354",
+      "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/54/1109354.low.mp3",
+      "artist": "JCRZ",
+      "title": "Bold Techno",
+      "predicted": "テクノ",
+      "predictedMacro": "electronic",
+      "confidence": 100,
+      "top": [
+        {
+          "name": "テクノ",
+          "score": 100
+        },
+        {
+          "name": "ダブステップ",
+          "score": 73
+        },
+        {
+          "name": "ハウス",
+          "score": 42
+        },
+        {
+          "name": "トランス",
+          "score": 41
+        },
+        {
+          "name": "ディープ・ハウス",
+          "score": 26
+        }
+      ],
+      "macro": [
+        {
+          "macro": "electronic",
+          "score": 100
+        },
+        {
+          "macro": "black_music",
+          "score": 26
+        },
+        {
+          "macro": "ambient",
+          "score": 9
+        },
+        {
+          "macro": "rock",
+          "score": 9
+        }
+      ],
+      "style": []
+    },
+    {
+      "split": "train",
+      "trackId": "track_1190131",
+      "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/31/1190131.low.mp3",
+      "artist": "Gamesounds Foundry",
+      "title": "Disco Saga - Ingame",
+      "predicted": "テクノ",
+      "predictedMacro": "electronic",
+      "confidence": 100,
+      "top": [
+        {
+          "name": "テクノ",
+          "score": 100
+        },
+        {
+          "name": "ハウス",
+          "score": 75
+        },
+        {
+          "name": "ダブステップ",
+          "score": 71
+        },
+        {
+          "name": "チップチューン",
+          "score": 45
+        },
+        {
+          "name": "ディープ・ハウス",
+          "score": 27
+        }
+      ],
+      "macro": [
+        {
+          "macro": "electronic",
+          "score": 100
+        },
+        {
+          "macro": "black_music",
+          "score": 11
+        },
+        {
+          "macro": "ambient",
+          "score": 8
+        },
+        {
+          "macro": "jazz",
+          "score": 3
+        }
+      ],
+      "style": []
+    }
+  ],
+  "top3Candidates": [
+    {
+      "split": "train",
+      "trackId": "track_0044214",
+      "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/14/44214.low.mp3",
+      "artist": "Sonocore Records",
+      "title": "DJ Toxik Waste - Dawn",
+      "predicted": "チップチューン",
+      "predictedMacro": "electronic",
+      "confidence": 100,
+      "top": [
+        {
+          "name": "チップチューン",
+          "score": 100
+        },
+        {
+          "name": "ダブステップ",
+          "score": 60
+        },
+        {
+          "name": "テクノ",
+          "score": 35
+        },
+        {
+          "name": "ハウス",
+          "score": 25
+        },
+        {
+          "name": "トランス",
+          "score": 24
+        }
+      ],
+      "macro": [
+        {
+          "macro": "electronic",
+          "score": 100
+        },
+        {
+          "macro": "black_music",
+          "score": 22
+        },
+        {
+          "macro": "pop",
+          "score": 7
+        },
+        {
+          "macro": "rock",
+          "score": 2
+        }
+      ],
+      "style": []
+    },
+    {
+      "split": "train",
+      "trackId": "track_0490362",
+      "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/62/490362.low.mp3",
+      "artist": "DJ Mar.S.",
+      "title": "Feelin' for You (Jumpstyle Edit)",
+      "predicted": "ディープ・ハウス",
+      "predictedMacro": "electronic",
+      "confidence": 100,
+      "top": [
+        {
+          "name": "ディープ・ハウス",
+          "score": 100
+        },
+        {
+          "name": "テクノ",
+          "score": 79
+        },
+        {
+          "name": "ハウス",
+          "score": 63
+        },
+        {
+          "name": "チップチューン",
+          "score": 40
+        },
+        {
+          "name": "トランス",
+          "score": 20
+        }
+      ],
+      "macro": [
+        {
+          "macro": "electronic",
+          "score": 100
+        },
+        {
+          "macro": "black_music",
+          "score": 8
+        },
+        {
+          "macro": "pop",
+          "score": 6
+        },
+        {
+          "macro": "world",
+          "score": 5
+        }
+      ],
+      "style": []
+    },
+    {
+      "split": "train",
+      "trackId": "track_0761659",
+      "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/59/761659.low.mp3",
+      "artist": "DJ Mar.S. Aka One Milk",
+      "title": "Move For Energy",
+      "predicted": "トランス",
+      "predictedMacro": "electronic",
+      "confidence": 100,
+      "top": [
+        {
+          "name": "トランス",
+          "score": 100
+        },
+        {
+          "name": "ハウス",
+          "score": 83
+        },
+        {
+          "name": "テクノ",
+          "score": 79
+        },
+        {
+          "name": "ダブステップ",
+          "score": 64
+        },
+        {
+          "name": "ディープ・ハウス",
+          "score": 23
+        }
+      ],
+      "macro": [
+        {
+          "macro": "electronic",
+          "score": 100
+        },
+        {
+          "macro": "black_music",
+          "score": 21
+        },
+        {
+          "macro": "pop",
+          "score": 6
+        },
+        {
+          "macro": "rock",
+          "score": 2
+        }
+      ],
+      "style": []
+    },
+    {
+      "split": "train",
+      "trackId": "track_0761662",
+      "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/62/761662.low.mp3",
+      "artist": "DJ Mar.S. Aka One Milk",
+      "title": "Fallin'",
+      "predicted": "チップチューン",
+      "predictedMacro": "electronic",
+      "confidence": 100,
+      "top": [
+        {
+          "name": "チップチューン",
+          "score": 100
+        },
+        {
+          "name": "ダブステップ",
+          "score": 92
+        },
+        {
+          "name": "テクノ",
+          "score": 22
+        },
+        {
+          "name": "トランス",
+          "score": 15
+        },
+        {
+          "name": "ハウス",
+          "score": 10
+        }
+      ],
+      "macro": [
+        {
+          "macro": "electronic",
+          "score": 100
+        },
+        {
+          "macro": "ambient",
+          "score": 17
+        },
+        {
+          "macro": "rock",
+          "score": 12
+        },
+        {
+          "macro": "pop",
+          "score": 8
+        }
+      ],
+      "style": []
+    },
+    {
+      "split": "train",
+      "trackId": "track_0936440",
+      "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/40/936440.low.mp3",
+      "artist": "DJ Mar.S. Aka One Milk",
+      "title": "Raver's Future",
+      "predicted": "ダブステップ",
+      "predictedMacro": "electronic",
+      "confidence": 100,
+      "top": [
+        {
+          "name": "ダブステップ",
+          "score": 100
+        },
+        {
+          "name": "テクノ",
+          "score": 55
+        },
+        {
+          "name": "トランス",
+          "score": 40
+        },
+        {
+          "name": "ハウス",
+          "score": 28
+        },
+        {
+          "name": "ディープ・ハウス",
+          "score": 22
+        }
+      ],
+      "macro": [
+        {
+          "macro": "electronic",
+          "score": 100
+        },
+        {
+          "macro": "pop",
+          "score": 8
+        },
+        {
+          "macro": "black_music",
+          "score": 7
+        },
+        {
+          "macro": "rock",
+          "score": 2
+        }
+      ],
+      "style": []
+    },
+    {
+      "split": "train",
+      "trackId": "track_0938999",
+      "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/99/938999.low.mp3",
+      "artist": "J.L.T",
+      "title": "Remember 90's (original mix)",
+      "predicted": "チップチューン",
+      "predictedMacro": "electronic",
+      "confidence": 100,
+      "top": [
+        {
+          "name": "チップチューン",
+          "score": 100
+        },
+        {
+          "name": "ダブステップ",
+          "score": 35
+        },
+        {
+          "name": "テクノ",
+          "score": 19
+        },
+        {
+          "name": "トランス",
+          "score": 12
+        },
+        {
+          "name": "ディープ・ハウス",
+          "score": 7
+        }
+      ],
+      "macro": [
+        {
+          "macro": "electronic",
+          "score": 100
+        },
+        {
+          "macro": "rock",
+          "score": 15
+        },
+        {
+          "macro": "ambient",
+          "score": 8
+        },
+        {
+          "macro": "black_music",
+          "score": 7
+        }
+      ],
+      "style": []
+    },
+    {
+      "split": "train",
+      "trackId": "track_1072912",
+      "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/12/1072912.low.mp3",
+      "artist": "Gepzene",
+      "title": "Gepzene - Bird",
+      "predicted": "ディープ・ハウス",
+      "predictedMacro": "electronic",
+      "confidence": 100,
+      "top": [
+        {
+          "name": "ディープ・ハウス",
+          "score": 100
+        },
+        {
+          "name": "テクノ",
+          "score": 64
+        },
+        {
+          "name": "チップチューン",
+          "score": 52
+        },
+        {
+          "name": "ハウス",
+          "score": 19
+        },
+        {
+          "name": "ダブステップ",
+          "score": 18
+        }
+      ],
+      "macro": [
+        {
+          "macro": "electronic",
+          "score": 100
+        },
+        {
+          "macro": "black_music",
+          "score": 13
+        },
+        {
+          "macro": "pop",
+          "score": 10
+        },
+        {
+          "macro": "rock",
+          "score": 4
+        }
+      ],
+      "style": []
+    }
+  ]
+}

@@ -15,32 +15,43 @@ const OUT_DIR = path.join(ROOT, "genre-training", "score-search");
 const baseEnv = {
   MMFR_GENRE_STRICT_CC_ONLY: "1",
   MMFR_GENRE_TRAIN_CACHE_ONLY: "1",
-  MMFR_GENRE_TRAIN_QUIET: "1"
+  MMFR_GENRE_TRAIN_QUIET: "1",
+  MMFR_ENABLE_GENRE_THEORY_PRIORS: "0",
+  MMFR_ENABLE_VALIDATION_CALIBRATION: "1"
 };
 
 const configs = [
-  { name: "baseline", env: {} },
-  { name: "distribution", env: { MMFR_DISTRIBUTION_CLASSIFIER: "1" } },
+  { name: "current-formal", env: {} },
+  { name: "no-calibration", env: { MMFR_ENABLE_VALIDATION_CALIBRATION: "0" } },
   { name: "balanced-knn", env: { MMFR_BALANCED_KNN: "1" } },
-  { name: "separability", env: { MMFR_SEPARABILITY_WEIGHTS: "1" } },
+  { name: "strict-two-stage", env: { MMFR_STRICT_TWO_STAGE: "1" } },
+  { name: "hard-macro-gate", env: { MMFR_SOFT_TWO_STAGE: "0" } },
+  { name: "macro-heuristics", env: { MMFR_ENABLE_MACRO_HEURISTICS: "1" } },
+  { name: "no-distribution", env: { MMFR_DISTRIBUTION_CLASSIFIER: "0" } },
+  { name: "no-separability", env: { MMFR_SEPARABILITY_WEIGHTS: "0" } },
+  { name: "theory-priors-light", env: { MMFR_ENABLE_GENRE_THEORY_PRIORS: "1", MMFR_GENRE_THEORY_WEIGHT: "0.03", MMFR_GENRE_THEORY_MACRO_WEIGHT: "0.02" } },
+  { name: "theory-priors-default", env: { MMFR_ENABLE_GENRE_THEORY_PRIORS: "1" } },
   { name: "advanced", env: { MMFR_ADVANCED_GENRE_FEATURES: "1" } },
   { name: "extended", env: { MMFR_EXTENDED_GENRE_FEATURES: "1" } },
   { name: "advanced-extended", env: { MMFR_ADVANCED_GENRE_FEATURES: "1", MMFR_EXTENDED_GENRE_FEATURES: "1" } },
+  { name: "advanced-theory-features", env: { MMFR_ADVANCED_GENRE_FEATURES: "1", MMFR_ENABLE_THEORY_GENRE_FEATURES: "1" } },
+  { name: "advanced-theory-priors-light", env: { MMFR_ADVANCED_GENRE_FEATURES: "1", MMFR_ENABLE_GENRE_THEORY_PRIORS: "1", MMFR_GENRE_THEORY_WEIGHT: "0.03", MMFR_GENRE_THEORY_MACRO_WEIGHT: "0.02" } },
+  { name: "advanced-fma-light", env: { MMFR_ADVANCED_GENRE_FEATURES: "1", MMFR_FMA_AUDIO_WEIGHT: "0.6" } },
+  { name: "advanced-fma-full", env: { MMFR_ADVANCED_GENRE_FEATURES: "1", MMFR_FMA_AUDIO_WEIGHT: "1" } },
+  { name: "advanced-validation-reranker", env: { MMFR_ADVANCED_GENRE_FEATURES: "1", MMFR_ENABLE_VALIDATION_RERANKER: "1" } },
+  { name: "advanced-reranker-balanced", env: { MMFR_ADVANCED_GENRE_FEATURES: "1", MMFR_ENABLE_VALIDATION_RERANKER: "1", MMFR_BALANCED_KNN: "1" } },
+  { name: "advanced-reranker-loose-safe", env: { MMFR_ADVANCED_GENRE_FEATURES: "1", MMFR_ENABLE_VALIDATION_RERANKER: "1", MMFR_VALIDATION_RERANKER_MIN_SUCCESS: "1", MMFR_VALIDATION_RERANKER_MIN_TOTAL: "2", MMFR_VALIDATION_RERANKER_MIN_PRECISION: "0.5", MMFR_VALIDATION_RERANKER_MAX_HARM_RATE: "0.25" } },
+  { name: "advanced-reranker-loose-balanced", env: { MMFR_ADVANCED_GENRE_FEATURES: "1", MMFR_ENABLE_VALIDATION_RERANKER: "1", MMFR_BALANCED_KNN: "1", MMFR_VALIDATION_RERANKER_MIN_SUCCESS: "1", MMFR_VALIDATION_RERANKER_MIN_TOTAL: "2", MMFR_VALIDATION_RERANKER_MIN_PRECISION: "0.5", MMFR_VALIDATION_RERANKER_MAX_HARM_RATE: "0.25" } },
+  { name: "advanced-reranker-no-distribution", env: { MMFR_ADVANCED_GENRE_FEATURES: "1", MMFR_ENABLE_VALIDATION_RERANKER: "1", MMFR_DISTRIBUTION_CLASSIFIER: "0" } },
+  { name: "advanced-reranker-style-boost-mid", env: { MMFR_ADVANCED_GENRE_FEATURES: "1", MMFR_ENABLE_VALIDATION_RERANKER: "1", MMFR_STYLE_FINE_BOOST_TOP: "0.62", MMFR_STYLE_FINE_BOOST_SECOND: "0.32", MMFR_STYLE_FINE_BOOST_THIRD: "0.16" } },
+  { name: "advanced-reranker-style-boost-strong", env: { MMFR_ADVANCED_GENRE_FEATURES: "1", MMFR_ENABLE_VALIDATION_RERANKER: "1", MMFR_STYLE_FINE_BOOST_TOP: "0.82", MMFR_STYLE_FINE_BOOST_SECOND: "0.4", MMFR_STYLE_FINE_BOOST_THIRD: "0.2" } },
+  { name: "advanced-reranker-style-boost-technoish", env: { MMFR_ADVANCED_GENRE_FEATURES: "1", MMFR_ENABLE_VALIDATION_RERANKER: "1", MMFR_STYLE_FINE_BOOST_TOP: "1.0", MMFR_STYLE_FINE_BOOST_SECOND: "0.24", MMFR_STYLE_FINE_BOOST_THIRD: "0.08" } },
   { name: "theory-features", env: { MMFR_ENABLE_THEORY_GENRE_FEATURES: "1" } },
-  { name: "distribution-balanced", env: { MMFR_DISTRIBUTION_CLASSIFIER: "1", MMFR_BALANCED_KNN: "1" } },
-  { name: "distribution-separability", env: { MMFR_DISTRIBUTION_CLASSIFIER: "1", MMFR_SEPARABILITY_WEIGHTS: "1" } },
-  { name: "calibration", env: { MMFR_ENABLE_VALIDATION_CALIBRATION: "1" } },
-  { name: "distribution-calibration", env: { MMFR_DISTRIBUTION_CLASSIFIER: "1", MMFR_ENABLE_VALIDATION_CALIBRATION: "1" } },
-  { name: "strict-two-stage", env: { MMFR_STRICT_TWO_STAGE: "1" } },
-  { name: "harder-theory", env: { MMFR_GENRE_THEORY_WEIGHT: "0.08", MMFR_GENRE_THEORY_MACRO_WEIGHT: "0.06" } },
-  { name: "best-theory-off", env: { MMFR_DISTRIBUTION_CLASSIFIER: "1", MMFR_SEPARABILITY_WEIGHTS: "1", MMFR_ENABLE_GENRE_THEORY_PRIORS: "0" } },
-  { name: "best-theory-light", env: { MMFR_DISTRIBUTION_CLASSIFIER: "1", MMFR_SEPARABILITY_WEIGHTS: "1", MMFR_GENRE_THEORY_WEIGHT: "0.03", MMFR_GENRE_THEORY_MACRO_WEIGHT: "0.02" } },
-  { name: "best-theory-strong", env: { MMFR_DISTRIBUTION_CLASSIFIER: "1", MMFR_SEPARABILITY_WEIGHTS: "1", MMFR_GENRE_THEORY_WEIGHT: "0.08", MMFR_GENRE_THEORY_MACRO_WEIGHT: "0.06" } },
-  { name: "best-fma-full", env: { MMFR_DISTRIBUTION_CLASSIFIER: "1", MMFR_SEPARABILITY_WEIGHTS: "1", MMFR_FMA_AUDIO_WEIGHT: "1" } },
-  { name: "best-fma-light", env: { MMFR_DISTRIBUTION_CLASSIFIER: "1", MMFR_SEPARABILITY_WEIGHTS: "1", MMFR_FMA_AUDIO_WEIGHT: "0.6" } },
-  { name: "best-no-macro-heuristics", env: { MMFR_DISTRIBUTION_CLASSIFIER: "1", MMFR_SEPARABILITY_WEIGHTS: "1", MMFR_ENABLE_MACRO_HEURISTICS: "0" } },
-  { name: "best-hard-macro-gate", env: { MMFR_DISTRIBUTION_CLASSIFIER: "1", MMFR_SEPARABILITY_WEIGHTS: "1", MMFR_SOFT_TWO_STAGE: "0" } },
-  { name: "best-with-theory-features", env: { MMFR_DISTRIBUTION_CLASSIFIER: "1", MMFR_SEPARABILITY_WEIGHTS: "1", MMFR_ENABLE_THEORY_GENRE_FEATURES: "1" } }
+  { name: "advanced-no-calibration", env: { MMFR_ADVANCED_GENRE_FEATURES: "1", MMFR_ENABLE_VALIDATION_CALIBRATION: "0" } },
+  { name: "extended-no-calibration", env: { MMFR_EXTENDED_GENRE_FEATURES: "1", MMFR_ENABLE_VALIDATION_CALIBRATION: "0" } },
+  { name: "fma-full", env: { MMFR_FMA_AUDIO_WEIGHT: "1" } },
+  { name: "fma-light", env: { MMFR_FMA_AUDIO_WEIGHT: "0.6" } },
+  { name: "validation-reranker", env: { MMFR_ENABLE_VALIDATION_RERANKER: "1" } }
 ];
 
 function readJson(target) {
@@ -53,12 +64,14 @@ function metricPayload(config) {
   const summary = results.summary || {};
   const formal = summary.formalSummary || {};
   const target = formal.status === "available" ? formal : summary;
+  const dubGuardrail = Number(target.dubPredictionRate || 0) <= 10 ? 0 : (Number(target.dubPredictionRate || 0) - 10) * 4;
   const score = (
     Number(target.fineTop1Accuracy || 0) * 3
     + Number(target.fineTop3Accuracy || 0)
     + Number(target.macroTop1Accuracy || 0) * .45
     - Number(target.needsReviewRate || 0) * .18
     - Number(target.dubPredictionRate || 0) * .12
+    - dubGuardrail
   );
   return {
     config,
@@ -121,7 +134,9 @@ function restoreBest(best) {
 
 fs.mkdirSync(OUT_DIR, { recursive: true });
 const selected = process.argv.slice(2).filter(Boolean);
-const selectedConfigs = selected.length ? configs.filter(config => selected.includes(config.name)) : configs;
+const selectedConfigs = selected.length
+  ? configs.filter(config => config.name === "current-formal" || selected.includes(config.name))
+  : configs;
 const runs = [];
 
 for (const config of selectedConfigs) {

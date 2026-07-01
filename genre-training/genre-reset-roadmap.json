@@ -1,0 +1,4796 @@
+{
+  "generatedAt": "2026-06-30T14:58:15.613Z",
+  "baseline": {
+    "macroTop1Accuracy": 32.5,
+    "fineTop1Accuracy": 18.6,
+    "fineTop3Accuracy": 35.7,
+    "formalFineTop1Accuracy": 21.7,
+    "formalFineTop3Accuracy": 40.4,
+    "styleTop1Accuracy": 46.7,
+    "needsReviewRate": 13,
+    "dubPredictionRate": 8.6,
+    "bestScoreSearchConfig": "advanced-validation-reranker"
+  },
+  "bucketCounts": {
+    "data-gap": 36,
+    "label-noise": 3,
+    "ranker-gap": 3,
+    "model-and-data-gap": 10,
+    "needs-incremental-improvement": 2,
+    "passing-or-style-passing": 1
+  },
+  "stopDoing": [
+    "Stop broad global score-search runs unless a new feature family is added; recent global flags mostly traded one metric for another.",
+    "Stop promoting broad FMA/MTG genre labels directly to fine labels without source-level review.",
+    "Stop optimizing against a single weak target if it crosses the dub guardrail or drops Fine Top1."
+  ],
+  "continueDoing": [
+    "Keep advanced-validation-reranker as the reference model because it improved Fine Top3, Formal Fine Top3, Style Top1, and needs-review rate.",
+    "Keep styleHint evaluation for city-pop and similar ambiguous substyles instead of forcing exact fine labels.",
+    "Keep source-quality holdouts and track-level overrides; they prevent noisy formal rows from dominating fine training."
+  ],
+  "startDoing": [
+    "Run data-first sprints: each sprint selects 3-5 genres, adds explicit formal rows, then retrains once.",
+    "Create per-macro specialist evaluation sets before adding more weighting knobs.",
+    "Treat techno as the first acquisition sprint: explicit techno rows, explicit non-techno electronic contrast rows, and no broad electronic labels."
+  ],
+  "priorityRows": [
+    {
+      "genre": "テクノ",
+      "totalRows": 261,
+      "formalRows": 103,
+      "formalFineRows": 32,
+      "fineRows": 173,
+      "macroOnlyRows": 88,
+      "datasets": {
+        "undefined": 21,
+        "FMA metadata/features": 120,
+        "FMA": 25,
+        "MTG-Jamendo": 92,
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 166,
+        "validation-quality-holdout-fma-techno": 3,
+        "source-quality-holdout-mtg-jamendo-techno": 65,
+        "selective-mtg-jamendo-techno-fine-restore": 7,
+        "validation-quality-holdout-mtg-techno": 3,
+        "quarantined-score-regression": 17
+      },
+      "macroGenre": "electronic",
+      "testRows": 9,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 11.1,
+      "macroTop1Accuracy": 31.6,
+      "styleTop1Accuracy": 22.2,
+      "priority": true,
+      "commonPredictions": [
+        {
+          "label": "ヒップホップ",
+          "count": 3
+        },
+        {
+          "label": "ファンク",
+          "count": 2
+        },
+        {
+          "label": "ダブ",
+          "count": 2
+        },
+        {
+          "label": "ハウス",
+          "count": 2
+        },
+        {
+          "label": "トランス",
+          "count": 2
+        }
+      ],
+      "missingFormalFine": 18,
+      "missingTest": 1,
+      "topDatasets": [
+        {
+          "label": "FMA metadata/features",
+          "count": 120
+        },
+        {
+          "label": "MTG-Jamendo",
+          "count": 92
+        },
+        {
+          "label": "FMA",
+          "count": 25
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 166
+        },
+        {
+          "label": "source-quality-holdout-mtg-jamendo-techno",
+          "count": 65
+        },
+        {
+          "label": "quarantined-score-regression",
+          "count": 17
+        },
+        {
+          "label": "selective-mtg-jamendo-techno-fine-restore",
+          "count": 7
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 18 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 1684
+    },
+    {
+      "genre": "アニメソング",
+      "totalRows": 27,
+      "formalRows": 6,
+      "formalFineRows": 6,
+      "fineRows": 27,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "undefined": 21,
+        "Openverse/jamendo": 5,
+        "Internet Archive explicit CC formal candidates": 1
+      },
+      "reviewStatuses": {
+        "": 27
+      },
+      "macroGenre": "pop",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": true,
+      "commonPredictions": [
+        {
+          "label": "ラテン",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 44,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "Openverse/jamendo",
+          "count": 5
+        },
+        {
+          "label": "Internet Archive explicit CC formal candidates",
+          "count": 1
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 27
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 44 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 1652
+    },
+    {
+      "genre": "ドローン",
+      "totalRows": 321,
+      "formalRows": 180,
+      "formalFineRows": 88,
+      "fineRows": 229,
+      "macroOnlyRows": 92,
+      "datasets": {
+        "undefined": 21,
+        "FMA metadata/features": 120,
+        "FMA": 180
+      },
+      "reviewStatuses": {
+        "": 203,
+        "keyword-targeted-fma": 15,
+        "keyword-targeted-fma-drone-acoustic-keep": 11,
+        "keyword-targeted-fma-drone-acoustic-holdout": 62,
+        "keyword-targeted-fma-drone-formal-holdout": 30
+      },
+      "macroGenre": "ambient",
+      "testRows": 13,
+      "fineTop1Accuracy": 23.1,
+      "fineTop3Accuracy": 30.8,
+      "macroTop1Accuracy": 34.6,
+      "styleTop1Accuracy": 46.2,
+      "priority": true,
+      "commonPredictions": [
+        {
+          "label": "ドローン",
+          "count": 6
+        },
+        {
+          "label": "チップチューン",
+          "count": 4
+        },
+        {
+          "label": "ダブ",
+          "count": 3
+        },
+        {
+          "label": "レゲエ",
+          "count": 2
+        },
+        {
+          "label": "クラシック音楽",
+          "count": 2
+        }
+      ],
+      "missingFormalFine": 0,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "FMA",
+          "count": 180
+        },
+        {
+          "label": "FMA metadata/features",
+          "count": 120
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 203
+        },
+        {
+          "label": "keyword-targeted-fma-drone-acoustic-holdout",
+          "count": 62
+        },
+        {
+          "label": "keyword-targeted-fma-drone-formal-holdout",
+          "count": 30
+        },
+        {
+          "label": "keyword-targeted-fma",
+          "count": 15
+        }
+      ],
+      "bucket": "label-noise",
+      "nextAction": "Review source/track labels first; promote only explicit substyle rows and keep broad labels macro-only.",
+      "urgency": 1193.8
+    },
+    {
+      "genre": "ダブ",
+      "totalRows": 233,
+      "formalRows": 100,
+      "formalFineRows": 100,
+      "fineRows": 213,
+      "macroOnlyRows": 20,
+      "datasets": {
+        "undefined": 21,
+        "FMA metadata/features": 92,
+        "FMA": 50,
+        "MTG-Jamendo": 70
+      },
+      "reviewStatuses": {
+        "": 213,
+        "quarantined-score-regression": 20
+      },
+      "macroGenre": "black_music",
+      "testRows": 17,
+      "fineTop1Accuracy": 29.4,
+      "fineTop3Accuracy": 70.6,
+      "macroTop1Accuracy": 70.6,
+      "styleTop1Accuracy": 47.1,
+      "priority": true,
+      "commonPredictions": [
+        {
+          "label": "ダブ",
+          "count": 5
+        },
+        {
+          "label": "ヒップホップ",
+          "count": 5
+        },
+        {
+          "label": "ダブステップ",
+          "count": 2
+        },
+        {
+          "label": "レゲエ",
+          "count": 1
+        },
+        {
+          "label": "ノイズミュージック",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 0,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "FMA metadata/features",
+          "count": 92
+        },
+        {
+          "label": "MTG-Jamendo",
+          "count": 70
+        },
+        {
+          "label": "FMA",
+          "count": 50
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 213
+        },
+        {
+          "label": "quarantined-score-regression",
+          "count": 20
+        }
+      ],
+      "bucket": "ranker-gap",
+      "nextAction": "Use validation examples to train a narrow per-macro reranker; avoid global boosts.",
+      "urgency": 1061.2
+    },
+    {
+      "genre": "J-POP",
+      "totalRows": 136,
+      "formalRows": 115,
+      "formalFineRows": 115,
+      "fineRows": 136,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "undefined": 21,
+        "RWC Music Database: Popular Music Database": 100,
+        "IdolSongsJp Corpus": 15
+      },
+      "reviewStatuses": {
+        "": 61,
+        "citypop-stylehint-rwc-japanese-pop": 60,
+        "pending-idolsongsjp-license-confirmation": 15
+      },
+      "macroGenre": "pop",
+      "testRows": 20,
+      "fineTop1Accuracy": 30,
+      "fineTop3Accuracy": 30,
+      "macroTop1Accuracy": 25,
+      "styleTop1Accuracy": null,
+      "priority": true,
+      "commonPredictions": [
+        {
+          "label": "J-POP",
+          "count": 6
+        },
+        {
+          "label": "ヒップホップ",
+          "count": 4
+        },
+        {
+          "label": "メタル",
+          "count": 2
+        },
+        {
+          "label": "パンク",
+          "count": 2
+        },
+        {
+          "label": "ソウルミュージック",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 0,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Popular Music Database",
+          "count": 100
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "IdolSongsJp Corpus",
+          "count": 15
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 61
+        },
+        {
+          "label": "citypop-stylehint-rwc-japanese-pop",
+          "count": 60
+        },
+        {
+          "label": "pending-idolsongsjp-license-confirmation",
+          "count": 15
+        }
+      ],
+      "bucket": "model-and-data-gap",
+      "nextAction": "Collect cleaner contrast pairs against the most common wrong predictions before changing weights.",
+      "urgency": 1060
+    },
+    {
+      "genre": "クラシック音楽",
+      "totalRows": 247,
+      "formalRows": 100,
+      "formalFineRows": 100,
+      "fineRows": 241,
+      "macroOnlyRows": 6,
+      "datasets": {
+        "undefined": 21,
+        "FMA metadata/features": 120,
+        "FMA": 6,
+        "MTG-Jamendo": 100
+      },
+      "reviewStatuses": {
+        "": 241,
+        "quarantined-score-regression": 6
+      },
+      "macroGenre": "classical",
+      "testRows": 16,
+      "fineTop1Accuracy": 75,
+      "fineTop3Accuracy": 75,
+      "macroTop1Accuracy": 68.8,
+      "styleTop1Accuracy": null,
+      "priority": true,
+      "commonPredictions": [
+        {
+          "label": "クラシック音楽",
+          "count": 12
+        },
+        {
+          "label": "フォーク",
+          "count": 1
+        },
+        {
+          "label": "ノイズミュージック",
+          "count": 1
+        },
+        {
+          "label": "チップチューン",
+          "count": 1
+        },
+        {
+          "label": "ファンク",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 0,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "FMA metadata/features",
+          "count": 120
+        },
+        {
+          "label": "MTG-Jamendo",
+          "count": 100
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "FMA",
+          "count": 6
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 241
+        },
+        {
+          "label": "quarantined-score-regression",
+          "count": 6
+        }
+      ],
+      "bucket": "needs-incremental-improvement",
+      "nextAction": "Collect cleaner contrast pairs against the most common wrong predictions before changing weights.",
+      "urgency": 1000
+    },
+    {
+      "genre": "ドラムンベース",
+      "totalRows": 199,
+      "formalRows": 58,
+      "formalFineRows": 0,
+      "fineRows": 141,
+      "macroOnlyRows": 58,
+      "datasets": {
+        "undefined": 21,
+        "FMA metadata/features": 120,
+        "FMA": 58
+      },
+      "reviewStatuses": {
+        "": 141,
+        "source-quality-holdout-fma-drum-and-bass": 58
+      },
+      "macroGenre": "electronic",
+      "testRows": 0,
+      "fineTop1Accuracy": null,
+      "fineTop3Accuracy": null,
+      "macroTop1Accuracy": 54.5,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ヒップホップ",
+          "count": 2
+        },
+        {
+          "label": "ダブステップ",
+          "count": 2
+        },
+        {
+          "label": "フォーク",
+          "count": 1
+        },
+        {
+          "label": "チップチューン",
+          "count": 1
+        },
+        {
+          "label": "J-POP",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 50,
+      "missingTest": 10,
+      "topDatasets": [
+        {
+          "label": "FMA metadata/features",
+          "count": 120
+        },
+        {
+          "label": "FMA",
+          "count": 58
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 141
+        },
+        {
+          "label": "source-quality-holdout-fma-drum-and-bass",
+          "count": 58
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 50 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 720
+    },
+    {
+      "genre": "電子音楽",
+      "totalRows": 106,
+      "formalRows": 85,
+      "formalFineRows": 0,
+      "fineRows": 21,
+      "macroOnlyRows": 85,
+      "datasets": {
+        "undefined": 21,
+        "FMA": 80,
+        "jaCappella Corpus": 5
+      },
+      "reviewStatuses": {
+        "": 101,
+        "auto-approved-jacappella-subset": 5
+      },
+      "macroGenre": "electronic",
+      "testRows": 0,
+      "fineTop1Accuracy": null,
+      "fineTop3Accuracy": null,
+      "macroTop1Accuracy": 21.4,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "J-POP",
+          "count": 2
+        },
+        {
+          "label": "クラシック音楽",
+          "count": 2
+        },
+        {
+          "label": "ソウルミュージック",
+          "count": 2
+        },
+        {
+          "label": "チップチューン",
+          "count": 1
+        },
+        {
+          "label": "ヒップホップ",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 50,
+      "missingTest": 10,
+      "topDatasets": [
+        {
+          "label": "FMA",
+          "count": 80
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "jaCappella Corpus",
+          "count": 5
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 101
+        },
+        {
+          "label": "auto-approved-jacappella-subset",
+          "count": 5
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 50 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 720
+    },
+    {
+      "genre": "ワールドミュージック",
+      "totalRows": 101,
+      "formalRows": 80,
+      "formalFineRows": 0,
+      "fineRows": 21,
+      "macroOnlyRows": 80,
+      "datasets": {
+        "undefined": 21,
+        "MTG-Jamendo": 50,
+        "FMA": 30
+      },
+      "reviewStatuses": {
+        "": 101
+      },
+      "macroGenre": "world",
+      "testRows": 0,
+      "fineTop1Accuracy": null,
+      "fineTop3Accuracy": null,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ダブ",
+          "count": 4
+        },
+        {
+          "label": "ファンク",
+          "count": 2
+        },
+        {
+          "label": "レゲエ",
+          "count": 2
+        },
+        {
+          "label": "メタル",
+          "count": 2
+        },
+        {
+          "label": "ヒップホップ",
+          "count": 2
+        }
+      ],
+      "missingFormalFine": 50,
+      "missingTest": 10,
+      "topDatasets": [
+        {
+          "label": "MTG-Jamendo",
+          "count": 50
+        },
+        {
+          "label": "FMA",
+          "count": 30
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 101
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 50 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 720
+    },
+    {
+      "genre": "アカペラ",
+      "totalRows": 1,
+      "formalRows": 1,
+      "formalFineRows": 1,
+      "fineRows": 1,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 1
+      },
+      "reviewStatuses": {
+        "": 1
+      },
+      "macroGenre": "",
+      "testRows": 0,
+      "fineTop1Accuracy": null,
+      "fineTop3Accuracy": null,
+      "macroTop1Accuracy": null,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [],
+      "missingFormalFine": 49,
+      "missingTest": 10,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 1
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 1
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 49 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 712
+    },
+    {
+      "genre": "オペラ",
+      "totalRows": 78,
+      "formalRows": 57,
+      "formalFineRows": 3,
+      "fineRows": 24,
+      "macroOnlyRows": 54,
+      "datasets": {
+        "undefined": 21,
+        "FMA": 54,
+        "Wikimedia Commons Audio": 3
+      },
+      "reviewStatuses": {
+        "": 24,
+        "source-quality-holdout-fma-opera": 54
+      },
+      "macroGenre": "classical",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 100,
+      "macroTop1Accuracy": 16.3,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "クラシック音楽",
+          "count": 8
+        },
+        {
+          "label": "ドローン",
+          "count": 6
+        },
+        {
+          "label": "ラテン",
+          "count": 4
+        },
+        {
+          "label": "ソウルミュージック",
+          "count": 4
+        },
+        {
+          "label": "チップチューン",
+          "count": 4
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "FMA",
+          "count": 54
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "Wikimedia Commons Audio",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "source-quality-holdout-fma-opera",
+          "count": 54
+        },
+        {
+          "label": "",
+          "count": 24
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "ロック",
+      "totalRows": 104,
+      "formalRows": 83,
+      "formalFineRows": 3,
+      "fineRows": 24,
+      "macroOnlyRows": 80,
+      "datasets": {
+        "undefined": 21,
+        "MTG-Jamendo": 48,
+        "FMA": 32,
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 24,
+        "source-quality-holdout-mtg-jamendo-rock": 48,
+        "source-quality-holdout-fma-rock": 32
+      },
+      "macroGenre": "rock",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 100,
+      "macroTop1Accuracy": 7.7,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ダブステップ",
+          "count": 3
+        },
+        {
+          "label": "ノイズミュージック",
+          "count": 2
+        },
+        {
+          "label": "ヒップホップ",
+          "count": 1
+        },
+        {
+          "label": "ラテン",
+          "count": 1
+        },
+        {
+          "label": "パンク",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "MTG-Jamendo",
+          "count": 48
+        },
+        {
+          "label": "FMA",
+          "count": 32
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "source-quality-holdout-mtg-jamendo-rock",
+          "count": 48
+        },
+        {
+          "label": "source-quality-holdout-fma-rock",
+          "count": 32
+        },
+        {
+          "label": "",
+          "count": 24
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "ブルース",
+      "totalRows": 78,
+      "formalRows": 78,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 75,
+      "datasets": {
+        "MTG-Jamendo": 49,
+        "FMA": 26,
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "source-quality-holdout-mtg-jamendo-blues": 49,
+        "source-quality-holdout-fma-blues": 26,
+        "": 3
+      },
+      "macroGenre": "black_music",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 16.7,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "アンビエント",
+          "count": 3
+        },
+        {
+          "label": "チップチューン",
+          "count": 2
+        },
+        {
+          "label": "ラテン",
+          "count": 1
+        },
+        {
+          "label": "ドローン",
+          "count": 1
+        },
+        {
+          "label": "ファンク",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "MTG-Jamendo",
+          "count": 49
+        },
+        {
+          "label": "FMA",
+          "count": 26
+        },
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "source-quality-holdout-mtg-jamendo-blues",
+          "count": 49
+        },
+        {
+          "label": "source-quality-holdout-fma-blues",
+          "count": 26
+        },
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "ビッグバンド",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "jazz",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ボサノヴァ",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "フュージョン",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "jazz",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ボサノヴァ",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "サンバ",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "world",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ファンク",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "タンゴ",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "world",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ソウルミュージック",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "バロック",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "classical",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ファンク",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "クラシック",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "classical",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 100,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "クラシック音楽",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "ロマン派",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "classical",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 100,
+      "macroTop1Accuracy": 100,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "クラシック音楽",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    }
+  ],
+  "rows": [
+    {
+      "genre": "テクノ",
+      "totalRows": 261,
+      "formalRows": 103,
+      "formalFineRows": 32,
+      "fineRows": 173,
+      "macroOnlyRows": 88,
+      "datasets": {
+        "undefined": 21,
+        "FMA metadata/features": 120,
+        "FMA": 25,
+        "MTG-Jamendo": 92,
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 166,
+        "validation-quality-holdout-fma-techno": 3,
+        "source-quality-holdout-mtg-jamendo-techno": 65,
+        "selective-mtg-jamendo-techno-fine-restore": 7,
+        "validation-quality-holdout-mtg-techno": 3,
+        "quarantined-score-regression": 17
+      },
+      "macroGenre": "electronic",
+      "testRows": 9,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 11.1,
+      "macroTop1Accuracy": 31.6,
+      "styleTop1Accuracy": 22.2,
+      "priority": true,
+      "commonPredictions": [
+        {
+          "label": "ヒップホップ",
+          "count": 3
+        },
+        {
+          "label": "ファンク",
+          "count": 2
+        },
+        {
+          "label": "ダブ",
+          "count": 2
+        },
+        {
+          "label": "ハウス",
+          "count": 2
+        },
+        {
+          "label": "トランス",
+          "count": 2
+        }
+      ],
+      "missingFormalFine": 18,
+      "missingTest": 1,
+      "topDatasets": [
+        {
+          "label": "FMA metadata/features",
+          "count": 120
+        },
+        {
+          "label": "MTG-Jamendo",
+          "count": 92
+        },
+        {
+          "label": "FMA",
+          "count": 25
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 166
+        },
+        {
+          "label": "source-quality-holdout-mtg-jamendo-techno",
+          "count": 65
+        },
+        {
+          "label": "quarantined-score-regression",
+          "count": 17
+        },
+        {
+          "label": "selective-mtg-jamendo-techno-fine-restore",
+          "count": 7
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 18 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 1684
+    },
+    {
+      "genre": "アニメソング",
+      "totalRows": 27,
+      "formalRows": 6,
+      "formalFineRows": 6,
+      "fineRows": 27,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "undefined": 21,
+        "Openverse/jamendo": 5,
+        "Internet Archive explicit CC formal candidates": 1
+      },
+      "reviewStatuses": {
+        "": 27
+      },
+      "macroGenre": "pop",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": true,
+      "commonPredictions": [
+        {
+          "label": "ラテン",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 44,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "Openverse/jamendo",
+          "count": 5
+        },
+        {
+          "label": "Internet Archive explicit CC formal candidates",
+          "count": 1
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 27
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 44 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 1652
+    },
+    {
+      "genre": "ドローン",
+      "totalRows": 321,
+      "formalRows": 180,
+      "formalFineRows": 88,
+      "fineRows": 229,
+      "macroOnlyRows": 92,
+      "datasets": {
+        "undefined": 21,
+        "FMA metadata/features": 120,
+        "FMA": 180
+      },
+      "reviewStatuses": {
+        "": 203,
+        "keyword-targeted-fma": 15,
+        "keyword-targeted-fma-drone-acoustic-keep": 11,
+        "keyword-targeted-fma-drone-acoustic-holdout": 62,
+        "keyword-targeted-fma-drone-formal-holdout": 30
+      },
+      "macroGenre": "ambient",
+      "testRows": 13,
+      "fineTop1Accuracy": 23.1,
+      "fineTop3Accuracy": 30.8,
+      "macroTop1Accuracy": 34.6,
+      "styleTop1Accuracy": 46.2,
+      "priority": true,
+      "commonPredictions": [
+        {
+          "label": "ドローン",
+          "count": 6
+        },
+        {
+          "label": "チップチューン",
+          "count": 4
+        },
+        {
+          "label": "ダブ",
+          "count": 3
+        },
+        {
+          "label": "レゲエ",
+          "count": 2
+        },
+        {
+          "label": "クラシック音楽",
+          "count": 2
+        }
+      ],
+      "missingFormalFine": 0,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "FMA",
+          "count": 180
+        },
+        {
+          "label": "FMA metadata/features",
+          "count": 120
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 203
+        },
+        {
+          "label": "keyword-targeted-fma-drone-acoustic-holdout",
+          "count": 62
+        },
+        {
+          "label": "keyword-targeted-fma-drone-formal-holdout",
+          "count": 30
+        },
+        {
+          "label": "keyword-targeted-fma",
+          "count": 15
+        }
+      ],
+      "bucket": "label-noise",
+      "nextAction": "Review source/track labels first; promote only explicit substyle rows and keep broad labels macro-only.",
+      "urgency": 1193.8
+    },
+    {
+      "genre": "ダブ",
+      "totalRows": 233,
+      "formalRows": 100,
+      "formalFineRows": 100,
+      "fineRows": 213,
+      "macroOnlyRows": 20,
+      "datasets": {
+        "undefined": 21,
+        "FMA metadata/features": 92,
+        "FMA": 50,
+        "MTG-Jamendo": 70
+      },
+      "reviewStatuses": {
+        "": 213,
+        "quarantined-score-regression": 20
+      },
+      "macroGenre": "black_music",
+      "testRows": 17,
+      "fineTop1Accuracy": 29.4,
+      "fineTop3Accuracy": 70.6,
+      "macroTop1Accuracy": 70.6,
+      "styleTop1Accuracy": 47.1,
+      "priority": true,
+      "commonPredictions": [
+        {
+          "label": "ダブ",
+          "count": 5
+        },
+        {
+          "label": "ヒップホップ",
+          "count": 5
+        },
+        {
+          "label": "ダブステップ",
+          "count": 2
+        },
+        {
+          "label": "レゲエ",
+          "count": 1
+        },
+        {
+          "label": "ノイズミュージック",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 0,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "FMA metadata/features",
+          "count": 92
+        },
+        {
+          "label": "MTG-Jamendo",
+          "count": 70
+        },
+        {
+          "label": "FMA",
+          "count": 50
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 213
+        },
+        {
+          "label": "quarantined-score-regression",
+          "count": 20
+        }
+      ],
+      "bucket": "ranker-gap",
+      "nextAction": "Use validation examples to train a narrow per-macro reranker; avoid global boosts.",
+      "urgency": 1061.2
+    },
+    {
+      "genre": "J-POP",
+      "totalRows": 136,
+      "formalRows": 115,
+      "formalFineRows": 115,
+      "fineRows": 136,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "undefined": 21,
+        "RWC Music Database: Popular Music Database": 100,
+        "IdolSongsJp Corpus": 15
+      },
+      "reviewStatuses": {
+        "": 61,
+        "citypop-stylehint-rwc-japanese-pop": 60,
+        "pending-idolsongsjp-license-confirmation": 15
+      },
+      "macroGenre": "pop",
+      "testRows": 20,
+      "fineTop1Accuracy": 30,
+      "fineTop3Accuracy": 30,
+      "macroTop1Accuracy": 25,
+      "styleTop1Accuracy": null,
+      "priority": true,
+      "commonPredictions": [
+        {
+          "label": "J-POP",
+          "count": 6
+        },
+        {
+          "label": "ヒップホップ",
+          "count": 4
+        },
+        {
+          "label": "メタル",
+          "count": 2
+        },
+        {
+          "label": "パンク",
+          "count": 2
+        },
+        {
+          "label": "ソウルミュージック",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 0,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Popular Music Database",
+          "count": 100
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "IdolSongsJp Corpus",
+          "count": 15
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 61
+        },
+        {
+          "label": "citypop-stylehint-rwc-japanese-pop",
+          "count": 60
+        },
+        {
+          "label": "pending-idolsongsjp-license-confirmation",
+          "count": 15
+        }
+      ],
+      "bucket": "model-and-data-gap",
+      "nextAction": "Collect cleaner contrast pairs against the most common wrong predictions before changing weights.",
+      "urgency": 1060
+    },
+    {
+      "genre": "クラシック音楽",
+      "totalRows": 247,
+      "formalRows": 100,
+      "formalFineRows": 100,
+      "fineRows": 241,
+      "macroOnlyRows": 6,
+      "datasets": {
+        "undefined": 21,
+        "FMA metadata/features": 120,
+        "FMA": 6,
+        "MTG-Jamendo": 100
+      },
+      "reviewStatuses": {
+        "": 241,
+        "quarantined-score-regression": 6
+      },
+      "macroGenre": "classical",
+      "testRows": 16,
+      "fineTop1Accuracy": 75,
+      "fineTop3Accuracy": 75,
+      "macroTop1Accuracy": 68.8,
+      "styleTop1Accuracy": null,
+      "priority": true,
+      "commonPredictions": [
+        {
+          "label": "クラシック音楽",
+          "count": 12
+        },
+        {
+          "label": "フォーク",
+          "count": 1
+        },
+        {
+          "label": "ノイズミュージック",
+          "count": 1
+        },
+        {
+          "label": "チップチューン",
+          "count": 1
+        },
+        {
+          "label": "ファンク",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 0,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "FMA metadata/features",
+          "count": 120
+        },
+        {
+          "label": "MTG-Jamendo",
+          "count": 100
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "FMA",
+          "count": 6
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 241
+        },
+        {
+          "label": "quarantined-score-regression",
+          "count": 6
+        }
+      ],
+      "bucket": "needs-incremental-improvement",
+      "nextAction": "Collect cleaner contrast pairs against the most common wrong predictions before changing weights.",
+      "urgency": 1000
+    },
+    {
+      "genre": "ドラムンベース",
+      "totalRows": 199,
+      "formalRows": 58,
+      "formalFineRows": 0,
+      "fineRows": 141,
+      "macroOnlyRows": 58,
+      "datasets": {
+        "undefined": 21,
+        "FMA metadata/features": 120,
+        "FMA": 58
+      },
+      "reviewStatuses": {
+        "": 141,
+        "source-quality-holdout-fma-drum-and-bass": 58
+      },
+      "macroGenre": "electronic",
+      "testRows": 0,
+      "fineTop1Accuracy": null,
+      "fineTop3Accuracy": null,
+      "macroTop1Accuracy": 54.5,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ヒップホップ",
+          "count": 2
+        },
+        {
+          "label": "ダブステップ",
+          "count": 2
+        },
+        {
+          "label": "フォーク",
+          "count": 1
+        },
+        {
+          "label": "チップチューン",
+          "count": 1
+        },
+        {
+          "label": "J-POP",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 50,
+      "missingTest": 10,
+      "topDatasets": [
+        {
+          "label": "FMA metadata/features",
+          "count": 120
+        },
+        {
+          "label": "FMA",
+          "count": 58
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 141
+        },
+        {
+          "label": "source-quality-holdout-fma-drum-and-bass",
+          "count": 58
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 50 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 720
+    },
+    {
+      "genre": "電子音楽",
+      "totalRows": 106,
+      "formalRows": 85,
+      "formalFineRows": 0,
+      "fineRows": 21,
+      "macroOnlyRows": 85,
+      "datasets": {
+        "undefined": 21,
+        "FMA": 80,
+        "jaCappella Corpus": 5
+      },
+      "reviewStatuses": {
+        "": 101,
+        "auto-approved-jacappella-subset": 5
+      },
+      "macroGenre": "electronic",
+      "testRows": 0,
+      "fineTop1Accuracy": null,
+      "fineTop3Accuracy": null,
+      "macroTop1Accuracy": 21.4,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "J-POP",
+          "count": 2
+        },
+        {
+          "label": "クラシック音楽",
+          "count": 2
+        },
+        {
+          "label": "ソウルミュージック",
+          "count": 2
+        },
+        {
+          "label": "チップチューン",
+          "count": 1
+        },
+        {
+          "label": "ヒップホップ",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 50,
+      "missingTest": 10,
+      "topDatasets": [
+        {
+          "label": "FMA",
+          "count": 80
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "jaCappella Corpus",
+          "count": 5
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 101
+        },
+        {
+          "label": "auto-approved-jacappella-subset",
+          "count": 5
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 50 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 720
+    },
+    {
+      "genre": "ワールドミュージック",
+      "totalRows": 101,
+      "formalRows": 80,
+      "formalFineRows": 0,
+      "fineRows": 21,
+      "macroOnlyRows": 80,
+      "datasets": {
+        "undefined": 21,
+        "MTG-Jamendo": 50,
+        "FMA": 30
+      },
+      "reviewStatuses": {
+        "": 101
+      },
+      "macroGenre": "world",
+      "testRows": 0,
+      "fineTop1Accuracy": null,
+      "fineTop3Accuracy": null,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ダブ",
+          "count": 4
+        },
+        {
+          "label": "ファンク",
+          "count": 2
+        },
+        {
+          "label": "レゲエ",
+          "count": 2
+        },
+        {
+          "label": "メタル",
+          "count": 2
+        },
+        {
+          "label": "ヒップホップ",
+          "count": 2
+        }
+      ],
+      "missingFormalFine": 50,
+      "missingTest": 10,
+      "topDatasets": [
+        {
+          "label": "MTG-Jamendo",
+          "count": 50
+        },
+        {
+          "label": "FMA",
+          "count": 30
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 101
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 50 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 720
+    },
+    {
+      "genre": "アカペラ",
+      "totalRows": 1,
+      "formalRows": 1,
+      "formalFineRows": 1,
+      "fineRows": 1,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 1
+      },
+      "reviewStatuses": {
+        "": 1
+      },
+      "macroGenre": "",
+      "testRows": 0,
+      "fineTop1Accuracy": null,
+      "fineTop3Accuracy": null,
+      "macroTop1Accuracy": null,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [],
+      "missingFormalFine": 49,
+      "missingTest": 10,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 1
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 1
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 49 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 712
+    },
+    {
+      "genre": "オペラ",
+      "totalRows": 78,
+      "formalRows": 57,
+      "formalFineRows": 3,
+      "fineRows": 24,
+      "macroOnlyRows": 54,
+      "datasets": {
+        "undefined": 21,
+        "FMA": 54,
+        "Wikimedia Commons Audio": 3
+      },
+      "reviewStatuses": {
+        "": 24,
+        "source-quality-holdout-fma-opera": 54
+      },
+      "macroGenre": "classical",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 100,
+      "macroTop1Accuracy": 16.3,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "クラシック音楽",
+          "count": 8
+        },
+        {
+          "label": "ドローン",
+          "count": 6
+        },
+        {
+          "label": "ラテン",
+          "count": 4
+        },
+        {
+          "label": "ソウルミュージック",
+          "count": 4
+        },
+        {
+          "label": "チップチューン",
+          "count": 4
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "FMA",
+          "count": 54
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "Wikimedia Commons Audio",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "source-quality-holdout-fma-opera",
+          "count": 54
+        },
+        {
+          "label": "",
+          "count": 24
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "ロック",
+      "totalRows": 104,
+      "formalRows": 83,
+      "formalFineRows": 3,
+      "fineRows": 24,
+      "macroOnlyRows": 80,
+      "datasets": {
+        "undefined": 21,
+        "MTG-Jamendo": 48,
+        "FMA": 32,
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 24,
+        "source-quality-holdout-mtg-jamendo-rock": 48,
+        "source-quality-holdout-fma-rock": 32
+      },
+      "macroGenre": "rock",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 100,
+      "macroTop1Accuracy": 7.7,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ダブステップ",
+          "count": 3
+        },
+        {
+          "label": "ノイズミュージック",
+          "count": 2
+        },
+        {
+          "label": "ヒップホップ",
+          "count": 1
+        },
+        {
+          "label": "ラテン",
+          "count": 1
+        },
+        {
+          "label": "パンク",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "MTG-Jamendo",
+          "count": 48
+        },
+        {
+          "label": "FMA",
+          "count": 32
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "source-quality-holdout-mtg-jamendo-rock",
+          "count": 48
+        },
+        {
+          "label": "source-quality-holdout-fma-rock",
+          "count": 32
+        },
+        {
+          "label": "",
+          "count": 24
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "ブルース",
+      "totalRows": 78,
+      "formalRows": 78,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 75,
+      "datasets": {
+        "MTG-Jamendo": 49,
+        "FMA": 26,
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "source-quality-holdout-mtg-jamendo-blues": 49,
+        "source-quality-holdout-fma-blues": 26,
+        "": 3
+      },
+      "macroGenre": "black_music",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 16.7,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "アンビエント",
+          "count": 3
+        },
+        {
+          "label": "チップチューン",
+          "count": 2
+        },
+        {
+          "label": "ラテン",
+          "count": 1
+        },
+        {
+          "label": "ドローン",
+          "count": 1
+        },
+        {
+          "label": "ファンク",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "MTG-Jamendo",
+          "count": 49
+        },
+        {
+          "label": "FMA",
+          "count": 26
+        },
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "source-quality-holdout-mtg-jamendo-blues",
+          "count": 49
+        },
+        {
+          "label": "source-quality-holdout-fma-blues",
+          "count": 26
+        },
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "ビッグバンド",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "jazz",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ボサノヴァ",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "フュージョン",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "jazz",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ボサノヴァ",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "サンバ",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "world",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ファンク",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "タンゴ",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "world",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ソウルミュージック",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "バロック",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "classical",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ファンク",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "クラシック",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "classical",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 100,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "クラシック音楽",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "ロマン派",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "classical",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 100,
+      "macroTop1Accuracy": 100,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "クラシック音楽",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "近現代クラシック",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "classical",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ドローン",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "マーチ",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "classical",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 100,
+      "macroTop1Accuracy": 100,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "クラシック音楽",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "カントリー",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "world",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ドローン",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "ゴスペル",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "black_music",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 100,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ファンク",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "アフリカ音楽",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "world",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ハウス",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "インド音楽",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "world",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ドローン",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "フラメンコ",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "world",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ドローン",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "シャンソン",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "world",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "レゲエ",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "カンツォーネ",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "world",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 100,
+      "macroTop1Accuracy": 100,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "シャンソン",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "民謡",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "world",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "クラシック音楽",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "雅楽",
+      "totalRows": 3,
+      "formalRows": 3,
+      "formalFineRows": 3,
+      "fineRows": 3,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 3
+      },
+      "macroGenre": "world",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "クラシック音楽",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 47,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 47 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 676
+    },
+    {
+      "genre": "ポップ",
+      "totalRows": 8,
+      "formalRows": 8,
+      "formalFineRows": 8,
+      "fineRows": 8,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3,
+        "jaCappella Corpus": 5
+      },
+      "reviewStatuses": {
+        "": 3,
+        "auto-approved-jacappella-subset": 5
+      },
+      "macroGenre": "pop",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ラテン",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 42,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "jaCappella Corpus",
+          "count": 5
+        },
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "auto-approved-jacappella-subset",
+          "count": 5
+        },
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 42 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 636
+    },
+    {
+      "genre": "ボサノヴァ",
+      "totalRows": 8,
+      "formalRows": 8,
+      "formalFineRows": 8,
+      "fineRows": 8,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3,
+        "jaCappella Corpus": 5
+      },
+      "reviewStatuses": {
+        "": 3,
+        "auto-approved-jacappella-subset": 5
+      },
+      "macroGenre": "world",
+      "testRows": 1,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ノイズミュージック",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 42,
+      "missingTest": 9,
+      "topDatasets": [
+        {
+          "label": "jaCappella Corpus",
+          "count": 5
+        },
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "auto-approved-jacappella-subset",
+          "count": 5
+        },
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 42 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 636
+    },
+    {
+      "genre": "シティ・ポップ",
+      "totalRows": 24,
+      "formalRows": 0,
+      "formalFineRows": 0,
+      "fineRows": 21,
+      "macroOnlyRows": 3,
+      "datasets": {
+        "undefined": 21,
+        "Wikimedia Commons explicit CC formal candidates": 3
+      },
+      "reviewStatuses": {
+        "": 21,
+        "quarantined-citypop-adjacent-not-exact": 3
+      },
+      "macroGenre": "pop",
+      "testRows": 10,
+      "fineTop1Accuracy": 90,
+      "fineTop3Accuracy": 100,
+      "macroTop1Accuracy": null,
+      "styleTop1Accuracy": 90,
+      "priority": true,
+      "commonPredictions": [],
+      "missingFormalFine": 50,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "Wikimedia Commons explicit CC formal candidates",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 21
+        },
+        {
+          "label": "quarantined-citypop-adjacent-not-exact",
+          "count": 3
+        }
+      ],
+      "bucket": "passing-or-style-passing",
+      "nextAction": "Freeze as a reference/control genre; do not spend tuning budget here unless regressions appear.",
+      "urgency": 600
+    },
+    {
+      "genre": "ハードコア",
+      "totalRows": 32,
+      "formalRows": 11,
+      "formalFineRows": 11,
+      "fineRows": 32,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "undefined": 21,
+        "FMA": 11
+      },
+      "reviewStatuses": {
+        "": 32
+      },
+      "macroGenre": "rock",
+      "testRows": 2,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "J-POP",
+          "count": 1
+        },
+        {
+          "label": "チップチューン",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 39,
+      "missingTest": 8,
+      "topDatasets": [
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "FMA",
+          "count": 11
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 32
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 39 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 592
+    },
+    {
+      "genre": "ジャズ",
+      "totalRows": 221,
+      "formalRows": 80,
+      "formalFineRows": 8,
+      "fineRows": 149,
+      "macroOnlyRows": 72,
+      "datasets": {
+        "undefined": 21,
+        "FMA metadata/features": 120,
+        "FMA": 22,
+        "MTG-Jamendo": 50,
+        "RWC Music Database: Music Genre Database": 3,
+        "jaCappella Corpus": 5
+      },
+      "reviewStatuses": {
+        "": 144,
+        "source-quality-holdout-fma-jazz": 22,
+        "source-quality-holdout-mtg-jamendo-jazz": 50,
+        "auto-approved-jacappella-subset": 5
+      },
+      "macroGenre": "jazz",
+      "testRows": 5,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "チップチューン",
+          "count": 3
+        },
+        {
+          "label": "クラシック音楽",
+          "count": 2
+        },
+        {
+          "label": "ソウルミュージック",
+          "count": 2
+        },
+        {
+          "label": "ポップ",
+          "count": 2
+        },
+        {
+          "label": "レゲエ",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 42,
+      "missingTest": 5,
+      "topDatasets": [
+        {
+          "label": "FMA metadata/features",
+          "count": 120
+        },
+        {
+          "label": "MTG-Jamendo",
+          "count": 50
+        },
+        {
+          "label": "FMA",
+          "count": 22
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 144
+        },
+        {
+          "label": "source-quality-holdout-mtg-jamendo-jazz",
+          "count": 50
+        },
+        {
+          "label": "source-quality-holdout-fma-jazz",
+          "count": 22
+        },
+        {
+          "label": "auto-approved-jacappella-subset",
+          "count": 5
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 42 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 556
+    },
+    {
+      "genre": "バラード",
+      "totalRows": 8,
+      "formalRows": 8,
+      "formalFineRows": 8,
+      "fineRows": 8,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3,
+        "jaCappella Corpus": 5
+      },
+      "reviewStatuses": {
+        "": 3,
+        "auto-approved-jacappella-subset": 5
+      },
+      "macroGenre": "pop",
+      "testRows": 5,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 0,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "クラシック音楽",
+          "count": 3
+        },
+        {
+          "label": "ラテン",
+          "count": 1
+        },
+        {
+          "label": "ノイズミュージック",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 42,
+      "missingTest": 5,
+      "topDatasets": [
+        {
+          "label": "jaCappella Corpus",
+          "count": 5
+        },
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "auto-approved-jacappella-subset",
+          "count": 5
+        },
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 42 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 556
+    },
+    {
+      "genre": "演歌",
+      "totalRows": 8,
+      "formalRows": 8,
+      "formalFineRows": 8,
+      "fineRows": 8,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "RWC Music Database: Music Genre Database": 3,
+        "jaCappella Corpus": 5
+      },
+      "reviewStatuses": {
+        "": 3,
+        "auto-approved-jacappella-subset": 5
+      },
+      "macroGenre": "world",
+      "testRows": 5,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 60,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ソウルミュージック",
+          "count": 2
+        },
+        {
+          "label": "チップチューン",
+          "count": 1
+        },
+        {
+          "label": "クラシック音楽",
+          "count": 1
+        },
+        {
+          "label": "フォーク",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 42,
+      "missingTest": 5,
+      "topDatasets": [
+        {
+          "label": "jaCappella Corpus",
+          "count": 5
+        },
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "auto-approved-jacappella-subset",
+          "count": 5
+        },
+        {
+          "label": "",
+          "count": 3
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 42 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 556
+    },
+    {
+      "genre": "ディープ・ハウス",
+      "totalRows": 48,
+      "formalRows": 18,
+      "formalFineRows": 18,
+      "fineRows": 48,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "undefined": 21,
+        "FMA metadata/features": 9,
+        "FMA": 12,
+        "Internet Archive Creative Commons Audio": 6
+      },
+      "reviewStatuses": {
+        "": 48
+      },
+      "macroGenre": "electronic",
+      "testRows": 3,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 33.3,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ダブ",
+          "count": 1
+        },
+        {
+          "label": "ヒップホップ",
+          "count": 1
+        },
+        {
+          "label": "チップチューン",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 32,
+      "missingTest": 7,
+      "topDatasets": [
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "FMA",
+          "count": 12
+        },
+        {
+          "label": "FMA metadata/features",
+          "count": 9
+        },
+        {
+          "label": "Internet Archive Creative Commons Audio",
+          "count": 6
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 48
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 32 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 516
+    },
+    {
+      "genre": "フォーク",
+      "totalRows": 104,
+      "formalRows": 83,
+      "formalFineRows": 36,
+      "fineRows": 57,
+      "macroOnlyRows": 47,
+      "datasets": {
+        "undefined": 21,
+        "MTG-Jamendo": 33,
+        "FMA": 47,
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 57,
+        "source-quality-holdout-fma-folk": 47
+      },
+      "macroGenre": "world",
+      "testRows": 8,
+      "fineTop1Accuracy": 12.5,
+      "fineTop3Accuracy": 25,
+      "macroTop1Accuracy": 17.6,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "アンビエント",
+          "count": 4
+        },
+        {
+          "label": "ダブ",
+          "count": 2
+        },
+        {
+          "label": "ハウス",
+          "count": 1
+        },
+        {
+          "label": "ドローン",
+          "count": 1
+        },
+        {
+          "label": "ソウルミュージック",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 14,
+      "missingTest": 2,
+      "topDatasets": [
+        {
+          "label": "FMA",
+          "count": 47
+        },
+        {
+          "label": "MTG-Jamendo",
+          "count": 33
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 57
+        },
+        {
+          "label": "source-quality-holdout-fma-folk",
+          "count": 47
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 14 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 247
+    },
+    {
+      "genre": "ソウルミュージック",
+      "totalRows": 101,
+      "formalRows": 80,
+      "formalFineRows": 53,
+      "fineRows": 74,
+      "macroOnlyRows": 27,
+      "datasets": {
+        "undefined": 21,
+        "FMA": 27,
+        "MTG-Jamendo": 45,
+        "RWC Music Database: Music Genre Database": 3,
+        "jaCappella Corpus": 5
+      },
+      "reviewStatuses": {
+        "": 69,
+        "source-quality-holdout-fma-soul": 27,
+        "auto-approved-jacappella-subset": 5
+      },
+      "macroGenre": "black_music",
+      "testRows": 12,
+      "fineTop1Accuracy": 8.3,
+      "fineTop3Accuracy": 25,
+      "macroTop1Accuracy": 35.3,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "トランス",
+          "count": 3
+        },
+        {
+          "label": "チップチューン",
+          "count": 3
+        },
+        {
+          "label": "ソウルミュージック",
+          "count": 2
+        },
+        {
+          "label": "ドローン",
+          "count": 2
+        },
+        {
+          "label": "ラテン",
+          "count": 2
+        }
+      ],
+      "missingFormalFine": 0,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "MTG-Jamendo",
+          "count": 45
+        },
+        {
+          "label": "FMA",
+          "count": 27
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "jaCappella Corpus",
+          "count": 5
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 69
+        },
+        {
+          "label": "source-quality-holdout-fma-soul",
+          "count": 27
+        },
+        {
+          "label": "auto-approved-jacappella-subset",
+          "count": 5
+        }
+      ],
+      "bucket": "label-noise",
+      "nextAction": "Review source/track labels first; promote only explicit substyle rows and keep broad labels macro-only.",
+      "urgency": 223.4
+    },
+    {
+      "genre": "トラップ",
+      "totalRows": 62,
+      "formalRows": 41,
+      "formalFineRows": 41,
+      "fineRows": 62,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "undefined": 21,
+        "Wikimedia Commons explicit CC formal candidates": 5,
+        "Internet Archive explicit CC formal candidates": 6,
+        "FMA explicit sparse formal": 30
+      },
+      "reviewStatuses": {
+        "": 32,
+        "auto-approved-fma-explicit-sparse": 30
+      },
+      "macroGenre": "black_music",
+      "testRows": 9,
+      "fineTop1Accuracy": 0,
+      "fineTop3Accuracy": 0,
+      "macroTop1Accuracy": 11.1,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ダブステップ",
+          "count": 3
+        },
+        {
+          "label": "ラテン",
+          "count": 2
+        },
+        {
+          "label": "ドローン",
+          "count": 1
+        },
+        {
+          "label": "ファンク",
+          "count": 1
+        },
+        {
+          "label": "フォーク",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 9,
+      "missingTest": 1,
+      "topDatasets": [
+        {
+          "label": "FMA explicit sparse formal",
+          "count": 30
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "Internet Archive explicit CC formal candidates",
+          "count": 6
+        },
+        {
+          "label": "Wikimedia Commons explicit CC formal candidates",
+          "count": 5
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 32
+        },
+        {
+          "label": "auto-approved-fma-explicit-sparse",
+          "count": 30
+        }
+      ],
+      "bucket": "data-gap",
+      "nextAction": "Add 9 explicit formal fine row(s) and keep at least 10 test rows before more tuning.",
+      "urgency": 212
+    },
+    {
+      "genre": "ハウス",
+      "totalRows": 242,
+      "formalRows": 101,
+      "formalFineRows": 53,
+      "fineRows": 194,
+      "macroOnlyRows": 48,
+      "datasets": {
+        "undefined": 21,
+        "FMA metadata/features": 120,
+        "FMA": 48,
+        "MTG-Jamendo": 50,
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 194,
+        "source-quality-holdout-fma-house": 48
+      },
+      "macroGenre": "electronic",
+      "testRows": 12,
+      "fineTop1Accuracy": 25,
+      "fineTop3Accuracy": 50,
+      "macroTop1Accuracy": 55,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ダブステップ",
+          "count": 3
+        },
+        {
+          "label": "ダブ",
+          "count": 3
+        },
+        {
+          "label": "トランス",
+          "count": 3
+        },
+        {
+          "label": "ハウス",
+          "count": 3
+        },
+        {
+          "label": "ファンク",
+          "count": 2
+        }
+      ],
+      "missingFormalFine": 0,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "FMA metadata/features",
+          "count": 120
+        },
+        {
+          "label": "MTG-Jamendo",
+          "count": 50
+        },
+        {
+          "label": "FMA",
+          "count": 48
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 194
+        },
+        {
+          "label": "source-quality-holdout-fma-house",
+          "count": 48
+        }
+      ],
+      "bucket": "label-noise",
+      "nextAction": "Review source/track labels first; promote only explicit substyle rows and keep broad labels macro-only.",
+      "urgency": 190
+    },
+    {
+      "genre": "アンビエント",
+      "totalRows": 101,
+      "formalRows": 80,
+      "formalFineRows": 80,
+      "fineRows": 101,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "undefined": 21,
+        "FMA": 30,
+        "MTG-Jamendo": 50
+      },
+      "reviewStatuses": {
+        "": 101
+      },
+      "macroGenre": "ambient",
+      "testRows": 17,
+      "fineTop1Accuracy": 5.9,
+      "fineTop3Accuracy": 17.6,
+      "macroTop1Accuracy": 17.6,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ダブ",
+          "count": 4
+        },
+        {
+          "label": "ファンク",
+          "count": 3
+        },
+        {
+          "label": "ノイズミュージック",
+          "count": 2
+        },
+        {
+          "label": "J-POP",
+          "count": 1
+        },
+        {
+          "label": "チップチューン",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 0,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "MTG-Jamendo",
+          "count": 50
+        },
+        {
+          "label": "FMA",
+          "count": 30
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 101
+        }
+      ],
+      "bucket": "model-and-data-gap",
+      "nextAction": "Collect cleaner contrast pairs against the most common wrong predictions before changing weights.",
+      "urgency": 108.2
+    },
+    {
+      "genre": "ディスコ",
+      "totalRows": 133,
+      "formalRows": 59,
+      "formalFineRows": 59,
+      "fineRows": 133,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "undefined": 21,
+        "FMA metadata/features": 53,
+        "FMA": 10,
+        "MTG-Jamendo": 49
+      },
+      "reviewStatuses": {
+        "": 133
+      },
+      "macroGenre": "black_music",
+      "testRows": 16,
+      "fineTop1Accuracy": 6.3,
+      "fineTop3Accuracy": 18.8,
+      "macroTop1Accuracy": 43.8,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ヒップホップ",
+          "count": 3
+        },
+        {
+          "label": "ドローン",
+          "count": 2
+        },
+        {
+          "label": "ファンク",
+          "count": 2
+        },
+        {
+          "label": "ノイズミュージック",
+          "count": 1
+        },
+        {
+          "label": "J-POP",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 0,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "FMA metadata/features",
+          "count": 53
+        },
+        {
+          "label": "MTG-Jamendo",
+          "count": 49
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "FMA",
+          "count": 10
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 133
+        }
+      ],
+      "bucket": "model-and-data-gap",
+      "nextAction": "Collect cleaner contrast pairs against the most common wrong predictions before changing weights.",
+      "urgency": 107.4
+    },
+    {
+      "genre": "ノイズミュージック",
+      "totalRows": 237,
+      "formalRows": 96,
+      "formalFineRows": 96,
+      "fineRows": 237,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "undefined": 21,
+        "FMA metadata/features": 120,
+        "FMA": 50,
+        "MTG-Jamendo": 46
+      },
+      "reviewStatuses": {
+        "": 237
+      },
+      "macroGenre": "ambient",
+      "testRows": 14,
+      "fineTop1Accuracy": 7.1,
+      "fineTop3Accuracy": 42.9,
+      "macroTop1Accuracy": 35.7,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ドローン",
+          "count": 3
+        },
+        {
+          "label": "アンビエント",
+          "count": 2
+        },
+        {
+          "label": "テクノ",
+          "count": 1
+        },
+        {
+          "label": "クラシック音楽",
+          "count": 1
+        },
+        {
+          "label": "ハウス",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 0,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "FMA metadata/features",
+          "count": 120
+        },
+        {
+          "label": "FMA",
+          "count": 50
+        },
+        {
+          "label": "MTG-Jamendo",
+          "count": 46
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 237
+        }
+      ],
+      "bucket": "model-and-data-gap",
+      "nextAction": "Collect cleaner contrast pairs against the most common wrong predictions before changing weights.",
+      "urgency": 105.8
+    },
+    {
+      "genre": "レゲエ",
+      "totalRows": 90,
+      "formalRows": 69,
+      "formalFineRows": 69,
+      "fineRows": 90,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "undefined": 21,
+        "FMA": 16,
+        "MTG-Jamendo": 45,
+        "RWC Music Database: Music Genre Database": 3,
+        "jaCappella Corpus": 5
+      },
+      "reviewStatuses": {
+        "": 85,
+        "auto-approved-jacappella-subset": 5
+      },
+      "macroGenre": "black_music",
+      "testRows": 10,
+      "fineTop1Accuracy": 10,
+      "fineTop3Accuracy": 40,
+      "macroTop1Accuracy": 70,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ソウルミュージック",
+          "count": 4
+        },
+        {
+          "label": "ファンク",
+          "count": 2
+        },
+        {
+          "label": "ディスコ",
+          "count": 1
+        },
+        {
+          "label": "レゲエ",
+          "count": 1
+        },
+        {
+          "label": "メタル",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 0,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "MTG-Jamendo",
+          "count": 45
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "FMA",
+          "count": 16
+        },
+        {
+          "label": "jaCappella Corpus",
+          "count": 5
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 85
+        },
+        {
+          "label": "auto-approved-jacappella-subset",
+          "count": 5
+        }
+      ],
+      "bucket": "model-and-data-gap",
+      "nextAction": "Collect cleaner contrast pairs against the most common wrong predictions before changing weights.",
+      "urgency": 100
+    },
+    {
+      "genre": "ヒップホップ",
+      "totalRows": 124,
+      "formalRows": 103,
+      "formalFineRows": 103,
+      "fineRows": 124,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "undefined": 21,
+        "FMA": 50,
+        "MTG-Jamendo": 50,
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 124
+      },
+      "macroGenre": "black_music",
+      "testRows": 15,
+      "fineTop1Accuracy": 13.3,
+      "fineTop3Accuracy": 33.3,
+      "macroTop1Accuracy": 26.7,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "チップチューン",
+          "count": 3
+        },
+        {
+          "label": "ダブ",
+          "count": 3
+        },
+        {
+          "label": "ノイズミュージック",
+          "count": 2
+        },
+        {
+          "label": "ヒップホップ",
+          "count": 2
+        },
+        {
+          "label": "メタル",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 0,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "FMA",
+          "count": 50
+        },
+        {
+          "label": "MTG-Jamendo",
+          "count": 50
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 124
+        }
+      ],
+      "bucket": "model-and-data-gap",
+      "nextAction": "Collect cleaner contrast pairs against the most common wrong predictions before changing weights.",
+      "urgency": 93.4
+    },
+    {
+      "genre": "トランス",
+      "totalRows": 121,
+      "formalRows": 59,
+      "formalFineRows": 59,
+      "fineRows": 121,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "undefined": 21,
+        "FMA metadata/features": 41,
+        "FMA": 9,
+        "MTG-Jamendo": 50
+      },
+      "reviewStatuses": {
+        "": 121
+      },
+      "macroGenre": "electronic",
+      "testRows": 13,
+      "fineTop1Accuracy": 15.4,
+      "fineTop3Accuracy": 38.5,
+      "macroTop1Accuracy": 38.5,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ダブ",
+          "count": 4
+        },
+        {
+          "label": "トランス",
+          "count": 2
+        },
+        {
+          "label": "ラテン",
+          "count": 1
+        },
+        {
+          "label": "J-POP",
+          "count": 1
+        },
+        {
+          "label": "チップチューン",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 0,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "MTG-Jamendo",
+          "count": 50
+        },
+        {
+          "label": "FMA metadata/features",
+          "count": 41
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "FMA",
+          "count": 9
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 121
+        }
+      ],
+      "bucket": "model-and-data-gap",
+      "nextAction": "Collect cleaner contrast pairs against the most common wrong predictions before changing weights.",
+      "urgency": 89.2
+    },
+    {
+      "genre": "ラテン",
+      "totalRows": 72,
+      "formalRows": 72,
+      "formalFineRows": 72,
+      "fineRows": 72,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "MTG-Jamendo": 50,
+        "FMA": 22
+      },
+      "reviewStatuses": {
+        "": 72
+      },
+      "macroGenre": "world",
+      "testRows": 17,
+      "fineTop1Accuracy": 17.6,
+      "fineTop3Accuracy": 41.2,
+      "macroTop1Accuracy": 35.3,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ラテン",
+          "count": 3
+        },
+        {
+          "label": "ヒップホップ",
+          "count": 3
+        },
+        {
+          "label": "パンク",
+          "count": 2
+        },
+        {
+          "label": "チップチューン",
+          "count": 2
+        },
+        {
+          "label": "ソウルミュージック",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 0,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "MTG-Jamendo",
+          "count": 50
+        },
+        {
+          "label": "FMA",
+          "count": 22
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 72
+        }
+      ],
+      "bucket": "model-and-data-gap",
+      "nextAction": "Collect cleaner contrast pairs against the most common wrong predictions before changing weights.",
+      "urgency": 84.8
+    },
+    {
+      "genre": "ファンク",
+      "totalRows": 94,
+      "formalRows": 73,
+      "formalFineRows": 73,
+      "fineRows": 94,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "undefined": 21,
+        "FMA": 20,
+        "MTG-Jamendo": 50,
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 94
+      },
+      "macroGenre": "black_music",
+      "testRows": 11,
+      "fineTop1Accuracy": 18.2,
+      "fineTop3Accuracy": 63.6,
+      "macroTop1Accuracy": 72.7,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ヒップホップ",
+          "count": 3
+        },
+        {
+          "label": "ファンク",
+          "count": 2
+        },
+        {
+          "label": "ダブステップ",
+          "count": 1
+        },
+        {
+          "label": "ソウルミュージック",
+          "count": 1
+        },
+        {
+          "label": "パンク",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 0,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "MTG-Jamendo",
+          "count": 50
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "FMA",
+          "count": 20
+        },
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 94
+        }
+      ],
+      "bucket": "ranker-gap",
+      "nextAction": "Use validation examples to train a narrow per-macro reranker; avoid global boosts.",
+      "urgency": 83.6
+    },
+    {
+      "genre": "メタル",
+      "totalRows": 93,
+      "formalRows": 72,
+      "formalFineRows": 72,
+      "fineRows": 93,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "undefined": 21,
+        "MTG-Jamendo": 46,
+        "FMA": 23,
+        "RWC Music Database: Music Genre Database": 3
+      },
+      "reviewStatuses": {
+        "": 93
+      },
+      "macroGenre": "rock",
+      "testRows": 10,
+      "fineTop1Accuracy": 20,
+      "fineTop3Accuracy": 40,
+      "macroTop1Accuracy": 40,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "メタル",
+          "count": 2
+        },
+        {
+          "label": "J-POP",
+          "count": 2
+        },
+        {
+          "label": "パンク",
+          "count": 1
+        },
+        {
+          "label": "ファンク",
+          "count": 1
+        },
+        {
+          "label": "テクノ",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 0,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "MTG-Jamendo",
+          "count": 46
+        },
+        {
+          "label": "FMA",
+          "count": 23
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "RWC Music Database: Music Genre Database",
+          "count": 3
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 93
+        }
+      ],
+      "bucket": "model-and-data-gap",
+      "nextAction": "Collect cleaner contrast pairs against the most common wrong predictions before changing weights.",
+      "urgency": 80
+    },
+    {
+      "genre": "チップチューン",
+      "totalRows": 229,
+      "formalRows": 88,
+      "formalFineRows": 88,
+      "fineRows": 229,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "undefined": 21,
+        "FMA metadata/features": 120,
+        "FMA": 88
+      },
+      "reviewStatuses": {
+        "": 229
+      },
+      "macroGenre": "electronic",
+      "testRows": 13,
+      "fineTop1Accuracy": 30.8,
+      "fineTop3Accuracy": 61.5,
+      "macroTop1Accuracy": 53.8,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "チップチューン",
+          "count": 4
+        },
+        {
+          "label": "フォーク",
+          "count": 2
+        },
+        {
+          "label": "トランス",
+          "count": 2
+        },
+        {
+          "label": "ファンク",
+          "count": 1
+        },
+        {
+          "label": "メタル",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 0,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "FMA metadata/features",
+          "count": 120
+        },
+        {
+          "label": "FMA",
+          "count": 88
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 229
+        }
+      ],
+      "bucket": "ranker-gap",
+      "nextAction": "Use validation examples to train a narrow per-macro reranker; avoid global boosts.",
+      "urgency": 58.4
+    },
+    {
+      "genre": "ダブステップ",
+      "totalRows": 213,
+      "formalRows": 72,
+      "formalFineRows": 72,
+      "fineRows": 213,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "undefined": 21,
+        "FMA metadata/features": 120,
+        "FMA": 24,
+        "MTG-Jamendo": 48
+      },
+      "reviewStatuses": {
+        "": 213
+      },
+      "macroGenre": "electronic",
+      "testRows": 11,
+      "fineTop1Accuracy": 36.4,
+      "fineTop3Accuracy": 36.4,
+      "macroTop1Accuracy": 27.3,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "ダブステップ",
+          "count": 4
+        },
+        {
+          "label": "ヒップホップ",
+          "count": 3
+        },
+        {
+          "label": "ダブ",
+          "count": 3
+        },
+        {
+          "label": "メタル",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 0,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "FMA metadata/features",
+          "count": 120
+        },
+        {
+          "label": "MTG-Jamendo",
+          "count": 48
+        },
+        {
+          "label": "FMA",
+          "count": 24
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 213
+        }
+      ],
+      "bucket": "model-and-data-gap",
+      "nextAction": "Collect cleaner contrast pairs against the most common wrong predictions before changing weights.",
+      "urgency": 47.2
+    },
+    {
+      "genre": "パンク",
+      "totalRows": 98,
+      "formalRows": 77,
+      "formalFineRows": 77,
+      "fineRows": 98,
+      "macroOnlyRows": 0,
+      "datasets": {
+        "undefined": 21,
+        "MTG-Jamendo": 46,
+        "FMA": 26,
+        "jaCappella Corpus": 5
+      },
+      "reviewStatuses": {
+        "": 93,
+        "auto-approved-jacappella-subset": 5
+      },
+      "macroGenre": "rock",
+      "testRows": 15,
+      "fineTop1Accuracy": 40,
+      "fineTop3Accuracy": 53.3,
+      "macroTop1Accuracy": 46.7,
+      "styleTop1Accuracy": null,
+      "priority": false,
+      "commonPredictions": [
+        {
+          "label": "パンク",
+          "count": 6
+        },
+        {
+          "label": "ラテン",
+          "count": 2
+        },
+        {
+          "label": "レゲエ",
+          "count": 1
+        },
+        {
+          "label": "ファンク",
+          "count": 1
+        },
+        {
+          "label": "チップチューン",
+          "count": 1
+        }
+      ],
+      "missingFormalFine": 0,
+      "missingTest": 0,
+      "topDatasets": [
+        {
+          "label": "MTG-Jamendo",
+          "count": 46
+        },
+        {
+          "label": "FMA",
+          "count": 26
+        },
+        {
+          "label": "undefined",
+          "count": 21
+        },
+        {
+          "label": "jaCappella Corpus",
+          "count": 5
+        }
+      ],
+      "topReviewStatuses": [
+        {
+          "label": "",
+          "count": 93
+        },
+        {
+          "label": "auto-approved-jacappella-subset",
+          "count": 5
+        }
+      ],
+      "bucket": "needs-incremental-improvement",
+      "nextAction": "Collect cleaner contrast pairs against the most common wrong predictions before changing weights.",
+      "urgency": 40
+    }
+  ]
+}

@@ -52,9 +52,24 @@ const ENABLE_DISTRIBUTION_CLASSIFIER = process.env.MMFR_DISTRIBUTION_CLASSIFIER 
 const ENABLE_SEPARABILITY_WEIGHTS = process.env.MMFR_SEPARABILITY_WEIGHTS !== "0";
 const ENABLE_GENRE_THEORY_PRIORS = process.env.MMFR_ENABLE_GENRE_THEORY_PRIORS !== "0";
 const ENABLE_THEORY_GENRE_FEATURES = process.env.MMFR_ENABLE_THEORY_GENRE_FEATURES === "1";
+const ENABLE_VALIDATION_RERANKER = process.env.MMFR_ENABLE_VALIDATION_RERANKER === "1";
+const ENABLE_FUNK_STYLE_TARGET = process.env.MMFR_ENABLE_FUNK_STYLE_TARGET === "1";
+const EVALUATION_SPLITS = new Set(
+  String(process.env.MMFR_GENRE_EVALUATION_SPLITS || "test")
+    .split(",")
+    .map(value => value.trim())
+    .filter(Boolean)
+);
+const VALIDATION_RERANKER_MIN_SUCCESS = Math.max(1, Number(process.env.MMFR_VALIDATION_RERANKER_MIN_SUCCESS || 2));
+const VALIDATION_RERANKER_MIN_TOTAL = Math.max(1, Number(process.env.MMFR_VALIDATION_RERANKER_MIN_TOTAL || 3));
+const VALIDATION_RERANKER_MIN_PRECISION = Math.max(0, Math.min(1, Number(process.env.MMFR_VALIDATION_RERANKER_MIN_PRECISION || .5)));
+const VALIDATION_RERANKER_MAX_HARM_RATE = Math.max(0, Math.min(1, Number(process.env.MMFR_VALIDATION_RERANKER_MAX_HARM_RATE || .34)));
 const GENRE_THEORY_WEIGHT = Math.max(0, Math.min(.35, Number(process.env.MMFR_GENRE_THEORY_WEIGHT || .05)));
 const GENRE_THEORY_MACRO_WEIGHT = Math.max(0, Math.min(.2, Number(process.env.MMFR_GENRE_THEORY_MACRO_WEIGHT || GENRE_THEORY_WEIGHT * .7)));
 const FMA_AUDIO_WEIGHT = Math.max(.1, Math.min(1, Number(process.env.MMFR_FMA_AUDIO_WEIGHT || .82)));
+const STYLE_FINE_BOOST_TOP = Math.max(0, Math.min(1.2, Number(process.env.MMFR_STYLE_FINE_BOOST_TOP || .42)));
+const STYLE_FINE_BOOST_SECOND = Math.max(0, Math.min(1, Number(process.env.MMFR_STYLE_FINE_BOOST_SECOND || .27)));
+const STYLE_FINE_BOOST_THIRD = Math.max(0, Math.min(.8, Number(process.env.MMFR_STYLE_FINE_BOOST_THIRD || .15)));
 const MIN_FORMAL_TEST_PER_GENRE = Math.max(1, Number(process.env.MMFR_MIN_FORMAL_TEST_PER_GENRE || 10));
 const FORMAL_SOURCE_TYPES = new Set(["cc-dataset", "local-audio"]);
 const EXPECTED_MACRO_GENRES = ["ambient", "black_music", "classical", "electronic", "jazz", "pop", "rock", "world"];
@@ -70,7 +85,110 @@ const PRIORITY_GENRE_TARGETS = {
 const DEFAULT_GENRE_TARGET = 50;
 const CITY_POP_STYLE_HINT = "city_pop";
 const CITY_POP_STYLE_LABEL = "シティ・ポップ";
-const POP_OTHER_STYLE_HINT = "pop_other";
+const STYLE_CLASSIFIERS = {
+  pop: {
+    other: "pop_other",
+    targets: {
+      [CITY_POP_STYLE_HINT]: { label: CITY_POP_STYLE_LABEL, source: "styleHint", boostFineGenre: "" }
+    },
+    weightMultipliers: {
+      tempo: 1.08,
+      bass: 1.18,
+      rhythm: 1.16,
+      brightness: 1.14,
+      chromaEntropy: 1.18,
+      chromaMotion: 1.12,
+      rmsContrast: 1.08,
+      chorusLift: .92,
+      vocalBand: .94,
+      distortion: .82,
+      guitarBand: .84
+    }
+  },
+  electronic: {
+    other: "electronic_other",
+    targets: {
+      techno: { label: "テクノ", source: "genre", genre: "テクノ", boostFineGenre: "テクノ" }
+    },
+    weightMultipliers: {
+      tempo: 1.26,
+      rhythm: 1.22,
+      onset: 1.12,
+      onsetRegularity: 1.26,
+      tempoStability: 1.24,
+      beatGridStrength: 1.26,
+      fourOnFloor: 1.32,
+      kickGrid: 1.28,
+      pulseClarity: 1.14,
+      bassContrast: 1.14,
+      centroidContrast: 1.08,
+      breakbeatDensity: .88,
+      breakbeatIrregularity: .82,
+      squareWave: .96,
+      acousticness: .74,
+      guitarBand: .72
+    }
+  },
+  ambient: {
+    other: "ambient_other",
+    targets: {
+      drone: { label: "ドローン", source: "genre", genre: "ドローン", boostFineGenre: "ドローン" }
+    },
+    weightMultipliers: {
+      tempo: .74,
+      energy: 1.2,
+      rhythm: 1.22,
+      onset: 1.18,
+      onsetDensity: 1.28,
+      brightness: 1.1,
+      centroidContrast: 1.22,
+      bass: 1.12,
+      lowBandRatio: 1.14,
+      acousticness: 1.12,
+      zcr: 1.08,
+      sustainRatio: 1.46,
+      transientScarcity: 1.48,
+      reverbTail: 1.22,
+      tempoStability: .72,
+      beatGridStrength: .68,
+      pulseClarity: .7,
+      bandFlux: .76,
+      percussiveRatio: .74,
+      fourOnFloor: .56,
+      kickGrid: .58
+    }
+  },
+  black_music: {
+    other: "black_music_other",
+    targets: {
+      dub: { label: "ダブ", source: "genre", genre: "ダブ", boostFineGenre: "ダブ" },
+      ...(ENABLE_FUNK_STYLE_TARGET ? {
+        funk: { label: "ファンク", source: "genre", genre: "ファンク", boostFineGenre: "ファンク" }
+      } : {})
+    },
+    weightMultipliers: {
+      bass: 1.24,
+      lowBandRatio: 1.24,
+      highBandRatio: 1.18,
+      brightness: 1.12,
+      onset: 1.08,
+      onsetRegularity: 1.16,
+      bassContrast: 1.16,
+      rhythm: 1.1,
+      offbeatEmphasis: 1.28,
+      reverbTail: 1.34,
+      syncopation: 1.16,
+      lowMidBalance: 1.12,
+      spectralRolloff: .82,
+      tempoStability: .92,
+      vocalBand: .86,
+      breakbeatDensity: .82,
+      squareWave: .86,
+      fourOnFloor: .76,
+      kickGrid: .88
+    }
+  }
+};
 const BASE_VECTOR_KEYS = [
   "tempo", "energy", "bass", "lowBandRatio", "midBandRatio", "highBandRatio",
   "rhythm", "onset", "brightness", "zcr", "rmsContrast", "onsetContrast",
@@ -956,15 +1074,18 @@ function buildCentroids(examples) {
   const macroGroups = new Map();
   const fineGroups = new Map();
   const fineByMacroGroups = new Map();
-  const popStyleGroups = new Map();
+  const styleByFamilyGroups = new Map();
   examples.forEach(example => {
     const macro = canonicalMacro(example.macroGenre);
     if (!macroGroups.has(macro)) macroGroups.set(macro, []);
     macroGroups.get(macro).push(example);
-    const popStyle = popStyleLabelForRow(example);
-    if (popStyle) {
-      if (!popStyleGroups.has(popStyle)) popStyleGroups.set(popStyle, []);
-      popStyleGroups.get(popStyle).push(example);
+    const styleFamily = styleFamilyForRow(example);
+    const styleLabel = styleLabelForRow(example);
+    if (styleFamily && styleLabel) {
+      if (!styleByFamilyGroups.has(styleFamily)) styleByFamilyGroups.set(styleFamily, new Map());
+      const byStyle = styleByFamilyGroups.get(styleFamily);
+      if (!byStyle.has(styleLabel)) byStyle.set(styleLabel, []);
+      byStyle.get(styleLabel).push(example);
     }
     if (example.trainingRole !== "macro-only") {
       if (!fineGroups.has(example.genre)) fineGroups.set(example.genre, []);
@@ -979,11 +1100,16 @@ function buildCentroids(examples) {
   for (const [macro, groupMap] of fineByMacroGroups.entries()) {
     fineByMacro[macro] = Object.fromEntries([...groupMap.entries()].map(([genre, items]) => [genre, averageVectors(items)]));
   }
+  const styleByFamily = {};
+  for (const [family, groupMap] of styleByFamilyGroups.entries()) {
+    styleByFamily[family] = Object.fromEntries([...groupMap.entries()].map(([style, items]) => [style, averageVectors(items)]));
+  }
   return {
     macro: Object.fromEntries([...macroGroups.entries()].map(([macro, items]) => [macro, averageVectors(items)])),
     fine: Object.fromEntries([...fineGroups.entries()].map(([genre, items]) => [genre, averageVectors(items)])),
     fineByMacro,
-    popStyle: Object.fromEntries([...popStyleGroups.entries()].map(([style, items]) => [style, averageVectors(items)]))
+    styleByFamily,
+    popStyle: styleByFamily.pop || {}
   };
 }
 
@@ -991,15 +1117,18 @@ function buildDistributions(examples) {
   const macroGroups = new Map();
   const fineGroups = new Map();
   const fineByMacroGroups = new Map();
-  const popStyleGroups = new Map();
+  const styleByFamilyGroups = new Map();
   examples.forEach(example => {
     const macro = canonicalMacro(example.macroGenre);
     if (!macroGroups.has(macro)) macroGroups.set(macro, []);
     macroGroups.get(macro).push(example);
-    const popStyle = popStyleLabelForRow(example);
-    if (popStyle) {
-      if (!popStyleGroups.has(popStyle)) popStyleGroups.set(popStyle, []);
-      popStyleGroups.get(popStyle).push(example);
+    const styleFamily = styleFamilyForRow(example);
+    const styleLabel = styleLabelForRow(example);
+    if (styleFamily && styleLabel) {
+      if (!styleByFamilyGroups.has(styleFamily)) styleByFamilyGroups.set(styleFamily, new Map());
+      const byStyle = styleByFamilyGroups.get(styleFamily);
+      if (!byStyle.has(styleLabel)) byStyle.set(styleLabel, []);
+      byStyle.get(styleLabel).push(example);
     }
     if (example.trainingRole !== "macro-only") {
       if (!fineGroups.has(example.genre)) fineGroups.set(example.genre, []);
@@ -1014,11 +1143,16 @@ function buildDistributions(examples) {
   for (const [macro, groupMap] of fineByMacroGroups.entries()) {
     fineByMacro[macro] = Object.fromEntries([...groupMap.entries()].map(([genre, items]) => [genre, distributionVector(items)]));
   }
+  const styleByFamily = {};
+  for (const [family, groupMap] of styleByFamilyGroups.entries()) {
+    styleByFamily[family] = Object.fromEntries([...groupMap.entries()].map(([style, items]) => [style, distributionVector(items)]));
+  }
   return {
     macro: Object.fromEntries([...macroGroups.entries()].map(([macro, items]) => [macro, distributionVector(items)])),
     fine: Object.fromEntries([...fineGroups.entries()].map(([genre, items]) => [genre, distributionVector(items)])),
     fineByMacro,
-    popStyle: Object.fromEntries([...popStyleGroups.entries()].map(([style, items]) => [style, distributionVector(items)]))
+    styleByFamily,
+    popStyle: styleByFamily.pop || {}
   };
 }
 
@@ -1138,33 +1272,50 @@ function weightsForMacro(macro, baseWeights = FEATURE_WEIGHTS) {
   ]));
 }
 
-function popStyleLabelForRow(row = {}) {
-  if (canonicalMacro(row.macroGenre) !== "pop" || row.trainingRole === "macro-only") return "";
-  return row.styleHint === CITY_POP_STYLE_HINT ? CITY_POP_STYLE_HINT : POP_OTHER_STYLE_HINT;
+function styleFamilyForRow(row = {}) {
+  const macro = canonicalMacro(row.macroGenre);
+  return STYLE_CLASSIFIERS[macro] && row.trainingRole !== "macro-only" ? macro : "";
+}
+
+function styleTargetForRow(row = {}) {
+  const family = styleFamilyForRow(row);
+  if (!family) return "";
+  const config = STYLE_CLASSIFIERS[family];
+  for (const [styleHint, target] of Object.entries(config.targets || {})) {
+    if (target.source === "styleHint" && row.styleHint === styleHint) return styleHint;
+    if (target.source === "genre" && row.genre === target.genre) return styleHint;
+  }
+  return "";
+}
+
+function styleLabelForRow(row = {}) {
+  const family = styleFamilyForRow(row);
+  if (!family) return "";
+  return styleTargetForRow(row) || STYLE_CLASSIFIERS[family].other;
 }
 
 function styleDisplayName(styleHint) {
-  return styleHint === CITY_POP_STYLE_HINT ? CITY_POP_STYLE_LABEL : "pop_other";
+  for (const config of Object.values(STYLE_CLASSIFIERS)) {
+    if (config.targets?.[styleHint]) return config.targets[styleHint].label;
+    if (config.other === styleHint) return styleHint;
+  }
+  return styleHint || "";
 }
 
-function weightsForPopStyle(baseWeights = FEATURE_WEIGHTS) {
-  const popWeights = weightsForMacro("pop", baseWeights);
-  const multipliers = {
-    tempo: 1.08,
-    bass: 1.18,
-    rhythm: 1.16,
-    brightness: 1.14,
-    chromaEntropy: 1.18,
-    chromaMotion: 1.12,
-    rmsContrast: 1.08,
-    chorusLift: .92,
-    vocalBand: .94,
-    distortion: .82,
-    guitarBand: .84
-  };
+function fineGenreForStyle(styleHint) {
+  for (const config of Object.values(STYLE_CLASSIFIERS)) {
+    const target = config.targets?.[styleHint];
+    if (target?.boostFineGenre) return target.boostFineGenre;
+  }
+  return "";
+}
+
+function weightsForStyleFamily(family, baseWeights = FEATURE_WEIGHTS) {
+  const macroWeights = weightsForMacro(family, baseWeights);
+  const multipliers = STYLE_CLASSIFIERS[family]?.weightMultipliers || {};
   return Object.fromEntries(VECTOR_KEYS.map(key => [
     key,
-    Math.round((Number(popWeights[key] || 1) * Number(multipliers[key] || 1)) * 10000) / 10000
+    Math.round((Number(macroWeights[key] || 1) * Number(multipliers[key] || 1)) * 10000) / 10000
   ]));
 }
 
@@ -1175,27 +1326,102 @@ function rankScores(scores) {
     .sort((a, b) => b.score - a.score || a.label.localeCompare(b.label));
 }
 
-function classifyPopStyle(target, examples, model) {
-  const popExamples = examples.filter(example => popStyleLabelForRow(example));
-  const labels = new Set(popExamples.map(popStyleLabelForRow));
-  if (!labels.has(CITY_POP_STYLE_HINT) || popExamples.length < 8) return [];
-  const styleWeights = weightsForPopStyle(model.featureWeights);
+function classifyStyleFamily(target, examples, model, family) {
+  if (!STYLE_CLASSIFIERS[family]) return [];
+  const familyExamples = examples.filter(example => styleFamilyForRow(example) === family);
+  const labels = new Set(familyExamples.map(styleLabelForRow));
+  const hasTarget = Object.keys(STYLE_CLASSIFIERS[family].targets || {}).some(styleHint => labels.has(styleHint));
+  if (!hasTarget || familyExamples.length < 8) return [];
+  const styleWeights = weightsForStyleFamily(family, model.featureWeights);
   const baseScores = mergeScores(
-    scoreKnn(popExamples, target, popStyleLabelForRow, styleWeights, model.knnK),
-    scoreCentroids(model.centroids.popStyle || {}, target, styleWeights),
-    .72,
-    .28
+    scoreKnn(familyExamples, target, styleLabelForRow, styleWeights, model.knnK, true),
+    scoreCentroids(model.centroids.styleByFamily?.[family] || {}, target, styleWeights),
+    .86,
+    .14
   );
-  const styleScores = ENABLE_DISTRIBUTION_CLASSIFIER ? mergeScores(
-    baseScores,
-    scoreDistributions(model.distributions?.popStyle || {}, target, styleWeights),
-    .78,
-    .22
-  ) : baseScores;
+  const distributionScoresForStyle = ENABLE_DISTRIBUTION_CLASSIFIER
+    ? scoreDistributions(model.distributions?.styleByFamily?.[family] || {}, target, styleWeights)
+    : {};
+  const styleScores = Object.keys(distributionScoresForStyle).length
+    ? mergeScores(baseScores, distributionScoresForStyle, .9, .1)
+    : baseScores;
   return rankScores(styleScores).map(item => ({
     ...item,
+    family,
     displayName: styleDisplayName(item.label)
   }));
+}
+
+function boostFineScoresWithStyle(scores, styleRanked = {}) {
+  if (!styleRanked.length || !Object.keys(scores).length) return scores;
+  const maxScore = Math.max(...Object.values(scores).map(Number), .0001);
+  const out = { ...scores };
+  styleRanked.slice(0, 3).forEach((style, index) => {
+    const fineGenre = fineGenreForStyle(style.label);
+    if (!fineGenre || !(fineGenre in out)) return;
+    const confidence = clamp01((Number(style.score) || 0) / 100);
+    const weight = index === 0 ? STYLE_FINE_BOOST_TOP : index === 1 ? STYLE_FINE_BOOST_SECOND : STYLE_FINE_BOOST_THIRD;
+    out[fineGenre] = (Number(out[fineGenre]) || 0) + maxScore * confidence * weight;
+  });
+  return out;
+}
+
+function rankedScore(ranked = [], labelKey, label) {
+  const item = ranked.find(row => row?.[labelKey] === label || row?.label === label);
+  return clamp01((Number(item?.score) || 0) / 100);
+}
+
+function styleScoreFor(styleRankedByFamily = {}, family, styleHint) {
+  return rankedScore(styleRankedByFamily[family] || [], "label", styleHint);
+}
+
+function applyFineFalsePositiveGuards(scores = {}, values = [], macroRanked = [], styleRankedByFamily = {}) {
+  if (!Object.keys(scores).length) return scores;
+  const v = rawFeatureObject(values);
+  const out = { ...scores };
+  const macro = {
+    ambient: rankedScore(macroRanked, "label", "ambient"),
+    black_music: rankedScore(macroRanked, "label", "black_music"),
+    electronic: rankedScore(macroRanked, "label", "electronic")
+  };
+  const style = {
+    drone: styleScoreFor(styleRankedByFamily, "ambient", "drone"),
+    ambientOther: styleScoreFor(styleRankedByFamily, "ambient", STYLE_CLASSIFIERS.ambient.other),
+    dub: styleScoreFor(styleRankedByFamily, "black_music", "dub"),
+    blackOther: styleScoreFor(styleRankedByFamily, "black_music", STYLE_CLASSIFIERS.black_music.other),
+    techno: styleScoreFor(styleRankedByFamily, "electronic", "techno"),
+    electronicOther: styleScoreFor(styleRankedByFamily, "electronic", STYLE_CLASSIFIERS.electronic.other)
+  };
+  if ("テクノ" in out) {
+    let multiplier = 1;
+    if (macro.electronic < .72) multiplier *= .76;
+    if (v.rhythm < .42 || v.onset < .16) multiplier *= .84;
+    if ((v.tempo < 112 || v.tempo > 150) && style.techno < .52) multiplier *= .9;
+    if (macro.black_music > .6 && v.bass > .62 && style.techno < .58) multiplier *= .84;
+    if (style.electronicOther > style.techno + .16 && style.techno < .58) multiplier *= .82;
+    out["テクノ"] *= multiplier;
+  }
+  if ("ダブ" in out) {
+    let multiplier = 1;
+    if (macro.black_music < .72) multiplier *= .76;
+    if (macro.electronic > macro.black_music && style.dub < .56) multiplier *= .88;
+    if ((v.bass < .72 || v.lowBandRatio < .55) && style.dub < .56) multiplier *= .9;
+    if (v.brightness > .5 || v.highBandRatio > .34) multiplier *= .84;
+    if (v.rhythm > .74 || v.onset > .62) multiplier *= .82;
+    if (style.blackOther > style.dub + .16 && style.dub < .56) multiplier *= .84;
+    out["ダブ"] *= multiplier;
+  }
+  if ("ドローン" in out) {
+    let multiplier = 1;
+    if (macro.ambient < .72) multiplier *= .76;
+    if (v.energy > .84 || v.rhythm > .52 || v.onset > .38) multiplier *= .76;
+    if ((v.rhythm > .44 || v.onset > .34) && style.drone < .56) multiplier *= .86;
+    if (v.energy > .9 && style.drone < .5) multiplier *= .9;
+    if (v.brightness > .56 || v.zcr > .2) multiplier *= .84;
+    if (style.ambientOther > style.drone + .16 && style.drone < .54) multiplier *= .84;
+    out["ドローン"] *= multiplier;
+  }
+  return out;
 }
 
 function classify(values, model) {
@@ -1247,9 +1473,10 @@ function classify(values, model) {
       .76,
       .24
     ) : baseFineScores;
+    const styleRanked = classifyStyleFamily(target, examples, model, candidateMacro);
     const macroScore = (Number(macroRanked[index]?.score) || 0) / 100;
     const macroWeight = index === 0 ? 1 : Math.max(.14, Math.pow(macroScore, ENABLE_SOFT_TWO_STAGE ? 1.6 : 1));
-    addWeightedScores(fineScores, blendTheoryScores(scopedScores, values, model, allowedGenres), macroWeight);
+    addWeightedScores(fineScores, boostFineScoresWithStyle(blendTheoryScores(scopedScores, values, model, allowedGenres), styleRanked), macroWeight);
   });
   if (!Object.keys(fineScores).length) {
     const fallbackFineScores = mergeScores(
@@ -1271,12 +1498,18 @@ function classify(values, model) {
       [...new Set(allFineExamples.map(item => item.genre).filter(Boolean))]
     ));
   }
-  const calibratedFineScores = applyFineCalibration(fineScores, model.calibration);
-  const fineRanked = rankScores(calibratedFineScores);
-  const styleRanked = classifyPopStyle(target, examples, model);
+  const styleRankedByFamily = Object.fromEntries(Object.keys(STYLE_CLASSIFIERS).map(family => [
+    family,
+    classifyStyleFamily(target, examples, model, family)
+  ]));
+  const guardedFineScores = applyFineFalsePositiveGuards(fineScores, values, macroRanked, styleRankedByFamily);
+  const calibratedFineScores = applyFineCalibration(guardedFineScores, model.calibration);
+  const rerankedFineScores = applyValidationReranker(calibratedFineScores, model);
+  const fineRanked = rankScores(rerankedFineScores);
+  const styleRanked = styleRankedByFamily[macro] || Object.values(styleRankedByFamily).find(list => list.length) || [];
   const confidence = fineRanked[0]?.score || 0;
   const margin = confidence - (fineRanked[1]?.score || 0);
-  return { macroRanked, fineRanked, styleRanked, confidence, needsReview: confidence < 58 || margin < 8 };
+  return { macroRanked, fineRanked, styleRanked, styleRankedByFamily, confidence, needsReview: confidence < 58 || margin < 8 };
 }
 
 function applyFineCalibration(scores, calibration = {}) {
@@ -1293,6 +1526,25 @@ function applyMacroCalibration(scores, calibration = {}) {
     label,
     (Number(score) || 0) * (Number(calibration.macroBias[label]) || 1)
   ]));
+}
+
+function applyValidationReranker(scores = {}, model = {}) {
+  if (!ENABLE_VALIDATION_RERANKER || !model.reranker?.rules?.length) return scores;
+  const ranked = rankScores(scores);
+  const current = ranked[0];
+  if (!current) return scores;
+  const out = { ...scores };
+  const rules = model.reranker.ruleMap || new Map(model.reranker.rules.map(rule => [`${rule.candidate}|${rule.current}`, rule]));
+  model.reranker.ruleMap = rules;
+  ranked.slice(1, 4).forEach(candidate => {
+    const rule = rules.get(`${candidate.label}|${current.label}`);
+    if (!rule) return;
+    const gap = Number(current.score || 0) - Number(candidate.score || 0);
+    if (gap > Number(rule.maxGap || 28)) return;
+    out[candidate.label] = (Number(out[candidate.label]) || 0) * Number(rule.boost || 1);
+    out[current.label] = (Number(out[current.label]) || 0) * Number(rule.penalty || 1);
+  });
+  return out;
 }
 
 function buildValidationCalibration(rows, model) {
@@ -1353,6 +1605,87 @@ function buildValidationCalibration(rows, model) {
   };
 }
 
+function buildValidationReranker(rows, model) {
+  const validationRows = rows.filter(row => row.split === "validation" && row.trainingRole !== "macro-only");
+  const pairs = new Map();
+  const previousReranker = model.reranker;
+  model.reranker = null;
+  validationRows.forEach(row => {
+    const predicted = classify(row.values, model);
+    const ranked = predicted.fineRanked.slice(0, 4);
+    const current = ranked[0]?.label || "";
+    if (!current) return;
+    ranked.slice(1).forEach((candidate, index) => {
+      const key = `${candidate.label}|${current}`;
+      if (!pairs.has(key)) {
+        pairs.set(key, {
+          candidate: candidate.label,
+          current,
+          total: 0,
+          success: 0,
+          harm: 0,
+          rankSum: 0,
+          gapSum: 0
+        });
+      }
+      const item = pairs.get(key);
+      item.total += 1;
+      item.rankSum += index + 2;
+      item.gapSum += Math.max(0, Number(ranked[0]?.score || 0) - Number(candidate.score || 0));
+      if (row.genre === candidate.label) item.success += 1;
+      if (row.genre === current) item.harm += 1;
+    });
+  });
+  model.reranker = previousReranker;
+  const rules = [...pairs.values()]
+    .map(item => {
+      const precision = item.success / Math.max(1, item.total);
+      const harmRate = item.harm / Math.max(1, item.total);
+      const meanGap = item.gapSum / Math.max(1, item.total);
+      return {
+        ...item,
+        precision,
+        harmRate,
+        meanRank: item.rankSum / Math.max(1, item.total),
+        meanGap
+      };
+    })
+    .filter(item =>
+      item.success >= VALIDATION_RERANKER_MIN_SUCCESS
+      && item.total >= VALIDATION_RERANKER_MIN_TOTAL
+      && item.precision >= VALIDATION_RERANKER_MIN_PRECISION
+      && item.harmRate <= VALIDATION_RERANKER_MAX_HARM_RATE
+    )
+    .map(item => ({
+      candidate: item.candidate,
+      current: item.current,
+      total: item.total,
+      success: item.success,
+      harm: item.harm,
+      precision: Math.round(item.precision * 1000) / 1000,
+      harmRate: Math.round(item.harmRate * 1000) / 1000,
+      meanGap: Math.round(item.meanGap * 10) / 10,
+      maxGap: Math.max(16, Math.min(34, Math.round(item.meanGap + 12))),
+      boost: Math.round((1.08 + Math.min(.22, item.precision * .18)) * 1000) / 1000,
+      penalty: Math.round((.98 - Math.min(.1, Math.max(0, item.harmRate) * .18)) * 1000) / 1000
+    }))
+    .sort((a, b) => b.success - a.success || b.precision - a.precision || a.candidate.localeCompare(b.candidate, "ja"));
+  return {
+    enabled: ENABLE_VALIDATION_RERANKER,
+    method: "validation-top3-pairwise-reranker",
+    validationRows: validationRows.length,
+    thresholds: {
+      minSuccess: VALIDATION_RERANKER_MIN_SUCCESS,
+      minTotal: VALIDATION_RERANKER_MIN_TOTAL,
+      minPrecision: VALIDATION_RERANKER_MIN_PRECISION,
+      maxHarmRate: VALIDATION_RERANKER_MAX_HARM_RATE
+    },
+    ruleCount: rules.length,
+    rules,
+    note: "Uses validation split only; applies small Top3 pairwise boosts when validation showed a candidate should overtake the current Top1."
+  };
+}
+
 function buildModel(rows) {
   const genreTheory = loadGenreTheory();
   const trainRows = rows.filter(row => row.split === "train");
@@ -1387,13 +1720,32 @@ function buildModel(rows) {
       separabilityWeightsEnabled: ENABLE_SEPARABILITY_WEIGHTS,
       genreTheoryPriorsEnabled: ENABLE_GENRE_THEORY_PRIORS && Boolean(genreTheory.enabled),
       theoryGenreFeaturesEnabled: ENABLE_THEORY_GENRE_FEATURES,
+      validationRerankerEnabled: ENABLE_VALIDATION_RERANKER,
+      evaluationSplits: [...EVALUATION_SPLITS],
       genreTheoryWeight: GENRE_THEORY_WEIGHT,
       genreTheoryMacroWeight: GENRE_THEORY_MACRO_WEIGHT,
       fmaAudioWeight: FMA_AUDIO_WEIGHT,
       extendedGenreFeaturesEnabled: ENABLE_EXTENDED_GENRE_FEATURES,
       advancedGenreFeaturesEnabled: ENABLE_ADVANCED_GENRE_FEATURES,
+      styleFineBoostTop: STYLE_FINE_BOOST_TOP,
+      styleFineBoostSecond: STYLE_FINE_BOOST_SECOND,
+      styleFineBoostThird: STYLE_FINE_BOOST_THIRD,
+      styleClassifierEnabled: true,
+      styleClassifierFamilies: Object.fromEntries(Object.entries(STYLE_CLASSIFIERS).map(([family, config]) => [
+        family,
+        {
+          other: config.other,
+          weightMultipliers: config.weightMultipliers || {},
+          targets: Object.fromEntries(Object.entries(config.targets || {}).map(([style, target]) => [style, {
+            label: target.label,
+            source: target.source,
+            genre: target.genre || "",
+            boostFineGenre: target.boostFineGenre || ""
+          }]))
+        }
+      ])),
       popStyleClassifierEnabled: true,
-      popStyleClassifierLabels: [CITY_POP_STYLE_HINT, POP_OTHER_STYLE_HINT],
+      popStyleClassifierLabels: [CITY_POP_STYLE_HINT, STYLE_CLASSIFIERS.pop.other],
       note: "FMA metadata and iTunes previews are comparison-only unless explicitly enabled. Formal evaluation uses CC/local audio only."
     },
     standardizer,
@@ -1443,18 +1795,23 @@ function buildModel(rows) {
 
 function evaluate(rows, model) {
   const results = rows
-    .filter(row => row.split === "test")
+    .filter(row => EVALUATION_SPLITS.has(row.split))
     .map(row => {
       const predicted = classify(row.values, model);
       const topFine = predicted.fineRanked.map(item => item.label);
       const topMacro = predicted.macroRanked.map(item => item.label);
-      const topStyle = predicted.styleRanked.map(item => item.label);
+      const rowStyleFamily = styleFamilyForRow(row);
+      const rowStyleTarget = styleTargetForRow(row);
+      const rowStyleRanked = rowStyleFamily ? predicted.styleRankedByFamily?.[rowStyleFamily] || [] : [];
+      const topStyle = rowStyleRanked.map(item => item.label);
       const fineEvaluable = row.trainingRole !== "macro-only";
-      const styleEvaluable = canonicalMacro(row.macroGenre) === "pop" && Boolean(row.styleHint);
+      const styleEvaluable = Boolean(rowStyleTarget);
       return {
         genre: row.genre,
         macroGenre: canonicalMacro(row.macroGenre),
         styleHint: row.styleHint || "",
+        styleFamily: rowStyleFamily,
+        styleTarget: rowStyleTarget,
         trainingRole: row.trainingRole,
         split: row.split,
         sourceType: row.sourceType,
@@ -1468,14 +1825,14 @@ function evaluate(rows, model) {
         predictedStyleName: styleDisplayName(topStyle[0] || ""),
         exact: fineEvaluable ? topFine[0] === row.genre : null,
         top3: fineEvaluable ? topFine.slice(0, 3).includes(row.genre) : null,
-        styleExact: styleEvaluable ? topStyle[0] === row.styleHint : null,
-        styleTop3: styleEvaluable ? topStyle.slice(0, 3).includes(row.styleHint) : null,
+        styleExact: styleEvaluable ? topStyle[0] === rowStyleTarget : null,
+        styleTop3: styleEvaluable ? topStyle.slice(0, 3).includes(rowStyleTarget) : null,
         macroExact: topMacro[0] === canonicalMacro(row.macroGenre),
         needsReview: predicted.needsReview,
         confidence: predicted.confidence,
         top: predicted.fineRanked.slice(0, 5).map(item => ({ name: item.label, score: Math.round(item.score) })),
         macro: predicted.macroRanked.slice(0, 4).map(item => ({ macro: item.label, score: Math.round(item.score) })),
-        style: predicted.styleRanked.slice(0, 4).map(item => ({ style: item.label, name: item.displayName, score: Math.round(item.score) }))
+        style: rowStyleRanked.slice(0, 4).map(item => ({ style: item.label, name: item.displayName, family: item.family, score: Math.round(item.score) }))
       };
     });
   const topConfusions = (list, actualKey, predictedKey, exactKey) => Object.values(list.reduce((acc, row) => {
@@ -1589,11 +1946,12 @@ function evaluate(rows, model) {
       }, {})).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([label, count]) => ({ label, count }))
     };
   });
-  const byStyle = [...new Set(results.map(row => row.styleHint).filter(Boolean))].sort().map(styleHint => {
-    const list = results.filter(row => row.styleHint === styleHint);
+  const byStyle = [...new Set(results.map(row => row.styleTarget).filter(Boolean))].sort().map(styleHint => {
+    const list = results.filter(row => row.styleTarget === styleHint);
     return {
       styleHint,
       displayName: styleDisplayName(styleHint),
+      family: list[0]?.styleFamily || "",
       total: list.length,
       styleTop1Accuracy: list.length ? Math.round(list.filter(row => row.styleExact).length / list.length * 1000) / 10 : null,
       styleTop3Accuracy: list.length ? Math.round(list.filter(row => row.styleTop3).length / list.length * 1000) / 10 : null,
@@ -1612,7 +1970,7 @@ function evaluate(rows, model) {
       generatedAt: new Date().toISOString(),
       sourceDataset: "verified-dataset.json",
       endpoint: DEFAULT_ENDPOINT,
-      evaluationSplit: "test",
+      evaluationSplit: [...EVALUATION_SPLITS].join(","),
       ...referenceSummary,
       formalSummary,
       sourceCounts,
@@ -1690,6 +2048,7 @@ async function main() {
   const rows = validRows.map(row => ({ ...row, split: splitAssignments[sourceKeyForItem(row)] || "train" }));
   const model = buildModel(rows);
   model.calibration = buildValidationCalibration(rows, model);
+  model.reranker = buildValidationReranker(rows, model);
   const evaluation = evaluate(rows, model);
 
   const profiles = { ...api.musicGenreProfiles };
@@ -1705,6 +2064,8 @@ async function main() {
       genre: row.genre,
       macroGenre: canonicalMacro(row.macroGenre),
       styleHint: row.styleHint,
+      styleFamily: styleFamilyForRow(row),
+      styleTarget: styleTargetForRow(row),
       styleConfidence: row.styleConfidence,
       trainingRole: row.trainingRole,
       sourceType: row.sourceType,

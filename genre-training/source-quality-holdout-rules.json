@@ -1,0 +1,164 @@
+{
+  "version": "mmfr.source-quality-holdouts.v1",
+  "description": "Source/genre groups kept as formal CC/public-research audio but excluded from fine-genre training when the dataset label is too noisy for the current classifier target.",
+  "rules": [
+    {
+      "datasetName": "FMA",
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "reviewStatus": "source-quality-holdout-fma-jazz",
+      "reason": "FMA jazz rows showed 0% fine Top1 and 0% fine Top3 in source/genre audit; retain as jazz macro evidence until explicit jazz substyle labels are available."
+    },
+    {
+      "datasetName": "FMA",
+      "genre": "ドラムンベース",
+      "macroGenre": "electronic",
+      "reviewStatus": "source-quality-holdout-fma-drum-and-bass",
+      "reason": "FMA drum and bass rows showed 0% fine Top1 and weak macro routing; hold out from fine DnB while preserving electronic macro coverage."
+    },
+    {
+      "datasetName": "MTG-Jamendo",
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "reviewStatus": "source-quality-holdout-mtg-jamendo-techno",
+      "reason": "MTG-Jamendo techno rows behaved as broad electronic/rock/reggae material rather than precise techno; hold out from fine techno until a stricter four-on-floor techno subset is curated."
+    },
+    {
+      "datasetName": "MTG-Jamendo",
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "fine",
+      "reviewStatus": "selective-mtg-jamendo-techno-fine-restore",
+      "reason": "Validation audit found these MTG-Jamendo techno tracks are already predicted as techno Top1 by the stable model. Restore only this stricter subset to fine training; keep the rest macro-only.",
+      "trackIds": [
+        "track_0030664",
+        "track_0044210",
+        "track_0044216",
+        "track_0044217",
+        "track_0181995",
+        "track_0240538",
+        "track_0658536",
+        "track_0761660",
+        "track_1109354",
+        "track_1190131"
+      ]
+    },
+    {
+      "datasetName": "FMA",
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "macro-only",
+      "reviewStatus": "validation-quality-holdout-fma-techno",
+      "reason": "These FMA techno validation rows were high-confidence hard misses with macro mismatch in fine-label-quality-audit. Holding them out from fine calibration improved official Fine Top3 and Formal Fine Top3 without reducing target-genre Top1.",
+      "trackIds": [
+        "57417",
+        "144424",
+        "148444"
+      ]
+    },
+    {
+      "datasetName": "MTG-Jamendo",
+      "genre": "テクノ",
+      "macroGenre": "electronic",
+      "trainingRole": "macro-only",
+      "reviewStatus": "validation-quality-holdout-mtg-techno",
+      "reason": "These selectively restored MTG-Jamendo techno validation rows remained high-confidence hard misses with macro mismatch. Re-holdout improved official Fine Top3 and Formal Fine Top3 while keeping the stricter MTG techno subset mostly fine.",
+      "trackIds": [
+        "track_0044210",
+        "track_0044216",
+        "track_0240538"
+      ]
+    },
+    {
+      "datasetName": "MTG-Jamendo",
+      "genre": "ブルース",
+      "macroGenre": "black_music",
+      "reviewStatus": "source-quality-holdout-mtg-jamendo-blues",
+      "reason": "MTG-Jamendo blues rows produced 0% fine Top1 and were a common false-positive source for dub/techno; keep macro evidence only."
+    },
+    {
+      "datasetName": "FMA",
+      "genre": "フォーク",
+      "macroGenre": "world",
+      "reviewStatus": "source-quality-holdout-fma-folk",
+      "reason": "FMA folk rows showed 0% fine Top1 and 0% fine Top3 with inconsistent macro routing; keep as world/acoustic macro evidence only."
+    },
+    {
+      "datasetName": "FMA",
+      "genre": "トラップ",
+      "macroGenre": "black_music",
+      "reviewStatus": "source-quality-holdout-fma-trap",
+      "reason": "FMA trap rows showed 0% fine Top1 and 0% fine Top3; retain as black_music macro evidence until explicit trap examples are curated."
+    },
+    {
+      "datasetName": "MTG-Jamendo",
+      "genre": "ジャズ",
+      "macroGenre": "jazz",
+      "reviewStatus": "source-quality-holdout-mtg-jamendo-jazz",
+      "reason": "MTG-Jamendo jazz rows produced weak fine exact matches and acted as broad acoustic evidence rather than reliable jazz substyle examples; keep for jazz macro routing only."
+    },
+    {
+      "datasetName": "FMA",
+      "genre": "ブルース",
+      "macroGenre": "black_music",
+      "reviewStatus": "source-quality-holdout-fma-blues",
+      "reason": "FMA blues rows created repeated cross-genre false positives around dub, folk, and rock; retain as black_music macro evidence until more explicit blues audio is curated."
+    },
+    {
+      "datasetName": "FMA",
+      "genre": "オペラ",
+      "macroGenre": "classical",
+      "reviewStatus": "source-quality-holdout-fma-opera",
+      "reason": "FMA opera rows behaved as broad classical/vocal evidence and confused the ambient/drone boundary; hold out from fine opera while preserving classical macro evidence."
+    },
+    {
+      "datasetName": "FMA",
+      "genre": "ロック",
+      "macroGenre": "rock",
+      "reviewStatus": "source-quality-holdout-fma-rock",
+      "reason": "FMA rock rows showed low fine reliability and contributed to electronic/ambient false positives; keep as rock macro evidence while MTG-Jamendo carries fine rock examples."
+    },
+    {
+      "datasetName": "MTG-Jamendo",
+      "genre": "ロック",
+      "macroGenre": "rock",
+      "reviewStatus": "source-quality-holdout-mtg-jamendo-rock",
+      "reason": "Source holdout experiment on 2026-06-30 showed MTG-Jamendo rock fine rows lowered Formal Fine Top1 and Top3; keep as rock macro evidence until cleaner explicit rock examples are curated."
+    },
+    {
+      "datasetName": "FMA",
+      "genre": "ハウス",
+      "macroGenre": "electronic",
+      "reviewStatus": "source-quality-holdout-fma-house",
+      "reason": "FMA house rows were a repeated false-positive source for techno; keep as electronic macro evidence while MTG-Jamendo carries fine house examples."
+    },
+    {
+      "datasetName": "FMA",
+      "genre": "ソウルミュージック",
+      "macroGenre": "black_music",
+      "reviewStatus": "source-quality-holdout-fma-soul",
+      "reason": "FMA soul rows acted as broad black_music evidence and introduced fine-level confusion with dub/funk/disco; hold out from fine soul until explicit soul labels are curated."
+    },
+    {
+      "datasetName": "jaCappella",
+      "genre": "バラード",
+      "macroGenre": "pop",
+      "reviewStatus": "source-quality-holdout-jacappella-ballad",
+      "reason": "jaCappella ballad rows are useful vocal/pop macro evidence but are not reliable full-arrangement fine-genre examples for the current classifier."
+    },
+    {
+      "datasetName": "jaCappella",
+      "genre": "演歌",
+      "macroGenre": "world",
+      "reviewStatus": "source-quality-holdout-jacappella-enka",
+      "reason": "jaCappella enka rows are a cappella/vocal-only and distort fine arrangement features; keep only for macro/acoustic routing until full-arrangement enka is available."
+    },
+    {
+      "datasetName": "jaCappella",
+      "genre": "レゲエ",
+      "macroGenre": "black_music",
+      "reviewStatus": "source-quality-holdout-jacappella-reggae",
+      "reason": "jaCappella reggae rows lack the rhythm-section traits needed for fine reggae/dub separation; retain as black_music vocal macro evidence only."
+    }
+  ]
+}

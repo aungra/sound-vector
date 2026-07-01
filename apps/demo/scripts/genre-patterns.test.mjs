@@ -165,6 +165,9 @@ test("generated genre SVG uses aerosol particle style without SVG effects", () =
   assert.match(svg, /data-form-mode="genre-j-pop"/);
   assert.match(svg, /data-aerosol-archetype="/);
   assert.match(svg, /data-aerosol-topology="/);
+  assert.match(svg, /data-exclusive-zone="/);
+  assert.match(svg, /data-composition-category="/);
+  assert.match(svg, /data-gesture-mode="/);
   assert.match(svg, /data-classifier-method="/);
   assert.match(svg, /data-macro-genre="/);
   const archetype = svg.match(/data-aerosol-archetype="([^"]+)"/)?.[1] || "";
@@ -180,6 +183,72 @@ test("generated genre SVG uses aerosol particle style without SVG effects", () =
   assert.doesNotMatch(svg, /data-shape-aspect/);
   assert.doesNotMatch(svg, /data-byte=/);
   assert.doesNotMatch(svg, /data-index=/);
+});
+
+test("aerosol renderer assigns unique exclusive zones across genres", () => {
+  const { generateSoundClothReversibleSvg, musicGenreProfiles } = loadPatternApi();
+  const zones = new Map();
+  const gestures = new Map();
+  Object.keys(musicGenreProfiles).forEach((genre, index) => {
+    const svg = generateSoundClothReversibleSvg({
+      id: `exclusive-${index}`,
+      label: genre,
+      audioFileName: `${genre}.wav`,
+      variantSalt: 0,
+      audio: {
+        inferredGenre: genre,
+        genreAnalysis: { method: "two-stage-local-classifier", top: [{ name: genre, score: 99 }] },
+        energy: 0.54,
+        rms: 0.54,
+        bass: 0.48,
+        onset: 0.42,
+        rhythm: 0.58,
+        brightness: 0.5,
+        tempo: 112,
+        centroid: 2600,
+        chroma: Array.from({ length: 12 }, (_, pc) => pc === index % 12 ? 0.82 : 0.18),
+        detail: {
+          rms: Array.from({ length: 32 }, (_, i) => 0.48 + Math.sin(i * 0.2) * 0.12),
+          bass: Array.from({ length: 32 }, (_, i) => 0.42 + Math.cos(i * 0.16) * 0.1),
+          centroid: Array.from({ length: 32 }, (_, i) => 0.45 + Math.sin(i * 0.13) * 0.08),
+          onset: Array.from({ length: 32 }, (_, i) => i % 7 === 0 ? 0.76 : 0.18),
+          waveform: Array.from({ length: 96 }, (_, i) => Math.sin(i * 0.21) * 0.56)
+        }
+      }
+    }, 1800000300000 + index * 103, { variantSeed: index * 23 });
+    const zone = svg.match(/id="aerosol_particle_field"[^>]*data-exclusive-zone="([^"]+)"/)?.[1] || "";
+    const category = svg.match(/id="aerosol_particle_field"[^>]*data-composition-category="([^"]+)"/)?.[1] || "";
+    const gesture = svg.match(/id="aerosol_particle_field"[^>]*data-gesture-mode="([^"]+)"/)?.[1] || "";
+    const particles = [...svg.matchAll(/<circle\b([^>]*)>/g)]
+      .map(match => match[1])
+      .filter(attrs => /data-feature="aerosol-particle"/.test(attrs));
+    const bounds = particles.reduce((box, attrs) => {
+      const cx = Number(attrs.match(/cx="([^"]+)"/)?.[1]);
+      const cy = Number(attrs.match(/cy="([^"]+)"/)?.[1]);
+      const r = Number(attrs.match(/r="([^"]+)"/)?.[1]);
+      if (!Number.isFinite(cx + cy + r)) return box;
+      return {
+        minX: Math.min(box.minX, cx - r),
+        minY: Math.min(box.minY, cy - r),
+        maxX: Math.max(box.maxX, cx + r),
+        maxY: Math.max(box.maxY, cy + r)
+      };
+    }, { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity });
+    const width = bounds.maxX - bounds.minX;
+    const height = bounds.maxY - bounds.minY;
+    assert.notEqual(zone, "", `${genre} exclusive zone`);
+    assert.notEqual(category, "", `${genre} composition category`);
+    assert.notEqual(gesture, "", `${genre} gesture mode`);
+    assert.ok(!zones.has(zone), `${genre} shares zone ${zone} with ${zones.get(zone)}`);
+    assert.ok(!gestures.has(gesture), `${genre} shares gesture ${gesture} with ${gestures.get(gesture)}`);
+    assert.ok(particles.length >= 750, `${genre} collapsed particle count ${particles.length}`);
+    assert.ok(Math.max(width, height) >= 280, `${genre} weak footprint ${width}x${height}`);
+    assert.ok(Math.min(width, height) >= 120, `${genre} over-compressed footprint ${width}x${height}`);
+    zones.set(zone, genre);
+    gestures.set(gesture, genre);
+  });
+  assert.equal(zones.size, Object.keys(musicGenreProfiles).length);
+  assert.equal(gestures.size, Object.keys(musicGenreProfiles).length);
 });
 
 test("aerosol renderer varies particle archetypes across classifier genres", () => {

@@ -7,7 +7,7 @@ const ROOT = path.resolve(SCRIPT_DIR, "../../..");
 const TRAINING_DIR = path.join(ROOT, "genre-training");
 const CACHE_PATHS_PATH = path.join(TRAINING_DIR, "cache-paths.local.json");
 const VERIFIED_PATH = path.join(TRAINING_DIR, "verified-dataset.json");
-const OUT_PATH = path.join(TRAINING_DIR, "fma-target-cc-source-manifest.json");
+const OUT_PATH = path.resolve(process.env.MMFR_FMA_TARGET_OUT_PATH || path.join(TRAINING_DIR, "fma-target-cc-source-manifest.json"));
 
 const TARGETS = String(process.env.MMFR_FMA_TARGET_GENRES || "ドローン,ドラムンベース,チップチューン,ディープ・ハウス,オペラ")
   .split(",")

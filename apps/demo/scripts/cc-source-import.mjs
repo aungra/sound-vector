@@ -406,6 +406,8 @@ function normalizeItem(raw, index) {
     licenseUrl,
     canonicalArtist: field(raw, ["canonicalArtist", "artistName", "artist.name"]),
     canonicalTitle: field(raw, ["canonicalTitle", "trackName", "track.title", "title"]),
+    tags: field(raw, ["tags", "track.tags"]),
+    segmentType: field(raw, ["segmentType", "segment_type"]),
     labelEvidence: field(raw, ["labelEvidence", "label_evidence"]),
     labelConfidence: field(raw, ["labelConfidence", "label_confidence"]),
     reviewStatus: field(raw, ["reviewStatus", "review_status"]),

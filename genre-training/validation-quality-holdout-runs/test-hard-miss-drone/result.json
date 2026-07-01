@@ -1,0 +1,177 @@
+{
+  "name": "test-hard-miss-drone",
+  "ok": true,
+  "candidateRows": 8,
+  "changedRows": 8,
+  "datasetPath": "/var/folders/ry/h3d_9ml15nddxqmcqx7_4xnw0000gn/T/mmfr-quality-holdout-1OwCAg/test-hard-miss-drone.json",
+  "startedAt": "2026-06-22T13:30:52.573Z",
+  "finishedAt": "2026-06-22T13:34:12.522Z",
+  "durationSeconds": 200,
+  "objectiveScore": 106.226,
+  "macro": 31.6,
+  "fine1": 17.1,
+  "fine3": 32.9,
+  "formalMacro": 32.6,
+  "formalFine1": 19.4,
+  "formalFine3": 37.1,
+  "dubRate": 8.4,
+  "needs": 14.9,
+  "drone1": 8.3,
+  "techno1": 11.1,
+  "dub1": 29.4,
+  "modelPolicy": {
+    "strictCcOnly": true,
+    "formalSourceTypes": [
+      "cc-dataset",
+      "local-audio"
+    ],
+    "fmaMetadataEnabled": false,
+    "itunesPreviewEnabled": false,
+    "macroHeuristicsEnabled": false,
+    "validationCalibrationEnabled": true,
+    "strictTwoStageEnabled": false,
+    "softTwoStageEnabled": true,
+    "balancedKnnEnabled": false,
+    "distributionClassifierEnabled": true,
+    "separabilityWeightsEnabled": true,
+    "genreTheoryPriorsEnabled": false,
+    "theoryGenreFeaturesEnabled": false,
+    "validationRerankerEnabled": false,
+    "evaluationSplits": [
+      "test"
+    ],
+    "genreTheoryWeight": 0.05,
+    "genreTheoryMacroWeight": 0.034999999999999996,
+    "fmaAudioWeight": 0.82,
+    "extendedGenreFeaturesEnabled": false,
+    "advancedGenreFeaturesEnabled": false,
+    "styleClassifierEnabled": true,
+    "styleClassifierFamilies": {
+      "pop": {
+        "other": "pop_other",
+        "weightMultipliers": {
+          "tempo": 1.08,
+          "bass": 1.18,
+          "rhythm": 1.16,
+          "brightness": 1.14,
+          "chromaEntropy": 1.18,
+          "chromaMotion": 1.12,
+          "rmsContrast": 1.08,
+          "chorusLift": 0.92,
+          "vocalBand": 0.94,
+          "distortion": 0.82,
+          "guitarBand": 0.84
+        },
+        "targets": {
+          "city_pop": {
+            "label": "シティ・ポップ",
+            "source": "styleHint",
+            "genre": "",
+            "boostFineGenre": ""
+          }
+        }
+      },
+      "electronic": {
+        "other": "electronic_other",
+        "weightMultipliers": {
+          "tempo": 1.26,
+          "rhythm": 1.22,
+          "onset": 1.12,
+          "onsetRegularity": 1.26,
+          "tempoStability": 1.24,
+          "beatGridStrength": 1.26,
+          "fourOnFloor": 1.32,
+          "kickGrid": 1.28,
+          "pulseClarity": 1.14,
+          "bassContrast": 1.14,
+          "centroidContrast": 1.08,
+          "breakbeatDensity": 0.88,
+          "breakbeatIrregularity": 0.82,
+          "squareWave": 0.96,
+          "acousticness": 0.74,
+          "guitarBand": 0.72
+        },
+        "targets": {
+          "techno": {
+            "label": "テクノ",
+            "source": "genre",
+            "genre": "テクノ",
+            "boostFineGenre": "テクノ"
+          }
+        }
+      },
+      "ambient": {
+        "other": "ambient_other",
+        "weightMultipliers": {
+          "tempo": 0.74,
+          "energy": 1.2,
+          "rhythm": 1.22,
+          "onset": 1.18,
+          "onsetDensity": 1.28,
+          "brightness": 1.1,
+          "centroidContrast": 1.22,
+          "bass": 1.12,
+          "lowBandRatio": 1.14,
+          "acousticness": 1.12,
+          "zcr": 1.08,
+          "sustainRatio": 1.46,
+          "transientScarcity": 1.48,
+          "reverbTail": 1.22,
+          "tempoStability": 0.72,
+          "beatGridStrength": 0.68,
+          "pulseClarity": 0.7,
+          "bandFlux": 0.76,
+          "percussiveRatio": 0.74,
+          "fourOnFloor": 0.56,
+          "kickGrid": 0.58
+        },
+        "targets": {
+          "drone": {
+            "label": "ドローン",
+            "source": "genre",
+            "genre": "ドローン",
+            "boostFineGenre": "ドローン"
+          }
+        }
+      },
+      "black_music": {
+        "other": "black_music_other",
+        "weightMultipliers": {
+          "bass": 1.24,
+          "lowBandRatio": 1.24,
+          "highBandRatio": 1.18,
+          "brightness": 1.12,
+          "onset": 1.08,
+          "onsetRegularity": 1.16,
+          "bassContrast": 1.16,
+          "rhythm": 1.1,
+          "offbeatEmphasis": 1.28,
+          "reverbTail": 1.34,
+          "syncopation": 1.16,
+          "lowMidBalance": 1.12,
+          "spectralRolloff": 0.82,
+          "tempoStability": 0.92,
+          "vocalBand": 0.86,
+          "breakbeatDensity": 0.82,
+          "squareWave": 0.86,
+          "fourOnFloor": 0.76,
+          "kickGrid": 0.88
+        },
+        "targets": {
+          "dub": {
+            "label": "ダブ",
+            "source": "genre",
+            "genre": "ダブ",
+            "boostFineGenre": "ダブ"
+          }
+        }
+      }
+    },
+    "popStyleClassifierEnabled": true,
+    "popStyleClassifierLabels": [
+      "city_pop",
+      "pop_other"
+    ],
+    "note": "FMA metadata and iTunes previews are comparison-only unless explicitly enabled. Formal evaluation uses CC/local audio only."
+  }
+}
