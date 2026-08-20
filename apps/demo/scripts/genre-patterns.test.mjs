@@ -2386,12 +2386,14 @@ test("weak chiptune consensus yields to mid-dominant harmonic rock without absor
     tempo: 117, energy: .869, bass: .579, lowBandRatio: .42, midBandRatio: .555,
     highBandRatio: .026, brightness: .231, rhythm: .471, onset: .336,
     harmonicRatio: .857, distortion: .216, squareWave: .242,
-    fourOnFloor: .127, kickGrid: .186, transientScarcity: 1
+    fourOnFloor: .127, kickGrid: .186, transientScarcity: 1,
+    structureRecurrence: .75
   };
   const weakChipContext = {
     leader: "チップチューン", chiptuneScore: .013, modelElectronicMacroScore: .009,
     ruleRockMacroScore: .65, ruleElectronicMacroScore: .5,
-    segmentConsensus: { count: 3, voteShare: .333, macroVoteShare: .333 }
+    analysisWindowSeconds: 90,
+    segmentConsensus: { count: 3, voteShare: .333, macroVoteShare: .333, leaders: ["クラシック音楽", "ドローン", "チップチューン"] }
   };
   assert.equal(midDominantRockBalladEvidence(rockBallad, weakChipContext), true);
   assert.equal(midDominantRockBalladEvidence({
@@ -2401,6 +2403,36 @@ test("weak chiptune consensus yields to mid-dominant harmonic rock without absor
   assert.equal(midDominantRockBalladEvidence(rockBallad, {
     ...weakChipContext, modelElectronicMacroScore: .82, segmentConsensus: { count: 3, voteShare: 1, macroVoteShare: 1 }
   }), false);
+
+  const slowSungRock = {
+    tempo: 76, energy: .7984, bass: .3754,
+    lowBandRatio: .2474, midBandRatio: .7465, highBandRatio: .006,
+    brightness: .1205, rhythm: .3322, onset: .2373,
+    harmonicRatio: .8642, distortion: .2127, squareWave: .2387,
+    fourOnFloor: .0632, kickGrid: .1486, transientScarcity: .958,
+    structureRecurrence: .7487
+  };
+  const sungSplitContext = {
+    leader: "ジャズ", analysisWindowSeconds: 120,
+    modelRockMacroScore: .329, modelBlackMacroScore: 0,
+    blackFineSoulScore: .562,
+    vocalAvailable: true, detectedLanguage: "en",
+    vocalPresence: 1, stemVocalPresence: 1,
+    melodicVocalLikelihood: .82, speechRapLikelihood: .016,
+    segmentConsensus: {
+      count: 3, voteShare: .333, macroVoteShare: .333,
+      leaders: ["クラシック音楽", "J-POP", "ロック"]
+    }
+  };
+  assert.equal(midDominantRockBalladEvidence(slowSungRock, sungSplitContext), true);
+  assert.equal(midDominantRockBalladEvidence(slowSungRock, {
+    ...sungSplitContext, blackFineSoulScore: .82
+  }), false, "strong Soul specialist evidence is retained");
+  assert.equal(midDominantRockBalladEvidence(slowSungRock, {
+    ...sungSplitContext, detectedLanguage: "it"
+  }), false, "non-English classical and operatic singing is retained");
+  assert.equal(midDominantRockBalladEvidence({ ...slowSungRock, fourOnFloor: .58 }, sungSplitContext), false, "slow Disco remains outside the rescue");
+  assert.equal(midDominantRockBalladEvidence({ ...slowSungRock, energy: .55, distortion: .12 }, sungSplitContext), false, "soft acoustic ballads remain outside the rescue");
 
   const calibrated = calibratedGenreAnalysis({
     source: "test", method: "shared-production-local-classifier",

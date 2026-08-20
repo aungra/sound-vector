@@ -5436,18 +5436,35 @@
     }
     function midDominantRockBalladEvidence(vector = {}, context = {}) {
       const segments = context.segmentConsensus || {};
-      return context.leader === "チップチューン"
+      const segmentLeaders = new Set((segments.leaders || []).filter(Boolean));
+      const splitLongWindow = Number(context.analysisWindowSeconds || 0) >= 75
+        && Number(segments.count || 0) >= 3
+        && Number(segments.voteShare || 0) <= .34
+        && Number(segments.macroVoteShare || 0) <= .34
+        && (!segmentLeaders.size || segmentLeaders.size >= 3);
+      const weakElectronicDrift = context.leader === "チップチューン"
         && Number(context.chiptuneScore || 0) < .12
         && Number(context.modelElectronicMacroScore || 0) < .2
         && Number(context.ruleRockMacroScore || 0) >= .58
         && Number(context.ruleRockMacroScore || 0) >= Number(context.ruleElectronicMacroScore || 0) + .06
-        && Number(segments.count || 0) >= 3
-        && Number(segments.voteShare || 0) <= .34
-        && Number(segments.macroVoteShare || 0) <= .34
-        && vector.tempo >= 82 && vector.tempo <= 142
+        && splitLongWindow;
+      const sungRockBalladDrift = ["ジャズ", "クラシック音楽", "フォーク", "ソウルミュージック", "ディスコ", "ヒップホップ"].includes(context.leader)
+        && splitLongWindow
+        && segmentLeaders.has("ロック")
+        && Number(context.modelRockMacroScore || 0) >= .25
+        && Number(context.modelBlackMacroScore || 0) < .5
+        && Number(context.blackFineSoulScore || 0) < .65
+        && context.vocalAvailable === true
+        && String(context.detectedLanguage || "").toLowerCase() === "en"
+        && Number(context.vocalPresence || 0) >= .75
+        && Number(context.stemVocalPresence || 0) >= .7
+        && Number(context.melodicVocalLikelihood || 0) >= .7
+        && Number(context.speechRapLikelihood || 0) < .1;
+      return (weakElectronicDrift || sungRockBalladDrift)
+        && vector.tempo >= 70 && vector.tempo <= 142
         && vector.energy >= .72
         && vector.bass >= .34 && vector.bass <= .72
-        && vector.lowBandRatio >= .25 && vector.lowBandRatio <= .58
+        && vector.lowBandRatio >= .2 && vector.lowBandRatio <= .58
         && vector.midBandRatio >= .45
         && vector.highBandRatio < .12 && vector.brightness < .45
         && vector.rhythm >= .2 && vector.rhythm <= .66
@@ -5456,7 +5473,8 @@
         && vector.distortion >= .14 && vector.distortion <= .36
         && vector.squareWave < .32
         && vector.fourOnFloor < .3 && vector.kickGrid < .32
-        && vector.transientScarcity >= .65;
+        && vector.transientScarcity >= .65
+        && vector.structureRecurrence >= .6;
     }
     function bassLedAlternativeDanceRockEvidence(vector = {}, context = {}) {
       const externalScore = name => (Number((context.externalTop || [])
@@ -7104,18 +7122,31 @@
 
       const midDominantRockBallad = midDominantRockBalladEvidence(vector, {
         leader,
+        analysisWindowSeconds: Number(features.analysisWindowSeconds || 0),
         chiptuneScore: rawProductionScore("チップチューン"),
         modelElectronicMacroScore,
+        modelRockMacroScore: Number(modelMacro.rock || 0),
+        modelBlackMacroScore: Number(modelMacro.black_music || 0),
+        blackFineSoulScore: blackFineScore("ソウルミュージック"),
         ruleRockMacroScore: rawRockMacroScore,
         ruleElectronicMacroScore: macroGenreScore(vector, "electronic"),
-        segmentConsensus: analysis.segmentConsensus || rawProduction.segmentConsensus || {}
+        vocalAvailable: Boolean(vocal.available),
+        detectedLanguage,
+        vocalPresence,
+        stemVocalPresence,
+        melodicVocalLikelihood: Number(vocal.melodicVocalLikelihood || 0),
+        speechRapLikelihood: Number(vocal.speechRapLikelihood || 0),
+        segmentConsensus: {
+          ...(rawProduction.segmentConsensus || {}),
+          ...(analysis.segmentConsensus || {})
+        }
       });
       if (midDominantRockBallad) {
         return promoteAudioGenreCandidate(analysis, {
           targetName: "ロック", targetMacro: "rock",
-          suppressMacros: ["electronic"], factor: .24,
+          suppressMacros: ["electronic", "jazz", "classical", "world", "folk", "black_music"], factor: .24,
           method: "midDominantRockBallad", needsReview: true,
-          sourceNote: "チップ音に必要な高域・矩形波が弱く、3区間のElectronic支持も不一致です。強い中域、調性、適度な歪みとRock macroが一致するため、低信頼チップチューン過予測をRockへ戻しています。",
+          sourceNote: "長時間3区間が不一致ですが、強い中域、調性、適度な歪み、低い4つ打ちと反復構造がRockに一致します。低速では旋律歌唱と区間Rock支持も確認し、Electronic/Soul/Jazz/Classicalへの漂流を低確信Rockへ戻しています。",
           evidence: {
             rawChiptune: rawProductionScore("チップチューン"),
             rockMacro: rawRockMacroScore,
