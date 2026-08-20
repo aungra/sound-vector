@@ -785,7 +785,8 @@
       const saved = read(keys.apiConfig, {});
       const localHost = /^(?:localhost|127(?:\.\d+){3}|\[?::1\]?)$/i.test(location.hostname || "");
       const publicHost = /^(?:www\.)?aun-graphic\.jp$/i.test(location.hostname || "");
-      const publicEndpoint = document.querySelector?.('meta[name="sound-form-api-endpoint"]')?.content || "";
+      const configuredPublicEndpoint = document.querySelector?.('meta[name="sound-form-api-endpoint"]')?.content || "";
+      const publicEndpoint = configuredPublicEndpoint || (publicHost ? "/sound-form/api/audio-analyze.php" : "");
       const defaultEndpoint = localHost
         ? "http://127.0.0.1:4194/api/audio-analyze"
         : publicHost ? publicEndpoint : "";

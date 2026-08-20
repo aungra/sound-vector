@@ -109,7 +109,8 @@ test("public deployment reads a guarded API setting instead of visitor localhost
   assert.match(html, /const publicHost = \/\^\(\?:www\\\.\)\?aun-graphic\\\.jp\$\/i/);
   assert.match(html, /meta name="sound-form-api-endpoint" content="\/sound-form\/api\/audio-analyze\.php"/);
   assert.ok(html.includes('|| /\\.php$/.test(value)'));
-  assert.match(html, /const publicEndpoint = document\.querySelector\?\./);
+  assert.match(html, /const configuredPublicEndpoint = document\.querySelector\?\./);
+  assert.match(html, /publicHost \? "\/sound-form\/api\/audio-analyze\.php" : ""/);
   assert.doesNotMatch(html, /aungraphic-musictee-audio-api\.hf\.space/);
   assert.doesNotMatch(html, /const defaultEndpoint = localHost \? "http:\/\/127\.0\.0\.1:4194\/api\/audio-analyze" : ""/);
 });
