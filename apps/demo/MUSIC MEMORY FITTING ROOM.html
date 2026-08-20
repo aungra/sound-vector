@@ -678,8 +678,8 @@
         }))
       };
     }
-    const keys = { creators: "mmfr.creators", tshirts: "mmfr.tshirts", sessions: "mmfr.sessions", resonances: "mmfr.resonances", apiConfig: "mmfr.apiConfig" };
-    const GENRE_INFERENCE_REVISION = "2026-08-20-playlist-boundaries-v87";
+    const keys = { creators: "mmfr.creators", tshirts: "mmfr.tshirts", sessions: "mmfr.sessions", resonances: "mmfr.resonances", apiConfig: "mmfr.apiConfig", genreAdjustmentLearning: "mmfr.genreAdjustmentLearning.v1" };
+    const GENRE_INFERENCE_REVISION = "2026-08-21-adaptive-review-learning-v88";
     const inlineArt = {};
     let activeCollisionField = null;
     const state = { view: "home", answers: {}, moodId: null, youtubeUrl: "", audioFeatures: null, sourceMood: null, variantSalt: 0, engineId: "youtube_audio", realtime: false, tick: 0, session: null, generated: null, workId: null, message: "", genreProfiles: null, genreModel: null, generationProgress: null, patternMotion: { shirtId: "", phase: 0, running: false, lastTimestamp: 0 }, equalizer: { shirtId: "", playing: false, startedAt: 0, duration: 0, detail: null, analyser: null, returningAt: 0 } };
@@ -9851,7 +9851,7 @@
         top: ranked
       };
     }
-    function inferMusicGenres(features = {}) {
+    function inferMusicGenresBase(features = {}) {
       const embedding = features.embeddingGenrePrediction;
       if (embedding?.top?.length && !embedding.error) {
         const ruleAnalysis = applyAudioFalsePositiveCorrections(inferMusicGenresWithRules(features), features);
@@ -9958,6 +9958,9 @@
         metadataAssistedLowConfidenceAnalysis(modelAnalysis, ruleAnalysis, features),
         features
       ), ruleAnalysis);
+    }
+    function inferMusicGenres(features = {}) {
+      return applyGenreAdjustmentLearning(inferMusicGenresBase(features), features);
     }
     function enrichFeaturesWithGenre(features = {}) {
       const genreAnalysis = inferMusicGenres(features);
@@ -10912,7 +10915,7 @@
     }
     function renderGenreReviewAction(shirt = null, genreAnalysis = null, busy = false) {
       if (!genreAnalysis?.needsReview || !shirt?.id) return "";
-      return `<span class="genre-review-action"><button class="secondary" type="button" onclick="adjustGenreReview('${escapeAttr(shirt.id)}')" ${busy ? "disabled" : ""} title="曲内の別区間を追加解析してジャンル判定を調整">${busy ? "調整中…" : "要確認"}</button></span>`;
+      return `<span class="genre-review-action"><button class="secondary" type="button" onclick="adjustGenreReview('${escapeAttr(shirt.id)}')" ${busy ? "disabled" : ""} title="別区間で判定を調整し、解決した音響境界を今後の類似曲へ反映">${busy ? "調整中…" : "要確認"}</button></span>`;
     }
     function youtubeUrlAtStart(url, startSeconds = 0) {
       const link = parseYouTubeLink(url);
@@ -11028,6 +11031,161 @@
           ? `${preferred.source || "音響分類"} 曲内の複数区間が一致したため自動調整しました。`
           : `${preferred.source || "音響分類"} 曲内の区間で判定が分かれたため、要確認を維持しています。`,
         automaticGenreAdjustment
+      };
+    }
+    const GENRE_ADJUSTMENT_LEARNING_VERSION = "adaptive-boundary-v1";
+    const GENRE_ADJUSTMENT_LEARNING_LIMIT = 96;
+    function genreAdjustmentFeatureSignature(features = {}) {
+      const vector = genreFeatureVector(features);
+      const vocal = features.japaneseVocalEvidence || {};
+      return [
+        clamp01((Number(vector.tempo || 0) - 50) / 170),
+        clamp01(vector.energy), clamp01(vector.bass),
+        clamp01(vector.lowBandRatio), clamp01(vector.midBandRatio), clamp01(vector.highBandRatio),
+        clamp01(vector.rhythm), clamp01(vector.onset), clamp01(vector.brightness),
+        clamp01(Number(vector.zcr || 0) / .45), clamp01(vector.distortion),
+        clamp01(vector.fourOnFloor), clamp01(vector.breakbeatIrregularity),
+        clamp01(vector.harmonicRatio), clamp01(vector.sustainRatio),
+        clamp01(vector.structureRecurrence), clamp01(vector.syncopation),
+        clamp01(vocal.vocalPresence), clamp01(vocal.melodicVocalLikelihood),
+        clamp01(vocal.speechRapLikelihood)
+      ].map(value => Math.round(value * 10000) / 10000);
+    }
+    function genreAdjustmentFeatureDistance(left = [], right = []) {
+      if (!Array.isArray(left) || !Array.isArray(right) || left.length !== right.length || !left.length) return Infinity;
+      const total = left.reduce((sum, value, index) => {
+        const delta = Number(value || 0) - Number(right[index] || 0);
+        return sum + delta * delta;
+      }, 0);
+      return Math.sqrt(total / left.length);
+    }
+    function normaliseGenreAdjustmentLearningRecords(records = []) {
+      const knownGenres = new Set(musicGenreCatalog.map(item => item.name));
+      return (Array.isArray(records) ? records : []).filter(record =>
+        record?.version === GENRE_ADJUSTMENT_LEARNING_VERSION
+        && knownGenres.has(record.targetName)
+        && Array.isArray(record.signature) && record.signature.length === 20
+        && record.signature.every(Number.isFinite)
+      ).map(record => {
+        const signature = record.signature.map(value => Math.round(clamp01(value) * 10000) / 10000);
+        const fingerprint = signature.map(value => Math.round(value * 100)).join(".");
+        return {
+          version: GENRE_ADJUSTMENT_LEARNING_VERSION,
+          id: `genre-learning-${hashString(`${record.targetName}:${fingerprint}`).toString(36)}`,
+          targetName: record.targetName,
+          targetMacro: canonicalModelMacro(genreToMacro[record.targetName] || record.targetMacro || ""),
+          signature,
+          confidence: Math.max(0, Math.min(96, Math.round(Number(record.confidence) || 0))),
+          voteShare: Math.round(clamp01(record.voteShare) * 1000) / 1000,
+          evidenceMargin: Math.round(clamp01(record.evidenceMargin) * 1000) / 1000,
+          support: Math.max(1, Math.min(20, Math.round(Number(record.support) || 1))),
+          updatedAt: typeof record.updatedAt === "string" ? record.updatedAt : ""
+        };
+      }).slice(-GENRE_ADJUSTMENT_LEARNING_LIMIT);
+    }
+    function upsertGenreAdjustmentLearning(records = [], features = {}, genreAnalysis = {}, options = {}) {
+      const current = normaliseGenreAdjustmentLearningRecords(records);
+      const adjustment = genreAnalysis.automaticGenreAdjustment || {};
+      const targetName = genreAnalysis.top?.[0]?.name || genreAnalysis.top?.[0]?.label || "";
+      const confidence = Number(genreAnalysis.confidence ?? genreAnalysis.top?.[0]?.score) || 0;
+      const voteShare = Number(adjustment.voteShare || 0);
+      const evidenceMargin = Number(adjustment.evidenceMargin || 0);
+      if (!adjustment.resolved || !targetName || confidence < 60 || voteShare < .66 || evidenceMargin < .08) return current;
+      const signature = genreAdjustmentFeatureSignature(features);
+      const nearestIndex = current.reduce((best, record, index) => {
+        if (record.targetName !== targetName) return best;
+        const distance = genreAdjustmentFeatureDistance(signature, record.signature);
+        return distance < best.distance ? { index, distance } : best;
+      }, { index: -1, distance: Infinity });
+      const updatedAt = options.updatedAt || adjustment.adjustedAt || new Date().toISOString();
+      const targetMacro = canonicalModelMacro(genreToMacro[targetName] || genreAnalysis.top?.[0]?.macro || "");
+      if (nearestIndex.index >= 0 && nearestIndex.distance <= .08) {
+        const previous = current[nearestIndex.index];
+        const previousSupport = Math.max(1, Number(previous.support || 1));
+        const support = Math.min(20, previousSupport + 1);
+        const merged = signature.map((value, index) => Math.round(((Number(previous.signature[index]) * previousSupport + value) / (previousSupport + 1)) * 10000) / 10000);
+        const next = current.map((record, index) => index === nearestIndex.index ? {
+          ...record,
+          signature: merged,
+          confidence: Math.round((Number(previous.confidence || 0) * previousSupport + confidence) / (previousSupport + 1)),
+          voteShare: Math.round(Math.max(Number(previous.voteShare || 0), voteShare) * 1000) / 1000,
+          evidenceMargin: Math.round(Math.max(Number(previous.evidenceMargin || 0), evidenceMargin) * 1000) / 1000,
+          support,
+          updatedAt
+        } : record);
+        return next.sort((a, b) => String(a.updatedAt).localeCompare(String(b.updatedAt))).slice(-GENRE_ADJUSTMENT_LEARNING_LIMIT);
+      }
+      const fingerprint = signature.map(value => Math.round(value * 100)).join(".");
+      return current.concat({
+        version: GENRE_ADJUSTMENT_LEARNING_VERSION,
+        id: `genre-learning-${hashString(`${targetName}:${fingerprint}`).toString(36)}`,
+        targetName,
+        targetMacro,
+        signature,
+        confidence: Math.round(confidence),
+        voteShare: Math.round(voteShare * 1000) / 1000,
+        evidenceMargin: Math.round(evidenceMargin * 1000) / 1000,
+        support: 1,
+        updatedAt
+      }).sort((a, b) => String(a.updatedAt).localeCompare(String(b.updatedAt))).slice(-GENRE_ADJUSTMENT_LEARNING_LIMIT);
+    }
+    function genreAdjustmentLearningRecords() {
+      return normaliseGenreAdjustmentLearningRecords(read(keys.genreAdjustmentLearning, []));
+    }
+    function persistGenreAdjustmentLearning(features = {}, genreAnalysis = {}) {
+      const current = genreAdjustmentLearningRecords();
+      const next = upsertGenreAdjustmentLearning(current, features, genreAnalysis);
+      const learned = JSON.stringify(next) !== JSON.stringify(current);
+      if (learned) write(keys.genreAdjustmentLearning, next);
+      return {
+        learned,
+        recordCount: next.length,
+        targetName: genreAnalysis.top?.[0]?.name || genreAnalysis.top?.[0]?.label || "",
+        version: GENRE_ADJUSTMENT_LEARNING_VERSION
+      };
+    }
+    function applyGenreAdjustmentLearning(analysis = {}, features = {}, records = genreAdjustmentLearningRecords()) {
+      if (!analysis?.top?.length) return analysis;
+      const confidence = Number(analysis.confidence ?? analysis.top[0]?.score) || 0;
+      if (!analysis.needsReview && confidence >= 72) return analysis;
+      const signature = genreAdjustmentFeatureSignature(features);
+      const nearest = normaliseGenreAdjustmentLearningRecords(records).reduce((best, record) => {
+        const distance = genreAdjustmentFeatureDistance(signature, record.signature);
+        return distance < best.distance ? { record, distance } : best;
+      }, { record: null, distance: Infinity });
+      if (!nearest.record || nearest.distance > .12 || Number(nearest.record.confidence || 0) < 60) return analysis;
+      const targetName = nearest.record.targetName;
+      const currentLeader = analysis.top[0]?.name || analysis.top[0]?.label || "";
+      const strongRepeat = Number(nearest.record.support || 1) >= 2 && nearest.distance <= .065;
+      const learningEvidence = {
+        version: GENRE_ADJUSTMENT_LEARNING_VERSION,
+        targetName,
+        distance: Math.round(nearest.distance * 1000) / 1000,
+        support: Number(nearest.record.support || 1),
+        learnedConfidence: Number(nearest.record.confidence || 0)
+      };
+      if (targetName === currentLeader) {
+        return {
+          ...analysis,
+          method: `${analysis.method || "audio-classifier"}+adaptive-genre-adjustment-v1`,
+          source: `${analysis.source || "音響分類"} 過去の複数区間調整と近い音響境界を再確認しています。`,
+          needsReview: strongRepeat ? false : Boolean(analysis.needsReview),
+          confidence: strongRepeat ? Math.max(confidence, Math.min(88, Number(nearest.record.confidence || 0))) : confidence,
+          genreAdjustmentLearning: learningEvidence
+        };
+      }
+      return {
+        ...promoteAudioGenreCandidate(analysis, {
+          targetName,
+          targetMacro: nearest.record.targetMacro || genreToMacro[targetName],
+          suppressLabels: [currentLeader],
+          factor: .62,
+          companionCandidates: currentLeader ? [{ name: currentLeader, relativeScore: .72 }] : [],
+          method: "adaptive-genre-adjustment-v1",
+          needsReview: !strongRepeat,
+          sourceNote: "過去に複数区間で解決した匿名音響特徴と近いため、同じ境界補正を再利用しています。"
+        }),
+        genreAdjustmentLearning: learningEvidence
       };
     }
     function preserveProtectedPcmGeometry(previousSvg, nextSvg) {
@@ -16254,7 +16412,7 @@
         externalNote: `song-specific / seed ${tick.toString(36)} / genre ${genreText} / multi-window adjusted`,
         stockNote: genreAnalysis.needsReview
           ? "複数区間を追加解析しましたが判定が分かれています。保護PCMは元の24秒音源のまま維持しています。"
-          : "複数区間の音響判定が一致したためジャンルと可視構造を自動調整しました。保護PCMは元の24秒音源のまま維持しています。"
+          : "複数区間の音響判定が一致したためジャンルと可視構造を自動調整し、匿名音響境界を今後の類似曲へ反映しました。保護PCMは元の24秒音源のまま維持しています。"
       };
     }
     function persistAdjustedGeneratedShirt(shirt) {
@@ -16321,16 +16479,24 @@
         }
         activeYoutubeAnalysis = null;
         setGenerationProgress(runId, { percent: 84, label: "区間ごとのジャンルを照合", estimate: "確信度、順位、大分類の一致を集計" });
-        const genreAnalysis = combineGenreWindowAnalyses(windows);
+        let genreAnalysis = combineGenreWindowAnalyses(windows);
         if (!genreAnalysis) throw new Error("追加区間からジャンル候補を取得できませんでした。");
+        const learning = persistGenreAdjustmentLearning(shirt.audioFeatures, genreAnalysis);
+        genreAnalysis = {
+          ...genreAnalysis,
+          automaticGenreAdjustment: {
+            ...(genreAnalysis.automaticGenreAdjustment || {}),
+            engineLearning: learning
+          }
+        };
         const adjusted = applyAdjustedGenreToShirt(shirt, genreAnalysis);
         persistAdjustedGeneratedShirt(adjusted);
         setGenerationProgress(runId, { percent: 98, label: "ジャンルと図柄を更新", estimate: "保護PCMの不変性を確認済み" });
         await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
         clearGenerationProgress();
         state.message = genreAnalysis.needsReview
-          ? `追加解析後も区間で判定が分かれました。${genreRankedText(genreAnalysis, 3)} を候補として要確認を維持します。`
-          : `追加区間の合意により ${genreAnalysis.top[0]?.name || "ジャンル"} へ自動調整しました。`;
+          ? `追加解析後も区間で判定が分かれました。${genreRankedText(genreAnalysis, 3)} を候補として要確認を維持し、未解決結果はエンジン学習に使用しません。`
+          : `追加区間の合意により ${genreAnalysis.top[0]?.name || "ジャンル"} へ自動調整し、この匿名音響境界を今後の類似曲へ反映しました。`;
         render();
       } catch (error) {
         if (activeYoutubeAnalysis?.controller === controller) activeYoutubeAnalysis = null;

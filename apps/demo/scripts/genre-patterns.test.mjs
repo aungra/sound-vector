@@ -42,7 +42,7 @@ export function loadPatternApi() {
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]);
   const appScript = scripts.at(-1).replace(
     /cleanupStoredSessions\(\);\s*restoreLatestAcceptedSession\(\);\s*render\(\);\s*loadCalibratedGenreProfiles\(\);\s*$/,
-    "globalThis.__patternApi={state,apiEndpointCandidates,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,highTempoRapBreakbeatEvidence,applyHighTempoRapBreakbeatCorrection,applyHighTempoRockCorrection,weakMidTempoHarmonicRockEvidence,applyWeakMidTempoHarmonicRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,midDominantRockBalladEvidence,bassLedAlternativeDanceRockEvidence,spokenRapBlackMusicEvidence,alternativeDanceGrooveEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreVisualWeight,genreRankedText,genreDisplayText,renderGenreReviewAction,youtubeUrlAtStart,genreAdjustmentOffsets,combineGenreWindowAnalyses,preserveProtectedPcmGeometry,applyAdjustedGenreToShirt,inferMusicGenres,refreshReversibleSoundClothShirt};"
+    "globalThis.__patternApi={state,apiEndpointCandidates,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,highTempoRapBreakbeatEvidence,applyHighTempoRapBreakbeatCorrection,applyHighTempoRockCorrection,weakMidTempoHarmonicRockEvidence,applyWeakMidTempoHarmonicRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,midDominantRockBalladEvidence,bassLedAlternativeDanceRockEvidence,spokenRapBlackMusicEvidence,alternativeDanceGrooveEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreVisualWeight,genreRankedText,genreDisplayText,renderGenreReviewAction,youtubeUrlAtStart,genreAdjustmentOffsets,combineGenreWindowAnalyses,genreAdjustmentFeatureSignature,genreAdjustmentFeatureDistance,normaliseGenreAdjustmentLearningRecords,upsertGenreAdjustmentLearning,applyGenreAdjustmentLearning,preserveProtectedPcmGeometry,applyAdjustedGenreToShirt,inferMusicGenresBase,inferMusicGenres,refreshReversibleSoundClothShirt};"
   );
   const context = {
     console,
@@ -1985,6 +1985,184 @@ test("multi-window genre adjustment keeps review status when sections disagree",
   assert.equal(combined.automaticGenreAdjustment.resolved, false);
   assert.ok(combined.top.length >= 3);
   assert.ok(combined.top[0].score <= 57);
+});
+
+test("resolved review adjustment stores only an anonymous deterministic acoustic signature", () => {
+  const {
+    genreAdjustmentFeatureSignature,
+    normaliseGenreAdjustmentLearningRecords,
+    upsertGenreAdjustmentLearning
+  } = loadPatternApi();
+  const features = {
+    tempo: 112,
+    energy: .71,
+    bass: .62,
+    lowBandRatio: .38,
+    midBandRatio: .44,
+    highBandRatio: .18,
+    rhythm: .76,
+    onset: .58,
+    brightness: .52,
+    zcr: .12,
+    distortion: .27,
+    fourOnFloor: .48,
+    breakbeatIrregularity: .35,
+    harmonicRatio: .72,
+    sustainRatio: .46,
+    structureRecurrence: .7,
+    syncopation: .78,
+    japaneseVocalEvidence: { vocalPresence: .66, melodicVocalLikelihood: .62, speechRapLikelihood: .2 },
+    normalizedUrl: "https://youtu.be/private-id?t=60",
+    youtubeMeta: { title: "Private title", artist: "Private artist" },
+    detail: { pcmSketch: "PRIVATE_PCM", transcript: "PRIVATE_TRANSCRIPT" }
+  };
+  const metadataChanged = {
+    ...features,
+    normalizedUrl: "https://youtu.be/another-id?t=120",
+    youtubeMeta: { title: "Another title", artist: "Another artist" },
+    detail: { pcmSketch: "OTHER_PCM", transcript: "OTHER_TRANSCRIPT" }
+  };
+  assert.deepEqual(
+    Array.from(genreAdjustmentFeatureSignature(features)),
+    Array.from(genreAdjustmentFeatureSignature(metadataChanged))
+  );
+
+  const resolved = {
+    confidence: 78,
+    top: [{ name: "ファンク", score: 78, macro: "black_music" }],
+    automaticGenreAdjustment: {
+      resolved: true,
+      voteShare: .667,
+      evidenceMargin: .31,
+      adjustedAt: "2026-08-21T00:00:00.000Z"
+    }
+  };
+  const records = Array.from(upsertGenreAdjustmentLearning([], features, resolved));
+  assert.equal(records.length, 1);
+  assert.equal(records[0].targetName, "ファンク");
+  assert.equal(records[0].signature.length, 20);
+  assert.deepEqual(
+    Object.keys(records[0]).sort(),
+    ["confidence", "evidenceMargin", "id", "signature", "support", "targetMacro", "targetName", "updatedAt", "version", "voteShare"].sort()
+  );
+  const serialized = JSON.stringify(records);
+  ["private-id", "Private title", "Private artist", "PRIVATE_PCM", "PRIVATE_TRANSCRIPT"].forEach(secret => {
+    assert.doesNotMatch(serialized, new RegExp(secret));
+  });
+  const sanitized = Array.from(normaliseGenreAdjustmentLearningRecords([{ ...records[0], url: "PRIVATE_URL", audio: "PRIVATE_AUDIO" }]));
+  assert.equal(sanitized.length, 1);
+  assert.equal("url" in sanitized[0], false);
+  assert.equal("audio" in sanitized[0], false);
+});
+
+test("adaptive review learning requires resolved evidence and repeated close support", () => {
+  const {
+    upsertGenreAdjustmentLearning,
+    applyGenreAdjustmentLearning
+  } = loadPatternApi();
+  const features = {
+    tempo: 110,
+    energy: .7,
+    bass: .64,
+    lowBandRatio: .4,
+    midBandRatio: .43,
+    highBandRatio: .17,
+    rhythm: .78,
+    onset: .56,
+    brightness: .5,
+    zcr: .11,
+    distortion: .25,
+    fourOnFloor: .44,
+    breakbeatIrregularity: .34,
+    harmonicRatio: .7,
+    sustainRatio: .45,
+    structureRecurrence: .72,
+    syncopation: .8,
+    japaneseVocalEvidence: { vocalPresence: .62, melodicVocalLikelihood: .6, speechRapLikelihood: .18 }
+  };
+  const unresolved = {
+    confidence: 57,
+    top: [{ name: "ファンク", score: 57 }],
+    automaticGenreAdjustment: { resolved: false, voteShare: .5, evidenceMargin: .04 }
+  };
+  assert.equal(upsertGenreAdjustmentLearning([], features, unresolved).length, 0);
+
+  const resolved = {
+    confidence: 76,
+    top: [{ name: "ファンク", score: 76, macro: "black_music" }],
+    automaticGenreAdjustment: {
+      resolved: true,
+      voteShare: .667,
+      evidenceMargin: .28,
+      adjustedAt: "2026-08-21T00:00:00.000Z"
+    }
+  };
+  const oneRecord = Array.from(upsertGenreAdjustmentLearning([], features, resolved));
+  const lowConfidence = {
+    source: "test",
+    method: "test-classifier",
+    confidence: 48,
+    needsReview: true,
+    macro: [{ macro: "rock", score: 52 }],
+    top: [
+      { name: "ロック", score: 48, macro: "rock" },
+      { name: "ディスコ", score: 39, macro: "black_music" }
+    ]
+  };
+  const promotedOnce = applyGenreAdjustmentLearning(lowConfidence, features, oneRecord);
+  assert.equal(promotedOnce.top[0].name, "ファンク");
+  assert.equal(promotedOnce.needsReview, true);
+  assert.equal(promotedOnce.genreAdjustmentLearning.support, 1);
+
+  const closeFeatures = { ...features, tempo: 112, syncopation: .79, onset: .57 };
+  const twoRecords = Array.from(upsertGenreAdjustmentLearning(oneRecord, closeFeatures, {
+    ...resolved,
+    automaticGenreAdjustment: {
+      ...resolved.automaticGenreAdjustment,
+      adjustedAt: "2026-08-21T00:01:00.000Z"
+    }
+  }));
+  assert.equal(twoRecords.length, 1);
+  assert.equal(twoRecords[0].support, 2);
+  const promotedTwice = applyGenreAdjustmentLearning(lowConfidence, closeFeatures, twoRecords);
+  assert.equal(promotedTwice.top[0].name, "ファンク");
+  assert.equal(promotedTwice.needsReview, false);
+  assert.equal(promotedTwice.genreAdjustmentLearning.support, 2);
+});
+
+test("adaptive review learning leaves distant and already reliable predictions unchanged", () => {
+  const { upsertGenreAdjustmentLearning, applyGenreAdjustmentLearning } = loadPatternApi();
+  const learnedFeatures = {
+    tempo: 118, energy: .78, bass: .7, lowBandRatio: .42, midBandRatio: .43, highBandRatio: .15,
+    rhythm: .82, onset: .62, brightness: .48, zcr: .12, distortion: .3, fourOnFloor: .5,
+    breakbeatIrregularity: .38, harmonicRatio: .68, sustainRatio: .42, structureRecurrence: .74,
+    syncopation: .84,
+    japaneseVocalEvidence: { vocalPresence: .7, melodicVocalLikelihood: .64, speechRapLikelihood: .2 }
+  };
+  const resolved = {
+    confidence: 80,
+    top: [{ name: "ファンク", score: 80, macro: "black_music" }],
+    automaticGenreAdjustment: { resolved: true, voteShare: 1, evidenceMargin: .4 }
+  };
+  const records = Array.from(upsertGenreAdjustmentLearning([], learnedFeatures, resolved));
+  const uncertain = {
+    source: "test", method: "test", confidence: 46, needsReview: true,
+    top: [{ name: "アンビエント", score: 46, macro: "electronic" }]
+  };
+  const distantFeatures = {
+    tempo: 54, energy: .08, bass: .08, lowBandRatio: .08, midBandRatio: .12, highBandRatio: .8,
+    rhythm: .05, onset: .04, brightness: .92, zcr: .42, distortion: .02, fourOnFloor: .01,
+    breakbeatIrregularity: .02, harmonicRatio: .12, sustainRatio: .96, structureRecurrence: .08,
+    syncopation: .02,
+    japaneseVocalEvidence: { vocalPresence: 0, melodicVocalLikelihood: 0, speechRapLikelihood: 0 }
+  };
+  assert.equal(applyGenreAdjustmentLearning(uncertain, distantFeatures, records), uncertain);
+
+  const reliable = {
+    source: "test", method: "test", confidence: 84, needsReview: false,
+    top: [{ name: "ロック", score: 84, macro: "rock" }]
+  };
+  assert.equal(applyGenreAdjustmentLearning(reliable, learnedFeatures, records), reliable);
 });
 
 test("genre adjustment replaces visible SVG while preserving protected PCM byte-for-byte", () => {
