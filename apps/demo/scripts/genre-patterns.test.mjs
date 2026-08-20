@@ -42,7 +42,7 @@ export function loadPatternApi() {
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]);
   const appScript = scripts.at(-1).replace(
     /cleanupStoredSessions\(\);\s*restoreLatestAcceptedSession\(\);\s*render\(\);\s*loadCalibratedGenreProfiles\(\);\s*$/,
-    "globalThis.__patternApi={state,apiEndpointCandidates,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,highTempoRapBreakbeatEvidence,applyHighTempoRapBreakbeatCorrection,applyHighTempoRockCorrection,weakMidTempoHarmonicRockEvidence,applyWeakMidTempoHarmonicRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,midDominantRockBalladEvidence,bassLedAlternativeDanceRockEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreVisualWeight,genreDisplayText,inferMusicGenres,refreshReversibleSoundClothShirt};"
+    "globalThis.__patternApi={state,apiEndpointCandidates,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,highTempoRapBreakbeatEvidence,applyHighTempoRapBreakbeatCorrection,applyHighTempoRockCorrection,weakMidTempoHarmonicRockEvidence,applyWeakMidTempoHarmonicRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,midDominantRockBalladEvidence,bassLedAlternativeDanceRockEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreVisualWeight,genreRankedText,genreDisplayText,renderGenreReviewAction,youtubeUrlAtStart,genreAdjustmentOffsets,combineGenreWindowAnalyses,preserveProtectedPcmGeometry,applyAdjustedGenreToShirt,inferMusicGenres,refreshReversibleSoundClothShirt};"
   );
   const context = {
     console,
@@ -1922,6 +1922,140 @@ test("genre display and visual blend never inflate secondary candidates", () => 
   assert.equal(genreDisplayText({ top }, 3), "J-POP 76% / ダブ 30% / ディスコ 25%");
   assert.equal(genreVisualWeight(top[1], 1, top), 30);
   assert.equal(genreVisualWeight(top[2], 2, top), 25);
+});
+
+test("a review-required genre renders 要確認 as an action button", () => {
+  const { genreRankedText, renderGenreReviewAction } = loadPatternApi();
+  const analysis = { needsReview: true, top: [{ name: "ロック", score: 54 }, { name: "ジャズ", score: 13 }] };
+  assert.equal(genreRankedText(analysis, 2), "ロック 54% / ジャズ 13%");
+  const action = renderGenreReviewAction({ id: "review-shirt" }, analysis, false);
+  assert.match(action, /<button[^>]+onclick="adjustGenreReview\('review-shirt'\)"/);
+  assert.match(action, />要確認<\/button>/);
+  assert.equal(renderGenreReviewAction({ id: "review-shirt" }, { ...analysis, needsReview: false }, false), "");
+  assert.match(renderGenreReviewAction({ id: "review-shirt" }, analysis, true), /disabled[^>]*>調整中…<\/button>/);
+});
+
+test("multi-window genre adjustment resolves repeated agreement without producing 100 percent", () => {
+  const { combineGenreWindowAnalyses } = loadPatternApi();
+  const window = (offset, leader, runner, confidence, needsReview = false) => ({
+    offset,
+    genreAnalysis: {
+      method: "embedding-audio",
+      source: "test",
+      confidence,
+      needsReview,
+      modelRuleMacroAgreement: true,
+      top: [
+        { name: leader, score: confidence, macro: leader === "ロック" ? "rock" : "black_music" },
+        { name: runner, score: Math.max(8, confidence - 28) }
+      ]
+    }
+  });
+  const combined = combineGenreWindowAnalyses([
+    window(60, "ロック", "ディスコ", 54, true),
+    window(150, "ロック", "メタル", 76),
+    window(240, "ロック", "ジャズ", 72)
+  ], { adjustedAt: "2026-08-20T00:00:00.000Z" });
+  assert.equal(combined.top[0].name, "ロック");
+  assert.equal(combined.needsReview, false);
+  assert.ok(combined.top[0].score >= 58 && combined.top[0].score < 100);
+  assert.equal(combined.automaticGenreAdjustment.resolved, true);
+  assert.deepEqual(Array.from(combined.automaticGenreAdjustment.offsets), [60, 150, 240]);
+});
+
+test("multi-window genre adjustment keeps review status when sections disagree", () => {
+  const { combineGenreWindowAnalyses } = loadPatternApi();
+  const analyses = [
+    [60, "ヒップホップ", "ファンク"],
+    [150, "ロック", "メタル"],
+    [240, "電子音楽", "テクノ"]
+  ].map(([offset, leader, runner]) => ({
+    offset,
+    genreAnalysis: {
+      method: "embedding-audio",
+      source: "test",
+      confidence: 55,
+      needsReview: true,
+      modelRuleMacroAgreement: false,
+      top: [{ name: leader, score: 55 }, { name: runner, score: 38 }]
+    }
+  }));
+  const combined = combineGenreWindowAnalyses(analyses, { adjustedAt: "2026-08-20T00:00:00.000Z" });
+  assert.equal(combined.needsReview, true);
+  assert.equal(combined.automaticGenreAdjustment.resolved, false);
+  assert.ok(combined.top.length >= 3);
+  assert.ok(combined.top[0].score <= 57);
+});
+
+test("genre adjustment replaces visible SVG while preserving protected PCM byte-for-byte", () => {
+  const { preserveProtectedPcmGeometry } = loadPatternApi();
+  const protectedGroup = '<g id="pcm_reversible_data" data-frame-count="4" data-sample-rate="4000"><circle cx="1" cy="2" r=".2"/><circle cx="3" cy="4" r=".3"/></g>';
+  const previous = `<svg><path id="old-visible" d="M0 0L1 1"/>${protectedGroup}</svg>`;
+  const next = '<svg><path id="new-visible" d="M2 2L3 3"/><g id="pcm_reversible_data" data-status="added-on-export"></g></svg>';
+  const adjusted = preserveProtectedPcmGeometry(previous, next);
+  assert.match(adjusted, /id="new-visible"/);
+  assert.doesNotMatch(adjusted, /id="old-visible"/);
+  assert.equal(adjusted.match(/<g id="pcm_reversible_data"[\s\S]*?<\/g>/)?.[0], protectedGroup);
+});
+
+test("applying an adjusted genre keeps PCM detail and protected SVG geometry unchanged", () => {
+  const { applyAdjustedGenreToShirt } = loadPatternApi();
+  const detail = {
+    pcmSketch: "AQIDBA==",
+    pcmSketchRate: 4000,
+    pcmSketchDuration: 24,
+    pcmSketchFrameCount: 4,
+    rms: [.4, .5, .6], bass: [.3, .4, .5], onset: [.1, .8, .2], centroid: [.3, .6, .4], waveform: [.2, -.2, .3]
+  };
+  const protectedGroup = '<g id="pcm_reversible_data" data-frame-count="4" data-sample-rate="4000"><circle cx="1" cy="2" r=".2"/><circle cx="3" cy="4" r=".3"/></g>';
+  const shirt = {
+    id: "pcm-adjust-test",
+    title: "test の可逆サウンドフォーム",
+    moodId: "youtube-test-60",
+    engineId: "youtube_reversible",
+    youtubeUrl: "https://www.youtube.com/watch?v=example123&t=60s",
+    youtubeStartSeconds: 60,
+    variantSeed: 12345,
+    tags: ["可逆", "ヒップホップ"],
+    art: `<svg viewBox="0 0 1200 1200"><path id="old-visible" d="M0 0L1 1"/>${protectedGroup}</svg>`,
+    audioFeatures: {
+      startSeconds: 60,
+      tempo: 108,
+      energy: .55,
+      bass: .48,
+      onset: .35,
+      rhythm: .5,
+      brightness: .42,
+      centroid: 2200,
+      chroma: Array.from({ length: 12 }, (_, index) => index === 4 ? .8 : .2),
+      detail,
+      genreAnalysis: { needsReview: true, top: [{ name: "ヒップホップ", score: 51 }] }
+    }
+  };
+  const adjusted = applyAdjustedGenreToShirt(shirt, {
+    method: "automatic-multi-window-adjust-v1",
+    confidence: 74,
+    needsReview: false,
+    inferredGenre: "ロック",
+    top: [{ name: "ロック", score: 74 }, { name: "メタル", score: 22 }],
+    automaticGenreAdjustment: { pcmPreserved: true }
+  });
+  assert.equal(adjusted.audioFeatures.detail, detail);
+  assert.equal(adjusted.audioFeatures.detail.pcmSketch, "AQIDBA==");
+  assert.equal(adjusted.art.match(/<g id="pcm_reversible_data"[\s\S]*?<\/g>/)?.[0], protectedGroup);
+  assert.match(adjusted.art, /data-engine=/);
+  assert.doesNotMatch(adjusted.art, /id="old-visible"/);
+});
+
+test("additional genre windows avoid the original PCM range and stay within the video", () => {
+  const { genreAdjustmentOffsets, youtubeUrlAtStart } = loadPatternApi();
+  const shirt = {
+    youtubeStartSeconds: 60,
+    audioFeatures: { startSeconds: 60, analysisWindowSeconds: 90, youtubeMeta: { duration: 310 }, genreAnalysis: {} }
+  };
+  const offsets = Array.from(genreAdjustmentOffsets(shirt));
+  assert.deepEqual(offsets, [150, 240]);
+  assert.equal(youtubeUrlAtStart("https://youtu.be/example123?t=60", offsets[0]), "https://www.youtube.com/watch?v=example123&t=150s");
 });
 
 test("instrumental classical evidence suppresses opera without affecting sung opera", () => {

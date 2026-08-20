@@ -493,6 +493,8 @@
     .generated-preview .shirt-art { aspect-ratio: 1 / 1; }
     .design-spec { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
     .design-spec p { border-top: 1px solid var(--line); margin: 0; padding-top: 10px; }
+    .genre-review-action { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; }
+    .genre-review-action .secondary { min-height: 30px; padding: 5px 10px; font-size: 11px; }
     .question { border: 1px solid var(--line); border-radius: var(--radius-md); background: rgba(255,255,255,.78); padding: clamp(14px, 1.7vw, 24px); margin-top: var(--grid-gap); }
     .options { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
     .chip {
@@ -714,6 +716,14 @@
           { at: 52000, percent: 82, label: "ジャンル候補を照合", estimate: "32ジャンルの分類器を実行" },
           { at: 78000, percent: 90, label: "解析結果を待機", estimate: "混雑時でも最大4分ほど" }
         ]
+        : source === "genre-adjust"
+        ? [
+          { at: 0, percent: 5, label: "追加区間の準備", estimate: "曲内の異なる位置を選んでいます" },
+          { at: 1800, percent: 14, label: "追加区間 1 を解析", estimate: "通常 60〜150秒" },
+          { at: 76000, percent: 48, label: "追加区間 2 を解析", estimate: "曲の長さに応じて省略する場合があります" },
+          { at: 150000, percent: 82, label: "区間ごとのジャンルを照合", estimate: "一致度と大分類の根拠を確認" },
+          { at: 190000, percent: 92, label: "図柄と判定を更新", estimate: "保護PCMは変更しません" }
+        ]
         : [
           { at: 0, percent: 8, label: "音源ファイルを読み込み", estimate: "通常 5〜20秒" },
           { at: 1200, percent: 30, label: "ブラウザで音声をデコード", estimate: "曲の長さにより変わります" },
@@ -738,7 +748,7 @@
         <div class="generation-progress-head"><strong>${escapeAttr(progress.label)}</strong><span>${Math.round(progress.percent)}%</span></div>
         <div class="generation-progress-track" aria-hidden="true"><div class="generation-progress-fill" style="width:${Math.max(0, Math.min(100, progress.percent))}%"></div></div>
         <p class="muted">${escapeAttr(progress.estimate)}</p>
-        ${progress.source === "youtube" ? `<button class="secondary" type="button" onclick="cancelYoutubeAnalysis()">解析を中止</button>` : ""}
+        ${progress.source === "youtube" || progress.source === "genre-adjust" ? `<button class="secondary" type="button" onclick="cancelYoutubeAnalysis()">解析を中止</button>` : ""}
         <ol class="generation-progress-steps">${progress.stages.map((stage, index) => `<li class="${index < progress.stage ? "done" : index === progress.stage ? "current" : ""}">${index < progress.stage ? "完了" : index === progress.stage ? "進行中" : "待機"} ${escapeAttr(stage.label)}</li>`).join("")}</ol>
       </section>`;
     }
@@ -10784,11 +10794,143 @@
       const raw = Math.max(0, Math.min(100, Number(genre.score) || 0));
       return Math.round(raw);
     }
-    function genreDisplayText(genreAnalysis = null, limit = 3) {
+    function genreRankedText(genreAnalysis = null, limit = 3) {
       const top = genreAnalysis?.top || [];
       if (!top.length) return "未推定";
-      const ranked = top.slice(0, limit).map(item => `${item.name} ${Math.round(Number(item.score) || 0)}%`).join(" / ");
+      return top.slice(0, limit).map(item => `${item.name || item.label || "不明"} ${Math.round(Number(item.score) || 0)}%`).join(" / ");
+    }
+    function genreDisplayText(genreAnalysis = null, limit = 3) {
+      const ranked = genreRankedText(genreAnalysis, limit);
+      if (ranked === "未推定") return ranked;
       return genreAnalysis?.needsReview ? `${ranked} / 要確認` : ranked;
+    }
+    function renderGenreReviewAction(shirt = null, genreAnalysis = null, busy = false) {
+      if (!genreAnalysis?.needsReview || !shirt?.id) return "";
+      return `<span class="genre-review-action"><button class="secondary" type="button" onclick="adjustGenreReview('${escapeAttr(shirt.id)}')" ${busy ? "disabled" : ""} title="曲内の別区間を追加解析してジャンル判定を調整">${busy ? "調整中…" : "要確認"}</button></span>`;
+    }
+    function youtubeUrlAtStart(url, startSeconds = 0) {
+      const link = parseYouTubeLink(url);
+      if (!link.id) return "";
+      const normalized = new URL("https://www.youtube.com/watch");
+      normalized.searchParams.set("v", link.id);
+      if (startSeconds > 0) normalized.searchParams.set("t", `${Math.max(0, Math.floor(startSeconds))}s`);
+      return normalized.toString();
+    }
+    function genreAdjustmentOffsets(shirt = {}) {
+      const features = shirt.audioFeatures || {};
+      const base = Math.max(0, Math.floor(Number(shirt.youtubeStartSeconds ?? features.startSeconds) || 0));
+      const duration = Number(features.youtubeMeta?.duration);
+      const windowSeconds = Math.max(45, Math.min(120, Number(features.analysisWindowSeconds) || 90));
+      const priorOffsets = features.genreAnalysis?.automaticGenreAdjustment?.offsets || [];
+      const used = new Set([base, ...priorOffsets].map(value => Math.max(0, Math.floor(Number(value) || 0))));
+      const maxStart = Number.isFinite(duration) && duration > 0 ? Math.max(0, Math.floor(duration - 30)) : Infinity;
+      const candidates = [
+        base + windowSeconds,
+        base + windowSeconds * 2,
+        base - windowSeconds,
+        base - windowSeconds * 2,
+        0,
+        Number.isFinite(maxStart) ? maxStart : null,
+        Number.isFinite(duration) ? Math.max(0, Math.floor(duration / 2 - windowSeconds / 2)) : null
+      ];
+      const selected = [];
+      for (const value of candidates) {
+        if (!Number.isFinite(value)) continue;
+        const offset = Math.max(0, Math.min(maxStart, Math.floor(value)));
+        if (used.has(offset) || Math.abs(offset - base) < 30) continue;
+        if (selected.some(existing => Math.abs(existing - offset) < 45)) continue;
+        selected.push(offset);
+        used.add(offset);
+        if (selected.length === 2) break;
+      }
+      return selected;
+    }
+    function combineGenreWindowAnalyses(windows = [], options = {}) {
+      const valid = windows.map(window => ({
+        offset: Math.max(0, Math.floor(Number(window?.offset) || 0)),
+        analysis: window?.genreAnalysis || window?.features?.genreAnalysis || window?.analysis || null
+      })).filter(window => window.analysis?.top?.length);
+      if (!valid.length) return null;
+      const evidence = new Map();
+      const leaderVotes = new Map();
+      const representatives = new Map();
+      valid.forEach(window => {
+        const analysis = window.analysis;
+        const confidence = Math.max(12, Math.min(96, Number(analysis.confidence ?? analysis.top[0]?.score) || 40));
+        const trust = confidence / 100 * (analysis.needsReview ? .72 : 1);
+        const leaderName = analysis.top[0]?.name || analysis.top[0]?.label || "";
+        if (leaderName) leaderVotes.set(leaderName, (leaderVotes.get(leaderName) || 0) + 1);
+        analysis.top.slice(0, 3).forEach((item, index) => {
+          const name = item.name || item.label || "";
+          if (!name) return;
+          const rankWeight = [1, .55, .3][index] || .2;
+          const scoreWeight = Math.max(.05, Math.min(1, (Number(item.score) || 0) / 100));
+          const amount = trust * rankWeight * scoreWeight;
+          evidence.set(name, (evidence.get(name) || 0) + amount);
+          if (!representatives.has(name) || amount > representatives.get(name).weight) {
+            representatives.set(name, { item: { ...item }, analysis, weight: amount });
+          }
+        });
+      });
+      const rankedEvidence = [...evidence.entries()].sort((a, b) => b[1] - a[1]);
+      const leaderName = rankedEvidence[0]?.[0] || "";
+      const leaderEvidence = rankedEvidence[0]?.[1] || 0;
+      const runnerEvidence = rankedEvidence[1]?.[1] || 0;
+      const votes = leaderVotes.get(leaderName) || 0;
+      const voteShare = votes / valid.length;
+      const margin = Math.max(0, (leaderEvidence - runnerEvidence) / Math.max(.001, leaderEvidence));
+      const supporting = valid.filter(window => (window.analysis.top[0]?.name || window.analysis.top[0]?.label) === leaderName);
+      const averageConfidence = supporting.reduce((sum, window) => sum + (Number(window.analysis.confidence ?? window.analysis.top[0]?.score) || 0), 0) / Math.max(1, supporting.length);
+      const ruleMacroAgreement = valid.filter(window => window.analysis.modelRuleMacroAgreement === true).length / valid.length;
+      const repeatedAgreement = valid.length >= 2 && votes >= 2 && voteShare >= .66 && margin >= .08;
+      const strongAudioAgreement = valid.length >= 2 && margin >= .35 && ruleMacroAgreement >= .67 && averageConfidence >= 68;
+      const resolved = repeatedAgreement || strongAudioAgreement;
+      const cleanShare = valid.filter(window => !window.analysis.needsReview).length / valid.length;
+      let confidence = Math.round(38 + voteShare * 32 + margin * 20 + cleanShare * 6);
+      confidence = Math.max(38, Math.min(resolved ? 94 : 57, confidence));
+      const top = rankedEvidence.slice(0, 5).map(([name, amount], index) => {
+        const representative = representatives.get(name)?.item || { name };
+        const score = index === 0
+          ? confidence
+          : Math.max(1, Math.min(confidence - 1, Math.round(confidence * amount / Math.max(.001, leaderEvidence) * .86)));
+        return { ...representative, name, score, multiWindowEvidence: Math.round(amount * 1000) / 1000 };
+      });
+      const preferred = supporting.sort((a, b) => (Number(b.analysis.confidence) || 0) - (Number(a.analysis.confidence) || 0))[0]?.analysis
+        || representatives.get(leaderName)?.analysis
+        || valid[0].analysis;
+      const offsets = valid.map(window => window.offset);
+      const automaticGenreAdjustment = {
+        version: "multi-window-v1",
+        adjustedAt: options.adjustedAt || new Date().toISOString(),
+        offsets,
+        votes: Object.fromEntries([...leaderVotes.entries()].sort((a, b) => b[1] - a[1])),
+        winner: leaderName,
+        voteShare: Math.round(voteShare * 1000) / 1000,
+        evidenceMargin: Math.round(margin * 1000) / 1000,
+        resolved,
+        pcmPreserved: true
+      };
+      return {
+        ...preferred,
+        top,
+        inferredGenre: leaderName,
+        confidence,
+        confidenceCalibrated: true,
+        needsReview: !resolved,
+        method: `${preferred.method || "audio-classifier"}+automatic-multi-window-adjust-v1`,
+        source: resolved
+          ? `${preferred.source || "音響分類"} 曲内の複数区間が一致したため自動調整しました。`
+          : `${preferred.source || "音響分類"} 曲内の区間で判定が分かれたため、要確認を維持しています。`,
+        automaticGenreAdjustment
+      };
+    }
+    function preserveProtectedPcmGeometry(previousSvg, nextSvg) {
+      const protectedGroup = String(previousSvg || "").match(/<g\b[^>]*id=["']pcm_reversible_data["'][^>]*>[\s\S]*?<\/g>/)?.[0] || "";
+      if (!protectedGroup) return String(nextSvg || "");
+      const next = String(nextSvg || "");
+      const groupPattern = /<g\b[^>]*id=["']pcm_reversible_data["'][\s\S]*?<\/g>/;
+      if (groupPattern.test(next)) return next.replace(groupPattern, protectedGroup);
+      return next.replace(/<\/svg>\s*$/, `${protectedGroup}</svg>`);
     }
     function japaneseVocalEvidenceText(genreAnalysis = null) {
       const evidence = genreAnalysis?.japaneseVocalEvidence || {};
@@ -15050,7 +15192,7 @@
       const id = `reversible-audio-${mood.id}-${songSeed.toString(36)}`;
       const title = `${mood.label} の可逆サウンドフォーム`;
       const engineId = isYouTube ? "youtube_reversible" : "audio_reversible";
-      const genreText = genreDisplayText(audio?.genreAnalysis, 3);
+      const genreText = genreRankedText(audio?.genreAnalysis, 3);
       const styleText = audio?.inferredStyle ? ` / style ${audio.inferredStyle}` : "";
       const fixedMood = { ...mood, variantSalt: 0 };
       const fixedSettings = { variantSeed: songSeed, variantSalt: 0, iteration: "song-specific" };
@@ -15949,6 +16091,148 @@
       state.message = "";
       render();
     }
+    function applyAdjustedGenreToShirt(shirt, genreAnalysis) {
+      if (!shirt?.audioFeatures || !genreAnalysis?.top?.length) return shirt;
+      const originalFeatures = shirt.audioFeatures;
+      const originalPcmSketch = originalFeatures.detail?.pcmSketch;
+      const audioFeatures = {
+        ...originalFeatures,
+        detail: originalFeatures.detail,
+        genreAnalysis,
+        inferredGenre: genreAnalysis.top[0]?.name || genreAnalysis.top[0]?.label || "",
+        inferredStyle: genreAnalysis.inferredStyle || genreAnalysis.style?.[0]?.name || genreAnalysis.style?.[0]?.label || ""
+      };
+      const genreNames = new Set(Object.keys(musicGenreProfiles));
+      const tags = unique(["可逆", "YouTube解析", "PCM"]
+        .concat((shirt.tags || []).filter(tag => !genreNames.has(tag)))
+        .concat(audioFeatures.inferredStyle ? [audioFeatures.inferredStyle] : [])
+        .concat(genreAnalysis.top.slice(0, 3).map(item => item.name || item.label).filter(Boolean))).slice(0, 10);
+      const tick = Number(shirt.variantSeed || Date.now());
+      const mood = {
+        id: shirt.moodId || `adjusted-${hashString(shirt.id || tick)}`,
+        label: state.sourceMood?.label || String(shirt.title || "Reversible Sound Form").replace(/ の可逆サウンドフォーム$/, ""),
+        cue: "曲内の複数区間を音響解析し、ジャンル境界を自動調整した可逆サウンドフォーム。",
+        tags,
+        seed: hashString(`${shirt.youtubeUrl || shirt.id}@${shirt.youtubeStartSeconds || 0}`),
+        pattern: "youtube_audio",
+        youtubeUrl: shirt.youtubeUrl || "",
+        youtubeStartSeconds: shirt.youtubeStartSeconds || audioFeatures.startSeconds || 0,
+        audio: audioFeatures,
+        variantSalt: 0
+      };
+      const rawArt = generateReversibleAudioPatternSvg(mood, tick, null);
+      const protectedPattern = /<g\b[^>]*id=["']pcm_reversible_data["'][^>]*>[\s\S]*?<\/g>/;
+      const previousProtectedPcm = String(shirt.art || "").match(protectedPattern)?.[0] || "";
+      const previousHasPcm = /<line\b|<path\b|<circle\b/.test(previousProtectedPcm);
+      const art = previousHasPcm
+        ? preserveProtectedPcmGeometry(shirt.art, rawArt)
+        : injectPcmGeometryIntoSvg(rawArt, originalFeatures.detail || {});
+      const adjustedProtectedPcm = String(art || "").match(protectedPattern)?.[0] || "";
+      if (!adjustedProtectedPcm || !/<line\b|<path\b|<circle\b/.test(adjustedProtectedPcm)) {
+        throw new Error("保護PCMを維持できないため調整を中止しました。元音源から再生成してください。");
+      }
+      if (previousHasPcm && adjustedProtectedPcm !== previousProtectedPcm) {
+        throw new Error("保護PCMの形状が変化したため調整を中止しました。");
+      }
+      if (originalPcmSketch !== undefined && audioFeatures.detail?.pcmSketch !== originalPcmSketch) {
+        throw new Error("保護PCMの参照が変更されたため調整を中止しました。");
+      }
+      const genreText = genreRankedText(genreAnalysis, 3);
+      return {
+        ...shirt,
+        tags,
+        art,
+        audioFeatures,
+        genreInferenceRevision: GENRE_INFERENCE_REVISION,
+        reversiblePayload: null,
+        externalNote: `song-specific / seed ${tick.toString(36)} / genre ${genreText} / multi-window adjusted`,
+        stockNote: genreAnalysis.needsReview
+          ? "複数区間を追加解析しましたが判定が分かれています。保護PCMは元の24秒音源のまま維持しています。"
+          : "複数区間の音響判定が一致したためジャンルと可視構造を自動調整しました。保護PCMは元の24秒音源のまま維持しています。"
+      };
+    }
+    function persistAdjustedGeneratedShirt(shirt) {
+      const currentSession = state.session
+        ? { ...state.session, generatedShirt: shirt, genreAdjustedAt: new Date().toISOString() }
+        : null;
+      if (currentSession) {
+        const stored = sessions();
+        const exists = stored.some(item => item.id === currentSession.id || item.generatedShirt?.id === shirt.id);
+        const next = exists
+          ? stored.map(item => item.id === currentSession.id || item.generatedShirt?.id === shirt.id ? storageSafeSession(currentSession) : storageSafeSession(item))
+          : [storageSafeSession(currentSession), ...stored.map(storageSafeSession)].slice(0, 8);
+        try {
+          write(keys.sessions, next);
+        } catch {
+          write(keys.sessions, [{ ...storageSafeSession(currentSession), generatedShirt: { ...storageSafeShirt(shirt), art: "" } }]);
+        }
+      }
+      state.generated = shirt;
+      state.audioFeatures = shirt.audioFeatures;
+      state.session = currentSession || state.session;
+      if (state.sourceMood) state.sourceMood = { ...state.sourceMood, tags: shirt.tags, audio: shirt.audioFeatures };
+    }
+    async function adjustGenreReview(shirtId) {
+      if (state.generationProgress) return;
+      const shirt = findGeneratedShirt(shirtId) || state.generated;
+      const currentAnalysis = shirt?.audioFeatures?.genreAnalysis;
+      if (!shirt || !currentAnalysis?.needsReview) {
+        state.message = "このジャンル判定は現在、追加確認を必要としていません。";
+        render();
+        return;
+      }
+      if (!shirt.youtubeUrl || shirt.engineId !== "youtube_reversible") {
+        state.message = "追加区間の解析には元音源が必要です。音源ファイルをもう一度アップロードして解析してください。";
+        render();
+        return;
+      }
+      const offsets = genreAdjustmentOffsets(shirt);
+      if (!offsets.length) {
+        state.message = "追加解析できる未使用区間がありません。現在のTop3と要確認表示を維持します。";
+        render();
+        return;
+      }
+      const runId = beginGenerationProgress("genre-adjust");
+      const controller = new AbortController();
+      const baseOffset = Math.max(0, Math.floor(Number(shirt.youtubeStartSeconds ?? shirt.audioFeatures.startSeconds) || 0));
+      const windows = [{ offset: baseOffset, genreAnalysis: currentAnalysis }];
+      state.message = `ジャンル自動調整: ${offsets.length}区間を追加解析します。`;
+      render();
+      try {
+        for (let index = 0; index < offsets.length; index += 1) {
+          const offset = offsets[index];
+          const requestId = crypto.randomUUID();
+          activeYoutubeAnalysis = { runId, requestId, controller };
+          setGenerationProgress(runId, {
+            stage: index + 1,
+            percent: 14 + index * 34,
+            label: `追加区間 ${index + 1} を解析`,
+            estimate: `${youtubeStartLabel(offset)} から音響特徴を取得しています`
+          });
+          const url = youtubeUrlAtStart(shirt.youtubeUrl, offset);
+          const features = enrichFeaturesWithGenre(await analyzeYouTubeLink(url, { requestId, signal: controller.signal }));
+          windows.push({ offset, genreAnalysis: features.genreAnalysis });
+        }
+        activeYoutubeAnalysis = null;
+        setGenerationProgress(runId, { percent: 84, label: "区間ごとのジャンルを照合", estimate: "確信度、順位、大分類の一致を集計" });
+        const genreAnalysis = combineGenreWindowAnalyses(windows);
+        if (!genreAnalysis) throw new Error("追加区間からジャンル候補を取得できませんでした。");
+        const adjusted = applyAdjustedGenreToShirt(shirt, genreAnalysis);
+        persistAdjustedGeneratedShirt(adjusted);
+        setGenerationProgress(runId, { percent: 98, label: "ジャンルと図柄を更新", estimate: "保護PCMの不変性を確認済み" });
+        await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+        clearGenerationProgress();
+        state.message = genreAnalysis.needsReview
+          ? `追加解析後も区間で判定が分かれました。${genreRankedText(genreAnalysis, 3)} を候補として要確認を維持します。`
+          : `追加区間の合意により ${genreAnalysis.top[0]?.name || "ジャンル"} へ自動調整しました。`;
+        render();
+      } catch (error) {
+        if (activeYoutubeAnalysis?.controller === controller) activeYoutubeAnalysis = null;
+        clearGenerationProgress();
+        state.message = error.message || "ジャンルの追加解析に失敗しました。";
+        render();
+      }
+    }
     async function startYoutubeGeneration() {
       if (state.generationProgress) return;
       const input = document.getElementById("youtubeUrl")?.value.trim() || state.youtubeUrl;
@@ -16812,7 +17096,7 @@
           };
           shirt.art = injectPcmGeometryIntoSvg(generateReversibleAudioPatternSvg(mood, tick, null), shirt.audioFeatures?.detail || {});
           if (genreUpdated) {
-            const genreText = genreDisplayText(shirt.audioFeatures.genreAnalysis, 3);
+            const genreText = genreRankedText(shirt.audioFeatures.genreAnalysis, 3);
             shirt.externalNote = `song-specific / seed ${tick.toString(36)} / genre ${genreText}`;
             shirt.stockNote = "保存済み音響特徴量を現行ジャンル分類器で再判定しました。復元性は保護PCMレイヤーで維持します。";
           }
@@ -16908,7 +17192,9 @@
       const youtubeValue = escapeAttr(state.youtubeUrl || generated?.youtubeUrl || "");
       const features = generated?.audioFeatures || state.audioFeatures || null;
       const sourceLabel = generated?.youtubeUrl ? `YouTube ${features?.id || ""}` : generated?.audioFileName || selectedMood?.label || "";
-      const genreLabel = genreDisplayText(features?.genreAnalysis, 2);
+      const isGenerating = Boolean(state.generationProgress);
+      const genreLabel = genreRankedText(features?.genreAnalysis, 2);
+      const genreReviewAction = renderGenreReviewAction(generated, features?.genreAnalysis, isGenerating);
       const genreEvidence = `${japaneseVocalEvidenceText(features?.genreAnalysis)} / ${sparseGenreEvidenceText(features?.genreAnalysis)}`;
       const inferredStyle = features?.genreAnalysis?.style?.[0];
       const styleName = inferredStyle?.name || inferredStyle?.label || features?.genreAnalysis?.inferredStyle || features?.inferredStyle || "";
@@ -16917,7 +17203,6 @@
       const styleLabel = styleName
         ? ` / style ${styleName}${Number.isFinite(styleScore) ? ` ${Math.round(styleScore)}%` : ""}${styleReview ? "（要確認）" : ""}`
         : "";
-      const isGenerating = Boolean(state.generationProgress);
       const patternMotionRunning = isReversibleAudio && state.patternMotion.shirtId === generated?.id && state.patternMotion.running;
       const generatedHeading = isReversibleAudio ? "生成した可逆パターン" : state.realtime ? `<span class="live-dot"></span>リアルタイム生成中` : "生成した図案";
       const generatedActions = isReversibleAudio
@@ -16939,7 +17224,8 @@
           <div class="process-summary"><p><strong>01 / Audio fingerprint</strong><br>曲固有の構造を決定</p><p><strong>02 / Onset + Chroma</strong><br>密度と方向へ変換</p><p><strong>03 / Protected PCM</strong><br>SVGの可視図形へ保存</p></div>
           <details class="advanced-settings"><summary>解析サーバー設定</summary><div class="api-config"><label for="apiEndpoint"><span class="eyebrow">YouTube audio analysis server</span><input id="apiEndpoint" value="${endpointValue}" placeholder="https://example.com/api/audio-analyze"></label><button class="secondary" onclick="saveApiEndpoint()">接続先を保存</button></div></details></section>` :
           `<section id="conversion-workbench" class="panel"><div class="top"><div><p class="eyebrow">04 / OUTPUT</p><h2>${generatedHeading}</h2></div><div>${generatedActions}</div></div>
-          <div class="generated-layout"><article class="generated-preview">${renderShirtArt(generated)}<div class="design-spec"><p><strong>音源</strong><br>${sourceLabel}</p><p><strong>生成</strong><br>${selectedEngine.label}</p><p><strong>状態</strong><br>${generatedStateText}</p><p><strong>Genre</strong><br>${genreLabel}${styleLabel}</p><p><strong>音響根拠</strong><br>${genreEvidence}</p><p><strong>Tempo</strong><br>${features?.tempo ? `${features.tempo} BPM` : "local"}</p><p><strong>Centroid</strong><br>${features?.centroid ? `${features.centroid} Hz` : "SVG"}</p><p><strong>可逆PCM</strong><br>${formatPcmGeometryText(features)}</p></div></article><article><p>${generated.tags.map(t => `<span class="tag">${t}</span>`).join("")}</p><h3>${generated.title}</h3><p>${generated.description}</p>${generated.youtubeUrl ? `<p class="muted"><a href="${escapeAttr(generated.youtubeUrl)}" target="_blank" rel="noreferrer">参照YouTubeリンク</a></p>` : ""}${state.message ? `<p class="tag">${state.message}</p>` : ""}${generated.externalNote ? `<p class="tag">${generated.externalNote}</p>` : ""}<p class="muted">${generated.stockNote}</p><button class="primary" onclick="acceptRealtimeDesign();nav('work','${generated.id}')">詳細と共鳴を見る</button></article></div></section>`}
+          ${renderGenerationProgress()}
+          <div class="generated-layout"><article class="generated-preview">${renderShirtArt(generated)}<div class="design-spec"><p><strong>音源</strong><br>${sourceLabel}</p><p><strong>生成</strong><br>${selectedEngine.label}</p><p><strong>状態</strong><br>${generatedStateText}</p><p><strong>Genre</strong><br>${genreLabel}${styleLabel}${genreReviewAction ? `<br>${genreReviewAction}` : ""}</p><p><strong>音響根拠</strong><br>${genreEvidence}</p><p><strong>Tempo</strong><br>${features?.tempo ? `${features.tempo} BPM` : "local"}</p><p><strong>Centroid</strong><br>${features?.centroid ? `${features.centroid} Hz` : "SVG"}</p><p><strong>可逆PCM</strong><br>${formatPcmGeometryText(features)}</p></div></article><article><p>${generated.tags.map(t => `<span class="tag">${t}</span>`).join("")}</p><h3>${generated.title}</h3><p>${generated.description}</p>${generated.youtubeUrl ? `<p class="muted"><a href="${escapeAttr(generated.youtubeUrl)}" target="_blank" rel="noreferrer">参照YouTubeリンク</a></p>` : ""}${state.message ? `<p class="tag">${state.message}</p>` : ""}${generated.externalNote ? `<p class="tag">${generated.externalNote}</p>` : ""}<p class="muted">${generated.stockNote}</p><button class="primary" onclick="acceptRealtimeDesign();nav('work','${generated.id}')">詳細と共鳴を見る</button></article></div></section>`}
         ${generated ? renderReversiblePanel(generated) : ""}
         ${generated && !isReversibleAudio ? renderAudioMappingDiagram(features) : ""}
       </main>`;
