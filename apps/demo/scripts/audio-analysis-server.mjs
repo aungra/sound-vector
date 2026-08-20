@@ -2,15 +2,46 @@ import http from "node:http";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import {
+  embeddingInferenceAttemptPlan,
+  runEmbeddingInferenceAttempts,
+} from "./genre-embedding-runtime-policy.mjs";
+import {
+  createFixedWindowRateLimiter,
+  isAllowedOrigin,
+  parseAllowedOrigins,
+  requestClientAddress,
+  validatePublicYouTubeUrl,
+} from "./audio-analysis-public-policy.mjs";
 
-const PORT = Number(process.env.MMFR_AUDIO_PORT || 4194);
+const cliArgs = new Set(process.argv.slice(2));
+const cliValue = name => {
+  const prefix = `${name}=`;
+  const entry = process.argv.slice(2).find(value => value.startsWith(prefix));
+  return entry ? entry.slice(prefix.length) : "";
+};
+const PORT = Number(cliValue("--port") || process.env.MMFR_AUDIO_PORT || 4194);
 const HOST = process.env.MMFR_AUDIO_HOST || "127.0.0.1";
-const MAX_BYTES = 80 * 1024 * 1024;
+const PUBLIC_MODE = process.env.MMFR_PUBLIC_MODE === "1";
+const MAX_BYTES = PUBLIC_MODE ? 32 * 1024 : 80 * 1024 * 1024;
 const ANALYSIS_WINDOW_SECONDS = Math.max(0, Number(process.env.MMFR_ANALYSIS_SECONDS || 120));
+const PUBLIC_ALLOWED_ORIGINS = parseAllowedOrigins(process.env.MMFR_ALLOWED_ORIGINS);
+const PUBLIC_MAX_CONCURRENT = Math.max(1, Number(process.env.MMFR_PUBLIC_MAX_CONCURRENT || 1));
+const PUBLIC_RATE_LIMIT = Math.max(1, Number(process.env.MMFR_PUBLIC_RATE_LIMIT || 4));
+const PUBLIC_RATE_WINDOW_MS = Math.max(1000, Number(process.env.MMFR_PUBLIC_RATE_WINDOW_MS || 10 * 60 * 1000));
+const publicRateLimiter = createFixedWindowRateLimiter({
+  limit: PUBLIC_RATE_LIMIT,
+  windowMs: PUBLIC_RATE_WINDOW_MS,
+});
+let publicActiveRequests = 0;
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(SCRIPT_DIR, "../../..");
+const DEMO_HTML_PATH = path.join(ROOT_DIR, "apps", "demo", "MUSIC MEMORY FITTING ROOM.html");
+const GENRE_INFERENCE_REVISION = fs.existsSync(DEMO_HTML_PATH)
+  ? fs.readFileSync(DEMO_HTML_PATH, "utf8").match(/const GENRE_INFERENCE_REVISION = "([^"]+)"/)?.[1] || "unknown"
+  : "unknown";
 const LOCAL_BIN = path.join(ROOT_DIR, ".tools", "bin");
 const TOOL_PATHS = {
   "yt-dlp": [
@@ -35,6 +66,39 @@ const COOKIE_FILE = process.env.MMFR_YTDLP_COOKIES_FILE || (fs.existsSync(DEFAUL
 const YTDLP_SLEEP_REQUESTS = Math.max(0, Number(process.env.MMFR_YTDLP_SLEEP_REQUESTS || 1));
 const YTDLP_SLEEP_INTERVAL = Math.max(0, Number(process.env.MMFR_YTDLP_SLEEP_INTERVAL || 1));
 const YTDLP_MAX_SLEEP_INTERVAL = Math.max(YTDLP_SLEEP_INTERVAL, Number(process.env.MMFR_YTDLP_MAX_SLEEP_INTERVAL || 3));
+const EMBEDDING_GENRE_SCRIPT = path.join(SCRIPT_DIR, "genre-embedding-infer.py");
+const JAPANESE_VOCAL_SCRIPT = path.join(SCRIPT_DIR, "genre-japanese-vocal-evidence.py");
+const EMBEDDING_GENRE_MODEL_PATH = process.env.MMFR_EMBEDDING_GENRE_MODEL_PATH
+  || "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/embedding-genre-model.pkl";
+const EMBEDDING_GENRE_FALLBACK_MODEL_PATH = process.env.MMFR_EMBEDDING_GENRE_FALLBACK_MODEL_PATH
+  || "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/embedding-genre-model.pkl";
+const EMBEDDING_GENRE_DISCOGS_HEAD_MODE = process.env.MMFR_EMBEDDING_DISCOGS_HEAD_MODE || "auto";
+const EMBEDDING_GENRE_TEST_FAIL_PRIMARY = process.env.NODE_ENV === "test"
+  && process.env.MMFR_EMBEDDING_TEST_FAIL_PRIMARY === "1";
+const EMBEDDING_GENRE_PYTHON = process.env.MMFR_EMBEDDING_PYTHON
+  || "/Users/kahanishimoto/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3";
+const EMBEDDING_GENRE_PYTHONPATH = process.env.MMFR_EMBEDDING_PYTHONPATH
+  || [
+    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/python-audio-features",
+    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/python-essentia-tf"
+  ].join(":");
+const JAPANESE_VOCAL_PYTHONPATH = process.env.MMFR_JAPANESE_VOCAL_PYTHONPATH
+  || [
+    EMBEDDING_GENRE_PYTHONPATH,
+    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/japanese-vocal-analysis/python"
+  ].join(":");
+const JAPANESE_VOCAL_MODEL_PATH = process.env.MMFR_JAPANESE_VOCAL_MODEL_PATH
+  || "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/japanese-vocal-analysis/faster-whisper-large-v3-turbo";
+const EMBEDDING_GENRE_ENABLED = process.env.MMFR_EMBEDDING_GENRE_ENABLED !== "0";
+const EMBEDDING_GENRE_LIVE_ENABLED = cliArgs.has("--embedding-live")
+  || process.env.MMFR_EMBEDDING_GENRE_LIVE_ENABLED === "1";
+const EMBEDDING_GENRE_CONSENSUS_ENABLED = EMBEDDING_GENRE_LIVE_ENABLED
+  && process.env.MMFR_EMBEDDING_GENRE_CONSENSUS_ENABLED !== "0";
+const LOCAL_SEGMENT_CONSENSUS_ENABLED = process.env.MMFR_LOCAL_SEGMENT_CONSENSUS_ENABLED !== "0";
+const LOCAL_GENRE_MODEL_PATH = process.env.MMFR_LOCAL_GENRE_MODEL_PATH
+  || path.resolve(SCRIPT_DIR, "../../../genre-training/genre-model.json");
+let localGenreRuntimePromise = null;
+let embeddingGenreContractCache = null;
 
 function ytDlpBaseArgs() {
   const args = [
@@ -50,10 +114,15 @@ function ytDlpBaseArgs() {
 }
 
 function ytDlpCookieArgSets() {
-  const sets = [];
+  // Public videos should not depend on a signed-in browser session. Trying the
+  // anonymous path first also avoids stale cookies triggering YouTube bot checks.
+  const sets = [[]];
   if (COOKIE_FILE) sets.push(["--cookies", COOKIE_FILE]);
-  for (const browser of COOKIE_BROWSERS) sets.push(["--cookies-from-browser", browser]);
-  sets.push([]);
+  // Browser cookie stores can trigger macOS privacy prompts. Use them only when
+  // no exported cookie file has been configured.
+  if (!COOKIE_FILE) {
+    for (const browser of COOKIE_BROWSERS) sets.push(["--cookies-from-browser", browser]);
+  }
   return sets;
 }
 
@@ -74,10 +143,7 @@ async function runYtDlp(command, args, options = {}) {
     } catch (error) {
       const labelled = `${cookieArgs.join(" ") || "no-cookies"}: ${error.message}`;
       errors.push(labelled);
-      if (isYouTubeRateLimitError(error.message)) {
-        rateLimitError = labelled;
-        break;
-      }
+      if (isYouTubeRateLimitError(error.message)) rateLimitError = labelled;
     }
   }
   if (rateLimitError) throw new Error(`YOUTUBE_RATE_LIMITED: ${rateLimitError}`);
@@ -97,12 +163,29 @@ function legacyYtDlpSharedArgs({ withCookies = true } = {}) {
 
 function sendJson(res, status, data) {
   res.writeHead(status, {
-    "Content-Type": "application/json; charset=utf-8",
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type"
+    "Content-Type": "application/json; charset=utf-8"
   });
   res.end(JSON.stringify(data, null, 2));
+}
+
+function applyCorsHeaders(req, res) {
+  const origin = String(req.headers.origin || "");
+  if (!PUBLIC_MODE) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+  } else if (isAllowedOrigin(origin, PUBLIC_ALLOWED_ORIGINS)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Vary", "Origin");
+  }
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("Cache-Control", "no-store");
+}
+
+function publicRequestAllowed(req) {
+  if (!PUBLIC_MODE) return true;
+  if (req.method === "GET" && (req.url === "/" || req.url === "/health" || req.url === "/api/audio-analyze")) return true;
+  return isAllowedOrigin(String(req.headers.origin || ""), PUBLIC_ALLOWED_ORIGINS);
 }
 
 function isYouTubeRateLimitError(message) {
@@ -146,12 +229,12 @@ function run(command, args, options = {}) {
       clearTimeout(timer);
       reject(error);
     });
-    child.on("close", code => {
+    child.on("close", (code, signal) => {
       clearTimeout(timer);
       const out = Buffer.concat(stdout);
       const err = Buffer.concat(stderr).toString("utf8");
       if (code === 0) resolve({ stdout: out, stderr: err });
-      else reject(new Error(`${command} failed (${code}): ${err.trim()}`));
+      else reject(new Error(`${command} failed (${signal ? `signal ${signal}` : code}): ${err.trim()}`));
     });
   });
 }
@@ -181,6 +264,501 @@ async function commandAvailable(command) {
   } catch {
     return false;
   }
+}
+
+function embeddingGenreReady() {
+  return EMBEDDING_GENRE_ENABLED
+    && fs.existsSync(EMBEDDING_GENRE_SCRIPT)
+    && fs.existsSync(EMBEDDING_GENRE_MODEL_PATH)
+    && fs.existsSync(EMBEDDING_GENRE_PYTHON)
+    && embeddingGenreContractStatus().ok;
+}
+
+function embeddingGenreContractStatus() {
+  if (embeddingGenreContractCache) return embeddingGenreContractCache;
+  if (!fs.existsSync(EMBEDDING_GENRE_SCRIPT) || !fs.existsSync(EMBEDDING_GENRE_MODEL_PATH)
+    || !fs.existsSync(EMBEDDING_GENRE_PYTHON)) {
+    embeddingGenreContractCache = { ok: false, reason: "model-or-runtime-missing" };
+    return embeddingGenreContractCache;
+  }
+  const result = spawnSync(EMBEDDING_GENRE_PYTHON, [
+    EMBEDDING_GENRE_SCRIPT,
+    "--model-path", EMBEDDING_GENRE_MODEL_PATH,
+    "--validate-model"
+  ], {
+    timeout: 90000,
+    encoding: "utf8",
+    env: {
+      ...process.env,
+      PYTHONPATH: EMBEDDING_GENRE_PYTHONPATH,
+      MMFR_EMBEDDING_INFER_SOURCES: process.env.MMFR_EMBEDDING_INFER_SOURCES || "discogs,librosa"
+    }
+  });
+  const lines = String(result.stdout || "").trim().split(/\r?\n/).filter(Boolean);
+  let payload = null;
+  for (let index = lines.length - 1; index >= 0 && !payload; index -= 1) {
+    try { payload = JSON.parse(lines[index]); } catch {}
+  }
+  embeddingGenreContractCache = result.status === 0 && payload?.ok
+    ? { ok: true, ...payload }
+    : {
+        ok: false,
+        reason: "feature-contract-validation-failed",
+        error: String(result.stderr || result.error?.message || "unknown").trim().slice(-500)
+      };
+  return embeddingGenreContractCache;
+}
+
+function japaneseVocalEvidenceReady() {
+  return EMBEDDING_GENRE_ENABLED
+    && fs.existsSync(JAPANESE_VOCAL_SCRIPT)
+    && fs.existsSync(EMBEDDING_GENRE_PYTHON)
+    && fs.existsSync(JAPANESE_VOCAL_MODEL_PATH);
+}
+
+function parseFinalJsonLine(stdout, context) {
+  const text = stdout.toString("utf8").trim();
+  const lines = text.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+  for (let index = lines.length - 1; index >= 0; index -= 1) {
+    try {
+      return JSON.parse(lines[index]);
+    } catch {}
+  }
+  throw new Error(`${context} did not return a JSON result.`);
+}
+
+async function analyzeJapaneseVocalEvidenceForFile(filePath, options = {}) {
+  if (!japaneseVocalEvidenceReady()) return { available: false, reason: "analyzer-not-configured" };
+  try {
+    const { stdout } = await run(EMBEDDING_GENRE_PYTHON, [
+      JAPANESE_VOCAL_SCRIPT,
+      "--audio", filePath,
+      "--start-seconds", String(Math.max(0, Number(options.startSeconds || 0)))
+    ], {
+      timeoutMs: 600000,
+      env: {
+        ...process.env,
+        PYTHONPATH: JAPANESE_VOCAL_PYTHONPATH,
+        NUMBA_CACHE_DIR: process.env.NUMBA_CACHE_DIR || path.join(os.tmpdir(), "mmfr-numba-cache"),
+        MMFR_FFMPEG_PATH: options.ffmpegPath || "",
+        MMFR_JAPANESE_VOCAL_MODEL_PATH: JAPANESE_VOCAL_MODEL_PATH
+      }
+    });
+    return parseFinalJsonLine(stdout, "Japanese vocal analysis") || { available: false, reason: "empty-response" };
+  } catch (error) {
+    return { available: false, reason: `analyzer-failed:${String(error?.message || error || "unknown")}` };
+  }
+}
+
+async function analyzeEmbeddingGenreForFile(filePath, japaneseVocalEvidence = {}) {
+  if (!embeddingGenreReady() || !EMBEDDING_GENRE_LIVE_ENABLED) return null;
+  const contract = embeddingGenreContractStatus();
+  const attempts = embeddingInferenceAttemptPlan({
+    contract,
+    primaryModelPath: EMBEDDING_GENRE_MODEL_PATH,
+    fallbackModelPath: EMBEDDING_GENRE_FALLBACK_MODEL_PATH,
+    headMode: EMBEDDING_GENRE_DISCOGS_HEAD_MODE,
+  });
+  const result = await runEmbeddingInferenceAttempts(attempts, async attempt => {
+    if (EMBEDDING_GENRE_TEST_FAIL_PRIMARY && attempt.role === "primary") {
+      throw new Error("simulated primary failure for API integration test");
+    }
+    const { stdout } = await run(EMBEDDING_GENRE_PYTHON, [
+      EMBEDDING_GENRE_SCRIPT,
+      "--model-path", attempt.modelPath,
+      "--audio", filePath,
+      "--japanese-vocal-evidence", JSON.stringify(japaneseVocalEvidence || {})
+    ], {
+      timeoutMs: 240000,
+      env: {
+        ...process.env,
+        PYTHONPATH: EMBEDDING_GENRE_PYTHONPATH,
+        // Loading all TensorFlow genre heads together has caused native
+        // crashes on Apple Silicon. Discogs + librosa has compatible fitted
+        // members and keeps the MTG head opt-in for controlled benchmarks.
+        MMFR_EMBEDDING_INFER_SOURCES: process.env.MMFR_EMBEDDING_INFER_SOURCES || "discogs,librosa",
+        MMFR_ESSENTIA_DISCOGS_HEAD: attempt.discogsHead ? "1" : "0"
+      }
+    });
+    const parsed = parseFinalJsonLine(stdout, "Embedding genre inference");
+    if (!parsed?.ok) throw new Error(parsed?.error || "Embedding genre inference returned ok:false");
+    return parsed;
+  });
+  if (result.ok) {
+    const parsed = result.value;
+    return {
+      source: parsed.source || "embedding-genre-model",
+      method: parsed.method || "",
+      macro: Array.isArray(parsed.macro) ? parsed.macro : [],
+      top: Array.isArray(parsed.top) ? parsed.top : [],
+      inferredGenre: parsed.inferredGenre || parsed.top?.[0]?.label || "",
+      confidence: Number(parsed.confidence || 0),
+      rawConfidence: Number(parsed.rawConfidence || 0),
+      margin: Number(parsed.margin || 0),
+      selectiveCertainty: Number(parsed.selectiveCertainty || 0),
+      selectiveRisk: parsed.selectiveRisk || {},
+      needsReview: Boolean(parsed.needsReview),
+      modelVersion: parsed.modelVersion || "",
+      evidenceCoverage: Number(parsed.evidenceCoverage || 0),
+      runtimeFeatureContractSha256: parsed.runtimeFeatureContractSha256 || "",
+      supportedFineLabels: Array.isArray(parsed.supportedFineLabels) ? parsed.supportedFineLabels : [],
+      unsupportedFineLabels: Array.isArray(parsed.unsupportedFineLabels) ? parsed.unsupportedFineLabels : [],
+      inferenceSources: Array.isArray(parsed.inferenceSources) ? parsed.inferenceSources : [],
+      degradedSources: Array.isArray(parsed.degradedSources) ? parsed.degradedSources : [],
+      segmentAnalysis: parsed.segmentAnalysis || {},
+      japaneseVocalEvidence: parsed.japaneseVocalEvidence || {},
+      popStyle: Array.isArray(parsed.popStyle) ? parsed.popStyle : [],
+      inferenceAttempt: result.attempt.role,
+      fallbackReason: result.fallbackReason
+    };
+  }
+  return {
+    source: "embedding-genre-model",
+    ok: false,
+    error: result.errors.join(" | ").slice(-1000) || "Embedding genre inference failed."
+  };
+}
+
+async function loadProductionLocalGenreRuntime() {
+  if (localGenreRuntimePromise) return localGenreRuntimePromise;
+  localGenreRuntimePromise = (async () => {
+    if (!fs.existsSync(LOCAL_GENRE_MODEL_PATH)) return null;
+    process.env.MMFR_GENRE_TRAIN_SKIP_MAIN = "1";
+    const trainingModule = await import("./genre-training.mjs");
+    const hooks = trainingModule.__testHooks;
+    const api = hooks.loadAppGenreApi();
+    const model = JSON.parse(fs.readFileSync(LOCAL_GENRE_MODEL_PATH, "utf8"));
+    return { hooks, api, model };
+  })().catch(() => null);
+  return localGenreRuntimePromise;
+}
+
+async function analyzeProductionLocalGenre(features = {}, fallbackReason = "") {
+  const runtime = await loadProductionLocalGenreRuntime();
+  if (!runtime) return null;
+  try {
+    const compact = runtime.hooks.compactAudioFeatures(features);
+    const vector = runtime.api.genreFeatureVector(compact);
+    const prediction = runtime.hooks.classify(runtime.hooks.vectorValues(vector), runtime.model);
+    return {
+      source: "shared-production-local-classifier",
+      method: "shared-production-local-classifier",
+      modelPath: LOCAL_GENRE_MODEL_PATH,
+      fallbackReason,
+      macro: prediction.macroRanked.slice(0, 4).map(item => ({ label: item.label, score: item.score })),
+      top: prediction.fineRanked.slice(0, 5).map(item => ({ label: item.label, name: item.label, score: item.score })),
+      popStyle: (prediction.styleRankedByFamily?.pop || []).slice(0, 4).map(item => ({
+        style: item.label,
+        label: item.displayName || item.label,
+        score: item.score,
+        support: Number(item.support || 0),
+        calibrated: Boolean(item.calibrated),
+        needsReview: Boolean(item.needsReview)
+      })),
+      blackMusicFine: (prediction.blackMusicFineRanked || []).slice(0, 6).map(item => ({
+        style: item.label,
+        label: item.displayName || item.label,
+        score: item.score,
+        support: Number(item.support || 0),
+        calibrated: Boolean(item.calibrated),
+        needsReview: Boolean(item.needsReview)
+      })),
+      hierarchyGate: prediction.hierarchyGate || {},
+      inferredGenre: prediction.fineRanked[0]?.label || "",
+      confidence: Number(prediction.confidence || 0),
+      needsReview: Boolean(prediction.needsReview),
+      supportedFineLabels: runtime.model.fineGenres || [],
+      unsupportedFineLabels: runtime.model.missingFineGenres || []
+    };
+  } catch (error) {
+    return {
+      source: "shared-production-local-classifier",
+      ok: false,
+      error: String(error?.message || error || "Local genre inference failed.")
+    };
+  }
+}
+
+function splitFloat32PcmWindows(buffer, sampleRate = 22050, count = 3) {
+  const totalSamples = Math.floor((buffer?.length || 0) / 4);
+  if (totalSamples < sampleRate * Math.max(12, count * 4)) return [];
+  return Array.from({ length: count }, (_, index) => {
+    const startSample = Math.floor(totalSamples * index / count);
+    const endSample = Math.floor(totalSamples * (index + 1) / count);
+    return buffer.subarray(startSample * 4, endSample * 4);
+  });
+}
+
+function summarizeLocalSegmentPredictions(predictions = []) {
+  const usable = predictions.filter(item => item?.top?.length && !item.error);
+  if (usable.length < 3) return { available: false, count: usable.length };
+  const labelVotes = new Map();
+  const labelScores = new Map();
+  const macroVotes = new Map();
+  const margins = [];
+  for (const prediction of usable) {
+    const leader = prediction.top[0]?.label || prediction.top[0]?.name || "";
+    const macroLeader = prediction.macro?.[0]?.label || prediction.macro?.[0]?.macro || "";
+    if (leader) labelVotes.set(leader, (labelVotes.get(leader) || 0) + 1);
+    if (macroLeader) macroVotes.set(macroLeader, (macroVotes.get(macroLeader) || 0) + 1);
+    margins.push(Math.max(0, (Number(prediction.top[0]?.score) || 0) - (Number(prediction.top[1]?.score) || 0)));
+    for (const item of prediction.top) {
+      const label = item.label || item.name || "";
+      if (!label) continue;
+      labelScores.set(label, (labelScores.get(label) || 0) + Math.max(0, Number(item.score) || 0));
+    }
+  }
+  const rankedVotes = [...labelVotes.entries()].sort((a, b) => b[1] - a[1]
+    || (labelScores.get(b[0]) || 0) - (labelScores.get(a[0]) || 0)
+    || a[0].localeCompare(b[0]));
+  const rankedMacroVotes = [...macroVotes.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  const leader = rankedVotes[0]?.[0] || "";
+  const votes = Number(rankedVotes[0]?.[1] || 0);
+  const macroLeader = rankedMacroVotes[0]?.[0] || "";
+  const macroVotesForLeader = Number(rankedMacroVotes[0]?.[1] || 0);
+  const averageMargin = margins.reduce((sum, value) => sum + value, 0) / Math.max(1, margins.length);
+  const top = [...labelScores.entries()]
+    .map(([label, score]) => ({
+      label,
+      score: Math.round(score / usable.length * 10) / 10,
+      votes: Number(labelVotes.get(label) || 0)
+    }))
+    .sort((a, b) => b.votes - a.votes || b.score - a.score || a.label.localeCompare(b.label))
+    .slice(0, 5);
+  return {
+    available: true,
+    count: usable.length,
+    leader,
+    leaders: usable.map(item => item.top[0]?.label || item.top[0]?.name || ""),
+    votes,
+    voteShare: Math.round(votes / usable.length * 1000) / 1000,
+    unanimous: votes === usable.length,
+    averageMargin: Math.round(averageMargin * 10) / 10,
+    macroLeader,
+    macroVotes: macroVotesForLeader,
+    macroVoteShare: Math.round(macroVotesForLeader / usable.length * 1000) / 1000,
+    reliable: votes === usable.length && macroVotesForLeader === usable.length && averageMargin >= 12,
+    top
+  };
+}
+
+async function analyzeProductionLocalGenreSegments(buffer, sampleRate = 22050) {
+  if (!LOCAL_SEGMENT_CONSENSUS_ENABLED) return { available: false, count: 0, disabled: true };
+  const windows = splitFloat32PcmWindows(buffer, sampleRate, 3);
+  if (windows.length < 3) return { available: false, count: windows.length };
+  const predictions = [];
+  for (const window of windows) {
+    const features = analyzeFloat32Pcm(window, sampleRate);
+    predictions.push(await analyzeProductionLocalGenre(features, "segment-consensus"));
+  }
+  return summarizeLocalSegmentPredictions(predictions);
+}
+
+async function applyBrowserGenreCalibration(prediction = {}, features = {}, japaneseVocalEvidence = {}) {
+  if (!prediction?.top?.length) return prediction;
+  const runtime = await loadProductionLocalGenreRuntime();
+  if (!runtime?.api?.enrichFeaturesWithGenre) return prediction;
+  try {
+    const enriched = runtime.api.enrichFeaturesWithGenre({
+      ...features,
+      japaneseVocalEvidence,
+      embeddingGenrePrediction: prediction
+    });
+    const analysis = enriched?.genreAnalysis;
+    if (!analysis?.top?.length) return prediction;
+    return {
+      ...prediction,
+      source: analysis.source || prediction.source,
+      method: analysis.method || prediction.method,
+      uncalibratedTop: prediction.top,
+      macro: (analysis.macro || []).map(item => ({
+        label: item.label || item.macro || "",
+        macro: item.macro || item.label || "",
+        score: Number(item.score) || 0
+      })),
+      top: analysis.top.map(item => ({
+        label: item.label || item.name || "",
+        name: item.name || item.label || "",
+        score: Number(item.score) || 0
+      })),
+      popStyle: (analysis.style || []).filter(item => item.family === "pop").map(item => ({
+        style: item.style || "",
+        label: item.label || item.name || item.style || "",
+        score: Number(item.score) || 0,
+        support: Number(item.support || 0),
+        calibrated: Boolean(item.calibrated),
+        needsReview: Boolean(item.needsReview)
+      })),
+      inferredGenre: analysis.inferredGenre || analysis.top[0]?.name || analysis.top[0]?.label || "",
+      confidence: Number(analysis.confidence || analysis.top[0]?.score || 0),
+      // Browser-side hierarchy calibration may improve ordering, but it must
+      // never erase a source-heldout selective-risk rejection.
+      needsReview: Boolean(prediction.needsReview || analysis.needsReview),
+      japaneseVocalCorrection: analysis.japaneseVocalCorrection || {},
+      operaVocalRescue: analysis.operaVocalRescue || prediction.operaVocalRescue || {},
+      vocalGenreGuard: analysis.vocalGenreGuard || prediction.vocalGenreGuard || {},
+      boundaryCorrection: analysis.boundaryCorrection || {}
+    };
+  } catch {
+    return prediction;
+  }
+}
+
+function applyVocalDependentGenreGuards(prediction = {}, vocalEvidence = {}) {
+  if (!prediction?.top?.length || !vocalEvidence?.available) return prediction;
+  const vocalPresence = clamp01(vocalEvidence.vocalPresence);
+  if (vocalPresence >= .18) return prediction;
+  const guardedLabels = new Map([
+    ["オペラ", { threshold: .18, floor: .16 }],
+    ["アカペラ", { threshold: .18, floor: .1 }]
+  ]);
+  let applied = false;
+  const top = prediction.top.map(item => {
+    const label = item.label || item.name || "";
+    const guard = guardedLabels.get(label);
+    if (!guard || vocalPresence >= guard.threshold) return item;
+    applied = true;
+    const factor = guard.floor + (1 - guard.floor) * vocalPresence / guard.threshold;
+    return { ...item, score: Math.round((Number(item.score) || 0) * factor * 10) / 10 };
+  }).sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0));
+  if (!applied) return prediction;
+  const previousTop = prediction.top[0]?.label || prediction.top[0]?.name || "";
+  const inferredGenre = top[0]?.label || top[0]?.name || prediction.inferredGenre || "";
+  return {
+    ...prediction,
+    top,
+    inferredGenre,
+    confidence: Number(top[0]?.score || prediction.confidence || 0),
+    needsReview: Boolean(prediction.needsReview || previousTop !== inferredGenre),
+    vocalGenreGuard: {
+      applied: true,
+      vocalPresence: Math.round(vocalPresence * 1000) / 1000,
+      guardedLabels: [...guardedLabels.keys()]
+    }
+  };
+}
+
+function operaticVocalEvidence(features = {}, vocalEvidence = {}) {
+  if (!vocalEvidence?.available) return 0;
+  const vocalPresence = clamp01(vocalEvidence.vocalPresence);
+  const onset = clamp01(features.onset);
+  const rhythm = clamp01(features.rhythm);
+  const energy = clamp01(features.energy ?? features.rms);
+  const lowBand = clamp01(features.lowBandRatio);
+  const midBand = clamp01(features.midBandRatio);
+  const highBand = clamp01(features.highBandRatio);
+  const brightness = clamp01(features.brightness);
+  const sustainRatio = clamp01(features.sustainRatio);
+  const reverbTail = clamp01(features.reverbTail);
+  const acousticness = clamp01(features.acousticness);
+  const structureRecurrence = clamp01(features.structureRecurrence);
+  if (
+    vocalPresence < .85 || onset > .34 || rhythm > .48 || energy < .38
+    || lowBand > .12 || midBand < .72 || highBand > .03
+    || sustainRatio < .72 || reverbTail < .78 || acousticness < .48
+    || structureRecurrence > .63
+  ) return 0;
+  const sustainSupport = clamp01((.42 - onset) / .32);
+  const rhythmSupport = clamp01((.55 - rhythm) / .4);
+  const midSupport = clamp01((midBand - .58) / .28);
+  const lowSupport = clamp01((.18 - lowBand) / .18);
+  const energySupport = clamp01((energy - .45) / .35);
+  const brightnessSupport = clamp01(1 - Math.abs(brightness - .42) / .42);
+  return clamp01(
+    vocalPresence * .32
+    + sustainSupport * .12
+    + rhythmSupport * .1
+    + midSupport * .16
+    + lowSupport * .08
+    + energySupport * .12
+    + brightnessSupport * .1
+  );
+}
+
+function applyOperaticVocalRescue(prediction = {}, features = {}, vocalEvidence = {}) {
+  if (!prediction?.top?.length || prediction.operaVocalRescue?.applied) return prediction;
+  const evidence = operaticVocalEvidence(features, vocalEvidence);
+  if (evidence < .82) return prediction;
+  const maxScore = Math.max(...prediction.top.map(item => Number(item.score) || 0), 1);
+  const worldLabels = new Set(["フォーク", "ラテン", "ワールドミュージック"]);
+  const top = prediction.top.map(item => {
+    const label = item.label || item.name || "";
+    if (label === "オペラ") return { ...item, score: maxScore };
+    if (label === "クラシック音楽") return item;
+    const factor = worldLabels.has(label) ? .34 : .48;
+    return { ...item, score: Math.round((Number(item.score) || 0) * factor * 10) / 10 };
+  });
+  if (!top.some(item => (item.label || item.name) === "オペラ")) {
+    top.push({ label: "オペラ", name: "オペラ", score: maxScore });
+  }
+  top.sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0));
+  const macro = [
+    { label: "classical", score: 100 },
+    ...(prediction.macro || [])
+      .filter(item => (item.label || item.macro) !== "classical")
+      .map(item => ({ ...item, score: Math.round((Number(item.score) || 0) * .42 * 10) / 10 }))
+  ].sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0));
+  return {
+    ...prediction,
+    top,
+    macro,
+    inferredGenre: "オペラ",
+    confidence: Number(top[0]?.score || maxScore),
+    needsReview: false,
+    operaVocalRescue: {
+      applied: true,
+      evidence: Math.round(evidence * 1000) / 1000,
+      vocalPresence: Math.round(clamp01(vocalEvidence.vocalPresence) * 1000) / 1000
+    }
+  };
+}
+
+function shouldRunUnknownSourceConsensus(local = {}, japaneseVocalEvidence = {}, features = {}) {
+  if (!local?.top?.length) return true;
+  const leader = local.top[0]?.label || local.top[0]?.name || "";
+  const margin = (Number(local.top[0]?.score) || 0) - (Number(local.top[1]?.score) || 0);
+  const japanese = Number(japaneseVocalEvidence.japaneseVocalLikelihood || 0);
+  const likelyRap = Number(features.rhythm || 0) >= .72 && Number(features.onset || 0) >= .62;
+  const segments = local.segmentConsensus || {};
+  const segmentConflict = segments.available && (
+    segments.voteShare < 1
+    || segments.leader !== leader
+    || segments.macroVoteShare < 1
+  );
+  return Boolean(
+    local.needsReview
+    || margin < 18
+    || (local.hierarchyGate?.applied && margin < 30)
+    || (japanese >= .35 && leader !== "J-POP" && !likelyRap)
+    || segmentConflict
+  );
+}
+
+async function resolveGenrePrediction(filePath, features, japaneseVocalEvidence = {}, segmentConsensus = {}) {
+  const localPrediction = await analyzeProductionLocalGenre(features, "");
+  const local = localPrediction?.top?.length
+    ? { ...localPrediction, segmentConsensus }
+    : localPrediction;
+
+  if (local?.top?.length && !local.error) {
+    if (!EMBEDDING_GENRE_CONSENSUS_ENABLED || !shouldRunUnknownSourceConsensus(local, japaneseVocalEvidence, features)) {
+      return local;
+    }
+    const external = await analyzeEmbeddingGenreForFile(filePath, japaneseVocalEvidence);
+    if (external?.top?.length && !external.error) {
+      return {
+        ...local,
+        unknownSourceConsensus: external
+      };
+    }
+    return local;
+  }
+
+  // Keep the embedding model as the full fallback when the production-local
+  // runtime is unavailable. Browser-side calibration still runs exactly once.
+  const external = await analyzeEmbeddingGenreForFile(filePath, japaneseVocalEvidence);
+  if (external?.top?.length && !external.error) return { ...external, segmentConsensus };
+  return local || external;
 }
 
 function clamp01(value) {
@@ -306,6 +884,7 @@ function resampleMatrix(source, rows = 24, cols = 12) {
 }
 
 function normaliseAudioDetail(raw = {}, fallback = {}) {
+  const rhythmFrameCount = 384;
   return {
     version: "mmfr.audio-detail.v3",
     frameCount: 64,
@@ -322,6 +901,10 @@ function normaliseAudioDetail(raw = {}, fallback = {}) {
     bandTimeline: resampleMatrix(raw.bandTimeline || raw.bands || raw.spectralBands, 32, 8),
     spectralRolloff: resampleSeries(raw.spectralRolloff || raw.spectralRolloffFrames, 32, 0),
     mfccTimeline: resampleMatrix(raw.mfccTimeline || raw.mfccFrames, 32, 3),
+    rhythmFrameCount,
+    rhythmOnset: resampleSeries(raw.rhythmOnset || raw.onset || raw.onsetFrames || raw.flux, rhythmFrameCount, fallback.onset || 0),
+    rhythmRms: resampleSeries(raw.rhythmRms || raw.rms || raw.rmsFrames || raw.energy, rhythmFrameCount, fallback.energy || 0),
+    rhythmZeroCrossing: resampleSeries(raw.rhythmZeroCrossing || raw.zeroCrossing || raw.zcr || raw.zeroCrossingFrames, rhythmFrameCount, 0),
     pcmSketch: typeof raw.pcmSketch === "string" ? raw.pcmSketch : "",
     pcmSketchEncoding: raw.pcmSketchEncoding || "",
     pcmSketchSampleRate: Number(raw.pcmSketchSampleRate || 0),
@@ -537,6 +1120,9 @@ function analyzeFloat32Pcm(buffer, sampleRate = 22050) {
     bandTimeline: normalisedBandRows,
     spectralRolloff: spectralRolloffFramesFromBands(normalisedBandRows),
     mfccTimeline: mfccLikeFramesFromBands(normalisedBandRows),
+    rhythmOnset: envelope.map(value => value / onsetMax),
+    rhythmRms: rmsFrames.map(value => value / rmsMax),
+    rhythmZeroCrossing: zcrFrames.map(value => value / zcrMax),
     ...pcmSketch
   }, { energy, bass, brightness, onset, temporalProfile });
 
@@ -562,10 +1148,11 @@ function analyzeFloat32Pcm(buffer, sampleRate = 22050) {
 }
 
 async function analyzeYouTube(youtubeUrl, options = {}) {
+  if (PUBLIC_MODE) youtubeUrl = validatePublicYouTubeUrl(youtubeUrl);
   if (!youtubeUrl || !/^https?:\/\//.test(youtubeUrl)) throw new Error("YouTube URL is missing.");
   const requestedStart = Number(options.startSeconds);
   const startSeconds = Number.isFinite(requestedStart) && requestedStart >= 0
-    ? Math.floor(requestedStart)
+    ? requestedStart
     : parseYouTubeStartSeconds(youtubeUrl);
   const tools = await resolveTools();
   const missing = [
@@ -607,13 +1194,30 @@ async function analyzeYouTube(youtubeUrl, options = {}) {
     const sourceFile = files.find(file => file.startsWith("source."));
     if (!sourceFile) throw new Error("Downloaded audio file was not found.");
     const sourcePath = path.join(tempDir, sourceFile);
-    const ffmpegArgs = [
+    // Normalise the requested slice once. Python audio backends cannot reliably
+    // open yt-dlp's WebM output, whereas PCM WAV is portable and deterministic.
+    const analysisAudioPath = path.join(tempDir, "analysis-window.wav");
+    const analysisSliceArgs = [
       "-hide_banner",
       "-loglevel", "error"
     ];
-    if (startSeconds > 0) ffmpegArgs.push("-ss", String(startSeconds));
-    ffmpegArgs.push("-i", sourcePath);
-    if (ANALYSIS_WINDOW_SECONDS > 0) ffmpegArgs.push("-t", String(ANALYSIS_WINDOW_SECONDS));
+    if (startSeconds > 0) analysisSliceArgs.push("-ss", String(startSeconds));
+    analysisSliceArgs.push("-i", sourcePath);
+    if (ANALYSIS_WINDOW_SECONDS > 0) analysisSliceArgs.push("-t", String(ANALYSIS_WINDOW_SECONDS));
+    analysisSliceArgs.push(
+      "-vn",
+      "-ac", "1",
+      "-ar", "22050",
+      "-c:a", "pcm_s16le",
+      analysisAudioPath
+    );
+    await run(tools.ffmpeg, analysisSliceArgs, { timeoutMs: 180000 });
+
+    const ffmpegArgs = [
+      "-hide_banner",
+      "-loglevel", "error",
+      "-i", analysisAudioPath
+    ];
     ffmpegArgs.push(
       "-ac", "1",
       "-ar", "22050",
@@ -625,13 +1229,26 @@ async function analyzeYouTube(youtubeUrl, options = {}) {
     ], { timeoutMs: 180000 });
     if (!stdout.length) throw new Error(`No audio was decoded from ${startSeconds}s. Try an earlier start time.`);
     const features = analyzeFloat32Pcm(stdout, 22050);
+    const segmentConsensus = await analyzeProductionLocalGenreSegments(stdout, 22050);
+    const japaneseVocalEvidence = await analyzeJapaneseVocalEvidenceForFile(analysisAudioPath, {
+      startSeconds: 0,
+      ffmpegPath: tools.ffmpeg
+    });
+    const embeddingGenrePrediction = await resolveGenrePrediction(
+      analysisAudioPath,
+      features,
+      japaneseVocalEvidence,
+      segmentConsensus
+    );
     return {
       ...features,
       sourceUrl: youtubeUrl,
       normalizedUrl: youtubeUrl,
       startSeconds,
       analysisWindowSeconds: ANALYSIS_WINDOW_SECONDS,
-      youtubeMeta
+      youtubeMeta,
+      japaneseVocalEvidence,
+      embeddingGenrePrediction
     };
   } finally {
     await fs.promises.rm(tempDir, { recursive: true, force: true });
@@ -693,21 +1310,39 @@ async function analyzeLocalFile(filePath, options = {}) {
   );
   const { stdout } = await run(tools.ffmpeg, ffmpegArgs, { timeoutMs: 180000 });
   if (!stdout.length) throw new Error(`No audio was decoded from local file: ${targetPath}`);
+  const segmentConsensus = await analyzeProductionLocalGenreSegments(stdout, 22050);
+  const japaneseVocalEvidence = await analyzeJapaneseVocalEvidenceForFile(targetPath, {
+    startSeconds,
+    ffmpegPath: tools.ffmpeg
+  });
+  const features = analyzeFloat32Pcm(stdout, 22050);
+  const embeddingGenrePrediction = await resolveGenrePrediction(
+    targetPath,
+    features,
+    japaneseVocalEvidence,
+    segmentConsensus
+  );
   return {
-    ...analyzeFloat32Pcm(stdout, 22050),
+    ...features,
     source: "local-audio-analysis-server",
     sourceType: options.sourceType || "cc-dataset",
     sourceUrl: targetPath,
     normalizedUrl: targetPath,
     startSeconds,
     analysisWindowSeconds: duration,
-    localMeta: options.localMeta || {}
+    localMeta: options.localMeta || {},
+    japaneseVocalEvidence,
+    embeddingGenrePrediction
   };
 }
 
 async function handleAnalyze(req, res) {
   try {
     const body = JSON.parse(await readBody(req) || "{}");
+    if (PUBLIC_MODE && body.action !== "analyze-youtube") {
+      sendJson(res, 403, { ok: false, code: "ACTION_NOT_ALLOWED", error: "公開APIではYouTube解析のみ利用できます。" });
+      return;
+    }
     if (body.action === "analyze-youtube") {
       const features = await analyzeYouTube(body.youtubeUrl, { startSeconds: body.startSeconds });
       sendJson(res, 200, { ok: true, source: "youtube-audio-analysis-server", features });
@@ -747,12 +1382,17 @@ async function handleAnalyze(req, res) {
         : cookieRequired
         ? "YouTube側のbot確認により音声を取得できません。ChromeでYouTubeにログインするか、genre-training/youtube-cookies.txt を配置してください。"
         : message,
-      detail: message
+      detail: PUBLIC_MODE ? "" : message
     });
   }
 }
 
 const server = http.createServer(async (req, res) => {
+  applyCorsHeaders(req, res);
+  if (!publicRequestAllowed(req)) {
+    sendJson(res, 403, { ok: false, code: "ORIGIN_NOT_ALLOWED", error: "このサイトからは解析APIを利用できません。" });
+    return;
+  }
   if (req.method === "OPTIONS") {
     sendJson(res, 200, { ok: true });
     return;
@@ -765,11 +1405,19 @@ const server = http.createServer(async (req, res) => {
       message: "Use POST /api/audio-analyze from the app, or open /health to check dependencies.",
       endpoint: `http://${HOST}:${PORT}/api/audio-analyze`,
       health: `http://${HOST}:${PORT}/health`,
+      genreInferenceRevision: GENRE_INFERENCE_REVISION,
       dependencies: {
         ytDlp: Boolean(tools.ytDlp),
         ffmpeg: Boolean(tools.ffmpeg),
         cookieFile: Boolean(COOKIE_FILE),
-        cookieBrowsers: COOKIE_BROWSERS
+        cookieBrowsers: COOKIE_BROWSERS,
+        embeddingGenre: embeddingGenreReady(),
+        embeddingGenreContract: embeddingGenreContractStatus(),
+        embeddingGenreLive: EMBEDDING_GENRE_LIVE_ENABLED,
+        embeddingGenreConsensus: EMBEDDING_GENRE_CONSENSUS_ENABLED,
+        localSegmentConsensus: LOCAL_SEGMENT_CONSENSUS_ENABLED,
+        japaneseVocalEvidence: japaneseVocalEvidenceReady(),
+        sharedLocalGenre: fs.existsSync(LOCAL_GENRE_MODEL_PATH)
       }
     });
     return;
@@ -780,6 +1428,7 @@ const server = http.createServer(async (req, res) => {
       ok: true,
       service: "MUSIC MEMORY FITTING ROOM audio analysis server",
       endpoint: `http://${HOST}:${PORT}/api/audio-analyze`,
+      genreInferenceRevision: GENRE_INFERENCE_REVISION,
       dependencies: {
         ytDlp: Boolean(tools.ytDlp),
         ffmpeg: Boolean(tools.ffmpeg),
@@ -787,7 +1436,18 @@ const server = http.createServer(async (req, res) => {
         ffmpegPath: tools.ffmpeg || "",
         localBin: LOCAL_BIN,
         cookieFile: COOKIE_FILE ? "(configured)" : "",
-        cookieBrowsers: COOKIE_BROWSERS
+        cookieBrowsers: COOKIE_BROWSERS,
+        embeddingGenre: embeddingGenreReady(),
+        embeddingGenreContract: embeddingGenreContractStatus(),
+        embeddingGenreLive: EMBEDDING_GENRE_LIVE_ENABLED,
+        embeddingGenreConsensus: EMBEDDING_GENRE_CONSENSUS_ENABLED,
+        localSegmentConsensus: LOCAL_SEGMENT_CONSENSUS_ENABLED,
+        japaneseVocalEvidence: japaneseVocalEvidenceReady(),
+        sharedLocalGenre: fs.existsSync(LOCAL_GENRE_MODEL_PATH),
+        sharedLocalGenreModel: fs.existsSync(LOCAL_GENRE_MODEL_PATH) ? LOCAL_GENRE_MODEL_PATH : "",
+        embeddingGenreModel: fs.existsSync(EMBEDDING_GENRE_MODEL_PATH) ? EMBEDDING_GENRE_MODEL_PATH : "",
+        embeddingGenrePython: fs.existsSync(EMBEDDING_GENRE_PYTHON) ? EMBEDDING_GENRE_PYTHON : "",
+        japaneseVocalModel: fs.existsSync(JAPANESE_VOCAL_MODEL_PATH) ? JAPANESE_VOCAL_MODEL_PATH : ""
       }
     });
     return;
@@ -801,16 +1461,46 @@ const server = http.createServer(async (req, res) => {
       method: "POST",
       endpoint: `http://${HOST}:${PORT}/api/audio-analyze`,
       health: `http://${HOST}:${PORT}/health`,
+      genreInferenceRevision: GENRE_INFERENCE_REVISION,
       dependencies: {
         ytDlp: Boolean(tools.ytDlp),
         ffmpeg: Boolean(tools.ffmpeg),
         cookieFile: Boolean(COOKIE_FILE),
-        cookieBrowsers: COOKIE_BROWSERS
+        cookieBrowsers: COOKIE_BROWSERS,
+        embeddingGenre: embeddingGenreReady(),
+        embeddingGenreContract: embeddingGenreContractStatus(),
+        embeddingGenreLive: EMBEDDING_GENRE_LIVE_ENABLED,
+        embeddingGenreConsensus: EMBEDDING_GENRE_CONSENSUS_ENABLED,
+        localSegmentConsensus: LOCAL_SEGMENT_CONSENSUS_ENABLED,
+        sharedLocalGenre: fs.existsSync(LOCAL_GENRE_MODEL_PATH)
       }
     });
     return;
   }
   if (req.method === "POST" && (req.url === "/api/audio-analyze" || req.url === "/")) {
+    if (PUBLIC_MODE) {
+      const client = requestClientAddress(req.headers, req.socket.remoteAddress);
+      const rate = publicRateLimiter.consume(client);
+      res.setHeader("X-RateLimit-Limit", String(PUBLIC_RATE_LIMIT));
+      res.setHeader("X-RateLimit-Remaining", String(rate.remaining));
+      if (!rate.allowed) {
+        res.setHeader("Retry-After", String(rate.retryAfterSeconds));
+        sendJson(res, 429, { ok: false, code: "RATE_LIMITED", error: "解析回数の上限に達しました。しばらく待ってから再試行してください。" });
+        return;
+      }
+      if (publicActiveRequests >= PUBLIC_MAX_CONCURRENT) {
+        res.setHeader("Retry-After", "20");
+        sendJson(res, 503, { ok: false, code: "ANALYZER_BUSY", error: "解析サーバーは処理中です。少し待ってから再試行してください。" });
+        return;
+      }
+      publicActiveRequests += 1;
+      try {
+        await handleAnalyze(req, res);
+      } finally {
+        publicActiveRequests -= 1;
+      }
+      return;
+    }
     await handleAnalyze(req, res);
     return;
   }
@@ -826,4 +1516,5 @@ server.listen(PORT, HOST, () => {
   console.log(`MUSIC MEMORY FITTING ROOM audio analysis server`);
   console.log(`Endpoint: http://${HOST}:${PORT}/api/audio-analyze`);
   console.log(`Health:   http://${HOST}:${PORT}/health`);
+  console.log(`Genre:    ${GENRE_INFERENCE_REVISION}`);
 });
