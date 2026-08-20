@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SOUND FORM — Audio to Reversible SVG</title>
   <meta name="description" content="音声を解析し、32ジャンルの構図規則で編集可能な可逆SVGへ変換するSOUND FORMインターフェース。">
-  <meta name="sound-form-api-endpoint" content="">
+  <meta name="sound-form-api-endpoint" content="/sound-form/api/audio-analyze.php">
   <script>
     if (location.protocol === "file:") {
       location.replace("http://127.0.0.1:4193/MUSIC%20MEMORY%20FITTING%20ROOM.html");
@@ -792,7 +792,7 @@
     function normaliseApiEndpoint(endpoint) {
       const value = String(endpoint || "").trim();
       if (!value) return "";
-      if (/\/api\/audio-analyze\/?$/.test(value)) return value.replace(/\/$/, "");
+      if (/\/api\/audio-analyze\/?$/.test(value) || /\.php$/.test(value)) return value.replace(/\/$/, "");
       return value.replace(/\/+$/, "") + "/api/audio-analyze";
     }
     function unique(items) { return [...new Set(items.filter(Boolean))]; }
