@@ -42,7 +42,7 @@ export function loadPatternApi() {
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]);
   const appScript = scripts.at(-1).replace(
     /cleanupStoredSessions\(\);\s*restoreLatestAcceptedSession\(\);\s*render\(\);\s*loadCalibratedGenreProfiles\(\);\s*$/,
-    "globalThis.__patternApi={state,apiEndpointCandidates,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,highTempoRapBreakbeatEvidence,applyHighTempoRapBreakbeatCorrection,applyHighTempoRockCorrection,weakMidTempoHarmonicRockEvidence,applyWeakMidTempoHarmonicRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,midDominantRockBalladEvidence,bassLedAlternativeDanceRockEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreVisualWeight,genreRankedText,genreDisplayText,renderGenreReviewAction,youtubeUrlAtStart,genreAdjustmentOffsets,combineGenreWindowAnalyses,preserveProtectedPcmGeometry,applyAdjustedGenreToShirt,inferMusicGenres,refreshReversibleSoundClothShirt};"
+    "globalThis.__patternApi={state,apiEndpointCandidates,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,highTempoRapBreakbeatEvidence,applyHighTempoRapBreakbeatCorrection,applyHighTempoRockCorrection,weakMidTempoHarmonicRockEvidence,applyWeakMidTempoHarmonicRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,midDominantRockBalladEvidence,bassLedAlternativeDanceRockEvidence,spokenRapBlackMusicEvidence,alternativeDanceGrooveEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreVisualWeight,genreRankedText,genreDisplayText,renderGenreReviewAction,youtubeUrlAtStart,genreAdjustmentOffsets,combineGenreWindowAnalyses,preserveProtectedPcmGeometry,applyAdjustedGenreToShirt,inferMusicGenres,refreshReversibleSoundClothShirt};"
   );
   const context = {
     console,
@@ -2568,6 +2568,33 @@ test("weak chiptune consensus yields to mid-dominant harmonic rock without absor
   assert.equal(midDominantRockBalladEvidence({ ...slowSungRock, fourOnFloor: .58 }, sungSplitContext), false, "slow Disco remains outside the rescue");
   assert.equal(midDominantRockBalladEvidence({ ...slowSungRock, energy: .55, distortion: .12 }, sungSplitContext), false, "soft acoustic ballads remain outside the rescue");
 
+  const repeatedRockContext = {
+    leader: "チップチューン", chiptuneScore: .03, modelElectronicMacroScore: .08,
+    modelRockMacroScore: .32, ruleRockMacroScore: .72, ruleElectronicMacroScore: .44,
+    vocalAvailable: true, detectedLanguage: "en", vocalPresence: 1, stemVocalPresence: 1,
+    melodicVocalLikelihood: .91, speechRapLikelihood: .02,
+    analysisWindowSeconds: 120,
+    segmentConsensus: {
+      count: 3, leader: "ロック", voteShare: .667, macroVoteShare: .667,
+      averageMargin: 24, leaders: ["ロック", "ロック", "チップチューン"],
+      top: [{ name: "ロック", score: 58 }]
+    }
+  };
+  assert.equal(midDominantRockBalladEvidence(rockBallad, repeatedRockContext), true, "two-of-three Rock windows rescue weak electronic drift");
+  assert.equal(midDominantRockBalladEvidence({ ...rockBallad, structureRecurrence: .34 }, repeatedRockContext), true, "long-form sung Rock does not require a short repeating loop");
+  assert.equal(midDominantRockBalladEvidence({ ...rockBallad, structureRecurrence: .22 }, repeatedRockContext), false, "very low recurrence remains outside the rescue");
+
+  const vocalAmbientContext = {
+    ...sungSplitContext, leader: "ドローン",
+    segmentConsensus: {
+      count: 3, voteShare: .333, macroVoteShare: .333,
+      leaders: ["ブルース", "ドローン", "ロック"],
+      top: [{ name: "ロック", score: 43.8 }]
+    }
+  };
+  assert.equal(midDominantRockBalladEvidence(slowSungRock, vocalAmbientContext), true, "melodic English Rock is not absorbed by Drone ambience");
+  assert.equal(midDominantRockBalladEvidence({ ...slowSungRock, energy: .5, distortion: .09 }, vocalAmbientContext), false, "genuine low-energy ambience remains unchanged");
+
   const calibrated = calibratedGenreAnalysis({
     source: "test", method: "shared-production-local-classifier",
     confidence: 1.3, needsReview: true,
@@ -2583,6 +2610,59 @@ test("weak chiptune consensus yields to mid-dominant harmonic rock without absor
   });
   assert.ok(calibrated.confidence <= 52);
   assert.equal(calibrated.needsReview, true);
+});
+
+test("playlist boundary evidence separates spoken rap, alternative dance, and their hard negatives", () => {
+  const { spokenRapBlackMusicEvidence, alternativeDanceGrooveEvidence, underrepresentedBoundaryTarget } = loadPatternApi();
+  const rapVector = {
+    tempo: 104, energy: .77, bass: .61, midBandRatio: .49, highBandRatio: .04,
+    rhythm: .59, onset: .36, syncopation: .74, fourOnFloor: .12,
+    harmonicRatio: .81, distortion: .22
+  };
+  const rapContext = {
+    leader: "ファンク", blackMacro: 1, hiphopScore: .57,
+    detectedLanguage: "en", vocalPresence: 1, stemVocalPresence: .9,
+    speechRapLikelihood: .51, transcriptTokenRate: 3.54,
+    melodicVocalLikelihood: .5
+  };
+  assert.equal(spokenRapBlackMusicEvidence(rapVector, rapContext), true);
+  assert.equal(spokenRapBlackMusicEvidence(rapVector, {
+    ...rapContext, speechRapLikelihood: .12, transcriptTokenRate: 1.5,
+    melodicVocalLikelihood: .82
+  }), false, "melodic Funk remains Funk");
+  assert.equal(spokenRapBlackMusicEvidence({ ...rapVector, fourOnFloor: .58 }, rapContext), false, "four-on-floor Disco is not promoted to Hip-hop");
+
+  const danceVector = {
+    tempo: 112, energy: .541, bass: .597, midBandRatio: .533, highBandRatio: .031,
+    rhythm: .385, onset: .275, syncopation: .68, fourOnFloor: .19,
+    harmonicRatio: .84, distortion: .21
+  };
+  const danceContext = {
+    leader: "ラテン", worldMacro: .91, blackMacro: .349,
+    rockMacro: .115,
+    funkFine: .309, discoFine: .469,
+    ruleMacroLeader: "black_music", ruleLeader: "ファンク",
+    detectedLanguage: "en", vocalPresence: 1, stemVocalPresence: .161,
+    melodicVocalLikelihood: .554
+  };
+  assert.equal(alternativeDanceGrooveEvidence(danceVector, danceContext), true);
+  assert.equal(alternativeDanceGrooveEvidence(danceVector, {
+    ...danceContext, ruleMacroLeader: "world", ruleLeader: "ラテン"
+  }), false, "independent Latin agreement retains Latin");
+  assert.equal(alternativeDanceGrooveEvidence(danceVector, {
+    ...danceContext, detectedLanguage: "es", rockMacro: .03
+  }), false, "Spanish Latin without Rock support remains Latin");
+  assert.equal(alternativeDanceGrooveEvidence({ ...danceVector, fourOnFloor: .72 }, danceContext), false, "straight Disco remains outside the dance-rock rescue");
+
+  const bluesContext = {
+    leader: "ロック", priorMethod: "shared-production-local-classifier+alternativeDanceGrooveBoundary",
+    labels: new Set(["ロック", "ブルース"]), ruleNames: new Set(["ブルース"]),
+    ruleLeader: "ブルース", rawRuleLeader: "ブルース",
+    modelMacro: { rock: 1, black_music: .35 },
+    blackMusicFine: [{ label: "ブルース", score: 73.3 }],
+    vocalPresence: 1, stemVocalPresence: .16, detectedLanguage: "en"
+  };
+  assert.equal(underrepresentedBoundaryTarget(danceVector, bluesContext), null, "a broad Blues rule cannot overwrite the independently supported dance-rock boundary");
 });
 
 test("underrepresented boundary specialists keep ordinary disco and J-POP outside narrow rescues", () => {
