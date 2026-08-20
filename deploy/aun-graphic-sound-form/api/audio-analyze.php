@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
 
-const UPSTREAM_ENDPOINT = 'https://musician-angeles-people-determination.trycloudflare.com/api/audio-analyze';
 const MAX_REQUEST_BYTES = 32768;
+const UPSTREAM_FILE = __DIR__ . '/upstream-url.txt';
 
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
@@ -13,6 +13,19 @@ function respond(int $status, array $payload): never
     http_response_code($status);
     echo json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     exit;
+}
+
+function upstreamEndpoint(): string
+{
+    $endpoint = is_readable(UPSTREAM_FILE) ? trim((string) file_get_contents(UPSTREAM_FILE)) : '';
+    if (!preg_match('#^https://[a-z0-9-]+\.trycloudflare\.com/api/audio-analyze$#D', $endpoint)) {
+        respond(503, [
+            'ok' => false,
+            'code' => 'UPSTREAM_NOT_CONFIGURED',
+            'error' => '解析サーバーの再接続を待っています。しばらくしてから再度お試しください。',
+        ]);
+    }
+    return $endpoint;
 }
 
 $method = $_SERVER['REQUEST_METHOD'] ?? '';
@@ -57,7 +70,7 @@ if (!is_array($payload) || ($payload['action'] ?? '') !== 'analyze-youtube') {
 }
 
 set_time_limit(300);
-$curl = curl_init(UPSTREAM_ENDPOINT);
+$curl = curl_init(upstreamEndpoint());
 if ($curl === false) {
     respond(502, ['ok' => false, 'code' => 'UPSTREAM_UNAVAILABLE', 'error' => '解析サーバーへ接続できません。']);
 }

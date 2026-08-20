@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.aungraphic.musictee-public-audio</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/kahanishimoto/.local/bin/node</string>
+    <string>/Users/kahanishimoto/Library/Application Support/MUSICTee/public-audio-supervisor.mjs</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/kahanishimoto/Library/Application Support/MUSICTee</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>HOME</key>
+    <string>/Users/kahanishimoto</string>
+    <key>MMFR_ROOT</key>
+    <string>/Users/kahanishimoto/Library/Application Support/MUSICTee/runtime</string>
+    <key>MMFR_SFTP_ENV</key>
+    <string>/Users/kahanishimoto/Library/Application Support/MUSICTee/.env.sftp</string>
+    <key>PATH</key>
+    <string>/Users/kahanishimoto/.local/bin:/Users/kahanishimoto/Documents/MUSICTee/.tools/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+  </dict>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>ThrottleInterval</key>
+  <integer>10</integer>
+  <key>ProcessType</key>
+  <string>Background</string>
+  <key>StandardOutPath</key>
+  <string>/Users/kahanishimoto/Library/Logs/MUSICTee/public-audio.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/kahanishimoto/Library/Logs/MUSICTee/public-audio-error.log</string>
+</dict>
+</plist>
