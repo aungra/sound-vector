@@ -40,7 +40,7 @@ export function loadPatternApi() {
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]);
   const appScript = scripts.at(-1).replace(
     /cleanupStoredSessions\(\);\s*restoreLatestAcceptedSession\(\);\s*render\(\);\s*loadCalibratedGenreProfiles\(\);\s*$/,
-    "globalThis.__patternApi={state,apiEndpointCandidates,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,highTempoRapBreakbeatEvidence,applyHighTempoRapBreakbeatCorrection,applyHighTempoRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,midDominantRockBalladEvidence,bassLedAlternativeDanceRockEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreVisualWeight,genreDisplayText,inferMusicGenres,refreshReversibleSoundClothShirt};"
+    "globalThis.__patternApi={state,apiEndpointCandidates,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,highTempoRapBreakbeatEvidence,applyHighTempoRapBreakbeatCorrection,applyHighTempoRockCorrection,weakMidTempoHarmonicRockEvidence,applyWeakMidTempoHarmonicRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,midDominantRockBalladEvidence,bassLedAlternativeDanceRockEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreVisualWeight,genreDisplayText,inferMusicGenres,refreshReversibleSoundClothShirt};"
   );
   const context = {
     console,
@@ -1433,6 +1433,55 @@ test("embedding inference also applies the harmonic rock false-positive guard", 
   assert.match(inferred.method, /harmonic-rock-guard/);
   assert.ok(inferred.confidence < 100);
   assert.equal(inferred.needsReview, true);
+});
+
+test("split low-confidence segments rescue mid-tempo post-punk without absorbing nearby grooves", () => {
+  const { weakMidTempoHarmonicRockEvidence, applyWeakMidTempoHarmonicRockCorrection } = loadPatternApi();
+  const vector = {
+    tempo: 99, energy: .6424, bass: .4864,
+    lowBandRatio: .3393, midBandRatio: .6218, highBandRatio: .0388,
+    brightness: .2782, rhythm: .4778, onset: .3413,
+    zcr: .0919, chromaEntropy: .9907, harmonicRatio: .8761,
+    distortion: .1858, sustainRatio: .828, transientScarcity: .9603,
+    structureRecurrence: .9455, fourOnFloor: .1018,
+    breakbeatDensity: .1251, hiphopPunchScore: .4362, funkGrooveScore: .5486
+  };
+  const features = {
+    embeddingGenrePrediction: {
+      top: [{ name: "ラテン", score: 3 }, { name: "ボサノヴァ", score: 1.6 }, { name: "フォーク", score: .6 }],
+      segmentConsensus: {
+        count: 3, voteShare: .333,
+        leaders: ["クラシック音楽", "ディスコ", "ダブ"]
+      }
+    }
+  };
+  assert.equal(weakMidTempoHarmonicRockEvidence(vector, features), true);
+
+  const corrected = applyWeakMidTempoHarmonicRockCorrection({
+    source: "test", method: "shared-production-local-classifier", needsReview: true,
+    macro: [{ macro: "world", score: 2 }, { macro: "black_music", score: 2 }],
+    top: [
+      { name: "ラテン", macro: "world", score: 45, rawScore: 3, acousticScore: 3 },
+      { name: "ディスコ", macro: "black_music", score: 12, rawScore: 2, acousticScore: 2 },
+      { name: "ソウルミュージック", macro: "black_music", score: 11, rawScore: 1, acousticScore: 1 }
+    ]
+  }, features, vector);
+  assert.equal(corrected.top[0].name, "ロック");
+  assert.equal(corrected.needsReview, true);
+  assert.ok(corrected.confidence <= 52);
+  assert.match(corrected.method, /weakMidTempoHarmonicRock/);
+  assert.equal(corrected.inferredStyle, "");
+
+  assert.equal(weakMidTempoHarmonicRockEvidence({ ...vector, fourOnFloor: .62 }, features), false, "real disco keeps its four-on-floor evidence");
+  assert.equal(weakMidTempoHarmonicRockEvidence({ ...vector, funkGrooveScore: .78 }, features), false, "strong funk groove is not rewritten");
+  assert.equal(weakMidTempoHarmonicRockEvidence({ ...vector, hiphopPunchScore: .72, breakbeatDensity: .4 }, features), false, "hip-hop punch and breaks stay outside the rescue");
+  assert.equal(weakMidTempoHarmonicRockEvidence({ ...vector, energy: .5, distortion: .1 }, features), false, "soft acoustic folk stays outside the rescue");
+  assert.equal(weakMidTempoHarmonicRockEvidence(vector, {
+    embeddingGenrePrediction: {
+      top: [{ name: "ディスコ", score: 54 }],
+      segmentConsensus: { count: 3, voteShare: .667, leaders: ["ディスコ", "ディスコ", "ファンク"] }
+    }
+  }), false, "a confident shared model is never overridden");
 });
 
 test("high-tempo rap breakbeats reject harmonic Rock and Funk rescues without absorbing DnB", () => {

@@ -4700,6 +4700,66 @@
         top: top.slice(0, 5)
       };
     }
+    function weakMidTempoHarmonicRockEvidence(vector = {}, features = {}) {
+      const embedding = features.embeddingGenrePrediction || {};
+      const segments = embedding.segmentConsensus || {};
+      const rawTopScore = Math.max(0, ...(embedding.top || []).map(item => Number(item.score) || 0)) / 100;
+      const rockMacro = macroGenreScore(vector, "rock");
+      const blackMacro = macroGenreScore(vector, "black");
+      const segmentLeaders = new Set((segments.leaders || []).filter(Boolean));
+      const weakFineAndSplitSegments = rawTopScore > 0 && rawTopScore <= .08
+        && Number(segments.count || 0) >= 3
+        && Number(segments.voteShare || 0) <= .34
+        && (!segmentLeaders.size || segmentLeaders.size >= 3);
+      const harmonicMidTexture = vector.tempo >= 85 && vector.tempo <= 118
+        && vector.energy >= .58 && vector.energy <= .86
+        && vector.midBandRatio >= .52 && vector.highBandRatio < .12
+        && vector.harmonicRatio >= .84 && vector.chromaEntropy >= .9
+        && vector.distortion >= .14 && vector.distortion <= .3
+        && vector.zcr >= .065 && vector.zcr <= .16
+        && vector.sustainRatio >= .75 && vector.transientScarcity >= .72
+        && vector.structureRecurrence >= .78;
+      const restrainedNonDancePulse = vector.rhythm >= .34 && vector.rhythm <= .62
+        && vector.onset >= .24 && vector.onset <= .46
+        && vector.fourOnFloor < .25 && vector.breakbeatDensity < .28
+        && vector.hiphopPunchScore < .55 && vector.funkGrooveScore < .68;
+      return weakFineAndSplitSegments
+        && harmonicMidTexture
+        && restrainedNonDancePulse
+        && rockMacro >= .68
+        && rockMacro - blackMacro >= .08;
+    }
+    function applyWeakMidTempoHarmonicRockCorrection(analysis = {}, features = {}, preparedVector = null) {
+      if (!analysis?.top?.length) return analysis;
+      const leader = analysis.top[0]?.name || analysis.top[0]?.label || "";
+      if (leader === "ロック") return analysis;
+      const vector = preparedVector || genreFeatureVector(features);
+      if (!weakMidTempoHarmonicRockEvidence(vector, features)) return analysis;
+      const corrected = promoteAudioGenreCandidate(analysis, {
+        targetName: "ロック", targetMacro: "rock",
+        suppressMacros: ["black_music", "black", "world", "folk", "jazz", "classical", "electronic", "pop"],
+        factor: .32, method: "weakMidTempoHarmonicRock", needsReview: true,
+        sourceNote: "Fine分類器の全候補が弱く3区間も不一致ですが、中速の高調波中域、適度な歪み、反復する曲構造と非4つ打ちのRock音響が一致するため、World/Black musicへの漂流を低確信Rockへ戻しています。",
+        evidence: {
+          rawTopScore: Math.max(0, ...(features.embeddingGenrePrediction?.top || []).map(item => Number(item.score) || 0)),
+          segmentVoteShare: Number(features.embeddingGenrePrediction?.segmentConsensus?.voteShare || 0),
+          rockMacro: Math.round(macroGenreScore(vector, "rock") * 1000) / 1000,
+          blackMacro: Math.round(macroGenreScore(vector, "black") * 1000) / 1000,
+          tempo: vector.tempo,
+          midBandRatio: vector.midBandRatio,
+          harmonicRatio: vector.harmonicRatio,
+          fourOnFloor: vector.fourOnFloor
+        }
+      });
+      return {
+        ...corrected,
+        confidence: Math.min(52, Math.max(38, Number(corrected.confidence) || 0)),
+        needsReview: true,
+        style: [],
+        styleByFamily: { ...(corrected.styleByFamily || {}), black_music: [], pop: [] },
+        inferredStyle: ""
+      };
+    }
     function electronicBreakdownFalsePositiveEvidence(vector = {}) {
       const tempo = Number(vector.tempo) || 0;
       const lacksBlackMusicPulse = vector.bass < .48
@@ -4805,7 +4865,9 @@
     function applyAudioFalsePositiveCorrections(analysis = {}, features = {}) {
       return applyVocalDependentGenreCorrection(applyReggaeDubBoundaryCorrection(applyJapaneseVocalGenreCorrection(
         applyOperaticVocalCorrection(applyElectronicBreakdownCorrection(
-          applyHighTempoRockCorrection(applyHighTempoRapBreakbeatCorrection(analysis, features), features), features
+          applyWeakMidTempoHarmonicRockCorrection(
+            applyHighTempoRockCorrection(applyHighTempoRapBreakbeatCorrection(analysis, features), features), features
+          ), features
         ), features), features
       ), features), features);
     }
