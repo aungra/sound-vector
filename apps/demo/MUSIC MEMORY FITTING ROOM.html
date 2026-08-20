@@ -677,7 +677,7 @@
       };
     }
     const keys = { creators: "mmfr.creators", tshirts: "mmfr.tshirts", sessions: "mmfr.sessions", resonances: "mmfr.resonances", apiConfig: "mmfr.apiConfig" };
-    const GENRE_INFERENCE_REVISION = "2026-08-14-independent-boundary-arbitration-v83";
+    const GENRE_INFERENCE_REVISION = "2026-08-20-half-tempo-house-consensus-v84";
     const inlineArt = {};
     let activeCollisionField = null;
     const state = { view: "home", answers: {}, moodId: null, youtubeUrl: "", audioFeatures: null, sourceMood: null, variantSalt: 0, engineId: "youtube_audio", realtime: false, tick: 0, session: null, generated: null, workId: null, message: "", genreProfiles: null, genreModel: null, generationProgress: null, patternMotion: { shirtId: "", phase: 0, running: false, lastTimestamp: 0 }, equalizer: { shirtId: "", playing: false, startedAt: 0, duration: 0, detail: null, analyser: null, returningAt: 0 } };
@@ -8525,6 +8525,64 @@
       }
       return analysis;
     }
+    function halfTempoHouseConsensusEvidence(context = {}) {
+      const analysis = context.analysis || {};
+      const features = context.features || {};
+      const embedding = features.embeddingGenrePrediction || {};
+      const external = embedding.unknownSourceConsensus || {};
+      const vector = context.vector || genreFeatureVector(features);
+      const vocal = features.japaneseVocalEvidence || {};
+      const leader = analysis.top?.[0]?.name || analysis.top?.[0]?.label || "";
+      const externalLeader = external.top?.[0]?.name || external.top?.[0]?.label || "";
+      const externalScore = name => (Number((external.top || [])
+        .find(item => (item.name || item.label) === name)?.score) || 0) / 100;
+      const externalMacro = name => (Number((external.macro || [])
+        .find(item => canonicalModelMacro(item.macro || item.label) === canonicalModelMacro(name))?.score) || 0) / 100;
+      const segment = external.segmentAnalysis || {};
+      const segmentLabels = Array.isArray(segment.topLabels) ? segment.topLabels.filter(Boolean) : [];
+      const externalTempo = Number(external.japaneseVocalEvidence?.popAudio?.tempo || 0);
+      const tempoRatio = externalTempo / Math.max(1, Number(vector.tempo || 0));
+      const certainty = Number(external.selectiveCertainty || 0);
+      const threshold = Number(external.selectiveRisk?.threshold || .2724);
+      const lowVocalEvidence = Number(vocal.vocalPresence || 0) <= .08
+        && Number(vocal.stemVocalPresence || 0) <= .08
+        && Number(vocal.speechRapLikelihood || 0) <= .08
+        && (Number(vocal.sampleCount || 0) === 0
+          || vocal.singleSpanHallucination === true
+          || Number(vocal.transcriptionReliability || 0) < .2);
+      const matched = ["ヒップホップ", "トラップ", "ディスコ", "ファンク", "レゲエ", "ダブ"].includes(leader)
+        && externalLeader === "テクノ" && externalScore("ハウス") >= .05
+        && externalMacro("electronic") >= .5
+        && externalMacro("electronic") - externalMacro("black_music") >= .06
+        && external.needsReview !== true
+        && external.selectiveRisk?.accepted !== false
+        && certainty >= threshold && Number(external.margin || 0) >= 8
+        && Number(segment.agreement || 0) >= .9 && Number(segment.stability || 0) >= .85
+        && segmentLabels.length >= 3 && segmentLabels.every(label => label === externalLeader)
+        && lowVocalEvidence
+        && externalTempo >= 118 && externalTempo <= 132
+        && Number(vector.tempo || 0) >= 80 && Number(vector.tempo || 0) <= 100
+        && tempoRatio >= 1.25 && tempoRatio <= 1.65
+        && Number(vector.energy || 0) >= .82 && Number(vector.bass || 0) >= .72
+        && Number(vector.rhythm || 0) >= .75 && Number(vector.onset || 0) >= .5
+        && Number(vector.structureRecurrence || 0) >= .75
+        && Number(vector.harmonicRatio || 0) >= .72
+        && Number(vector.brightness || 0) < .45 && Number(vector.highBandRatio || 0) < .12
+        && Number(vector.guitarBand || 0) < .003 && Number(vector.distortion || 0) < .3;
+      if (!matched) return null;
+      return {
+        externalLeader,
+        externalHouse: Math.round(externalScore("ハウス") * 1000) / 1000,
+        electronicMacro: Math.round(externalMacro("electronic") * 1000) / 1000,
+        blackMacro: Math.round(externalMacro("black_music") * 1000) / 1000,
+        localTempo: Number(vector.tempo || 0),
+        externalTempo: Math.round(externalTempo * 10) / 10,
+        tempoRatio: Math.round(tempoRatio * 1000) / 1000,
+        segmentAgreement: Number(segment.agreement || 0),
+        segmentStability: Number(segment.stability || 0),
+        structureRecurrence: Number(vector.structureRecurrence || 0)
+      };
+    }
     function applyRawElectronicHipHouseCorrection(analysis = {}, features = {}) {
       if (!analysis?.top?.length) return analysis;
       const embedding = features.embeddingGenrePrediction || {};
@@ -8535,6 +8593,25 @@
       const vocalPresence = clamp01(vocal.vocalPresence);
       const stemVocalPresence = clamp01(vocal.stemVocalPresence ?? vocalPresence);
       const vector = genreFeatureVector(features);
+      const halfTempoHouseEvidence = halfTempoHouseConsensusEvidence({ analysis, features, vector });
+      if (halfTempoHouseEvidence) {
+        const corrected = promoteAudioGenreCandidate(analysis, {
+          targetName: "ハウス", targetMacro: "electronic",
+          suppressMacros: ["black_music"], factor: .34,
+          companionCandidates: [{ name: "テクノ", relativeScore: .64 }, { name: "電子音楽", relativeScore: .42 }],
+          method: "halfTempoHouseElectronicConsensus", needsReview: false,
+          sourceNote: "低歌唱の反復クラブ音響をローカルDSPが半テンポで読んだ場合でも、独立モデルの3区間Electronic一致と別テンポ推定を照合し、Trap/Hip-hopへの越境をHouseへ戻しています。",
+          evidence: halfTempoHouseEvidence
+        });
+        return {
+          ...corrected,
+          segmentConsensus: {
+            ...(corrected.segmentConsensus || {}),
+            conflict: false,
+            electronicAliasResolved: true
+          }
+        };
+      }
       const agreement = ["テクノ", "ハウス"].includes(rawLeader)
         && rawScore("ハウス") >= .8
         && detectedLanguage && detectedLanguage !== "ja"
@@ -9020,7 +9097,11 @@
         && certainty >= threshold
         && margin >= 10
         && stability >= .65;
-      const agreement = reliable && targetName === leaderName;
+      const electronicFamilyAgreement = reliable
+        && leaderName === "ハウス" && targetName === "テクノ"
+        && leaderMacro === "electronic" && targetMacro === "electronic"
+        && Boolean(analysis.boundaryCorrection?.halfTempoHouseElectronicConsensus);
+      const agreement = reliable && (targetName === leaderName || electronicFamilyAgreement);
       const macroRescue = reliable
         && targetName && targetMacro
         && targetMacro === ruleMacro
@@ -9038,7 +9119,8 @@
         stability: Math.round(stability * 1000) / 1000,
         segmentAgreement: Math.round(Number(external.segmentAnalysis?.agreement || 0) * 1000) / 1000,
         estimatedAccuracy: Math.round(Number(external.selectiveRisk?.estimatedAccuracy || 0) * 10) / 10,
-        rawConfidence: Math.round(Number(external.rawConfidence || 0) * 10) / 10
+        rawConfidence: Math.round(Number(external.rawConfidence || 0) * 10) / 10,
+        electronicFamilyAgreement
       };
       if (macroRescue) {
         const rescued = promoteAudioGenreCandidate(analysis, {
@@ -9057,7 +9139,9 @@
         ...analysis,
         needsReview: Boolean(analysis.needsReview || consensus.conflict),
         source: agreement
-          ? `${analysis.source} 未知ソース向けモデルともTop1が一致しています。`
+          ? electronicFamilyAgreement
+            ? `${analysis.source} 未知ソース向けモデルとも同一Electronic階層で一致しています。`
+            : `${analysis.source} 未知ソース向けモデルともTop1が一致しています。`
           : consensus.conflict
             ? `${analysis.source} 未知ソース向けモデルと候補が一致しないため、要確認として確信度を抑えています。`
             : analysis.source,
