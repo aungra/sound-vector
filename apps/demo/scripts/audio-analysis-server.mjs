@@ -1623,6 +1623,7 @@ const server = http.createServer(async (req, res) => {
       endpoint: `http://${HOST}:${PORT}/api/audio-analyze`,
       health: `http://${HOST}:${PORT}/health`,
       genreInferenceRevision: GENRE_INFERENCE_REVISION,
+      analysisWindowSeconds: ANALYSIS_WINDOW_SECONDS,
       dependencies: {
         ytDlp: Boolean(tools.ytDlp),
         ffmpeg: Boolean(tools.ffmpeg),
@@ -1646,6 +1647,7 @@ const server = http.createServer(async (req, res) => {
       service: "MUSIC MEMORY FITTING ROOM audio analysis server",
       endpoint: `http://${HOST}:${PORT}/api/audio-analyze`,
       genreInferenceRevision: GENRE_INFERENCE_REVISION,
+      analysisWindowSeconds: ANALYSIS_WINDOW_SECONDS,
       dependencies: {
         ytDlp: Boolean(tools.ytDlp),
         ffmpeg: Boolean(tools.ffmpeg),
@@ -1679,6 +1681,7 @@ const server = http.createServer(async (req, res) => {
       endpoint: `http://${HOST}:${PORT}/api/audio-analyze`,
       health: `http://${HOST}:${PORT}/health`,
       genreInferenceRevision: GENRE_INFERENCE_REVISION,
+      analysisWindowSeconds: ANALYSIS_WINDOW_SECONDS,
       dependencies: {
         ytDlp: Boolean(tools.ytDlp),
         ffmpeg: Boolean(tools.ffmpeg),

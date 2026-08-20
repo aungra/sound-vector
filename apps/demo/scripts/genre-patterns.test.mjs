@@ -153,6 +153,7 @@ test("YouTube range acquisition does not require an optional audio encoder", () 
   const server = fs.readFileSync(AUDIO_SERVER_PATH, "utf8");
   assert.match(server, /"--download-sections", `\*\$\{startSeconds\}-\$\{sectionEnd\}`/);
   assert.doesNotMatch(server, /--force-keyframes-at-cuts/);
+  assert.match(server, /analysisWindowSeconds: ANALYSIS_WINDOW_SECONDS/);
 });
 
 test("exhibition endpoint policy ignores stale saved URLs on managed hosts", () => {
