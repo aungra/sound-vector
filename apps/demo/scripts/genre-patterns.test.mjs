@@ -9,6 +9,8 @@ const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const DEMO_DIR = path.resolve(SCRIPT_DIR, "..");
 const HTML_PATH = path.join(DEMO_DIR, "MUSIC MEMORY FITTING ROOM.html");
 const SAKURA_PROXY_PATH = path.resolve(DEMO_DIR, "../../deploy/aun-graphic-sound-form/api/audio-analyze.php");
+const PUBLIC_SUPERVISOR_PATH = path.resolve(DEMO_DIR, "../../deploy/aun-graphic-sound-form/public-audio-supervisor.mjs");
+const HUGGINGFACE_DOCKERFILE_PATH = path.resolve(DEMO_DIR, "../../deploy/huggingface-audio-api/Dockerfile");
 const AUDIO_SERVER_PATH = path.join(SCRIPT_DIR, "audio-analysis-server.mjs");
 const DELAUNAY_VENDOR_PATH = path.join(DEMO_DIR, "vendor", "d3-delaunay.min.js");
 const JAPANESE_FONT_FILES = [
@@ -133,6 +135,18 @@ test("public proxy prefers Sakura-local analysis and retains the Mac tunnel fall
   assert.match(proxy, /flock\(\$lock, LOCK_EX\)/);
   assert.match(proxy, /stopLocalWorker\(\$localWorker\)/);
   assert.match(proxy, /releaseLocalLock\(\$localLock\)/);
+});
+
+test("all public analysis runtimes use three 30-second genre sections", () => {
+  const proxy = fs.readFileSync(SAKURA_PROXY_PATH, "utf8");
+  const supervisor = fs.readFileSync(PUBLIC_SUPERVISOR_PATH, "utf8");
+  const dockerfile = fs.readFileSync(HUGGINGFACE_DOCKERFILE_PATH, "utf8");
+  const html = fs.readFileSync(HTML_PATH, "utf8");
+  assert.match(proxy, /'MMFR_ANALYSIS_SECONDS' => '90'/);
+  assert.match(supervisor, /MMFR_ANALYSIS_SECONDS: "90"/);
+  assert.match(dockerfile, /MMFR_ANALYSIS_SECONDS=90/);
+  assert.match(html, /通常 60〜150秒/);
+  assert.doesNotMatch(`${proxy}\n${supervisor}\n${dockerfile}`, /MMFR_ANALYSIS_SECONDS(?:' => |: |\=)["']?45/);
 });
 
 test("YouTube range acquisition does not require an optional audio encoder", () => {

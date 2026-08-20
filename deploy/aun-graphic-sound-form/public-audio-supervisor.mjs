@@ -101,7 +101,8 @@ function spawnAnalysisServer() {
     MMFR_PUBLIC_MAX_CONCURRENT: "1",
     MMFR_PUBLIC_RATE_LIMIT: "4",
     MMFR_PUBLIC_RATE_WINDOW_MS: "600000",
-    MMFR_ANALYSIS_SECONDS: "45",
+    // Three 30-second sections give the genre consensus enough musical context.
+    MMFR_ANALYSIS_SECONDS: "90",
     MMFR_EMBEDDING_GENRE_ENABLED: "0",
     MMFR_EMBEDDING_GENRE_LIVE_ENABLED: "0",
     MMFR_EMBEDDING_GENRE_MODEL_PATH: path.join(ROOT, "disabled", "embedding-model.pkl"),

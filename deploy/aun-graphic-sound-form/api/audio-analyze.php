@@ -77,7 +77,7 @@ function startLocalWorker()
         'MMFR_AUDIO_PORT' => '4196',
         'MMFR_PUBLIC_MODE' => '1',
         'MMFR_ALLOWED_ORIGINS' => 'https://aun-graphic.jp,https://www.aun-graphic.jp',
-        'MMFR_ANALYSIS_SECONDS' => '45',
+        'MMFR_ANALYSIS_SECONDS' => '90',
         'MMFR_PUBLIC_MAX_CONCURRENT' => '1',
         'MMFR_PUBLIC_RATE_LIMIT' => '8',
         'MMFR_PUBLIC_RATE_WINDOW_MS' => '600000',

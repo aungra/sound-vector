@@ -707,7 +707,7 @@
       const runId = `${source}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
       const stages = source === "youtube"
         ? [
-          { at: 0, percent: 6, label: "解析サーバーへ接続", estimate: "通常 40〜90秒" },
+          { at: 0, percent: 6, label: "解析サーバーへ接続", estimate: "通常 60〜150秒" },
           { at: 2800, percent: 18, label: "YouTube音声を取得", estimate: "認証確認がある場合は長くなります" },
           { at: 14000, percent: 42, label: "音声をPCMへ変換", estimate: "音声の一部を解析用に展開" },
           { at: 30000, percent: 66, label: "RMS・拍・周波数を解析", estimate: "波形とスペクトルを計算" },
