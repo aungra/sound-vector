@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const DEMO_DIR = path.resolve(SCRIPT_DIR, "..");
 const HTML_PATH = path.join(DEMO_DIR, "MUSIC MEMORY FITTING ROOM.html");
+const SAKURA_PROXY_PATH = path.resolve(DEMO_DIR, "../../deploy/aun-graphic-sound-form/api/audio-analyze.php");
 const DELAUNAY_VENDOR_PATH = path.join(DEMO_DIR, "vendor", "d3-delaunay.min.js");
 const JAPANESE_FONT_FILES = [
   "NotoSansJP-Regular.woff2",
@@ -114,6 +115,23 @@ test("public deployment reads a guarded API setting instead of visitor localhost
   assert.match(html, /defaults\.push\(configuredPublicEndpoint, "\/sound-form\/api\/audio-analyze\.php"\)/);
   assert.doesNotMatch(html, /aungraphic-musictee-audio-api\.hf\.space/);
   assert.doesNotMatch(html, /const defaultEndpoint = localHost \? "http:\/\/127\.0\.0\.1:4194\/api\/audio-analyze" : ""/);
+});
+
+test("public proxy prefers Sakura-local analysis and retains the Mac tunnel fallback", () => {
+  const proxy = fs.readFileSync(SAKURA_PROXY_PATH, "utf8");
+  assert.match(proxy, /LOCAL_UPSTREAM = 'http:\/\/127\.0\.0\.1:4196\/api\/audio-analyze'/);
+  assert.match(proxy, /\$endpoints = \[LOCAL_UPSTREAM\]/);
+  assert.match(proxy, /trycloudflare\\\.com\/api\/audio-analyze/);
+  assert.match(proxy, /CURLOPT_PROTOCOLS => \$isLocal \? CURLPROTO_HTTP : CURLPROTO_HTTPS/);
+  assert.match(proxy, /\$isLocal && \(\$status === 429 \|\| \$status >= 500\)/);
+  assert.match(proxy, /proc_open\(/);
+  assert.match(proxy, /'--max-old-space-size=128'/);
+  assert.match(proxy, /'MMFR_EMBEDDING_GENRE_ENABLED' => '0'/);
+  assert.match(proxy, /'MMFR_LOCAL_GENRE_MODEL_PATH' => LOCAL_MODEL/);
+  assert.match(proxy, /\.config\/musictee\/youtube-cookies\.txt/);
+  assert.match(proxy, /flock\(\$lock, LOCK_EX\)/);
+  assert.match(proxy, /stopLocalWorker\(\$localWorker\)/);
+  assert.match(proxy, /releaseLocalLock\(\$localLock\)/);
 });
 
 test("exhibition endpoint policy ignores stale saved URLs on managed hosts", () => {
