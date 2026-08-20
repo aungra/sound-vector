@@ -79,7 +79,7 @@ export function classifyYouTubeFailure(value) {
     return { code: "ANALYSIS_CANCELLED", retryable: false, cookieEligible: false };
   }
   if (/rate[- ]limit|HTTP Error 429|Too Many Requests|This content isn't available,?\s*try again later|try again later\. The current session/i.test(message)) {
-    return { code: "YOUTUBE_RATE_LIMITED", retryable: false, cookieEligible: false };
+    return { code: "YOUTUBE_RATE_LIMITED", retryable: false, cookieEligible: true };
   }
   if (/Sign in to confirm you.?re not a bot|confirm your age|login required|cookies for the authentication/i.test(message)) {
     return { code: /age/i.test(message) ? "AGE_RESTRICTED" : "YOUTUBE_COOKIE_REQUIRED", retryable: false, cookieEligible: true };

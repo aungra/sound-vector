@@ -1275,7 +1275,6 @@ async function analyzeYouTube(youtubeUrl, options = {}) {
         "--no-playlist",
         "--ffmpeg-location", path.dirname(tools.ffmpeg),
         "--download-sections", `*${startSeconds}-${sectionEnd}`,
-        "--force-keyframes-at-cuts",
         "--max-filesize", "80M",
         "-f", "bestaudio/best",
         "-o", path.join(tempDir, "source-range.%(ext)s"),

@@ -43,8 +43,12 @@ test("YouTube failure policy retries only transient transport failures", () => {
     code: "TRANSIENT_NETWORK_ERROR", retryable: true, cookieEligible: false,
   });
   assert.equal(classifyYouTubeFailure("Private video").code, "VIDEO_UNAVAILABLE");
-  assert.equal(classifyYouTubeFailure("HTTP Error 429: Too Many Requests").code, "YOUTUBE_RATE_LIMITED");
-  assert.equal(classifyYouTubeFailure("This content isn't available, try again later").code, "YOUTUBE_RATE_LIMITED");
+  assert.deepEqual(classifyYouTubeFailure("HTTP Error 429: Too Many Requests"), {
+    code: "YOUTUBE_RATE_LIMITED", retryable: false, cookieEligible: true,
+  });
+  assert.deepEqual(classifyYouTubeFailure("This content isn't available, try again later"), {
+    code: "YOUTUBE_RATE_LIMITED", retryable: false, cookieEligible: true,
+  });
   assert.deepEqual(classifyYouTubeFailure("Sign in to confirm you're not a bot"), {
     code: "YOUTUBE_COOKIE_REQUIRED", retryable: false, cookieEligible: true,
   });

@@ -9,6 +9,7 @@ const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const DEMO_DIR = path.resolve(SCRIPT_DIR, "..");
 const HTML_PATH = path.join(DEMO_DIR, "MUSIC MEMORY FITTING ROOM.html");
 const SAKURA_PROXY_PATH = path.resolve(DEMO_DIR, "../../deploy/aun-graphic-sound-form/api/audio-analyze.php");
+const AUDIO_SERVER_PATH = path.join(SCRIPT_DIR, "audio-analysis-server.mjs");
 const DELAUNAY_VENDOR_PATH = path.join(DEMO_DIR, "vendor", "d3-delaunay.min.js");
 const JAPANESE_FONT_FILES = [
   "NotoSansJP-Regular.woff2",
@@ -132,6 +133,12 @@ test("public proxy prefers Sakura-local analysis and retains the Mac tunnel fall
   assert.match(proxy, /flock\(\$lock, LOCK_EX\)/);
   assert.match(proxy, /stopLocalWorker\(\$localWorker\)/);
   assert.match(proxy, /releaseLocalLock\(\$localLock\)/);
+});
+
+test("YouTube range acquisition does not require an optional audio encoder", () => {
+  const server = fs.readFileSync(AUDIO_SERVER_PATH, "utf8");
+  assert.match(server, /"--download-sections", `\*\$\{startSeconds\}-\$\{sectionEnd\}`/);
+  assert.doesNotMatch(server, /--force-keyframes-at-cuts/);
 });
 
 test("exhibition endpoint policy ignores stale saved URLs on managed hosts", () => {

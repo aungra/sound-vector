@@ -484,8 +484,8 @@ function loadAppGenreApi() {
   const html = fs.readFileSync(HTML_PATH, "utf8");
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]);
   const appScript = scripts.at(-1).replace(
-    /cleanupStoredSessions\(\);\s*render\(\);\s*loadCalibratedGenreProfiles\(\);\s*$/,
-    "globalThis.__genreApi={enrichFeaturesWithGenre,genreFeatureVector,musicGenreProfiles};"
+    /cleanupStoredSessions\(\);\s*(?:restoreLatestAcceptedSession\(\);\s*)?render\(\);\s*loadCalibratedGenreProfiles\(\);\s*$/,
+    "globalThis.__genreApi={state,enrichFeaturesWithGenre,genreFeatureVector,inferMusicGenres,musicGenreProfiles};"
   );
   const context = {
     console,
@@ -510,6 +510,9 @@ function loadAppGenreApi() {
   context.globalThis = context;
   vm.createContext(context);
   vm.runInContext(appScript, context);
+  if (!context.__genreApi) {
+    throw new Error("Could not load the shared genre API from the demo HTML.");
+  }
   return context.__genreApi;
 }
 
@@ -2111,7 +2114,16 @@ async function main() {
   console.log(`Wrote ${path.relative(ROOT, RESULTS_PATH)}`);
 }
 
-main().catch(error => {
-  console.error(error);
-  process.exitCode = 1;
-});
+export const __testHooks = {
+  loadAppGenreApi,
+  compactAudioFeatures,
+  classify,
+  vectorValues
+};
+
+if (process.env.MMFR_GENRE_TRAIN_SKIP_MAIN !== "1") {
+  main().catch(error => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+}
