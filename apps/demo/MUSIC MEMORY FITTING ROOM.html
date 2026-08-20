@@ -4707,10 +4707,33 @@
       const rockMacro = macroGenreScore(vector, "rock");
       const blackMacro = macroGenreScore(vector, "black");
       const segmentLeaders = new Set((segments.leaders || []).filter(Boolean));
-      const weakFineAndSplitSegments = rawTopScore > 0 && rawTopScore <= .08
+      const legacyWeakFineAndSplitSegments = rawTopScore > 0 && rawTopScore <= .08
         && Number(segments.count || 0) >= 3
         && Number(segments.voteShare || 0) <= .34
         && (!segmentLeaders.size || segmentLeaders.size >= 3);
+      const modelBlackMacro = Math.max(0, ...(embedding.macro || [])
+        .filter(item => canonicalModelMacro(item.macro || item.label) === "black_music")
+        .map(item => Number(item.score) || 0)) / 100;
+      const vocal = features.japaneseVocalEvidence || {};
+      const measuredVocalPresence = Math.max(
+        Number(vocal.vocalPresence) || 0,
+        Number(vocal.stemVocalPresence) || 0,
+        Number(vocal.vocalEnergyRatio) || 0
+      );
+      const strongMeasuredVocal = Boolean(vocal.available)
+        && Number(vocal.sampleCount || 0) >= 2
+        && measuredVocalPresence >= .65;
+      const longWindowSplitSegments = Number(features.analysisWindowSeconds || 0) >= 75
+        && rawTopScore > 0 && rawTopScore <= .28
+        && Number(segments.count || 0) >= 3
+        && !segments.reliable
+        && Number(segments.voteShare || 0) <= .667
+        && Number(segments.macroVoteShare || 0) <= .667
+        && Number(segments.averageMargin || 0) > 0
+        && Number(segments.averageMargin || 0) <= 4
+        && (!segmentLeaders.size || segmentLeaders.size >= 2)
+        && modelBlackMacro <= .2
+        && !strongMeasuredVocal;
       const harmonicMidTexture = vector.tempo >= 85 && vector.tempo <= 118
         && vector.energy >= .58 && vector.energy <= .86
         && vector.midBandRatio >= .52 && vector.highBandRatio < .12
@@ -4723,6 +4746,16 @@
         && vector.onset >= .24 && vector.onset <= .46
         && vector.fourOnFloor < .25 && vector.breakbeatDensity < .28
         && vector.hiphopPunchScore < .55 && vector.funkGrooveScore < .68;
+      const longWindowRockTexture = vector.midBandRatio >= .62 && vector.highBandRatio < .08
+        && vector.bass < .5 && vector.lowBandRatio < .38
+        && vector.chromaEntropy >= .94 && vector.harmonicRatio >= .86
+        && vector.sustainRatio >= .78 && vector.transientScarcity >= .9
+        && vector.structureRecurrence >= .86
+        && vector.fourOnFloor < .22 && vector.breakbeatDensity < .18
+        && vector.hiphopPunchScore < .5 && vector.funkGrooveScore < .58
+        && vector.vocalPresence < .62;
+      const weakFineAndSplitSegments = legacyWeakFineAndSplitSegments
+        || (longWindowSplitSegments && longWindowRockTexture);
       return weakFineAndSplitSegments
         && harmonicMidTexture
         && restrainedNonDancePulse
@@ -4739,10 +4772,12 @@
         targetName: "ロック", targetMacro: "rock",
         suppressMacros: ["black_music", "black", "world", "folk", "jazz", "classical", "electronic", "pop"],
         factor: .32, method: "weakMidTempoHarmonicRock", needsReview: true,
-        sourceNote: "Fine分類器の全候補が弱く3区間も不一致ですが、中速の高調波中域、適度な歪み、反復する曲構造と非4つ打ちのRock音響が一致するため、World/Black musicへの漂流を低確信Rockへ戻しています。",
+        sourceNote: "Fine分類器の候補または長時間3区間のmarginが弱く不安定ですが、中速の高調波中域、適度な歪み、反復する曲構造と非4つ打ちのRock音響が一致するため、World/Black musicへの漂流を低確信Rockへ戻しています。",
         evidence: {
           rawTopScore: Math.max(0, ...(features.embeddingGenrePrediction?.top || []).map(item => Number(item.score) || 0)),
           segmentVoteShare: Number(features.embeddingGenrePrediction?.segmentConsensus?.voteShare || 0),
+          segmentAverageMargin: Number(features.embeddingGenrePrediction?.segmentConsensus?.averageMargin || 0),
+          analysisWindowSeconds: Number(features.analysisWindowSeconds || 0),
           rockMacro: Math.round(macroGenreScore(vector, "rock") * 1000) / 1000,
           blackMacro: Math.round(macroGenreScore(vector, "black") * 1000) / 1000,
           tempo: vector.tempo,

@@ -1499,6 +1499,65 @@ test("split low-confidence segments rescue mid-tempo post-punk without absorbing
   }), false, "a confident shared model is never overridden");
 });
 
+test("ninety-second split consensus rescues harmonic post-punk without absorbing Soul or dance grooves", () => {
+  const { weakMidTempoHarmonicRockEvidence, applyWeakMidTempoHarmonicRockCorrection } = loadPatternApi();
+  const vector = {
+    tempo: 99, energy: .6502, bass: .3935,
+    lowBandRatio: .2621, midBandRatio: .7085, highBandRatio: .0295,
+    brightness: .2456, rhythm: .4503, onset: .3217,
+    zcr: .1112, chromaEntropy: .9724, harmonicRatio: .8831,
+    distortion: .1903, sustainRatio: .8238, transientScarcity: 1,
+    structureRecurrence: .933, fourOnFloor: .1498,
+    breakbeatDensity: .0623, hiphopPunchScore: .4057,
+    funkGrooveScore: .4459, vocalPresence: .3717
+  };
+  const features = {
+    analysisWindowSeconds: 90,
+    japaneseVocalEvidence: { available: false, reason: "analyzer-not-configured" },
+    embeddingGenrePrediction: {
+      macro: [{ label: "black_music", score: 15.4 }, { label: "world", score: 8.4 }],
+      top: [{ name: "ソウルミュージック", score: 22.3 }, { name: "ディスコ", score: 9.7 }],
+      segmentConsensus: {
+        count: 3, reliable: false, voteShare: .667, macroVoteShare: .667,
+        averageMargin: 1.7,
+        leaders: ["ソウルミュージック", "ラテン", "ソウルミュージック"]
+      }
+    }
+  };
+  assert.equal(weakMidTempoHarmonicRockEvidence(vector, features), true);
+
+  const corrected = applyWeakMidTempoHarmonicRockCorrection({
+    source: "test", method: "shared-production-local-classifier", needsReview: true,
+    macro: [{ macro: "black_music", score: 15 }, { macro: "world", score: 8 }],
+    top: [
+      { name: "ソウルミュージック", macro: "black_music", score: 36, rawScore: 22, acousticScore: 22 },
+      { name: "ディスコ", macro: "black_music", score: 16, rawScore: 10, acousticScore: 10 },
+      { name: "ヒップホップ", macro: "black_music", score: 8, rawScore: 5, acousticScore: 5 }
+    ]
+  }, features, vector);
+  assert.equal(corrected.top[0].name, "ロック");
+  assert.equal(corrected.needsReview, true);
+  assert.ok(corrected.confidence <= 52);
+
+  assert.equal(weakMidTempoHarmonicRockEvidence(vector, {
+    ...features,
+    japaneseVocalEvidence: {
+      available: true, sampleCount: 3, vocalPresence: .82,
+      stemVocalPresence: .78, vocalEnergyRatio: .7
+    }
+  }), false, "measured lead-vocal Soul is not rewritten");
+  assert.equal(weakMidTempoHarmonicRockEvidence(vector, {
+    ...features,
+    embeddingGenrePrediction: {
+      ...features.embeddingGenrePrediction,
+      macro: [{ label: "black_music", score: 48 }]
+    }
+  }), false, "strong learned Black-music macro remains authoritative");
+  assert.equal(weakMidTempoHarmonicRockEvidence({ ...vector, fourOnFloor: .52 }, features), false, "four-on-floor Disco stays outside the rescue");
+  assert.equal(weakMidTempoHarmonicRockEvidence({ ...vector, funkGrooveScore: .76 }, features), false, "strong Funk groove stays outside the rescue");
+  assert.equal(weakMidTempoHarmonicRockEvidence({ ...vector, bass: .68, lowBandRatio: .55 }, features), false, "bass-led Hip-hop and Soul stay outside the rescue");
+});
+
 test("high-tempo rap breakbeats reject harmonic Rock and Funk rescues without absorbing DnB", () => {
   const { highTempoRapBreakbeatEvidence, highTempoRockFalsePositiveEvidence } = loadPatternApi();
   const rapBreakbeat = {
