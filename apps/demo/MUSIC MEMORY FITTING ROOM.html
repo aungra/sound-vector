@@ -4544,6 +4544,7 @@
     }
     function highTempoRockFalsePositiveEvidence(vector = {}) {
       const tempo = Number(vector.tempo) || 0;
+      if (highTempoRapBreakbeatEvidence(vector)) return false;
       const guitarTexture = vector.distortion >= .28 && vector.guitarBand >= .018;
       const lowTrebleArtRockTexture = vector.zcr >= .055 && vector.zcr < .075
         && vector.midBandRatio >= .32
@@ -4566,6 +4567,47 @@
         && vector.onset >= .32
         && vector.onset <= .66
         && (guitarTexture || harmonicRockTexture);
+    }
+    function highTempoRapBreakbeatEvidence(vector = {}) {
+      return vector.tempo >= 160 && vector.tempo <= 205
+        && vector.energy >= .5 && vector.energy <= .9
+        && vector.bass >= .82 && vector.lowBandRatio >= .62
+        && vector.midBandRatio >= .18 && vector.midBandRatio <= .38
+        && vector.highBandRatio < .1 && vector.brightness < .42
+        && vector.rhythm >= .42 && vector.rhythm <= .68
+        && vector.onset >= .28 && vector.onset <= .48
+        && vector.syncopation >= .72
+        && vector.breakbeatDensity >= .34
+        && vector.breakbeatIrregularity >= .65
+        && vector.dnbBreakbeatScore >= .78
+        && vector.hiphopPunchScore >= .56
+        && vector.highBandPulse < .08
+        && vector.fourOnFloor < .24 && vector.kickGrid < .28
+        && vector.guitarBand < .004 && vector.distortion < .23
+        && vector.funkGrooveScore < .66;
+    }
+    function applyHighTempoRapBreakbeatCorrection(analysis = {}, features = {}) {
+      if (!analysis?.top?.length) return analysis;
+      const leader = analysis.top[0]?.name || analysis.top[0]?.label || "";
+      if (!["ダブステップ", "テクノ", "ハウス", "トランス", "ファンク", "ロック"].includes(leader)) return analysis;
+      const vector = genreFeatureVector(features);
+      if (!highTempoRapBreakbeatEvidence(vector)) return analysis;
+      return promoteAudioGenreCandidate(analysis, {
+        targetName: "ヒップホップ", targetMacro: "black_music",
+        suppressMacros: ["electronic"], suppressLabels: ["ファンク"], factor: .26,
+        method: "highTempoRapBreakbeat", needsReview: true,
+        sourceNote: "倍テンポ表示の高速曲ですが、低域パンチ、シンコペーション、不規則ブレイクが強く、高域ハットとギター帯域が弱いため、Electronic/Funk過予測からHip-hopへ戻しています。",
+        evidence: {
+          tempo: vector.tempo,
+          bass: vector.bass,
+          lowBandRatio: vector.lowBandRatio,
+          syncopation: vector.syncopation,
+          breakbeatIrregularity: vector.breakbeatIrregularity,
+          hiphopPunchScore: vector.hiphopPunchScore,
+          guitarBand: vector.guitarBand,
+          highBandPulse: vector.highBandPulse
+        }
+      });
     }
     function applyHighTempoRockCorrection(analysis = {}, features = {}) {
       if (!analysis?.top?.length) return analysis;
@@ -4763,7 +4805,7 @@
     function applyAudioFalsePositiveCorrections(analysis = {}, features = {}) {
       return applyVocalDependentGenreCorrection(applyReggaeDubBoundaryCorrection(applyJapaneseVocalGenreCorrection(
         applyOperaticVocalCorrection(applyElectronicBreakdownCorrection(
-          applyHighTempoRockCorrection(analysis, features), features
+          applyHighTempoRockCorrection(applyHighTempoRapBreakbeatCorrection(analysis, features), features), features
         ), features), features
       ), features), features);
     }

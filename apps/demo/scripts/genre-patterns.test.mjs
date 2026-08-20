@@ -40,7 +40,7 @@ export function loadPatternApi() {
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]);
   const appScript = scripts.at(-1).replace(
     /cleanupStoredSessions\(\);\s*restoreLatestAcceptedSession\(\);\s*render\(\);\s*loadCalibratedGenreProfiles\(\);\s*$/,
-    "globalThis.__patternApi={state,apiEndpointCandidates,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,applyHighTempoRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,midDominantRockBalladEvidence,bassLedAlternativeDanceRockEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreVisualWeight,genreDisplayText,inferMusicGenres,refreshReversibleSoundClothShirt};"
+    "globalThis.__patternApi={state,apiEndpointCandidates,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,highTempoRapBreakbeatEvidence,applyHighTempoRapBreakbeatCorrection,applyHighTempoRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,midDominantRockBalladEvidence,bassLedAlternativeDanceRockEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreVisualWeight,genreDisplayText,inferMusicGenres,refreshReversibleSoundClothShirt};"
   );
   const context = {
     console,
@@ -1433,6 +1433,29 @@ test("embedding inference also applies the harmonic rock false-positive guard", 
   assert.match(inferred.method, /harmonic-rock-guard/);
   assert.ok(inferred.confidence < 100);
   assert.equal(inferred.needsReview, true);
+});
+
+test("high-tempo rap breakbeats reject harmonic Rock and Funk rescues without absorbing DnB", () => {
+  const { highTempoRapBreakbeatEvidence, highTempoRockFalsePositiveEvidence } = loadPatternApi();
+  const rapBreakbeat = {
+    tempo: 185, energy: .688, bass: .901, lowBandRatio: .72,
+    midBandRatio: .236, highBandRatio: .044, brightness: .293,
+    rhythm: .532, onset: .38, syncopation: .84,
+    breakbeatDensity: .44, breakbeatIrregularity: .773,
+    dnbBreakbeatScore: .897, hiphopPunchScore: .626,
+    highBandPulse: .00004, fourOnFloor: .124, kickGrid: .162,
+    guitarBand: .00016, distortion: .174, funkGrooveScore: .574,
+    chromaEntropy: .924, zcr: .077, harmonicRatio: .787
+  };
+  assert.equal(highTempoRapBreakbeatEvidence(rapBreakbeat), true);
+  assert.equal(highTempoRockFalsePositiveEvidence(rapBreakbeat), false);
+  assert.equal(highTempoRapBreakbeatEvidence({
+    ...rapBreakbeat, rhythm: .82, onset: .61, highBandRatio: .24,
+    brightness: .62, highBandPulse: .31
+  }), false);
+  assert.equal(highTempoRapBreakbeatEvidence({
+    ...rapBreakbeat, guitarBand: .026, distortion: .31, bass: .64, lowBandRatio: .48
+  }), false);
 });
 
 test("genre confidence uses score share and model-rule agreement instead of forcing Top1 to 100", () => {
