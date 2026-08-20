@@ -6,6 +6,7 @@
   <title>SOUND FORM — Audio to Reversible SVG</title>
   <meta name="description" content="音声を解析し、32ジャンルの構図規則で編集可能な可逆SVGへ変換するSOUND FORMインターフェース。">
   <meta name="sound-form-api-endpoint" content="/sound-form/api/audio-analyze.php">
+  <meta name="sound-form-feedback-endpoint" content="/sound-form/api/genre-feedback.php">
   <script>
     if (location.protocol === "file:") {
       location.replace("http://127.0.0.1:4193/MUSIC%20MEMORY%20FITTING%20ROOM.html");
@@ -495,6 +496,13 @@
     .design-spec p { border-top: 1px solid var(--line); margin: 0; padding-top: 10px; }
     .genre-review-action { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; }
     .genre-review-action .secondary { min-height: 30px; padding: 5px 10px; font-size: 11px; }
+    .genre-feedback-panel { border-top: 1px solid var(--line); margin-top: 14px; padding-top: 14px; }
+    .genre-feedback-controls { display: grid; grid-template-columns: minmax(180px, 1fr) auto; gap: 8px; margin-top: 10px; }
+    .genre-feedback-controls > div { display: grid; grid-template-columns: minmax(170px, 1fr) auto; gap: 8px; }
+    .genre-feedback-controls select { min-height: 42px; width: 100%; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--paper); padding: 8px 10px; font: inherit; }
+    .genre-feedback-consent { display: flex; gap: 8px; align-items: flex-start; margin-top: 10px; font-size: 11px; }
+    .genre-feedback-consent input { min-height: auto; margin-top: 2px; }
+    .genre-feedback-honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
     .question { border: 1px solid var(--line); border-radius: var(--radius-md); background: rgba(255,255,255,.78); padding: clamp(14px, 1.7vw, 24px); margin-top: var(--grid-gap); }
     .options { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
     .chip {
@@ -615,6 +623,7 @@
       .process-summary p { min-height: 0; border-right: 0; border-bottom: 1px solid var(--line); }
       .process-summary p:last-child { border-bottom: 0; }
       .api-config { grid-template-columns: 1fr; }
+      .genre-feedback-controls, .genre-feedback-controls > div { grid-template-columns: 1fr; }
       .resonance { grid-template-columns: 1fr; }
     }
   </style>
@@ -679,10 +688,10 @@
       };
     }
     const keys = { creators: "mmfr.creators", tshirts: "mmfr.tshirts", sessions: "mmfr.sessions", resonances: "mmfr.resonances", apiConfig: "mmfr.apiConfig", genreAdjustmentLearning: "mmfr.genreAdjustmentLearning.v1" };
-    const GENRE_INFERENCE_REVISION = "2026-08-21-adaptive-review-learning-v88";
+    const GENRE_INFERENCE_REVISION = "2026-08-21-community-review-learning-v89";
     const inlineArt = {};
     let activeCollisionField = null;
-    const state = { view: "home", answers: {}, moodId: null, youtubeUrl: "", audioFeatures: null, sourceMood: null, variantSalt: 0, engineId: "youtube_audio", realtime: false, tick: 0, session: null, generated: null, workId: null, message: "", genreProfiles: null, genreModel: null, generationProgress: null, patternMotion: { shirtId: "", phase: 0, running: false, lastTimestamp: 0 }, equalizer: { shirtId: "", playing: false, startedAt: 0, duration: 0, detail: null, analyser: null, returningAt: 0 } };
+    const state = { view: "home", answers: {}, moodId: null, youtubeUrl: "", audioFeatures: null, sourceMood: null, variantSalt: 0, engineId: "youtube_audio", realtime: false, tick: 0, session: null, generated: null, workId: null, message: "", genreProfiles: null, genreModel: null, sharedGenreLearning: { records: [], revision: 0, modelVersion: "" }, generationProgress: null, patternMotion: { shirtId: "", phase: 0, running: false, lastTimestamp: 0 }, equalizer: { shirtId: "", playing: false, startedAt: 0, duration: 0, detail: null, analyser: null, returningAt: 0 } };
     let realtimeTimer = null;
     let patternMotionFrame = null;
     let generationProgressTimers = [];
@@ -812,6 +821,35 @@
     function apiConfig() {
       const candidates = apiEndpointCandidates();
       return { endpoint: candidates[0] || "", candidates };
+    }
+    function genreFeedbackEndpoint(environment = {}) {
+      const hostname = environment.hostname ?? location.hostname ?? "";
+      const pathname = environment.pathname ?? location.pathname ?? "";
+      const publicHost = /^(?:www\.)?aun-graphic\.jp$/i.test(hostname);
+      const soundFormPath = /^\/sound-form(?:\/|$)/i.test(pathname);
+      if (!publicHost && !soundFormPath) return "";
+      return environment.configuredEndpoint
+        ?? document.querySelector?.('meta[name="sound-form-feedback-endpoint"]')?.content
+        ?? "/sound-form/api/genre-feedback.php";
+    }
+    function setSharedGenreLearningModel(payload = {}) {
+      const records = normaliseGenreAdjustmentLearningRecords(payload.promotedRecords || []);
+      state.sharedGenreLearning = {
+        records,
+        revision: Math.max(0, Number(payload.revision) || 0),
+        modelVersion: String(payload.modelVersion || "community-boundary-v1")
+      };
+      return state.sharedGenreLearning;
+    }
+    async function loadSharedGenreFeedbackModel() {
+      const endpoint = genreFeedbackEndpoint();
+      if (!endpoint) return state.sharedGenreLearning;
+      try {
+        const response = await fetch(endpoint, { method: "GET", credentials: "same-origin", cache: "no-store" });
+        const payload = await response.json().catch(() => ({}));
+        if (response.ok && payload.ok !== false) return setSharedGenreLearningModel(payload);
+      } catch {}
+      return state.sharedGenreLearning;
     }
     function normaliseApiEndpoint(endpoint) {
       const value = String(endpoint || "").trim();
@@ -10915,7 +10953,21 @@
     }
     function renderGenreReviewAction(shirt = null, genreAnalysis = null, busy = false) {
       if (!genreAnalysis?.needsReview || !shirt?.id) return "";
-      return `<span class="genre-review-action"><button class="secondary" type="button" onclick="adjustGenreReview('${escapeAttr(shirt.id)}')" ${busy ? "disabled" : ""} title="別区間で判定を調整し、解決した音響境界を今後の類似曲へ反映">${busy ? "調整中…" : "要確認"}</button></span>`;
+      return `<span class="genre-review-action"><button class="secondary" type="button" onclick="reviewGenreResult('${escapeAttr(shirt.id)}')" ${busy ? "disabled" : ""} title="判定を検証し、匿名音響境界を今後の類似曲へ反映">${busy ? "調整中…" : "要確認"}</button></span>`;
+    }
+    function renderGenreFeedbackPanel(shirt = null, genreAnalysis = null, busy = false) {
+      const feedback = genreAnalysis?.communityFeedback || {};
+      if (!shirt?.id || !["awaiting", "submitted"].includes(feedback.state)) return "";
+      const currentGenre = genreAnalysis.top?.[0]?.name || genreAnalysis.top?.[0]?.label || "";
+      if (feedback.state === "submitted") {
+        const status = feedback.serverStatus === "promoted" ? "共有エンジンへ昇格済み" : `隔離評価中 ${Number(feedback.votes || 1)}/3`;
+        return `<div class="genre-feedback-panel"><strong>ジャンル確認を送信済み</strong><p class="muted">${escapeAttr(feedback.selectedGenre || currentGenre)} / ${status}</p></div>`;
+      }
+      const fieldId = `genreFeedback-${shirt.id}`;
+      const consentId = `genreFeedbackConsent-${shirt.id}`;
+      const honeypotId = `genreFeedbackWebsite-${shirt.id}`;
+      const options = musicGenreCatalog.map(item => `<option value="${escapeAttr(item.name)}" ${item.name === currentGenre ? "selected" : ""}>${escapeAttr(item.name)}</option>`).join("");
+      return `<div class="genre-feedback-panel"><strong>判定結果を確認</strong><div class="genre-feedback-controls"><button class="secondary" type="button" onclick="submitGenreFeedback('${escapeAttr(shirt.id)}','${escapeAttr(currentGenre)}')" ${busy ? "disabled" : ""}>${escapeAttr(currentGenre)}で正しい</button><div><select id="${escapeAttr(fieldId)}" aria-label="正しいジャンル">${options}</select><button class="secondary" type="button" onclick="submitSelectedGenreFeedback('${escapeAttr(shirt.id)}')" ${busy ? "disabled" : ""}>訂正を送信</button></div></div><label class="genre-feedback-consent"><input id="${escapeAttr(consentId)}" type="checkbox">URL・曲名・音声を含まない匿名音響特徴と選択ジャンルを精度改善に利用することに同意します</label><label class="genre-feedback-honeypot" aria-hidden="true">Website<input id="${escapeAttr(honeypotId)}" tabindex="-1" autocomplete="off"></label></div>`;
     }
     function youtubeUrlAtStart(url, startSeconds = 0) {
       const link = parseYouTubeLink(url);
@@ -11132,6 +11184,13 @@
     function genreAdjustmentLearningRecords() {
       return normaliseGenreAdjustmentLearningRecords(read(keys.genreAdjustmentLearning, []));
     }
+    function combinedGenreAdjustmentLearningRecords() {
+      const shared = normaliseGenreAdjustmentLearningRecords(state.sharedGenreLearning?.records || []);
+      const local = genreAdjustmentLearningRecords();
+      const byId = new Map();
+      shared.concat(local).forEach(record => byId.set(record.id, record));
+      return [...byId.values()];
+    }
     function persistGenreAdjustmentLearning(features = {}, genreAnalysis = {}) {
       const current = genreAdjustmentLearningRecords();
       const next = upsertGenreAdjustmentLearning(current, features, genreAnalysis);
@@ -11144,7 +11203,7 @@
         version: GENRE_ADJUSTMENT_LEARNING_VERSION
       };
     }
-    function applyGenreAdjustmentLearning(analysis = {}, features = {}, records = genreAdjustmentLearningRecords()) {
+    function applyGenreAdjustmentLearning(analysis = {}, features = {}, records = combinedGenreAdjustmentLearningRecords()) {
       if (!analysis?.top?.length) return analysis;
       const confidence = Number(analysis.confidence ?? analysis.top[0]?.score) || 0;
       if (!analysis.needsReview && confidence >= 72) return analysis;
@@ -16436,6 +16495,138 @@
       state.session = currentSession || state.session;
       if (state.sourceMood) state.sourceMood = { ...state.sourceMood, tags: shirt.tags, audio: shirt.audioFeatures };
     }
+    async function reviewGenreResult(shirtId) {
+      const shirt = findGeneratedShirt(shirtId) || state.generated;
+      if (shirt?.youtubeUrl && shirt.engineId === "youtube_reversible") {
+        await adjustGenreReview(shirtId);
+        return;
+      }
+      openUploadedGenreFeedback(shirtId);
+    }
+    function openUploadedGenreFeedback(shirtId) {
+      const shirt = findGeneratedShirt(shirtId) || state.generated;
+      const analysis = shirt?.audioFeatures?.genreAnalysis;
+      if (!shirt || !analysis?.top?.length) return;
+      const adjusted = {
+        ...shirt,
+        audioFeatures: {
+          ...shirt.audioFeatures,
+          genreAnalysis: {
+            ...analysis,
+            communityFeedback: {
+              state: "awaiting",
+              context: "uploaded-review",
+              initialNeedsReview: Boolean(analysis.needsReview),
+              openedAt: Date.now()
+            }
+          }
+        }
+      };
+      persistAdjustedGeneratedShirt(adjusted);
+      state.message = "正しいジャンルを確認してください。音源、ファイル名、PCMは送信しません。";
+      render();
+    }
+    function submitSelectedGenreFeedback(shirtId) {
+      const selected = document.getElementById(`genreFeedback-${shirtId}`)?.value || "";
+      submitGenreFeedback(shirtId, selected);
+    }
+    async function submitGenreFeedback(shirtId, selectedGenre) {
+      if (state.generationProgress) return;
+      const shirt = findGeneratedShirt(shirtId) || state.generated;
+      const analysis = shirt?.audioFeatures?.genreAnalysis;
+      const feedback = analysis?.communityFeedback || {};
+      const predictedGenre = analysis?.top?.[0]?.name || analysis?.top?.[0]?.label || "";
+      if (!shirt || !analysis?.top?.length || !musicGenreCatalog.some(item => item.name === selectedGenre)) {
+        state.message = "正しいジャンルを選択してください。";
+        render();
+        return;
+      }
+      const consent = Boolean(document.getElementById(`genreFeedbackConsent-${shirtId}`)?.checked);
+      if (!consent) {
+        state.message = "匿名音響特徴の精度改善利用に同意してから送信してください。";
+        render();
+        return;
+      }
+      const endpoint = genreFeedbackEndpoint();
+      if (!endpoint) {
+        state.message = "共有学習への送信は公開展示ページで利用できます。";
+        render();
+        return;
+      }
+      const runId = beginGenerationProgress("genre-feedback");
+      setGenerationProgress(runId, { percent: 35, label: "ジャンル確認を匿名送信", estimate: "音源やURLを含まない20次元音響特徴だけを送信" });
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          credentials: "same-origin",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "submit-genre-feedback",
+            consent: true,
+            website: document.getElementById(`genreFeedbackWebsite-${shirtId}`)?.value || "",
+            interactionMs: Math.max(0, Date.now() - Number(feedback.openedAt || Date.now())),
+            reviewContext: feedback.context === "uploaded-review" ? "uploaded-review" : "post-multi-window",
+            signature: genreAdjustmentFeatureSignature(shirt.audioFeatures),
+            predictedGenre,
+            selectedGenre,
+            confidence: Number(analysis.confidence ?? analysis.top[0]?.score) || 0,
+            needsReview: Boolean(feedback.initialNeedsReview || analysis.needsReview),
+            candidates: analysis.top.slice(0, 5).map(item => ({ name: item.name || item.label || "", score: Number(item.score) || 0 })),
+            modelVersion: GENRE_INFERENCE_REVISION
+          })
+        });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok || payload.ok === false) throw new Error(payload.error || `HTTP ${response.status}`);
+        if (payload.model) setSharedGenreLearningModel(payload.model);
+        const corrected = selectedGenre === predictedGenre
+          ? { ...analysis, inferredGenre: selectedGenre, needsReview: false, confidence: Math.max(60, Number(analysis.confidence || 0)) }
+          : promoteAudioGenreCandidate(analysis, {
+            targetName: selectedGenre,
+            targetMacro: genreToMacro[selectedGenre],
+            suppressLabels: [predictedGenre],
+            factor: .48,
+            companionCandidates: predictedGenre ? [{ name: predictedGenre, relativeScore: .65 }] : [],
+            method: "explicit-community-feedback-v1",
+            needsReview: false,
+            sourceNote: "来場者が確認したジャンルを現在の結果へ反映しています。"
+          });
+        const serverFeedback = {
+          state: "submitted",
+          context: feedback.context || "post-multi-window",
+          selectedGenre,
+          serverStatus: payload.status || "quarantine",
+          votes: Number(payload.consensus?.votes || 1),
+          submittedAt: new Date().toISOString()
+        };
+        const correctedAnalysis = { ...corrected, communityFeedback: serverFeedback };
+        const learningAnalysis = {
+          ...correctedAnalysis,
+          confidence: Math.max(72, Number(correctedAnalysis.confidence || 0)),
+          top: correctedAnalysis.top.map((item, index) => index === 0 ? { ...item, score: Math.max(72, Number(item.score || 0)) } : item),
+          automaticGenreAdjustment: {
+            ...(correctedAnalysis.automaticGenreAdjustment || {}),
+            resolved: true,
+            voteShare: 1,
+            evidenceMargin: 1,
+            adjustedAt: new Date().toISOString(),
+            explicitVisitorConfirmation: true,
+            pcmPreserved: true
+          }
+        };
+        persistGenreAdjustmentLearning(shirt.audioFeatures, learningAnalysis);
+        const adjusted = applyAdjustedGenreToShirt(shirt, correctedAnalysis);
+        persistAdjustedGeneratedShirt(adjusted);
+        clearGenerationProgress();
+        state.message = payload.status === "promoted"
+          ? `${selectedGenre} の匿名音響境界が固定評価を通過し、共有エンジンへ昇格しました。`
+          : `${selectedGenre} の回答を隔離候補へ追加しました。異なる訪問者3人以上の合意後に評価します。`;
+        render();
+      } catch (error) {
+        clearGenerationProgress();
+        state.message = `ジャンル確認を送信できませんでした: ${error.message}`;
+        render();
+      }
+    }
     async function adjustGenreReview(shirtId) {
       if (state.generationProgress) return;
       const shirt = findGeneratedShirt(shirtId) || state.generated;
@@ -16487,6 +16678,12 @@
           automaticGenreAdjustment: {
             ...(genreAnalysis.automaticGenreAdjustment || {}),
             engineLearning: learning
+          },
+          communityFeedback: {
+            state: "awaiting",
+            context: "post-multi-window",
+            initialNeedsReview: Boolean(currentAnalysis.needsReview),
+            openedAt: Date.now()
           }
         };
         const adjusted = applyAdjustedGenreToShirt(shirt, genreAnalysis);
@@ -17467,6 +17664,7 @@
       const isGenerating = Boolean(state.generationProgress);
       const genreLabel = genreRankedText(features?.genreAnalysis, 2);
       const genreReviewAction = renderGenreReviewAction(generated, features?.genreAnalysis, isGenerating);
+      const genreFeedbackPanel = renderGenreFeedbackPanel(generated, features?.genreAnalysis, isGenerating);
       const genreEvidence = `${japaneseVocalEvidenceText(features?.genreAnalysis)} / ${sparseGenreEvidenceText(features?.genreAnalysis)}`;
       const inferredStyle = features?.genreAnalysis?.style?.[0];
       const styleName = inferredStyle?.name || inferredStyle?.label || features?.genreAnalysis?.inferredStyle || features?.inferredStyle || "";
@@ -17497,7 +17695,7 @@
           <details class="advanced-settings"><summary>解析サーバー設定</summary><div class="api-config"><label for="apiEndpoint"><span class="eyebrow">YouTube audio analysis server</span><input id="apiEndpoint" value="${endpointValue}" placeholder="https://example.com/api/audio-analyze"></label><button class="secondary" onclick="saveApiEndpoint()">接続先を保存</button></div></details></section>` :
           `<section id="conversion-workbench" class="panel"><div class="top"><div><p class="eyebrow">04 / OUTPUT</p><h2>${generatedHeading}</h2></div><div>${generatedActions}</div></div>
           ${renderGenerationProgress()}
-          <div class="generated-layout"><article class="generated-preview">${renderShirtArt(generated)}<div class="design-spec"><p><strong>音源</strong><br>${sourceLabel}</p><p><strong>生成</strong><br>${selectedEngine.label}</p><p><strong>状態</strong><br>${generatedStateText}</p><p><strong>Genre</strong><br>${genreLabel}${styleLabel}${genreReviewAction ? `<br>${genreReviewAction}` : ""}</p><p><strong>音響根拠</strong><br>${genreEvidence}</p><p><strong>Tempo</strong><br>${features?.tempo ? `${features.tempo} BPM` : "local"}</p><p><strong>Centroid</strong><br>${features?.centroid ? `${features.centroid} Hz` : "SVG"}</p><p><strong>可逆PCM</strong><br>${formatPcmGeometryText(features)}</p></div></article><article><p>${generated.tags.map(t => `<span class="tag">${t}</span>`).join("")}</p><h3>${generated.title}</h3><p>${generated.description}</p>${generated.youtubeUrl ? `<p class="muted"><a href="${escapeAttr(generated.youtubeUrl)}" target="_blank" rel="noreferrer">参照YouTubeリンク</a></p>` : ""}${state.message ? `<p class="tag">${state.message}</p>` : ""}${generated.externalNote ? `<p class="tag">${generated.externalNote}</p>` : ""}<p class="muted">${generated.stockNote}</p><button class="primary" onclick="acceptRealtimeDesign();nav('work','${generated.id}')">詳細と共鳴を見る</button></article></div></section>`}
+          <div class="generated-layout"><article class="generated-preview">${renderShirtArt(generated)}<div class="design-spec"><p><strong>音源</strong><br>${sourceLabel}</p><p><strong>生成</strong><br>${selectedEngine.label}</p><p><strong>状態</strong><br>${generatedStateText}</p><p><strong>Genre</strong><br>${genreLabel}${styleLabel}${genreReviewAction ? `<br>${genreReviewAction}` : ""}</p><p><strong>音響根拠</strong><br>${genreEvidence}</p><p><strong>Tempo</strong><br>${features?.tempo ? `${features.tempo} BPM` : "local"}</p><p><strong>Centroid</strong><br>${features?.centroid ? `${features.centroid} Hz` : "SVG"}</p><p><strong>可逆PCM</strong><br>${formatPcmGeometryText(features)}</p></div>${genreFeedbackPanel}</article><article><p>${generated.tags.map(t => `<span class="tag">${t}</span>`).join("")}</p><h3>${generated.title}</h3><p>${generated.description}</p>${generated.youtubeUrl ? `<p class="muted"><a href="${escapeAttr(generated.youtubeUrl)}" target="_blank" rel="noreferrer">参照YouTubeリンク</a></p>` : ""}${state.message ? `<p class="tag">${state.message}</p>` : ""}${generated.externalNote ? `<p class="tag">${generated.externalNote}</p>` : ""}<p class="muted">${generated.stockNote}</p><button class="primary" onclick="acceptRealtimeDesign();nav('work','${generated.id}')">詳細と共鳴を見る</button></article></div></section>`}
         ${generated ? renderReversiblePanel(generated) : ""}
         ${generated && !isReversibleAudio ? renderAudioMappingDiagram(features) : ""}
       </main>`;
@@ -17530,6 +17728,7 @@
     }
     async function loadCalibratedGenreProfiles() {
       if (location.protocol === "file:") return;
+      await loadSharedGenreFeedbackModel();
       try {
         const modelResponse = await fetch("genre-training/genre-model.json", { cache: "no-store" });
         if (modelResponse.ok) {

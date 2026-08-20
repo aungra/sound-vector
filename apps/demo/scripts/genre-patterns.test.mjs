@@ -9,6 +9,8 @@ const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const DEMO_DIR = path.resolve(SCRIPT_DIR, "..");
 const HTML_PATH = path.join(DEMO_DIR, "MUSIC MEMORY FITTING ROOM.html");
 const SAKURA_PROXY_PATH = path.resolve(DEMO_DIR, "../../deploy/aun-graphic-sound-form/api/audio-analyze.php");
+const GENRE_FEEDBACK_PATH = path.resolve(DEMO_DIR, "../../deploy/aun-graphic-sound-form/api/genre-feedback.php");
+const GENRE_FEEDBACK_HOLDOUT_PATH = path.resolve(DEMO_DIR, "../../deploy/aun-graphic-sound-form/genre-feedback-holdout.json");
 const PUBLIC_SUPERVISOR_PATH = path.resolve(DEMO_DIR, "../../deploy/aun-graphic-sound-form/public-audio-supervisor.mjs");
 const HUGGINGFACE_DOCKERFILE_PATH = path.resolve(DEMO_DIR, "../../deploy/huggingface-audio-api/Dockerfile");
 const AUDIO_SERVER_PATH = path.join(SCRIPT_DIR, "audio-analysis-server.mjs");
@@ -42,7 +44,7 @@ export function loadPatternApi() {
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]);
   const appScript = scripts.at(-1).replace(
     /cleanupStoredSessions\(\);\s*restoreLatestAcceptedSession\(\);\s*render\(\);\s*loadCalibratedGenreProfiles\(\);\s*$/,
-    "globalThis.__patternApi={state,apiEndpointCandidates,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,highTempoRapBreakbeatEvidence,applyHighTempoRapBreakbeatCorrection,applyHighTempoRockCorrection,weakMidTempoHarmonicRockEvidence,applyWeakMidTempoHarmonicRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,midDominantRockBalladEvidence,bassLedAlternativeDanceRockEvidence,spokenRapBlackMusicEvidence,alternativeDanceGrooveEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreVisualWeight,genreRankedText,genreDisplayText,renderGenreReviewAction,youtubeUrlAtStart,genreAdjustmentOffsets,combineGenreWindowAnalyses,genreAdjustmentFeatureSignature,genreAdjustmentFeatureDistance,normaliseGenreAdjustmentLearningRecords,upsertGenreAdjustmentLearning,applyGenreAdjustmentLearning,preserveProtectedPcmGeometry,applyAdjustedGenreToShirt,inferMusicGenresBase,inferMusicGenres,refreshReversibleSoundClothShirt};"
+    "globalThis.__patternApi={state,apiEndpointCandidates,genreFeedbackEndpoint,setSharedGenreLearningModel,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,highTempoRapBreakbeatEvidence,applyHighTempoRapBreakbeatCorrection,applyHighTempoRockCorrection,weakMidTempoHarmonicRockEvidence,applyWeakMidTempoHarmonicRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,midDominantRockBalladEvidence,bassLedAlternativeDanceRockEvidence,spokenRapBlackMusicEvidence,alternativeDanceGrooveEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreVisualWeight,genreRankedText,genreDisplayText,renderGenreReviewAction,renderGenreFeedbackPanel,youtubeUrlAtStart,genreAdjustmentOffsets,combineGenreWindowAnalyses,genreAdjustmentFeatureSignature,genreAdjustmentFeatureDistance,normaliseGenreAdjustmentLearningRecords,combinedGenreAdjustmentLearningRecords,upsertGenreAdjustmentLearning,applyGenreAdjustmentLearning,preserveProtectedPcmGeometry,applyAdjustedGenreToShirt,inferMusicGenresBase,inferMusicGenres,refreshReversibleSoundClothShirt};"
   );
   const context = {
     console,
@@ -135,6 +137,47 @@ test("public proxy prefers Sakura-local analysis and retains the Mac tunnel fall
   assert.match(proxy, /flock\(\$lock, LOCK_EX\)/);
   assert.match(proxy, /stopLocalWorker\(\$localWorker\)/);
   assert.match(proxy, /releaseLocalLock\(\$localLock\)/);
+});
+
+test("community genre feedback endpoint quarantines anonymous votes before guarded promotion", () => {
+  const php = fs.readFileSync(GENRE_FEEDBACK_PATH, "utf8");
+  assert.match(php, /const MIN_UNIQUE_VOTERS = 3/);
+  assert.match(php, /const MIN_CONSENSUS_SHARE = 0\.75/);
+  assert.match(php, /const MAX_TOP1_REGRESSION_POINTS = 1\.0/);
+  assert.match(php, /anonymousHash\('visitor'/);
+  assert.match(php, /anonymousHash\('network-'/);
+  assert.match(php, /DUPLICATE_FEEDBACK/);
+  assert.match(php, /RATE_LIMITED/);
+  assert.match(php, /evaluateCandidate\(\$signature, \$target\)/);
+  assert.match(php, /HOLDOUT_UNAVAILABLE/);
+  assert.match(php, /'status' => !empty\(\$promotion\['promoted'\]\) \? 'promoted' : 'quarantine'/);
+  assert.doesNotMatch(php, /youtubeUrl|sourceUrl|trackName|artistName|pcmSketch|transcript/i);
+});
+
+test("community promotion holdout is fixed, anonymous, and covers 32 genre targets", () => {
+  const holdout = JSON.parse(fs.readFileSync(GENRE_FEEDBACK_HOLDOUT_PATH, "utf8"));
+  assert.equal(holdout.version, "genre-feedback-holdout-v1");
+  assert.equal(holdout.policy.targetCount, 32);
+  assert.equal(holdout.policy.recordsPerTarget, 3);
+  assert.equal(holdout.records.length, 96);
+  assert.equal(new Set(holdout.records.map(record => record.id)).size, 96);
+  holdout.records.forEach(record => {
+    assert.equal(record.signature.length, 20);
+    assert.ok(record.signature.every(value => Number.isFinite(value) && value >= 0 && value <= 1));
+    assert.deepEqual(Object.keys(record).sort(), ["baselineNeedsReview", "baselinePrediction", "expected", "id", "signature"].sort());
+  });
+  assert.doesNotMatch(JSON.stringify(holdout), /https?:|youtube|artist|title|filePath|pcm|transcript/i);
+});
+
+test("community feedback endpoint is enabled only on the managed public page", () => {
+  const { genreFeedbackEndpoint } = loadPatternApi();
+  assert.equal(genreFeedbackEndpoint({
+    hostname: "aun-graphic.jp",
+    pathname: "/sound-form/",
+    configuredEndpoint: "/sound-form/api/genre-feedback.php"
+  }), "/sound-form/api/genre-feedback.php");
+  assert.equal(genreFeedbackEndpoint({ hostname: "127.0.0.1", pathname: "/MUSIC%20MEMORY%20FITTING%20ROOM.html" }), "");
+  assert.equal(genreFeedbackEndpoint({ hostname: "example.com", pathname: "/sound-form-copy/" }), "");
 });
 
 test("all public analysis runtimes use three 30-second genre sections", () => {
@@ -1929,10 +1972,31 @@ test("a review-required genre renders 要確認 as an action button", () => {
   const analysis = { needsReview: true, top: [{ name: "ロック", score: 54 }, { name: "ジャズ", score: 13 }] };
   assert.equal(genreRankedText(analysis, 2), "ロック 54% / ジャズ 13%");
   const action = renderGenreReviewAction({ id: "review-shirt" }, analysis, false);
-  assert.match(action, /<button[^>]+onclick="adjustGenreReview\('review-shirt'\)"/);
+  assert.match(action, /<button[^>]+onclick="reviewGenreResult\('review-shirt'\)"/);
   assert.match(action, />要確認<\/button>/);
   assert.equal(renderGenreReviewAction({ id: "review-shirt" }, { ...analysis, needsReview: false }, false), "");
   assert.match(renderGenreReviewAction({ id: "review-shirt" }, analysis, true), /disabled[^>]*>調整中…<\/button>/);
+});
+
+test("post-review UI requires consent and offers confirmation or a 32-genre correction", () => {
+  const { renderGenreFeedbackPanel } = loadPatternApi();
+  const awaiting = renderGenreFeedbackPanel({ id: "feedback-shirt" }, {
+    top: [{ name: "ロック", score: 62 }],
+    communityFeedback: { state: "awaiting", context: "post-multi-window", openedAt: 1 }
+  });
+  assert.match(awaiting, /ロックで正しい/);
+  assert.match(awaiting, /訂正を送信/);
+  assert.match(awaiting, /type="checkbox"/);
+  assert.equal((awaiting.match(/<option\b/g) || []).length, 32);
+  assert.match(awaiting, /genre-feedback-honeypot/);
+
+  const submitted = renderGenreFeedbackPanel({ id: "feedback-shirt" }, {
+    top: [{ name: "ファンク", score: 72 }],
+    communityFeedback: { state: "submitted", selectedGenre: "ファンク", serverStatus: "quarantine", votes: 2 }
+  });
+  assert.match(submitted, /送信済み/);
+  assert.match(submitted, /隔離評価中 2\/3/);
+  assert.doesNotMatch(submitted, /<select\b/);
 });
 
 test("multi-window genre adjustment resolves repeated agreement without producing 100 percent", () => {
@@ -2163,6 +2227,50 @@ test("adaptive review learning leaves distant and already reliable predictions u
     top: [{ name: "ロック", score: 84, macro: "rock" }]
   };
   assert.equal(applyGenreAdjustmentLearning(reliable, learnedFeatures, records), reliable);
+});
+
+test("promoted community boundaries are shared with subsequent low-confidence inference", () => {
+  const {
+    setSharedGenreLearningModel,
+    combinedGenreAdjustmentLearningRecords,
+    genreAdjustmentFeatureSignature,
+    applyGenreAdjustmentLearning
+  } = loadPatternApi();
+  const features = {
+    tempo: 108, energy: .68, bass: .62, lowBandRatio: .39, midBandRatio: .45, highBandRatio: .16,
+    rhythm: .78, onset: .55, brightness: .48, zcr: .1, distortion: .23, fourOnFloor: .4,
+    breakbeatIrregularity: .32, harmonicRatio: .72, sustainRatio: .47, structureRecurrence: .73,
+    syncopation: .82,
+    japaneseVocalEvidence: { vocalPresence: .64, melodicVocalLikelihood: .58, speechRapLikelihood: .18 }
+  };
+  const signature = Array.from(genreAdjustmentFeatureSignature(features));
+  const model = setSharedGenreLearningModel({
+    modelVersion: "community-boundary-v1",
+    revision: 4,
+    promotedRecords: [{
+      version: "adaptive-boundary-v1",
+      id: "shared-funk-boundary",
+      targetName: "ファンク",
+      targetMacro: "black_music",
+      signature,
+      confidence: 82,
+      voteShare: 1,
+      evidenceMargin: 1,
+      support: 3,
+      updatedAt: "2026-08-21T00:00:00Z"
+    }]
+  });
+  assert.equal(model.revision, 4);
+  assert.equal(model.records.length, 1);
+  assert.equal(combinedGenreAdjustmentLearningRecords().length, 1);
+  const corrected = applyGenreAdjustmentLearning({
+    source: "test", method: "test", confidence: 48, needsReview: true,
+    macro: [{ macro: "rock", score: 52 }],
+    top: [{ name: "ロック", score: 48, macro: "rock" }]
+  }, features);
+  assert.equal(corrected.top[0].name, "ファンク");
+  assert.equal(corrected.needsReview, false);
+  assert.equal(corrected.genreAdjustmentLearning.support, 3);
 });
 
 test("genre adjustment replaces visible SVG while preserving protected PCM byte-for-byte", () => {
