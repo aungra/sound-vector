@@ -5295,6 +5295,30 @@
         && vector.guitarBand < .012 && vector.distortion < .3
         && vector.structureRecurrence >= .4;
     }
+    function midDominantRockBalladEvidence(vector = {}, context = {}) {
+      const segments = context.segmentConsensus || {};
+      return context.leader === "チップチューン"
+        && Number(context.chiptuneScore || 0) < .12
+        && Number(context.modelElectronicMacroScore || 0) < .2
+        && Number(context.ruleRockMacroScore || 0) >= .58
+        && Number(context.ruleRockMacroScore || 0) >= Number(context.ruleElectronicMacroScore || 0) + .06
+        && Number(segments.count || 0) >= 3
+        && Number(segments.voteShare || 0) <= .34
+        && Number(segments.macroVoteShare || 0) <= .34
+        && vector.tempo >= 82 && vector.tempo <= 142
+        && vector.energy >= .72
+        && vector.bass >= .34 && vector.bass <= .72
+        && vector.lowBandRatio >= .25 && vector.lowBandRatio <= .58
+        && vector.midBandRatio >= .45
+        && vector.highBandRatio < .12 && vector.brightness < .45
+        && vector.rhythm >= .2 && vector.rhythm <= .66
+        && vector.onset >= .16 && vector.onset <= .46
+        && vector.harmonicRatio >= .8
+        && vector.distortion >= .14 && vector.distortion <= .36
+        && vector.squareWave < .32
+        && vector.fourOnFloor < .3 && vector.kickGrid < .32
+        && vector.transientScarcity >= .65;
+    }
     function bassLedAlternativeDanceRockEvidence(vector = {}, context = {}) {
       const externalScore = name => (Number((context.externalTop || [])
         .find(item => (item.name || item.label) === name)?.score) || 0) / 100;
@@ -6910,6 +6934,7 @@
       const rawRuleNames = new Set(rawRuleAnalysis.top.flatMap(item => [item.name, item.label]).filter(Boolean));
       const rawRuleScore = name => (Number((rawRuleAnalysis.top || []).find(item => item.name === name || item.label === name)?.score) || 0) / 100;
       const rawElectronicMacroScore = (Number((rawRuleAnalysis.macro || []).find(item => canonicalModelMacro(item.macro || item.label) === "electronic")?.score) || 0) / 100;
+      const rawRockMacroScore = macroGenreScore(vector, "rock");
       const correctedModelMacro = Object.fromEntries((analysis.macro || []).map(item => [canonicalModelMacro(item.macro || item.label), (Number(item.score) || 0) / 100]));
       const rawModelMacro = Object.fromEntries((features.embeddingGenrePrediction?.macro || []).map(item => [canonicalModelMacro(item.macro || item.label), (Number(item.score) || 0) / 100]));
       const modelMacro = Object.fromEntries(Array.from(new Set([...Object.keys(correctedModelMacro), ...Object.keys(rawModelMacro)]))
@@ -6935,6 +6960,33 @@
           method: "fullBandDanceNotChiptune", needsReview: false,
           sourceNote: "広帯域の低域とダンス周期が優勢で矩形波高域が弱いため、チップチューン過予測からHouse/Trance境界へ戻しています。",
           evidence: { tempo: vector.tempo, brightness: vector.brightness, highBandRatio: vector.highBandRatio, squareWave: vector.squareWave, structureRecurrence: vector.structureRecurrence }
+        });
+      }
+
+      const midDominantRockBallad = midDominantRockBalladEvidence(vector, {
+        leader,
+        chiptuneScore: rawProductionScore("チップチューン"),
+        modelElectronicMacroScore,
+        ruleRockMacroScore: rawRockMacroScore,
+        ruleElectronicMacroScore: macroGenreScore(vector, "electronic"),
+        segmentConsensus: analysis.segmentConsensus || rawProduction.segmentConsensus || {}
+      });
+      if (midDominantRockBallad) {
+        return promoteAudioGenreCandidate(analysis, {
+          targetName: "ロック", targetMacro: "rock",
+          suppressMacros: ["electronic"], factor: .24,
+          method: "midDominantRockBallad", needsReview: true,
+          sourceNote: "チップ音に必要な高域・矩形波が弱く、3区間のElectronic支持も不一致です。強い中域、調性、適度な歪みとRock macroが一致するため、低信頼チップチューン過予測をRockへ戻しています。",
+          evidence: {
+            rawChiptune: rawProductionScore("チップチューン"),
+            rockMacro: rawRockMacroScore,
+            electronicMacro: macroGenreScore(vector, "electronic"),
+            midBandRatio: vector.midBandRatio,
+            highBandRatio: vector.highBandRatio,
+            harmonicRatio: vector.harmonicRatio,
+            distortion: vector.distortion,
+            segmentVoteShare: Number((analysis.segmentConsensus || rawProduction.segmentConsensus || {}).voteShare || 0)
+          }
         });
       }
 
@@ -9186,6 +9238,9 @@
       if (segmentConsensus.rescued || (segmentConsensus.agreement && Number(segmentConsensus.voteShare || 0) >= 1)) confidence += 6;
       if (segmentConflict) confidence -= 10 + Math.round((1 - Number(segmentConsensus.voteShare || 0)) * 12);
       if (trustedRapSegmentMajority) confidence = Math.max(confidence, 68);
+      const weakSharedLocalSupport = String(analysis.method || "").includes("shared-production-local-classifier")
+        && Math.max(...ranked.map(item => Number(item.relativeScore ?? item.rawScore ?? item.score) || 0)) < 12;
+      if (weakSharedLocalSupport) confidence = Math.min(confidence, 52);
       confidence = Math.round(Math.max(12, Math.min(96, confidence)));
 
       const leaderBase = Math.max(1, Number(leader.score) || 1);
@@ -9207,7 +9262,7 @@
           score: Math.round(specialistLeader.score * 10) / 10,
           margin: Math.round((specialistLeader.score - Number(specialistRunnerUp.score || 0)) * 10) / 10
         } : null,
-        needsReview: Boolean((analysis.needsReview && !strongFineAgreement && !trustedUnknownAgreement && !trustedRapSegmentMajority) || confidence < 58 || unknownConsensus.conflict || segmentConflict || (agreementAvailable && !macroAgreement && !strongFineAgreement && !trustedUnknownAgreement && !trustedRapSegmentMajority)),
+        needsReview: Boolean(weakSharedLocalSupport || (analysis.needsReview && !strongFineAgreement && !trustedUnknownAgreement && !trustedRapSegmentMajority) || confidence < 58 || unknownConsensus.conflict || segmentConflict || (agreementAvailable && !macroAgreement && !strongFineAgreement && !trustedUnknownAgreement && !trustedRapSegmentMajority)),
         source: agreementAvailable && !macroAgreement && !strongFineAgreement && !trustedUnknownAgreement
           ? `${analysis.source} 学習モデルと独立音響ルールの大分類が一致しないため、確信度を下げて要確認にしています。`
           : analysis.source,
