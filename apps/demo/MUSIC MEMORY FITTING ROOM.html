@@ -781,16 +781,27 @@
         write(keys.sessions, [tiny]);
       }
     }
+    function apiEndpointCandidates(environment = {}) {
+      const hostname = environment.hostname ?? location.hostname ?? "";
+      const protocol = environment.protocol ?? location.protocol ?? "";
+      const pathname = environment.pathname ?? location.pathname ?? "";
+      const localHost = /^(?:localhost|127(?:\.\d+){3}|\[?::1\]?)$/i.test(hostname);
+      const publicHost = /^(?:www\.)?aun-graphic\.jp$/i.test(hostname);
+      const soundFormPath = /^\/sound-form(?:\/|$)/i.test(pathname);
+      const configuredPublicEndpoint = environment.configuredEndpoint
+        ?? document.querySelector?.('meta[name="sound-form-api-endpoint"]')?.content
+        ?? "";
+      const savedEndpoint = environment.savedEndpoint ?? read(keys.apiConfig, {}).endpoint ?? "";
+      const managed = localHost || protocol === "file:" || publicHost || soundFormPath;
+      const defaults = [];
+      if (localHost || protocol === "file:") defaults.push("http://127.0.0.1:4194/api/audio-analyze");
+      if (publicHost || soundFormPath) defaults.push(configuredPublicEndpoint, "/sound-form/api/audio-analyze.php");
+      return unique((managed ? defaults.concat(savedEndpoint) : [savedEndpoint, configuredPublicEndpoint])
+        .map(normaliseApiEndpoint));
+    }
     function apiConfig() {
-      const saved = read(keys.apiConfig, {});
-      const localHost = /^(?:localhost|127(?:\.\d+){3}|\[?::1\]?)$/i.test(location.hostname || "");
-      const publicHost = /^(?:www\.)?aun-graphic\.jp$/i.test(location.hostname || "");
-      const configuredPublicEndpoint = document.querySelector?.('meta[name="sound-form-api-endpoint"]')?.content || "";
-      const publicEndpoint = configuredPublicEndpoint || (publicHost ? "/sound-form/api/audio-analyze.php" : "");
-      const defaultEndpoint = localHost
-        ? "http://127.0.0.1:4194/api/audio-analyze"
-        : publicHost ? publicEndpoint : "";
-      return { endpoint: normaliseApiEndpoint(saved.endpoint || defaultEndpoint) };
+      const candidates = apiEndpointCandidates();
+      return { endpoint: candidates[0] || "", candidates };
     }
     function normaliseApiEndpoint(endpoint) {
       const value = String(endpoint || "").trim();
@@ -2386,46 +2397,73 @@
       state.message = "解析を中止しました。";
       render();
     }
+    function waitForAnalysisRetry(ms, signal) {
+      return new Promise((resolve, reject) => {
+        const timer = setTimeout(resolve, ms);
+        signal?.addEventListener("abort", () => {
+          clearTimeout(timer);
+          reject(new DOMException("Aborted", "AbortError"));
+        }, { once: true });
+      });
+    }
     async function analyzeYouTubeLink(url, options = {}) {
-      const config = apiConfig();
-      if (!config.endpoint) throw new Error("YouTube音声を実解析するには、解析サーバーURLが必要です。");
+      const endpoints = apiConfig().candidates;
+      if (!endpoints.length) throw new Error("解析サービスを自動設定できませんでした。展示ページを再読み込みしてください。");
       const link = parseYouTubeLink(url);
-      try {
-        const response = await fetch(config.endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          signal: options.signal,
-          body: JSON.stringify({
-            action: "analyze-youtube",
-            requestId: options.requestId,
-            youtubeUrl: link.normalizedUrl || url,
-            originalYoutubeUrl: url,
-            videoId: link.id,
-            startSeconds: link.startSeconds,
-            features: ["tempo", "rms", "spectralCentroid", "chroma", "onsets", "stereoPhase", "bassEnergy"]
-          })
-        });
-        const data = await response.json();
-        if (!response.ok || data.ok === false) {
-          const error = new Error(data.error || `HTTP ${response.status}`);
-          error.code = data.code || "";
-          error.detail = data.detail || "";
-          throw error;
+      const requestBody = JSON.stringify({
+        action: "analyze-youtube",
+        requestId: options.requestId,
+        youtubeUrl: link.normalizedUrl || url,
+        originalYoutubeUrl: url,
+        videoId: link.id,
+        startSeconds: link.startSeconds,
+        features: ["tempo", "rms", "spectralCentroid", "chroma", "onsets", "stereoPhase", "bassEnergy"]
+      });
+      let lastError = null;
+      for (const endpoint of endpoints) {
+        for (let attempt = 0; attempt < 3; attempt += 1) {
+          try {
+            if (attempt > 0) {
+              setGenerationProgress(activeYoutubeAnalysis?.runId, {
+                label: "解析サービスへ再接続",
+                estimate: `自動復旧を確認しています (${attempt + 1}/3)`
+              });
+              await waitForAnalysisRetry(attempt * 2000, options.signal);
+            }
+            const response = await fetch(endpoint, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              signal: options.signal,
+              body: requestBody
+            });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok || data.ok === false) {
+              const error = new Error(data.error || `HTTP ${response.status}`);
+              error.code = data.code || "";
+              error.detail = data.detail || "";
+              error.status = response.status;
+              throw error;
+            }
+            write(keys.apiConfig, { endpoint });
+            return normaliseFeatures({ id: link.id, startSeconds: link.startSeconds, normalizedUrl: link.normalizedUrl, ...(data.features || data.audio || data), source: data.source || "external-audio-analysis" }, link.normalizedUrl || url);
+          } catch (error) {
+            if (error.name === "AbortError") throw new Error("解析を中止しました。");
+            lastError = error;
+            const transient = ["UPSTREAM_NOT_CONFIGURED", "UPSTREAM_UNAVAILABLE", "ANALYSIS_TIMEOUT", "YOUTUBE_TRANSIENT"]
+              .includes(error.code)
+              || [502, 503, 504].includes(Number(error.status))
+              || /Failed to fetch|Load failed|NetworkError|ECONNREFUSED/i.test(error.message);
+            if (!transient) break;
+          }
         }
-        return normaliseFeatures({ id: link.id, startSeconds: link.startSeconds, normalizedUrl: link.normalizedUrl, ...(data.features || data.audio || data), source: data.source || "external-audio-analysis" }, link.normalizedUrl || url);
-      } catch (error) {
-        if (error.name === "AbortError") throw new Error("解析を中止しました。");
-        if (error.code === "YOUTUBE_COOKIE_REQUIRED") {
-          throw new Error(`${error.message} 「Check YouTube Cookies.command」で状態を確認できます。`);
-        }
-        if (error.code === "YOUTUBE_RATE_LIMITED") {
-          throw new Error(`${error.message} cookieは読めていますが、YouTube側の一時制限で音声取得が止まっています。時間を置くか、別のYouTubeログインcookieに更新してください。`);
-        }
-        if (/Failed to fetch|Load failed|NetworkError|ECONNREFUSED/i.test(error.message)) {
-          throw new Error(`YouTube解析サーバーに接続できませんでした。4194番の解析サーバーを起動してください。`);
-        }
-        throw new Error(`YouTube音声を取得できませんでした: ${error.message}`);
       }
+      if (lastError?.code === "YOUTUBE_COOKIE_REQUIRED") {
+        throw new Error(`${lastError.message} 「Check YouTube Cookies.command」で状態を確認できます。`);
+      }
+      if (lastError?.code === "YOUTUBE_RATE_LIMITED") {
+        throw new Error(`${lastError.message} cookieは読めていますが、YouTube側の一時制限で音声取得が止まっています。時間を置いて再度お試しください。`);
+      }
+      throw new Error("解析サービスを自動復旧できませんでした。30秒ほど待って、もう一度解析してください。");
     }
     function goertzelPower(channel, start, size, sampleRate, frequency) {
       const omega = 2 * Math.PI * frequency / sampleRate;

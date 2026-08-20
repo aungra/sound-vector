@@ -6,6 +6,8 @@
   <string>com.aungraphic.musictee-public-audio</string>
   <key>ProgramArguments</key>
   <array>
+    <string>/usr/bin/caffeinate</string>
+    <string>-dims</string>
     <string>/Users/kahanishimoto/.local/bin/node</string>
     <string>/Users/kahanishimoto/Library/Application Support/MUSICTee/public-audio-supervisor.mjs</string>
   </array>

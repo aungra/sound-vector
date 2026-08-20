@@ -20,6 +20,7 @@ const REMOTE_API_DIR = process.env.MMFR_REMOTE_API_DIR
 const PORT = Number(process.env.MMFR_PUBLIC_AUDIO_PORT || 4195);
 const HEALTH_URL = `http://127.0.0.1:${PORT}/health`;
 const TUNNEL_PATTERN = /https:\/\/[a-z0-9-]+\.trycloudflare\.com/g;
+const UPSTREAM_REFRESH_MS = Number(process.env.MMFR_UPSTREAM_REFRESH_MS || 120000);
 
 let stopping = false;
 let activeChildren = [];
@@ -223,6 +224,19 @@ async function syncWithRetry(endpoint, tunnel) {
   throw new Error("tunnel stopped before upstream synchronization");
 }
 
+async function keepUpstreamFresh(endpoint, tunnel) {
+  while (!stopping && tunnel.exitCode === null) {
+    await delay(UPSTREAM_REFRESH_MS);
+    if (stopping || tunnel.exitCode !== null) return;
+    try {
+      await uploadUpstream(endpoint);
+      log("public upstream heartbeat synchronized");
+    } catch (error) {
+      log(`public upstream heartbeat failed: ${error.message}`);
+    }
+  }
+}
+
 async function runGeneration() {
   const server = spawnAnalysisServer();
   activeChildren = [server];
@@ -239,6 +253,7 @@ async function runGeneration() {
   ]);
   const endpoint = `${baseUrl}/api/audio-analyze`;
   await syncWithRetry(endpoint, tunnel);
+  void keepUpstreamFresh(endpoint, tunnel);
 
   const result = await Promise.race([
     childExit(server).then(exit => ({ name: "analysis server", exit })),
