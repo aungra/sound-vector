@@ -8,6 +8,7 @@ import {
   embeddingInferenceAttemptPlan,
   runEmbeddingInferenceAttempts,
 } from "./genre-embedding-runtime-policy.mjs";
+import { shouldRunUnknownSourceConsensus } from "./genre-unknown-consensus-policy.mjs";
 import {
   createFixedWindowRateLimiter,
   isAllowedOrigin,
@@ -711,27 +712,6 @@ function applyOperaticVocalRescue(prediction = {}, features = {}, vocalEvidence 
       vocalPresence: Math.round(clamp01(vocalEvidence.vocalPresence) * 1000) / 1000
     }
   };
-}
-
-function shouldRunUnknownSourceConsensus(local = {}, japaneseVocalEvidence = {}, features = {}) {
-  if (!local?.top?.length) return true;
-  const leader = local.top[0]?.label || local.top[0]?.name || "";
-  const margin = (Number(local.top[0]?.score) || 0) - (Number(local.top[1]?.score) || 0);
-  const japanese = Number(japaneseVocalEvidence.japaneseVocalLikelihood || 0);
-  const likelyRap = Number(features.rhythm || 0) >= .72 && Number(features.onset || 0) >= .62;
-  const segments = local.segmentConsensus || {};
-  const segmentConflict = segments.available && (
-    segments.voteShare < 1
-    || segments.leader !== leader
-    || segments.macroVoteShare < 1
-  );
-  return Boolean(
-    local.needsReview
-    || margin < 18
-    || (local.hierarchyGate?.applied && margin < 30)
-    || (japanese >= .35 && leader !== "J-POP" && !likelyRap)
-    || segmentConflict
-  );
 }
 
 async function resolveGenrePrediction(filePath, features, japaneseVocalEvidence = {}, segmentConsensus = {}) {

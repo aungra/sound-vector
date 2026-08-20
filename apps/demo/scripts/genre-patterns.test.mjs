@@ -38,7 +38,7 @@ export function loadPatternApi() {
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]);
   const appScript = scripts.at(-1).replace(
     /cleanupStoredSessions\(\);\s*restoreLatestAcceptedSession\(\);\s*render\(\);\s*loadCalibratedGenreProfiles\(\);\s*$/,
-    "globalThis.__patternApi={state,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,applyHighTempoRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreVisualWeight,genreDisplayText,inferMusicGenres,refreshReversibleSoundClothShirt};"
+    "globalThis.__patternApi={state,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,applyHighTempoRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,bassLedAlternativeDanceRockEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreVisualWeight,genreDisplayText,inferMusicGenres,refreshReversibleSoundClothShirt};"
   );
   const context = {
     console,
@@ -2720,6 +2720,39 @@ test("v29 vocal and roots specialists separate arrangement from language alone",
   cases.forEach(({ target, vector, context }) => {
     assert.equal(underrepresentedBoundaryTarget(vector, context)?.targetName, target);
   });
+});
+
+test("bass-led alternative dance-rock escapes confident Blues without absorbing real Blues", () => {
+  const { bassLedAlternativeDanceRockEvidence } = loadPatternApi();
+  const vector = {
+    tempo: 76, energy: .4322, bass: .7778,
+    lowBandRatio: .6015, midBandRatio: .3847, highBandRatio: .0138,
+    rhythm: .2366, onset: .169, syncopation: .8733,
+    breakbeatCycle: .6703, fourOnFloor: .1643,
+    harmonicRatio: .8149, distortion: .1206, sustainRatio: .9081,
+    structureRecurrence: .2786
+  };
+  const context = {
+    leader: "ブルース", rockMacro: .232, bluesFine: .872,
+    ruleLeader: "アンビエント", detectedLanguage: "en",
+    vocalPresence: 1, melodicVocalLikelihood: .8276, speechRapLikelihood: .021,
+    externalTop: [
+      { label: "ハウス", score: 30.8 }, { label: "ファンク", score: 14.3 },
+      { label: "ディスコ", score: 8.9 }, { label: "ロック", score: 6.5 }
+    ],
+    externalSegmentAgreement: 1
+  };
+  assert.equal(bassLedAlternativeDanceRockEvidence(vector, context), true);
+  assert.equal(bassLedAlternativeDanceRockEvidence(vector, {
+    ...context,
+    externalTop: [{ label: "ブルース", score: 31 }, ...context.externalTop]
+  }), false);
+  assert.equal(bassLedAlternativeDanceRockEvidence(vector, {
+    ...context,
+    externalTop: [{ label: "ハウス", score: 14 }, { label: "ファンク", score: 8 }, { label: "ロック", score: 6 }]
+  }), false);
+  assert.equal(bassLedAlternativeDanceRockEvidence(vector, { ...context, ruleLeader: "ブルース" }), false);
+  assert.equal(bassLedAlternativeDanceRockEvidence({ ...vector, fourOnFloor: .58 }, context), false);
 });
 
 test("v29 adversarial controls do not turn close negative pairs into rescued genres", () => {

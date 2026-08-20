@@ -677,7 +677,7 @@
       };
     }
     const keys = { creators: "mmfr.creators", tshirts: "mmfr.tshirts", sessions: "mmfr.sessions", resonances: "mmfr.resonances", apiConfig: "mmfr.apiConfig" };
-    const GENRE_INFERENCE_REVISION = "2026-08-20-half-tempo-house-consensus-v84";
+    const GENRE_INFERENCE_REVISION = "2026-08-20-bass-led-dance-rock-v85";
     const inlineArt = {};
     let activeCollisionField = null;
     const state = { view: "home", answers: {}, moodId: null, youtubeUrl: "", audioFeatures: null, sourceMood: null, variantSalt: 0, engineId: "youtube_audio", realtime: false, tick: 0, session: null, generated: null, workId: null, message: "", genreProfiles: null, genreModel: null, generationProgress: null, patternMotion: { shirtId: "", phase: 0, running: false, lastTimestamp: 0 }, equalizer: { shirtId: "", playing: false, startedAt: 0, duration: 0, detail: null, analyser: null, returningAt: 0 } };
@@ -5211,6 +5211,31 @@
         && vector.guitarBand < .012 && vector.distortion < .3
         && vector.structureRecurrence >= .4;
     }
+    function bassLedAlternativeDanceRockEvidence(vector = {}, context = {}) {
+      const externalScore = name => (Number((context.externalTop || [])
+        .find(item => (item.name || item.label) === name)?.score) || 0) / 100;
+      const externalDanceScore = externalScore("ハウス") + externalScore("ファンク") + externalScore("ディスコ");
+      return context.leader === "ブルース"
+        && Number(context.rockMacro || 0) >= .18 && Number(context.bluesFine || 0) >= .75
+        && context.ruleLeader === "アンビエント"
+        && String(context.detectedLanguage || "").toLowerCase() === "en"
+        && Number(context.vocalPresence || 0) >= .8
+        && Number(context.melodicVocalLikelihood || 0) >= .7
+        && Number(context.speechRapLikelihood || 0) < .08
+        && vector.tempo >= 68 && vector.tempo <= 88
+        && vector.energy >= .34 && vector.energy <= .58
+        && vector.bass >= .68 && vector.lowBandRatio >= .5
+        && vector.midBandRatio >= .25 && vector.midBandRatio <= .5
+        && vector.highBandRatio < .05
+        && vector.rhythm >= .16 && vector.rhythm <= .34
+        && vector.onset >= .1 && vector.onset <= .24
+        && vector.syncopation >= .8 && vector.breakbeatCycle >= .55
+        && vector.fourOnFloor < .25 && vector.harmonicRatio >= .78
+        && vector.distortion < .19 && vector.sustainRatio >= .85
+        && vector.structureRecurrence >= .15 && vector.structureRecurrence < .4
+        && externalScore("ブルース") < .08 && externalScore("ロック") >= .04
+        && externalDanceScore >= .3 && Number(context.externalSegmentAgreement || 0) >= .9;
+    }
     function underrepresentedBoundaryTarget(vector = {}, context = {}) {
       const labels = context.labels instanceof Set ? context.labels : new Set(context.labels || []);
       const ruleNames = context.ruleNames instanceof Set ? context.ruleNames : new Set(context.ruleNames || []);
@@ -8656,6 +8681,37 @@
         needsReview: false,
         ...options
       });
+
+      const external = embedding.unknownSourceConsensus || {};
+      const externalScore = name => (Number((external.top || [])
+        .find(item => (item.name || item.label) === name)?.score) || 0) / 100;
+      const externalDanceScore = externalScore("ハウス") + externalScore("ファンク") + externalScore("ディスコ");
+      const bassLedAlternativeDanceRock = bassLedAlternativeDanceRockEvidence(vector, {
+        leader,
+        rockMacro: rawMacro("rock"),
+        bluesFine: blackFineScore("ブルース"),
+        ruleLeader,
+        detectedLanguage,
+        vocalPresence,
+        melodicVocalLikelihood: melodic,
+        speechRapLikelihood: speechRap,
+        externalTop: external.top || [],
+        externalSegmentAgreement: Number(external.segmentAnalysis?.agreement || 0)
+      });
+      if (bassLedAlternativeDanceRock) {
+        return promote("ロック", {
+          suppressLabels: ["ブルース", "レゲエ", "ダブ"], factor: .42,
+          companionCandidates: [{ name: "ファンク", relativeScore: .6 }],
+          method: "bassLedAlternativeDanceRock", needsReview: true,
+          sourceNote: "英語の旋律歌唱、ベース主導の非4つ打ちブレイク、低歪みのRock成分が一致し、独立モデルもBluesを支持しないため、Blues音色の過予測からダンス・ロックへ戻しています。",
+          evidence: {
+            rockMacro: rawMacro("rock"), bluesFine: blackFineScore("ブルース"),
+            externalRock: externalScore("ロック"), externalBlues: externalScore("ブルース"),
+            externalDanceScore, syncopation: vector.syncopation,
+            breakbeatCycle: vector.breakbeatCycle, fourOnFloor: vector.fourOnFloor
+          }
+        });
+      }
 
       const japaneseMetalFineAgreement = rawScore("メタル") >= .65
         || (ruleLeader === "メタル" && rawScore("メタル") >= .35);
