@@ -684,6 +684,7 @@
     let realtimeTimer = null;
     let patternMotionFrame = null;
     let generationProgressTimers = [];
+    let activeYoutubeAnalysis = null;
     let activeReconstructionContext = null;
     let activeReconstructionTimer = null;
     let activeReconstructionAudio = null;
@@ -737,6 +738,7 @@
         <div class="generation-progress-head"><strong>${escapeAttr(progress.label)}</strong><span>${Math.round(progress.percent)}%</span></div>
         <div class="generation-progress-track" aria-hidden="true"><div class="generation-progress-fill" style="width:${Math.max(0, Math.min(100, progress.percent))}%"></div></div>
         <p class="muted">${escapeAttr(progress.estimate)}</p>
+        ${progress.source === "youtube" ? `<button class="secondary" type="button" onclick="cancelYoutubeAnalysis()">解析を中止</button>` : ""}
         <ol class="generation-progress-steps">${progress.stages.map((stage, index) => `<li class="${index < progress.stage ? "done" : index === progress.stage ? "current" : ""}">${index < progress.stage ? "完了" : index === progress.stage ? "進行中" : "待機"} ${escapeAttr(stage.label)}</li>`).join("")}</ol>
       </section>`;
     }
@@ -2356,7 +2358,34 @@
       features.detail = normaliseAudioDetail(raw?.detail || raw?.audioDetail || raw?.reconstructionDetail || {}, features);
       return features;
     }
-    async function analyzeYouTubeLink(url) {
+    function youtubeCancelEndpoint(endpoint) {
+      return /\.php(?:$|\?)/i.test(endpoint) ? endpoint : `${endpoint.replace(/\/$/, "")}/cancel`;
+    }
+    async function cancelYoutubeAnalysis() {
+      const active = activeYoutubeAnalysis;
+      if (!active) return;
+      setGenerationProgress(active.runId, { label: "解析を中止しています", estimate: "子プロセスと一時ファイルを終了中" });
+      try {
+        const config = apiConfig();
+        if (config.endpoint) {
+          await Promise.race([
+            fetch(youtubeCancelEndpoint(config.endpoint), {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ action: "cancel-youtube-analysis", requestId: active.requestId }),
+              keepalive: true
+            }),
+            new Promise(resolve => setTimeout(resolve, 2500))
+          ]);
+        }
+      } catch {}
+      active.controller.abort();
+      if (activeYoutubeAnalysis === active) activeYoutubeAnalysis = null;
+      clearGenerationProgress();
+      state.message = "解析を中止しました。";
+      render();
+    }
+    async function analyzeYouTubeLink(url, options = {}) {
       const config = apiConfig();
       if (!config.endpoint) throw new Error("YouTube音声を実解析するには、解析サーバーURLが必要です。");
       const link = parseYouTubeLink(url);
@@ -2364,8 +2393,10 @@
         const response = await fetch(config.endpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          signal: options.signal,
           body: JSON.stringify({
             action: "analyze-youtube",
+            requestId: options.requestId,
             youtubeUrl: link.normalizedUrl || url,
             originalYoutubeUrl: url,
             videoId: link.id,
@@ -2382,6 +2413,7 @@
         }
         return normaliseFeatures({ id: link.id, startSeconds: link.startSeconds, normalizedUrl: link.normalizedUrl, ...(data.features || data.audio || data), source: data.source || "external-audio-analysis" }, link.normalizedUrl || url);
       } catch (error) {
+        if (error.name === "AbortError") throw new Error("解析を中止しました。");
         if (error.code === "YOUTUBE_COOKIE_REQUIRED") {
           throw new Error(`${error.message} 「Check YouTube Cookies.command」で状態を確認できます。`);
         }
@@ -4474,11 +4506,17 @@
     function highTempoRockFalsePositiveEvidence(vector = {}) {
       const tempo = Number(vector.tempo) || 0;
       const guitarTexture = vector.distortion >= .28 && vector.guitarBand >= .018;
-      const harmonicRockTexture = vector.chromaEntropy >= .9
-        && vector.zcr >= .075 && vector.zcr <= .23
+      const lowTrebleArtRockTexture = vector.zcr >= .055 && vector.zcr < .075
+        && vector.midBandRatio >= .32
+        && vector.distortion >= .2
+        && vector.sustainRatio >= .74
+        && vector.structureRecurrence >= .45 && vector.structureRecurrence <= .9;
+      const harmonicRockTexture = vector.zcr <= .23
         && vector.harmonicRatio >= .66
         && vector.highBandPulse < .12
-        && vector.fourOnFloor < .28;
+        && vector.fourOnFloor < .28
+        && ((vector.zcr >= .075 && vector.chromaEntropy >= .9)
+          || (lowTrebleArtRockTexture && vector.chromaEntropy >= .88));
       const fastRock = tempo >= 140 && tempo <= 205 && vector.energy >= .62;
       const midTempoRock = tempo >= 118 && tempo < 140
         && vector.energy >= .78
@@ -4496,6 +4534,7 @@
         "ヒップホップ", "トラップ", "ドラムンベース", "ダブ", "レゲエ", "ソウルミュージック",
         "電子音楽", "テクノ", "ハウス", "トランス", "ダブステップ"
       ]);
+      const popRuleConfusable = new Set(["J-POP", "シティ・ポップ", "アニメソング"]);
       const leader = analysis.top[0];
       if (!rockConfusable.has(leader?.name)) return analysis;
       const vector = genreFeatureVector(features);
@@ -4543,6 +4582,10 @@
           item.score = Math.round((Number(item.score) || 0) * .68);
           item.rawScore = Math.round((Number(item.rawScore) || item.score) * .68);
           item.acousticScore = Math.round((Number(item.acousticScore) || item.score) * .68);
+        } else if (popRuleConfusable.has(item.name)) {
+          item.score = Math.round((Number(item.score) || 0) * .55);
+          item.rawScore = Math.round((Number(item.rawScore) || item.score) * .55);
+          item.acousticScore = Math.round((Number(item.acousticScore) || item.score) * .55);
         }
       });
       top.sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0) || String(a.name).localeCompare(String(b.name)));
@@ -4557,6 +4600,8 @@
         const itemMacro = canonicalModelMacro(item.macro || item.label);
         if (itemMacro === "black_music" || itemMacro === "electronic") {
           item.score = Math.round((Number(item.score) || 0) * .68);
+        } else if (itemMacro === "pop") {
+          item.score = Math.round((Number(item.score) || 0) * .55);
         }
       });
       macro.sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0));
@@ -15661,17 +15706,22 @@
       stopRealtimeLoop();
       state.youtubeUrl = youtubeUrl;
       const runId = beginGenerationProgress("youtube");
+      const requestId = crypto.randomUUID();
+      const controller = new AbortController();
+      activeYoutubeAnalysis = { runId, requestId, controller };
       state.message = `開始位置: ${youtubeStartLabel(link.startSeconds)}`;
       render();
       let features;
       try {
-        features = await analyzeYouTubeLink(youtubeUrl);
+        features = await analyzeYouTubeLink(youtubeUrl, { requestId, signal: controller.signal });
       } catch (error) {
+        if (activeYoutubeAnalysis?.requestId === requestId) activeYoutubeAnalysis = null;
         clearGenerationProgress();
         state.message = error.message;
         render();
         return;
       }
+      if (activeYoutubeAnalysis?.requestId === requestId) activeYoutubeAnalysis = null;
       await prepareGeneratedPattern(runId);
       const mood = createYouTubeMood(youtubeUrl, features);
       mood.variantSalt = state.variantSalt = 0;

@@ -2,6 +2,7 @@ import http from "node:http";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { randomUUID } from "node:crypto";
 import { spawn, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import {
@@ -10,11 +11,13 @@ import {
 } from "./genre-embedding-runtime-policy.mjs";
 import { shouldRunUnknownSourceConsensus } from "./genre-unknown-consensus-policy.mjs";
 import {
+  classifyYouTubeFailure,
   createFixedWindowRateLimiter,
   isAllowedOrigin,
+  normalizePublicYouTubeUrl,
   parseAllowedOrigins,
   requestClientAddress,
-  validatePublicYouTubeUrl,
+  YOUTUBE_RETRY_DELAYS_MS,
 } from "./audio-analysis-public-policy.mjs";
 
 const cliArgs = new Set(process.argv.slice(2));
@@ -37,6 +40,8 @@ const publicRateLimiter = createFixedWindowRateLimiter({
   windowMs: PUBLIC_RATE_WINDOW_MS,
 });
 let publicActiveRequests = 0;
+const activeYouTubeAnalyses = new Map();
+const YOUTUBE_DEADLINE_MS = Math.max(30000, Number(process.env.MMFR_YOUTUBE_DEADLINE_MS || 270000));
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(SCRIPT_DIR, "../../..");
 const DEMO_HTML_PATH = path.join(ROOT_DIR, "apps", "demo", "MUSIC MEMORY FITTING ROOM.html");
@@ -100,9 +105,17 @@ const LOCAL_GENRE_MODEL_PATH = process.env.MMFR_LOCAL_GENRE_MODEL_PATH
   || path.resolve(SCRIPT_DIR, "../../../genre-training/genre-model.json");
 let localGenreRuntimePromise = null;
 let embeddingGenreContractCache = null;
+let resolvedToolsPromise = null;
 
 function ytDlpBaseArgs() {
   const args = [
+    "--use-extractors", "youtube",
+    "--socket-timeout", "30",
+    "--retries", "2",
+    "--fragment-retries", "2",
+    "--extractor-retries", "2",
+    "--retry-sleep", "http:linear=1:2:3",
+    "--retry-sleep", "fragment:linear=1:2:3",
     "--js-runtimes",
     `node:${process.execPath}`,
     "--remote-components",
@@ -136,19 +149,53 @@ function ytDlpSharedArgs(cookieArgs = []) {
 }
 
 async function runYtDlp(command, args, options = {}) {
-  const errors = [];
-  let rateLimitError = "";
-  for (const cookieArgs of ytDlpCookieArgSets()) {
-    try {
-      return await run(command, [...ytDlpSharedArgs(cookieArgs), ...args], options);
-    } catch (error) {
-      const labelled = `${cookieArgs.join(" ") || "no-cookies"}: ${error.message}`;
-      errors.push(labelled);
-      if (isYouTubeRateLimitError(error.message)) rateLimitError = labelled;
+  const strategies = ytDlpCookieArgSets();
+  let lastError = null;
+  for (let strategyIndex = 0; strategyIndex < strategies.length; strategyIndex += 1) {
+    const cookieArgs = strategies[strategyIndex];
+    const strategy = cookieArgs.length ? "cookie" : "anonymous";
+    for (let attempt = 0; attempt <= YOUTUBE_RETRY_DELAYS_MS.length; attempt += 1) {
+      options.onAttempt?.({ strategy, attempt });
+      try {
+        const result = await run(command, [...ytDlpSharedArgs(cookieArgs), ...args], options);
+        return { ...result, strategy, retryCount: attempt };
+      } catch (error) {
+        lastError = error;
+        const failure = classifyYouTubeFailure(error);
+        if (failure.retryable && attempt < YOUTUBE_RETRY_DELAYS_MS.length) {
+          await abortableDelay(YOUTUBE_RETRY_DELAYS_MS[attempt], options.signal);
+          continue;
+        }
+        if (strategy === "anonymous" && failure.cookieEligible && strategyIndex + 1 < strategies.length) break;
+        error.code = failure.code;
+        throw error;
+      }
     }
   }
-  if (rateLimitError) throw new Error(`YOUTUBE_RATE_LIMITED: ${rateLimitError}`);
-  throw new Error(errors.join("\n---\n"));
+  throw lastError || new Error("yt-dlp failed.");
+}
+
+function abortError(message = "解析を中止しました。") {
+  const error = new Error(message);
+  error.name = "AbortError";
+  error.code = "ANALYSIS_CANCELLED";
+  return error;
+}
+
+function abortableDelay(ms, signal) {
+  if (signal?.aborted) return Promise.reject(abortError());
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(done, ms);
+    function done() {
+      signal?.removeEventListener("abort", cancelled);
+      resolve();
+    }
+    function cancelled() {
+      clearTimeout(timer);
+      reject(abortError());
+    }
+    signal?.addEventListener("abort", cancelled, { once: true });
+  });
 }
 
 function legacyYtDlpSharedArgs({ withCookies = true } = {}) {
@@ -217,25 +264,47 @@ function readBody(req) {
 
 function run(command, args, options = {}) {
   return new Promise((resolve, reject) => {
-    const child = spawn(command, args, { stdio: ["ignore", "pipe", "pipe"], ...options });
+    const { timeoutMs = 180000, signal, onSpawn, ...spawnOptions } = options;
+    if (signal?.aborted) {
+      reject(abortError());
+      return;
+    }
+    const child = spawn(command, args, { stdio: ["ignore", "pipe", "pipe"], ...spawnOptions });
+    onSpawn?.(child);
     const stdout = [];
     const stderr = [];
+    let settled = false;
+    let cancelled = false;
+    const finish = callback => value => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      signal?.removeEventListener("abort", cancel);
+      callback(value);
+    };
+    const cancel = () => {
+      if (settled || cancelled) return;
+      cancelled = true;
+      clearTimeout(timer);
+      child.kill("SIGTERM");
+      setTimeout(() => { if (!settled) child.kill("SIGKILL"); }, 1500).unref?.();
+    };
     const timer = setTimeout(() => {
       child.kill("SIGKILL");
-      reject(new Error(`${command} timed out.`));
-    }, options.timeoutMs || 180000);
+      const error = new Error(`${command} timed out.`);
+      error.code = "TRANSIENT_NETWORK_ERROR";
+      finish(reject)(error);
+    }, timeoutMs);
+    signal?.addEventListener("abort", cancel, { once: true });
     child.stdout.on("data", chunk => stdout.push(chunk));
     child.stderr.on("data", chunk => stderr.push(chunk));
-    child.on("error", error => {
-      clearTimeout(timer);
-      reject(error);
-    });
+    child.on("error", finish(reject));
     child.on("close", (code, signal) => {
-      clearTimeout(timer);
       const out = Buffer.concat(stdout);
       const err = Buffer.concat(stderr).toString("utf8");
-      if (code === 0) resolve({ stdout: out, stderr: err });
-      else reject(new Error(`${command} failed (${signal ? `signal ${signal}` : code}): ${err.trim()}`));
+      if (cancelled) finish(reject)(abortError());
+      else if (code === 0) finish(resolve)({ stdout: out, stderr: err });
+      else finish(reject)(new Error(`${command} failed (${signal ? `signal ${signal}` : code}): ${err.trim()}`));
     });
   });
 }
@@ -253,9 +322,15 @@ async function commandExists(command) {
 }
 
 async function resolveTools() {
-  const ytDlp = await commandExists("yt-dlp");
-  const ffmpeg = await commandExists("ffmpeg");
-  return { ytDlp, ffmpeg };
+  if (!resolvedToolsPromise) {
+    resolvedToolsPromise = Promise.all([commandExists("yt-dlp"), commandExists("ffmpeg")])
+      .then(([ytDlp, ffmpeg]) => ({ ytDlp, ffmpeg }))
+      .catch(error => {
+        resolvedToolsPromise = null;
+        throw error;
+      });
+  }
+  return resolvedToolsPromise;
 }
 
 async function commandAvailable(command) {
@@ -1127,13 +1202,32 @@ function analyzeFloat32Pcm(buffer, sampleRate = 22050) {
   };
 }
 
+function analysisLog(requestId, event, detail = {}) {
+  console.log(JSON.stringify({
+    time: new Date().toISOString(),
+    requestId: requestId || "untracked",
+    event,
+    ...detail,
+  }));
+}
+
 async function analyzeYouTube(youtubeUrl, options = {}) {
-  if (PUBLIC_MODE) youtubeUrl = validatePublicYouTubeUrl(youtubeUrl);
-  if (!youtubeUrl || !/^https?:\/\//.test(youtubeUrl)) throw new Error("YouTube URL is missing.");
+  const normalized = normalizePublicYouTubeUrl(youtubeUrl);
+  youtubeUrl = normalized.normalizedUrl;
   const requestedStart = Number(options.startSeconds);
   const startSeconds = Number.isFinite(requestedStart) && requestedStart >= 0
-    ? requestedStart
-    : parseYouTubeStartSeconds(youtubeUrl);
+    ? Math.floor(requestedStart)
+    : normalized.startSeconds;
+  const requestId = String(options.requestId || "");
+  const signal = options.signal;
+  const startedAt = Date.now();
+  const stageStarted = new Map();
+  const startStage = stage => stageStarted.set(stage, Date.now());
+  const finishStage = (stage, detail = {}) => analysisLog(requestId, "stage", {
+    stage,
+    durationMs: Date.now() - (stageStarted.get(stage) || startedAt),
+    ...detail,
+  });
   const tools = await resolveTools();
   const missing = [
     tools.ytDlp ? "" : "yt-dlp",
@@ -1144,36 +1238,81 @@ async function analyzeYouTube(youtubeUrl, options = {}) {
   }
 
   const tempDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), "mmfr-audio-"));
-  const outputTemplate = path.join(tempDir, "source.%(ext)s");
   try {
-    let youtubeMeta = {};
-    try {
-      const metaResult = await runYtDlp(tools.ytDlp, [
-        "--no-playlist",
-        "--dump-single-json",
-        "--skip-download",
-        youtubeUrl
-      ], { timeoutMs: 45000 });
-      const parsed = JSON.parse(metaResult.stdout.toString("utf8") || "{}");
-      youtubeMeta = {
-        title: parsed.title || "",
-        uploader: parsed.uploader || parsed.channel || "",
-        categories: Array.isArray(parsed.categories) ? parsed.categories.slice(0, 8) : [],
-        tags: Array.isArray(parsed.tags) ? parsed.tags.slice(0, 24) : []
-      };
-    } catch {}
-    await runYtDlp(tools.ytDlp, [
+    startStage("metadata");
+    const metaResult = await runYtDlp(tools.ytDlp, [
       "--no-playlist",
-      "--ffmpeg-location", path.dirname(tools.ffmpeg),
-      "--max-filesize", "80M",
-      "-f", "bestaudio/best",
-      "-o", outputTemplate,
+      "--dump-single-json",
+      "--skip-download",
       youtubeUrl
-    ], { timeoutMs: 240000 });
+    ], {
+      timeoutMs: 50000,
+      signal,
+      onAttempt: ({ strategy, attempt }) => analysisLog(requestId, "youtube-attempt", { stage: "metadata", strategy, retryCount: attempt }),
+    });
+    const parsed = JSON.parse(metaResult.stdout.toString("utf8") || "{}");
+    const durationSeconds = Number(parsed.duration);
+    if (Number.isFinite(durationSeconds) && startSeconds >= durationSeconds) {
+      const error = new Error("指定した開始位置が動画の長さを超えています。");
+      error.code = "START_OUT_OF_RANGE";
+      throw error;
+    }
+    const youtubeMeta = {
+      title: parsed.title || "",
+      uploader: parsed.uploader || parsed.channel || "",
+      duration: Number.isFinite(durationSeconds) ? durationSeconds : null,
+      categories: Array.isArray(parsed.categories) ? parsed.categories.slice(0, 8) : [],
+      tags: Array.isArray(parsed.tags) ? parsed.tags.slice(0, 24) : []
+    };
+    finishStage("metadata", { strategy: metaResult.strategy, retryCount: metaResult.retryCount });
+
+    startStage("download");
+    const sectionEnd = startSeconds + Math.max(1, ANALYSIS_WINDOW_SECONDS || 45);
+    let acquisitionMode = "range";
+    let downloadResult;
+    try {
+      downloadResult = await runYtDlp(tools.ytDlp, [
+        "--no-playlist",
+        "--ffmpeg-location", path.dirname(tools.ffmpeg),
+        "--download-sections", `*${startSeconds}-${sectionEnd}`,
+        "--force-keyframes-at-cuts",
+        "--max-filesize", "80M",
+        "-f", "bestaudio/best",
+        "-o", path.join(tempDir, "source-range.%(ext)s"),
+        youtubeUrl
+      ], {
+        timeoutMs: 180000,
+        signal,
+        onAttempt: ({ strategy, attempt }) => analysisLog(requestId, "youtube-attempt", { stage: "range-download", strategy, retryCount: attempt }),
+      });
+    } catch (error) {
+      const failure = classifyYouTubeFailure(error);
+      if (failure.code === "ANALYSIS_CANCELLED" || failure.code === "YOUTUBE_RATE_LIMITED"
+        || failure.code === "VIDEO_UNAVAILABLE" || failure.code === "REGION_BLOCKED"
+        || failure.code === "AGE_RESTRICTED" || failure.code === "YOUTUBE_COOKIE_REQUIRED") throw error;
+      acquisitionMode = "full-fallback";
+      analysisLog(requestId, "range-fallback", { code: failure.code });
+      for (const file of await fs.promises.readdir(tempDir)) {
+        if (file.startsWith("source-range.")) await fs.promises.rm(path.join(tempDir, file), { force: true });
+      }
+      downloadResult = await runYtDlp(tools.ytDlp, [
+        "--no-playlist",
+        "--ffmpeg-location", path.dirname(tools.ffmpeg),
+        "--max-filesize", "80M",
+        "-f", "bestaudio/best",
+        "-o", path.join(tempDir, "source-full.%(ext)s"),
+        youtubeUrl
+      ], {
+        timeoutMs: 180000,
+        signal,
+        onAttempt: ({ strategy, attempt }) => analysisLog(requestId, "youtube-attempt", { stage: "full-download", strategy, retryCount: attempt }),
+      });
+    }
     const files = await fs.promises.readdir(tempDir);
-    const sourceFile = files.find(file => file.startsWith("source."));
+    const sourceFile = files.find(file => file.startsWith(acquisitionMode === "range" ? "source-range." : "source-full."));
     if (!sourceFile) throw new Error("Downloaded audio file was not found.");
     const sourcePath = path.join(tempDir, sourceFile);
+    finishStage("download", { acquisitionMode, strategy: downloadResult.strategy, retryCount: downloadResult.retryCount });
     // Normalise the requested slice once. Python audio backends cannot reliably
     // open yt-dlp's WebM output, whereas PCM WAV is portable and deterministic.
     const analysisAudioPath = path.join(tempDir, "analysis-window.wav");
@@ -1181,7 +1320,7 @@ async function analyzeYouTube(youtubeUrl, options = {}) {
       "-hide_banner",
       "-loglevel", "error"
     ];
-    if (startSeconds > 0) analysisSliceArgs.push("-ss", String(startSeconds));
+    if (acquisitionMode === "full-fallback" && startSeconds > 0) analysisSliceArgs.push("-ss", String(startSeconds));
     analysisSliceArgs.push("-i", sourcePath);
     if (ANALYSIS_WINDOW_SECONDS > 0) analysisSliceArgs.push("-t", String(ANALYSIS_WINDOW_SECONDS));
     analysisSliceArgs.push(
@@ -1191,7 +1330,8 @@ async function analyzeYouTube(youtubeUrl, options = {}) {
       "-c:a", "pcm_s16le",
       analysisAudioPath
     );
-    await run(tools.ffmpeg, analysisSliceArgs, { timeoutMs: 180000 });
+    startStage("decode");
+    await run(tools.ffmpeg, analysisSliceArgs, { timeoutMs: 90000, signal });
 
     const ffmpegArgs = [
       "-hide_banner",
@@ -1206,8 +1346,10 @@ async function analyzeYouTube(youtubeUrl, options = {}) {
     );
     const { stdout } = await run(tools.ffmpeg, [
       ...ffmpegArgs
-    ], { timeoutMs: 180000 });
+    ], { timeoutMs: 90000, signal });
     if (!stdout.length) throw new Error(`No audio was decoded from ${startSeconds}s. Try an earlier start time.`);
+    finishStage("decode", { bytes: stdout.length });
+    startStage("features");
     const features = analyzeFloat32Pcm(stdout, 22050);
     const segmentConsensus = await analyzeProductionLocalGenreSegments(stdout, 22050);
     const japaneseVocalEvidence = await analyzeJapaneseVocalEvidenceForFile(analysisAudioPath, {
@@ -1220,18 +1362,22 @@ async function analyzeYouTube(youtubeUrl, options = {}) {
       japaneseVocalEvidence,
       segmentConsensus
     );
+    finishStage("features");
+    analysisLog(requestId, "complete", { totalMs: Date.now() - startedAt, acquisitionMode });
     return {
       ...features,
       sourceUrl: youtubeUrl,
       normalizedUrl: youtubeUrl,
       startSeconds,
       analysisWindowSeconds: ANALYSIS_WINDOW_SECONDS,
+      acquisitionMode,
       youtubeMeta,
       japaneseVocalEvidence,
       embeddingGenrePrediction
     };
   } finally {
     await fs.promises.rm(tempDir, { recursive: true, force: true });
+    analysisLog(requestId, "cleanup", { totalMs: Date.now() - startedAt });
   }
 }
 
@@ -1316,7 +1462,66 @@ async function analyzeLocalFile(filePath, options = {}) {
   };
 }
 
+function validRequestId(value) {
+  const requestId = String(value || "").trim();
+  return /^[A-Za-z0-9_-]{8,80}$/.test(requestId) ? requestId : "";
+}
+
+function errorPayload(error) {
+  const message = String(error?.message || "");
+  const classified = classifyYouTubeFailure(error);
+  const code = error?.code || classified.code || "AUDIO_ANALYSIS_FAILED";
+  const messages = {
+    INVALID_YOUTUBE_URL: "有効なYouTube動画URLを入力してください。",
+    VIDEO_UNAVAILABLE: "このYouTube動画は利用できないか、削除または非公開になっています。",
+    REGION_BLOCKED: "このYouTube動画は地域制限のため取得できません。",
+    AGE_RESTRICTED: "このYouTube動画は年齢制限のため取得できません。",
+    START_OUT_OF_RANGE: "指定した開始位置が動画の長さを超えています。",
+    YOUTUBE_RATE_LIMITED: "YouTube側で一時的に制限されています。時間を置いて再試行してください。",
+    YOUTUBE_COOKIE_REQUIRED: "YouTube側のbot確認により音声を取得できません。解析用Cookieを更新してください。",
+    TRANSIENT_NETWORK_ERROR: "YouTubeとの通信が一時的に失敗しました。少し待って再試行してください。",
+    ANALYSIS_CANCELLED: "解析を中止しました。",
+  };
+  const status = code === "INVALID_YOUTUBE_URL" || code === "START_OUT_OF_RANGE" ? 400
+    : code === "ANALYSIS_CANCELLED" ? 499
+    : code === "YOUTUBE_RATE_LIMITED" ? 429
+    : ["VIDEO_UNAVAILABLE", "REGION_BLOCKED", "AGE_RESTRICTED"].includes(code) ? 422
+    : code === "YOUTUBE_COOKIE_REQUIRED" ? 503
+    : 500;
+  return {
+    status,
+    body: {
+      ok: false,
+      code,
+      error: messages[code] || (PUBLIC_MODE ? "音声解析に失敗しました。" : message),
+      detail: PUBLIC_MODE ? "" : message,
+    },
+  };
+}
+
+async function handleCancel(req, res) {
+  try {
+    const body = JSON.parse(await readBody(req) || "{}");
+    const requestId = validRequestId(body.requestId);
+    if (body.action !== "cancel-youtube-analysis" || !requestId) {
+      sendJson(res, 400, { ok: false, code: "INVALID_REQUEST", error: "中止リクエストが不正です。" });
+      return;
+    }
+    const active = activeYouTubeAnalyses.get(requestId);
+    if (active) active.controller.abort();
+    analysisLog(requestId, "cancel-request", { active: Boolean(active) });
+    sendJson(res, 200, { ok: true, cancelled: Boolean(active), requestId });
+  } catch {
+    sendJson(res, 400, { ok: false, code: "INVALID_REQUEST", error: "中止リクエストが不正です。" });
+  }
+}
+
 async function handleAnalyze(req, res) {
+  let requestId = "";
+  let controller = null;
+  let deadlineTimer = null;
+  let disconnected = false;
+  let timedOut = false;
   try {
     const body = JSON.parse(await readBody(req) || "{}");
     if (PUBLIC_MODE && body.action !== "analyze-youtube") {
@@ -1324,8 +1529,46 @@ async function handleAnalyze(req, res) {
       return;
     }
     if (body.action === "analyze-youtube") {
-      const features = await analyzeYouTube(body.youtubeUrl, { startSeconds: body.startSeconds });
-      sendJson(res, 200, { ok: true, source: "youtube-audio-analysis-server", features });
+      requestId = validRequestId(body.requestId) || randomUUID();
+      if (activeYouTubeAnalyses.has(requestId)) {
+        sendJson(res, 409, { ok: false, code: "REQUEST_ALREADY_ACTIVE", error: "同じ解析リクエストが処理中です。" });
+        return;
+      }
+      controller = new AbortController();
+      activeYouTubeAnalyses.set(requestId, { controller, startedAt: Date.now() });
+      const cancelOnDisconnect = () => {
+        if (!res.writableEnded) {
+          disconnected = true;
+          controller.abort();
+        }
+      };
+      req.once("aborted", cancelOnDisconnect);
+      res.once("close", cancelOnDisconnect);
+      deadlineTimer = setTimeout(() => {
+        timedOut = true;
+        controller.abort();
+      }, YOUTUBE_DEADLINE_MS);
+      analysisLog(requestId, "start", { startSeconds: Number(body.startSeconds) || 0 });
+      let features;
+      try {
+        features = await analyzeYouTube(body.youtubeUrl, {
+          startSeconds: body.startSeconds,
+          requestId,
+          signal: controller.signal,
+        });
+      } catch (error) {
+        if (timedOut) {
+          error.code = "TRANSIENT_NETWORK_ERROR";
+          error.message = "Analysis deadline exceeded.";
+        }
+        throw error;
+      } finally {
+        req.removeListener("aborted", cancelOnDisconnect);
+        res.removeListener("close", cancelOnDisconnect);
+      }
+      if (!disconnected && !res.writableEnded) {
+        sendJson(res, 200, { ok: true, requestId, source: "youtube-audio-analysis-server", features });
+      }
       return;
     }
     if (body.action === "analyze-preview-url") {
@@ -1351,19 +1594,14 @@ async function handleAnalyze(req, res) {
       return;
     }
   } catch (error) {
-    const message = String(error?.message || "");
-    const rateLimited = isYouTubeRateLimitError(message);
-    const cookieRequired = !rateLimited && isYouTubeCookieError(message);
-    sendJson(res, 500, {
-      ok: false,
-      code: rateLimited ? "YOUTUBE_RATE_LIMITED" : cookieRequired ? "YOUTUBE_COOKIE_REQUIRED" : "AUDIO_ANALYSIS_FAILED",
-      error: rateLimited
-        ? "YouTube側でこのセッションが一時的に制限されています。しばらく時間を置いてから再試行してください。"
-        : cookieRequired
-        ? "YouTube側のbot確認により音声を取得できません。ChromeでYouTubeにログインするか、genre-training/youtube-cookies.txt を配置してください。"
-        : message,
-      detail: PUBLIC_MODE ? "" : message
-    });
+    const payload = errorPayload(error);
+    analysisLog(requestId, "failed", { code: payload.body.code, disconnected, timedOut });
+    if (!disconnected && !res.writableEnded) sendJson(res, payload.status, payload.body);
+  } finally {
+    if (deadlineTimer) clearTimeout(deadlineTimer);
+    if (requestId && activeYouTubeAnalyses.get(requestId)?.controller === controller) {
+      activeYouTubeAnalyses.delete(requestId);
+    }
   }
 }
 
@@ -1455,6 +1693,10 @@ const server = http.createServer(async (req, res) => {
         sharedLocalGenre: fs.existsSync(LOCAL_GENRE_MODEL_PATH)
       }
     });
+    return;
+  }
+  if (req.method === "POST" && req.url === "/api/audio-analyze/cancel") {
+    await handleCancel(req, res);
     return;
   }
   if (req.method === "POST" && (req.url === "/api/audio-analyze" || req.url === "/")) {

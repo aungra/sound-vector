@@ -2,21 +2,52 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   createFixedWindowRateLimiter,
+  classifyYouTubeFailure,
   isAllowedOrigin,
+  normalizePublicYouTubeUrl,
   parseAllowedOrigins,
   requestClientAddress,
   validatePublicYouTubeUrl,
+  YOUTUBE_RETRY_DELAYS_MS,
 } from "./audio-analysis-public-policy.mjs";
 
 test("public YouTube policy accepts supported HTTPS URLs", () => {
-  assert.match(validatePublicYouTubeUrl("https://youtu.be/abc123?t=60"), /^https:\/\/youtu\.be\//);
-  assert.match(validatePublicYouTubeUrl("https://www.youtube.com/watch?v=abc123"), /^https:\/\/www\.youtube\.com\//);
+  const id = "JSHd5mm7qNI";
+  for (const value of [
+    `https://youtu.be/${id}?si=tracking&t=1m2s`,
+    `https://www.youtube.com/watch?v=${id}&list=ignored`,
+    `https://m.youtube.com/shorts/${id}?feature=share`,
+    `https://www.youtube.com/live/${id}?t=62`,
+    `https://www.youtube-nocookie.com/embed/${id}?start=62`,
+  ]) {
+    assert.equal(validatePublicYouTubeUrl(value), `https://www.youtube.com/watch?v=${id}`);
+  }
+  assert.deepEqual(normalizePublicYouTubeUrl(`https://youtu.be/${id}?t=1m2s`), {
+    videoId: id,
+    normalizedUrl: `https://www.youtube.com/watch?v=${id}`,
+    startSeconds: 62,
+  });
 });
 
 test("public YouTube policy rejects non-YouTube and credentialed URLs", () => {
   assert.throws(() => validatePublicYouTubeUrl("https://example.com/watch?v=abc"), /YouTube以外/);
   assert.throws(() => validatePublicYouTubeUrl("https://user:pass@youtube.com/watch?v=abc"), /HTTPS/);
   assert.throws(() => validatePublicYouTubeUrl("http://youtube.com/watch?v=abc"), /HTTPS/);
+  assert.throws(() => validatePublicYouTubeUrl("https://www.youtube.com/playlist?list=PL123"), /動画ID/);
+  assert.throws(() => validatePublicYouTubeUrl("https://evil.youtube.com/watch?v=JSHd5mm7qNI"), /YouTube以外/);
+});
+
+test("YouTube failure policy retries only transient transport failures", () => {
+  assert.deepEqual([...YOUTUBE_RETRY_DELAYS_MS], [2000, 4000, 8000]);
+  assert.deepEqual(classifyYouTubeFailure("Unable to download webpage: ENOTFOUND"), {
+    code: "TRANSIENT_NETWORK_ERROR", retryable: true, cookieEligible: false,
+  });
+  assert.equal(classifyYouTubeFailure("Private video").code, "VIDEO_UNAVAILABLE");
+  assert.equal(classifyYouTubeFailure("HTTP Error 429: Too Many Requests").code, "YOUTUBE_RATE_LIMITED");
+  assert.equal(classifyYouTubeFailure("This content isn't available, try again later").code, "YOUTUBE_RATE_LIMITED");
+  assert.deepEqual(classifyYouTubeFailure("Sign in to confirm you're not a bot"), {
+    code: "YOUTUBE_COOKIE_REQUIRED", retryable: false, cookieEligible: true,
+  });
 });
 
 test("origin policy is exact and uses production defaults", () => {

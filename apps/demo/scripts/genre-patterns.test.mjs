@@ -1296,6 +1296,30 @@ test("harmonic rock evidence suppresses black-music false positives across mid a
     distortion: .2489, guitarBand: .001, chromaEntropy: .9412,
     zcr: .1343, harmonicRatio: .7703, highBandPulse: .0006, fourOnFloor: 0
   }), true);
+  assert.equal(highTempoRockFalsePositiveEvidence({
+    tempo: 129, energy: 1, rhythm: .8597, midBandRatio: .4001, onset: .614,
+    distortion: .2418, guitarBand: .0034, chromaEntropy: .91,
+    zcr: .0716, harmonicRatio: .8098, highBandPulse: .0004, fourOnFloor: .2337,
+    sustainRatio: .8683, structureRecurrence: .8322
+  }), true);
+  assert.equal(highTempoRockFalsePositiveEvidence({
+    tempo: 129, energy: .9672, rhythm: .7783, midBandRatio: .3923, onset: .5559,
+    distortion: .2316, guitarBand: .0014, chromaEntropy: .8924,
+    zcr: .0611, harmonicRatio: .801, highBandPulse: .0002, fourOnFloor: .2124,
+    sustainRatio: .8639, structureRecurrence: .7007
+  }), true);
+  assert.equal(highTempoRockFalsePositiveEvidence({
+    tempo: 128, energy: .9, rhythm: .82, midBandRatio: .38, onset: .55,
+    distortion: .24, guitarBand: .002, chromaEntropy: .94,
+    zcr: .068, harmonicRatio: .8, highBandPulse: .01, fourOnFloor: .62,
+    sustainRatio: .84, structureRecurrence: .86
+  }), false);
+  assert.equal(highTempoRockFalsePositiveEvidence({
+    tempo: 96, energy: .84, rhythm: .72, midBandRatio: .37, onset: .46,
+    distortion: .23, guitarBand: .002, chromaEntropy: .92,
+    zcr: .066, harmonicRatio: .76, highBandPulse: .02, fourOnFloor: .12,
+    sustainRatio: .82, structureRecurrence: .78
+  }), false);
   const guitarDetail = {
     rms: Array.from({ length: 32 }, (_, i) => .58 + (i % 3) * .12),
     onset: Array.from({ length: 32 }, (_, i) => i % 4 === 0 ? .78 : .32),
@@ -1305,7 +1329,8 @@ test("harmonic rock evidence suppresses black-music false positives across mid a
   };
   const corrected = applyHighTempoRockCorrection({
     source: "test", method: "local", needsReview: false,
-    top: [{ name: "ヒップホップ", score: 90, rawScore: 90, acousticScore: 90 }, { name: "トラップ", score: 64, rawScore: 64, acousticScore: 64 }]
+    macro: [{ macro: "black_music", score: 90 }, { macro: "pop", score: 70 }],
+    top: [{ name: "ヒップホップ", score: 90, rawScore: 90, acousticScore: 90 }, { name: "トラップ", score: 64, rawScore: 64, acousticScore: 64 }, { name: "J-POP", score: 70, rawScore: 70, acousticScore: 70 }]
   }, {
     tempo: 161, energy: .75, bass: .82, rhythm: .62, onset: .45, brightness: .46,
     lowBandRatio: .64, midBandRatio: .25, highBandRatio: .12, detail: guitarDetail
@@ -1313,6 +1338,8 @@ test("harmonic rock evidence suppresses black-music false positives across mid a
   assert.equal(corrected.top[0].name, "ロック");
   assert.equal(corrected.macro[0].macro, "rock");
   assert.ok(corrected.top.find(item => item.name === "ヒップホップ").score < 90);
+  assert.ok(corrected.top.find(item => item.name === "J-POP").score < 70);
+  assert.ok(corrected.macro.find(item => item.macro === "pop").score < 70);
   assert.match(corrected.method, /harmonic-rock-guard/);
 
   const correctedDnb = applyHighTempoRockCorrection({
