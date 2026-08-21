@@ -101,7 +101,7 @@
       font-synthesis: none;
       line-height: 1.45;
     }
-    button, textarea { font: inherit; }
+    button { font: inherit; }
     button {
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
@@ -166,7 +166,7 @@
       padding: clamp(22px, 4vw, 58px);
     }
     .interface-hero h1 {
-      margin-top: 18px;
+      margin-top: 0;
       max-width: 8.5ch;
       font-size: clamp(54px, 8.3vw, 118px);
       line-height: .84;
@@ -534,7 +534,6 @@
     }
     .primary:disabled { background: var(--line); color: rgba(20,18,15,.45); cursor: not-allowed; }
     .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--grid-gap); }
-    .card { border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--paper); padding: clamp(12px, 1.4vw, 20px); }
     .shirt-art {
       aspect-ratio: 4 / 3;
       border: 1px solid var(--line);
@@ -572,18 +571,6 @@
     .tag { display: inline-flex; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--ink); padding: 4px 9px; font-size: 11px; font-weight: 200; margin: 3px; }
     .muted { color: rgba(17,17,17,.62); }
     .detail { display: grid; grid-template-columns: 8fr 4fr; gap: var(--grid-gap); }
-    .tracks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--grid-gap); }
-    textarea { width: 100%; min-height: 96px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--paper); padding: 12px; }
-    .resonance { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
-    .resonance button { min-height: 48px; border: 1px solid var(--ink); border-radius: var(--radius-sm); background: var(--ink); color: var(--paper); font-weight: 400; }
-    .resonance button:not(:disabled):hover,
-    .resonance button:focus-visible {
-      background: var(--ink);
-      border-color: var(--ink);
-      box-shadow: inset 0 0 0 2px var(--paper);
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
     button:not(:disabled) {
       box-shadow: 0 2px 0 rgba(17,17,17,.28);
       transform: translateY(0);
@@ -617,14 +604,13 @@
       .workflow-step:nth-child(2) { border-right: 0; }
       .workflow-step:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
       .workbench-head { flex-direction: column; }
-      .grid, .detail, .tracks, .mood-grid, .engine-grid, .generated-layout, .design-spec, .realtime-readout, .mapping-layout, .mapping-list, .youtube-form, .source-grid, .source-create, .process-summary, .reversible-actions, .persona-grid { grid-template-columns: 1fr; }
+      .grid, .detail, .mood-grid, .engine-grid, .generated-layout, .design-spec, .realtime-readout, .mapping-layout, .mapping-list, .youtube-form, .source-grid, .source-create, .process-summary, .reversible-actions, .persona-grid { grid-template-columns: 1fr; }
       .source-create { border-right: 0; }
       .source-card { min-height: 0; border-right: 0; border-bottom: 1px solid var(--line); }
       .process-summary p { min-height: 0; border-right: 0; border-bottom: 1px solid var(--line); }
       .process-summary p:last-child { border-bottom: 0; }
       .api-config { grid-template-columns: 1fr; }
       .genre-feedback-controls, .genre-feedback-controls > div { grid-template-columns: 1fr; }
-      .resonance { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -634,13 +620,6 @@
   <script src="vendor/d3-delaunay.min.js"></script>
   <script src="artist-master-patterns.js"></script>
   <script>
-    const resonanceLabels = {
-      remembered: "思い出した",
-      heard: "聴こえた",
-      worn: "着ていた気がする",
-      strangely_familiar: "知らないのに懐かしい",
-      body_reacted: "身体が反応した"
-    };
     const questions = [
       { id: "place", title: "その音楽は、どこで鳴っていましたか？", options: ["港", "ライブハウス", "クラブ", "教会", "路面電車", "坂道", "部屋", "祭り"] },
       { id: "time", title: "記憶に近い時間帯は？", options: ["朝方", "昼", "夕方", "夜", "深夜", "雨の日"] },
@@ -688,7 +667,7 @@
         }))
       };
     }
-    const keys = { creators: "mmfr.creators", tshirts: "mmfr.tshirts", sessions: "mmfr.sessions", resonances: "mmfr.resonances", apiConfig: "mmfr.apiConfig", genreAdjustmentLearning: "mmfr.genreAdjustmentLearning.v1" };
+    const keys = { creators: "mmfr.creators", tshirts: "mmfr.tshirts", sessions: "mmfr.sessions", apiConfig: "mmfr.apiConfig", genreAdjustmentLearning: "mmfr.genreAdjustmentLearning.v1" };
     const GENRE_INFERENCE_REVISION = "2026-08-21-segment-rock-learning-guard-v90";
     const inlineArt = {};
     let activeCollisionField = null;
@@ -765,7 +744,6 @@
     function creators() { return read(keys.creators, seedCreators); }
     function tshirts() { return read(keys.tshirts, seedTshirts); }
     function sessions() { return read(keys.sessions, []); }
-    function resonances() { return read(keys.resonances, []); }
     function storageSafeFeatures(features) {
       if (!features?.detail) return features || null;
       const detail = { ...features.detail };
@@ -14841,6 +14819,11 @@
       const range = svgGroupRangeById(svg, id);
       return range ? String(svg).slice(range.start, range.end) : "";
     }
+    function replaceSvgGroupById(svg, id, replacement) {
+      const source = String(svg || "");
+      const range = svgGroupRangeById(source, id);
+      return range ? `${source.slice(0, range.start)}${replacement}${source.slice(range.end)}` : source;
+    }
     function approvedArtistMasterForMood(mood = {}) {
       const audio = mood.audio || {};
       const genre = audio.genreAnalysis?.top?.[0]?.name || audio.inferredGenre || "";
@@ -14894,12 +14877,17 @@
       const source = String(svg || "");
       const surfaceRange = svgGroupRangeById(source, "sound_form_surface");
       if (!surfaceRange) return source;
-      const grain = svgGroupMarkupById(source, "terra_grain_field");
       const blendIds = unique(Array.from(source.matchAll(/<g\b[^>]*\bid=["'](terra_genre_blend_\d+)["'][^>]*>/g), match => match[1]));
-      const blends = blendIds.map(id => artistStructuralFusionGroup(svgGroupMarkupById(source, id), approved.markup, `${approved.genre}|${id}`)).join("");
       const opening = surfaceRange.opening.replace(/>$/, ` data-artist-master-revision="illustrator-v2" data-artist-master-genre="${escapeAttr(approved.genre)}">`);
       const master = `<g id="terra_primary_structure" data-layer="terra_primary_structure" data-visual-role="approved-artist-master" data-genre="${escapeAttr(approved.genre)}">${approved.markup}</g>`;
-      const replacement = `${opening}${grain}${master}${blends}</g>`;
+      let surface = source.slice(surfaceRange.start, surfaceRange.end);
+      surface = replaceSvgGroupById(surface, "terra_primary_structure", master);
+      blendIds.forEach(id => {
+        const blend = svgGroupMarkupById(surface, id);
+        surface = replaceSvgGroupById(surface, id, artistStructuralFusionGroup(blend, approved.markup, `${approved.genre}|${id}`));
+      });
+      const inner = surface.slice(surfaceRange.opening.length, -4);
+      const replacement = `${opening}${inner}</g>`;
       return `${source.slice(0, surfaceRange.start)}${replacement}${source.slice(surfaceRange.end)}`
         .replace(/<svg\b/, `<svg data-artist-master-revision="illustrator-v2" data-artist-master-genre="${escapeAttr(approved.genre)}"`);
     }
@@ -17088,13 +17076,6 @@
       state.session = session;
       render();
     }
-    function addResonance(type) {
-      const comment = document.getElementById("comment")?.value.trim() || "";
-      const item = { id: crypto.randomUUID(), tshirtId: state.workId, type, comment, createdAt: new Date().toISOString() };
-      write(keys.resonances, [item].concat(resonances()));
-      state.message = `${resonanceLabels[type]} を残しました。`;
-      render();
-    }
     function download(name, text, type) {
       const blob = new Blob([text], { type });
       const url = URL.createObjectURL(blob);
@@ -17121,7 +17102,14 @@
       if (!shirt?.art) return "";
       const payload = reversiblePayloadForShirt(shirt);
       const detail = payload?.reconstructionScore?.detail || payload?.audioFeatures?.detail || shirt?.audioFeatures?.detail || {};
-      const svgWithCurrentFrame = isReversibleAudioShirt(shirt) ? bakePatternMotionFrame(shirt.art, shirt) : shirt.art;
+      const renderedShirtId = state.view === "work"
+        ? state.workId
+        : state.generated?.id || state.session?.generatedShirt?.id || "";
+      const renderedSvg = renderedShirtId === shirt.id ? activePatternMotionSvg() : null;
+      const renderedMarkup = renderedSvg?.outerHTML || "";
+      const svgWithCurrentFrame = renderedMarkup
+        ? renderedMarkup.replace(/<svg\b/, '<svg data-export-source="rendered-dom-v1"')
+        : isReversibleAudioShirt(shirt) ? bakePatternMotionFrame(shirt.art, shirt) : shirt.art;
       const svgWithGeometry = injectPcmGeometryIntoSvg(svgWithCurrentFrame, detail);
       return embedReversibleMetadata(svgWithGeometry, stripPcmSketchFromPayload(payload));
     }
@@ -17595,7 +17583,7 @@
           <div class="interface-brand"><span class="interface-brand-mark" aria-hidden="true">SF</span><span>Sound Form / Reversible audio graphics</span></div>
         </div>
         <div class="interface-hero">
-          <div><p class="eyebrow">DELTA &amp; DOH PRESENTS / CONVERSION SYSTEM</p><h1>SOUND FORM</h1><p class="interface-intro muted">音声を解析し、32ジャンルの構図規則で黒地に白一色の編集可能なSVGへ変換します。出力した図形には、音を戻すための保護PCMレイヤーも共存します。</p></div>
+          <div><h1>SOUND FORM</h1><p class="interface-intro muted">音声を解析し、32ジャンルの構図規則で黒地に白一色の編集可能なSVGへ変換します。出力した図形には、音を戻すための保護PCMレイヤーも共存します。</p></div>
           <dl class="system-facts">
             <div><dt>Input</dt><dd>YouTube / Audio file</dd></div>
             <div><dt>Output</dt><dd>Editable reversible SVG</dd></div>
@@ -17929,7 +17917,7 @@
           <details class="advanced-settings"><summary>解析サーバー設定</summary><div class="api-config"><label for="apiEndpoint"><span class="eyebrow">YouTube audio analysis server</span><input id="apiEndpoint" value="${endpointValue}" placeholder="https://example.com/api/audio-analyze"></label><button class="secondary" onclick="saveApiEndpoint()">接続先を保存</button></div></details></section>` :
           `<section id="conversion-workbench" class="panel"><div class="top"><div><p class="eyebrow">04 / OUTPUT</p><h2>${generatedHeading}</h2></div><div>${generatedActions}</div></div>
           ${renderGenerationProgress()}
-          <div class="generated-layout"><article class="generated-preview">${renderShirtArt(generated)}<div class="design-spec"><p><strong>音源</strong><br>${sourceLabel}</p><p><strong>生成</strong><br>${selectedEngine.label}</p><p><strong>状態</strong><br>${generatedStateText}</p><p><strong>Genre</strong><br>${genreLabel}${styleLabel}${genreReviewAction ? `<br>${genreReviewAction}` : ""}</p><p><strong>音響根拠</strong><br>${genreEvidence}</p><p><strong>Tempo</strong><br>${features?.tempo ? `${features.tempo} BPM` : "local"}</p><p><strong>Centroid</strong><br>${features?.centroid ? `${features.centroid} Hz` : "SVG"}</p><p><strong>可逆PCM</strong><br>${formatPcmGeometryText(features)}</p></div>${genreFeedbackPanel}</article><article><p>${generated.tags.map(t => `<span class="tag">${t}</span>`).join("")}</p><h3>${generated.title}</h3><p>${generated.description}</p>${generated.youtubeUrl ? `<p class="muted"><a href="${escapeAttr(generated.youtubeUrl)}" target="_blank" rel="noreferrer">参照YouTubeリンク</a></p>` : ""}${state.message ? `<p class="tag">${state.message}</p>` : ""}${generated.externalNote ? `<p class="tag">${generated.externalNote}</p>` : ""}<p class="muted">${generated.stockNote}</p><button class="primary" onclick="acceptRealtimeDesign();nav('work','${generated.id}')">詳細と共鳴を見る</button></article></div></section>`}
+          <div class="generated-layout"><article class="generated-preview">${renderShirtArt(generated)}<div class="design-spec"><p><strong>音源</strong><br>${sourceLabel}</p><p><strong>生成</strong><br>${selectedEngine.label}</p><p><strong>状態</strong><br>${generatedStateText}</p><p><strong>Genre</strong><br>${genreLabel}${styleLabel}${genreReviewAction ? `<br>${genreReviewAction}` : ""}</p><p><strong>音響根拠</strong><br>${genreEvidence}</p><p><strong>Tempo</strong><br>${features?.tempo ? `${features.tempo} BPM` : "local"}</p><p><strong>Centroid</strong><br>${features?.centroid ? `${features.centroid} Hz` : "SVG"}</p><p><strong>可逆PCM</strong><br>${formatPcmGeometryText(features)}</p></div>${genreFeedbackPanel}</article><article><h3>${generated.title}</h3><p>${generated.description}</p>${generated.youtubeUrl ? `<p class="muted"><a href="${escapeAttr(generated.youtubeUrl)}" target="_blank" rel="noreferrer">参照YouTubeリンク</a></p>` : ""}${state.message ? `<p class="tag">${state.message}</p>` : ""}${generated.externalNote ? `<p class="tag">${generated.externalNote}</p>` : ""}<p class="muted">${generated.stockNote}</p><button class="primary" onclick="acceptRealtimeDesign();nav('work','${generated.id}')">詳細と共鳴を見る</button></article></div></section>`}
         ${generated ? renderReversiblePanel(generated) : ""}
         ${generated && !isReversibleAudio ? renderAudioMappingDiagram(features) : ""}
       </main>`;
@@ -17938,13 +17926,10 @@
       const shirt = refreshReversibleSoundClothShirt(findShirt(state.workId));
       if (!shirt) return `<main class="wrap"><section class="panel"><h2>作品が見つかりません</h2><button class="secondary" onclick="nav('home')">戻る</button></section></main>`;
       const creator = shirt.generated ? { name: "Mood Generator", profile: "来場者が選んだ現状のムードから、一色のTシャツ図案をその場で組み立てます。" } : creators().find(c => c.id === shirt.creatorId);
-      const count = resonances().filter(r => r.tshirtId === shirt.id).length;
       return `<main class="wrap"><section class="panel"><button class="secondary" onclick="nav('home')">変換画面に戻る</button></section>
         <section class="detail"><article class="panel"><p class="eyebrow">${creator?.name || ""}</p><h1>${shirt.title}</h1><p>${shirt.description}</p><p>${shirt.tags.map(t => `<span class="tag">${t}</span>`).join("")}</p></article><aside class="panel">${renderShirtArt(shirt, "3/4")}<h2>展示・販売</h2><p><strong>展示位置</strong><br>${shirt.location}</p><p><strong>価格</strong><br>${shirt.price}</p><p><strong>在庫メモ</strong><br>${shirt.stockNote}</p><p class="muted">${creator?.profile || ""}</p></aside></section>
         ${shirt.generated && !isReversibleAudioShirt(shirt) ? renderAudioMappingDiagram(shirt.audioFeatures) : ""}
-        ${renderReversiblePanel(shirt)}
-        <section class="panel"><div class="top"><h2>10曲プレイリスト</h2><strong>${count} resonances</strong></div><ol class="tracks">${shirt.tracks.map((tr, i) => `<li class="card"><p class="eyebrow">TRACK ${String(i + 1).padStart(2, "0")}</p><h3>${tr.title}</h3><p class="muted">${tr.artist}</p><p>${tr.comment}</p><p>${tr.tags.map(t => `<span class="tag">${t}</span>`).join("")}</p></li>`).join("")}</ol></section>
-        <section class="panel"><h2>共鳴を残す</h2><p class="muted">投票ではなく、あなたの身体に起きた反応を匿名で残します。</p><textarea id="comment" placeholder="任意コメント"></textarea><div class="resonance">${Object.keys(resonanceLabels).map(k => `<button onclick="addResonance('${k}')">${resonanceLabels[k]}</button>`).join("")}</div>${state.message ? `<p class="tag">${state.message}</p>` : ""}</section></main>`;
+        ${renderReversiblePanel(shirt)}</main>`;
     }
     function render() {
       const app = document.getElementById("app");
