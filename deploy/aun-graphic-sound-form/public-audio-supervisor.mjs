@@ -105,6 +105,8 @@ function spawnAnalysisServer() {
     MMFR_PUBLIC_RATE_WINDOW_MS: "600000",
     // Three 30-second sections give the genre consensus enough musical context.
     MMFR_ANALYSIS_SECONDS: "90",
+    // Keep the proxy connection alive while rich inference is still running.
+    MMFR_RESPONSE_HEARTBEAT_MS: "10000",
     MMFR_EMBEDDING_GENRE_ENABLED: "1",
     MMFR_EMBEDDING_GENRE_LIVE_ENABLED: "1",
     MMFR_LOCAL_GENRE_MODEL_PATH: path.join(ROOT, "genre-training", "genre-model.json"),

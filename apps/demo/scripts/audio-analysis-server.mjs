@@ -210,10 +210,29 @@ function legacyYtDlpSharedArgs({ withCookies = true } = {}) {
 }
 
 function sendJson(res, status, data) {
-  res.writeHead(status, {
-    "Content-Type": "application/json; charset=utf-8"
-  });
+  if (!res.headersSent) {
+    res.writeHead(status, {
+      "Content-Type": "application/json; charset=utf-8"
+    });
+  }
   res.end(JSON.stringify(data, null, 2));
+}
+
+function startJsonResponseHeartbeat(res) {
+  const intervalMs = Math.max(0, Number(process.env.MMFR_RESPONSE_HEARTBEAT_MS || 0));
+  if (!PUBLIC_MODE || intervalMs < 1000) return () => {};
+  res.writeHead(200, {
+    "Content-Type": "application/json; charset=utf-8",
+    "Cache-Control": "no-store",
+    "X-Accel-Buffering": "no"
+  });
+  const writeHeartbeat = () => {
+    if (!res.destroyed && !res.writableEnded) res.write(`${" ".repeat(2048)}\n`);
+  };
+  writeHeartbeat();
+  const timer = setInterval(writeHeartbeat, intervalMs);
+  timer.unref?.();
+  return () => clearInterval(timer);
 }
 
 function applyCorsHeaders(req, res) {
@@ -1519,6 +1538,7 @@ async function handleAnalyze(req, res) {
   let requestId = "";
   let controller = null;
   let deadlineTimer = null;
+  let stopResponseHeartbeat = () => {};
   let disconnected = false;
   let timedOut = false;
   try {
@@ -1548,6 +1568,7 @@ async function handleAnalyze(req, res) {
         controller.abort();
       }, YOUTUBE_DEADLINE_MS);
       analysisLog(requestId, "start", { startSeconds: Number(body.startSeconds) || 0 });
+      stopResponseHeartbeat = startJsonResponseHeartbeat(res);
       let features;
       try {
         features = await analyzeYouTube(body.youtubeUrl, {
@@ -1597,6 +1618,7 @@ async function handleAnalyze(req, res) {
     analysisLog(requestId, "failed", { code: payload.body.code, disconnected, timedOut });
     if (!disconnected && !res.writableEnded) sendJson(res, payload.status, payload.body);
   } finally {
+    stopResponseHeartbeat();
     if (deadlineTimer) clearTimeout(deadlineTimer);
     if (requestId && activeYouTubeAnalyses.get(requestId)?.controller === controller) {
       activeYouTubeAnalyses.delete(requestId);

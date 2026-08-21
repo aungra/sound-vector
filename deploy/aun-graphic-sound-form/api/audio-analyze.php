@@ -153,11 +153,8 @@ function releaseLocalLock($lock): void
 
 function localResponseNeedsRichAnalysis(string $response, int $status): bool
 {
-    if ($status < 200 || $status >= 300) {
-        return true;
-    }
-    $decoded = json_decode($response, true);
-    if (!is_array($decoded) || ($decoded['ok'] ?? false) !== true) {
+    $decoded = successfulAnalysisPayload($response, $status);
+    if ($decoded === null) {
         return true;
     }
     $top = $decoded['features']['embeddingGenrePrediction']['top'] ?? null;
@@ -171,6 +168,15 @@ function localResponseNeedsRichAnalysis(string $response, int $status): bool
         }
     }
     return $topScore < LOCAL_CONFIDENCE_FLOOR;
+}
+
+function successfulAnalysisPayload(string $response, int $status): ?array
+{
+    if ($status < 200 || $status >= 300) {
+        return null;
+    }
+    $decoded = json_decode($response, true);
+    return is_array($decoded) && ($decoded['ok'] ?? false) === true ? $decoded : null;
 }
 
 $method = $_SERVER['REQUEST_METHOD'] ?? '';
@@ -247,7 +253,7 @@ foreach (upstreamEndpoints() as $endpoint) {
     if ($failed || $status < 100) {
         continue;
     }
-    $successful = $status >= 200 && $status < 300;
+    $successful = successfulAnalysisPayload((string) $response, $status) !== null;
     $shouldTryRichAnalysis = $isLocal && localResponseNeedsRichAnalysis((string) $response, $status);
     if ($successful && !$shouldTryRichAnalysis) {
         $selectedResponse = $response;

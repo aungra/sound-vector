@@ -23,6 +23,8 @@ $cases = [
     ['low local confidence', payload([['label' => 'チップチューン', 'score' => 1.8]]), 200, true],
     ['missing prediction', payload([]), 200, true],
     ['malformed success', '{"ok":true}', 200, true],
+    ['heartbeat whitespace', "  \n" . payload([['label' => 'ロック', 'score' => 80]]), 200, false],
+    ['HTTP 200 error payload', payload([], false), 200, true],
     ['server error', payload([['label' => 'ロック', 'score' => 80]]), 503, true],
     ['adequate local result', payload([['label' => 'ロック', 'score' => 12]]), 200, false],
     ['strong local result', payload([['label' => 'ロック', 'score' => 80]]), 200, false],
