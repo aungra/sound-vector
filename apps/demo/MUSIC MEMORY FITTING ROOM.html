@@ -668,7 +668,7 @@
       };
     }
     const keys = { creators: "mmfr.creators", tshirts: "mmfr.tshirts", sessions: "mmfr.sessions", apiConfig: "mmfr.apiConfig", genreAdjustmentLearning: "mmfr.genreAdjustmentLearning.v1" };
-    const GENRE_INFERENCE_REVISION = "2026-08-21-segment-rock-learning-guard-v90";
+    const GENRE_INFERENCE_REVISION = "2026-08-21-adaptive-model-refresh-v91";
     const inlineArt = {};
     let activeCollisionField = null;
     const state = { view: "home", answers: {}, moodId: null, youtubeUrl: "", audioFeatures: null, sourceMood: null, variantSalt: 0, engineId: "youtube_audio", realtime: false, tick: 0, session: null, generated: null, workId: null, message: "", genreProfiles: null, genreModel: null, sharedGenreLearning: { records: [], revision: 0, modelVersion: "" }, generationProgress: null, patternMotion: { shirtId: "", phase: 0, running: false, lastTimestamp: 0 }, equalizer: { shirtId: "", playing: false, startedAt: 0, duration: 0, detail: null, analyser: null, returningAt: 0 } };
@@ -11186,6 +11186,7 @@
           targetName: record.targetName,
           targetMacro: canonicalModelMacro(genreToMacro[record.targetName] || record.targetMacro || ""),
           provenance: knownProvenance.has(record.provenance) ? record.provenance : "legacy-unverified",
+          inferenceRevision: typeof record.inferenceRevision === "string" ? record.inferenceRevision : "",
           signature,
           confidence: Math.max(0, Math.min(96, Math.round(Number(record.confidence) || 0))),
           voteShare: Math.round(clamp01(record.voteShare) * 1000) / 1000,
@@ -11206,7 +11207,8 @@
       if (!adjustment.resolved || !targetName || confidence < 60 || voteShare < .66 || evidenceMargin < .08) return current;
       const signature = genreAdjustmentFeatureSignature(features);
       const nearestIndex = current.reduce((best, record, index) => {
-        if (record.targetName !== targetName || record.provenance !== provenance) return best;
+        if (record.targetName !== targetName || record.provenance !== provenance
+          || record.inferenceRevision !== GENRE_INFERENCE_REVISION) return best;
         const distance = genreAdjustmentFeatureDistance(signature, record.signature);
         return distance < best.distance ? { index, distance } : best;
       }, { index: -1, distance: Infinity });
@@ -11235,6 +11237,7 @@
         targetName,
         targetMacro,
         provenance,
+        inferenceRevision: GENRE_INFERENCE_REVISION,
         signature,
         confidence: Math.round(confidence),
         voteShare: Math.round(voteShare * 1000) / 1000,
@@ -11272,9 +11275,10 @@
       const signature = genreAdjustmentFeatureSignature(features);
       const currentLeader = analysis.top[0]?.name || analysis.top[0]?.label || "";
       const nearest = normaliseGenreAdjustmentLearningRecords(records).reduce((best, record) => {
+        const currentLocalRevision = record.inferenceRevision === GENRE_INFERENCE_REVISION;
         const canInspect = record.provenance === "shared-promoted"
-          || record.provenance === "visitor-confirmed"
-          || (record.provenance === "automatic-window" && record.targetName === currentLeader);
+          || (currentLocalRevision && record.provenance === "visitor-confirmed")
+          || (currentLocalRevision && record.provenance === "automatic-window" && record.targetName === currentLeader);
         if (!canInspect) return best;
         const distance = genreAdjustmentFeatureDistance(signature, record.signature);
         return distance < best.distance ? { record, distance } : best;
@@ -11292,6 +11296,7 @@
         version: GENRE_ADJUSTMENT_LEARNING_VERSION,
         targetName,
         provenance: nearest.record.provenance,
+        inferenceRevision: nearest.record.inferenceRevision || "shared",
         distance: Math.round(nearest.distance * 1000) / 1000,
         support: Number(nearest.record.support || 1),
         learnedConfidence: Number(nearest.record.confidence || 0)

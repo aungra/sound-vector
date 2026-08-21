@@ -38,7 +38,7 @@ export function loadPatternApi() {
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]);
   const appScript = scripts.at(-1).replace(
     /cleanupStoredSessions\(\);\s*(?:restoreLatestAcceptedSession\(\);\s*)?render\(\);\s*loadCalibratedGenreProfiles\(\);(?:\s*await loadSharedGenreFeedbackModel\(\);)?\s*$/,
-    "globalThis.__patternApi={state,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,applyHighTempoRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,bassLedAlternativeDanceRockEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,slowMelodicRockConsensusEvidence,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreAdjustmentFeatureSignature,normaliseGenreAdjustmentLearningRecords,applyGenreAdjustmentLearning,genreVisualWeight,genreDisplayText,inferMusicGenres,refreshReversibleSoundClothShirt};"
+    "globalThis.__patternApi={state,GENRE_INFERENCE_REVISION,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,applyHighTempoRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,bassLedAlternativeDanceRockEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,slowMelodicRockConsensusEvidence,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreAdjustmentFeatureSignature,normaliseGenreAdjustmentLearningRecords,applyGenreAdjustmentLearning,genreVisualWeight,genreDisplayText,inferMusicGenres,refreshReversibleSoundClothShirt};"
   );
   const context = {
     console,
@@ -1808,6 +1808,7 @@ test("slow melodic rock uses multi-view agreement without accepting a single ove
 
 test("unverified adaptive records cannot change another track's Top1", () => {
   const {
+    GENRE_INFERENCE_REVISION,
     genreAdjustmentFeatureSignature,
     applyGenreAdjustmentLearning
   } = loadPatternApi();
@@ -1834,11 +1835,12 @@ test("unverified adaptive records cannot change another track's Top1", () => {
       { name: "パンク", macro: "rock", score: 10 }
     ]
   };
-  const record = (targetName, provenance, recordSignature = signature, support = 5) => ({
+  const record = (targetName, provenance, recordSignature = signature, support = 5, inferenceRevision = "") => ({
     version: "adaptive-boundary-v1",
     targetName,
     targetMacro: "rock",
     provenance,
+    inferenceRevision,
     signature: recordSignature,
     confidence: 82,
     voteShare: 1,
@@ -1855,6 +1857,12 @@ test("unverified adaptive records cannot change another track's Top1", () => {
   assert.equal(applyGenreAdjustmentLearning(analysis, features, [
     record("パンク", "visitor-confirmed", nearbySignature)
   ]).top[0].name, "ジャズ");
+  assert.equal(applyGenreAdjustmentLearning(analysis, features, [
+    record("パンク", "visitor-confirmed", signature, 5, "2026-08-20-old-model")
+  ]).top[0].name, "ジャズ");
+  assert.equal(applyGenreAdjustmentLearning(analysis, features, [
+    record("パンク", "visitor-confirmed", signature, 5, GENRE_INFERENCE_REVISION)
+  ]).top[0].name, "パンク");
   const shared = applyGenreAdjustmentLearning(analysis, features, [
     record("ロック", "shared-promoted", signature, 3)
   ]);
