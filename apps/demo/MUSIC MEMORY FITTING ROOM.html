@@ -17964,7 +17964,8 @@
       if (location.protocol === "file:") return;
       await loadSharedGenreFeedbackModel();
       try {
-        const modelResponse = await fetch("genre-training/genre-model.json", { cache: "no-store" });
+        const modelUrl = `genre-training/genre-model.json?v=${encodeURIComponent(GENRE_INFERENCE_REVISION)}`;
+        const modelResponse = await fetch(modelUrl, { cache: "no-store" });
         if (modelResponse.ok) {
           const model = await modelResponse.json();
           if (model?.featureKeys?.length && Array.isArray(model.examples)) {
