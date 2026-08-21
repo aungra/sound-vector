@@ -21,6 +21,8 @@ const PORT = Number(process.env.MMFR_PUBLIC_AUDIO_PORT || 4195);
 const HEALTH_URL = `http://127.0.0.1:${PORT}/health`;
 const TUNNEL_PATTERN = /https:\/\/[a-z0-9-]+\.trycloudflare\.com/g;
 const UPSTREAM_REFRESH_MS = Number(process.env.MMFR_UPSTREAM_REFRESH_MS || 120000);
+const TUNNEL_HEALTH_MS = Number(process.env.MMFR_TUNNEL_HEALTH_MS || 10000);
+const TUNNEL_HEALTH_FAILURE_LIMIT = Number(process.env.MMFR_TUNNEL_HEALTH_FAILURE_LIMIT || 2);
 
 let stopping = false;
 let activeChildren = [];
@@ -103,11 +105,8 @@ function spawnAnalysisServer() {
     MMFR_PUBLIC_RATE_WINDOW_MS: "600000",
     // Three 30-second sections give the genre consensus enough musical context.
     MMFR_ANALYSIS_SECONDS: "90",
-    MMFR_EMBEDDING_GENRE_ENABLED: "0",
-    MMFR_EMBEDDING_GENRE_LIVE_ENABLED: "0",
-    MMFR_EMBEDDING_GENRE_MODEL_PATH: path.join(ROOT, "disabled", "embedding-model.pkl"),
-    MMFR_EMBEDDING_GENRE_FALLBACK_MODEL_PATH: path.join(ROOT, "disabled", "embedding-model.pkl"),
-    MMFR_JAPANESE_VOCAL_MODEL_PATH: path.join(ROOT, "disabled", "japanese-vocal-model"),
+    MMFR_EMBEDDING_GENRE_ENABLED: "1",
+    MMFR_EMBEDDING_GENRE_LIVE_ENABLED: "1",
     MMFR_LOCAL_GENRE_MODEL_PATH: path.join(ROOT, "genre-training", "genre-model.json"),
   };
   const child = spawn(NODE, [SERVER], {
@@ -238,6 +237,29 @@ async function keepUpstreamFresh(endpoint, tunnel) {
   }
 }
 
+async function monitorTunnelHealth(endpoint, tunnel) {
+  const healthEndpoint = new URL("/health", endpoint).toString();
+  let failures = 0;
+  while (!stopping && tunnel.exitCode === null) {
+    await delay(TUNNEL_HEALTH_MS);
+    if (stopping || tunnel.exitCode !== null) return;
+    try {
+      const response = await fetch(healthEndpoint, { signal: AbortSignal.timeout(4000) });
+      const payload = response.ok ? await response.json().catch(() => ({})) : {};
+      if (!response.ok || payload.ok !== true) throw new Error(`HTTP ${response.status}`);
+      failures = 0;
+    } catch (error) {
+      failures += 1;
+      log(`public tunnel health failed (${failures}/${TUNNEL_HEALTH_FAILURE_LIMIT}): ${error.message}`);
+      if (failures >= TUNNEL_HEALTH_FAILURE_LIMIT) {
+        log("public tunnel is stale; requesting automatic replacement");
+        terminate(tunnel);
+        return;
+      }
+    }
+  }
+}
+
 async function runGeneration() {
   const server = spawnAnalysisServer();
   activeChildren = [server];
@@ -255,6 +277,7 @@ async function runGeneration() {
   const endpoint = `${baseUrl}/api/audio-analyze`;
   await syncWithRetry(endpoint, tunnel);
   void keepUpstreamFresh(endpoint, tunnel);
+  void monitorTunnelHealth(endpoint, tunnel);
 
   const result = await Promise.race([
     childExit(server).then(exit => ({ name: "analysis server", exit })),

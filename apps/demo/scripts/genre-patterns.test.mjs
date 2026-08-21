@@ -111,6 +111,8 @@ test("public deployment reads a guarded API setting instead of visitor localhost
   assert.match(html, /meta name="sound-form-api-endpoint" content="\/sound-form\/api\/audio-analyze\.php"/);
   assert.match(html, /document\.querySelector\?\.\('meta\[name="sound-form-api-endpoint"\]'/);
   assert.match(html, /if \(publicHost \|\| soundFormPath\) defaults\.push\(configuredPublicEndpoint, "\/sound-form\/api\/audio-analyze\.php"\)/);
+  assert.match(html, /const retryDelays = \[0, 2000, 4000, 8000, 12000, 16000\]/);
+  assert.match(html, /attempt < retryDelays\.length/);
   assert.doesNotMatch(html, /aungraphic-musictee-audio-api\.hf\.space/);
   assert.doesNotMatch(html, /if \(publicHost \|\| soundFormPath\) defaults\.push\("http:\/\/127\.0\.0\.1:4194/);
 });
