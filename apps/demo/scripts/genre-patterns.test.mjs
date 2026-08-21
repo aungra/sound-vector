@@ -40,7 +40,7 @@ export function loadPatternApi() {
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]);
   const appScript = scripts.at(-1).replace(
     /cleanupStoredSessions\(\);\s*(?:restoreLatestAcceptedSession\(\);\s*)?render\(\);\s*loadCalibratedGenreProfiles\(\);(?:\s*await loadSharedGenreFeedbackModel\(\);)?\s*$/,
-    "globalThis.__patternApi={state,GENRE_INFERENCE_REVISION,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,applyHighTempoRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,bassLedAlternativeDanceRockEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,slowMelodicRockConsensusEvidence,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreAdjustmentFeatureSignature,normaliseGenreAdjustmentLearningRecords,applyGenreAdjustmentLearning,genreVisualWeight,genreDisplayText,inferMusicGenres,refreshReversibleSoundClothShirt};"
+    "globalThis.__patternApi={state,GENRE_INFERENCE_REVISION,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,applyHighTempoRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,bassLedAlternativeDanceRockEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,slowMelodicRockConsensusEvidence,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreAdjustmentFeatureSignature,normaliseGenreAdjustmentLearningRecords,applyGenreAdjustmentLearning,genreVisualWeight,genreDisplayText,inferMusicGenres,storedGenreEvidenceRequiresRichReanalysis,refreshReversibleSoundClothShirt};"
   );
   const context = {
     console,
@@ -123,6 +123,66 @@ test("public deployment reads a guarded API setting instead of visitor localhost
   assert.match(html, /attempt < retryDelays\.length/);
   assert.doesNotMatch(html, /aungraphic-musictee-audio-api\.hf\.space/);
   assert.doesNotMatch(html, /if \(publicHost \|\| soundFormPath\) defaults\.push\("http:\/\/127\.0\.0\.1:4194/);
+});
+
+test("stored degraded genre evidence is hidden until rich reanalysis", () => {
+  const {
+    GENRE_INFERENCE_REVISION,
+    storedGenreEvidenceRequiresRichReanalysis,
+    refreshReversibleSoundClothShirt,
+    genreDisplayText
+  } = loadPatternApi();
+  const degradedFeatures = {
+    inferredGenre: "チップチューン",
+    japaneseVocalEvidence: { available: false, reason: "analyzer-not-configured" },
+    embeddingGenrePrediction: {
+      source: "shared-production-local-classifier",
+      top: [{ name: "チップチューン", score: 1.8 }],
+      unknownSourceConsensus: {},
+      segmentConsensus: {
+        available: true,
+        count: 3,
+        leaders: ["クラシック音楽", "ドローン", "チップチューン"],
+        voteShare: .333
+      }
+    },
+    genreAnalysis: {
+      top: [{ name: "チップチューン", score: 60 }],
+      needsReview: false
+    }
+  };
+  const protectedArt = '<svg data-engine-family="terra-5.6"><g id="pcm_reversible_data"><line x1="0" y1="0" x2="1" y2="1"/></g></svg>';
+  const shirt = {
+    id: "stored-degraded",
+    engineId: "youtube_reversible",
+    youtubeUrl: "https://www.youtube.com/watch?v=MlZOFIRC9HA",
+    genreInferenceRevision: "2026-08-21-slow-rock-consensus-v92",
+    art: protectedArt,
+    audioFeatures: degradedFeatures
+  };
+
+  assert.equal(storedGenreEvidenceRequiresRichReanalysis(degradedFeatures), true);
+  const refreshed = refreshReversibleSoundClothShirt(shirt);
+  assert.equal(refreshed.art, protectedArt);
+  assert.equal(refreshed.genreInferenceRevision, GENRE_INFERENCE_REVISION);
+  assert.equal(refreshed.audioFeatures.inferredGenre, "");
+  assert.equal(refreshed.audioFeatures.genreAnalysis.richAnalysisRequired, true);
+  assert.equal(refreshed.audioFeatures.genreAnalysis.top.length, 0);
+  assert.equal(refreshed.audioFeatures.genreAnalysis.rejectedTop[0].name, "チップチューン");
+  assert.equal(genreDisplayText(refreshed.audioFeatures.genreAnalysis), "高精度再解析が必要");
+});
+
+test("stored rich analysis is not rejected when segment leaders disagree", () => {
+  const { storedGenreEvidenceRequiresRichReanalysis } = loadPatternApi();
+  const richFeatures = {
+    japaneseVocalEvidence: { available: true, detectedLanguage: "en" },
+    embeddingGenrePrediction: {
+      source: "shared-production-local-classifier",
+      unknownSourceConsensus: { top: [{ label: "ロック", score: 26 }] },
+      segmentConsensus: { available: true, count: 3, voteShare: .333 }
+    }
+  };
+  assert.equal(storedGenreEvidenceRequiresRichReanalysis(richFeatures), false);
 });
 
 test("browser normalization preserves a separate high-resolution rhythm timeline", () => {

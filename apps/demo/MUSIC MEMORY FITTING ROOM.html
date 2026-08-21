@@ -650,7 +650,7 @@
       };
     }
     const keys = { creators: "mmfr.creators", tshirts: "mmfr.tshirts", sessions: "mmfr.sessions", apiConfig: "mmfr.apiConfig", genreAdjustmentLearning: "mmfr.genreAdjustmentLearning.v1" };
-    const GENRE_INFERENCE_REVISION = "2026-08-21-slow-rock-consensus-v92";
+    const GENRE_INFERENCE_REVISION = "2026-08-21-rich-evidence-guard-v93";
     const inlineArt = {};
     let activeCollisionField = null;
     const state = { answers: {}, moodId: null, youtubeUrl: "", audioFeatures: null, sourceMood: null, variantSalt: 0, engineId: "youtube_audio", realtime: false, tick: 0, session: null, generated: null, message: "", genreProfiles: null, genreModel: null, sharedGenreLearning: { records: [], revision: 0, modelVersion: "" }, generationProgress: null, patternMotion: { shirtId: "", phase: 0, running: false, lastTimestamp: 0 }, equalizer: { shirtId: "", playing: false, startedAt: 0, duration: 0, detail: null, analyser: null, returningAt: 0 } };
@@ -11014,17 +11014,22 @@
       return Math.round(raw);
     }
     function genreRankedText(genreAnalysis = null, limit = 3) {
+      if (genreAnalysis?.richAnalysisRequired) return "高精度再解析が必要";
       const top = genreAnalysis?.top || [];
       if (!top.length) return "未推定";
       return top.slice(0, limit).map(item => `${item.name || item.label || "不明"} ${Math.round(Number(item.score) || 0)}%`).join(" / ");
     }
     function genreDisplayText(genreAnalysis = null, limit = 3) {
       const ranked = genreRankedText(genreAnalysis, limit);
+      if (genreAnalysis?.richAnalysisRequired) return ranked;
       if (ranked === "未推定") return ranked;
       return genreAnalysis?.needsReview ? `${ranked} / 要確認` : ranked;
     }
     function renderGenreReviewAction(shirt = null, genreAnalysis = null, busy = false) {
       if (!genreAnalysis?.needsReview || !shirt?.id) return "";
+      if (genreAnalysis.richAnalysisRequired && shirt.youtubeUrl) {
+        return `<span class="genre-review-action"><button class="secondary" type="button" onclick="reanalyzeGeneratedYoutube('${escapeAttr(shirt.id)}')" ${busy ? "disabled" : ""} title="保存済みの簡易判定を破棄し、高精度解析をやり直す">${busy ? "再解析中…" : "高精度で再解析"}</button></span>`;
+      }
       return `<span class="genre-review-action"><button class="secondary" type="button" onclick="reviewGenreResult('${escapeAttr(shirt.id)}')" ${busy ? "disabled" : ""} title="判定を検証し、匿名音響境界を今後の類似曲へ反映">${busy ? "調整中…" : "要確認"}</button></span>`;
     }
     function renderGenreFeedbackPanel(shirt = null, genreAnalysis = null, busy = false) {
@@ -17001,6 +17006,23 @@
       stopRealtimeLoop();
       render();
     }
+    async function reanalyzeGeneratedYoutube(shirtId) {
+      if (state.generationProgress) return;
+      const shirt = findGeneratedShirt(shirtId) || state.generated;
+      if (!shirt?.youtubeUrl) return;
+      stopRealtimeLoop();
+      state.youtubeUrl = shirt.youtubeUrl;
+      state.moodId = null;
+      state.audioFeatures = null;
+      state.sourceMood = null;
+      state.variantSalt = 0;
+      state.engineId = "youtube_reversible";
+      state.session = null;
+      state.generated = null;
+      state.message = "保存済みの簡易判定を破棄し、高精度解析を開始します。";
+      render();
+      await startYoutubeGeneration();
+    }
     async function startUploadedAudioGeneration() {
       if (state.generationProgress) return;
       const file = document.getElementById("audioFile")?.files?.[0] || null;
@@ -17768,8 +17790,54 @@
     function isReversibleAudioShirt(shirt) {
       return shirt?.engineId === "youtube_reversible" || shirt?.engineId === "audio_reversible";
     }
+    function storedGenreEvidenceRequiresRichReanalysis(features = {}) {
+      const embedding = features.embeddingGenrePrediction || {};
+      const vocal = embedding.japaneseVocalEvidence || features.japaneseVocalEvidence || {};
+      const external = embedding.unknownSourceConsensus || {};
+      const segments = embedding.segmentConsensus || {};
+      const sharedLocalClassifier = embedding.source === "shared-production-local-classifier"
+        || embedding.method === "shared-production-local-classifier";
+      const missingVocalAnalyzer = vocal.available === false;
+      const missingExternalConsensus = !Array.isArray(external.top) || !external.top.length;
+      const conflictingSegments = segments.available === true
+        && Number(segments.count || 0) >= 3
+        && Number(segments.voteShare || 0) < .67;
+      return sharedLocalClassifier && missingVocalAnalyzer && missingExternalConsensus && conflictingSegments;
+    }
+    function invalidateDegradedStoredGenreEvidence(shirt) {
+      const features = shirt.audioFeatures || {};
+      const previous = features.genreAnalysis || {};
+      const rejectedTop = previous.richAnalysisRequired
+        ? previous.rejectedTop || []
+        : (previous.top || []).map(item => ({ ...item }));
+      shirt.audioFeatures = {
+        ...features,
+        inferredGenre: "",
+        inferredStyle: "",
+        genreAnalysis: {
+          ...previous,
+          top: [],
+          style: [],
+          styleByFamily: {},
+          inferredGenre: "",
+          inferredStyle: "",
+          confidence: 0,
+          needsReview: true,
+          richAnalysisRequired: true,
+          richAnalysisReason: "stored-degraded-segment-conflict",
+          rejectedTop
+        }
+      };
+      shirt.genreInferenceRevision = GENRE_INFERENCE_REVISION;
+      shirt.externalNote = "高精度再解析が必要 / 保存済みの簡易ジャンル判定は表示していません";
+      shirt.stockNote = "保護PCMと図案は保持しています。ジャンルは高精度解析後に更新してください。";
+      return shirt;
+    }
     function refreshReversibleSoundClothShirt(shirt) {
       if (!shirt || !isReversibleAudioShirt(shirt) || !shirt.audioFeatures) return shirt;
+      if (storedGenreEvidenceRequiresRichReanalysis(shirt.audioFeatures)) {
+        return invalidateDegradedStoredGenreEvidence(shirt);
+      }
       let genreUpdated = false;
       if (shirt.genreInferenceRevision !== GENRE_INFERENCE_REVISION && state.genreModel) {
         shirt.audioFeatures = enrichFeaturesWithGenre(shirt.audioFeatures);
