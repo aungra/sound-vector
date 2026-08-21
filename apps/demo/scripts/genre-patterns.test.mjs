@@ -41,7 +41,7 @@ export function loadPatternApi({ artistMasters = false } = {}) {
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]);
   const appScript = scripts.at(-1).replace(
     /cleanupStoredSessions\(\);\s*(?:restoreLatestAcceptedSession\(\);\s*)?render\(\);\s*loadCalibratedGenreProfiles\(\);(?:\s*await loadSharedGenreFeedbackModel\(\);)?\s*$/,
-    "globalThis.__patternApi={state,GENRE_INFERENCE_REVISION,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,prepareArtistMasterMotionMarkup,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,applyHighTempoRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,bassLedAlternativeDanceRockEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,slowMelodicRockConsensusEvidence,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreAdjustmentFeatureSignature,normaliseGenreAdjustmentLearningRecords,applyGenreAdjustmentLearning,genreVisualWeight,genreDisplayText,inferMusicGenres,storedGenreEvidenceRequiresRichReanalysis,refreshReversibleSoundClothShirt};"
+    "globalThis.__patternApi={state,GENRE_INFERENCE_REVISION,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,prepareArtistMasterMotionMarkup,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,applyHighTempoRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,bassLedAlternativeDanceRockEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,slowMelodicRockConsensusEvidence,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreAdjustmentFeatureSignature,normaliseGenreAdjustmentLearningRecords,applyGenreAdjustmentLearning,enforceRichAnalysisOutputConsistency,genreVisualWeight,genreDisplayText,inferMusicGenres,storedGenreEvidenceRequiresRichReanalysis,refreshReversibleSoundClothShirt};"
   );
   const context = {
     console,
@@ -192,6 +192,48 @@ test("stored rich analysis is not rejected when segment leaders disagree", () =>
     }
   };
   assert.equal(storedGenreEvidenceRequiresRichReanalysis(richFeatures), false);
+});
+
+test("rich output consistency rejects a weak genre absent from both high-resolution heads", () => {
+  const { enforceRichAnalysisOutputConsistency, genreDisplayText } = loadPatternApi();
+  const features = {
+    analysisTier: "rich-parity",
+    japaneseVocalEvidence: { available: true, detectedLanguage: "en" },
+    embeddingGenrePrediction: {
+      top: [{ name: "ジャズ", score: 100 }, { name: "ロック", score: 11.6 }, { name: "パンク", score: 10.6 }],
+      unknownSourceConsensus: {
+        top: [{ label: "フォーク", score: 26.5 }, { label: "ロック", score: 26 }, { label: "アンビエント", score: 10.9 }]
+      }
+    }
+  };
+  const weakOutlier = {
+    top: [{ name: "チップチューン", score: 15 }, { name: "ハウス", score: 6 }, { name: "ドローン", score: 5 }],
+    confidence: 15,
+    needsReview: false
+  };
+  const guarded = enforceRichAnalysisOutputConsistency(weakOutlier, features);
+  assert.equal(guarded.richAnalysisRequired, true);
+  assert.equal(guarded.top.length, 0);
+  assert.equal(guarded.richOutputConsistency.rejectedName, "チップチューン");
+  assert.equal(genreDisplayText(guarded), "高精度再解析が必要");
+});
+
+test("rich output consistency restores a supported base result after a weak adaptive override", () => {
+  const { enforceRichAnalysisOutputConsistency } = loadPatternApi();
+  const features = {
+    analysisTier: "rich-parity",
+    japaneseVocalEvidence: { available: true },
+    embeddingGenrePrediction: {
+      top: [{ name: "ジャズ", score: 100 }, { name: "ロック", score: 11.6 }],
+      unknownSourceConsensus: { top: [{ label: "フォーク", score: 26.5 }, { label: "ロック", score: 26 }] }
+    }
+  };
+  const base = { top: [{ name: "ロック", score: 88 }], confidence: 88, needsReview: false };
+  const adjusted = { top: [{ name: "チップチューン", score: 15 }], confidence: 15, needsReview: false };
+  const guarded = enforceRichAnalysisOutputConsistency(adjusted, features, base);
+  assert.equal(guarded.top[0].name, "ロック");
+  assert.equal(guarded.top[0].score, 88);
+  assert.equal(guarded.richOutputConsistency.rejectedName, "チップチューン");
 });
 
 test("browser normalization preserves a separate high-resolution rhythm timeline", () => {

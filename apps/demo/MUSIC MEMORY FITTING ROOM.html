@@ -650,7 +650,7 @@
       };
     }
     const keys = { creators: "mmfr.creators", tshirts: "mmfr.tshirts", sessions: "mmfr.sessions", apiConfig: "mmfr.apiConfig", genreAdjustmentLearning: "mmfr.genreAdjustmentLearning.v1" };
-    const GENRE_INFERENCE_REVISION = "2026-08-21-client-parity-handshake-v94";
+    const GENRE_INFERENCE_REVISION = "2026-08-21-rich-output-consistency-v95";
     const inlineArt = {};
     let activeCollisionField = null;
     const state = { answers: {}, moodId: null, youtubeUrl: "", audioFeatures: null, sourceMood: null, variantSalt: 0, engineId: "youtube_audio", realtime: false, tick: 0, session: null, generated: null, message: "", genreProfiles: null, genreModel: null, sharedGenreLearning: { records: [], revision: 0, modelVersion: "" }, generationProgress: null, patternMotion: { shirtId: "", phase: 0, running: false, lastTimestamp: 0 }, equalizer: { shirtId: "", playing: false, startedAt: 0, duration: 0, detail: null, analyser: null, returningAt: 0 } };
@@ -2377,6 +2377,9 @@
         temporalProfile,
         embeddingGenrePrediction: raw?.embeddingGenrePrediction || null,
         japaneseVocalEvidence: raw?.japaneseVocalEvidence || null,
+        analysisTier: raw?.analysisTier || "",
+        clientInferenceRevision: raw?.clientInferenceRevision || "",
+        serverRequestId: raw?.serverRequestId || "",
         youtubeMeta: raw?.youtubeMeta || null
       };
       features.detail = normaliseAudioDetail(raw?.detail || raw?.audioDetail || raw?.reconstructionDetail || {}, features);
@@ -2466,7 +2469,16 @@
               throw error;
             }
             write(keys.apiConfig, { endpoint });
-            return normaliseFeatures({ id: link.id, startSeconds: link.startSeconds, normalizedUrl: link.normalizedUrl, ...(data.features || data.audio || data), source: data.source || "external-audio-analysis" }, link.normalizedUrl || url);
+            return normaliseFeatures({
+              id: link.id,
+              startSeconds: link.startSeconds,
+              normalizedUrl: link.normalizedUrl,
+              ...(data.features || data.audio || data),
+              source: data.source || "external-audio-analysis",
+              analysisTier,
+              clientInferenceRevision: GENRE_INFERENCE_REVISION,
+              serverRequestId: data.requestId || options.requestId || ""
+            }, link.normalizedUrl || url);
           } catch (error) {
             if (error.name === "AbortError") throw new Error("解析を中止しました。");
             lastError = error;
@@ -10077,8 +10089,54 @@
         features
       ), ruleAnalysis);
     }
+    function enforceRichAnalysisOutputConsistency(analysis = {}, features = {}, baseAnalysis = analysis) {
+      const embedding = features.embeddingGenrePrediction || {};
+      const vocal = features.japaneseVocalEvidence || embedding.japaneseVocalEvidence || {};
+      const external = embedding.unknownSourceConsensus || {};
+      const rawTop = Array.isArray(embedding.top) ? embedding.top.slice(0, 5) : [];
+      const externalTop = Array.isArray(external.top) ? external.top.slice(0, 5) : [];
+      const richEvidence = vocal.available === true
+        && rawTop.length > 0
+        && externalTop.length > 0;
+      if (!richEvidence || !analysis?.top?.length) return analysis;
+      const finalName = analysis.top[0]?.name || analysis.top[0]?.label || "";
+      const finalScore = Number(analysis.top[0]?.score ?? analysis.confidence) || 0;
+      const supportedNames = new Set(rawTop.concat(externalTop).map(item => item.name || item.label).filter(Boolean));
+      if (supportedNames.has(finalName) || finalScore >= 35) return analysis;
+      const baseName = baseAnalysis?.top?.[0]?.name || baseAnalysis?.top?.[0]?.label || "";
+      const baseScore = Number(baseAnalysis?.top?.[0]?.score ?? baseAnalysis?.confidence) || 0;
+      const evidence = {
+        version: "rich-output-consistency-v1",
+        rejectedName: finalName,
+        rejectedScore: Math.round(finalScore),
+        rawCandidates: rawTop.map(item => item.name || item.label).filter(Boolean),
+        externalCandidates: externalTop.map(item => item.name || item.label).filter(Boolean)
+      };
+      if (baseAnalysis !== analysis && supportedNames.has(baseName) && baseScore >= 35) {
+        return {
+          ...baseAnalysis,
+          source: `${baseAnalysis.source || "高精度音響分類"} 表示直前の低得点候補が高精度候補集合と矛盾したため破棄しました。`,
+          richOutputConsistency: { ...evidence, fallbackName: baseName, fallbackScore: Math.round(baseScore) }
+        };
+      }
+      return {
+        ...analysis,
+        top: [],
+        inferredGenre: "",
+        inferredStyle: "",
+        style: [],
+        confidence: 0,
+        needsReview: true,
+        richAnalysisRequired: true,
+        richAnalysisReason: "final-output-outside-rich-candidate-set",
+        rejectedTop: analysis.top.map(item => ({ ...item })),
+        richOutputConsistency: evidence
+      };
+    }
     function inferMusicGenres(features = {}) {
-      return applyGenreAdjustmentLearning(inferMusicGenresBase(features), features);
+      const baseAnalysis = inferMusicGenresBase(features);
+      const adjustedAnalysis = applyGenreAdjustmentLearning(baseAnalysis, features);
+      return enforceRichAnalysisOutputConsistency(adjustedAnalysis, features, baseAnalysis);
     }
     function enrichFeaturesWithGenre(features = {}) {
       const genreAnalysis = inferMusicGenres(features);
@@ -18090,7 +18148,10 @@
       const genreLabel = genreRankedText(features?.genreAnalysis, 2);
       const genreReviewAction = renderGenreReviewAction(generated, features?.genreAnalysis, isGenerating);
       const genreFeedbackPanel = renderGenreFeedbackPanel(generated, features?.genreAnalysis, isGenerating);
-      const genreEvidence = `${japaneseVocalEvidenceText(features?.genreAnalysis)} / ${sparseGenreEvidenceText(features?.genreAnalysis)}`;
+      const analysisProvenance = features?.analysisTier
+        ? ` / Engine ${features.analysisTier} / ${features.clientInferenceRevision || GENRE_INFERENCE_REVISION}`
+        : "";
+      const genreEvidence = `${japaneseVocalEvidenceText(features?.genreAnalysis)} / ${sparseGenreEvidenceText(features?.genreAnalysis)}${analysisProvenance}`;
       const inferredStyle = features?.genreAnalysis?.style?.[0];
       const styleName = inferredStyle?.name || inferredStyle?.label || features?.genreAnalysis?.inferredStyle || features?.inferredStyle || "";
       const styleScore = Number(inferredStyle?.score);
