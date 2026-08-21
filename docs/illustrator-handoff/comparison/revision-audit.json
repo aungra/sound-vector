@@ -1,0 +1,1797 @@
+{
+  "generatedAt": "2026-08-21T04:23:52.973Z",
+  "records": [
+    {
+      "number": 1,
+      "genre": "アンビエント",
+      "file": "editable/01-アンビエント-illustrator.svg",
+      "before": {
+        "paths": 4,
+        "circles": 359,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 7,
+        "transforms": 0,
+        "maxStroke": 16.1,
+        "meanStroke": 5.675,
+        "inkRatio": 0.03344387755102041,
+        "bbox": [
+          0.25357142857142856,
+          0.37857142857142856,
+          0.6571428571428571,
+          0.55
+        ]
+      },
+      "after": {
+        "paths": 16,
+        "circles": 359,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 6,
+        "transforms": 0,
+        "maxStroke": 16.1,
+        "meanStroke": 7.566666666666666,
+        "inkRatio": 0.07266581632653062,
+        "bbox": [
+          0.08214285714285714,
+          0.22142857142857142,
+          0.8928571428571429,
+          0.5892857142857143
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.20303687635574838,
+        "changedRatio": 0.07029336734693878,
+        "inkDelta": 0.03922193877551021,
+        "bboxDelta": [
+          -0.17142857142857143,
+          -0.15714285714285714,
+          0.23571428571428577,
+          0.03928571428571426
+        ],
+        "primitiveDelta": 12,
+        "depthScore": 8.399999999999999
+      }
+    },
+    {
+      "number": 2,
+      "genre": "ドローン",
+      "file": "editable/02-ドローン-illustrator.svg",
+      "before": {
+        "paths": 4,
+        "circles": 425,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 4,
+        "groups": 7,
+        "transforms": 3,
+        "maxStroke": 3.1,
+        "meanStroke": 1.725,
+        "inkRatio": 0.039502551020408165,
+        "bbox": [
+          0.2642857142857143,
+          0.225,
+          0.6928571428571428,
+          0.8107142857142857
+        ]
+      },
+      "after": {
+        "paths": 5,
+        "circles": 423,
+        "ellipses": 0,
+        "lines": 2,
+        "polygons": 13,
+        "rects": 4,
+        "groups": 5,
+        "transforms": 0,
+        "maxStroke": 3.1,
+        "meanStroke": 2.5,
+        "inkRatio": 0.0632015306122449,
+        "bbox": [
+          0.15357142857142858,
+          0.17857142857142858,
+          0.8571428571428571,
+          0.9071428571428571
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.3249958861280237,
+        "changedRatio": 0.052321428571428574,
+        "inkDelta": 0.023698979591836734,
+        "bboxDelta": [
+          -0.11071428571428571,
+          -0.04642857142857143,
+          0.16428571428571426,
+          0.09642857142857142
+        ],
+        "primitiveDelta": 18,
+        "depthScore": 0.6500000000000001
+      }
+    },
+    {
+      "number": 3,
+      "genre": "ノイズミュージック",
+      "file": "editable/03-ノイズミュージック-illustrator.svg",
+      "before": {
+        "paths": 8,
+        "circles": 835,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 7,
+        "transforms": 0,
+        "maxStroke": 5.1,
+        "meanStroke": 1.7999999999999998,
+        "inkRatio": 0.05260204081632653,
+        "bbox": [
+          0.19285714285714287,
+          0.3142857142857143,
+          0.7857142857142857,
+          0.6535714285714286
+        ]
+      },
+      "after": {
+        "paths": 23,
+        "circles": 828,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 30,
+        "groups": 8,
+        "transforms": 0,
+        "maxStroke": 5.1,
+        "meanStroke": 3.5999999999999996,
+        "inkRatio": 0.11933673469387755,
+        "bbox": [
+          0.08571428571428572,
+          0.3142857142857143,
+          0.8535714285714285,
+          0.6535714285714286
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.433432581880051,
+        "changedRatio": 0.06795918367346938,
+        "inkDelta": 0.06673469387755102,
+        "bboxDelta": [
+          -0.10714285714285715,
+          0,
+          0.06785714285714284,
+          0
+        ],
+        "primitiveDelta": 51,
+        "depthScore": 10.5
+      }
+    },
+    {
+      "number": 4,
+      "genre": "電子音楽",
+      "file": "editable/04-電子音楽-illustrator.svg",
+      "before": {
+        "paths": 6,
+        "circles": 630,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 9,
+        "transforms": 0,
+        "maxStroke": 12.3,
+        "meanStroke": 7.166666666666667,
+        "inkRatio": 0.07732142857142857,
+        "bbox": [
+          0.13214285714285715,
+          0.32142857142857145,
+          0.8714285714285714,
+          0.6357142857142857
+        ]
+      },
+      "after": {
+        "paths": 9,
+        "circles": 629,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 9,
+        "transforms": 0,
+        "maxStroke": 12.3,
+        "meanStroke": 7.666666666666667,
+        "inkRatio": 0.0772576530612245,
+        "bbox": [
+          0.1392857142857143,
+          0.32142857142857145,
+          0.85,
+          0.6464285714285715
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.9264027976474328,
+        "changedRatio": 0.005905612244897959,
+        "inkDelta": -0.00006377551020407546,
+        "bboxDelta": [
+          0.007142857142857145,
+          0,
+          -0.021428571428571463,
+          0.010714285714285787
+        ],
+        "primitiveDelta": 4,
+        "depthScore": 2.0999999999999996
+      }
+    },
+    {
+      "number": 5,
+      "genre": "テクノ",
+      "file": "editable/05-テクノ-illustrator.svg",
+      "before": {
+        "paths": 14,
+        "circles": 751,
+        "ellipses": 1,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 9,
+        "transforms": 0,
+        "maxStroke": 11.5,
+        "meanStroke": 5.546666666666667,
+        "inkRatio": 0.08706632653061225,
+        "bbox": [
+          0.25357142857142856,
+          0.2642857142857143,
+          0.7642857142857142,
+          0.7535714285714286
+        ]
+      },
+      "after": {
+        "paths": 54,
+        "circles": 751,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 12,
+        "transforms": 0,
+        "maxStroke": 11.5,
+        "meanStroke": 6.7,
+        "inkRatio": 0.09858418367346938,
+        "bbox": [
+          0.14285714285714285,
+          0.2642857142857143,
+          0.7642857142857142,
+          0.8357142857142857
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.7951406018746917,
+        "changedRatio": 0.02118622448979592,
+        "inkDelta": 0.011517857142857135,
+        "bboxDelta": [
+          -0.11071428571428571,
+          0,
+          0,
+          0.08214285714285718
+        ],
+        "primitiveDelta": 41,
+        "depthScore": 28
+      }
+    },
+    {
+      "number": 6,
+      "genre": "ハウス",
+      "file": "editable/06-ハウス-illustrator.svg",
+      "before": {
+        "paths": 1,
+        "circles": 678,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 6,
+        "groups": 7,
+        "transforms": 5,
+        "maxStroke": 3,
+        "meanStroke": 3,
+        "inkRatio": 0.049630102040816325,
+        "bbox": [
+          0.17142857142857143,
+          0.34285714285714286,
+          0.8428571428571429,
+          0.6714285714285714
+        ]
+      },
+      "after": {
+        "paths": 10,
+        "circles": 672,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 6,
+        "groups": 8,
+        "transforms": 0,
+        "maxStroke": 0,
+        "meanStroke": 0,
+        "inkRatio": 0.060153061224489796,
+        "bbox": [
+          0.11428571428571428,
+          0.29285714285714287,
+          0.9107142857142857,
+          0.7178571428571429
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.7724464579901154,
+        "changedRatio": 0.014094387755102042,
+        "inkDelta": 0.01052295918367347,
+        "bboxDelta": [
+          -0.05714285714285715,
+          -0.04999999999999999,
+          0.06785714285714284,
+          0.046428571428571486
+        ],
+        "primitiveDelta": 15,
+        "depthScore": 4.55
+      }
+    },
+    {
+      "number": 7,
+      "genre": "ディープ・ハウス",
+      "file": "editable/07-ディープ-ハウス-illustrator.svg",
+      "before": {
+        "paths": 4,
+        "circles": 533,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 7,
+        "transforms": 0,
+        "maxStroke": 9.5,
+        "meanStroke": 4.275,
+        "inkRatio": 0.0895280612244898,
+        "bbox": [
+          0.17142857142857143,
+          0.48214285714285715,
+          0.8357142857142857,
+          0.8214285714285714
+        ]
+      },
+      "after": {
+        "paths": 44,
+        "circles": 532,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 14,
+        "rects": 1,
+        "groups": 9,
+        "transforms": 0,
+        "maxStroke": 0.5,
+        "meanStroke": 0.35,
+        "inkRatio": 0.0010204081632653062,
+        "bbox": [
+          0.2785714285714286,
+          0.5142857142857142,
+          0.725,
+          0.6142857142857143
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.011397634990739421,
+        "changedRatio": 0.08850765306122449,
+        "inkDelta": -0.08850765306122449,
+        "bboxDelta": [
+          0.10714285714285715,
+          0.032142857142857084,
+          -0.11071428571428577,
+          -0.20714285714285707
+        ],
+        "primitiveDelta": 55,
+        "depthScore": 28
+      }
+    },
+    {
+      "number": 8,
+      "genre": "トランス",
+      "file": "editable/08-トランス-illustrator.svg",
+      "before": {
+        "paths": 6,
+        "circles": 536,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 7,
+        "transforms": 0,
+        "maxStroke": 12.4,
+        "meanStroke": 4.983333333333333,
+        "inkRatio": 0.0764030612244898,
+        "bbox": [
+          0.3142857142857143,
+          0.22857142857142856,
+          0.8678571428571429,
+          0.6821428571428572
+        ]
+      },
+      "after": {
+        "paths": 9,
+        "circles": 533,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 8,
+        "transforms": 0,
+        "maxStroke": 0.7,
+        "meanStroke": 0.7,
+        "inkRatio": 0.05197704081632653,
+        "bbox": [
+          0.21071428571428572,
+          0.19642857142857142,
+          0.9607142857142857,
+          0.7428571428571429
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.20107398568019094,
+        "changedRatio": 0.08539540816326531,
+        "inkDelta": -0.024426020408163267,
+        "bboxDelta": [
+          -0.10357142857142856,
+          -0.03214285714285714,
+          0.09285714285714286,
+          0.06071428571428572
+        ],
+        "primitiveDelta": 6,
+        "depthScore": 2.0999999999999996
+      }
+    },
+    {
+      "number": 9,
+      "genre": "ドラムンベース",
+      "file": "editable/09-ドラムンベース-illustrator.svg",
+      "before": {
+        "paths": 13,
+        "circles": 846,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 7,
+        "transforms": 0,
+        "maxStroke": 9.9,
+        "meanStroke": 4.446153846153845,
+        "inkRatio": 0.030076530612244898,
+        "bbox": [
+          0.1357142857142857,
+          0.2785714285714286,
+          0.8214285714285714,
+          0.6964285714285714
+        ]
+      },
+      "after": {
+        "paths": 20,
+        "circles": 839,
+        "ellipses": 0,
+        "lines": 1,
+        "polygons": 1,
+        "rects": 1,
+        "groups": 8,
+        "transforms": 3,
+        "maxStroke": 9.9,
+        "meanStroke": 6,
+        "inkRatio": 0.02798469387755102,
+        "bbox": [
+          0.1357142857142857,
+          0.2785714285714286,
+          0.8214285714285714,
+          0.7464285714285714
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.5794587092297016,
+        "changedRatio": 0.015459183673469388,
+        "inkDelta": -0.0020918367346938783,
+        "bboxDelta": [
+          0,
+          0,
+          0,
+          0.050000000000000044
+        ],
+        "primitiveDelta": 16,
+        "depthScore": 6.449999999999999
+      }
+    },
+    {
+      "number": 10,
+      "genre": "ダブステップ",
+      "file": "editable/10-ダブステップ-illustrator.svg",
+      "before": {
+        "paths": 5,
+        "circles": 783,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 7,
+        "transforms": 0,
+        "maxStroke": 20.7,
+        "meanStroke": 12.6,
+        "inkRatio": 0.15215561224489796,
+        "bbox": [
+          0.2392857142857143,
+          0.16071428571428573,
+          0.7464285714285714,
+          0.9
+        ]
+      },
+      "after": {
+        "paths": 20,
+        "circles": 779,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 7,
+        "transforms": 0,
+        "maxStroke": 20.7,
+        "meanStroke": 15.75,
+        "inkRatio": 0.14681122448979592,
+        "bbox": [
+          0.23214285714285715,
+          0.025,
+          0.7285714285714285,
+          0.9285714285714286
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.7455317247542449,
+        "changedRatio": 0.04358418367346939,
+        "inkDelta": -0.0053443877551020424,
+        "bboxDelta": [
+          -0.007142857142857145,
+          -0.13571428571428573,
+          -0.017857142857142905,
+          0.02857142857142858
+        ],
+        "primitiveDelta": 19,
+        "depthScore": 10.5
+      }
+    },
+    {
+      "number": 11,
+      "genre": "チップチューン",
+      "file": "editable/11-チップチューン-illustrator.svg",
+      "before": {
+        "paths": 2,
+        "circles": 574,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 41,
+        "groups": 9,
+        "transforms": 40,
+        "maxStroke": 7,
+        "meanStroke": 6.5,
+        "inkRatio": 0.03403061224489796,
+        "bbox": [
+          0.26785714285714285,
+          0.32857142857142857,
+          0.725,
+          0.6428571428571429
+        ]
+      },
+      "after": {
+        "paths": 21,
+        "circles": 576,
+        "ellipses": 4,
+        "lines": 0,
+        "polygons": 1,
+        "rects": 41,
+        "groups": 17,
+        "transforms": 4,
+        "maxStroke": 0,
+        "meanStroke": 0,
+        "inkRatio": 0.980625,
+        "bbox": [
+          0.0035714285714285713,
+          0,
+          0.9964285714285714,
+          0.9928571428571429
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.021942164155136754,
+        "changedRatio": 0.9710841836734694,
+        "inkDelta": 0.946594387755102,
+        "bboxDelta": [
+          -0.2642857142857143,
+          -0.32857142857142857,
+          0.27142857142857146,
+          0.35
+        ],
+        "primitiveDelta": 26,
+        "depthScore": 0.6999999999999993
+      }
+    },
+    {
+      "number": 12,
+      "genre": "ヒップホップ",
+      "file": "editable/12-ヒップホップ-illustrator.svg",
+      "before": {
+        "paths": 5,
+        "circles": 700,
+        "ellipses": 1,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 9,
+        "transforms": 0,
+        "maxStroke": 11.6,
+        "meanStroke": 6.366666666666666,
+        "inkRatio": 0.07279336734693878,
+        "bbox": [
+          0.1357142857142857,
+          0.3535714285714286,
+          0.7857142857142857,
+          0.6964285714285714
+        ]
+      },
+      "after": {
+        "paths": 6,
+        "circles": 700,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 10,
+        "transforms": 0,
+        "maxStroke": 11.6,
+        "meanStroke": 6.366666666666667,
+        "inkRatio": 0.0724234693877551,
+        "bbox": [
+          0.1357142857142857,
+          0.3535714285714286,
+          0.7821428571428571,
+          0.6964285714285714
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.9938704028021016,
+        "changedRatio": 0.0004464285714285714,
+        "inkDelta": -0.00036989795918368484,
+        "bboxDelta": [
+          0,
+          0,
+          -0.0035714285714285587,
+          0
+        ],
+        "primitiveDelta": 2,
+        "depthScore": 0.7
+      }
+    },
+    {
+      "number": 13,
+      "genre": "トラップ",
+      "file": "editable/13-トラップ-illustrator.svg",
+      "before": {
+        "paths": 5,
+        "circles": 800,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 9,
+        "groups": 7,
+        "transforms": 8,
+        "maxStroke": 2.1,
+        "meanStroke": 1.6800000000000002,
+        "inkRatio": 0.046747448979591835,
+        "bbox": [
+          0.21428571428571427,
+          0.2857142857142857,
+          0.7892857142857143,
+          0.7321428571428571
+        ]
+      },
+      "after": {
+        "paths": 5,
+        "circles": 800,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 9,
+        "groups": 7,
+        "transforms": 8,
+        "maxStroke": 2.1,
+        "meanStroke": 1.6800000000000002,
+        "inkRatio": 0.046747448979591835,
+        "bbox": [
+          0.21428571428571427,
+          0.2857142857142857,
+          0.7892857142857143,
+          0.7321428571428571
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 1,
+        "changedRatio": 0,
+        "inkDelta": 0,
+        "bboxDelta": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "primitiveDelta": 0,
+        "depthScore": 0
+      }
+    },
+    {
+      "number": 14,
+      "genre": "レゲエ",
+      "file": "editable/14-レゲエ-illustrator.svg",
+      "before": {
+        "paths": 10,
+        "circles": 464,
+        "ellipses": 1,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 9,
+        "transforms": 0,
+        "maxStroke": 9.4,
+        "meanStroke": 4.9818181818181815,
+        "inkRatio": 0.058125,
+        "bbox": [
+          0.10357142857142858,
+          0.2857142857142857,
+          0.8321428571428572,
+          0.75
+        ]
+      },
+      "after": {
+        "paths": 18,
+        "circles": 461,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 10,
+        "transforms": 0,
+        "maxStroke": 7,
+        "meanStroke": 4.2,
+        "inkRatio": 0.039808673469387754,
+        "bbox": [
+          0.11785714285714285,
+          0.2857142857142857,
+          0.8178571428571428,
+          0.75
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.5840726222405612,
+        "changedRatio": 0.025714285714285714,
+        "inkDelta": -0.01831632653061225,
+        "bboxDelta": [
+          0.014285714285714277,
+          0,
+          -0.014285714285714346,
+          0
+        ],
+        "primitiveDelta": 12,
+        "depthScore": 5.6
+      }
+    },
+    {
+      "number": 15,
+      "genre": "ダブ",
+      "file": "editable/15-ダブ-illustrator.svg",
+      "before": {
+        "paths": 10,
+        "circles": 401,
+        "ellipses": 2,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 9,
+        "transforms": 0,
+        "maxStroke": 11.3,
+        "meanStroke": 5.241666666666667,
+        "inkRatio": 0.04049744897959184,
+        "bbox": [
+          0.17142857142857143,
+          0.3607142857142857,
+          0.8642857142857143,
+          0.7214285714285714
+        ]
+      },
+      "after": {
+        "paths": 11,
+        "circles": 402,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 1,
+        "rects": 1,
+        "groups": 10,
+        "transforms": 0,
+        "maxStroke": 11.3,
+        "meanStroke": 5.914285714285714,
+        "inkRatio": 0.03872448979591837,
+        "bbox": [
+          0.17857142857142858,
+          0.3607142857142857,
+          0.8571428571428571,
+          0.7214285714285714
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.9270865653118213,
+        "changedRatio": 0.0029974489795918367,
+        "inkDelta": -0.0017729591836734698,
+        "bboxDelta": [
+          0.007142857142857145,
+          0,
+          -0.0071428571428572285,
+          0
+        ],
+        "primitiveDelta": 5,
+        "depthScore": 0.7
+      }
+    },
+    {
+      "number": 16,
+      "genre": "ブルース",
+      "file": "editable/16-ブルース-illustrator.svg",
+      "before": {
+        "paths": 6,
+        "circles": 434,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 9,
+        "transforms": 0,
+        "maxStroke": 6.4,
+        "meanStroke": 2.966666666666667,
+        "inkRatio": 0.0723469387755102,
+        "bbox": [
+          0.21428571428571427,
+          0.32142857142857145,
+          0.7535714285714286,
+          0.7285714285714285
+        ]
+      },
+      "after": {
+        "paths": 8,
+        "circles": 434,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 10,
+        "transforms": 0,
+        "maxStroke": 6.4,
+        "meanStroke": 4.45,
+        "inkRatio": 0.02510204081632653,
+        "bbox": [
+          0.22142857142857142,
+          0.31785714285714284,
+          0.7428571428571429,
+          0.7285714285714285
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.3396458004559004,
+        "changedRatio": 0.048035714285714286,
+        "inkDelta": -0.04724489795918367,
+        "bboxDelta": [
+          0.007142857142857145,
+          -0.0035714285714286143,
+          -0.010714285714285676,
+          0
+        ],
+        "primitiveDelta": 2,
+        "depthScore": 1.4
+      }
+    },
+    {
+      "number": 17,
+      "genre": "ロック",
+      "file": "editable/17-ロック-illustrator.svg",
+      "before": {
+        "paths": 13,
+        "circles": 791,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 9,
+        "transforms": 0,
+        "maxStroke": 16.4,
+        "meanStroke": 3.515384615384614,
+        "inkRatio": 0.0735204081632653,
+        "bbox": [
+          0.17857142857142858,
+          0.14642857142857144,
+          0.9,
+          0.7
+        ]
+      },
+      "after": {
+        "paths": 13,
+        "circles": 790,
+        "ellipses": 0,
+        "lines": 1,
+        "polygons": 3,
+        "rects": 1,
+        "groups": 10,
+        "transforms": 0,
+        "maxStroke": 5,
+        "meanStroke": 3.566666666666667,
+        "inkRatio": 0.0792219387755102,
+        "bbox": [
+          0.039285714285714285,
+          0.1,
+          0.9642857142857143,
+          0.7928571428571428
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.7317425885755604,
+        "changedRatio": 0.023660714285714285,
+        "inkDelta": 0.005701530612244904,
+        "bboxDelta": [
+          -0.1392857142857143,
+          -0.04642857142857143,
+          0.06428571428571428,
+          0.09285714285714286
+        ],
+        "primitiveDelta": 5,
+        "depthScore": 0.5
+      }
+    },
+    {
+      "number": 18,
+      "genre": "パンク",
+      "file": "editable/18-パンク-illustrator.svg",
+      "before": {
+        "paths": 19,
+        "circles": 868,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 9,
+        "transforms": 0,
+        "maxStroke": 7.3,
+        "meanStroke": 4.11578947368421,
+        "inkRatio": 0.03343112244897959,
+        "bbox": [
+          0.14285714285714285,
+          0.25357142857142856,
+          0.8464285714285714,
+          0.7392857142857143
+        ]
+      },
+      "after": {
+        "paths": 63,
+        "circles": 867,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 176,
+        "rects": 1,
+        "groups": 25,
+        "transforms": 0,
+        "maxStroke": 0.2,
+        "meanStroke": 0.2,
+        "inkRatio": 0.005510204081632653,
+        "bbox": [
+          0.14285714285714285,
+          0.25357142857142856,
+          0.7785714285714286,
+          0.7321428571428571
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.1573161485974223,
+        "changedRatio": 0.028354591836734694,
+        "inkDelta": -0.027920918367346937,
+        "bboxDelta": [
+          0,
+          0,
+          -0.06785714285714284,
+          -0.0071428571428572285
+        ],
+        "primitiveDelta": 221,
+        "depthScore": 30.799999999999997
+      }
+    },
+    {
+      "number": 19,
+      "genre": "ハードコア",
+      "file": "editable/19-ハードコア-illustrator.svg",
+      "before": {
+        "paths": 5,
+        "circles": 916,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 7,
+        "transforms": 0,
+        "maxStroke": 8.4,
+        "meanStroke": 1.6800000000000002,
+        "inkRatio": 0.11654336734693878,
+        "bbox": [
+          0.15714285714285714,
+          0.29285714285714287,
+          0.8357142857142857,
+          0.7571428571428571
+        ]
+      },
+      "after": {
+        "paths": 20,
+        "circles": 915,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 8,
+        "rects": 1,
+        "groups": 11,
+        "transforms": 0,
+        "maxStroke": 0.2,
+        "meanStroke": 0.2,
+        "inkRatio": 0.005778061224489796,
+        "bbox": [
+          0.15714285714285714,
+          0.30714285714285716,
+          0.8357142857142857,
+          0.7392857142857143
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.048087431693989074,
+        "changedRatio": 0.1110969387755102,
+        "inkDelta": -0.11076530612244898,
+        "bboxDelta": [
+          0,
+          0.01428571428571429,
+          0,
+          -0.017857142857142794
+        ],
+        "primitiveDelta": 24,
+        "depthScore": 10.5
+      }
+    },
+    {
+      "number": 20,
+      "genre": "メタル",
+      "file": "editable/20-メタル-illustrator.svg",
+      "before": {
+        "paths": 7,
+        "circles": 839,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 9,
+        "transforms": 0,
+        "maxStroke": 3.5,
+        "meanStroke": 1.5,
+        "inkRatio": 0.11392857142857143,
+        "bbox": [
+          0.29285714285714287,
+          0.14285714285714285,
+          0.7214285714285714,
+          0.8607142857142858
+        ]
+      },
+      "after": {
+        "paths": 24,
+        "circles": 835,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 2,
+        "rects": 1,
+        "groups": 13,
+        "transforms": 0,
+        "maxStroke": 3.5,
+        "meanStroke": 1.85,
+        "inkRatio": 0.02364795918367347,
+        "bbox": [
+          0.30714285714285716,
+          0.14285714285714285,
+          0.7,
+          0.8607142857142858
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.20702775290957923,
+        "changedRatio": 0.09038265306122449,
+        "inkDelta": -0.09028061224489797,
+        "bboxDelta": [
+          0.01428571428571429,
+          0,
+          -0.021428571428571463,
+          0
+        ],
+        "primitiveDelta": 23,
+        "depthScore": 11.899999999999999
+      }
+    },
+    {
+      "number": 21,
+      "genre": "ジャズ",
+      "file": "editable/21-ジャズ-illustrator.svg",
+      "before": {
+        "paths": 3,
+        "circles": 433,
+        "ellipses": 1,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 9,
+        "transforms": 0,
+        "maxStroke": 6,
+        "meanStroke": 4.75,
+        "inkRatio": 0.02895408163265306,
+        "bbox": [
+          0.18214285714285713,
+          0.30714285714285716,
+          0.7714285714285715,
+          0.6464285714285715
+        ]
+      },
+      "after": {
+        "paths": 15,
+        "circles": 430,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 6,
+        "rects": 1,
+        "groups": 9,
+        "transforms": 0,
+        "maxStroke": 6,
+        "meanStroke": 4,
+        "inkRatio": 0.051543367346938776,
+        "bbox": [
+          0.18214285714285713,
+          0.225,
+          0.8035714285714286,
+          0.6464285714285715
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.5141554702495201,
+        "changedRatio": 0.025829081632653062,
+        "inkDelta": 0.022589285714285715,
+        "bboxDelta": [
+          0,
+          -0.08214285714285716,
+          0.03214285714285714,
+          0
+        ],
+        "primitiveDelta": 22,
+        "depthScore": 8.399999999999999
+      }
+    },
+    {
+      "number": 22,
+      "genre": "ファンク",
+      "file": "editable/22-ファンク-illustrator.svg",
+      "before": {
+        "paths": 5,
+        "circles": 662,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 6,
+        "groups": 9,
+        "transforms": 5,
+        "maxStroke": 7,
+        "meanStroke": 3,
+        "inkRatio": 0.023380102040816326,
+        "bbox": [
+          0.06785714285714285,
+          0.2571428571428571,
+          0.925,
+          0.8071428571428572
+        ]
+      },
+      "after": {
+        "paths": 62,
+        "circles": 660,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 8,
+        "rects": 6,
+        "groups": 9,
+        "transforms": 5,
+        "maxStroke": 0.2,
+        "meanStroke": 0.2,
+        "inkRatio": 0.013686224489795918,
+        "bbox": [
+          0.06785714285714285,
+          0.2571428571428571,
+          0.925,
+          0.8071428571428572
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.5733622089875474,
+        "changedRatio": 0.010051020408163266,
+        "inkDelta": -0.009693877551020408,
+        "bboxDelta": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "primitiveDelta": 67,
+        "depthScore": 39.9
+      }
+    },
+    {
+      "number": 23,
+      "genre": "ソウルミュージック",
+      "file": "editable/23-ソウルミュージック-illustrator.svg",
+      "before": {
+        "paths": 5,
+        "circles": 439,
+        "ellipses": 1,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 9,
+        "transforms": 0,
+        "maxStroke": 7,
+        "meanStroke": 3.6,
+        "inkRatio": 0.05156887755102041,
+        "bbox": [
+          0.21785714285714286,
+          0.31785714285714284,
+          0.7642857142857142,
+          0.6714285714285714
+        ]
+      },
+      "after": {
+        "paths": 18,
+        "circles": 438,
+        "ellipses": 1,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 14,
+        "transforms": 0,
+        "maxStroke": 7,
+        "meanStroke": 3.6,
+        "inkRatio": 0.00725765306122449,
+        "bbox": [
+          0.3107142857142857,
+          0.31785714285714284,
+          0.7178571428571429,
+          0.5678571428571428
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.13820335636722605,
+        "changedRatio": 0.04454081632653061,
+        "inkDelta": -0.04431122448979592,
+        "bboxDelta": [
+          0.09285714285714286,
+          0,
+          -0.046428571428571375,
+          -0.10357142857142854
+        ],
+        "primitiveDelta": 14,
+        "depthScore": 9.1
+      }
+    },
+    {
+      "number": 24,
+      "genre": "ディスコ",
+      "file": "editable/24-ディスコ-illustrator.svg",
+      "before": {
+        "paths": 6,
+        "circles": 692,
+        "ellipses": 5,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 9,
+        "transforms": 0,
+        "maxStroke": 13,
+        "meanStroke": 4.49090909090909,
+        "inkRatio": 0.04239795918367347,
+        "bbox": [
+          0.16428571428571428,
+          0.30357142857142855,
+          0.8178571428571428,
+          0.7178571428571429
+        ]
+      },
+      "after": {
+        "paths": 75,
+        "circles": 685,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 52,
+        "rects": 1,
+        "groups": 12,
+        "transforms": 0,
+        "maxStroke": 0.2,
+        "meanStroke": 0.2,
+        "inkRatio": 0.003737244897959184,
+        "bbox": [
+          0.16428571428571428,
+          0.30357142857142855,
+          0.8178571428571428,
+          0.7178571428571429
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.08586010207145002,
+        "changedRatio": 0.038839285714285715,
+        "inkDelta": -0.038660714285714284,
+        "bboxDelta": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "primitiveDelta": 133,
+        "depthScore": 48.3
+      }
+    },
+    {
+      "number": 25,
+      "genre": "シティ・ポップ",
+      "file": "editable/25-シティ-ポップ-illustrator.svg",
+      "before": {
+        "paths": 1,
+        "circles": 501,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 21,
+        "groups": 9,
+        "transforms": 20,
+        "maxStroke": 8,
+        "meanStroke": 8,
+        "inkRatio": 0.03376275510204082,
+        "bbox": [
+          0.2785714285714286,
+          0.3821428571428571,
+          0.75,
+          0.6678571428571428
+        ]
+      },
+      "after": {
+        "paths": 59,
+        "circles": 497,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 1,
+        "rects": 21,
+        "groups": 10,
+        "transforms": 0,
+        "maxStroke": 0.5,
+        "meanStroke": 0.5,
+        "inkRatio": 0.9923979591836735,
+        "bbox": [
+          0,
+          0,
+          0.9964285714285714,
+          0.9964285714285714
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.031396630855619084,
+        "changedRatio": 0.9636862244897959,
+        "inkDelta": 0.9586352040816326,
+        "bboxDelta": [
+          -0.2785714285714286,
+          -0.3821428571428571,
+          0.24642857142857144,
+          0.3285714285714286
+        ],
+        "primitiveDelta": 63,
+        "depthScore": 33.599999999999994
+      }
+    },
+    {
+      "number": 26,
+      "genre": "J-POP",
+      "file": "editable/26-j-pop-illustrator.svg",
+      "before": {
+        "paths": 5,
+        "circles": 665,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 4,
+        "groups": 9,
+        "transforms": 3,
+        "maxStroke": 12,
+        "meanStroke": 2.4,
+        "inkRatio": 0.09294642857142857,
+        "bbox": [
+          0.12142857142857143,
+          0.24285714285714285,
+          0.8392857142857143,
+          0.6785714285714286
+        ]
+      },
+      "after": {
+        "paths": 206,
+        "circles": 658,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 1,
+        "rects": 1,
+        "groups": 18,
+        "transforms": 0,
+        "maxStroke": 0.2,
+        "meanStroke": 0.2,
+        "inkRatio": 0.003864795918367347,
+        "bbox": [
+          0.125,
+          0.35,
+          0.8392857142857143,
+          0.6
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.04043865661411926,
+        "changedRatio": 0.08928571428571429,
+        "inkDelta": -0.08908163265306122,
+        "bboxDelta": [
+          0.0035714285714285726,
+          0.10714285714285712,
+          0,
+          -0.07857142857142863
+        ],
+        "primitiveDelta": 212,
+        "depthScore": 139.64999999999998
+      }
+    },
+    {
+      "number": 27,
+      "genre": "アニメソング",
+      "file": "editable/27-アニメソング-illustrator.svg",
+      "before": {
+        "paths": 34,
+        "circles": 793,
+        "ellipses": 2,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 9,
+        "transforms": 0,
+        "maxStroke": 10.6,
+        "meanStroke": 4.1611111111111105,
+        "inkRatio": 0.10572704081632653,
+        "bbox": [
+          0.18571428571428572,
+          0.25,
+          0.8107142857142857,
+          0.7285714285714285
+        ]
+      },
+      "after": {
+        "paths": 34,
+        "circles": 794,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 1,
+        "rects": 29,
+        "groups": 26,
+        "transforms": 28,
+        "maxStroke": 0,
+        "meanStroke": 0,
+        "inkRatio": 0.09058673469387755,
+        "bbox": [
+          0.18214285714285713,
+          0.19642857142857142,
+          0.8107142857142857,
+          0.8142857142857143
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.2682102834541859,
+        "changedRatio": 0.1132780612244898,
+        "inkDelta": -0.015140306122448974,
+        "bboxDelta": [
+          -0.0035714285714285865,
+          -0.053571428571428575,
+          0,
+          0.08571428571428574
+        ],
+        "primitiveDelta": 32,
+        "depthScore": 9.799999999999999
+      }
+    },
+    {
+      "number": 28,
+      "genre": "クラシック音楽",
+      "file": "editable/28-クラシック音楽-illustrator.svg",
+      "before": {
+        "paths": 11,
+        "circles": 342,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 9,
+        "transforms": 0,
+        "maxStroke": 4.5,
+        "meanStroke": 1.9363636363636367,
+        "inkRatio": 0.04225765306122449,
+        "bbox": [
+          0.16428571428571428,
+          0.4,
+          0.7964285714285714,
+          0.6321428571428571
+        ]
+      },
+      "after": {
+        "paths": 18,
+        "circles": 340,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 1,
+        "rects": 1,
+        "groups": 12,
+        "transforms": 0,
+        "maxStroke": 4.5,
+        "meanStroke": 2.38,
+        "inkRatio": 0.03790816326530612,
+        "bbox": [
+          0.16785714285714284,
+          0.4,
+          0.7928571428571428,
+          0.6321428571428571
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.8936426634528473,
+        "changedRatio": 0.0045025510204081635,
+        "inkDelta": -0.004349489795918371,
+        "bboxDelta": [
+          0.0035714285714285587,
+          0,
+          -0.0035714285714285587,
+          0
+        ],
+        "primitiveDelta": 10,
+        "depthScore": 4.8999999999999995
+      }
+    },
+    {
+      "number": 29,
+      "genre": "オペラ",
+      "file": "editable/29-オペラ-illustrator.svg",
+      "before": {
+        "paths": 9,
+        "circles": 452,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 9,
+        "transforms": 0,
+        "maxStroke": 16.1,
+        "meanStroke": 6.177777777777777,
+        "inkRatio": 0.10724489795918367,
+        "bbox": [
+          0.22857142857142856,
+          0.25357142857142856,
+          0.775,
+          0.7107142857142857
+        ]
+      },
+      "after": {
+        "paths": 37,
+        "circles": 450,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 13,
+        "rects": 1,
+        "groups": 14,
+        "transforms": 0,
+        "maxStroke": 0.2,
+        "meanStroke": 0.2,
+        "inkRatio": 0.0023979591836734695,
+        "bbox": [
+          0.275,
+          0.5428571428571428,
+          0.75,
+          0.7107142857142857
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.021509209744503863,
+        "changedRatio": 0.10502551020408163,
+        "inkDelta": -0.1048469387755102,
+        "bboxDelta": [
+          0.04642857142857146,
+          0.28928571428571426,
+          -0.025000000000000022,
+          0
+        ],
+        "primitiveDelta": 43,
+        "depthScore": 19.599999999999998
+      }
+    },
+    {
+      "number": 30,
+      "genre": "フォーク",
+      "file": "editable/30-フォーク-illustrator.svg",
+      "before": {
+        "paths": 10,
+        "circles": 356,
+        "ellipses": 1,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 9,
+        "transforms": 0,
+        "maxStroke": 9,
+        "meanStroke": 4.418181818181818,
+        "inkRatio": 0.04566326530612245,
+        "bbox": [
+          0.275,
+          0.24285714285714285,
+          0.6857142857142857,
+          0.7857142857142857
+        ]
+      },
+      "after": {
+        "paths": 65,
+        "circles": 353,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 2,
+        "rects": 1,
+        "groups": 10,
+        "transforms": 0,
+        "maxStroke": 5.6,
+        "meanStroke": 2.88,
+        "inkRatio": 0.041862244897959186,
+        "bbox": [
+          0.275,
+          0.24285714285714285,
+          0.6857142857142857,
+          0.7857142857142857
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.913552704963748,
+        "changedRatio": 0.003954081632653061,
+        "inkDelta": -0.0038010204081632623,
+        "bboxDelta": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "primitiveDelta": 61,
+        "depthScore": 38.5
+      }
+    },
+    {
+      "number": 31,
+      "genre": "ラテン",
+      "file": "editable/31-ラテン-illustrator.svg",
+      "before": {
+        "paths": 7,
+        "circles": 707,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 6,
+        "groups": 9,
+        "transforms": 5,
+        "maxStroke": 13,
+        "meanStroke": 6.285714285714286,
+        "inkRatio": 0.030956632653061224,
+        "bbox": [
+          0.18571428571428572,
+          0.3142857142857143,
+          0.8464285714285714,
+          0.7107142857142857
+        ]
+      },
+      "after": {
+        "paths": 33,
+        "circles": 700,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 20,
+        "rects": 1,
+        "groups": 12,
+        "transforms": 0,
+        "maxStroke": 0,
+        "meanStroke": 0,
+        "inkRatio": 0.02614795918367347,
+        "bbox": [
+          0.18571428571428572,
+          0.3142857142857143,
+          0.8464285714285714,
+          0.7107142857142857
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.2920634920634921,
+        "changedRatio": 0.03128826530612245,
+        "inkDelta": -0.004808673469387754,
+        "bboxDelta": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "primitiveDelta": 58,
+        "depthScore": 16.45
+      }
+    },
+    {
+      "number": 32,
+      "genre": "ワールドミュージック",
+      "file": "editable/32-ワールドミュージック-illustrator.svg",
+      "before": {
+        "paths": 11,
+        "circles": 598,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 0,
+        "rects": 1,
+        "groups": 9,
+        "transforms": 0,
+        "maxStroke": 13.2,
+        "meanStroke": 7.918181818181819,
+        "inkRatio": 0.09659438775510204,
+        "bbox": [
+          0.2392857142857143,
+          0.2785714285714286,
+          0.85,
+          0.7964285714285714
+        ]
+      },
+      "after": {
+        "paths": 226,
+        "circles": 597,
+        "ellipses": 0,
+        "lines": 0,
+        "polygons": 21,
+        "rects": 1,
+        "groups": 10,
+        "transforms": 0,
+        "maxStroke": 2,
+        "meanStroke": 1.1,
+        "inkRatio": 0.17942602040816327,
+        "bbox": [
+          0.025,
+          0.2785714285714286,
+          0.9642857142857143,
+          0.7964285714285714
+        ]
+      },
+      "comparison": {
+        "silhouetteIou": 0.32500612294881215,
+        "changedRatio": 0.14061224489795918,
+        "inkDelta": 0.08283163265306123,
+        "bboxDelta": [
+          -0.2142857142857143,
+          0,
+          0.11428571428571432,
+          0
+        ],
+        "primitiveDelta": 237,
+        "depthScore": 150.5
+      }
+    }
+  ]
+}

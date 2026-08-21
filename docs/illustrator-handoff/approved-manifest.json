@@ -1,0 +1,743 @@
+{
+  "format": "sound-form-approved-artist-masters-v2",
+  "generatedAt": "2026-08-21T05:37:56.179Z",
+  "masterPolicy": "Illustrator structure + live audio grain + ranked secondary genre elements + production PCM",
+  "files": [
+    {
+      "number": 1,
+      "genre": "アンビエント",
+      "file": "approved/01-アンビエント-illustrator.svg",
+      "engine": "terra-ambient-breath-v1",
+      "patternFamily": "air-score-space",
+      "sourceLineage": [
+        "graphic-score",
+        "cymatics",
+        "pattern-language"
+      ],
+      "formMode": "genre-ambient",
+      "pcmStatus": "production-injected",
+      "source": "editable/01-アンビエント-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.24,
+        "maxWidth": 16.22,
+        "explicitWidthCount": 5,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 2,
+      "genre": "ドローン",
+      "file": "approved/02-ドローン-illustrator.svg",
+      "engine": "terra-drone-sustain-v1",
+      "patternFamily": "air-score-space",
+      "sourceLineage": [
+        "cymatics",
+        "spectrogram",
+        "pattern-language"
+      ],
+      "formMode": "genre-drone",
+      "pcmStatus": "production-injected",
+      "source": "editable/02-ドローン-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.24,
+        "maxWidth": 3.69,
+        "explicitWidthCount": 4,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 3,
+      "genre": "ノイズミュージック",
+      "file": "approved/03-ノイズミュージック-illustrator.svg",
+      "engine": "terra-noise-burn-v1",
+      "patternFamily": "impact-poster-gesture",
+      "sourceLineage": [
+        "graphic-score",
+        "cymatics",
+        "japanese-poster"
+      ],
+      "formMode": "genre-noise",
+      "pcmStatus": "production-injected",
+      "source": "editable/03-ノイズミュージック-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.24,
+        "maxWidth": 5.48,
+        "explicitWidthCount": 3,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 4,
+      "genre": "電子音楽",
+      "file": "approved/04-電子音楽-illustrator.svg",
+      "engine": "terra-electronic-circuit-v1",
+      "patternFamily": "signal-grid-machine",
+      "sourceLineage": [
+        "spectrogram",
+        "graphic-score",
+        "pattern-language"
+      ],
+      "formMode": "genre-electronic",
+      "pcmStatus": "production-injected",
+      "source": "editable/04-電子音楽-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.24,
+        "maxWidth": 12.46,
+        "explicitWidthCount": 5,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 5,
+      "genre": "テクノ",
+      "file": "approved/05-テクノ-illustrator.svg",
+      "engine": "terra-techno-frame-v1",
+      "patternFamily": "signal-grid-machine",
+      "sourceLineage": [
+        "spectrogram",
+        "japanese-poster",
+        "pattern-language"
+      ],
+      "formMode": "genre-techno",
+      "pcmStatus": "production-injected",
+      "source": "editable/05-テクノ-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.24,
+        "maxWidth": 11.67,
+        "explicitWidthCount": 5,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 6,
+      "genre": "ハウス",
+      "file": "approved/06-ハウス-illustrator.svg",
+      "engine": "terra-house-canopy-v1",
+      "patternFamily": "signal-grid-machine",
+      "sourceLineage": [
+        "spectrogram",
+        "graphic-score",
+        "pattern-language"
+      ],
+      "formMode": "genre-house",
+      "pcmStatus": "production-injected",
+      "source": "editable/06-ハウス-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.24,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 7,
+      "genre": "ディープ・ハウス",
+      "file": "approved/07-ディープ-ハウス-illustrator.svg",
+      "engine": "terra-deep-house-basin-v1",
+      "patternFamily": "signal-grid-machine",
+      "sourceLineage": [
+        "cymatics",
+        "spectrogram",
+        "pattern-language"
+      ],
+      "formMode": "genre-deep-house",
+      "pcmStatus": "production-injected",
+      "source": "editable/07-ディープ-ハウス-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.01,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 3,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 8,
+      "genre": "トランス",
+      "file": "approved/08-トランス-illustrator.svg",
+      "engine": "terra-trance-portal-v2",
+      "patternFamily": "impact-poster-gesture",
+      "sourceLineage": [
+        "graphic-score",
+        "cymatics",
+        "japanese-poster"
+      ],
+      "formMode": "genre-trance",
+      "pcmStatus": "production-injected",
+      "source": "editable/08-トランス-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.12,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 9,
+      "genre": "ドラムンベース",
+      "file": "approved/09-ドラムンベース-illustrator.svg",
+      "engine": "terra-dnb-break-rails-v1",
+      "patternFamily": "bass-rhythm-resonance",
+      "sourceLineage": [
+        "spectrogram",
+        "graphic-score",
+        "pattern-language"
+      ],
+      "formMode": "genre-drum-and-bass",
+      "pcmStatus": "production-injected",
+      "source": "editable/09-ドラムンベース-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.24,
+        "maxWidth": 10.1,
+        "explicitWidthCount": 5,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 10,
+      "genre": "ダブステップ",
+      "file": "approved/10-ダブステップ-illustrator.svg",
+      "engine": "terra-dubstep-wobble-v1",
+      "patternFamily": "bass-rhythm-resonance",
+      "sourceLineage": [
+        "cymatics",
+        "spectrogram",
+        "pattern-language"
+      ],
+      "formMode": "genre-dubstep",
+      "pcmStatus": "production-injected",
+      "source": "editable/10-ダブステップ-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.24,
+        "maxWidth": 20.8,
+        "explicitWidthCount": 6,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 11,
+      "genre": "チップチューン",
+      "file": "approved/11-チップチューン-illustrator.svg",
+      "engine": "terra-chiptune-pixel-v1",
+      "patternFamily": "signal-grid-machine",
+      "sourceLineage": [
+        "spectrogram",
+        "japanese-poster",
+        "pattern-language"
+      ],
+      "formMode": "genre-chiptune",
+      "pcmStatus": "production-injected",
+      "source": "editable/11-チップチューン-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.24,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 12,
+      "genre": "ヒップホップ",
+      "file": "approved/12-ヒップホップ-illustrator.svg",
+      "engine": "terra-hiphop-turntable-v2",
+      "patternFamily": "bass-rhythm-resonance",
+      "sourceLineage": [
+        "japanese-poster",
+        "graphic-score",
+        "pattern-language"
+      ],
+      "formMode": "genre-hip-hop",
+      "pcmStatus": "production-injected",
+      "source": "editable/12-ヒップホップ-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.24,
+        "maxWidth": 11.77,
+        "explicitWidthCount": 7,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 13,
+      "genre": "トラップ",
+      "file": "approved/13-トラップ-illustrator.svg",
+      "engine": "terra-trap-hat-grid-v3",
+      "patternFamily": "bass-rhythm-resonance",
+      "sourceLineage": [
+        "spectrogram",
+        "graphic-score",
+        "japanese-poster"
+      ],
+      "formMode": "genre-trap",
+      "pcmStatus": "production-injected",
+      "source": "editable/13-トラップ-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.24,
+        "maxWidth": 2.9,
+        "explicitWidthCount": 5,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 14,
+      "genre": "レゲエ",
+      "file": "approved/14-レゲエ-illustrator.svg",
+      "engine": "terra-reggae-offbeat-v1",
+      "patternFamily": "bass-rhythm-resonance",
+      "sourceLineage": [
+        "graphic-score",
+        "cymatics",
+        "pattern-language"
+      ],
+      "formMode": "genre-reggae",
+      "pcmStatus": "production-injected",
+      "source": "editable/14-レゲエ-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.24,
+        "maxWidth": 7.28,
+        "explicitWidthCount": 5,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 15,
+      "genre": "ダブ",
+      "file": "approved/15-ダブ-illustrator.svg",
+      "engine": "terra-dub-echo-v1",
+      "patternFamily": "bass-rhythm-resonance",
+      "sourceLineage": [
+        "cymatics",
+        "spectrogram",
+        "pattern-language"
+      ],
+      "formMode": "genre-dub",
+      "pcmStatus": "production-injected",
+      "source": "editable/15-ダブ-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.24,
+        "maxWidth": 11.48,
+        "explicitWidthCount": 8,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 16,
+      "genre": "ブルース",
+      "file": "approved/16-ブルース-illustrator.svg",
+      "engine": "terra-blues-drop-v1",
+      "patternFamily": "air-score-space",
+      "sourceLineage": [
+        "graphic-score",
+        "japanese-poster",
+        "pattern-language"
+      ],
+      "formMode": "genre-blues",
+      "pcmStatus": "production-injected",
+      "source": "editable/16-ブルース-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.24,
+        "maxWidth": 6.71,
+        "explicitWidthCount": 6,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 17,
+      "genre": "ロック",
+      "file": "approved/17-ロック-illustrator.svg",
+      "engine": "terra-rock-fretboard-v2",
+      "patternFamily": "impact-poster-gesture",
+      "sourceLineage": [
+        "japanese-poster",
+        "graphic-score",
+        "pattern-language"
+      ],
+      "formMode": "genre-rock",
+      "pcmStatus": "production-injected",
+      "source": "editable/17-ロック-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.24,
+        "maxWidth": 5.39,
+        "explicitWidthCount": 4,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 18,
+      "genre": "パンク",
+      "file": "approved/18-パンク-illustrator.svg",
+      "engine": "terra-punk-scratch-v2",
+      "patternFamily": "impact-poster-gesture",
+      "sourceLineage": [
+        "japanese-poster",
+        "graphic-score",
+        "cymatics"
+      ],
+      "formMode": "genre-punk",
+      "pcmStatus": "production-injected",
+      "source": "editable/18-パンク-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.01,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 19,
+      "genre": "ハードコア",
+      "file": "approved/19-ハードコア-illustrator.svg",
+      "engine": "terra-hardcore-breakwall-v2",
+      "patternFamily": "impact-poster-gesture",
+      "sourceLineage": [
+        "cymatics",
+        "japanese-poster",
+        "pattern-language"
+      ],
+      "formMode": "genre-hardcore",
+      "pcmStatus": "production-injected",
+      "source": "editable/19-ハードコア-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.01,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 20,
+      "genre": "メタル",
+      "file": "approved/20-メタル-illustrator.svg",
+      "engine": "terra-metal-blade-v1",
+      "patternFamily": "impact-poster-gesture",
+      "sourceLineage": [
+        "japanese-poster",
+        "cymatics",
+        "pattern-language"
+      ],
+      "formMode": "genre-metal",
+      "pcmStatus": "production-injected",
+      "source": "editable/20-メタル-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.01,
+        "maxWidth": 4.03,
+        "explicitWidthCount": 3,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 21,
+      "genre": "ジャズ",
+      "file": "approved/21-ジャズ-illustrator.svg",
+      "engine": "terra-jazz-cymbal-v1",
+      "patternFamily": "air-score-space",
+      "sourceLineage": [
+        "graphic-score",
+        "spectrogram",
+        "pattern-language"
+      ],
+      "formMode": "genre-jazz",
+      "pcmStatus": "production-injected",
+      "source": "editable/21-ジャズ-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.24,
+        "maxWidth": 6.32,
+        "explicitWidthCount": 3,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 22,
+      "genre": "ファンク",
+      "file": "approved/22-ファンク-illustrator.svg",
+      "engine": "terra-funk-syncopation-v1",
+      "patternFamily": "signal-grid-machine",
+      "sourceLineage": [
+        "spectrogram",
+        "graphic-score",
+        "pattern-language"
+      ],
+      "formMode": "genre-funk",
+      "pcmStatus": "production-injected",
+      "source": "editable/22-ファンク-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.01,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 23,
+      "genre": "ソウルミュージック",
+      "file": "approved/23-ソウルミュージック-illustrator.svg",
+      "engine": "terra-soul-vessels-v2",
+      "patternFamily": "air-score-space",
+      "sourceLineage": [
+        "graphic-score",
+        "cymatics",
+        "pattern-language"
+      ],
+      "formMode": "genre-soul",
+      "pcmStatus": "production-injected",
+      "source": "editable/23-ソウルミュージック-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.01,
+        "maxWidth": 7.28,
+        "explicitWidthCount": 3,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 24,
+      "genre": "ディスコ",
+      "file": "approved/24-ディスコ-illustrator.svg",
+      "engine": "terra-disco-mirror-v1",
+      "patternFamily": "signal-grid-machine",
+      "sourceLineage": [
+        "spectrogram",
+        "japanese-poster",
+        "pattern-language"
+      ],
+      "formMode": "genre-disco",
+      "pcmStatus": "production-injected",
+      "source": "editable/24-ディスコ-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.01,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 25,
+      "genre": "シティ・ポップ",
+      "file": "approved/25-シティ-ポップ-illustrator.svg",
+      "engine": "terra-citypop-window-v1",
+      "patternFamily": "signal-grid-machine",
+      "sourceLineage": [
+        "japanese-poster",
+        "spectrogram",
+        "pattern-language"
+      ],
+      "formMode": "genre-city-pop",
+      "pcmStatus": "production-injected",
+      "source": "editable/25-シティ-ポップ-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.06,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 26,
+      "genre": "J-POP",
+      "file": "approved/26-j-pop-illustrator.svg",
+      "engine": "terra-jpop-banner-v2",
+      "patternFamily": "impact-poster-gesture",
+      "sourceLineage": [
+        "japanese-poster",
+        "graphic-score",
+        "pattern-language"
+      ],
+      "formMode": "genre-j-pop",
+      "pcmStatus": "production-injected",
+      "source": "editable/26-j-pop-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.01,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 27,
+      "genre": "アニメソング",
+      "file": "approved/27-アニメソング-illustrator.svg",
+      "engine": "terra-anime-transformation-v1",
+      "patternFamily": "impact-poster-gesture",
+      "sourceLineage": [
+        "japanese-poster",
+        "graphic-score",
+        "cymatics"
+      ],
+      "formMode": "genre-anime-song",
+      "pcmStatus": "production-injected",
+      "source": "editable/27-アニメソング-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.24,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 28,
+      "genre": "クラシック音楽",
+      "file": "approved/28-クラシック音楽-illustrator.svg",
+      "engine": "terra-classical-staff-v1",
+      "patternFamily": "air-score-space",
+      "sourceLineage": [
+        "graphic-score",
+        "spectrogram",
+        "pattern-language"
+      ],
+      "formMode": "genre-classical",
+      "pcmStatus": "production-injected",
+      "source": "editable/28-クラシック音楽-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.01,
+        "maxWidth": 4.92,
+        "explicitWidthCount": 6,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 29,
+      "genre": "オペラ",
+      "file": "approved/29-オペラ-illustrator.svg",
+      "engine": "terra-opera-stage-v1",
+      "patternFamily": "air-score-space",
+      "sourceLineage": [
+        "graphic-score",
+        "japanese-poster",
+        "pattern-language"
+      ],
+      "formMode": "genre-opera",
+      "pcmStatus": "production-injected",
+      "source": "editable/29-オペラ-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.01,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 30,
+      "genre": "フォーク",
+      "file": "approved/30-フォーク-illustrator.svg",
+      "engine": "terra-folk-thread-v1",
+      "patternFamily": "air-score-space",
+      "sourceLineage": [
+        "graphic-score",
+        "pattern-language",
+        "japanese-poster"
+      ],
+      "formMode": "genre-folk",
+      "pcmStatus": "production-injected",
+      "source": "editable/30-フォーク-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.01,
+        "maxWidth": 5.95,
+        "explicitWidthCount": 6,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 31,
+      "genre": "ラテン",
+      "file": "approved/31-ラテン-illustrator.svg",
+      "engine": "terra-latin-clave-v2",
+      "patternFamily": "bass-rhythm-resonance",
+      "sourceLineage": [
+        "cymatics",
+        "graphic-score",
+        "pattern-language"
+      ],
+      "formMode": "genre-latin",
+      "pcmStatus": "production-injected",
+      "source": "editable/31-ラテン-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.24,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 1,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 32,
+      "genre": "ワールドミュージック",
+      "file": "approved/32-ワールドミュージック-illustrator.svg",
+      "engine": "terra-world-compass-v1",
+      "patternFamily": "bass-rhythm-resonance",
+      "sourceLineage": [
+        "pattern-language",
+        "graphic-score",
+        "japanese-poster"
+      ],
+      "formMode": "genre-world",
+      "pcmStatus": "production-injected",
+      "source": "editable/32-ワールドミュージック-illustrator.svg",
+      "masterRevision": "illustrator-v2",
+      "screenprintStroke": {
+        "minWidth": 2.01,
+        "maxWidth": 2.83,
+        "explicitWidthCount": 3,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    }
+  ]
+}

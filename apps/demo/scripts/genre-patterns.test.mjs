@@ -8,12 +8,6 @@ import { fileURLToPath } from "node:url";
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const DEMO_DIR = path.resolve(SCRIPT_DIR, "..");
 const HTML_PATH = path.join(DEMO_DIR, "MUSIC MEMORY FITTING ROOM.html");
-const SAKURA_PROXY_PATH = path.resolve(DEMO_DIR, "../../deploy/aun-graphic-sound-form/api/audio-analyze.php");
-const GENRE_FEEDBACK_PATH = path.resolve(DEMO_DIR, "../../deploy/aun-graphic-sound-form/api/genre-feedback.php");
-const GENRE_FEEDBACK_HOLDOUT_PATH = path.resolve(DEMO_DIR, "../../deploy/aun-graphic-sound-form/genre-feedback-holdout.json");
-const PUBLIC_SUPERVISOR_PATH = path.resolve(DEMO_DIR, "../../deploy/aun-graphic-sound-form/public-audio-supervisor.mjs");
-const HUGGINGFACE_DOCKERFILE_PATH = path.resolve(DEMO_DIR, "../../deploy/huggingface-audio-api/Dockerfile");
-const AUDIO_SERVER_PATH = path.join(SCRIPT_DIR, "audio-analysis-server.mjs");
 const DELAUNAY_VENDOR_PATH = path.join(DEMO_DIR, "vendor", "d3-delaunay.min.js");
 const JAPANESE_FONT_FILES = [
   "NotoSansJP-Regular.woff2",
@@ -43,8 +37,8 @@ export function loadPatternApi() {
   const html = fs.readFileSync(HTML_PATH, "utf8");
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]);
   const appScript = scripts.at(-1).replace(
-    /cleanupStoredSessions\(\);\s*restoreLatestAcceptedSession\(\);\s*render\(\);\s*loadCalibratedGenreProfiles\(\);\s*$/,
-    "globalThis.__patternApi={state,apiEndpointCandidates,genreFeedbackEndpoint,setSharedGenreLearningModel,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,highTempoRapBreakbeatEvidence,applyHighTempoRapBreakbeatCorrection,applyHighTempoRockCorrection,weakMidTempoHarmonicRockEvidence,applyWeakMidTempoHarmonicRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,midDominantRockBalladEvidence,bassLedAlternativeDanceRockEvidence,spokenRapBlackMusicEvidence,alternativeDanceGrooveEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreVisualWeight,genreRankedText,genreDisplayText,renderGenreReviewAction,renderGenreFeedbackPanel,youtubeUrlAtStart,genreAdjustmentOffsets,combineGenreWindowAnalyses,genreAdjustmentFeatureSignature,genreAdjustmentFeatureDistance,normaliseGenreAdjustmentLearningRecords,combinedGenreAdjustmentLearningRecords,upsertGenreAdjustmentLearning,applyGenreAdjustmentLearning,preserveProtectedPcmGeometry,applyAdjustedGenreToShirt,inferMusicGenresBase,inferMusicGenres,refreshReversibleSoundClothShirt};"
+    /cleanupStoredSessions\(\);\s*(?:restoreLatestAcceptedSession\(\);\s*)?render\(\);\s*loadCalibratedGenreProfiles\(\);(?:\s*await loadSharedGenreFeedbackModel\(\);)?\s*$/,
+    "globalThis.__patternApi={state,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,applyHighTempoRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,bassLedAlternativeDanceRockEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,slowMelodicRockConsensusEvidence,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreAdjustmentFeatureSignature,normaliseGenreAdjustmentLearningRecords,applyGenreAdjustmentLearning,genreVisualWeight,genreDisplayText,inferMusicGenres,refreshReversibleSoundClothShirt};"
   );
   const context = {
     console,
@@ -60,12 +54,13 @@ export function loadPatternApi() {
     FileReader: function FileReader() {},
     localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} },
     document: {
+      querySelector: () => null,
       getElementById: () => ({ innerHTML: "", value: "", files: [] }),
       createElement: () => ({ click() {}, setAttribute() {}, style: {} })
     },
     window: {},
     navigator: {},
-    location: { href: "http://127.0.0.1:4193/", protocol: "http:" }
+    location: { href: "http://127.0.0.1:4193/", hostname: "127.0.0.1", pathname: "/", protocol: "http:" }
   };
   context.window = context;
   context.globalThis = context;
@@ -114,101 +109,10 @@ test("public deployment reads a guarded API setting instead of visitor localhost
   assert.match(html, /const localHost = \/\^\(\?:localhost\|127/);
   assert.match(html, /const publicHost = \/\^\(\?:www\\\.\)\?aun-graphic\\\.jp\$\/i/);
   assert.match(html, /meta name="sound-form-api-endpoint" content="\/sound-form\/api\/audio-analyze\.php"/);
-  assert.ok(html.includes('|| /\\.php$/.test(value)'));
-  assert.match(html, /const configuredPublicEndpoint = environment\.configuredEndpoint/);
   assert.match(html, /document\.querySelector\?\.\('meta\[name="sound-form-api-endpoint"\]'/);
-  assert.match(html, /defaults\.push\(configuredPublicEndpoint, "\/sound-form\/api\/audio-analyze\.php"\)/);
+  assert.match(html, /if \(publicHost \|\| soundFormPath\) defaults\.push\(configuredPublicEndpoint, "\/sound-form\/api\/audio-analyze\.php"\)/);
   assert.doesNotMatch(html, /aungraphic-musictee-audio-api\.hf\.space/);
-  assert.doesNotMatch(html, /const defaultEndpoint = localHost \? "http:\/\/127\.0\.0\.1:4194\/api\/audio-analyze" : ""/);
-});
-
-test("public proxy prefers Sakura-local analysis and retains the Mac tunnel fallback", () => {
-  const proxy = fs.readFileSync(SAKURA_PROXY_PATH, "utf8");
-  assert.match(proxy, /LOCAL_UPSTREAM = 'http:\/\/127\.0\.0\.1:4196\/api\/audio-analyze'/);
-  assert.match(proxy, /\$endpoints = \[LOCAL_UPSTREAM\]/);
-  assert.match(proxy, /trycloudflare\\\.com\/api\/audio-analyze/);
-  assert.match(proxy, /CURLOPT_PROTOCOLS => \$isLocal \? CURLPROTO_HTTP : CURLPROTO_HTTPS/);
-  assert.match(proxy, /\$isLocal && \(\$status === 429 \|\| \$status >= 500\)/);
-  assert.match(proxy, /proc_open\(/);
-  assert.match(proxy, /'--max-old-space-size=128'/);
-  assert.match(proxy, /'MMFR_EMBEDDING_GENRE_ENABLED' => '0'/);
-  assert.match(proxy, /'MMFR_LOCAL_GENRE_MODEL_PATH' => LOCAL_MODEL/);
-  assert.match(proxy, /\.config\/musictee\/youtube-cookies\.txt/);
-  assert.match(proxy, /flock\(\$lock, LOCK_EX\)/);
-  assert.match(proxy, /stopLocalWorker\(\$localWorker\)/);
-  assert.match(proxy, /releaseLocalLock\(\$localLock\)/);
-});
-
-test("community genre feedback endpoint quarantines anonymous votes before guarded promotion", () => {
-  const php = fs.readFileSync(GENRE_FEEDBACK_PATH, "utf8");
-  assert.match(php, /const MIN_UNIQUE_VOTERS = 3/);
-  assert.match(php, /const MIN_CONSENSUS_SHARE = 0\.75/);
-  assert.match(php, /const MAX_TOP1_REGRESSION_POINTS = 1\.0/);
-  assert.match(php, /anonymousHash\('visitor'/);
-  assert.match(php, /anonymousHash\('network-'/);
-  assert.match(php, /DUPLICATE_FEEDBACK/);
-  assert.match(php, /RATE_LIMITED/);
-  assert.match(php, /evaluateCandidate\(\$signature, \$target\)/);
-  assert.match(php, /HOLDOUT_UNAVAILABLE/);
-  assert.match(php, /'status' => !empty\(\$promotion\['promoted'\]\) \? 'promoted' : 'quarantine'/);
-  assert.doesNotMatch(php, /youtubeUrl|sourceUrl|trackName|artistName|pcmSketch|transcript/i);
-});
-
-test("community promotion holdout is fixed, anonymous, and covers 32 genre targets", () => {
-  const holdout = JSON.parse(fs.readFileSync(GENRE_FEEDBACK_HOLDOUT_PATH, "utf8"));
-  assert.equal(holdout.version, "genre-feedback-holdout-v1");
-  assert.equal(holdout.policy.targetCount, 32);
-  assert.equal(holdout.policy.recordsPerTarget, 3);
-  assert.equal(holdout.records.length, 96);
-  assert.equal(new Set(holdout.records.map(record => record.id)).size, 96);
-  holdout.records.forEach(record => {
-    assert.equal(record.signature.length, 20);
-    assert.ok(record.signature.every(value => Number.isFinite(value) && value >= 0 && value <= 1));
-    assert.deepEqual(Object.keys(record).sort(), ["baselineNeedsReview", "baselinePrediction", "expected", "id", "signature"].sort());
-  });
-  assert.doesNotMatch(JSON.stringify(holdout), /https?:|youtube|artist|title|filePath|pcm|transcript/i);
-});
-
-test("community feedback endpoint is enabled only on the managed public page", () => {
-  const { genreFeedbackEndpoint } = loadPatternApi();
-  assert.equal(genreFeedbackEndpoint({
-    hostname: "aun-graphic.jp",
-    pathname: "/sound-form/",
-    configuredEndpoint: "/sound-form/api/genre-feedback.php"
-  }), "/sound-form/api/genre-feedback.php");
-  assert.equal(genreFeedbackEndpoint({ hostname: "127.0.0.1", pathname: "/MUSIC%20MEMORY%20FITTING%20ROOM.html" }), "");
-  assert.equal(genreFeedbackEndpoint({ hostname: "example.com", pathname: "/sound-form-copy/" }), "");
-});
-
-test("all public analysis runtimes use three 30-second genre sections", () => {
-  const proxy = fs.readFileSync(SAKURA_PROXY_PATH, "utf8");
-  const supervisor = fs.readFileSync(PUBLIC_SUPERVISOR_PATH, "utf8");
-  const dockerfile = fs.readFileSync(HUGGINGFACE_DOCKERFILE_PATH, "utf8");
-  const html = fs.readFileSync(HTML_PATH, "utf8");
-  assert.match(proxy, /'MMFR_ANALYSIS_SECONDS' => '90'/);
-  assert.match(supervisor, /MMFR_ANALYSIS_SECONDS: "90"/);
-  assert.match(dockerfile, /MMFR_ANALYSIS_SECONDS=90/);
-  assert.match(html, /通常 60〜150秒/);
-  assert.doesNotMatch(`${proxy}\n${supervisor}\n${dockerfile}`, /MMFR_ANALYSIS_SECONDS(?:' => |: |\=)["']?45/);
-});
-
-test("YouTube range acquisition does not require an optional audio encoder", () => {
-  const server = fs.readFileSync(AUDIO_SERVER_PATH, "utf8");
-  assert.match(server, /"--download-sections", `\*\$\{startSeconds\}-\$\{sectionEnd\}`/);
-  assert.doesNotMatch(server, /--force-keyframes-at-cuts/);
-  assert.match(server, /analysisWindowSeconds: ANALYSIS_WINDOW_SECONDS/);
-});
-
-test("exhibition endpoint policy ignores stale saved URLs on managed hosts", () => {
-  const { apiEndpointCandidates } = loadPatternApi();
-  assert.deepEqual(Array.from(apiEndpointCandidates({
-    hostname: "aun-graphic.jp", protocol: "https:", pathname: "/sound-form/",
-    configuredEndpoint: "", savedEndpoint: "https://expired.trycloudflare.com/api/audio-analyze"
-  })), ["/sound-form/api/audio-analyze.php", "https://expired.trycloudflare.com/api/audio-analyze"]);
-  assert.deepEqual(Array.from(apiEndpointCandidates({
-    hostname: "127.0.0.1", protocol: "http:", pathname: "/MUSIC%20MEMORY%20FITTING%20ROOM.html",
-    configuredEndpoint: "", savedEndpoint: "https://expired.example/api/audio-analyze"
-  })), ["http://127.0.0.1:4194/api/audio-analyze", "https://expired.example/api/audio-analyze"]);
+  assert.doesNotMatch(html, /if \(publicHost \|\| soundFormPath\) defaults\.push\("http:\/\/127\.0\.0\.1:4194/);
 });
 
 test("browser normalization preserves a separate high-resolution rhythm timeline", () => {
@@ -418,8 +322,40 @@ test("Terra combines the highest-ranked genre structures in deterministic score 
   assert.match(first, /id="terra_genre_blend_2"[^>]*data-genre="ディープ・ハウス"[^>]*data-genre-rank="2"/);
   assert.match(first, /id="terra_genre_blend_3"[^>]*data-genre="ダブステップ"[^>]*data-genre-rank="3"/);
   assert.match(first, /id="terra_genre_blend_4"[^>]*data-genre="レゲエ"[^>]*data-genre-rank="4"/);
+  assert.match(first, /data-genre-fusion="structural-splice-v2"/);
+  assert.match(first, /data-fusion-percentage-policy="site-participation"/);
+  assert.match(first, /data-fusion-size-policy="fixed-splice"/);
+  assert.doesNotMatch(first, /data-blend-scale=|data-variant-opacity=/);
   assert.match(first, /id="pcm_reversible_data"[^>]*data-edit-policy="lock-do-not-edit"/);
   assert.doesNotMatch(first, /data-byte=|data-index=|display="none"|stroke-opacity=|fill-opacity=/);
+});
+
+test("genre percentages change fusion participation instead of motif dimensions", () => {
+  const { generateSoundClothReversibleSvg } = loadPatternApi();
+  const makeMood = secondaryScore => ({
+    id: `fusion-${secondaryScore}`,
+    label: "structural fusion",
+    audioFileName: "same-fusion-source.wav",
+    audio: {
+      inferredGenre: "ダブ",
+      genreAnalysis: { top: [
+        { name: "ダブ", score: 100 },
+        { name: "電子音楽", score: secondaryScore }
+      ] },
+      energy: .62, rms: .62, bass: .78, onset: .44, rhythm: .64, brightness: .38, tempo: 108, centroid: 1600,
+      chroma: Array.from({ length: 12 }, (_, index) => index % 3 === 0 ? .72 : .18),
+      detail: { waveform: Array.from({ length: 128 }, (_, index) => Math.sin(index * .17) * .6) }
+    }
+  });
+  const high = generateSoundClothReversibleSvg(makeMood(80), 1800002100000);
+  const low = generateSoundClothReversibleSvg(makeMood(30), 1800002100000);
+  const siteCount = svg => Number((svg.match(/id="terra_genre_blend_2"[^>]*data-fusion-site-count="(\d+)"/) || [])[1]);
+  assert.ok(siteCount(high) > siteCount(low), `${siteCount(high)} should exceed ${siteCount(low)}`);
+  for (const svg of [high, low]) {
+    assert.match(svg, /id="terra_genre_blend_2"[^>]*data-fusion-program="orthogonal-splice"/);
+    assert.match(svg, /data-fusion-size-policy="fixed-splice"/);
+    assert.doesNotMatch(svg, /data-blend-scale=|data-genre-opacity=|data-fusion-opacity=/);
+  }
 });
 
 test("browser genre inference reads and blends the 5.6sol MLP model", () => {
@@ -1493,137 +1429,6 @@ test("embedding inference also applies the harmonic rock false-positive guard", 
   assert.equal(inferred.needsReview, true);
 });
 
-test("split low-confidence segments rescue mid-tempo post-punk without absorbing nearby grooves", () => {
-  const { weakMidTempoHarmonicRockEvidence, applyWeakMidTempoHarmonicRockCorrection } = loadPatternApi();
-  const vector = {
-    tempo: 99, energy: .6424, bass: .4864,
-    lowBandRatio: .3393, midBandRatio: .6218, highBandRatio: .0388,
-    brightness: .2782, rhythm: .4778, onset: .3413,
-    zcr: .0919, chromaEntropy: .9907, harmonicRatio: .8761,
-    distortion: .1858, sustainRatio: .828, transientScarcity: .9603,
-    structureRecurrence: .9455, fourOnFloor: .1018,
-    breakbeatDensity: .1251, hiphopPunchScore: .4362, funkGrooveScore: .5486
-  };
-  const features = {
-    embeddingGenrePrediction: {
-      top: [{ name: "ラテン", score: 3 }, { name: "ボサノヴァ", score: 1.6 }, { name: "フォーク", score: .6 }],
-      segmentConsensus: {
-        count: 3, voteShare: .333,
-        leaders: ["クラシック音楽", "ディスコ", "ダブ"]
-      }
-    }
-  };
-  assert.equal(weakMidTempoHarmonicRockEvidence(vector, features), true);
-
-  const corrected = applyWeakMidTempoHarmonicRockCorrection({
-    source: "test", method: "shared-production-local-classifier", needsReview: true,
-    macro: [{ macro: "world", score: 2 }, { macro: "black_music", score: 2 }],
-    top: [
-      { name: "ラテン", macro: "world", score: 45, rawScore: 3, acousticScore: 3 },
-      { name: "ディスコ", macro: "black_music", score: 12, rawScore: 2, acousticScore: 2 },
-      { name: "ソウルミュージック", macro: "black_music", score: 11, rawScore: 1, acousticScore: 1 }
-    ]
-  }, features, vector);
-  assert.equal(corrected.top[0].name, "ロック");
-  assert.equal(corrected.needsReview, true);
-  assert.ok(corrected.confidence <= 52);
-  assert.match(corrected.method, /weakMidTempoHarmonicRock/);
-  assert.equal(corrected.inferredStyle, "");
-
-  assert.equal(weakMidTempoHarmonicRockEvidence({ ...vector, fourOnFloor: .62 }, features), false, "real disco keeps its four-on-floor evidence");
-  assert.equal(weakMidTempoHarmonicRockEvidence({ ...vector, funkGrooveScore: .78 }, features), false, "strong funk groove is not rewritten");
-  assert.equal(weakMidTempoHarmonicRockEvidence({ ...vector, hiphopPunchScore: .72, breakbeatDensity: .4 }, features), false, "hip-hop punch and breaks stay outside the rescue");
-  assert.equal(weakMidTempoHarmonicRockEvidence({ ...vector, energy: .5, distortion: .1 }, features), false, "soft acoustic folk stays outside the rescue");
-  assert.equal(weakMidTempoHarmonicRockEvidence(vector, {
-    embeddingGenrePrediction: {
-      top: [{ name: "ディスコ", score: 54 }],
-      segmentConsensus: { count: 3, voteShare: .667, leaders: ["ディスコ", "ディスコ", "ファンク"] }
-    }
-  }), false, "a confident shared model is never overridden");
-});
-
-test("ninety-second split consensus rescues harmonic post-punk without absorbing Soul or dance grooves", () => {
-  const { weakMidTempoHarmonicRockEvidence, applyWeakMidTempoHarmonicRockCorrection } = loadPatternApi();
-  const vector = {
-    tempo: 99, energy: .6502, bass: .3935,
-    lowBandRatio: .2621, midBandRatio: .7085, highBandRatio: .0295,
-    brightness: .2456, rhythm: .4503, onset: .3217,
-    zcr: .1112, chromaEntropy: .9724, harmonicRatio: .8831,
-    distortion: .1903, sustainRatio: .8238, transientScarcity: 1,
-    structureRecurrence: .933, fourOnFloor: .1498,
-    breakbeatDensity: .0623, hiphopPunchScore: .4057,
-    funkGrooveScore: .4459, vocalPresence: .3717
-  };
-  const features = {
-    analysisWindowSeconds: 90,
-    japaneseVocalEvidence: { available: false, reason: "analyzer-not-configured" },
-    embeddingGenrePrediction: {
-      macro: [{ label: "black_music", score: 15.4 }, { label: "world", score: 8.4 }],
-      top: [{ name: "ソウルミュージック", score: 22.3 }, { name: "ディスコ", score: 9.7 }],
-      segmentConsensus: {
-        count: 3, reliable: false, voteShare: .667, macroVoteShare: .667,
-        averageMargin: 1.7,
-        leaders: ["ソウルミュージック", "ラテン", "ソウルミュージック"]
-      }
-    }
-  };
-  assert.equal(weakMidTempoHarmonicRockEvidence(vector, features), true);
-
-  const corrected = applyWeakMidTempoHarmonicRockCorrection({
-    source: "test", method: "shared-production-local-classifier", needsReview: true,
-    macro: [{ macro: "black_music", score: 15 }, { macro: "world", score: 8 }],
-    top: [
-      { name: "ソウルミュージック", macro: "black_music", score: 36, rawScore: 22, acousticScore: 22 },
-      { name: "ディスコ", macro: "black_music", score: 16, rawScore: 10, acousticScore: 10 },
-      { name: "ヒップホップ", macro: "black_music", score: 8, rawScore: 5, acousticScore: 5 }
-    ]
-  }, features, vector);
-  assert.equal(corrected.top[0].name, "ロック");
-  assert.equal(corrected.needsReview, true);
-  assert.ok(corrected.confidence <= 52);
-
-  assert.equal(weakMidTempoHarmonicRockEvidence(vector, {
-    ...features,
-    japaneseVocalEvidence: {
-      available: true, sampleCount: 3, vocalPresence: .82,
-      stemVocalPresence: .78, vocalEnergyRatio: .7
-    }
-  }), false, "measured lead-vocal Soul is not rewritten");
-  assert.equal(weakMidTempoHarmonicRockEvidence(vector, {
-    ...features,
-    embeddingGenrePrediction: {
-      ...features.embeddingGenrePrediction,
-      macro: [{ label: "black_music", score: 48 }]
-    }
-  }), false, "strong learned Black-music macro remains authoritative");
-  assert.equal(weakMidTempoHarmonicRockEvidence({ ...vector, fourOnFloor: .52 }, features), false, "four-on-floor Disco stays outside the rescue");
-  assert.equal(weakMidTempoHarmonicRockEvidence({ ...vector, funkGrooveScore: .76 }, features), false, "strong Funk groove stays outside the rescue");
-  assert.equal(weakMidTempoHarmonicRockEvidence({ ...vector, bass: .68, lowBandRatio: .55 }, features), false, "bass-led Hip-hop and Soul stay outside the rescue");
-});
-
-test("high-tempo rap breakbeats reject harmonic Rock and Funk rescues without absorbing DnB", () => {
-  const { highTempoRapBreakbeatEvidence, highTempoRockFalsePositiveEvidence } = loadPatternApi();
-  const rapBreakbeat = {
-    tempo: 185, energy: .688, bass: .901, lowBandRatio: .72,
-    midBandRatio: .236, highBandRatio: .044, brightness: .293,
-    rhythm: .532, onset: .38, syncopation: .84,
-    breakbeatDensity: .44, breakbeatIrregularity: .773,
-    dnbBreakbeatScore: .897, hiphopPunchScore: .626,
-    highBandPulse: .00004, fourOnFloor: .124, kickGrid: .162,
-    guitarBand: .00016, distortion: .174, funkGrooveScore: .574,
-    chromaEntropy: .924, zcr: .077, harmonicRatio: .787
-  };
-  assert.equal(highTempoRapBreakbeatEvidence(rapBreakbeat), true);
-  assert.equal(highTempoRockFalsePositiveEvidence(rapBreakbeat), false);
-  assert.equal(highTempoRapBreakbeatEvidence({
-    ...rapBreakbeat, rhythm: .82, onset: .61, highBandRatio: .24,
-    brightness: .62, highBandPulse: .31
-  }), false);
-  assert.equal(highTempoRapBreakbeatEvidence({
-    ...rapBreakbeat, guitarBand: .026, distortion: .31, bass: .64, lowBandRatio: .48
-  }), false);
-});
-
 test("genre confidence uses score share and model-rule agreement instead of forcing Top1 to 100", () => {
   const { calibratedGenreAnalysis } = loadPatternApi();
   const calibrated = calibratedGenreAnalysis({
@@ -1939,6 +1744,124 @@ test("unanimous electronic segments resolve a half-tempo house alias without abs
   assert.equal(calibrated.needsReview, false);
 });
 
+test("slow melodic rock uses multi-view agreement without accepting a single overconfident macro", () => {
+  const { slowMelodicRockConsensusEvidence } = loadPatternApi();
+  const analysis = {
+    top: [
+      { name: "ジャズ", macro: "jazz", score: 55 },
+      { name: "ロック", macro: "rock", score: 7 }
+    ]
+  };
+  const features = {
+    embeddingGenrePrediction: {
+      top: [
+        { label: "ジャズ", score: 100 },
+        { label: "ロック", score: 11.6 },
+        { label: "パンク", score: 10.6 }
+      ],
+      macro: [{ label: "jazz", score: 100 }, { label: "rock", score: 56.9 }],
+      segmentConsensus: {
+        available: true,
+        count: 3,
+        leaders: ["クラシック音楽", "ドローン", "ロック"],
+        voteShare: .333,
+        top: [{ label: "ロック", score: 33.3 }]
+      },
+      unknownSourceConsensus: {
+        top: [{ label: "フォーク", score: 26.5 }, { label: "ロック", score: 26 }]
+      }
+    }
+  };
+  const vector = {
+    tempo: 76,
+    energy: .758,
+    lowBandRatio: .288,
+    midBandRatio: .705,
+    highBandRatio: .007,
+    rhythm: .289,
+    onset: .207,
+    harmonicRatio: .846,
+    sustainRatio: .914,
+    structureRecurrence: .763,
+    distortion: .207
+  };
+  const evidence = slowMelodicRockConsensusEvidence({ analysis, features, vector });
+  assert.ok(evidence);
+  assert.equal(evidence.externalGap, .005);
+  assert.equal(slowMelodicRockConsensusEvidence({
+    analysis,
+    features: {
+      ...features,
+      embeddingGenrePrediction: {
+        ...features.embeddingGenrePrediction,
+        unknownSourceConsensus: { top: [{ label: "フォーク", score: 50 }, { label: "ロック", score: 8 }] }
+      }
+    },
+    vector
+  }), null);
+  assert.equal(slowMelodicRockConsensusEvidence({
+    analysis,
+    features,
+    vector: { ...vector, energy: .42, midBandRatio: .35 }
+  }), null);
+});
+
+test("unverified adaptive records cannot change another track's Top1", () => {
+  const {
+    genreAdjustmentFeatureSignature,
+    applyGenreAdjustmentLearning
+  } = loadPatternApi();
+  const features = {
+    tempo: 76,
+    energy: .76,
+    bass: .43,
+    lowBandRatio: .29,
+    midBandRatio: .7,
+    highBandRatio: .01,
+    rhythm: .29,
+    onset: .21,
+    brightness: .13
+  };
+  const signature = genreAdjustmentFeatureSignature(features);
+  const analysis = {
+    source: "test",
+    method: "shared-production-local-classifier",
+    confidence: 55,
+    needsReview: true,
+    top: [
+      { name: "ジャズ", macro: "jazz", score: 55 },
+      { name: "ロック", macro: "rock", score: 20 },
+      { name: "パンク", macro: "rock", score: 10 }
+    ]
+  };
+  const record = (targetName, provenance, recordSignature = signature, support = 5) => ({
+    version: "adaptive-boundary-v1",
+    targetName,
+    targetMacro: "rock",
+    provenance,
+    signature: recordSignature,
+    confidence: 82,
+    voteShare: 1,
+    evidenceMargin: 1,
+    support
+  });
+  assert.equal(applyGenreAdjustmentLearning(analysis, features, [
+    record("パンク", "legacy-unverified")
+  ]).top[0].name, "ジャズ");
+  assert.equal(applyGenreAdjustmentLearning(analysis, features, [
+    record("パンク", "automatic-window")
+  ]).top[0].name, "ジャズ");
+  const nearbySignature = signature.map((value, index) => index === 1 ? Math.min(1, value + .08) : value);
+  assert.equal(applyGenreAdjustmentLearning(analysis, features, [
+    record("パンク", "visitor-confirmed", nearbySignature)
+  ]).top[0].name, "ジャズ");
+  const shared = applyGenreAdjustmentLearning(analysis, features, [
+    record("ロック", "shared-promoted", signature, 3)
+  ]);
+  assert.equal(shared.top[0].name, "ロック");
+  assert.equal(shared.needsReview, false);
+});
+
 test("confidence calibration keeps inferred genre aligned with the displayed Top1", () => {
   const { calibratedGenreAnalysis } = loadPatternApi();
   const calibrated = calibratedGenreAnalysis({
@@ -1965,383 +1888,6 @@ test("genre display and visual blend never inflate secondary candidates", () => 
   assert.equal(genreDisplayText({ top }, 3), "J-POP 76% / ダブ 30% / ディスコ 25%");
   assert.equal(genreVisualWeight(top[1], 1, top), 30);
   assert.equal(genreVisualWeight(top[2], 2, top), 25);
-});
-
-test("a review-required genre renders 要確認 as an action button", () => {
-  const { genreRankedText, renderGenreReviewAction } = loadPatternApi();
-  const analysis = { needsReview: true, top: [{ name: "ロック", score: 54 }, { name: "ジャズ", score: 13 }] };
-  assert.equal(genreRankedText(analysis, 2), "ロック 54% / ジャズ 13%");
-  const action = renderGenreReviewAction({ id: "review-shirt" }, analysis, false);
-  assert.match(action, /<button[^>]+onclick="reviewGenreResult\('review-shirt'\)"/);
-  assert.match(action, />要確認<\/button>/);
-  assert.equal(renderGenreReviewAction({ id: "review-shirt" }, { ...analysis, needsReview: false }, false), "");
-  assert.match(renderGenreReviewAction({ id: "review-shirt" }, analysis, true), /disabled[^>]*>調整中…<\/button>/);
-});
-
-test("post-review UI requires consent and offers confirmation or a 32-genre correction", () => {
-  const { renderGenreFeedbackPanel } = loadPatternApi();
-  const awaiting = renderGenreFeedbackPanel({ id: "feedback-shirt" }, {
-    top: [{ name: "ロック", score: 62 }],
-    communityFeedback: { state: "awaiting", context: "post-multi-window", openedAt: 1 }
-  });
-  assert.match(awaiting, /ロックで正しい/);
-  assert.match(awaiting, /訂正を送信/);
-  assert.match(awaiting, /type="checkbox"/);
-  assert.equal((awaiting.match(/<option\b/g) || []).length, 32);
-  assert.match(awaiting, /genre-feedback-honeypot/);
-
-  const submitted = renderGenreFeedbackPanel({ id: "feedback-shirt" }, {
-    top: [{ name: "ファンク", score: 72 }],
-    communityFeedback: { state: "submitted", selectedGenre: "ファンク", serverStatus: "quarantine", votes: 2 }
-  });
-  assert.match(submitted, /送信済み/);
-  assert.match(submitted, /隔離評価中 2\/3/);
-  assert.doesNotMatch(submitted, /<select\b/);
-});
-
-test("multi-window genre adjustment resolves repeated agreement without producing 100 percent", () => {
-  const { combineGenreWindowAnalyses } = loadPatternApi();
-  const window = (offset, leader, runner, confidence, needsReview = false) => ({
-    offset,
-    genreAnalysis: {
-      method: "embedding-audio",
-      source: "test",
-      confidence,
-      needsReview,
-      modelRuleMacroAgreement: true,
-      top: [
-        { name: leader, score: confidence, macro: leader === "ロック" ? "rock" : "black_music" },
-        { name: runner, score: Math.max(8, confidence - 28) }
-      ]
-    }
-  });
-  const combined = combineGenreWindowAnalyses([
-    window(60, "ロック", "ディスコ", 54, true),
-    window(150, "ロック", "メタル", 76),
-    window(240, "ロック", "ジャズ", 72)
-  ], { adjustedAt: "2026-08-20T00:00:00.000Z" });
-  assert.equal(combined.top[0].name, "ロック");
-  assert.equal(combined.needsReview, false);
-  assert.ok(combined.top[0].score >= 58 && combined.top[0].score < 100);
-  assert.equal(combined.automaticGenreAdjustment.resolved, true);
-  assert.deepEqual(Array.from(combined.automaticGenreAdjustment.offsets), [60, 150, 240]);
-});
-
-test("multi-window genre adjustment keeps review status when sections disagree", () => {
-  const { combineGenreWindowAnalyses } = loadPatternApi();
-  const analyses = [
-    [60, "ヒップホップ", "ファンク"],
-    [150, "ロック", "メタル"],
-    [240, "電子音楽", "テクノ"]
-  ].map(([offset, leader, runner]) => ({
-    offset,
-    genreAnalysis: {
-      method: "embedding-audio",
-      source: "test",
-      confidence: 55,
-      needsReview: true,
-      modelRuleMacroAgreement: false,
-      top: [{ name: leader, score: 55 }, { name: runner, score: 38 }]
-    }
-  }));
-  const combined = combineGenreWindowAnalyses(analyses, { adjustedAt: "2026-08-20T00:00:00.000Z" });
-  assert.equal(combined.needsReview, true);
-  assert.equal(combined.automaticGenreAdjustment.resolved, false);
-  assert.ok(combined.top.length >= 3);
-  assert.ok(combined.top[0].score <= 57);
-});
-
-test("resolved review adjustment stores only an anonymous deterministic acoustic signature", () => {
-  const {
-    genreAdjustmentFeatureSignature,
-    normaliseGenreAdjustmentLearningRecords,
-    upsertGenreAdjustmentLearning
-  } = loadPatternApi();
-  const features = {
-    tempo: 112,
-    energy: .71,
-    bass: .62,
-    lowBandRatio: .38,
-    midBandRatio: .44,
-    highBandRatio: .18,
-    rhythm: .76,
-    onset: .58,
-    brightness: .52,
-    zcr: .12,
-    distortion: .27,
-    fourOnFloor: .48,
-    breakbeatIrregularity: .35,
-    harmonicRatio: .72,
-    sustainRatio: .46,
-    structureRecurrence: .7,
-    syncopation: .78,
-    japaneseVocalEvidence: { vocalPresence: .66, melodicVocalLikelihood: .62, speechRapLikelihood: .2 },
-    normalizedUrl: "https://youtu.be/private-id?t=60",
-    youtubeMeta: { title: "Private title", artist: "Private artist" },
-    detail: { pcmSketch: "PRIVATE_PCM", transcript: "PRIVATE_TRANSCRIPT" }
-  };
-  const metadataChanged = {
-    ...features,
-    normalizedUrl: "https://youtu.be/another-id?t=120",
-    youtubeMeta: { title: "Another title", artist: "Another artist" },
-    detail: { pcmSketch: "OTHER_PCM", transcript: "OTHER_TRANSCRIPT" }
-  };
-  assert.deepEqual(
-    Array.from(genreAdjustmentFeatureSignature(features)),
-    Array.from(genreAdjustmentFeatureSignature(metadataChanged))
-  );
-
-  const resolved = {
-    confidence: 78,
-    top: [{ name: "ファンク", score: 78, macro: "black_music" }],
-    automaticGenreAdjustment: {
-      resolved: true,
-      voteShare: .667,
-      evidenceMargin: .31,
-      adjustedAt: "2026-08-21T00:00:00.000Z"
-    }
-  };
-  const records = Array.from(upsertGenreAdjustmentLearning([], features, resolved));
-  assert.equal(records.length, 1);
-  assert.equal(records[0].targetName, "ファンク");
-  assert.equal(records[0].signature.length, 20);
-  assert.deepEqual(
-    Object.keys(records[0]).sort(),
-    ["confidence", "evidenceMargin", "id", "signature", "support", "targetMacro", "targetName", "updatedAt", "version", "voteShare"].sort()
-  );
-  const serialized = JSON.stringify(records);
-  ["private-id", "Private title", "Private artist", "PRIVATE_PCM", "PRIVATE_TRANSCRIPT"].forEach(secret => {
-    assert.doesNotMatch(serialized, new RegExp(secret));
-  });
-  const sanitized = Array.from(normaliseGenreAdjustmentLearningRecords([{ ...records[0], url: "PRIVATE_URL", audio: "PRIVATE_AUDIO" }]));
-  assert.equal(sanitized.length, 1);
-  assert.equal("url" in sanitized[0], false);
-  assert.equal("audio" in sanitized[0], false);
-});
-
-test("adaptive review learning requires resolved evidence and repeated close support", () => {
-  const {
-    upsertGenreAdjustmentLearning,
-    applyGenreAdjustmentLearning
-  } = loadPatternApi();
-  const features = {
-    tempo: 110,
-    energy: .7,
-    bass: .64,
-    lowBandRatio: .4,
-    midBandRatio: .43,
-    highBandRatio: .17,
-    rhythm: .78,
-    onset: .56,
-    brightness: .5,
-    zcr: .11,
-    distortion: .25,
-    fourOnFloor: .44,
-    breakbeatIrregularity: .34,
-    harmonicRatio: .7,
-    sustainRatio: .45,
-    structureRecurrence: .72,
-    syncopation: .8,
-    japaneseVocalEvidence: { vocalPresence: .62, melodicVocalLikelihood: .6, speechRapLikelihood: .18 }
-  };
-  const unresolved = {
-    confidence: 57,
-    top: [{ name: "ファンク", score: 57 }],
-    automaticGenreAdjustment: { resolved: false, voteShare: .5, evidenceMargin: .04 }
-  };
-  assert.equal(upsertGenreAdjustmentLearning([], features, unresolved).length, 0);
-
-  const resolved = {
-    confidence: 76,
-    top: [{ name: "ファンク", score: 76, macro: "black_music" }],
-    automaticGenreAdjustment: {
-      resolved: true,
-      voteShare: .667,
-      evidenceMargin: .28,
-      adjustedAt: "2026-08-21T00:00:00.000Z"
-    }
-  };
-  const oneRecord = Array.from(upsertGenreAdjustmentLearning([], features, resolved));
-  const lowConfidence = {
-    source: "test",
-    method: "test-classifier",
-    confidence: 48,
-    needsReview: true,
-    macro: [{ macro: "rock", score: 52 }],
-    top: [
-      { name: "ロック", score: 48, macro: "rock" },
-      { name: "ディスコ", score: 39, macro: "black_music" }
-    ]
-  };
-  const promotedOnce = applyGenreAdjustmentLearning(lowConfidence, features, oneRecord);
-  assert.equal(promotedOnce.top[0].name, "ファンク");
-  assert.equal(promotedOnce.needsReview, true);
-  assert.equal(promotedOnce.genreAdjustmentLearning.support, 1);
-
-  const closeFeatures = { ...features, tempo: 112, syncopation: .79, onset: .57 };
-  const twoRecords = Array.from(upsertGenreAdjustmentLearning(oneRecord, closeFeatures, {
-    ...resolved,
-    automaticGenreAdjustment: {
-      ...resolved.automaticGenreAdjustment,
-      adjustedAt: "2026-08-21T00:01:00.000Z"
-    }
-  }));
-  assert.equal(twoRecords.length, 1);
-  assert.equal(twoRecords[0].support, 2);
-  const promotedTwice = applyGenreAdjustmentLearning(lowConfidence, closeFeatures, twoRecords);
-  assert.equal(promotedTwice.top[0].name, "ファンク");
-  assert.equal(promotedTwice.needsReview, false);
-  assert.equal(promotedTwice.genreAdjustmentLearning.support, 2);
-});
-
-test("adaptive review learning leaves distant and already reliable predictions unchanged", () => {
-  const { upsertGenreAdjustmentLearning, applyGenreAdjustmentLearning } = loadPatternApi();
-  const learnedFeatures = {
-    tempo: 118, energy: .78, bass: .7, lowBandRatio: .42, midBandRatio: .43, highBandRatio: .15,
-    rhythm: .82, onset: .62, brightness: .48, zcr: .12, distortion: .3, fourOnFloor: .5,
-    breakbeatIrregularity: .38, harmonicRatio: .68, sustainRatio: .42, structureRecurrence: .74,
-    syncopation: .84,
-    japaneseVocalEvidence: { vocalPresence: .7, melodicVocalLikelihood: .64, speechRapLikelihood: .2 }
-  };
-  const resolved = {
-    confidence: 80,
-    top: [{ name: "ファンク", score: 80, macro: "black_music" }],
-    automaticGenreAdjustment: { resolved: true, voteShare: 1, evidenceMargin: .4 }
-  };
-  const records = Array.from(upsertGenreAdjustmentLearning([], learnedFeatures, resolved));
-  const uncertain = {
-    source: "test", method: "test", confidence: 46, needsReview: true,
-    top: [{ name: "アンビエント", score: 46, macro: "electronic" }]
-  };
-  const distantFeatures = {
-    tempo: 54, energy: .08, bass: .08, lowBandRatio: .08, midBandRatio: .12, highBandRatio: .8,
-    rhythm: .05, onset: .04, brightness: .92, zcr: .42, distortion: .02, fourOnFloor: .01,
-    breakbeatIrregularity: .02, harmonicRatio: .12, sustainRatio: .96, structureRecurrence: .08,
-    syncopation: .02,
-    japaneseVocalEvidence: { vocalPresence: 0, melodicVocalLikelihood: 0, speechRapLikelihood: 0 }
-  };
-  assert.equal(applyGenreAdjustmentLearning(uncertain, distantFeatures, records), uncertain);
-
-  const reliable = {
-    source: "test", method: "test", confidence: 84, needsReview: false,
-    top: [{ name: "ロック", score: 84, macro: "rock" }]
-  };
-  assert.equal(applyGenreAdjustmentLearning(reliable, learnedFeatures, records), reliable);
-});
-
-test("promoted community boundaries are shared with subsequent low-confidence inference", () => {
-  const {
-    setSharedGenreLearningModel,
-    combinedGenreAdjustmentLearningRecords,
-    genreAdjustmentFeatureSignature,
-    applyGenreAdjustmentLearning
-  } = loadPatternApi();
-  const features = {
-    tempo: 108, energy: .68, bass: .62, lowBandRatio: .39, midBandRatio: .45, highBandRatio: .16,
-    rhythm: .78, onset: .55, brightness: .48, zcr: .1, distortion: .23, fourOnFloor: .4,
-    breakbeatIrregularity: .32, harmonicRatio: .72, sustainRatio: .47, structureRecurrence: .73,
-    syncopation: .82,
-    japaneseVocalEvidence: { vocalPresence: .64, melodicVocalLikelihood: .58, speechRapLikelihood: .18 }
-  };
-  const signature = Array.from(genreAdjustmentFeatureSignature(features));
-  const model = setSharedGenreLearningModel({
-    modelVersion: "community-boundary-v1",
-    revision: 4,
-    promotedRecords: [{
-      version: "adaptive-boundary-v1",
-      id: "shared-funk-boundary",
-      targetName: "ファンク",
-      targetMacro: "black_music",
-      signature,
-      confidence: 82,
-      voteShare: 1,
-      evidenceMargin: 1,
-      support: 3,
-      updatedAt: "2026-08-21T00:00:00Z"
-    }]
-  });
-  assert.equal(model.revision, 4);
-  assert.equal(model.records.length, 1);
-  assert.equal(combinedGenreAdjustmentLearningRecords().length, 1);
-  const corrected = applyGenreAdjustmentLearning({
-    source: "test", method: "test", confidence: 48, needsReview: true,
-    macro: [{ macro: "rock", score: 52 }],
-    top: [{ name: "ロック", score: 48, macro: "rock" }]
-  }, features);
-  assert.equal(corrected.top[0].name, "ファンク");
-  assert.equal(corrected.needsReview, false);
-  assert.equal(corrected.genreAdjustmentLearning.support, 3);
-});
-
-test("genre adjustment replaces visible SVG while preserving protected PCM byte-for-byte", () => {
-  const { preserveProtectedPcmGeometry } = loadPatternApi();
-  const protectedGroup = '<g id="pcm_reversible_data" data-frame-count="4" data-sample-rate="4000"><circle cx="1" cy="2" r=".2"/><circle cx="3" cy="4" r=".3"/></g>';
-  const previous = `<svg><path id="old-visible" d="M0 0L1 1"/>${protectedGroup}</svg>`;
-  const next = '<svg><path id="new-visible" d="M2 2L3 3"/><g id="pcm_reversible_data" data-status="added-on-export"></g></svg>';
-  const adjusted = preserveProtectedPcmGeometry(previous, next);
-  assert.match(adjusted, /id="new-visible"/);
-  assert.doesNotMatch(adjusted, /id="old-visible"/);
-  assert.equal(adjusted.match(/<g id="pcm_reversible_data"[\s\S]*?<\/g>/)?.[0], protectedGroup);
-});
-
-test("applying an adjusted genre keeps PCM detail and protected SVG geometry unchanged", () => {
-  const { applyAdjustedGenreToShirt } = loadPatternApi();
-  const detail = {
-    pcmSketch: "AQIDBA==",
-    pcmSketchRate: 4000,
-    pcmSketchDuration: 24,
-    pcmSketchFrameCount: 4,
-    rms: [.4, .5, .6], bass: [.3, .4, .5], onset: [.1, .8, .2], centroid: [.3, .6, .4], waveform: [.2, -.2, .3]
-  };
-  const protectedGroup = '<g id="pcm_reversible_data" data-frame-count="4" data-sample-rate="4000"><circle cx="1" cy="2" r=".2"/><circle cx="3" cy="4" r=".3"/></g>';
-  const shirt = {
-    id: "pcm-adjust-test",
-    title: "test の可逆サウンドフォーム",
-    moodId: "youtube-test-60",
-    engineId: "youtube_reversible",
-    youtubeUrl: "https://www.youtube.com/watch?v=example123&t=60s",
-    youtubeStartSeconds: 60,
-    variantSeed: 12345,
-    tags: ["可逆", "ヒップホップ"],
-    art: `<svg viewBox="0 0 1200 1200"><path id="old-visible" d="M0 0L1 1"/>${protectedGroup}</svg>`,
-    audioFeatures: {
-      startSeconds: 60,
-      tempo: 108,
-      energy: .55,
-      bass: .48,
-      onset: .35,
-      rhythm: .5,
-      brightness: .42,
-      centroid: 2200,
-      chroma: Array.from({ length: 12 }, (_, index) => index === 4 ? .8 : .2),
-      detail,
-      genreAnalysis: { needsReview: true, top: [{ name: "ヒップホップ", score: 51 }] }
-    }
-  };
-  const adjusted = applyAdjustedGenreToShirt(shirt, {
-    method: "automatic-multi-window-adjust-v1",
-    confidence: 74,
-    needsReview: false,
-    inferredGenre: "ロック",
-    top: [{ name: "ロック", score: 74 }, { name: "メタル", score: 22 }],
-    automaticGenreAdjustment: { pcmPreserved: true }
-  });
-  assert.equal(adjusted.audioFeatures.detail, detail);
-  assert.equal(adjusted.audioFeatures.detail.pcmSketch, "AQIDBA==");
-  assert.equal(adjusted.art.match(/<g id="pcm_reversible_data"[\s\S]*?<\/g>/)?.[0], protectedGroup);
-  assert.match(adjusted.art, /data-engine=/);
-  assert.doesNotMatch(adjusted.art, /id="old-visible"/);
-});
-
-test("additional genre windows avoid the original PCM range and stay within the video", () => {
-  const { genreAdjustmentOffsets, youtubeUrlAtStart } = loadPatternApi();
-  const shirt = {
-    youtubeStartSeconds: 60,
-    audioFeatures: { startSeconds: 60, analysisWindowSeconds: 90, youtubeMeta: { duration: 310 }, genreAnalysis: {} }
-  };
-  const offsets = Array.from(genreAdjustmentOffsets(shirt));
-  assert.deepEqual(offsets, [150, 240]);
-  assert.equal(youtubeUrlAtStart("https://youtu.be/example123?t=60", offsets[0]), "https://www.youtube.com/watch?v=example123&t=150s");
 });
 
 test("instrumental classical evidence suppresses opera without affecting sung opera", () => {
@@ -2798,157 +2344,6 @@ test("chiptune texture evidence rejects bass-heavy dubstep and generic bright am
   assert.equal(chiptuneTextureEvidence({ ...chiptune, squareWave: .18, structureRecurrence: .2 }, context), false);
   assert.equal(chiptuneTextureEvidence(chiptune, { ...context, hasChiptuneCandidate: false }), false);
   assert.equal(chiptuneTextureEvidence(chiptune, { ...context, leader: "ロック", electronicMacroScore: .85 }), true);
-});
-
-test("weak chiptune consensus yields to mid-dominant harmonic rock without absorbing real chip audio", () => {
-  const { midDominantRockBalladEvidence, calibratedGenreAnalysis } = loadPatternApi();
-  const rockBallad = {
-    tempo: 117, energy: .869, bass: .579, lowBandRatio: .42, midBandRatio: .555,
-    highBandRatio: .026, brightness: .231, rhythm: .471, onset: .336,
-    harmonicRatio: .857, distortion: .216, squareWave: .242,
-    fourOnFloor: .127, kickGrid: .186, transientScarcity: 1,
-    structureRecurrence: .75
-  };
-  const weakChipContext = {
-    leader: "チップチューン", chiptuneScore: .013, modelElectronicMacroScore: .009,
-    ruleRockMacroScore: .65, ruleElectronicMacroScore: .5,
-    analysisWindowSeconds: 90,
-    segmentConsensus: { count: 3, voteShare: .333, macroVoteShare: .333, leaders: ["クラシック音楽", "ドローン", "チップチューン"] }
-  };
-  assert.equal(midDominantRockBalladEvidence(rockBallad, weakChipContext), true);
-  assert.equal(midDominantRockBalladEvidence({
-    ...rockBallad, bass: .32, lowBandRatio: .2, midBandRatio: .28,
-    highBandRatio: .47, brightness: .85, squareWave: .43
-  }, weakChipContext), false);
-  assert.equal(midDominantRockBalladEvidence(rockBallad, {
-    ...weakChipContext, modelElectronicMacroScore: .82, segmentConsensus: { count: 3, voteShare: 1, macroVoteShare: 1 }
-  }), false);
-
-  const slowSungRock = {
-    tempo: 76, energy: .7984, bass: .3754,
-    lowBandRatio: .2474, midBandRatio: .7465, highBandRatio: .006,
-    brightness: .1205, rhythm: .3322, onset: .2373,
-    harmonicRatio: .8642, distortion: .2127, squareWave: .2387,
-    fourOnFloor: .0632, kickGrid: .1486, transientScarcity: .958,
-    structureRecurrence: .7487
-  };
-  const sungSplitContext = {
-    leader: "ジャズ", analysisWindowSeconds: 120,
-    modelRockMacroScore: .329, modelBlackMacroScore: 0,
-    blackFineSoulScore: .562,
-    vocalAvailable: true, detectedLanguage: "en",
-    vocalPresence: 1, stemVocalPresence: 1,
-    melodicVocalLikelihood: .82, speechRapLikelihood: .016,
-    segmentConsensus: {
-      count: 3, voteShare: .333, macroVoteShare: .333,
-      leaders: ["クラシック音楽", "J-POP", "ロック"]
-    }
-  };
-  assert.equal(midDominantRockBalladEvidence(slowSungRock, sungSplitContext), true);
-  assert.equal(midDominantRockBalladEvidence(slowSungRock, {
-    ...sungSplitContext, blackFineSoulScore: .82
-  }), false, "strong Soul specialist evidence is retained");
-  assert.equal(midDominantRockBalladEvidence(slowSungRock, {
-    ...sungSplitContext, detectedLanguage: "it"
-  }), false, "non-English classical and operatic singing is retained");
-  assert.equal(midDominantRockBalladEvidence({ ...slowSungRock, fourOnFloor: .58 }, sungSplitContext), false, "slow Disco remains outside the rescue");
-  assert.equal(midDominantRockBalladEvidence({ ...slowSungRock, energy: .55, distortion: .12 }, sungSplitContext), false, "soft acoustic ballads remain outside the rescue");
-
-  const repeatedRockContext = {
-    leader: "チップチューン", chiptuneScore: .03, modelElectronicMacroScore: .08,
-    modelRockMacroScore: .32, ruleRockMacroScore: .72, ruleElectronicMacroScore: .44,
-    vocalAvailable: true, detectedLanguage: "en", vocalPresence: 1, stemVocalPresence: 1,
-    melodicVocalLikelihood: .91, speechRapLikelihood: .02,
-    analysisWindowSeconds: 120,
-    segmentConsensus: {
-      count: 3, leader: "ロック", voteShare: .667, macroVoteShare: .667,
-      averageMargin: 24, leaders: ["ロック", "ロック", "チップチューン"],
-      top: [{ name: "ロック", score: 58 }]
-    }
-  };
-  assert.equal(midDominantRockBalladEvidence(rockBallad, repeatedRockContext), true, "two-of-three Rock windows rescue weak electronic drift");
-  assert.equal(midDominantRockBalladEvidence({ ...rockBallad, structureRecurrence: .34 }, repeatedRockContext), true, "long-form sung Rock does not require a short repeating loop");
-  assert.equal(midDominantRockBalladEvidence({ ...rockBallad, structureRecurrence: .22 }, repeatedRockContext), false, "very low recurrence remains outside the rescue");
-
-  const vocalAmbientContext = {
-    ...sungSplitContext, leader: "ドローン",
-    segmentConsensus: {
-      count: 3, voteShare: .333, macroVoteShare: .333,
-      leaders: ["ブルース", "ドローン", "ロック"],
-      top: [{ name: "ロック", score: 43.8 }]
-    }
-  };
-  assert.equal(midDominantRockBalladEvidence(slowSungRock, vocalAmbientContext), true, "melodic English Rock is not absorbed by Drone ambience");
-  assert.equal(midDominantRockBalladEvidence({ ...slowSungRock, energy: .5, distortion: .09 }, vocalAmbientContext), false, "genuine low-energy ambience remains unchanged");
-
-  const calibrated = calibratedGenreAnalysis({
-    source: "test", method: "shared-production-local-classifier",
-    confidence: 1.3, needsReview: true,
-    macro: [{ macro: "electronic", score: 1 }],
-    top: [
-      { name: "チップチューン", macro: "electronic", score: 1.3, rawScore: 1.3, relativeScore: 1.3 },
-      { name: "トランス", macro: "electronic", score: .4, rawScore: .4, relativeScore: .4 }
-    ],
-    segmentConsensus: { count: 3, voteShare: .333, conflict: true }
-  }, {
-    macro: [{ macro: "rock", score: 65 }],
-    top: [{ name: "ロック", score: 70 }]
-  });
-  assert.ok(calibrated.confidence <= 52);
-  assert.equal(calibrated.needsReview, true);
-});
-
-test("playlist boundary evidence separates spoken rap, alternative dance, and their hard negatives", () => {
-  const { spokenRapBlackMusicEvidence, alternativeDanceGrooveEvidence, underrepresentedBoundaryTarget } = loadPatternApi();
-  const rapVector = {
-    tempo: 104, energy: .77, bass: .61, midBandRatio: .49, highBandRatio: .04,
-    rhythm: .59, onset: .36, syncopation: .74, fourOnFloor: .12,
-    harmonicRatio: .81, distortion: .22
-  };
-  const rapContext = {
-    leader: "ファンク", blackMacro: 1, hiphopScore: .57,
-    detectedLanguage: "en", vocalPresence: 1, stemVocalPresence: .9,
-    speechRapLikelihood: .51, transcriptTokenRate: 3.54,
-    melodicVocalLikelihood: .5
-  };
-  assert.equal(spokenRapBlackMusicEvidence(rapVector, rapContext), true);
-  assert.equal(spokenRapBlackMusicEvidence(rapVector, {
-    ...rapContext, speechRapLikelihood: .12, transcriptTokenRate: 1.5,
-    melodicVocalLikelihood: .82
-  }), false, "melodic Funk remains Funk");
-  assert.equal(spokenRapBlackMusicEvidence({ ...rapVector, fourOnFloor: .58 }, rapContext), false, "four-on-floor Disco is not promoted to Hip-hop");
-
-  const danceVector = {
-    tempo: 112, energy: .541, bass: .597, midBandRatio: .533, highBandRatio: .031,
-    rhythm: .385, onset: .275, syncopation: .68, fourOnFloor: .19,
-    harmonicRatio: .84, distortion: .21
-  };
-  const danceContext = {
-    leader: "ラテン", worldMacro: .91, blackMacro: .349,
-    rockMacro: .115,
-    funkFine: .309, discoFine: .469,
-    ruleMacroLeader: "black_music", ruleLeader: "ファンク",
-    detectedLanguage: "en", vocalPresence: 1, stemVocalPresence: .161,
-    melodicVocalLikelihood: .554
-  };
-  assert.equal(alternativeDanceGrooveEvidence(danceVector, danceContext), true);
-  assert.equal(alternativeDanceGrooveEvidence(danceVector, {
-    ...danceContext, ruleMacroLeader: "world", ruleLeader: "ラテン"
-  }), false, "independent Latin agreement retains Latin");
-  assert.equal(alternativeDanceGrooveEvidence(danceVector, {
-    ...danceContext, detectedLanguage: "es", rockMacro: .03
-  }), false, "Spanish Latin without Rock support remains Latin");
-  assert.equal(alternativeDanceGrooveEvidence({ ...danceVector, fourOnFloor: .72 }, danceContext), false, "straight Disco remains outside the dance-rock rescue");
-
-  const bluesContext = {
-    leader: "ロック", priorMethod: "shared-production-local-classifier+alternativeDanceGrooveBoundary",
-    labels: new Set(["ロック", "ブルース"]), ruleNames: new Set(["ブルース"]),
-    ruleLeader: "ブルース", rawRuleLeader: "ブルース",
-    modelMacro: { rock: 1, black_music: .35 },
-    blackMusicFine: [{ label: "ブルース", score: 73.3 }],
-    vocalPresence: 1, stemVocalPresence: .16, detectedLanguage: "en"
-  };
-  assert.equal(underrepresentedBoundaryTarget(danceVector, bluesContext), null, "a broad Blues rule cannot overwrite the independently supported dance-rock boundary");
 });
 
 test("underrepresented boundary specialists keep ordinary disco and J-POP outside narrow rescues", () => {

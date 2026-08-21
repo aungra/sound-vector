@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="Three dimensional game controller wireframe" data-print-ink="#000" data-style="controller-3d-wireframe-monochrome-v1">
+  <title>Three Dimensional Game Controller Wireframe</title>
+  <desc>Transparent-background game controller line art using black ink only.</desc>
+  <g id="controller_3d_wireframe" data-layer="controller_3d_wireframe" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round">
+    <g id="rear_shell" stroke-width="10">
+      <path d="M242 430 C275 304 394 227 554 242 C700 191 885 229 971 349 C1026 426 1016 534 955 598"/>
+      <path d="M242 430 C187 482 170 596 224 697 L291 825 C329 897 430 919 495 865"/>
+      <path d="M955 598 C1012 667 1019 761 962 831 C907 896 817 912 754 855"/>
+      <path d="M291 825 C374 787 446 786 519 819 C590 850 688 851 754 855"/>
+      <path d="M311 399 C380 318 476 293 586 315 C713 267 851 297 921 380"/>
+      <path d="M286 474 C245 551 253 664 306 741"/>
+      <path d="M933 447 C971 521 959 651 907 728"/>
+    </g>
+    <g id="front_shell" stroke-width="13">
+      <path d="M280 372 C354 286 472 276 590 303 C722 251 865 285 930 385 C972 449 953 546 908 611 C861 678 847 762 802 815"/>
+      <path d="M280 372 C230 419 222 506 247 582 L304 748 C327 817 396 846 459 808"/>
+      <path d="M459 808 C510 777 550 759 607 770 C671 782 733 832 802 815"/>
+      <path d="M280 372 C375 378 468 398 548 438 C635 481 739 476 830 424 C866 404 900 391 930 385"/>
+      <path d="M247 582 C334 612 417 623 500 609 C596 594 688 612 781 646 C826 662 870 651 908 611"/>
+    </g>
+    <g id="depth_connectors" stroke-width="7">
+      <path d="M242 430 L280 372 M224 697 L247 582 M291 825 L304 748 M495 865 L459 808"/>
+      <path d="M955 598 L908 611 M962 831 L802 815 M754 855 L802 815 M971 349 L930 385"/>
+      <path d="M554 242 L590 303 M921 380 L930 385 M311 399 L280 372 M306 741 L304 748"/>
+    </g>
+    <g id="left_controls" stroke-width="10">
+      <ellipse cx="414" cy="504" rx="71" ry="42" transform="rotate(15 414 504)"/>
+      <ellipse cx="414" cy="504" rx="46" ry="25" transform="rotate(15 414 504)" stroke-width="6"/>
+      <path d="M346 625 H388 V588 H428 V625 H470 V665 H428 V703 H388 V665 H346 Z"/>
+      <path d="M346 625 L388 642 L428 625 L470 642 M388 588 L408 598 L428 588 M388 703 L408 713 L428 703" stroke-width="4"/>
+    </g>
+    <g id="right_controls" stroke-width="10">
+      <ellipse cx="732" cy="596" rx="67" ry="39" transform="rotate(-12 732 596)"/>
+      <ellipse cx="732" cy="596" rx="42" ry="22" transform="rotate(-12 732 596)" stroke-width="6"/>
+      <circle cx="824" cy="478" r="25"/><circle cx="884" cy="514" r="25"/>
+      <circle cx="788" cy="540" r="25"/><circle cx="848" cy="576" r="25"/>
+      <path d="M810 460 L838 468 M870 496 L898 504 M774 522 L802 530 M834 558 L862 566" stroke-width="4"/>
+    </g>
+    <g id="center_panel" stroke-width="7">
+      <path d="M527 442 C559 421 626 423 665 445 L685 502 C659 521 570 526 518 500 Z"/>
+      <path d="M548 457 C576 447 621 448 644 460" stroke-width="4"/>
+      <path d="M557 546 H611 M584 519 V573"/>
+      <circle cx="649" cy="551" r="16"/><path d="M644 551 H654 M649 546 V556" stroke-width="3"/>
+    </g>
+    <g id="top_triggers" stroke-width="10">
+      <path d="M345 329 C381 274 468 258 534 285 L558 321 C487 307 410 321 361 365 Z"/>
+      <path d="M712 289 C790 257 877 286 915 341 L903 382 C851 326 781 313 724 333 Z"/>
+      <path d="M361 365 L382 397 M534 285 L548 318 M724 333 L743 369 M915 341 L930 385" stroke-width="5"/>
+    </g>
+    <g id="wireframe_contours" stroke-width="3">
+      <path d="M304 420 C356 398 420 406 474 428 M297 466 C350 445 423 454 478 477"/>
+      <path d="M812 420 C851 397 890 399 921 418 M796 462 C843 441 884 445 916 466"/>
+      <path d="M279 674 C344 699 399 708 455 694 M803 704 C845 725 880 727 913 702"/>
+      <path d="M331 767 C372 783 413 782 452 759 M764 776 C803 792 842 785 874 754"/>
+      <path d="M501 732 C549 708 624 710 681 739"/>
+    </g>
+  </g>
+</svg>

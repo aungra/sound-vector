@@ -632,6 +632,7 @@
   <a class="skip-link" href="#conversion-workbench">変換操作へ移動</a>
   <div id="app"></div>
   <script src="vendor/d3-delaunay.min.js"></script>
+  <script src="artist-master-patterns.js"></script>
   <script>
     const resonanceLabels = {
       remembered: "思い出した",
@@ -688,7 +689,7 @@
       };
     }
     const keys = { creators: "mmfr.creators", tshirts: "mmfr.tshirts", sessions: "mmfr.sessions", resonances: "mmfr.resonances", apiConfig: "mmfr.apiConfig", genreAdjustmentLearning: "mmfr.genreAdjustmentLearning.v1" };
-    const GENRE_INFERENCE_REVISION = "2026-08-21-community-review-learning-v89";
+    const GENRE_INFERENCE_REVISION = "2026-08-21-segment-rock-learning-guard-v90";
     const inlineArt = {};
     let activeCollisionField = null;
     const state = { view: "home", answers: {}, moodId: null, youtubeUrl: "", audioFeatures: null, sourceMood: null, variantSalt: 0, engineId: "youtube_audio", realtime: false, tick: 0, session: null, generated: null, workId: null, message: "", genreProfiles: null, genreModel: null, sharedGenreLearning: { records: [], revision: 0, modelVersion: "" }, generationProgress: null, patternMotion: { shirtId: "", phase: 0, running: false, lastTimestamp: 0 }, equalizer: { shirtId: "", playing: false, startedAt: 0, duration: 0, detail: null, analyser: null, returningAt: 0 } };
@@ -833,7 +834,10 @@
         ?? "/sound-form/api/genre-feedback.php";
     }
     function setSharedGenreLearningModel(payload = {}) {
-      const records = normaliseGenreAdjustmentLearningRecords(payload.promotedRecords || []);
+      const records = normaliseGenreAdjustmentLearningRecords((payload.promotedRecords || []).map(record => ({
+        ...record,
+        provenance: "shared-promoted"
+      })));
       state.sharedGenreLearning = {
         records,
         revision: Math.max(0, Number(payload.revision) || 0),
@@ -9593,10 +9597,86 @@
         top: ranked
       };
     }
+    function slowMelodicRockConsensusEvidence(context = {}) {
+      const analysis = context.analysis || {};
+      const features = context.features || {};
+      const vector = context.vector || genreFeatureVector(features);
+      const embedding = features.embeddingGenrePrediction || {};
+      const external = embedding.unknownSourceConsensus || {};
+      const leader = analysis.top?.[0]?.name || analysis.top?.[0]?.label || "";
+      const score = (rows, name) => (Number((rows || []).find(item => (item.name || item.label) === name)?.score) || 0) / 100;
+      const macroScore = name => (Number((embedding.macro || []).find(item =>
+        canonicalModelMacro(item.macro || item.label) === canonicalModelMacro(name)
+      )?.score) || 0) / 100;
+      const externalLeaderScore = Number(external.top?.[0]?.score || 0) / 100;
+      const externalRock = score(external.top, "ロック");
+      const localRock = score(embedding.top, "ロック");
+      const localPunk = score(embedding.top, "パンク");
+      const segments = embedding.segmentConsensus || {};
+      const segmentLeaders = Array.isArray(segments.leaders) ? segments.leaders : [];
+      const segmentRock = score(segments.top, "ロック");
+      const matched = ["ジャズ", "フォーク", "アンビエント", "ドローン", "ブルース", "ダブ"].includes(leader)
+        && macroScore("rock") >= .4
+        && localRock >= .08 && localRock >= localPunk
+        && segments.available === true && Number(segments.count || 0) >= 3
+        && Number(segments.voteShare || 0) <= .34
+        && (segmentLeaders.includes("ロック") || segmentRock >= .25)
+        && externalRock >= .2 && externalLeaderScore - externalRock <= .04
+        && Number(vector.tempo || 0) >= 64 && Number(vector.tempo || 0) <= 105
+        && Number(vector.energy || 0) >= .62
+        && Number(vector.midBandRatio || 0) >= .52
+        && Number(vector.lowBandRatio || 0) <= .42
+        && Number(vector.highBandRatio || 0) <= .08
+        && Number(vector.rhythm || 0) <= .46 && Number(vector.onset || 0) <= .38
+        && Number(vector.harmonicRatio || 0) >= .68
+        && Number(vector.sustainRatio || 0) >= .72
+        && Number(vector.structureRecurrence || 0) >= .62
+        && Number(vector.distortion || 0) >= .12 && Number(vector.distortion || 0) <= .38;
+      if (!matched) return null;
+      return {
+        localLeader: leader,
+        rockMacro: Math.round(macroScore("rock") * 1000) / 1000,
+        localRock: Math.round(localRock * 1000) / 1000,
+        externalRock: Math.round(externalRock * 1000) / 1000,
+        externalGap: Math.round((externalLeaderScore - externalRock) * 1000) / 1000,
+        segmentRock: Math.round(segmentRock * 1000) / 1000,
+        segmentLeaders,
+        tempo: Number(vector.tempo || 0),
+        energy: Math.round(Number(vector.energy || 0) * 1000) / 1000,
+        midBandRatio: Math.round(Number(vector.midBandRatio || 0) * 1000) / 1000,
+        sustainRatio: Math.round(Number(vector.sustainRatio || 0) * 1000) / 1000
+      };
+    }
     function applyUnknownSourceConsensus(analysis = {}, ruleAnalysis = null, features = {}) {
       if (!analysis?.top?.length) return analysis;
       const external = features.embeddingGenrePrediction?.unknownSourceConsensus;
       if (!external?.top?.length) return analysis;
+      const slowRockEvidence = slowMelodicRockConsensusEvidence({ analysis, features });
+      if (slowRockEvidence) {
+        const rescued = promoteAudioGenreCandidate(analysis, {
+          targetName: "ロック",
+          targetMacro: "rock",
+          suppressMacros: [canonicalModelMacro(analysis.top[0]?.macro || genreToMacro[analysis.top[0]?.name || analysis.top[0]?.label] || "")],
+          factor: .44,
+          companionCandidates: [{ name: "フォーク", relativeScore: .46 }],
+          method: "slowMelodicRockMultiViewConsensus",
+          needsReview: true,
+          sourceNote: "低速で持続する中域主体のバンド音響について、Rock macro、曲内区間、独立モデルのロック候補が一致したため、単一区間のJazz/Ambient過信を抑えています。",
+          evidence: slowRockEvidence
+        });
+        return {
+          ...rescued,
+          unknownSourceConsensus: {
+            available: true,
+            reliable: false,
+            agreement: true,
+            rescued: true,
+            conflict: false,
+            target: "ロック",
+            multiViewRockEvidence: slowRockEvidence
+          }
+        };
+      }
       const targetName = external.top[0]?.name || external.top[0]?.label || "";
       const leaderName = analysis.top[0]?.name || analysis.top[0]?.label || "";
       const targetMacro = canonicalModelMacro(genreToMacro[targetName] || "");
@@ -11113,6 +11193,7 @@
     }
     function normaliseGenreAdjustmentLearningRecords(records = []) {
       const knownGenres = new Set(musicGenreCatalog.map(item => item.name));
+      const knownProvenance = new Set(["automatic-window", "visitor-confirmed", "shared-promoted", "legacy-unverified"]);
       return (Array.isArray(records) ? records : []).filter(record =>
         record?.version === GENRE_ADJUSTMENT_LEARNING_VERSION
         && knownGenres.has(record.targetName)
@@ -11126,6 +11207,7 @@
           id: `genre-learning-${hashString(`${record.targetName}:${fingerprint}`).toString(36)}`,
           targetName: record.targetName,
           targetMacro: canonicalModelMacro(genreToMacro[record.targetName] || record.targetMacro || ""),
+          provenance: knownProvenance.has(record.provenance) ? record.provenance : "legacy-unverified",
           signature,
           confidence: Math.max(0, Math.min(96, Math.round(Number(record.confidence) || 0))),
           voteShare: Math.round(clamp01(record.voteShare) * 1000) / 1000,
@@ -11142,10 +11224,11 @@
       const confidence = Number(genreAnalysis.confidence ?? genreAnalysis.top?.[0]?.score) || 0;
       const voteShare = Number(adjustment.voteShare || 0);
       const evidenceMargin = Number(adjustment.evidenceMargin || 0);
+      const provenance = adjustment.explicitVisitorConfirmation === true ? "visitor-confirmed" : "automatic-window";
       if (!adjustment.resolved || !targetName || confidence < 60 || voteShare < .66 || evidenceMargin < .08) return current;
       const signature = genreAdjustmentFeatureSignature(features);
       const nearestIndex = current.reduce((best, record, index) => {
-        if (record.targetName !== targetName) return best;
+        if (record.targetName !== targetName || record.provenance !== provenance) return best;
         const distance = genreAdjustmentFeatureDistance(signature, record.signature);
         return distance < best.distance ? { index, distance } : best;
       }, { index: -1, distance: Infinity });
@@ -11173,6 +11256,7 @@
         id: `genre-learning-${hashString(`${targetName}:${fingerprint}`).toString(36)}`,
         targetName,
         targetMacro,
+        provenance,
         signature,
         confidence: Math.round(confidence),
         voteShare: Math.round(voteShare * 1000) / 1000,
@@ -11188,7 +11272,7 @@
       const shared = normaliseGenreAdjustmentLearningRecords(state.sharedGenreLearning?.records || []);
       const local = genreAdjustmentLearningRecords();
       const byId = new Map();
-      shared.concat(local).forEach(record => byId.set(record.id, record));
+      local.concat(shared).forEach(record => byId.set(record.id, record));
       return [...byId.values()];
     }
     function persistGenreAdjustmentLearning(features = {}, genreAnalysis = {}) {
@@ -11208,17 +11292,28 @@
       const confidence = Number(analysis.confidence ?? analysis.top[0]?.score) || 0;
       if (!analysis.needsReview && confidence >= 72) return analysis;
       const signature = genreAdjustmentFeatureSignature(features);
+      const currentLeader = analysis.top[0]?.name || analysis.top[0]?.label || "";
       const nearest = normaliseGenreAdjustmentLearningRecords(records).reduce((best, record) => {
+        const canInspect = record.provenance === "shared-promoted"
+          || record.provenance === "visitor-confirmed"
+          || (record.provenance === "automatic-window" && record.targetName === currentLeader);
+        if (!canInspect) return best;
         const distance = genreAdjustmentFeatureDistance(signature, record.signature);
         return distance < best.distance ? { record, distance } : best;
       }, { record: null, distance: Infinity });
-      if (!nearest.record || nearest.distance > .12 || Number(nearest.record.confidence || 0) < 60) return analysis;
+      if (!nearest.record || Number(nearest.record.confidence || 0) < 60) return analysis;
       const targetName = nearest.record.targetName;
-      const currentLeader = analysis.top[0]?.name || analysis.top[0]?.label || "";
-      const strongRepeat = Number(nearest.record.support || 1) >= 2 && nearest.distance <= .065;
+      const sharedTrusted = nearest.record.provenance === "shared-promoted"
+        && Number(nearest.record.support || 1) >= 3 && nearest.distance <= .06;
+      const visitorExact = nearest.record.provenance === "visitor-confirmed" && nearest.distance <= .015;
+      const automaticMatch = nearest.record.provenance === "automatic-window"
+        && targetName === currentLeader && nearest.distance <= .04;
+      if (!sharedTrusted && !visitorExact && !automaticMatch) return analysis;
+      const strongRepeat = sharedTrusted || visitorExact;
       const learningEvidence = {
         version: GENRE_ADJUSTMENT_LEARNING_VERSION,
         targetName,
+        provenance: nearest.record.provenance,
         distance: Math.round(nearest.distance * 1000) / 1000,
         support: Number(nearest.record.support || 1),
         learnedConfidence: Number(nearest.record.confidence || 0)
@@ -11227,7 +11322,9 @@
         return {
           ...analysis,
           method: `${analysis.method || "audio-classifier"}+adaptive-genre-adjustment-v1`,
-          source: `${analysis.source || "音響分類"} 過去の複数区間調整と近い音響境界を再確認しています。`,
+          source: strongRepeat
+            ? `${analysis.source || "音響分類"} 確認済みの匿名音響境界と一致しています。`
+            : `${analysis.source || "音響分類"} 曲内の複数区間でも同じ候補を再確認しています。`,
           needsReview: strongRepeat ? false : Boolean(analysis.needsReview),
           confidence: strongRepeat ? Math.max(confidence, Math.min(88, Number(nearest.record.confidence || 0))) : confidence,
           genreAdjustmentLearning: learningEvidence
@@ -11241,8 +11338,10 @@
           factor: .62,
           companionCandidates: currentLeader ? [{ name: currentLeader, relativeScore: .72 }] : [],
           method: "adaptive-genre-adjustment-v1",
-          needsReview: !strongRepeat,
-          sourceNote: "過去に複数区間で解決した匿名音響特徴と近いため、同じ境界補正を再利用しています。"
+          needsReview: false,
+          sourceNote: sharedTrusted
+            ? "異なる訪問者の合意と固定評価を通過した匿名音響境界に一致したため、共有補正を再利用しています。"
+            : "同じ音響指紋に対する訪問者確認を再適用しています。"
         }),
         genreAdjustmentLearning: learningEvidence
       };
@@ -11602,8 +11701,8 @@
       const topScore = selected[0].score || 1;
       return selected.map(item => {
         const relativeScore = clamp01(item.score / topScore);
-        // The primary genre owns the central silhouette. Other genres keep their
-        // own primitives, with scale and line mass tied directly to their score.
+        // Secondary scores control structural participation, never object size,
+        // opacity, or stroke mass. Top1 retains the central silhouette.
         const strength = item.rank === 0
           ? 1
           : clampRange(relativeScore * (.62 - item.rank * .11), .14, .58);
@@ -14471,38 +14570,86 @@
       }
       return parts.length ? svgGroupWithAttrs("terra_genre_object", parts, `data-terra-engine="${escapeAttr(engine.id || "")}" data-object-motif="${escapeAttr(object)}" data-visual-role="genre-object-motif"`) : "";
     }
+    function terraFusionProgram(item = {}) {
+      const id = String(item.engine?.id || "");
+      if (/chiptune|electronic|techno|citypop|funk/.test(id)) return "orthogonal-splice";
+      if (/dub-|drone|ambient|blues|classical|reggae/.test(id)) return "echo-splice";
+      if (/jazz|soul|disco|latin|world|opera|folk/.test(id)) return "counterpoint-splice";
+      if (/noise|punk|hardcore|metal|rock|anime|jpop/.test(id)) return "fracture-splice";
+      return "pressure-splice";
+    }
+    function terraFusionSiteCount(item = {}) {
+      return Math.max(1, Math.min(6, Math.round(1 + clamp01(item.relativeScore) * 5)));
+    }
+    function terraProceduralFusionNodes(primary = {}, cx, cy, sx, sy, seed = 1) {
+      const family = primary.visual?.patternFamily || "";
+      const nodes = [];
+      for (let index = 0; index < 18; index += 1) {
+        const t = index / 17;
+        if (family === "signal-grid-machine") {
+          const col = index % 6, row = Math.floor(index / 6);
+          nodes.push({ x: cx - sx * .72 + col * sx * .288, y: cy - sy * .48 + row * sy * .48 });
+        } else if (family === "bass-rhythm-resonance") {
+          nodes.push({ x: cx - sx * .76 + t * sx * 1.52, y: cy + sy * (.14 + Math.sin(t * Math.PI * 2 + seed * .001) * .22) });
+        } else if (family === "impact-poster-gesture") {
+          const angle = -.9 * Math.PI + t * Math.PI * 1.8;
+          nodes.push({ x: cx + Math.cos(angle) * sx * .68, y: cy + Math.sin(angle) * sy * .62 });
+        } else {
+          nodes.push({ x: cx - sx * .72 + t * sx * 1.44, y: cy + Math.sin(t * Math.PI * 1.4 - 1.9) * sy * .34 });
+        }
+      }
+      return nodes;
+    }
+    function terraFusionStroke(d, width, attrs, ink = "#000") {
+      return `<path d="${d}" fill="none" stroke="${ink}" stroke-width="${svgFineNumber(width)}" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" ${attrs}/>`;
+    }
+    function terraFusionSplice(a, b, program, siteIndex, engineId = "", ink = "#000") {
+      const dx = b.x - a.x, dy = b.y - a.y;
+      const length = Math.hypot(dx, dy) || 1;
+      const tx = dx / length, ty = dy / length, nx = -ty, ny = tx;
+      const at = (t, offset = 0) => ({ x: a.x + dx * t + nx * offset, y: a.y + dy * t + ny * offset });
+      const p = value => `${svgFineNumber(value.x)} ${svgFineNumber(value.y)}`;
+      const attrs = `data-feature="genre-fusion-splice" data-fusion-program="${program}" data-fusion-site-index="${siteIndex}" data-motion-engine="${escapeAttr(engineId)}"`;
+      const parts = [];
+      if (program === "orthogonal-splice") {
+        const midX = svgFineNumber(a.x + dx * (.42 + (siteIndex % 3) * .08));
+        parts.push(terraFusionStroke(`M${p(a)} H${midX} V${svgFineNumber(b.y)} H${svgFineNumber(b.x)}`, 4.2, attrs, ink));
+        const joint = { x: midX, y: b.y };
+        parts.push(terraFusionStroke(`M${p(joint)} L${p({ x: joint.x + nx * 22, y: joint.y + ny * 22 })}`, 2.4, attrs, ink));
+      } else if (program === "echo-splice") {
+        const bend = siteIndex % 2 ? -1 : 1;
+        parts.push(terraFusionStroke(`M${p(a)} C${p(at(.28, 34 * bend))} ${p(at(.72, -24 * bend))} ${p(b)}`, 4.4, attrs, ink));
+        parts.push(terraFusionStroke(`M${p(a)} C${p(at(.3, 52 * bend))} ${p(at(.7, -42 * bend))} ${p(b)}`, 2.2, attrs, ink));
+      } else if (program === "fracture-splice") {
+        const bend = siteIndex % 2 ? -1 : 1;
+        parts.push(terraFusionStroke(`M${p(a)} L${p(at(.22, 28 * bend))} L${p(at(.43, -34 * bend))} L${p(at(.67, 42 * bend))} L${p(at(.82, -22 * bend))} L${p(b)}`, 4.8, attrs, ink));
+      } else if (program === "counterpoint-splice") {
+        const bend = siteIndex % 2 ? -1 : 1;
+        parts.push(terraFusionStroke(`M${p(a)} C${p(at(.2, 48 * bend))} ${p(at(.42, 54 * bend))} ${p(at(.5, 0))} C${p(at(.58, -54 * bend))} ${p(at(.8, -48 * bend))} ${p(b)}`, 3.6, attrs, ink));
+      } else {
+        const bend = siteIndex % 2 ? -1 : 1;
+        parts.push(terraFusionStroke(`M${p(a)} C${p(at(.3, 66 * bend))} ${p(at(.68, 66 * bend))} ${p(b)}`, 5.4, attrs, ink));
+        [0.34, 0.5, 0.66].forEach(t => {
+          const center = at(t, 42 * bend);
+          parts.push(terraFusionStroke(`M${p({ x: center.x - nx * 12, y: center.y - ny * 12 })} L${p({ x: center.x + nx * 12, y: center.y + ny * 12 })}`, 2.2, attrs, ink));
+        });
+      }
+      return `<g data-fusion-site-index="${siteIndex}" data-fusion-node-a="${svgFineNumber(a.x)},${svgFineNumber(a.y)}" data-fusion-node-b="${svgFineNumber(b.x)},${svgFineNumber(b.y)}">${parts.join("")}</g>`;
+    }
     function terraGenreBlendStructure(blend = [], cx, cy, sx, sy, audio = {}, seed = 1, council = {}) {
       if (blend.length < 2) return "";
-      const secondary = blend.slice(1);
-      return secondary.map(item => {
-        const angle = -Math.PI * .72 + (item.rank - 1) * Math.PI * .78 + (Math.abs(seed + hashString(item.genreName)) % 37) * .012;
-        // A secondary genre is a scored citation at the edge of the composition,
-        // never a second central silhouette. Its mass remains proportional to the
-        // classifier score while preserving the Top1 genre's visual ownership.
-        const distance = Math.min(sx, sy) * (.8 + item.rank * .1);
-        const scale = .1 + item.strength * .5;
-        const secondaryCx = clampRange(cx + Math.cos(angle) * distance, 155, 1045);
-        const secondaryCy = clampRange(cy + Math.sin(angle) * distance, 155, 1045);
-        const secondaryCouncil = {
-          ...council,
-          strokeGain: Number(council.strokeGain || 1) * (.42 + item.strength * .62)
-        };
-        return terraShapeStructure(
-          item.visual.protectedTextureShape,
-          secondaryCx,
-          secondaryCy,
-          sx * scale,
-          sy * scale,
-          seed + (item.rank + 1) * 7919,
-          audio,
-          secondaryCouncil,
-          item.engine,
-          {
-            layerId: `terra_genre_blend_${item.rank + 1}`,
-            visualRole: "genre-blend-contribution",
-            attributes: `data-genre="${escapeAttr(item.genreName)}" data-genre-rank="${item.rank + 1}" data-genre-score="${svgFineNumber(item.score)}" data-genre-weight="${svgFineNumber(item.weight)}" data-genre-strength="${svgFineNumber(item.strength)}" data-blend-scale="${svgFineNumber(scale)}"`
-          }
-        );
+      const nodes = terraProceduralFusionNodes(blend[0], cx, cy, sx, sy, seed);
+      return blend.slice(1).map(item => {
+        const program = terraFusionProgram(item);
+        const siteCount = terraFusionSiteCount(item);
+        const offset = Math.abs(hashString(`${seed}|${blend[0].genreName}|${item.genreName}`)) % nodes.length;
+        const sites = Array.from({ length: siteCount }, (_, index) => {
+          const aIndex = (offset + index * 5) % nodes.length;
+          const bIndex = (aIndex + 5 + item.rank * 2) % nodes.length;
+          return terraFusionSplice(nodes[aIndex], nodes[bIndex], program, index, item.engine?.id, "#000");
+        });
+        return svgGroupWithAttrs(`terra_genre_blend_${item.rank + 1}`, sites,
+          `data-genre="${escapeAttr(item.genreName)}" data-genre-rank="${item.rank + 1}" data-genre-score="${svgFineNumber(item.score)}" data-genre-weight="${svgFineNumber(item.weight)}" data-genre-strength="${svgFineNumber(item.strength)}" data-genre-fusion="structural-splice-v2" data-fusion-program="${program}" data-fusion-site-count="${siteCount}" data-fusion-percentage-policy="site-participation" data-fusion-size-policy="fixed-splice" data-visual-role="genre-topology-fusion"`);
       }).join("");
     }
     function terraCouncilCompositionLayer(council = {}, engine = {}, cx, cy, sx, sy, seed) {
@@ -14674,8 +14821,92 @@
       ];
       return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="${escapeAttr(mood.label)} reversible aerosol sound form" data-engine="reversible-sound-form-v4" data-visual-style="aerosol-particle-field-v1" data-aerosol-archetype="${escapeAttr(options.archetype || "")}" data-aerosol-topology="${escapeAttr(options.topology || "")}" data-exclusive-zone="${svgFineNumber(exclusiveLayout.zone ?? -1)}" data-exclusive-zone-col="${svgFineNumber(exclusiveLayout.col ?? -1)}" data-exclusive-zone-row="${svgFineNumber(exclusiveLayout.row ?? -1)}" data-composition-category="${escapeAttr(exclusiveLayout.category || "")}" data-gesture-mode="${escapeAttr(exclusiveLayout.gestureMode || "")}" data-classifier-method="${escapeAttr(options.classifierMethod || "")}" data-macro-genre="${escapeAttr(options.macroGenre || "")}" data-macro-score="${svgFineNumber(options.macroScore || 0)}" data-classifier-confidence="${svgFineNumber(options.classifierConfidence || 0)}" data-classifier-margin="${svgFineNumber(options.classifierMargin || 0)}" data-classifier-ambiguity="${svgFineNumber(options.classifierAmbiguity || 0)}" data-runner-macro="${escapeAttr(options.runnerMacro || "")}" data-form-mode="${formMode}" data-genre-pattern="${escapeAttr(genreLabel)}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-negative-space="${genreVisual.negativeSpace}" data-line-character="${escapeAttr(genreVisual.lineCharacter)}" data-name-motif="${escapeAttr(genreVisual.nameMotif)}" data-pattern-family="${escapeAttr(genreVisual.patternFamily)}" data-source-lineage="${escapeAttr(genreVisual.sourceLineage)}" data-visual-thesis="${escapeAttr(genreVisual.visualThesis)}" data-composition-rule="${escapeAttr(genreVisual.compositionRule)}" data-required-motifs="${patternListAttr(genreVisual.requiredMotifs)}" data-forbidden-forms="${patternListAttr(genreVisual.forbiddenForms)}" data-protected-texture-shape="${escapeAttr(genreVisual.protectedTextureShape)}" data-collision-style="${escapeAttr(genreVisual.collisionStyle)}" data-texture-mode="${textureMode}" data-texture-region="${genreVisual.textureRegion}" data-inferred-genre="${escapeAttr(audio.inferredGenre || audio.genreAnalysis?.top?.[0]?.name || "")}" data-audio-fingerprint="${fingerprint.hash}" data-refinement-passes="100" data-structural-debate-passes="30" data-genre-pattern-count="${Object.keys(genrePatternProfiles).length}" data-variant-seed="${seed}" data-iteration="song-specific"><rect width="1200" height="1200" fill="#fff"/>${metadata.join("")}<g id="sound_form_surface" data-layer="sound_form_surface" data-form-mode="${formMode}" data-base-family="${baseFamily}" data-variant-family="${variantFamily}" data-layout-bias="${layoutBias}" data-silhouette="${genreVisual.silhouette}" data-negative-space="${genreVisual.negativeSpace}" data-pattern-family="${escapeAttr(genreVisual.patternFamily)}" data-source-lineage="${escapeAttr(genreVisual.sourceLineage)}" data-required-motifs="${patternListAttr(genreVisual.requiredMotifs)}" data-forbidden-forms="${patternListAttr(genreVisual.forbiddenForms)}" data-protected-texture-shape="${escapeAttr(genreVisual.protectedTextureShape)}" data-aerosol-archetype="${escapeAttr(options.archetype || "")}" data-aerosol-topology="${escapeAttr(options.topology || "")}" data-exclusive-zone="${svgFineNumber(exclusiveLayout.zone ?? -1)}" data-composition-category="${escapeAttr(exclusiveLayout.category || "")}" data-gesture-mode="${escapeAttr(exclusiveLayout.gestureMode || "")}" data-visual-style="aerosol-particle-field-v1" data-print-ink="black-opaque">${boldStructure}${particles}</g></svg>`;
     }
+    function svgGroupRangeById(svg, id) {
+      const source = String(svg || "");
+      const opening = new RegExp(`<g\\b[^>]*\\bid=["']${String(id)}["'][^>]*>`).exec(source);
+      if (!opening) return null;
+      const token = /<\/?g\b[^>]*>/g;
+      token.lastIndex = opening.index;
+      let depth = 0;
+      let match;
+      while ((match = token.exec(source))) {
+        if (match[0].startsWith("</")) {
+          depth -= 1;
+          if (depth === 0) return { start: opening.index, end: token.lastIndex, opening: opening[0] };
+        } else depth += 1;
+      }
+      return null;
+    }
+    function svgGroupMarkupById(svg, id) {
+      const range = svgGroupRangeById(svg, id);
+      return range ? String(svg).slice(range.start, range.end) : "";
+    }
+    function approvedArtistMasterForMood(mood = {}) {
+      const audio = mood.audio || {};
+      const genre = audio.genreAnalysis?.top?.[0]?.name || audio.inferredGenre || "";
+      const markup = globalThis.__soundFormArtistMasters?.[genre];
+      return markup ? { genre, markup } : null;
+    }
+    function approvedArtistAnchorPoints(markup = "") {
+      const source = String(markup || "");
+      const points = [];
+      const seen = new Set();
+      const add = (xValue, yValue) => {
+        const x = Number(xValue), y = Number(yValue);
+        if (!Number.isFinite(x) || !Number.isFinite(y) || x < 0 || x > 1200 || y < 0 || y > 1200) return;
+        const key = `${Math.round(x)},${Math.round(y)}`;
+        if (seen.has(key)) return;
+        seen.add(key);
+        points.push({ x, y });
+      };
+      const collect = expression => { for (const match of source.matchAll(expression)) add(match[1], match[2]); };
+      collect(/\bd=["']\s*[Mm]\s*(-?\d*\.?\d+)[,\s]+(-?\d*\.?\d+)/g);
+      collect(/\bcx=["'](-?\d*\.?\d+)["'][^>]*\bcy=["'](-?\d*\.?\d+)["']/g);
+      collect(/\bx1=["'](-?\d*\.?\d+)["'][^>]*\by1=["'](-?\d*\.?\d+)["']/g);
+      collect(/\bx2=["'](-?\d*\.?\d+)["'][^>]*\by2=["'](-?\d*\.?\d+)["']/g);
+      collect(/\bpoints=["']\s*(-?\d*\.?\d+)[,\s]+(-?\d*\.?\d+)/g);
+      collect(/<(?:rect|image)\b[^>]*\bx=["'](-?\d*\.?\d+)["'][^>]*\by=["'](-?\d*\.?\d+)["']/g);
+      return points;
+    }
+    function artistStructuralFusionGroup(groupMarkup = "", artistMarkup = "", salt = "") {
+      const opening = String(groupMarkup || "").match(/^<g\b[^>]*>/)?.[0];
+      const anchors = approvedArtistAnchorPoints(artistMarkup);
+      if (!opening || anchors.length < 2) return groupMarkup;
+      const siteCount = Number((opening.match(/\bdata-fusion-site-count=["'](\d+)["']/) || [])[1]) || 1;
+      const program = (opening.match(/\bdata-fusion-program=["']([^"']+)["']/) || [])[1] || "pressure-splice";
+      const engineId = (opening.match(/\bdata-motion-engine=["']([^"']+)["']/) || [])[1]
+        || (String(groupMarkup).match(/\bdata-motion-engine=["']([^"']+)["']/) || [])[1] || "";
+      const offset = Math.abs(hashString(String(salt))) % anchors.length;
+      const sites = [];
+      for (let index = 0; index < siteCount; index += 1) {
+        const aIndex = (offset + Math.floor(index * anchors.length / siteCount)) % anchors.length;
+        let bIndex = (aIndex + Math.max(1, Math.floor(anchors.length / 2)) + index * 3) % anchors.length;
+        for (let attempt = 0; attempt < anchors.length && Math.hypot(anchors[bIndex].x - anchors[aIndex].x, anchors[bIndex].y - anchors[aIndex].y) < 110; attempt += 1) {
+          bIndex = (bIndex + 1) % anchors.length;
+        }
+        sites.push(terraFusionSplice(anchors[aIndex], anchors[bIndex], program, index, engineId, "#fff"));
+      }
+      return `${opening.replace(/>$/, ' data-fusion-anchor-source="artist-master-nodes">')}${sites.join("")}</g>`;
+    }
+    function applyApprovedArtistMaster(svg, mood = {}) {
+      const approved = approvedArtistMasterForMood(mood);
+      if (!approved) return svg;
+      const source = String(svg || "");
+      const surfaceRange = svgGroupRangeById(source, "sound_form_surface");
+      if (!surfaceRange) return source;
+      const grain = svgGroupMarkupById(source, "terra_grain_field");
+      const blendIds = unique(Array.from(source.matchAll(/<g\b[^>]*\bid=["'](terra_genre_blend_\d+)["'][^>]*>/g), match => match[1]));
+      const blends = blendIds.map(id => artistStructuralFusionGroup(svgGroupMarkupById(source, id), approved.markup, `${approved.genre}|${id}`)).join("");
+      const opening = surfaceRange.opening.replace(/>$/, ` data-artist-master-revision="illustrator-v2" data-artist-master-genre="${escapeAttr(approved.genre)}">`);
+      const master = `<g id="terra_primary_structure" data-layer="terra_primary_structure" data-visual-role="approved-artist-master" data-genre="${escapeAttr(approved.genre)}">${approved.markup}</g>`;
+      const replacement = `${opening}${grain}${master}${blends}</g>`;
+      return `${source.slice(0, surfaceRange.start)}${replacement}${source.slice(surfaceRange.end)}`
+        .replace(/<svg\b/, `<svg data-artist-master-revision="illustrator-v2" data-artist-master-genre="${escapeAttr(approved.genre)}"`);
+    }
     function generateSoundClothReversibleSvg(mood, tick = Date.now(), settings = null) {
-      return invertPrintSvgColors(generateTerra56SoundSvg(mood, tick, settings));
+      const generated = invertPrintSvgColors(generateTerra56SoundSvg(mood, tick, settings))
+        .replace(/<svg\b/, '<svg data-genre-fusion="structural-splice-v2" data-fusion-percentage-policy="site-participation"');
+      return applyApprovedArtistMaster(generated, mood);
       const audio = mood.audio || {};
       const detail = normaliseAudioDetail(audio.detail || {}, audio);
       const variantSalt = Number(mood.variantSalt || 0);
@@ -17549,7 +17780,10 @@
         genreUpdated = true;
       }
       if (String(shirt.art || "").includes("reversible-sound-form-v4") || String(shirt.art || "").includes('data-engine-family="terra-5.6"')) {
-        if (genreUpdated || (String(shirt.art || "").includes('data-engine-family="terra-5.6"') && !String(shirt.art || "").includes('data-peripheral-geometry="suppressed-v1"'))) {
+        const terraArt = String(shirt.art || "").includes('data-engine-family="terra-5.6"');
+        const needsPeripheralMigration = terraArt && !String(shirt.art || "").includes('data-peripheral-geometry="suppressed-v1"');
+        const needsFusionMigration = terraArt && !String(shirt.art || "").includes('data-genre-fusion="structural-splice-v2"');
+        if (genreUpdated || needsPeripheralMigration || needsFusionMigration) {
           const tick = Number(shirt.variantSeed || Date.now());
           const mood = {
             id: shirt.moodId || `reversible-${hashString(shirt.title || tick)}`,

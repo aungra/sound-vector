@@ -1,0 +1,615 @@
+{
+  "generatedAt": "2026-08-21T05:37:56.179Z",
+  "policy": "newWidth = sqrt(oldWidth^2 + 4); unspecified SVG 1px strokes become 2.24px",
+  "sourcePolicy": "editable originals are unchanged; approved and runtime masters are normalized",
+  "records": [
+    {
+      "number": 1,
+      "genre": "アンビエント",
+      "file": "editable/01-アンビエント-illustrator.svg",
+      "before": {
+        "minWidth": 1,
+        "maxWidth": 16.1,
+        "explicitWidthCount": 3,
+        "defaultWidthCount": 1,
+        "belowTwoCount": 2
+      },
+      "after": {
+        "minWidth": 2.24,
+        "maxWidth": 16.22,
+        "explicitWidthCount": 5,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 2,
+      "genre": "ドローン",
+      "file": "editable/02-ドローン-illustrator.svg",
+      "before": {
+        "minWidth": 1,
+        "maxWidth": 3.1,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 1,
+        "belowTwoCount": 2
+      },
+      "after": {
+        "minWidth": 2.24,
+        "maxWidth": 3.69,
+        "explicitWidthCount": 4,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 3,
+      "genre": "ノイズミュージック",
+      "file": "editable/03-ノイズミュージック-illustrator.svg",
+      "before": {
+        "minWidth": 2.1,
+        "maxWidth": 5.1,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      },
+      "after": {
+        "minWidth": 2.24,
+        "maxWidth": 5.48,
+        "explicitWidthCount": 3,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 4,
+      "genre": "電子音楽",
+      "file": "editable/04-電子音楽-illustrator.svg",
+      "before": {
+        "minWidth": 1,
+        "maxWidth": 12.3,
+        "explicitWidthCount": 3,
+        "defaultWidthCount": 1,
+        "belowTwoCount": 1
+      },
+      "after": {
+        "minWidth": 2.24,
+        "maxWidth": 12.46,
+        "explicitWidthCount": 5,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 5,
+      "genre": "テクノ",
+      "file": "editable/05-テクノ-illustrator.svg",
+      "before": {
+        "minWidth": 2.6,
+        "maxWidth": 11.5,
+        "explicitWidthCount": 4,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      },
+      "after": {
+        "minWidth": 2.24,
+        "maxWidth": 11.67,
+        "explicitWidthCount": 5,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 6,
+      "genre": "ハウス",
+      "file": "editable/06-ハウス-illustrator.svg",
+      "before": {
+        "minWidth": 1,
+        "maxWidth": 1,
+        "explicitWidthCount": 0,
+        "defaultWidthCount": 1,
+        "belowTwoCount": 1
+      },
+      "after": {
+        "minWidth": 2.24,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 7,
+      "genre": "ディープ・ハウス",
+      "file": "editable/07-ディープ-ハウス-illustrator.svg",
+      "before": {
+        "minWidth": 0.2,
+        "maxWidth": 0.5,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 2
+      },
+      "after": {
+        "minWidth": 2.01,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 3,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 8,
+      "genre": "トランス",
+      "file": "editable/08-トランス-illustrator.svg",
+      "before": {
+        "minWidth": 0.7,
+        "maxWidth": 0.7,
+        "explicitWidthCount": 1,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 1
+      },
+      "after": {
+        "minWidth": 2.12,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 9,
+      "genre": "ドラムンベース",
+      "file": "editable/09-ドラムンベース-illustrator.svg",
+      "before": {
+        "minWidth": 1,
+        "maxWidth": 9.9,
+        "explicitWidthCount": 3,
+        "defaultWidthCount": 1,
+        "belowTwoCount": 1
+      },
+      "after": {
+        "minWidth": 2.24,
+        "maxWidth": 10.1,
+        "explicitWidthCount": 5,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 10,
+      "genre": "ダブステップ",
+      "file": "editable/10-ダブステップ-illustrator.svg",
+      "before": {
+        "minWidth": 1,
+        "maxWidth": 20.7,
+        "explicitWidthCount": 4,
+        "defaultWidthCount": 1,
+        "belowTwoCount": 1
+      },
+      "after": {
+        "minWidth": 2.24,
+        "maxWidth": 20.8,
+        "explicitWidthCount": 6,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 11,
+      "genre": "チップチューン",
+      "file": "editable/11-チップチューン-illustrator.svg",
+      "before": {
+        "minWidth": 1,
+        "maxWidth": 1,
+        "explicitWidthCount": 0,
+        "defaultWidthCount": 1,
+        "belowTwoCount": 1
+      },
+      "after": {
+        "minWidth": 2.24,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 12,
+      "genre": "ヒップホップ",
+      "file": "editable/12-ヒップホップ-illustrator.svg",
+      "before": {
+        "minWidth": 3.1,
+        "maxWidth": 11.6,
+        "explicitWidthCount": 6,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      },
+      "after": {
+        "minWidth": 2.24,
+        "maxWidth": 11.77,
+        "explicitWidthCount": 7,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 13,
+      "genre": "トラップ",
+      "file": "editable/13-トラップ-illustrator.svg",
+      "before": {
+        "minWidth": 2.1,
+        "maxWidth": 2.1,
+        "explicitWidthCount": 4,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      },
+      "after": {
+        "minWidth": 2.24,
+        "maxWidth": 2.9,
+        "explicitWidthCount": 5,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 14,
+      "genre": "レゲエ",
+      "file": "editable/14-レゲエ-illustrator.svg",
+      "before": {
+        "minWidth": 1,
+        "maxWidth": 7,
+        "explicitWidthCount": 3,
+        "defaultWidthCount": 1,
+        "belowTwoCount": 2
+      },
+      "after": {
+        "minWidth": 2.24,
+        "maxWidth": 7.28,
+        "explicitWidthCount": 5,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 15,
+      "genre": "ダブ",
+      "file": "editable/15-ダブ-illustrator.svg",
+      "before": {
+        "minWidth": 3,
+        "maxWidth": 11.3,
+        "explicitWidthCount": 7,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      },
+      "after": {
+        "minWidth": 2.24,
+        "maxWidth": 11.48,
+        "explicitWidthCount": 8,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 16,
+      "genre": "ブルース",
+      "file": "editable/16-ブルース-illustrator.svg",
+      "before": {
+        "minWidth": 1,
+        "maxWidth": 6.4,
+        "explicitWidthCount": 4,
+        "defaultWidthCount": 1,
+        "belowTwoCount": 1
+      },
+      "after": {
+        "minWidth": 2.24,
+        "maxWidth": 6.71,
+        "explicitWidthCount": 6,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 17,
+      "genre": "ロック",
+      "file": "editable/17-ロック-illustrator.svg",
+      "before": {
+        "minWidth": 2.4,
+        "maxWidth": 5,
+        "explicitWidthCount": 3,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      },
+      "after": {
+        "minWidth": 2.24,
+        "maxWidth": 5.39,
+        "explicitWidthCount": 4,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 18,
+      "genre": "パンク",
+      "file": "editable/18-パンク-illustrator.svg",
+      "before": {
+        "minWidth": 0.2,
+        "maxWidth": 0.2,
+        "explicitWidthCount": 1,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 1
+      },
+      "after": {
+        "minWidth": 2.01,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 19,
+      "genre": "ハードコア",
+      "file": "editable/19-ハードコア-illustrator.svg",
+      "before": {
+        "minWidth": 0.2,
+        "maxWidth": 0.2,
+        "explicitWidthCount": 1,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 1
+      },
+      "after": {
+        "minWidth": 2.01,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 20,
+      "genre": "メタル",
+      "file": "editable/20-メタル-illustrator.svg",
+      "before": {
+        "minWidth": 0.2,
+        "maxWidth": 3.5,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 1
+      },
+      "after": {
+        "minWidth": 2.01,
+        "maxWidth": 4.03,
+        "explicitWidthCount": 3,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 21,
+      "genre": "ジャズ",
+      "file": "editable/21-ジャズ-illustrator.svg",
+      "before": {
+        "minWidth": 2,
+        "maxWidth": 6,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      },
+      "after": {
+        "minWidth": 2.24,
+        "maxWidth": 6.32,
+        "explicitWidthCount": 3,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 22,
+      "genre": "ファンク",
+      "file": "editable/22-ファンク-illustrator.svg",
+      "before": {
+        "minWidth": 0.2,
+        "maxWidth": 0.2,
+        "explicitWidthCount": 1,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 1
+      },
+      "after": {
+        "minWidth": 2.01,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 23,
+      "genre": "ソウルミュージック",
+      "file": "editable/23-ソウルミュージック-illustrator.svg",
+      "before": {
+        "minWidth": 0.2,
+        "maxWidth": 7,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 1
+      },
+      "after": {
+        "minWidth": 2.01,
+        "maxWidth": 7.28,
+        "explicitWidthCount": 3,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 24,
+      "genre": "ディスコ",
+      "file": "editable/24-ディスコ-illustrator.svg",
+      "before": {
+        "minWidth": 0.2,
+        "maxWidth": 0.2,
+        "explicitWidthCount": 1,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 1
+      },
+      "after": {
+        "minWidth": 2.01,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 25,
+      "genre": "シティ・ポップ",
+      "file": "editable/25-シティ-ポップ-illustrator.svg",
+      "before": {
+        "minWidth": 0.5,
+        "maxWidth": 0.5,
+        "explicitWidthCount": 1,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 1
+      },
+      "after": {
+        "minWidth": 2.06,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 26,
+      "genre": "J-POP",
+      "file": "editable/26-j-pop-illustrator.svg",
+      "before": {
+        "minWidth": 0.2,
+        "maxWidth": 0.2,
+        "explicitWidthCount": 1,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 1
+      },
+      "after": {
+        "minWidth": 2.01,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 27,
+      "genre": "アニメソング",
+      "file": "editable/27-アニメソング-illustrator.svg",
+      "before": {
+        "minWidth": 1,
+        "maxWidth": 1,
+        "explicitWidthCount": 0,
+        "defaultWidthCount": 1,
+        "belowTwoCount": 1
+      },
+      "after": {
+        "minWidth": 2.24,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 28,
+      "genre": "クラシック音楽",
+      "file": "editable/28-クラシック音楽-illustrator.svg",
+      "before": {
+        "minWidth": 0.2,
+        "maxWidth": 4.5,
+        "explicitWidthCount": 5,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 3
+      },
+      "after": {
+        "minWidth": 2.01,
+        "maxWidth": 4.92,
+        "explicitWidthCount": 6,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 29,
+      "genre": "オペラ",
+      "file": "editable/29-オペラ-illustrator.svg",
+      "before": {
+        "minWidth": 0.2,
+        "maxWidth": 0.2,
+        "explicitWidthCount": 1,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 1
+      },
+      "after": {
+        "minWidth": 2.01,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 30,
+      "genre": "フォーク",
+      "file": "editable/30-フォーク-illustrator.svg",
+      "before": {
+        "minWidth": 0.2,
+        "maxWidth": 5.6,
+        "explicitWidthCount": 5,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 1
+      },
+      "after": {
+        "minWidth": 2.01,
+        "maxWidth": 5.95,
+        "explicitWidthCount": 6,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 31,
+      "genre": "ラテン",
+      "file": "editable/31-ラテン-illustrator.svg",
+      "before": {
+        "minWidth": null,
+        "maxWidth": null,
+        "explicitWidthCount": 0,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      },
+      "after": {
+        "minWidth": 2.24,
+        "maxWidth": 2.24,
+        "explicitWidthCount": 1,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    },
+    {
+      "number": 32,
+      "genre": "ワールドミュージック",
+      "file": "editable/32-ワールドミュージック-illustrator.svg",
+      "before": {
+        "minWidth": 0.2,
+        "maxWidth": 2,
+        "explicitWidthCount": 2,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 1
+      },
+      "after": {
+        "minWidth": 2.01,
+        "maxWidth": 2.83,
+        "explicitWidthCount": 3,
+        "defaultWidthCount": 0,
+        "belowTwoCount": 0
+      }
+    }
+  ]
+}

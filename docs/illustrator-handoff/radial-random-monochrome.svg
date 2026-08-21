@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="Random radial monochrome pattern" data-print-ink="#000" data-style="random-radial-monochrome-v1">
+  <title>Random Radial Field</title>
+  <desc>Transparent-background radial vector pattern using black ink only.</desc>
+  <g id="radial_random_pattern" data-layer="radial_random_pattern" fill="none" stroke="#000" stroke-linecap="square">
+    <g id="primary_rays" stroke-width="13">
+      <path d="M600 600L600 112"/><path d="M600 600L700 157"/><path d="M600 600L797 116"/>
+      <path d="M600 600L883 228"/><path d="M600 600L1049 299"/><path d="M600 600L1084 440"/>
+      <path d="M600 600L1134 599"/><path d="M600 600L1040 704"/><path d="M600 600L979 858"/>
+      <path d="M600 600L846 1074"/><path d="M600 600L623 1126"/><path d="M600 600L472 1070"/>
+      <path d="M600 600L293 1068"/><path d="M600 600L157 890"/><path d="M600 600L84 701"/>
+      <path d="M600 600L113 511"/><path d="M600 600L179 395"/><path d="M600 600L302 204"/>
+      <path d="M600 600L444 128"/>
+    </g>
+    <g id="interrupted_rays" stroke-width="7">
+      <path d="M600 351L600 238 M600 190L600 95"/>
+      <path d="M667 366L706 277 M731 219L769 132"/>
+      <path d="M731 398L845 259 M879 219L942 142"/>
+      <path d="M777 458L884 395 M936 365L1058 295"/>
+      <path d="M815 528L950 504 M1006 492L1122 481"/>
+      <path d="M815 665L930 690 M984 705L1091 727"/>
+      <path d="M762 744L852 817 M889 851L982 927"/>
+      <path d="M681 791L709 915 M725 970L746 1061"/>
+      <path d="M542 801L517 911 M504 960L478 1072"/>
+      <path d="M460 755L361 846 M319 884L218 976"/>
+      <path d="M402 677L290 699 M227 711L91 738"/>
+      <path d="M397 545L261 523 M201 513L96 496"/>
+      <path d="M439 457L334 383 M288 348L184 275"/>
+      <path d="M507 404L473 282 M462 238L428 115"/>
+    </g>
+    <g id="near_field" stroke-width="18">
+      <path d="M600 568L600 474"/><path d="M628 575L688 448"/><path d="M649 595L777 544"/>
+      <path d="M645 625L740 681"/><path d="M617 649L637 767"/><path d="M574 646L517 738"/>
+      <path d="M551 621L422 674"/><path d="M557 582L446 527"/><path d="M582 553L540 423"/>
+    </g>
+    <g id="signal_ticks" stroke-width="5">
+      <path d="M587 182H613 M586 329H614 M727 187L750 200 M775 313L800 328"/>
+      <path d="M910 287L923 311 M851 411L879 426 M1022 432L1028 459"/>
+      <path d="M1059 583V610 M925 629L932 656 M1008 755L993 778"/>
+      <path d="M832 919L811 936 M645 1015L619 1022 M487 979L461 969"/>
+      <path d="M292 990L271 974 M169 824L156 799 M200 646L173 640"/>
+      <path d="M225 463L200 454 M301 322L282 301 M412 199L388 191"/>
+    </g>
+  </g>
+  <g id="center" data-layer="center" fill="#000">
+    <circle cx="600" cy="600" r="35"/><circle cx="600" cy="600" r="12" fill="#000"/>
+    <rect x="564" y="564" width="13" height="13"/><rect x="623" y="564" width="13" height="13"/>
+    <rect x="564" y="623" width="13" height="13"/><rect x="623" y="623" width="13" height="13"/>
+  </g>
+</svg>

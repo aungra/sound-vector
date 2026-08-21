@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="Monochrome glitch pattern" data-print-ink="#000" data-style="signal-glitch-monochrome-v1">
+  <title>Monochrome Signal Glitch</title>
+  <desc>Transparent-background vector pattern using black ink only.</desc>
+  <g id="glitch_pattern" data-layer="glitch_pattern" fill="#000">
+    <g id="signal_faults" data-layer="signal_faults">
+      <path d="M112 174H490V212H378V241H612V278H174V245H112Z"/>
+      <path d="M632 174H986V211H1088V249H776V283H632Z"/>
+      <path d="M286 407H716V446H846V480H530V514H286Z"/>
+      <path d="M800 398H1042V439H1114V478H926V518H800Z"/>
+      <path d="M92 641H392V684H544V721H239V755H92Z"/>
+      <path d="M481 641H978V683H864V718H1102V757H650V721H481Z"/>
+      <path d="M168 930H586V969H449V1004H734V1042H168Z"/>
+      <path d="M741 925H1045V963H1121V1001H896V1043H741Z"/>
+    </g>
+    <g id="displaced_blocks" data-layer="displaced_blocks">
+      <rect x="102" y="294" width="78" height="30"/>
+      <rect x="194" y="294" width="232" height="30"/>
+      <rect x="448" y="294" width="44" height="30"/>
+      <rect x="522" y="310" width="132" height="16"/>
+      <rect x="680" y="300" width="297" height="27"/>
+      <rect x="996" y="286" width="89" height="41"/>
+      <rect x="119" y="360" width="321" height="17"/>
+      <rect x="468" y="350" width="56" height="28"/>
+      <rect x="544" y="359" width="203" height="18"/>
+      <rect x="780" y="349" width="251" height="29"/>
+      <rect x="1059" y="357" width="47" height="19"/>
+      <rect x="118" y="547" width="157" height="34"/>
+      <rect x="307" y="554" width="360" height="19"/>
+      <rect x="704" y="542" width="88" height="37"/>
+      <rect x="819" y="555" width="238" height="19"/>
+      <rect x="166" y="794" width="97" height="21"/>
+      <rect x="292" y="784" width="293" height="41"/>
+      <rect x="612" y="795" width="154" height="20"/>
+      <rect x="790" y="783" width="308" height="42"/>
+      <rect x="105" y="861" width="252" height="16"/>
+      <rect x="393" y="849" width="75" height="39"/>
+      <rect x="503" y="860" width="365" height="17"/>
+      <rect x="900" y="848" width="185" height="40"/>
+    </g>
+    <g id="scan_fragments" data-layer="scan_fragments">
+      <rect x="96" y="112" width="19" height="36"/><rect x="128" y="112" width="7" height="36"/><rect x="150" y="112" width="48" height="12"/>
+      <rect x="218" y="112" width="13" height="36"/><rect x="247" y="112" width="89" height="12"/><rect x="351" y="112" width="6" height="36"/>
+      <rect x="455" y="112" width="138" height="11"/><rect x="608" y="112" width="19" height="37"/><rect x="644" y="112" width="62" height="11"/>
+      <rect x="727" y="112" width="8" height="37"/><rect x="753" y="112" width="156" height="11"/><rect x="926" y="112" width="24" height="37"/>
+      <rect x="975" y="112" width="112" height="11"/>
+      <rect x="95" y="1058" width="144" height="11"/><rect x="254" y="1035" width="22" height="36"/><rect x="291" y="1058" width="61" height="11"/>
+      <rect x="379" y="1035" width="8" height="36"/><rect x="408" y="1058" width="196" height="11"/><rect x="620" y="1035" width="28" height="36"/>
+      <rect x="669" y="1058" width="80" height="11"/><rect x="768" y="1035" width="7" height="36"/><rect x="795" y="1058" width="167" height="11"/>
+      <rect x="980" y="1035" width="21" height="36"/><rect x="1020" y="1058" width="67" height="11"/>
+    </g>
+    <g id="pixel_loss" data-layer="pixel_loss">
+      <rect x="129" y="180" width="13" height="13"/><rect x="148" y="180" width="13" height="13"/><rect x="387" y="222" width="13" height="13"/>
+      <rect x="414" y="222" width="13" height="13"/><rect x="565" y="253" width="13" height="13"/><rect x="584" y="253" width="13" height="13"/>
+      <rect x="674" y="190" width="13" height="13"/><rect x="693" y="190" width="13" height="13"/><rect x="948" y="227" width="13" height="13"/>
+      <rect x="967" y="227" width="13" height="13"/><rect x="308" y="428" width="13" height="13"/><rect x="327" y="428" width="13" height="13"/>
+      <rect x="678" y="464" width="13" height="13"/><rect x="697" y="464" width="13" height="13"/><rect x="835" y="418" width="13" height="13"/>
+      <rect x="854" y="418" width="13" height="13"/><rect x="175" y="662" width="13" height="13"/><rect x="194" y="662" width="13" height="13"/>
+      <rect x="345" y="699" width="13" height="13"/><rect x="364" y="699" width="13" height="13"/><rect x="743" y="660" width="13" height="13"/>
+      <rect x="762" y="660" width="13" height="13"/><rect x="988" y="700" width="13" height="13"/><rect x="1007" y="700" width="13" height="13"/>
+      <rect x="216" y="950" width="13" height="13"/><rect x="235" y="950" width="13" height="13"/><rect x="496" y="986" width="13" height="13"/>
+      <rect x="515" y="986" width="13" height="13"/><rect x="788" y="945" width="13" height="13"/><rect x="807" y="945" width="13" height="13"/>
+    </g>
+    <g id="vertical_sync" data-layer="vertical_sync">
+      <rect x="218" y="145" width="9" height="99"/><rect x="226" y="247" width="3" height="69"/>
+      <rect x="1002" y="175" width="11" height="94"/><rect x="1013" y="273" width="3" height="62"/>
+      <rect x="548" y="392" width="8" height="98"/><rect x="556" y="493" width="3" height="59"/>
+      <rect x="780" y="626" width="10" height="102"/><rect x="790" y="729" width="3" height="65"/>
+      <rect x="390" y="916" width="9" height="87"/><rect x="399" y="1003" width="3" height="42"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="Anime effects in monochrome SVG" data-print-ink="#000" data-style="anime-effects-monochrome-v1">
+  <title>Anime Effects Monochrome</title>
+  <desc>Transparent-background anime-inspired impact, sparkle, and speed-line effects using black ink only.</desc>
+  <g id="anime_effects" data-layer="anime_effects" fill="#000" stroke="#000" stroke-linecap="round" stroke-linejoin="round">
+    <g id="impact_rays" fill="none">
+      <path d="M600 575L600 104" stroke-width="18"/><path d="M600 575L704 143" stroke-width="10"/>
+      <path d="M600 575L835 177" stroke-width="18"/><path d="M600 575L954 284" stroke-width="9"/>
+      <path d="M600 575L1084 435" stroke-width="16"/><path d="M600 575L1110 582" stroke-width="11"/>
+      <path d="M600 575L1016 724" stroke-width="18"/><path d="M600 575L887 898" stroke-width="10"/>
+      <path d="M600 575L674 1085" stroke-width="18"/><path d="M600 575L511 1081" stroke-width="10"/>
+      <path d="M600 575L308 1000" stroke-width="16"/><path d="M600 575L152 801" stroke-width="10"/>
+      <path d="M600 575L89 596" stroke-width="17"/><path d="M600 575L150 394" stroke-width="10"/>
+      <path d="M600 575L273 209" stroke-width="17"/><path d="M600 575L452 125" stroke-width="10"/>
+    </g>
+    <g id="hero_star" data-layer="hero_star">
+      <path d="M600 338 L628 535 L815 575 L628 615 L600 812 L572 615 L385 575 L572 535 Z"/>
+      <path d="M600 421 L615 550 L736 575 L615 600 L600 729 L585 600 L464 575 L585 550 Z" fill="none" stroke="#000" stroke-width="12"/>
+      <circle cx="600" cy="575" r="35"/>
+    </g>
+    <g id="four_point_sparkles" data-layer="four_point_sparkles">
+      <path d="M259 306 L271 357 L320 369 L271 381 L259 432 L247 381 L198 369 L247 357 Z"/>
+      <path d="M928 294 L941 353 L998 366 L941 379 L928 438 L915 379 L858 366 L915 353 Z"/>
+      <path d="M930 803 L943 858 L996 871 L943 884 L930 939 L917 884 L864 871 L917 858 Z"/>
+      <path d="M279 816 L291 866 L339 878 L291 890 L279 940 L267 890 L219 878 L267 866 Z"/>
+      <path d="M490 193 L498 226 L530 234 L498 242 L490 275 L482 242 L450 234 L482 226 Z"/>
+      <path d="M757 963 L765 996 L797 1004 L765 1012 L757 1045 L749 1012 L717 1004 L749 996 Z"/>
+    </g>
+    <g id="speed_fragments" data-layer="speed_fragments" fill="none">
+      <path d="M103 264 L268 340" stroke-width="12"/><path d="M86 299 L238 358" stroke-width="5"/>
+      <path d="M940 179 L842 330" stroke-width="12"/><path d="M994 202 L877 357" stroke-width="5"/>
+      <path d="M1075 680 L892 649" stroke-width="12"/><path d="M1112 720 L909 676" stroke-width="5"/>
+      <path d="M773 1086 L724 913" stroke-width="12"/><path d="M818 1106 L748 930" stroke-width="5"/>
+      <path d="M163 940 L348 806" stroke-width="12"/><path d="M127 976 L325 831" stroke-width="5"/>
+      <path d="M116 542 L333 552" stroke-width="9"/><path d="M137 510 L322 529" stroke-width="5"/>
+    </g>
+    <g id="transformation_charm" data-layer="transformation_charm" fill="none" stroke-width="12">
+      <path d="M592 898 C531 838 461 852 437 913 C415 970 466 1025 527 1004 C560 993 581 967 600 937 C619 967 640 993 673 1004 C734 1025 785 970 763 913 C739 852 669 838 608 898 Z"/>
+      <path d="M600 863 V1012 M530 910 L670 966 M670 910 L530 966" stroke-width="5"/>
+    </g>
+    <g id="impact_debris" data-layer="impact_debris">
+      <path d="M354 526 L379 504 L388 536 L367 552 Z"/><path d="M818 493 L846 507 L826 533 L803 520 Z"/>
+      <path d="M409 727 L434 709 L442 738 L419 754 Z"/><path d="M771 732 L801 717 L800 750 L776 758 Z"/>
+      <path d="M507 349 L528 326 L540 354 L522 370 Z"/><path d="M680 350 L707 335 L706 368 L684 373 Z"/>
+    </g>
+  </g>
+</svg>
