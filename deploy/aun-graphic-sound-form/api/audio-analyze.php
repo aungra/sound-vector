@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 const MAX_REQUEST_BYTES = 32768;
 const UPSTREAM_FILE = __DIR__ . '/upstream-url.txt';
+const REQUIRED_CLIENT_INFERENCE_REVISION = '2026-08-21-client-parity-handshake-v94';
 
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
@@ -101,6 +102,14 @@ if ($body === false || strlen($body) > MAX_REQUEST_BYTES) {
 $payload = json_decode($body, true);
 if (!is_array($payload) || ($payload['action'] ?? '') !== 'analyze-youtube') {
     respond(400, ['ok' => false, 'code' => 'INVALID_REQUEST', 'error' => 'YouTube解析リクエストが不正です。']);
+}
+if (($payload['genreInferenceRevision'] ?? '') !== REQUIRED_CLIENT_INFERENCE_REVISION) {
+    respond(409, [
+        'ok' => false,
+        'code' => 'CLIENT_UPDATE_REQUIRED',
+        'error' => '解析画面が更新されています。ページを再読み込みして、もう一度解析してください。',
+        'requiredRevision' => REQUIRED_CLIENT_INFERENCE_REVISION,
+    ]);
 }
 
 set_time_limit(300);

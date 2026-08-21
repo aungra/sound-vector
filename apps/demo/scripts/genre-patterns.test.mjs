@@ -118,12 +118,16 @@ test("public deployment reads a guarded API setting instead of visitor localhost
   assert.match(html, /document\.querySelector\?\.\('meta\[name="sound-form-api-endpoint"\]'/);
   assert.match(html, /if \(publicHost \|\| soundFormPath\) defaults\.push\(configuredPublicEndpoint, "\/sound-form\/api\/audio-analyze\.php"\)/);
   assert.match(html, /const retryDelays = \[0, 2000, 4000, 8000, 12000, 16000\]/);
+  assert.match(html, /genreInferenceRevision: GENRE_INFERENCE_REVISION/);
+  assert.match(html, /analysisTier !== "rich-parity"/);
   assert.match(html, /http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/);
   assert.match(htaccess, /<Files "index\.html">[\s\S]*Cache-Control "no-cache, no-store, must-revalidate"/);
   assert.match(audioProxy, /responseHasRichAnalysisParity[\s\S]*japaneseVocalEvidence[\s\S]*unknownSourceConsensus/);
   assert.match(audioProxy, /\$endpoints\[\] = \$endpoint/);
   assert.doesNotMatch(audioProxy, /LOCAL_UPSTREAM|MMFR_EMBEDDING_GENRE_ENABLED.*0/);
   assert.match(audioProxy, /X-MMFR-Analysis-Tier: rich-parity/);
+  assert.match(audioProxy, /CLIENT_UPDATE_REQUIRED/);
+  assert.match(audioProxy, /REQUIRED_CLIENT_INFERENCE_REVISION/);
   assert.match(audioProxy, /RICH_ANALYSIS_REQUIRED/);
   assert.match(html, /attempt < retryDelays\.length/);
   assert.doesNotMatch(html, /aungraphic-musictee-audio-api\.hf\.space/);
