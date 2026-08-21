@@ -1747,7 +1747,7 @@ test("unanimous electronic segments resolve a half-tempo house alias without abs
 });
 
 test("slow melodic rock uses multi-view agreement without accepting a single overconfident macro", () => {
-  const { slowMelodicRockConsensusEvidence } = loadPatternApi();
+  const { slowMelodicRockConsensusEvidence, applyUnknownSourceConsensus, calibratedGenreAnalysis } = loadPatternApi();
   const analysis = {
     top: [
       { name: "ジャズ", macro: "jazz", score: 55 },
@@ -1790,6 +1790,35 @@ test("slow melodic rock uses multi-view agreement without accepting a single ove
   const evidence = slowMelodicRockConsensusEvidence({ analysis, features, vector });
   assert.ok(evidence);
   assert.equal(evidence.externalGap, .005);
+  const alreadyRescued = {
+    ...analysis,
+    source: "test",
+    method: "shared-production-local-classifier+midDominantRockBallad",
+    needsReview: true,
+    segmentConsensus: { count: 3, voteShare: .333, conflict: true },
+    top: [
+      { name: "ロック", macro: "rock", score: 54 },
+      { name: "ジャズ", macro: "jazz", score: 13 },
+      { name: "パンク", macro: "rock", score: 6 }
+    ]
+  };
+  const reinforced = applyUnknownSourceConsensus(alreadyRescued, null, {
+    ...features,
+    ...vector
+  }, vector);
+  assert.equal(reinforced.top[0].name, "ロック");
+  assert.ok(
+    reinforced.top.find(item => item.name === "ジャズ").score <= 4.2,
+    JSON.stringify(reinforced.top)
+  );
+  assert.equal(reinforced.unknownSourceConsensus.multiViewRockEvidence.localLeader, "ジャズ");
+  assert.equal(reinforced.segmentConsensus.conflict, false);
+  const calibrated = calibratedGenreAnalysis(reinforced, {
+    macro: [{ macro: "ambient", score: 75 }]
+  });
+  assert.equal(calibrated.top[0].name, "ロック");
+  assert.ok(calibrated.confidence >= 64);
+  assert.equal(calibrated.needsReview, false);
   assert.equal(slowMelodicRockConsensusEvidence({
     analysis,
     features: {

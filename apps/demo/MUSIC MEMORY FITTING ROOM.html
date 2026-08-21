@@ -647,7 +647,7 @@
       };
     }
     const keys = { creators: "mmfr.creators", tshirts: "mmfr.tshirts", sessions: "mmfr.sessions", apiConfig: "mmfr.apiConfig", genreAdjustmentLearning: "mmfr.genreAdjustmentLearning.v1" };
-    const GENRE_INFERENCE_REVISION = "2026-08-21-adaptive-model-refresh-v91";
+    const GENRE_INFERENCE_REVISION = "2026-08-21-slow-rock-consensus-v92";
     const inlineArt = {};
     let activeCollisionField = null;
     const state = { answers: {}, moodId: null, youtubeUrl: "", audioFeatures: null, sourceMood: null, variantSalt: 0, engineId: "youtube_audio", realtime: false, tick: 0, session: null, generated: null, message: "", genreProfiles: null, genreModel: null, sharedGenreLearning: { records: [], revision: 0, modelVersion: "" }, generationProgress: null, patternMotion: { shirtId: "", phase: 0, running: false, lastTimestamp: 0 }, equalizer: { shirtId: "", playing: false, startedAt: 0, duration: 0, detail: null, analyser: null, returningAt: 0 } };
@@ -9501,7 +9501,17 @@
         && Number(unknownConsensus.segmentAgreement || 0) >= .9
         && Number(unknownConsensus.stability || 0) >= .8
       );
-      if (agreementAvailable) confidence += macroAgreement ? 5 : (strongFineAgreement ? -4 : (trustedUnknownAgreement ? 0 : -16));
+      const trustedSlowRockAgreement = Boolean(
+        unknownConsensus.rescued
+        && unknownConsensus.agreement
+        && unknownConsensus.target === "ロック"
+        && unknownConsensus.multiViewRockEvidence
+        && Number(unknownConsensus.multiViewRockEvidence.rockMacro || 0) >= .4
+        && Number(unknownConsensus.multiViewRockEvidence.externalRock || 0) >= .2
+        && Number(unknownConsensus.multiViewRockEvidence.externalGap || 1) <= .04
+        && Number(unknownConsensus.multiViewRockEvidence.segmentRock || 0) >= .25
+      );
+      if (agreementAvailable) confidence += macroAgreement ? 5 : (strongFineAgreement ? -4 : ((trustedUnknownAgreement || trustedSlowRockAgreement) ? 0 : -16));
       if (strongFineAgreement) confidence = Math.max(confidence, Math.min(90, specialistLeader.score));
       if (trustedUnknownAgreement) {
         const estimatedAccuracy = Number(unknownConsensus.estimatedAccuracy || 0);
@@ -9512,6 +9522,7 @@
       } else if (unknownConsensus.reliable && unknownConsensus.agreement) {
         confidence += 8;
       }
+      if (trustedSlowRockAgreement) confidence = Math.max(confidence, 64);
       if (unknownConsensus.reliable && unknownConsensus.conflict) confidence -= 12;
       const segmentConsensus = analysis.segmentConsensus || {};
       const segmentConflict = Number(segmentConsensus.count || 0) >= 3 && Boolean(segmentConsensus.conflict);
@@ -9522,7 +9533,7 @@
         && Number(segmentConsensus.averageMargin || 0) >= 24
       );
       if (segmentConsensus.rescued || (segmentConsensus.agreement && Number(segmentConsensus.voteShare || 0) >= 1)) confidence += 6;
-      if (segmentConflict) confidence -= 10 + Math.round((1 - Number(segmentConsensus.voteShare || 0)) * 12);
+      if (segmentConflict && !trustedSlowRockAgreement) confidence -= 10 + Math.round((1 - Number(segmentConsensus.voteShare || 0)) * 12);
       if (trustedRapSegmentMajority) confidence = Math.max(confidence, 68);
       const weakSharedLocalSupport = String(analysis.method || "").includes("shared-production-local-classifier")
         && Math.max(...ranked.map(item => Number(item.relativeScore ?? item.rawScore ?? item.score) || 0)) < 12;
@@ -9548,8 +9559,8 @@
           score: Math.round(specialistLeader.score * 10) / 10,
           margin: Math.round((specialistLeader.score - Number(specialistRunnerUp.score || 0)) * 10) / 10
         } : null,
-        needsReview: Boolean(weakSharedLocalSupport || (analysis.needsReview && !strongFineAgreement && !trustedUnknownAgreement && !trustedRapSegmentMajority) || confidence < 58 || unknownConsensus.conflict || segmentConflict || (agreementAvailable && !macroAgreement && !strongFineAgreement && !trustedUnknownAgreement && !trustedRapSegmentMajority)),
-        source: agreementAvailable && !macroAgreement && !strongFineAgreement && !trustedUnknownAgreement
+        needsReview: Boolean(weakSharedLocalSupport || (analysis.needsReview && !strongFineAgreement && !trustedUnknownAgreement && !trustedSlowRockAgreement && !trustedRapSegmentMajority) || confidence < 58 || unknownConsensus.conflict || (segmentConflict && !trustedSlowRockAgreement) || (agreementAvailable && !macroAgreement && !strongFineAgreement && !trustedUnknownAgreement && !trustedSlowRockAgreement && !trustedRapSegmentMajority)),
+        source: agreementAvailable && !macroAgreement && !strongFineAgreement && !trustedUnknownAgreement && !trustedSlowRockAgreement
           ? `${analysis.source} 学習モデルと独立音響ルールの大分類が一致しないため、確信度を下げて要確認にしています。`
           : analysis.source,
         top: ranked
@@ -9561,7 +9572,14 @@
       const vector = context.vector || genreFeatureVector(features);
       const embedding = features.embeddingGenrePrediction || {};
       const external = embedding.unknownSourceConsensus || {};
-      const leader = analysis.top?.[0]?.name || analysis.top?.[0]?.label || "";
+      const displayedLeader = analysis.top?.[0]?.name || analysis.top?.[0]?.label || "";
+      const productionLeader = embedding.top?.[0]?.name || embedding.top?.[0]?.label || "";
+      // A preceding boundary pass may already have moved Rock to Top1. Keep the
+      // production-local leader so the stronger multi-view pass can still
+      // suppress the original false-positive macro.
+      const leader = displayedLeader === "ロック" && productionLeader && productionLeader !== "ロック"
+        ? productionLeader
+        : displayedLeader;
       const score = (rows, name) => (Number((rows || []).find(item => (item.name || item.label) === name)?.score) || 0) / 100;
       const macroScore = name => (Number((embedding.macro || []).find(item =>
         canonicalModelMacro(item.macro || item.label) === canonicalModelMacro(name)
@@ -9593,6 +9611,7 @@
       if (!matched) return null;
       return {
         localLeader: leader,
+        displayedLeader,
         rockMacro: Math.round(macroScore("rock") * 1000) / 1000,
         localRock: Math.round(localRock * 1000) / 1000,
         externalRock: Math.round(externalRock * 1000) / 1000,
@@ -9605,17 +9624,24 @@
         sustainRatio: Math.round(Number(vector.sustainRatio || 0) * 1000) / 1000
       };
     }
-    function applyUnknownSourceConsensus(analysis = {}, ruleAnalysis = null, features = {}) {
+    function applyUnknownSourceConsensus(analysis = {}, ruleAnalysis = null, features = {}, preparedVector = null) {
       if (!analysis?.top?.length) return analysis;
       const external = features.embeddingGenrePrediction?.unknownSourceConsensus;
       if (!external?.top?.length) return analysis;
-      const slowRockEvidence = slowMelodicRockConsensusEvidence({ analysis, features });
+      const slowRockEvidence = slowMelodicRockConsensusEvidence({
+        analysis,
+        features,
+        ...(preparedVector ? { vector: preparedVector } : {})
+      });
       if (slowRockEvidence) {
+        const driftMacro = canonicalModelMacro(
+          genreToMacro[slowRockEvidence.localLeader] || analysis.top[0]?.macro || ""
+        );
         const rescued = promoteAudioGenreCandidate(analysis, {
           targetName: "ロック",
           targetMacro: "rock",
-          suppressMacros: [canonicalModelMacro(analysis.top[0]?.macro || genreToMacro[analysis.top[0]?.name || analysis.top[0]?.label] || "")],
-          factor: .44,
+          suppressMacros: driftMacro && driftMacro !== "rock" ? [driftMacro] : [],
+          factor: .32,
           companionCandidates: [{ name: "フォーク", relativeScore: .46 }],
           method: "slowMelodicRockMultiViewConsensus",
           needsReview: true,
@@ -9624,6 +9650,11 @@
         });
         return {
           ...rescued,
+          segmentConsensus: {
+            ...(rescued.segmentConsensus || {}),
+            conflict: false,
+            multiViewRockResolved: true
+          },
           unknownSourceConsensus: {
             available: true,
             reliable: false,
