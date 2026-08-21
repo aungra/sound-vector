@@ -20,6 +20,10 @@ const mappings = [
     remote: "/home/aungraphic02/musictee-audio-service/apps/demo/MUSIC MEMORY FITTING ROOM.html"
   },
   {
+    local: path.join(SCRIPT_DIR, ".htaccess"),
+    remote: "/home/aungraphic02/www/wp/sound-form/.htaccess"
+  },
+  {
     local: path.join(SCRIPT_DIR, "api", "genre-feedback.php"),
     remote: "/home/aungraphic02/www/wp/sound-form/api/genre-feedback.php"
   },

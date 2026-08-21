@@ -1,0 +1,29 @@
+DirectoryIndex index.html
+Options -Indexes
+
+# Keep the parent site protected while allowing this standalone application
+# to load without an authentication prompt.
+AuthType None
+Require all granted
+Satisfy any
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "no-referrer"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; worker-src 'self' blob:; font-src 'self'"
+  <Files "index.html">
+    Header always set Cache-Control "no-cache, no-store, must-revalidate"
+    Header always set Pragma "no-cache"
+    Header always set Expires "0"
+  </Files>
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType application/javascript "access plus 1 day"
+  ExpiresByType application/json "access plus 1 hour"
+  ExpiresByType font/woff2 "access plus 7 days"
+  ExpiresByType image/svg+xml "access plus 1 day"
+</IfModule>

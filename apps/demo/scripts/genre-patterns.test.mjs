@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const DEMO_DIR = path.resolve(SCRIPT_DIR, "..");
 const HTML_PATH = path.join(DEMO_DIR, "MUSIC MEMORY FITTING ROOM.html");
+const PUBLIC_HTACCESS_PATH = path.resolve(DEMO_DIR, "../../deploy/aun-graphic-sound-form/.htaccess");
 const DELAUNAY_VENDOR_PATH = path.join(DEMO_DIR, "vendor", "d3-delaunay.min.js");
 const JAPANESE_FONT_FILES = [
   "NotoSansJP-Regular.woff2",
@@ -106,12 +107,15 @@ test("browser normalization preserves server genre evidence", () => {
 
 test("public deployment reads a guarded API setting instead of visitor localhost", () => {
   const html = fs.readFileSync(HTML_PATH, "utf8");
+  const htaccess = fs.readFileSync(PUBLIC_HTACCESS_PATH, "utf8");
   assert.match(html, /const localHost = \/\^\(\?:localhost\|127/);
   assert.match(html, /const publicHost = \/\^\(\?:www\\\.\)\?aun-graphic\\\.jp\$\/i/);
   assert.match(html, /meta name="sound-form-api-endpoint" content="\/sound-form\/api\/audio-analyze\.php"/);
   assert.match(html, /document\.querySelector\?\.\('meta\[name="sound-form-api-endpoint"\]'/);
   assert.match(html, /if \(publicHost \|\| soundFormPath\) defaults\.push\(configuredPublicEndpoint, "\/sound-form\/api\/audio-analyze\.php"\)/);
   assert.match(html, /const retryDelays = \[0, 2000, 4000, 8000, 12000, 16000\]/);
+  assert.match(html, /http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/);
+  assert.match(htaccess, /<Files "index\.html">[\s\S]*Cache-Control "no-cache, no-store, must-revalidate"/);
   assert.match(html, /attempt < retryDelays\.length/);
   assert.doesNotMatch(html, /aungraphic-musictee-audio-api\.hf\.space/);
   assert.doesNotMatch(html, /if \(publicHost \|\| soundFormPath\) defaults\.push\("http:\/\/127\.0\.0\.1:4194/);
