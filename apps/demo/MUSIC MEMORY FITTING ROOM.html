@@ -600,7 +600,7 @@
   <a class="skip-link" href="#conversion-workbench">変換操作へ移動</a>
   <div id="app"></div>
   <script src="vendor/d3-delaunay.min.js"></script>
-  <script src="artist-master-patterns.js"></script>
+  <script src="artist-master-patterns.js?v=inline-presentation-v1"></script>
   <script>
     const questions = [
       { id: "place", title: "その音楽は、どこで鳴っていましたか？", options: ["港", "ライブハウス", "クラブ", "教会", "路面電車", "坂道", "部屋", "祭り"] },
@@ -14895,25 +14895,56 @@
       }
       return `${opening.replace(/>$/, ' data-fusion-anchor-source="artist-master-nodes">')}${sites.join("")}</g>`;
     }
+    function prepareArtistMasterMotionMarkup(markup = "", engineId = "") {
+      const source = String(markup || "");
+      const elementPattern = /<(path|rect|circle|ellipse|polygon|polyline|line)\b([^>]*)\/?\s*>/gi;
+      const matches = Array.from(source.matchAll(elementPattern));
+      const candidates = matches.map((match, index) => {
+        const geometry = (match[2].match(/\b(?:d|points)=["']([^"']+)["']/i) || [])[1] || "";
+        const coordinateCount = (geometry.match(/[-+]?(?:\d*\.\d+|\d+\.?)(?:[eE][-+]?\d+)?/g) || []).length;
+        return { index, eligible: match[1].toLowerCase() !== "path" || (coordinateCount >= 4 && coordinateCount <= 900) };
+      }).filter(item => item.eligible);
+      const selected = new Set();
+      const targetCount = Math.min(36, candidates.length);
+      for (let slot = 0; slot < targetCount; slot += 1) {
+        const candidateIndex = targetCount === 1 ? 0 : Math.round(slot * (candidates.length - 1) / (targetCount - 1));
+        selected.add(candidates[candidateIndex].index);
+      }
+      let elementIndex = -1;
+      return source.replace(elementPattern, original => {
+        elementIndex += 1;
+        const tagMatch = original.match(/^<([A-Za-z]+)/);
+        const tagName = tagMatch?.[1]?.toLowerCase() || "path";
+        const closing = /\/\s*>$/.test(original) ? "/>" : ">";
+        let opening = original.replace(/\/\s*>$|>$/g, "");
+        if (!/\bdata-feature=/.test(opening)) opening += ' data-feature="terra-primary"';
+        if (!/\bdata-terra-kind=/.test(opening)) opening += ` data-terra-kind="artist-master-${tagName}-${elementIndex}"`;
+        if (!/\bdata-motion-engine=/.test(opening)) opening += ` data-motion-engine="${escapeAttr(engineId)}"`;
+        if (selected.has(elementIndex) && !/\bdata-coordinate-motion=/.test(opening)) opening += ' data-coordinate-motion="audio-path-v1"';
+        return `${opening}${closing}`;
+      });
+    }
     function applyApprovedArtistMaster(svg, mood = {}) {
       const approved = approvedArtistMasterForMood(mood);
       if (!approved) return svg;
       const source = String(svg || "");
       const surfaceRange = svgGroupRangeById(source, "sound_form_surface");
       if (!surfaceRange) return source;
+      const engineId = (source.match(/\bdata-engine=["']([^"']+)["']/) || [])[1] || "terra-fallback-field-v1";
+      const artistMarkup = prepareArtistMasterMotionMarkup(approved.markup, engineId);
       const blendIds = unique(Array.from(source.matchAll(/<g\b[^>]*\bid=["'](terra_genre_blend_\d+)["'][^>]*>/g), match => match[1]));
       const opening = surfaceRange.opening.replace(/>$/, ` data-artist-master-revision="illustrator-v2" data-artist-master-genre="${escapeAttr(approved.genre)}">`);
-      const master = `<g id="terra_primary_structure" data-layer="terra_primary_structure" data-visual-role="approved-artist-master" data-genre="${escapeAttr(approved.genre)}">${approved.markup}</g>`;
+      const master = `<g id="terra_primary_structure" data-layer="terra_primary_structure" data-visual-role="approved-artist-master" data-genre="${escapeAttr(approved.genre)}" data-terra-engine="${escapeAttr(engineId)}">${artistMarkup}</g>`;
       let surface = source.slice(surfaceRange.start, surfaceRange.end);
       surface = replaceSvgGroupById(surface, "terra_primary_structure", master);
       blendIds.forEach(id => {
         const blend = svgGroupMarkupById(surface, id);
-        surface = replaceSvgGroupById(surface, id, artistStructuralFusionGroup(blend, approved.markup, `${approved.genre}|${id}`));
+        surface = replaceSvgGroupById(surface, id, artistStructuralFusionGroup(blend, artistMarkup, `${approved.genre}|${id}`));
       });
       const inner = surface.slice(surfaceRange.opening.length, -4);
       const replacement = `${opening}${inner}</g>`;
       return `${source.slice(0, surfaceRange.start)}${replacement}${source.slice(surfaceRange.end)}`
-        .replace(/<svg\b/, `<svg data-artist-master-revision="illustrator-v2" data-artist-master-genre="${escapeAttr(approved.genre)}"`);
+        .replace(/<svg\b/, `<svg data-artist-master-motion="audio-coordinate-v1" data-artist-master-style="inline-presentation-v1" data-artist-master-revision="illustrator-v2" data-artist-master-genre="${escapeAttr(approved.genre)}"`);
     }
     function generateSoundClothReversibleSvg(mood, tick = Date.now(), settings = null) {
       const generated = invertPrintSvgColors(generateTerra56SoundSvg(mood, tick, settings))
@@ -16029,6 +16060,13 @@
       }
       return null;
     }
+    function contrastedMotionEnvelope(energy = 0, bass = 0, onset = 0, pulse = 0) {
+      const body = Math.pow(clamp01(energy * .34 + bass * .24 + onset * .42), 1.7);
+      const attackGate = Math.pow(clamp01(pulse), 3.3) * (.12 + Math.pow(clamp01(onset), 1.5) * .88);
+      const surge = Math.min(2.72, .035 + body * .035 + attackGate * (.1 + body * 2.5));
+      const force = Math.min(2.8, .12 + body * .5 + surge * .76);
+      return { body, attackGate, surge, force };
+    }
     function patternMotionFrameForShirt(shirt, phase = 0, signal = null) {
       const audio = shirt?.audioFeatures || {};
       const motionProfile = terraMotionProfileForShirt(shirt);
@@ -16041,22 +16079,25 @@
       const chroma = Array.from({ length: 12 }, (_, index) => mix(clamp01(audio.chroma?.[index] ?? 0), signal?.chroma?.[index] ?? 0));
       const chromaX = chroma.reduce((sum, value, index) => sum + value * Math.cos(index * Math.PI / 6), 0);
       const chromaY = chroma.reduce((sum, value, index) => sum + value * Math.sin(index * Math.PI / 6), 0);
-      const chromaAngle = Math.atan2(chromaY, chromaX) || 0;
+      const chromaAngle = Math.hypot(chromaX, chromaY) > 1e-6 ? Math.atan2(chromaY, chromaX) : 0;
+      const baseBands = [bass, bass * .92, energy, energy * .9, brightness * .72 + energy * .28, brightness, brightness, brightness * .86];
+      const bands = Array.from({ length: 8 }, (_, index) => mix(clamp01(baseBands[index]), signal?.bands?.[index] ?? baseBands[index]));
       const breath = Math.sin(phase + chromaAngle * .16);
       const pulse = Math.pow((Math.sin(phase * 2 + chromaAngle) + 1) / 2, 2.25);
       const sway = Math.sin(phase + chromaAngle);
       const drift = Math.cos(phase * 2 - chromaAngle * .6);
-      // The force envelope stays soft between attacks, then deliberately exceeds
-      // the artboard during a dense loud transient. Protected PCM remains static.
-      const attack = pulse * (.46 + onset * .54);
-      const force = .28 + energy * .48 + bass * .34 + onset * (.36 + attack * 1.16);
-      const surge = attack * (.64 + energy * .88 + bass * .55 + onset * .9);
-      const compression = (1 - pulse) * (.12 + energy * .1 + bass * .07);
-      const scaleX = 1 - compression + breath * (.026 + energy * .048) + surge * (.5 + brightness * .26);
-      const scaleY = 1 - compression * 1.18 + breath * (.034 + bass * .064) + surge * (.66 + bass * .34);
-      const translateX = drift * (9 + brightness * 22) + Math.cos(phase * 3 + chromaAngle) * surge * (142 + brightness * 148);
-      const translateY = sway * (12 + bass * 30) + Math.sin(phase * 3 - chromaAngle) * surge * (178 + bass * 194);
-      const rotate = Math.sin(phase + chromaAngle) * (1.8 + brightness * 5.6 + surge * 18);
+      // Low-level passages are deliberately compressed while dense attacks expand
+      // non-linearly. This preserves quiet space and lets climaxes leave the frame.
+      const envelope = contrastedMotionEnvelope(energy, bass, onset, pulse);
+      const attack = envelope.attackGate;
+      const force = envelope.force;
+      const surge = envelope.surge;
+      const compression = (1 - pulse) * (.18 + envelope.body * .18);
+      const scaleX = 1 - compression + breath * (.008 + envelope.body * .028) + surge * (.56 + brightness * .3);
+      const scaleY = 1 - compression * 1.12 + breath * (.01 + envelope.body * .036) + surge * (.72 + bass * .4);
+      const translateX = drift * (3 + envelope.body * 18) + Math.cos(phase * 3 + chromaAngle) * surge * (158 + brightness * 172);
+      const translateY = sway * (4 + envelope.body * 24) + Math.sin(phase * 3 - chromaAngle) * surge * (198 + bass * 224);
+      const rotate = Math.sin(phase + chromaAngle) * (.6 + envelope.body * 4.8 + surge * 21);
       return {
         phase,
         translateX,
@@ -16073,6 +16114,9 @@
         onset,
         bass,
         brightness,
+        chromaAngle,
+        bands,
+        motionBody: envelope.body,
         motionProfile,
         transform: `rotate(${svgFineNumber(rotate)} 600 600) translate(${svgFineNumber(translateX)} ${svgFineNumber(translateY)}) translate(600 600) scale(${svgFineNumber(scaleX)} ${svgFineNumber(scaleY)}) translate(-600 -600)`
       };
@@ -16169,25 +16213,37 @@
     function isCentralMotionPart(partId = "") {
       return partId === "terra_primary_structure" || partId === "terra_genre_object" || /^terra_genre_blend_\d+$/.test(partId);
     }
+    function centralMotionRole(partId = "") {
+      if (partId === "terra_primary_structure") return { gain: 1.16, delay: 0, direction: 1 };
+      if (partId === "terra_genre_object") return { gain: .68, delay: .46, direction: -1 };
+      const rank = Number((String(partId).match(/^terra_genre_blend_(\d+)$/) || [])[1] || 1);
+      return {
+        gain: Math.max(.12, .38 - Math.max(0, rank - 1) * .1),
+        delay: .72 + Math.max(0, rank - 1) * .48,
+        direction: rank % 2 ? 1 : -1
+      };
+    }
     function centralMotionState(frame, motionProfile = terraFallbackMotionProfile, partId = "terra_primary_structure", index = 0) {
       const profile = motionProfile || terraFallbackMotionProfile;
       const program = centralMotionProgramForProfile(profile);
-      const roleGain = partId === "terra_primary_structure" ? 1 : partId === "terra_genre_object" ? .72 : .36;
-      const phase = frame.phase * program.cycles + index * .61;
+      const role = centralMotionRole(partId);
+      const roleGain = role.gain;
+      const phase = frame.phase * program.cycles + index * .61 - role.delay;
       const pulse = (Math.sin(phase) + 1) * .5;
       const beat = Math.pow((Math.sin(phase * 2) + 1) * .5, 2.2);
-      const strength = roleGain * program.amplitude * (frame.force * (.075 + beat * .045) + frame.surge * (.42 + Number(profile.force || 1) * .34));
-      return { program, profile, roleGain, phase, pulse, beat, strength, pivotX: program.pivot[0], pivotY: program.pivot[1] };
+      const strength = roleGain * program.amplitude * (frame.force * (.05 + beat * .035) + frame.surge * (.5 + Number(profile.force || 1) * .4));
+      return { program, profile, roleGain, roleDirection: role.direction, phase, pulse, beat, strength, pivotX: program.pivot[0], pivotY: program.pivot[1] };
     }
     function legacyCentralMotionAccent(frame, motionProfile, partId, index) {
       const profile = motionProfile || terraFallbackMotionProfile;
-      const roleGain = partId === "terra_primary_structure" ? 1 : partId === "terra_genre_object" ? .76 : .46;
-      const phase = frame.phase + index * .47;
+      const role = centralMotionRole(partId);
+      const roleGain = role.gain;
+      const phase = frame.phase + index * .47 - role.delay;
       const beat = Math.pow((Math.sin(phase * 2) + 1) / 2, 2.1);
       const intensity = roleGain * frame.surge * (.13 + Number(profile.force || 1) * .11 + beat * .035);
       return {
-        x: Math.cos(phase) * intensity * (54 + frame.brightness * 42),
-        y: Math.sin(phase * 2) * intensity * (62 + frame.bass * 50),
+        x: role.direction * Math.cos(phase) * intensity * (54 + frame.brightness * 42),
+        y: role.direction * Math.sin(phase * 2) * intensity * (62 + frame.bass * 50),
         scaleX: 1 + intensity * (1.16 + Math.sin(phase) * .34),
         scaleY: 1 + intensity * (1.08 + Math.cos(phase * 2) * .36),
         rotation: Math.sin(phase * 2) * intensity * 22,
@@ -16234,6 +16290,8 @@
       else if (mode === "thread-twist") { rotation = Math.sin(phase * 2) * strength * 7; scaleX += strength * .08; scaleY += strength * .15; }
       else if (mode === "clave-loop") { x = Math.cos(phase) * strength * 94; y = Math.sin(phase) * strength * 62; rotation = Math.sin(phase * 2) * strength * 9; }
       else if (mode === "compass-route") { x = Math.cos(phase) * strength * 76; y = Math.sin(phase) * strength * 76; rotation = phase * strength * 8; }
+      x *= state.roleDirection;
+      y *= state.roleDirection;
       // The tiny signature component makes equally calm programs serialize
       // distinctly; their meaningful difference remains in element and point fields.
       rotation += (Math.abs(hashString(mode)) % 37 + 1) * strength * .018;
@@ -16273,8 +16331,11 @@
       const program = centralMotionProgramForProfile(profile);
       if (program.mode === "fallback-pulse") return null;
       const state = centralMotionState(frame, profile, partId, elementIndex + pointIndex * .19);
-      const a = state.phase + hashString(`${kind}|${pointIndex}`) * .011;
-      const amount = state.strength * (7 + frame.onset * 15 + frame.surge * 46);
+      const band = clamp01(frame.bands?.[pointIndex % 8] ?? frame.energy);
+      const pitchDirection = Number(frame.chromaAngle || 0);
+      const a = state.phase + pitchDirection + hashString(`${kind}|${pointIndex}`) * .011;
+      const onsetKick = Math.pow(clamp01(frame.onset), 1.35) * (pointIndex % 2 ? -1 : 1);
+      const amount = state.strength * (8 + frame.bass * 18 + frame.onset * 22 + frame.surge * (38 + band * 28));
       const radial = 1 + (pointIndex % 4) * .18;
       let x = 0, y = 0;
       if (program.mode === "dissolve-breath") { x = Math.cos(a * 2) * amount * .9; y = Math.sin(a * 3) * amount * .42; }
@@ -16290,6 +16351,9 @@
       else if (["blue-bend", "thread-twist", "vessel-answer", "echo-lag"].includes(program.mode)) { x = Math.sin(a * 2) * amount * .48; y = Math.cos(a) * amount * .58; }
       else if (program.mode === "window-parallax") { x = (pointIndex % 4 - 1.5) * amount * .64; y = Math.sin(a) * amount * .18; }
       else { x = Math.sin(a) * amount * .18; y = Math.cos(a * 2) * amount * .12; }
+      x += Math.cos(pitchDirection + pointIndex * .61) * amount * onsetKick * .22;
+      y += (frame.bass - .5) * amount * (.16 + (pointIndex % 3) * .07)
+        + Math.sin(a * (2 + pointIndex % 2)) * amount * frame.brightness * .12;
       return { x, y };
     }
     function patternMotionTransformForPart(frame, partId, index = 0, motionProfile = null) {
@@ -16309,7 +16373,8 @@
     }
     const svgPathCommandSizes = { M: 2, L: 2, H: 1, V: 1, C: 6, S: 4, Q: 4, T: 2, A: 7, Z: 0 };
     function vectorPrimitivePathData(tagName, readAttribute) {
-      const value = name => Number(readAttribute(name) || 0);
+      const raw = name => String(readAttribute(name) || "");
+      const value = name => Number(raw(name) || 0);
       const type = String(tagName || "").toLowerCase();
       if (type === "rect") {
         const x = value("x");
@@ -16326,17 +16391,25 @@
         const k = .55228475;
         return `M${svgFineNumber(cx + rx)} ${svgFineNumber(cy)} C${svgFineNumber(cx + rx)} ${svgFineNumber(cy + ry * k)} ${svgFineNumber(cx + rx * k)} ${svgFineNumber(cy + ry)} ${svgFineNumber(cx)} ${svgFineNumber(cy + ry)} C${svgFineNumber(cx - rx * k)} ${svgFineNumber(cy + ry)} ${svgFineNumber(cx - rx)} ${svgFineNumber(cy + ry * k)} ${svgFineNumber(cx - rx)} ${svgFineNumber(cy)} C${svgFineNumber(cx - rx)} ${svgFineNumber(cy - ry * k)} ${svgFineNumber(cx - rx * k)} ${svgFineNumber(cy - ry)} ${svgFineNumber(cx)} ${svgFineNumber(cy - ry)} C${svgFineNumber(cx + rx * k)} ${svgFineNumber(cy - ry)} ${svgFineNumber(cx + rx)} ${svgFineNumber(cy - ry * k)} ${svgFineNumber(cx + rx)} ${svgFineNumber(cy)} Z`;
       }
+      if (type === "line") return `M${svgFineNumber(value("x1"))} ${svgFineNumber(value("y1"))} L${svgFineNumber(value("x2"))} ${svgFineNumber(value("y2"))}`;
+      if (type === "polygon" || type === "polyline") {
+        const values = raw("points").match(/[-+]?(?:\d*\.\d+|\d+\.?)(?:[eE][-+]?\d+)?/g)?.map(Number) || [];
+        if (values.length < 4 || values.length % 2) return "";
+        const points = [];
+        for (let index = 0; index < values.length; index += 2) points.push(`${svgFineNumber(values[index])} ${svgFineNumber(values[index + 1])}`);
+        return `M${points.join(" L")}${type === "polygon" ? " Z" : ""}`;
+      }
       return "";
     }
     function normaliseVisiblePrimitiveToPath(element) {
       const tagName = element?.tagName?.toLowerCase();
       if (!element || tagName === "path") return element;
-      if (!/^(rect|circle|ellipse)$/.test(tagName)) return element;
+      if (!/^(rect|circle|ellipse|polygon|polyline|line)$/.test(tagName)) return element;
       const pathData = vectorPrimitivePathData(tagName, name => element.getAttribute(name));
       if (!pathData) return element;
       const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
       Array.from(element.attributes).forEach(attribute => {
-        if (/^(x|y|width|height|rx|ry|cx|cy|r)$/.test(attribute.name)) return;
+        if (/^(x|y|width|height|rx|ry|cx|cy|r|x1|y1|x2|y2|points)$/.test(attribute.name)) return;
         path.setAttribute(attribute.name, attribute.value);
       });
       path.setAttribute("d", pathData);
@@ -16362,39 +16435,68 @@
     }
     function deformVisiblePathData(pathData, frame, parentId, elementIndex = 0, motionProfile = null, motionKind = "") {
       const source = String(pathData || "").trim();
-      if (!source || /[a-z]/.test(source.replace(/[eE][-+]?\d+/g, ""))) return source;
+      if (!source) return source;
       const tokens = source.match(/[A-Za-z]|[-+]?(?:\d*\.\d+|\d+\.?)(?:[eE][-+]?\d+)?/g) || [];
       const output = [];
       let cursor = 0;
       let command = "";
+      let moveIsFirst = false;
       let pointIndex = 0;
+      let currentX = 0, currentY = 0, subpathX = 0, subpathY = 0;
+      const movedPoint = (x, y) => {
+        const offset = patternPathPointOffset(frame, parentId, elementIndex, pointIndex++, motionProfile, motionKind);
+        return [svgFineNumber(x + offset.x), svgFineNumber(y + offset.y)];
+      };
       while (cursor < tokens.length) {
-        if (/^[A-Za-z]$/.test(tokens[cursor])) command = tokens[cursor++];
+        if (/^[A-Za-z]$/.test(tokens[cursor])) {
+          command = tokens[cursor++];
+          moveIsFirst = command.toUpperCase() === "M";
+        }
         const upper = command.toUpperCase();
         const size = svgPathCommandSizes[upper];
         if (!command || size === undefined) return source;
-        output.push(command);
-        if (size === 0) continue;
-        let first = true;
-        while (cursor < tokens.length && !/^[A-Za-z]$/.test(tokens[cursor])) {
-          if (cursor + size > tokens.length) return source;
-          const values = tokens.slice(cursor, cursor + size).map(Number);
-          if (values.some(value => !Number.isFinite(value))) return source;
-          const movePair = (xIndex, yIndex) => {
-            const offset = patternPathPointOffset(frame, parentId, elementIndex, pointIndex++, motionProfile, motionKind);
-            values[xIndex] = svgFineNumber(values[xIndex] + offset.x);
-            values[yIndex] = svgFineNumber(values[yIndex] + offset.y);
-          };
-          if (upper === "M" || upper === "L" || upper === "T") movePair(0, 1);
-          else if (upper === "C") { movePair(0, 1); movePair(2, 3); movePair(4, 5); }
-          else if (upper === "S" || upper === "Q") { movePair(0, 1); movePair(2, 3); }
-          else if (upper === "H") values[0] = svgFineNumber(values[0] + patternPathPointOffset(frame, parentId, elementIndex, pointIndex++, motionProfile, motionKind).x);
-          else if (upper === "V") values[0] = svgFineNumber(values[0] + patternPathPointOffset(frame, parentId, elementIndex, pointIndex++, motionProfile, motionKind).y);
-          else if (upper === "A") movePair(5, 6);
-          output.push(values.map(value => svgFineNumber(value)).join(" "));
-          cursor += size;
-          if (upper === "M" && first) command = command === "M" ? "L" : "l";
-          first = false;
+        if (upper === "Z") {
+          output.push("Z");
+          currentX = subpathX;
+          currentY = subpathY;
+          command = "";
+          continue;
+        }
+        if (cursor + size > tokens.length || /^[A-Za-z]$/.test(tokens[cursor])) return source;
+        const values = tokens.slice(cursor, cursor + size).map(Number);
+        if (values.some(value => !Number.isFinite(value))) return source;
+        cursor += size;
+        const relative = command === command.toLowerCase();
+        const absolutePair = (xIndex, yIndex) => [
+          values[xIndex] + (relative ? currentX : 0),
+          values[yIndex] + (relative ? currentY : 0)
+        ];
+        if (upper === "M" || upper === "L" || upper === "T") {
+          const [x, y] = absolutePair(0, 1);
+          const moved = movedPoint(x, y);
+          output.push(`${upper === "M" ? (moveIsFirst ? "M" : "L") : upper} ${moved[0]} ${moved[1]}`);
+          currentX = x; currentY = y;
+          if (upper === "M" && moveIsFirst) { subpathX = x; subpathY = y; moveIsFirst = false; }
+        } else if (upper === "H" || upper === "V") {
+          const x = upper === "H" ? values[0] + (relative ? currentX : 0) : currentX;
+          const y = upper === "V" ? values[0] + (relative ? currentY : 0) : currentY;
+          const moved = movedPoint(x, y);
+          output.push(`L ${moved[0]} ${moved[1]}`);
+          currentX = x; currentY = y;
+        } else if (upper === "C") {
+          const p1 = absolutePair(0, 1), p2 = absolutePair(2, 3), end = absolutePair(4, 5);
+          const m1 = movedPoint(...p1), m2 = movedPoint(...p2), m3 = movedPoint(...end);
+          output.push(`C ${m1[0]} ${m1[1]} ${m2[0]} ${m2[1]} ${m3[0]} ${m3[1]}`);
+          currentX = end[0]; currentY = end[1];
+        } else if (upper === "S" || upper === "Q") {
+          const p1 = absolutePair(0, 1), end = absolutePair(2, 3);
+          const m1 = movedPoint(...p1), m2 = movedPoint(...end);
+          output.push(`${upper} ${m1[0]} ${m1[1]} ${m2[0]} ${m2[1]}`);
+          currentX = end[0]; currentY = end[1];
+        } else if (upper === "A") {
+          const end = absolutePair(5, 6), moved = movedPoint(...end);
+          output.push(`A ${svgFineNumber(values[0])} ${svgFineNumber(values[1])} ${svgFineNumber(values[2])} ${values[3] ? 1 : 0} ${values[4] ? 1 : 0} ${moved[0]} ${moved[1]}`);
+          currentX = end[0]; currentY = end[1];
         }
       }
       return output.join(" ");
@@ -16481,8 +16583,10 @@
         part.dataset.patternMotionBaseTransform = baseTransform;
         part.setAttribute("transform", joinSvgTransforms(baseTransform, reducedPlaybackMotion && part.id !== "terra_grain_field" ? "" : patternMotionTransformForPart(frame, part.id, index, partMotionProfile)));
         if (part.id === "terra_grain_field") return;
-        Array.from(part.children).forEach((sourceElement, elementIndex) => {
-          const element = sourceElement.hasAttribute("data-terra-kind") ? normaliseVisiblePrimitiveToPath(sourceElement) : sourceElement;
+        const visibleElements = Array.from(part.querySelectorAll("path, rect, circle, ellipse, polygon, polyline, line"));
+        visibleElements.forEach((sourceElement, elementIndex) => {
+          if (!sourceElement.hasAttribute("data-terra-kind")) return;
+          const element = normaliseVisiblePrimitiveToPath(sourceElement);
           const elementBaseTransform = element.dataset.patternMotionBaseTransform ?? element.getAttribute("transform") ?? "";
           element.dataset.patternMotionBaseTransform = elementBaseTransform;
           const motionKind = element.getAttribute("data-terra-kind") || "";
@@ -16490,7 +16594,9 @@
           if (element.tagName?.toLowerCase() === "path" && element.hasAttribute("data-terra-kind")) {
             const basePathData = element.dataset.patternMotionBasePath ?? element.getAttribute("d") ?? "";
             element.dataset.patternMotionBasePath = basePathData;
-            element.setAttribute("d", reducedPlaybackMotion ? basePathData : deformVisiblePathData(basePathData, frame, part.id, elementIndex, partMotionProfile, motionKind));
+            const artistMasterPath = motionKind.startsWith("artist-master-");
+            const coordinateMotion = !artistMasterPath || element.hasAttribute("data-coordinate-motion");
+            element.setAttribute("d", reducedPlaybackMotion || !coordinateMotion ? basePathData : deformVisiblePathData(basePathData, frame, part.id, elementIndex, partMotionProfile, motionKind));
           }
         });
       });
@@ -16570,7 +16676,7 @@
         return `<g${staticAttrs} transform="${escapeAttr(transform)}" data-motion-frame="static">`;
       }), source);
       let elementIndex = 0;
-      return withPartFrames.replace(/<(path|rect|circle|ellipse)\b([^>]*\bdata-terra-kind=(["'])[^"']*\3[^>]*)\/>/g, (_, tagName, attrs) => {
+      return withPartFrames.replace(/<(path|rect|circle|ellipse|polygon|polyline|line)\b([^>]*\bdata-terra-kind=(["'])[^"']*\3[^>]*)\/>/g, (_, tagName, attrs) => {
         const tag = `<${tagName}${attrs}/>`;
         const feature = svgAttr(tag, "data-feature");
         const parentId = feature === "terra-primary" ? "terra_primary_structure"
@@ -16585,10 +16691,11 @@
         const basePathData = tagName === "path"
           ? svgAttr(tag, "d")
           : vectorPrimitivePathData(tagName, name => svgAttr(tag, name));
-        const pathData = deformVisiblePathData(basePathData, frame, parentId, elementIndex - 1, elementMotionProfile, motionKind);
+        const coordinateMotion = !motionKind.startsWith("artist-master-") || /\bdata-coordinate-motion=/.test(attrs);
+        const pathData = coordinateMotion ? deformVisiblePathData(basePathData, frame, parentId, elementIndex - 1, elementMotionProfile, motionKind) : basePathData;
         const staticAttrs = attrs
           .replace(/\sd=(["'])[^"']*\1/g, "")
-          .replace(/\s(?:x|y|width|height|rx|ry|cx|cy|r)=(["'])[^"']*\1/g, "")
+          .replace(/\s(?:x|y|width|height|rx|ry|cx|cy|r|x1|y1|x2|y2|points)=(["'])[^"']*\1/g, "")
           .replace(/\stransform=(["'])[^"']*\1/g, "")
           .replace(/\sdata-pattern-motion-base-transform=(["'])[^"']*\1/g, "")
           .replace(/\sdata-motion-frame=(["'])[^"']*\1/g, "");
@@ -17853,7 +17960,9 @@
         const terraArt = String(shirt.art || "").includes('data-engine-family="terra-5.6"');
         const needsPeripheralMigration = terraArt && !String(shirt.art || "").includes('data-peripheral-geometry="suppressed-v1"');
         const needsFusionMigration = terraArt && !String(shirt.art || "").includes('data-genre-fusion="structural-splice-v2"');
-        if (genreUpdated || needsPeripheralMigration || needsFusionMigration) {
+        const needsArtistMasterStyleMigration = terraArt && !String(shirt.art || "").includes('data-artist-master-style="inline-presentation-v1"');
+        const needsArtistMasterMotionMigration = terraArt && !String(shirt.art || "").includes('data-artist-master-motion="audio-coordinate-v1"');
+        if (genreUpdated || needsPeripheralMigration || needsFusionMigration || needsArtistMasterStyleMigration || needsArtistMasterMotionMigration) {
           const tick = Number(shirt.variantSeed || Date.now());
           const mood = {
             id: shirt.moodId || `reversible-${hashString(shirt.title || tick)}`,
@@ -17867,7 +17976,11 @@
             audio: shirt.audioFeatures,
             variantSalt: Number(shirt.variantSeed || 0)
           };
-          shirt.art = injectPcmGeometryIntoSvg(generateReversibleAudioPatternSvg(mood, tick, null), shirt.audioFeatures?.detail || {});
+          const regeneratedArt = generateReversibleAudioPatternSvg(mood, tick, null);
+          const previousProtectedPcm = String(shirt.art || "").match(/<g\b[^>]*id=["']pcm_reversible_data["'][^>]*>[\s\S]*?<\/g>/)?.[0] || "";
+          shirt.art = /<line\b|<path\b|<circle\b/.test(previousProtectedPcm)
+            ? preserveProtectedPcmGeometry(shirt.art, regeneratedArt)
+            : injectPcmGeometryIntoSvg(regeneratedArt, shirt.audioFeatures?.detail || {});
           if (genreUpdated) {
             const genreText = genreRankedText(shirt.audioFeatures.genreAnalysis, 3);
             shirt.externalNote = `song-specific / seed ${tick.toString(36)} / genre ${genreText}`;

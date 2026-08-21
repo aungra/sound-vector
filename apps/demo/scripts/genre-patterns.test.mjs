@@ -10,6 +10,7 @@ const DEMO_DIR = path.resolve(SCRIPT_DIR, "..");
 const HTML_PATH = path.join(DEMO_DIR, "MUSIC MEMORY FITTING ROOM.html");
 const PUBLIC_HTACCESS_PATH = path.resolve(DEMO_DIR, "../../deploy/aun-graphic-sound-form/.htaccess");
 const PUBLIC_AUDIO_PROXY_PATH = path.resolve(DEMO_DIR, "../../deploy/aun-graphic-sound-form/api/audio-analyze.php");
+const ARTIST_MASTER_PATH = path.join(DEMO_DIR, "artist-master-patterns.js");
 const DELAUNAY_VENDOR_PATH = path.join(DEMO_DIR, "vendor", "d3-delaunay.min.js");
 const JAPANESE_FONT_FILES = [
   "NotoSansJP-Regular.woff2",
@@ -35,12 +36,12 @@ const knownAerosolArchetypes = new Set([
   "vertical-plume"
 ]);
 
-export function loadPatternApi() {
+export function loadPatternApi({ artistMasters = false } = {}) {
   const html = fs.readFileSync(HTML_PATH, "utf8");
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]);
   const appScript = scripts.at(-1).replace(
     /cleanupStoredSessions\(\);\s*(?:restoreLatestAcceptedSession\(\);\s*)?render\(\);\s*loadCalibratedGenreProfiles\(\);(?:\s*await loadSharedGenreFeedbackModel\(\);)?\s*$/,
-    "globalThis.__patternApi={state,GENRE_INFERENCE_REVISION,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,applyHighTempoRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,bassLedAlternativeDanceRockEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,slowMelodicRockConsensusEvidence,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreAdjustmentFeatureSignature,normaliseGenreAdjustmentLearningRecords,applyGenreAdjustmentLearning,genreVisualWeight,genreDisplayText,inferMusicGenres,storedGenreEvidenceRequiresRichReanalysis,refreshReversibleSoundClothShirt};"
+    "globalThis.__patternApi={state,GENRE_INFERENCE_REVISION,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,prepareArtistMasterMotionMarkup,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,applyHighTempoRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,bassLedAlternativeDanceRockEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,slowMelodicRockConsensusEvidence,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreAdjustmentFeatureSignature,normaliseGenreAdjustmentLearningRecords,applyGenreAdjustmentLearning,genreVisualWeight,genreDisplayText,inferMusicGenres,storedGenreEvidenceRequiresRichReanalysis,refreshReversibleSoundClothShirt};"
   );
   const context = {
     console,
@@ -68,6 +69,7 @@ export function loadPatternApi() {
   context.globalThis = context;
   vm.createContext(context);
   vm.runInContext(fs.readFileSync(DELAUNAY_VENDOR_PATH, "utf8"), context);
+  if (artistMasters) vm.runInContext(fs.readFileSync(ARTIST_MASTER_PATH, "utf8"), context);
   vm.runInContext(appScript, context);
   return context.__patternApi;
 }
@@ -715,6 +717,38 @@ test("reconstructed PCM drives the animation force timeline without replacing it
   assert.ok(reactive.surge > normal.surge);
 });
 
+test("motion envelope separates quiet passages from strong attacks by role while PCM stays static", () => {
+  const {
+    patternMotionFrameForShirt,
+    centralMotionAccent,
+    terraMotionProfileForEngine,
+    patternMotionTransformForPart
+  } = loadPatternApi();
+  const shirt = { audioFeatures: { energy: .5, bass: .5, onset: .5, brightness: .6, chroma: Array(12).fill(0) } };
+  const quiet = patternMotionFrameForShirt(shirt, Math.PI / 4, {
+    blend: 1, energy: .05, bass: .05, onset: .04, brightness: .4, chroma: Array(12).fill(0)
+  });
+  const attack = patternMotionFrameForShirt(shirt, Math.PI / 4, {
+    blend: 1, energy: .98, bass: .96, onset: .99, brightness: .8, chroma: Array(12).fill(0)
+  });
+  const profile = terraMotionProfileForEngine("terra-anime-transformation-v1");
+  const displacement = accent => Math.abs(accent.x) + Math.abs(accent.y)
+    + (Math.abs(accent.scaleX - 1) + Math.abs(accent.scaleY - 1)) * 300
+    + Math.abs(accent.rotation) * 5;
+  const quietPrimary = centralMotionAccent(quiet, profile, "terra_primary_structure");
+  const attackPrimary = centralMotionAccent(attack, profile, "terra_primary_structure");
+  const attackObject = centralMotionAccent(attack, profile, "terra_genre_object");
+  const attackBlend1 = centralMotionAccent(attack, profile, "terra_genre_blend_1");
+  const attackBlend3 = centralMotionAccent(attack, profile, "terra_genre_blend_3");
+
+  assert.ok(attack.surge > quiet.surge * 12, `expected attack surge contrast, got ${attack.surge / quiet.surge}`);
+  assert.ok(displacement(attackPrimary) > displacement(quietPrimary) * 8);
+  assert.ok(displacement(attackPrimary) > displacement(attackObject));
+  assert.ok(displacement(attackObject) > displacement(attackBlend1));
+  assert.ok(displacement(attackBlend1) > displacement(attackBlend3));
+  assert.equal(patternMotionTransformForPart(attack, "pcm_reversible_data", 0, profile), "");
+});
+
 test("visible vector paths deform at their own points and complete a closed loop", () => {
   const { patternMotionFrameForShirt, deformVisiblePathData } = loadPatternApi();
   const shirt = { audioFeatures: { energy: .72, bass: .66, onset: .74, brightness: .55, chroma: Array(12).fill(.3) } };
@@ -725,7 +759,11 @@ test("visible vector paths deform at their own points and complete a closed loop
   assert.notEqual(start, original);
   assert.equal(start, end);
   assert.match(start, /^M\s*[-\d.]+\s+[-\d.]+\s+C\s*[-\d.]+\s+[-\d.]+/);
-  assert.equal(deformVisiblePathData("m10 10 l20 0", patternMotionFrameForShirt(shirt, 0), "terra_primary_structure", 0), "m10 10 l20 0");
+  const relativeStart = deformVisiblePathData("m10 10 l20 0", patternMotionFrameForShirt(shirt, 0), "terra_primary_structure", 0);
+  const relativeEnd = deformVisiblePathData("m10 10 l20 0", patternMotionFrameForShirt(shirt, Math.PI * 2), "terra_primary_structure", 0);
+  assert.notEqual(relativeStart, "m10 10 l20 0");
+  assert.match(relativeStart, /^M\s*[-\d.]+\s+[-\d.]+\s+L\s*[-\d.]+\s+[-\d.]+/);
+  assert.equal(relativeStart, relativeEnd);
 });
 
 test("rectangles, circles, and ellipses are converted to deformable visible paths", () => {
@@ -744,6 +782,75 @@ test("rectangles, circles, and ellipses are converted to deformable visible path
   const exported = bakePatternMotionFrame(`<svg><g id="sound_form_surface"><g id="terra_primary_structure"><rect x="100" y="200" width="80" height="40" data-feature="terra-primary" data-terra-kind="moving-rect"/></g></g></svg>`, shirt);
   assert.match(exported, /<path[^>]*data-terra-kind="moving-rect"[^>]*d="M [^"]+"/);
   assert.doesNotMatch(exported, /<rect\b[^>]*moving-rect/);
+});
+
+test("Illustrator masters distribute audio-coordinate motion across nested path primitives", () => {
+  const { prepareArtistMasterMotionMarkup, vectorPrimitivePathData } = loadPatternApi();
+  const source = `<g><g><path d="M10 10c20 0 30 30 50 20" fill="none"/><polygon points="100 100 180 100 140 170"/><line x1="220" y1="100" x2="280" y2="170"/></g></g>`;
+  const prepared = prepareArtistMasterMotionMarkup(source, "terra-jazz-cymbal-v1");
+
+  assert.equal((prepared.match(/data-terra-kind="artist-master-/g) || []).length, 3);
+  assert.equal((prepared.match(/data-coordinate-motion="audio-path-v1"/g) || []).length, 3);
+  assert.equal((prepared.match(/data-motion-engine="terra-jazz-cymbal-v1"/g) || []).length, 3);
+  assert.match(vectorPrimitivePathData("polygon", name => name === "points" ? "100 100 180 100 140 170" : ""), /^M100 100 L180 100 L140 170 Z$/);
+  assert.equal(vectorPrimitivePathData("line", name => ({ x1: "220", y1: "100", x2: "280", y2: "170" })[name]), "M220 100 L280 170");
+});
+
+test("production artist-master output changes path coordinates from audio without touching protected PCM", () => {
+  const {
+    generateSoundClothReversibleSvg,
+    patternMotionFrameForShirt,
+    deformVisiblePathData,
+    terraGenreEngines,
+    terraMotionProfileForEngine,
+    patternMotionTransformForPart
+  } = loadPatternApi({ artistMasters: true });
+  const audio = {
+    inferredGenre: "パンク",
+    genreAnalysis: { top: [{ name: "パンク", score: 96 }, { name: "ソウルミュージック", score: 24 }] },
+    energy: .78, rms: .78, bass: .58, onset: .9, rhythm: .84, brightness: .72, tempo: 174, centroid: 3600,
+    chroma: [1, .2, .1, 0, 0, 0, 0, 0, 0, 0, 0, .2],
+    detail: { waveform: Array.from({ length: 128 }, (_, index) => Math.sin(index * .37) * .74) }
+  };
+  const mood = { id: "artist-coordinate-motion", label: "artist coordinate motion", audioFileName: "punk.wav", audio };
+  const svg = generateSoundClothReversibleSvg(mood, 1800002200000);
+  const movingTags = Array.from(svg.matchAll(/<(?:path|rect|circle|ellipse|polygon|polyline|line)\b[^>]*\bdata-coordinate-motion="audio-path-v1"[^>]*\/>/g), match => match[0]);
+  const pathTag = movingTags.find(tag => /^<path\b/.test(tag) && /\bd="[^"]+"/.test(tag));
+  const original = (pathTag?.match(/\bd="([^"]+)"/) || [])[1] || "";
+  const motionKind = (pathTag?.match(/\bdata-terra-kind="([^"]+)"/) || [])[1] || "";
+  const engineId = (svg.match(/\bdata-engine="([^"]+)"/) || [])[1];
+  const profile = terraMotionProfileForEngine(engineId);
+  const shirt = { art: svg, audioFeatures: audio };
+  const loud = patternMotionFrameForShirt(shirt, .45, {
+    blend: 1, energy: .94, bass: .82, onset: .98, brightness: .76,
+    chroma: audio.chroma, bands: [.92, .86, .78, .7, .62, .56, .5, .46]
+  });
+  const quiet = patternMotionFrameForShirt(shirt, 1.3, {
+    blend: 1, energy: .28, bass: .24, onset: .12, brightness: .48,
+    chroma: [.1, .1, .2, .7, .2, 0, 0, 0, 0, 0, 0, 0], bands: [.2, .24, .3, .36, .42, .48, .54, .6]
+  });
+  const loudPath = deformVisiblePathData(original, loud, "terra_primary_structure", 0, profile, motionKind);
+  const quietPath = deformVisiblePathData(original, quiet, "terra_primary_structure", 0, profile, motionKind);
+
+  assert.match(svg, /data-artist-master-revision="illustrator-v2"/);
+  assert.match(svg, /data-artist-master-motion="audio-coordinate-v1"/);
+  assert.ok(movingTags.length >= 8 && movingTags.length <= 36, `coordinate motion count ${movingTags.length}`);
+  assert.ok(original.length > 0);
+  assert.notEqual(loudPath, original);
+  assert.notEqual(loudPath, quietPath);
+  assert.equal(patternMotionTransformForPart(loud, "pcm_reversible_data", 0, profile), "");
+
+  for (const [genreIndex, genreName] of Object.keys(terraGenreEngines).entries()) {
+    const genreAudio = { ...audio, inferredGenre: genreName, genreAnalysis: { top: [{ name: genreName, score: 99 }] } };
+    const genreSvg = generateSoundClothReversibleSvg({
+      id: `artist-coordinate-${genreIndex}`,
+      label: genreName,
+      audioFileName: `${genreName}.wav`,
+      audio: genreAudio
+    }, 1800002300000 + genreIndex);
+    const movingCount = (genreSvg.match(/data-coordinate-motion="audio-path-v1"/g) || []).length;
+    assert.ok(movingCount > 0 && movingCount <= 36, `${genreName} coordinate motion count ${movingCount}`);
+  }
 });
 
 test("semantic logo textures for trap, rock, and punk preserve PCM bytes", () => {
