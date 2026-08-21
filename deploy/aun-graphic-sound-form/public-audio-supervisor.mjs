@@ -101,7 +101,9 @@ function spawnAnalysisServer() {
     MMFR_PUBLIC_MODE: "1",
     MMFR_ALLOWED_ORIGINS: "https://aun-graphic.jp,https://www.aun-graphic.jp",
     MMFR_PUBLIC_MAX_CONCURRENT: "1",
-    MMFR_PUBLIC_RATE_LIMIT: "4",
+    // Sakura serializes public requests, so this guards abuse without treating
+    // ordinary exhibition retests as one shared four-request visitor.
+    MMFR_PUBLIC_RATE_LIMIT: "24",
     MMFR_PUBLIC_RATE_WINDOW_MS: "600000",
     // Three 30-second sections give the genre consensus enough musical context.
     MMFR_ANALYSIS_SECONDS: "90",

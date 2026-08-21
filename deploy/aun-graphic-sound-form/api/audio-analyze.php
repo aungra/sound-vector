@@ -167,7 +167,22 @@ function localResponseNeedsRichAnalysis(string $response, int $status): bool
             $topScore = max($topScore, (float) $candidate['score']);
         }
     }
-    return $topScore < LOCAL_CONFIDENCE_FLOOR;
+    $features = is_array($decoded['features'] ?? null) ? $decoded['features'] : [];
+    $prediction = is_array($features['embeddingGenrePrediction'] ?? null)
+        ? $features['embeddingGenrePrediction']
+        : [];
+    $segments = is_array($prediction['segmentConsensus'] ?? null)
+        ? $prediction['segmentConsensus']
+        : [];
+    $vocalEvidence = is_array($features['japaneseVocalEvidence'] ?? null)
+        ? $features['japaneseVocalEvidence']
+        : [];
+    $externalTop = $prediction['unknownSourceConsensus']['top'] ?? null;
+    $missingRichAnalyzers = ($vocalEvidence['available'] ?? false) !== true
+        && (!is_array($externalTop) || $externalTop === []);
+    $segmentConflict = ($segments['available'] ?? false) === true
+        && (float) ($segments['voteShare'] ?? 0) < 0.67;
+    return $topScore < LOCAL_CONFIDENCE_FLOOR || ($missingRichAnalyzers && $segmentConflict);
 }
 
 function successfulAnalysisPayload(string $response, int $status): ?array
@@ -225,6 +240,7 @@ $localLock = acquireLocalLock();
 $localWorker = startLocalWorker();
 $fallbackResponse = false;
 $fallbackStatus = 0;
+$degradedLocalResponse = false;
 $selectedResponse = false;
 $selectedStatus = 0;
 foreach (upstreamEndpoints() as $endpoint) {
@@ -255,6 +271,9 @@ foreach (upstreamEndpoints() as $endpoint) {
     }
     $successful = successfulAnalysisPayload((string) $response, $status) !== null;
     $shouldTryRichAnalysis = $isLocal && localResponseNeedsRichAnalysis((string) $response, $status);
+    if ($successful && $shouldTryRichAnalysis) {
+        $degradedLocalResponse = $response;
+    }
     if ($successful && !$shouldTryRichAnalysis) {
         $selectedResponse = $response;
         $selectedStatus = $status;
@@ -272,6 +291,14 @@ if ($selectedResponse !== false) {
     http_response_code($selectedStatus);
     echo $selectedResponse;
     exit;
+}
+
+if ($degradedLocalResponse !== false) {
+    respond(503, [
+        'ok' => false,
+        'code' => 'RICH_ANALYSIS_REQUIRED',
+        'error' => '高精度解析サービスが混雑または再接続中です。簡易解析の低信頼結果は表示せず、しばらく待って再試行します。',
+    ]);
 }
 
 if ($fallbackResponse !== false) {

@@ -9,13 +9,13 @@ if ($functionStart === false || $requestStart === false || $functionStart >= $re
 }
 eval(substr($source, 6, $requestStart - 6));
 
-function payload(array $top, bool $ok = true): string
+function payload(array $top, bool $ok = true, array $features = []): string
 {
     return (string) json_encode([
         'ok' => $ok,
-        'features' => [
+        'features' => array_replace_recursive([
             'embeddingGenrePrediction' => ['top' => $top],
-        ],
+        ], $features),
     ]);
 }
 
@@ -28,6 +28,26 @@ $cases = [
     ['server error', payload([['label' => 'ロック', 'score' => 80]]), 503, true],
     ['adequate local result', payload([['label' => 'ロック', 'score' => 12]]), 200, false],
     ['strong local result', payload([['label' => 'ロック', 'score' => 80]]), 200, false],
+    ['strong but degraded conflict', payload(
+        [['label' => 'チップチューン', 'score' => 80]],
+        true,
+        [
+            'japaneseVocalEvidence' => ['available' => false],
+            'embeddingGenrePrediction' => [
+                'segmentConsensus' => ['available' => true, 'voteShare' => 0.333],
+            ],
+        ]
+    ), 200, true],
+    ['strong stable local result', payload(
+        [['label' => 'ロック', 'score' => 80]],
+        true,
+        [
+            'japaneseVocalEvidence' => ['available' => false],
+            'embeddingGenrePrediction' => [
+                'segmentConsensus' => ['available' => true, 'voteShare' => 1],
+            ],
+        ]
+    ), 200, false],
 ];
 
 foreach ($cases as [$name, $response, $status, $expected]) {
