@@ -118,7 +118,10 @@ test("public deployment reads a guarded API setting instead of visitor localhost
   assert.match(html, /const retryDelays = \[0, 2000, 4000, 8000, 12000, 16000\]/);
   assert.match(html, /http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/);
   assert.match(htaccess, /<Files "index\.html">[\s\S]*Cache-Control "no-cache, no-store, must-revalidate"/);
-  assert.match(audioProxy, /missingRichAnalyzers[\s\S]*segmentConflict/);
+  assert.match(audioProxy, /responseHasRichAnalysisParity[\s\S]*japaneseVocalEvidence[\s\S]*unknownSourceConsensus/);
+  assert.match(audioProxy, /\$endpoints\[\] = \$endpoint/);
+  assert.doesNotMatch(audioProxy, /LOCAL_UPSTREAM|MMFR_EMBEDDING_GENRE_ENABLED.*0/);
+  assert.match(audioProxy, /X-MMFR-Analysis-Tier: rich-parity/);
   assert.match(audioProxy, /RICH_ANALYSIS_REQUIRED/);
   assert.match(html, /attempt < retryDelays\.length/);
   assert.doesNotMatch(html, /aungraphic-musictee-audio-api\.hf\.space/);

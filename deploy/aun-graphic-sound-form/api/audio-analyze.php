@@ -3,18 +3,6 @@ declare(strict_types=1);
 
 const MAX_REQUEST_BYTES = 32768;
 const UPSTREAM_FILE = __DIR__ . '/upstream-url.txt';
-const LOCAL_UPSTREAM = 'http://127.0.0.1:4196/api/audio-analyze';
-const LOCAL_HEALTH = 'http://127.0.0.1:4196/health';
-const SERVICE_ROOT = '/home/aungraphic02/musictee-audio-service';
-const LOCAL_NODE = '/home/aungraphic02/bin/node';
-const LOCAL_SERVER = SERVICE_ROOT . '/apps/demo/scripts/audio-analysis-server.mjs';
-const LOCAL_MODEL = SERVICE_ROOT . '/genre-training/genre-model.json';
-const LOCAL_YTDLP = '/home/aungraphic02/bin/yt-dlp';
-const LOCAL_FFMPEG = '/home/aungraphic02/bin/ffmpeg';
-const LOCAL_COOKIE = '/home/aungraphic02/.config/musictee/youtube-cookies.txt';
-const LOCAL_LOCK = '/home/aungraphic02/.config/musictee/sakura-audio.lock';
-const LOCAL_LOG = '/home/aungraphic02/logs/musictee-sakura-audio.log';
-const LOCAL_CONFIDENCE_FLOOR = 12.0;
 
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
@@ -29,7 +17,7 @@ function respond(int $status, array $payload): never
 
 function upstreamEndpoints(): array
 {
-    $endpoints = [LOCAL_UPSTREAM];
+    $endpoints = [];
     $endpoint = is_readable(UPSTREAM_FILE) ? trim((string) file_get_contents(UPSTREAM_FILE)) : '';
     if (preg_match('#^https://[a-z0-9-]+\.trycloudflare\.com/api/audio-analyze$#D', $endpoint)) {
         $endpoints[] = $endpoint;
@@ -37,152 +25,32 @@ function upstreamEndpoints(): array
     return $endpoints;
 }
 
-function localServiceHealthy(): bool
-{
-    $curl = curl_init(LOCAL_HEALTH);
-    if ($curl === false) {
-        return false;
-    }
-    curl_setopt_array($curl, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_CONNECTTIMEOUT => 1,
-        CURLOPT_TIMEOUT => 2,
-        CURLOPT_PROTOCOLS => CURLPROTO_HTTP,
-    ]);
-    $response = curl_exec($curl);
-    $status = (int) curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
-    curl_close($curl);
-    return $response !== false && $status === 200;
-}
-
-function startLocalWorker()
-{
-    if (localServiceHealthy()) {
-        return null;
-    }
-    foreach ([LOCAL_NODE, LOCAL_SERVER, LOCAL_MODEL, LOCAL_YTDLP, LOCAL_FFMPEG] as $required) {
-        if (!is_readable($required)) {
-            return null;
-        }
-    }
-    $logDirectory = dirname(LOCAL_LOG);
-    if (!is_dir($logDirectory)) {
-        mkdir($logDirectory, 0700, true);
-    }
-    $environment = [
-        'HOME' => '/home/aungraphic02',
-        'PATH' => '/home/aungraphic02/bin:/usr/bin:/bin:/usr/local/bin',
-        'YT_DLP_PATH' => LOCAL_YTDLP,
-        'FFMPEG_PATH' => LOCAL_FFMPEG,
-        'MMFR_AUDIO_HOST' => '127.0.0.1',
-        'MMFR_AUDIO_PORT' => '4196',
-        'MMFR_PUBLIC_MODE' => '1',
-        'MMFR_ALLOWED_ORIGINS' => 'https://aun-graphic.jp,https://www.aun-graphic.jp',
-        'MMFR_ANALYSIS_SECONDS' => '90',
-        'MMFR_PUBLIC_MAX_CONCURRENT' => '1',
-        'MMFR_PUBLIC_RATE_LIMIT' => '8',
-        'MMFR_PUBLIC_RATE_WINDOW_MS' => '600000',
-        'MMFR_YOUTUBE_DEADLINE_MS' => '270000',
-        'MMFR_EMBEDDING_GENRE_ENABLED' => '0',
-        'MMFR_EMBEDDING_GENRE_LIVE_ENABLED' => '0',
-        'MMFR_LOCAL_GENRE_MODEL_PATH' => LOCAL_MODEL,
-    ];
-    if (is_readable(LOCAL_COOKIE)) {
-        $environment['MMFR_YTDLP_COOKIES_FILE'] = LOCAL_COOKIE;
-    }
-    $descriptors = [
-        0 => ['file', '/dev/null', 'r'],
-        1 => ['file', LOCAL_LOG, 'a'],
-        2 => ['file', LOCAL_LOG, 'a'],
-    ];
-    $process = proc_open(
-        [LOCAL_NODE, '--max-old-space-size=128', LOCAL_SERVER],
-        $descriptors,
-        $pipes,
-        SERVICE_ROOT,
-        $environment,
-        ['bypass_shell' => true]
-    );
-    if (!is_resource($process)) {
-        return null;
-    }
-    for ($attempt = 0; $attempt < 20; $attempt++) {
-        if (localServiceHealthy()) {
-            return $process;
-        }
-        usleep(250000);
-    }
-    proc_terminate($process);
-    proc_close($process);
-    return null;
-}
-
-function stopLocalWorker($process): void
-{
-    if (!is_resource($process)) {
-        return;
-    }
-    proc_terminate($process);
-    proc_close($process);
-}
-
-function acquireLocalLock()
-{
-    $directory = dirname(LOCAL_LOCK);
-    if (!is_dir($directory)) {
-        mkdir($directory, 0700, true);
-    }
-    $lock = fopen(LOCAL_LOCK, 'c');
-    if ($lock === false || !flock($lock, LOCK_EX)) {
-        if (is_resource($lock)) {
-            fclose($lock);
-        }
-        return null;
-    }
-    return $lock;
-}
-
-function releaseLocalLock($lock): void
-{
-    if (!is_resource($lock)) {
-        return;
-    }
-    flock($lock, LOCK_UN);
-    fclose($lock);
-}
-
-function localResponseNeedsRichAnalysis(string $response, int $status): bool
+function responseHasRichAnalysisParity(string $response, int $status): bool
 {
     $decoded = successfulAnalysisPayload($response, $status);
     if ($decoded === null) {
-        return true;
+        return false;
     }
     $top = $decoded['features']['embeddingGenrePrediction']['top'] ?? null;
     if (!is_array($top) || $top === []) {
-        return true;
-    }
-    $topScore = 0.0;
-    foreach ($top as $candidate) {
-        if (is_array($candidate) && is_numeric($candidate['score'] ?? null)) {
-            $topScore = max($topScore, (float) $candidate['score']);
-        }
+        return false;
     }
     $features = is_array($decoded['features'] ?? null) ? $decoded['features'] : [];
     $prediction = is_array($features['embeddingGenrePrediction'] ?? null)
         ? $features['embeddingGenrePrediction']
         : [];
-    $segments = is_array($prediction['segmentConsensus'] ?? null)
-        ? $prediction['segmentConsensus']
-        : [];
     $vocalEvidence = is_array($features['japaneseVocalEvidence'] ?? null)
         ? $features['japaneseVocalEvidence']
         : [];
     $externalTop = $prediction['unknownSourceConsensus']['top'] ?? null;
-    $missingRichAnalyzers = ($vocalEvidence['available'] ?? false) !== true
-        && (!is_array($externalTop) || $externalTop === []);
-    $segmentConflict = ($segments['available'] ?? false) === true
-        && (float) ($segments['voteShare'] ?? 0) < 0.67;
-    return $topScore < LOCAL_CONFIDENCE_FLOOR || ($missingRichAnalyzers && $segmentConflict);
+    return ($vocalEvidence['available'] ?? false) === true
+        && is_array($externalTop)
+        && $externalTop !== [];
+}
+
+function responseNeedsRichAnalysis(string $response, int $status): bool
+{
+    return !responseHasRichAnalysisParity($response, $status);
 }
 
 function successfulAnalysisPayload(string $response, int $status): ?array
@@ -236,11 +104,9 @@ if (!is_array($payload) || ($payload['action'] ?? '') !== 'analyze-youtube') {
 }
 
 set_time_limit(300);
-$localLock = acquireLocalLock();
-$localWorker = startLocalWorker();
 $fallbackResponse = false;
 $fallbackStatus = 0;
-$degradedLocalResponse = false;
+$nonParityResponse = false;
 $selectedResponse = false;
 $selectedStatus = 0;
 foreach (upstreamEndpoints() as $endpoint) {
@@ -248,7 +114,6 @@ foreach (upstreamEndpoints() as $endpoint) {
     if ($curl === false) {
         continue;
     }
-    $isLocal = $endpoint === LOCAL_UPSTREAM;
     curl_setopt_array($curl, [
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => $body,
@@ -257,9 +122,9 @@ foreach (upstreamEndpoints() as $endpoint) {
             'Origin: https://aun-graphic.jp',
         ],
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_CONNECTTIMEOUT => $isLocal ? 2 : 15,
+        CURLOPT_CONNECTTIMEOUT => 15,
         CURLOPT_TIMEOUT => 300,
-        CURLOPT_PROTOCOLS => $isLocal ? CURLPROTO_HTTP : CURLPROTO_HTTPS,
+        CURLOPT_PROTOCOLS => CURLPROTO_HTTPS,
     ]);
     $response = curl_exec($curl);
     $status = (int) curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
@@ -270,30 +135,29 @@ foreach (upstreamEndpoints() as $endpoint) {
         continue;
     }
     $successful = successfulAnalysisPayload((string) $response, $status) !== null;
-    $shouldTryRichAnalysis = $isLocal && localResponseNeedsRichAnalysis((string) $response, $status);
+    $shouldTryRichAnalysis = responseNeedsRichAnalysis((string) $response, $status);
     if ($successful && $shouldTryRichAnalysis) {
-        $degradedLocalResponse = $response;
+        $nonParityResponse = $response;
     }
     if ($successful && !$shouldTryRichAnalysis) {
         $selectedResponse = $response;
         $selectedStatus = $status;
         break;
     }
-    if ($isLocal || $fallbackResponse === false) {
+    if ($fallbackResponse === false) {
         $fallbackResponse = $response;
         $fallbackStatus = $status;
     }
 }
-stopLocalWorker($localWorker);
-releaseLocalLock($localLock);
 
 if ($selectedResponse !== false) {
+    header('X-MMFR-Analysis-Tier: rich-parity');
     http_response_code($selectedStatus);
     echo $selectedResponse;
     exit;
 }
 
-if ($degradedLocalResponse !== false) {
+if ($nonParityResponse !== false) {
     respond(503, [
         'ok' => false,
         'code' => 'RICH_ANALYSIS_REQUIRED',
