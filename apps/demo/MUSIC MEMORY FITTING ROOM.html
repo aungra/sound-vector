@@ -650,7 +650,7 @@
       };
     }
     const keys = { creators: "mmfr.creators", tshirts: "mmfr.tshirts", sessions: "mmfr.sessions", apiConfig: "mmfr.apiConfig", genreAdjustmentLearning: "mmfr.genreAdjustmentLearning.v1" };
-    const GENRE_INFERENCE_REVISION = "2026-08-21-rich-output-consistency-v95";
+    const GENRE_INFERENCE_REVISION = "2026-08-21-cross-head-arbitration-v96";
     const inlineArt = {};
     let activeCollisionField = null;
     const state = { answers: {}, moodId: null, youtubeUrl: "", audioFeatures: null, sourceMood: null, variantSalt: 0, engineId: "youtube_audio", realtime: false, tick: 0, session: null, generated: null, message: "", genreProfiles: null, genreModel: null, sharedGenreLearning: { records: [], revision: 0, modelVersion: "" }, generationProgress: null, patternMotion: { shirtId: "", phase: 0, running: false, lastTimestamp: 0 }, equalizer: { shirtId: "", playing: false, startedAt: 0, duration: 0, detail: null, analyser: null, returningAt: 0 } };
@@ -9524,6 +9524,12 @@
         && Number(unknownConsensus.segmentAgreement || 0) >= .9
         && Number(unknownConsensus.stability || 0) >= .8
       );
+      const trustedCrossHeadAgreement = Boolean(
+        trustedUnknownAgreement
+        && unknownConsensus.crossHeadEvidence
+        && Number(unknownConsensus.crossHeadEvidence.externalScore || 0) >= .45
+        && Number(unknownConsensus.crossHeadEvidence.externalMargin || 0) >= .2
+      );
       const trustedSlowRockAgreement = Boolean(
         unknownConsensus.rescued
         && unknownConsensus.agreement
@@ -9539,9 +9545,11 @@
       if (trustedUnknownAgreement) {
         const estimatedAccuracy = Number(unknownConsensus.estimatedAccuracy || 0);
         if (estimatedAccuracy > 0) {
-          confidence = Math.max(confidence, Math.min(84, Math.max(58, estimatedAccuracy)));
+          confidence = trustedCrossHeadAgreement
+            ? Math.min(confidence, Math.min(78, Math.max(58, estimatedAccuracy + 4)))
+            : Math.max(confidence, Math.min(84, Math.max(58, estimatedAccuracy)));
         }
-        confidence += 4;
+        if (!trustedCrossHeadAgreement) confidence += 4;
       } else if (unknownConsensus.reliable && unknownConsensus.agreement) {
         confidence += 8;
       }
@@ -9587,6 +9595,75 @@
           ? `${analysis.source} 学習モデルと独立音響ルールの大分類が一致しないため、確信度を下げて要確認にしています。`
           : analysis.source,
         top: ranked
+      };
+    }
+    function strongExternalCrossHeadEvidence(context = {}) {
+      const analysis = context.analysis || {};
+      const features = context.features || {};
+      const vector = context.vector || genreFeatureVector(features);
+      const embedding = features.embeddingGenrePrediction || {};
+      const external = embedding.unknownSourceConsensus || {};
+      const segments = embedding.segmentConsensus || {};
+      const vocal = features.japaneseVocalEvidence || analysis.japaneseVocalEvidence || {};
+      const leaderName = analysis.top?.[0]?.name || analysis.top?.[0]?.label || "";
+      const targetName = external.top?.[0]?.name || external.top?.[0]?.label || "";
+      const externalScore = Number(external.top?.[0]?.score || 0) / 100;
+      const externalMargin = Number(external.margin || 0) / 100;
+      const certainty = Number(external.selectiveCertainty || 0);
+      const certaintyThreshold = Number(external.selectiveRisk?.threshold || .2724);
+      const segmentLeaders = Array.isArray(segments.leaders) ? segments.leaders.filter(Boolean) : [];
+      const segmentTargetScore = (Number((segments.top || []).find(item =>
+        (item.name || item.label) === targetName
+      )?.score) || 0) / 100;
+      const externalSegments = external.segmentAnalysis || {};
+      const splitLocalHead = segments.available === true
+        && Number(segments.count || 0) >= 3
+        && Number(segments.voteShare || 0) <= .34
+        && Number(segments.macroVoteShare || 0) <= .34
+        && (segmentLeaders.includes(targetName) || segmentTargetScore >= .25);
+      const strongExternalHead = targetName && targetName !== leaderName
+        && external.needsReview !== true
+        && externalScore >= .45
+        && externalMargin >= .2
+        && certainty >= certaintyThreshold
+        && Number(externalSegments.agreement || 0) >= .9
+        && Number(externalSegments.stability || 0) >= .8;
+      // Cross-macro arbitration needs target-compatible audio evidence as well as
+      // classifier confidence. This keeps vocal synths and real electronic tracks
+      // from being moved by a single Rock label.
+      const melodicRockArrangement = targetName === "ロック"
+        && vocal.available === true
+        && String(vocal.detectedLanguage || "").toLowerCase() === "en"
+        && Number(vocal.sampleCount || 0) >= 6
+        && Number(vocal.transcriptionReliability || 0) >= .8
+        && Number(vocal.vocalPresence || 0) >= .8
+        && Number((vocal.stemVocalPresence ?? vocal.vocalPresence) || 0) >= .7
+        && Number(vocal.melodicVocalLikelihood || 0) >= .75
+        && Number(vocal.speechRapLikelihood || 0) < .1
+        && Number(vector.tempo || 0) >= 64 && Number(vector.tempo || 0) <= 110
+        && Number(vector.energy || 0) >= .62
+        && Number(vector.midBandRatio || 0) >= .48
+        && Number(vector.highBandRatio || 0) < .12
+        && Number(vector.harmonicRatio || 0) >= .75
+        && Number(vector.distortion || 0) >= .12 && Number(vector.distortion || 0) <= .4
+        && Number(vector.squareWave || 0) < .36
+        && Number(vector.fourOnFloor || 0) < .4
+        && Number(vector.structureRecurrence || 0) >= .58;
+      if (!splitLocalHead || !strongExternalHead || !melodicRockArrangement) return null;
+      return {
+        targetName,
+        targetMacro: canonicalModelMacro(genreToMacro[targetName] || ""),
+        localLeader: leaderName,
+        localVoteShare: Math.round(Number(segments.voteShare || 0) * 1000) / 1000,
+        localMacroVoteShare: Math.round(Number(segments.macroVoteShare || 0) * 1000) / 1000,
+        localSegmentLeaders: segmentLeaders,
+        localSegmentTarget: Math.round(segmentTargetScore * 1000) / 1000,
+        externalScore: Math.round(externalScore * 1000) / 1000,
+        externalMargin: Math.round(externalMargin * 1000) / 1000,
+        externalSegmentAgreement: Math.round(Number(externalSegments.agreement || 0) * 1000) / 1000,
+        externalStability: Math.round(Number(externalSegments.stability || 0) * 1000) / 1000,
+        melodicVocalLikelihood: Math.round(Number(vocal.melodicVocalLikelihood || 0) * 1000) / 1000,
+        speechRapLikelihood: Math.round(Number(vocal.speechRapLikelihood || 0) * 1000) / 1000
       };
     }
     function slowMelodicRockConsensusEvidence(context = {}) {
@@ -9651,6 +9728,47 @@
       if (!analysis?.top?.length) return analysis;
       const external = features.embeddingGenrePrediction?.unknownSourceConsensus;
       if (!external?.top?.length) return analysis;
+      const crossHeadEvidence = strongExternalCrossHeadEvidence({
+        analysis,
+        features,
+        ...(preparedVector ? { vector: preparedVector } : {})
+      });
+      if (crossHeadEvidence) {
+        const leaderMacro = canonicalModelMacro(
+          genreToMacro[crossHeadEvidence.localLeader] || analysis.top[0]?.macro || ""
+        );
+        const rescued = promoteAudioGenreCandidate(analysis, {
+          targetName: crossHeadEvidence.targetName,
+          targetMacro: crossHeadEvidence.targetMacro,
+          suppressMacros: leaderMacro && leaderMacro !== crossHeadEvidence.targetMacro ? [leaderMacro] : [],
+          factor: .28,
+          companionCandidates: [{ name: "フォーク", relativeScore: .38 }],
+          method: "strongExternalCrossHeadArbitration",
+          needsReview: false,
+          sourceNote: "ローカル3区間の候補が分裂する一方、未知ソース向けモデルの全区間と旋律歌唱を含む音響構造がRockで一致したため、単一ローカル候補の過信を抑えています。",
+          evidence: crossHeadEvidence
+        });
+        return {
+          ...rescued,
+          segmentConsensus: {
+            ...(rescued.segmentConsensus || {}),
+            conflict: false,
+            crossHeadResolved: true
+          },
+          unknownSourceConsensus: {
+            available: true,
+            reliable: true,
+            agreement: true,
+            rescued: true,
+            conflict: false,
+            target: crossHeadEvidence.targetName,
+            segmentAgreement: crossHeadEvidence.externalSegmentAgreement,
+            stability: crossHeadEvidence.externalStability,
+            estimatedAccuracy: Math.round(Number(external.selectiveRisk?.estimatedAccuracy || 0) * 10) / 10,
+            crossHeadEvidence
+          }
+        };
+      }
       const slowRockEvidence = slowMelodicRockConsensusEvidence({
         analysis,
         features,

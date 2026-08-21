@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 const MAX_REQUEST_BYTES = 32768;
 const UPSTREAM_FILE = __DIR__ . '/upstream-url.txt';
-const REQUIRED_CLIENT_INFERENCE_REVISION = '2026-08-21-rich-output-consistency-v95';
+const REQUIRED_CLIENT_INFERENCE_REVISION = '2026-08-21-cross-head-arbitration-v96';
 
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
