@@ -650,7 +650,7 @@
     const GENRE_INFERENCE_REVISION = "2026-08-21-adaptive-model-refresh-v91";
     const inlineArt = {};
     let activeCollisionField = null;
-    const state = { view: "home", answers: {}, moodId: null, youtubeUrl: "", audioFeatures: null, sourceMood: null, variantSalt: 0, engineId: "youtube_audio", realtime: false, tick: 0, session: null, generated: null, workId: null, message: "", genreProfiles: null, genreModel: null, sharedGenreLearning: { records: [], revision: 0, modelVersion: "" }, generationProgress: null, patternMotion: { shirtId: "", phase: 0, running: false, lastTimestamp: 0 }, equalizer: { shirtId: "", playing: false, startedAt: 0, duration: 0, detail: null, analyser: null, returningAt: 0 } };
+    const state = { answers: {}, moodId: null, youtubeUrl: "", audioFeatures: null, sourceMood: null, variantSalt: 0, engineId: "youtube_audio", realtime: false, tick: 0, session: null, generated: null, message: "", genreProfiles: null, genreModel: null, sharedGenreLearning: { records: [], revision: 0, modelVersion: "" }, generationProgress: null, patternMotion: { shirtId: "", phase: 0, running: false, lastTimestamp: 0 }, equalizer: { shirtId: "", playing: false, startedAt: 0, duration: 0, detail: null, analyser: null, returningAt: 0 } };
     let realtimeTimer = null;
     let patternMotionFrame = null;
     let generationProgressTimers = [];
@@ -15863,7 +15863,7 @@
       state.realtime = true;
       state.sourceMood = mood;
       realtimeTimer = setInterval(() => {
-        if (!state.realtime || state.view === "work") return;
+        if (!state.realtime) return;
         const tick = Date.now();
         state.tick = tick;
         state.generated = makeRealtimeShirt(mood, tick);
@@ -16462,7 +16462,6 @@
       patternMotionFrame = null;
     }
     function currentRenderedPatternShirt() {
-      if (state.view === "work") return refreshReversibleSoundClothShirt(findShirt(state.workId));
       return state.generated || state.session?.generatedShirt || null;
     }
     function advancePatternMotion(timestamp) {
@@ -16599,7 +16598,6 @@
     function recommend(tags) {
       return tshirts().map(shirt => ({ shirt, score: score(shirt, tags) })).sort((a, b) => b.score - a.score || a.shirt.title.localeCompare(b.shirt.title)).slice(0, 3).map(x => x.shirt);
     }
-    function nav(view, workId) { state.view = view; state.workId = workId || null; state.message = ""; render(); scrollTo(0, 0); }
     function toggleAnswer(id, option) {
       const values = state.answers[id] || [];
       state.answers[id] = values.includes(option) ? values.filter(v => v !== option) : values.concat(option);
@@ -17049,7 +17047,6 @@
       state.engineId = "youtube_audio";
       state.session = null;
       state.generated = null;
-      state.workId = null;
       state.message = "";
       render();
     }
@@ -17087,9 +17084,7 @@
       if (!shirt?.art) return "";
       const payload = reversiblePayloadForShirt(shirt);
       const detail = payload?.reconstructionScore?.detail || payload?.audioFeatures?.detail || shirt?.audioFeatures?.detail || {};
-      const renderedShirtId = state.view === "work"
-        ? state.workId
-        : state.generated?.id || state.session?.generatedShirt?.id || "";
+      const renderedShirtId = state.generated?.id || state.session?.generatedShirt?.id || "";
       const renderedSvg = renderedShirtId === shirt.id ? activePatternMotionSvg() : null;
       const renderedMarkup = renderedSvg?.outerHTML || "";
       const svgWithCurrentFrame = renderedMarkup
@@ -17902,23 +17897,14 @@
           <details class="advanced-settings"><summary>解析サーバー設定</summary><div class="api-config"><label for="apiEndpoint"><span class="eyebrow">YouTube audio analysis server</span><input id="apiEndpoint" value="${endpointValue}" placeholder="https://example.com/api/audio-analyze"></label><button class="secondary" onclick="saveApiEndpoint()">接続先を保存</button></div></details></section>` :
           `<section id="conversion-workbench" class="panel"><div class="top"><div><p class="eyebrow">04 / OUTPUT</p><h2>${generatedHeading}</h2></div><div>${generatedActions}</div></div>
           ${renderGenerationProgress()}
-          <div class="generated-layout"><article class="generated-preview">${renderShirtArt(generated)}<div class="design-spec"><p><strong>音源</strong><br>${sourceLabel}</p><p><strong>生成</strong><br>${selectedEngine.label}</p><p><strong>状態</strong><br>${generatedStateText}</p><p><strong>Genre</strong><br>${genreLabel}${styleLabel}${genreReviewAction ? `<br>${genreReviewAction}` : ""}</p><p><strong>音響根拠</strong><br>${genreEvidence}</p><p><strong>Tempo</strong><br>${features?.tempo ? `${features.tempo} BPM` : "local"}</p><p><strong>Centroid</strong><br>${features?.centroid ? `${features.centroid} Hz` : "SVG"}</p><p><strong>可逆PCM</strong><br>${formatPcmGeometryText(features)}</p></div>${genreFeedbackPanel}</article><article><h3>${generated.title}</h3><p>${generated.description}</p>${generated.youtubeUrl ? `<p class="muted"><a href="${escapeAttr(generated.youtubeUrl)}" target="_blank" rel="noreferrer">参照YouTubeリンク</a></p>` : ""}${state.message ? `<p class="tag">${state.message}</p>` : ""}${generated.externalNote ? `<p class="tag">${generated.externalNote}</p>` : ""}<p class="muted">${generated.stockNote}</p><button class="primary" onclick="acceptRealtimeDesign();nav('work','${generated.id}')">詳細と共鳴を見る</button></article></div></section>`}
+          <div class="generated-layout"><article class="generated-preview">${renderShirtArt(generated)}<div class="design-spec"><p><strong>音源</strong><br>${sourceLabel}</p><p><strong>生成</strong><br>${selectedEngine.label}</p><p><strong>状態</strong><br>${generatedStateText}</p><p><strong>Genre</strong><br>${genreLabel}${styleLabel}${genreReviewAction ? `<br>${genreReviewAction}` : ""}</p><p><strong>音響根拠</strong><br>${genreEvidence}</p><p><strong>Tempo</strong><br>${features?.tempo ? `${features.tempo} BPM` : "local"}</p><p><strong>Centroid</strong><br>${features?.centroid ? `${features.centroid} Hz` : "SVG"}</p><p><strong>可逆PCM</strong><br>${formatPcmGeometryText(features)}</p></div>${genreFeedbackPanel}</article><article><h3>${generated.title}</h3><p>${generated.description}</p>${generated.youtubeUrl ? `<p class="muted"><a href="${escapeAttr(generated.youtubeUrl)}" target="_blank" rel="noreferrer">参照YouTubeリンク</a></p>` : ""}${state.message ? `<p class="tag">${state.message}</p>` : ""}${generated.externalNote ? `<p class="tag">${generated.externalNote}</p>` : ""}<p class="muted">${generated.stockNote}</p></article></div></section>`}
         ${generated ? renderReversiblePanel(generated) : ""}
         ${generated && !isReversibleAudio ? renderAudioMappingDiagram(features) : ""}
       </main>`;
     }
-    function renderWork() {
-      const shirt = refreshReversibleSoundClothShirt(findShirt(state.workId));
-      if (!shirt) return `<main class="wrap"><section class="panel"><h2>作品が見つかりません</h2><button class="secondary" onclick="nav('home')">戻る</button></section></main>`;
-      const creator = shirt.generated ? { name: "Mood Generator", profile: "来場者が選んだ現状のムードから、一色のTシャツ図案をその場で組み立てます。" } : creators().find(c => c.id === shirt.creatorId);
-      return `<main class="wrap"><section class="panel"><button class="secondary" onclick="nav('home')">変換画面に戻る</button></section>
-        <section class="detail"><article class="panel"><p class="eyebrow">${creator?.name || ""}</p><h1>${shirt.title}</h1><p>${shirt.description}</p><p>${shirt.tags.map(t => `<span class="tag">${t}</span>`).join("")}</p></article><aside class="panel">${renderShirtArt(shirt, "3/4")}<h2>展示・販売</h2><p><strong>展示位置</strong><br>${shirt.location}</p><p><strong>価格</strong><br>${shirt.price}</p><p><strong>在庫メモ</strong><br>${shirt.stockNote}</p><p class="muted">${creator?.profile || ""}</p></aside></section>
-        ${shirt.generated && !isReversibleAudioShirt(shirt) ? renderAudioMappingDiagram(shirt.audioFeatures) : ""}
-        ${renderReversiblePanel(shirt)}</main>`;
-    }
     function render() {
       const app = document.getElementById("app");
-      app.innerHTML = state.view === "work" ? renderWork() : renderHome();
+      app.innerHTML = renderHome();
       syncPatternMotionAfterRender();
     }
     function cleanupStoredSessions() {
