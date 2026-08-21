@@ -7,65 +7,43 @@
   <meta name="description" content="音声を解析し、32ジャンルの構図規則で編集可能な可逆SVGへ変換するSOUND FORMインターフェース。">
   <meta name="sound-form-api-endpoint" content="/sound-form/api/audio-analyze.php">
   <meta name="sound-form-feedback-endpoint" content="/sound-form/api/genre-feedback.php">
+  <link rel="preload" href="fonts/SoundFormDisplay-Regular.woff2?v=20260821-font-v1" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/NotoSansJP-Regular.woff2?v=20260821-font-v1" as="font" type="font/woff2" crossorigin>
   <script>
     if (location.protocol === "file:") {
       location.replace("http://127.0.0.1:4193/MUSIC%20MEMORY%20FITTING%20ROOM.html");
     }
   </script>
-  <script>
-    // Match the AUN Graphic Adobe Fonts loader so yu-gothic-pr6n is available in Safari.
-    (function(d) {
-      var config = { kitId: "dct1nqo", scriptTimeout: 3000, async: true };
-      var html = d.documentElement;
-      var timeout = setTimeout(function() {
-        html.className = html.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-      }, config.scriptTimeout);
-      var script = d.createElement("script");
-      var loaded = false;
-      var firstScript = d.getElementsByTagName("script")[0];
-      html.className += " wf-loading";
-      script.src = "https://use.typekit.net/" + config.kitId + ".js";
-      script.async = true;
-      script.onload = script.onreadystatechange = function() {
-        var state = this.readyState;
-        if (loaded || state && state !== "complete" && state !== "loaded") return;
-        loaded = true;
-        clearTimeout(timeout);
-        try { Typekit.load(config); } catch (error) {}
-      };
-      firstScript.parentNode.insertBefore(script, firstScript);
-    })(document);
-  </script>
   <style>
     @font-face {
       font-family: "Sound Form Display";
-      src: url("fonts/SoundFormDisplay-Regular.woff2") format("woff2"),
-           url("fonts/SoundFormDisplay-Regular.ttf") format("truetype");
+      src: url("fonts/SoundFormDisplay-Regular.woff2?v=20260821-font-v1") format("woff2"),
+           url("fonts/SoundFormDisplay-Regular.ttf?v=20260821-font-v1") format("truetype");
       font-style: normal;
       font-weight: 400;
       font-display: swap;
     }
-    /* A deterministic fallback when the licensed Yu Gothic family is unavailable. */
+    /* Self-hosted Japanese faces keep production independent of external font CDNs. */
     @font-face {
       font-family: "Sound Form Japanese Fallback";
-      src: url("fonts/NotoSansJP-Regular.woff2") format("woff2");
+      src: url("fonts/NotoSansJP-Regular.woff2?v=20260821-font-v1") format("woff2");
       font-style: normal;
-      font-weight: 100 400;
-      font-display: block;
+      font-weight: 400;
+      font-display: swap;
     }
     @font-face {
       font-family: "Sound Form Japanese Fallback";
-      src: url("fonts/NotoSansJP-Medium.woff2") format("woff2");
+      src: url("fonts/NotoSansJP-Medium.woff2?v=20260821-font-v1") format("woff2");
       font-style: normal;
       font-weight: 500;
-      font-display: block;
+      font-display: swap;
     }
     @font-face {
       font-family: "Sound Form Japanese Fallback";
-      src: url("fonts/NotoSansJP-Bold.woff2") format("woff2");
+      src: url("fonts/NotoSansJP-Bold.woff2?v=20260821-font-v1") format("woff2");
       font-style: normal;
-      font-weight: 600 900;
-      font-display: block;
+      font-weight: 700;
+      font-display: swap;
     }
     :root {
       --ink: #000;
@@ -83,9 +61,9 @@
       --radius-md: 12px;
       --radius-sm: 8px;
       --font-display: "Sound Form Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
-      --font-primary: "Helvetica Neue", Helvetica, Arial, "yu-gothic-pr6n", "Yu Gothic", "YuGothic", "游ゴシック体", "游ゴシック", "Sound Form Japanese Fallback", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
-      --font-latin: "helvetica-neue-lt-pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
-      --font-jp: "yu-gothic-pr6n", "Yu Gothic", "YuGothic", "游ゴシック体", "游ゴシック", "Sound Form Japanese Fallback", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+      --font-primary: "Yu Gothic", "YuGothic", "游ゴシック体", "游ゴシック", "Sound Form Japanese Fallback", "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+      --font-latin: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --font-jp: "Yu Gothic", "YuGothic", "游ゴシック体", "游ゴシック", "Sound Form Japanese Fallback", "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
     }
     * { box-sizing: border-box; }
     body {
@@ -97,7 +75,7 @@
       color: var(--ink);
       font-family: var(--font-primary);
       font-size: 14px;
-      font-weight: 200;
+      font-weight: 400;
       font-synthesis: none;
       line-height: 1.45;
     }
