@@ -14,6 +14,7 @@ const LOCAL_FFMPEG = '/home/aungraphic02/bin/ffmpeg';
 const LOCAL_COOKIE = '/home/aungraphic02/.config/musictee/youtube-cookies.txt';
 const LOCAL_LOCK = '/home/aungraphic02/.config/musictee/sakura-audio.lock';
 const LOCAL_LOG = '/home/aungraphic02/logs/musictee-sakura-audio.log';
+const LOCAL_CONFIDENCE_FLOOR = 12.0;
 
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
@@ -150,6 +151,28 @@ function releaseLocalLock($lock): void
     fclose($lock);
 }
 
+function localResponseNeedsRichAnalysis(string $response, int $status): bool
+{
+    if ($status < 200 || $status >= 300) {
+        return true;
+    }
+    $decoded = json_decode($response, true);
+    if (!is_array($decoded) || ($decoded['ok'] ?? false) !== true) {
+        return true;
+    }
+    $top = $decoded['features']['embeddingGenrePrediction']['top'] ?? null;
+    if (!is_array($top) || $top === []) {
+        return true;
+    }
+    $topScore = 0.0;
+    foreach ($top as $candidate) {
+        if (is_array($candidate) && is_numeric($candidate['score'] ?? null)) {
+            $topScore = max($topScore, (float) $candidate['score']);
+        }
+    }
+    return $topScore < LOCAL_CONFIDENCE_FLOOR;
+}
+
 $method = $_SERVER['REQUEST_METHOD'] ?? '';
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 $allowedOrigins = [
@@ -224,14 +247,17 @@ foreach (upstreamEndpoints() as $endpoint) {
     if ($failed || $status < 100) {
         continue;
     }
-    $shouldFallback = $isLocal && ($status === 429 || $status >= 500);
-    if (!$shouldFallback) {
+    $successful = $status >= 200 && $status < 300;
+    $shouldTryRichAnalysis = $isLocal && localResponseNeedsRichAnalysis((string) $response, $status);
+    if ($successful && !$shouldTryRichAnalysis) {
         $selectedResponse = $response;
         $selectedStatus = $status;
         break;
     }
-    $fallbackResponse = $response;
-    $fallbackStatus = $status;
+    if ($isLocal || $fallbackResponse === false) {
+        $fallbackResponse = $response;
+        $fallbackStatus = $status;
+    }
 }
 stopLocalWorker($localWorker);
 releaseLocalLock($localLock);

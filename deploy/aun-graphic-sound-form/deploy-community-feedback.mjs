@@ -28,6 +28,14 @@ const mappings = [
     remote: "/home/aungraphic02/musictee-audio-service/deploy/aun-graphic-sound-form/api/genre-feedback.php"
   },
   {
+    local: path.join(SCRIPT_DIR, "api", "audio-analyze.php"),
+    remote: "/home/aungraphic02/www/wp/sound-form/api/audio-analyze.php"
+  },
+  {
+    local: path.join(SCRIPT_DIR, "api", "audio-analyze.php"),
+    remote: "/home/aungraphic02/musictee-audio-service/deploy/aun-graphic-sound-form/api/audio-analyze.php"
+  },
+  {
     local: path.join(SCRIPT_DIR, "genre-feedback-holdout.json"),
     remote: "/home/aungraphic02/musictee-audio-service/deploy/aun-graphic-sound-form/genre-feedback-holdout.json"
   }
