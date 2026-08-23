@@ -38,6 +38,15 @@ class ElectronicAblationTest(unittest.TestCase):
         )
         np.testing.assert_allclose(output, scores)
 
+    def test_group_reranker_respects_confidence_floor(self):
+        scores = np.asarray([[0.6, 0.3, 0.1]], dtype=float)
+        output = MODULE.rerank_group(
+            scores, np.asarray([[1.0]]), FakeModel(),
+            ["A", "B", "C"], ("A", "B"), 1.0, np.asarray([True]),
+            min_confidence=0.95,
+        )
+        np.testing.assert_allclose(output, scores)
+
 
 if __name__ == "__main__":
     unittest.main()

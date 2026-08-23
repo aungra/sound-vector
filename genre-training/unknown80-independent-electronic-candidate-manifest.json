@@ -1,6 +1,6 @@
 {
   "description": "Rights-clear full-track electronic candidates for leak-free Techno/House/Deep House/Trance boundary ablations.",
-  "generatedAt": "2026-08-23T05:33:34.681986+00:00",
+  "generatedAt": "2026-08-23T06:19:16.704568+00:00",
   "role": "candidate-training-overlay",
   "policy": {
     "allowedLicenses": [
@@ -782,6 +782,35 @@
       "productionEligible": false,
       "audioSha256": "9de941b6a47cd2c345a6adb14ca8403c11f13fcf971d9e907add15a693e60a9f",
       "candidateOrigin": "maest-weak-source-plan.json"
+    },
+    {
+      "source": "Wikimedia Commons",
+      "sourceType": "cc-dataset",
+      "datasetName": "Wikimedia Commons Deep house",
+      "trackId": "33116374",
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "filePath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/wikimedia-unknown80-deep-house-v1/33116374.ogg",
+      "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/wikimedia-unknown80-deep-house-v1/33116374.ogg",
+      "referenceUrl": "https://commons.wikimedia.org/wiki/File:Cihangir_-_Turn_to_Dust_feat._Miss_Bee_(Manic_Depresion_Mix).ogg",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Cihangir_-_Turn_to_Dust_feat._Miss_Bee_%28Manic_Depresion_Mix%29.ogg",
+      "license": "CC-BY-SA",
+      "licenseVersion": "3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "licenseReviewEvidence": "Wikimedia category: Files from external sources with reviewed licenses",
+      "genreEvidence": "Wikimedia description: Turn to Dust by Cihangir, a deep house track.",
+      "durationSeconds": 454.71074829931973,
+      "audioSha256": "3f91b6545a5e93d42eb2e9a88ff4d0bf5b3c0c881b516581eefbc1d53e6e18e5",
+      "canonicalArtist": "Cihangir feat. Miss Bee",
+      "canonicalTitle": "Turn to Dust (Manic Depresion Mix)",
+      "audioStoragePolicy": "external-local-audio; persist-features-only",
+      "trainingEligible": true,
+      "evaluationEligible": false,
+      "productionEligible": false,
+      "reviewStatus": "explicit-deep-house-reviewed-license",
+      "sourceLabelAction": "exact",
+      "v2TrainingRole": "fine",
+      "candidateOrigin": "wikimedia-unknown80-deep-house-v1-cc-source-manifest.json"
     },
     {
       "source": "FMA",
@@ -2052,19 +2081,24 @@
       "path": "/Users/kahanishimoto/Documents/MUSICTee/genre-training/fma-large-expansion-cc-source-manifest.json",
       "sha256": "9bf140ef0a5bc94b025e294ce6297bce7c999d07e2358347cea1d6bfec7a0b26",
       "selectedRows": 5
+    },
+    {
+      "path": "/private/tmp/musictee-track-boundary-v97/genre-training/wikimedia-unknown80-deep-house-v1-cc-source-manifest.json",
+      "sha256": "61e148bac9e5b0b89c58a0078c4b99a2b21772902ca5f92da175078288a6b2fd",
+      "selectedRows": 1
     }
   ],
   "buildSummary": {
-    "rows": 46,
+    "rows": 47,
     "byGenre": {
       "テクノ": 18,
-      "ディープ・ハウス": 7,
+      "ディープ・ハウス": 8,
       "トランス": 15,
       "ハウス": 6
     },
     "bySource": {
       "FMA": 11,
-      "Wikimedia Commons": 15,
+      "Wikimedia Commons": 16,
       "ccMixter": 5,
       "Internet Archive": 15
     }

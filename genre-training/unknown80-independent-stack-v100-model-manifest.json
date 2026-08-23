@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "candidateModelPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown80-independent-multiboundary-stack-v100-candidate.pkl",
+  "candidateModelSha256": "0acbecfece168729b24ea983004456d8c3bf969f0d6e0a5c238f3907c09bf166",
+  "candidateModelBytes": 5662276,
+  "modelVersion": "unknown80-independent-multiboundary-20260823-v100",
+  "method": "audio-only-source-heldout-four-pair-confidence-stack",
+  "featureContract": {
+    "source": "production librosa 547-vector",
+    "vectorLength": 547,
+    "selectedIndexes": "member-specific full or rhythm",
+    "normalization": "identity before fitted member model"
+  },
+  "training": {
+    "members": [
+      {
+        "pair": [
+          "ファンク",
+          "ロック"
+        ],
+        "kind": "logistic",
+        "view": "rhythm",
+        "rows": 198,
+        "formalRows": 193,
+        "trainingOnlyOverlayRows": 5,
+        "sources": {
+          "FMA": 26,
+          "Jamendo": 161,
+          "RWC Music Database": 6,
+          "ccMixter": 2,
+          "Internet Archive": 2,
+          "Openverse": 1
+        },
+        "labels": {
+          "ロック": 106,
+          "ファンク": 92
+        }
+      },
+      {
+        "pair": [
+          "ブルース",
+          "フォーク"
+        ],
+        "kind": "logistic",
+        "view": "full",
+        "rows": 157,
+        "formalRows": 152,
+        "trainingOnlyOverlayRows": 5,
+        "sources": {
+          "FMA": 40,
+          "Jamendo": 107,
+          "RWC Music Database": 5,
+          "ccMixter": 5
+        },
+        "labels": {
+          "フォーク": 67,
+          "ブルース": 90
+        }
+      },
+      {
+        "pair": [
+          "レゲエ",
+          "ダブ"
+        ],
+        "kind": "extra-trees",
+        "view": "full",
+        "rows": 189,
+        "formalRows": 185,
+        "trainingOnlyOverlayRows": 4,
+        "sources": {
+          "FMA": 39,
+          "Jamendo": 143,
+          "RWC Music Database": 3,
+          "ccMixter": 1,
+          "Internet Archive": 3
+        },
+        "labels": {
+          "ダブ": 106,
+          "レゲエ": 83
+        }
+      },
+      {
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "kind": "extra-trees",
+        "view": "rhythm",
+        "rows": 177,
+        "formalRows": 144,
+        "trainingOnlyOverlayRows": 33,
+        "sources": {
+          "FMA": 32,
+          "Jamendo": 117,
+          "RWC Music Database": 2,
+          "Wikimedia Commons": 15,
+          "ccMixter": 5,
+          "Internet Archive": 6
+        },
+        "labels": {
+          "テクノ": 121,
+          "トランス": 56
+        }
+      }
+    ]
+  },
+  "combination": {
+    "name": "conservative-four-pair-confidence-stack",
+    "members": [
+      {
+        "pair": [
+          "ファンク",
+          "ロック"
+        ],
+        "strength": 0.5,
+        "confidenceFloor": 0.0,
+        "view": "rhythm",
+        "featureIndexCount": 157
+      },
+      {
+        "pair": [
+          "ブルース",
+          "フォーク"
+        ],
+        "strength": 0.25,
+        "confidenceFloor": 0.0,
+        "view": "full",
+        "featureIndexCount": 547
+      },
+      {
+        "pair": [
+          "レゲエ",
+          "ダブ"
+        ],
+        "strength": 0.25,
+        "confidenceFloor": 0.0,
+        "view": "full",
+        "featureIndexCount": 547
+      },
+      {
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "strength": 0.25,
+        "confidenceFloor": 0.8,
+        "view": "rhythm",
+        "featureIndexCount": 157
+      }
+    ]
+  },
+  "evaluation": {
+    "sourceHeldoutReport": "genre-training/unknown80-independent-electronic-ablation.json",
+    "sourceHeldoutReportSha256": "e73c2e59032e783d202379cf7f37c6808de29b96dbb178964cee5924a9b68502",
+    "sourceHeldoutTop1Before": 58.68,
+    "sourceHeldoutTop1After": 58.79,
+    "sourceHeldoutImproved": 2,
+    "sourceHeldoutHarmed": 0,
+    "gtzanReport": "genre-training/gtzan-independent-blackmusic-pair-gate.json",
+    "gtzanReportSha256": "d08fcc3d01d5c8d0e11c7b4e6c1914f91c1512207d2fb9577ff28249b43dd729",
+    "gtzanTop1Before": 75.65,
+    "gtzanTop1After": 78.7,
+    "gtzanImproved": 7,
+    "gtzanHarmed": 0,
+    "productionRegressionReport": "genre-training/unknown80-independent-stack-v100-production-regression.json",
+    "productionRegressionReportSha256": "0c0294de878c84e12d0f24dcb0d64a5421002ec8063db9be553ccd4d1fa7c2bc",
+    "productionGate": "passed",
+    "electronicSourceHeldoutReport": "genre-training/unknown80-independent-electronic-ablation.json",
+    "electronicSourceHeldoutReportSha256": "e73c2e59032e783d202379cf7f37c6808de29b96dbb178964cee5924a9b68502",
+    "strictTop1": 58.79,
+    "strictBalancedTop1": 58.75,
+    "strictMinimumSourceTop1": 31.58,
+    "strictTop3": 83.48
+  },
+  "serializationParity": {
+    "rows": 256,
+    "maximumProbabilityDifference": 3.3306690738754696e-16,
+    "passed": true
+  },
+  "promotionDecision": "promote-runtime-all-gates-passed",
+  "productionModelUpdated": false
+}

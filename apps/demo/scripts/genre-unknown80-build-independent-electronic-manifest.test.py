@@ -50,6 +50,12 @@ class ElectronicManifestTest(unittest.TestCase):
         }
         self.assertEqual(MODULE.normalized_source(row), "FMA")
 
+    def test_workspace_manifest_fallback_is_available(self):
+        fallback = MODULE.ROOT / "genre-training" / (
+            "wikimedia-unknown80-deep-house-v1-cc-source-manifest.json"
+        )
+        self.assertTrue(fallback.is_file())
+
 
 if __name__ == "__main__":
     unittest.main()

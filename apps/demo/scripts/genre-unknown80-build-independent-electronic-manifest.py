@@ -25,6 +25,7 @@ SOURCE_MANIFESTS = (
     "fma-target-cc-source-manifest.json",
     "fma-low-genres-expansion-cc-source-manifest.json",
     "fma-large-expansion-cc-source-manifest.json",
+    "wikimedia-unknown80-deep-house-v1-cc-source-manifest.json",
 )
 
 
@@ -95,6 +96,8 @@ def build(source_root):
     seen_audio = set()
     for filename in SOURCE_MANIFESTS:
         path = source_root / filename
+        if not path.is_file():
+            path = ROOT / "genre-training" / filename
         payload = json.loads(path.read_text())
         selected = 0
         for raw in rows_from(payload):

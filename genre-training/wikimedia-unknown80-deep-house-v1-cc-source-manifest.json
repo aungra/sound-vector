@@ -1,0 +1,42 @@
+{
+  "description": "Wikimedia Commons full-track Deep House source with reviewed license evidence.",
+  "generatedAt": "2026-08-23T00:00:00Z",
+  "source": "Wikimedia Commons",
+  "sourceType": "cc-dataset",
+  "policy": {
+    "explicitGenreEvidenceRequired": true,
+    "licenseReviewRequired": true,
+    "minimumDurationSeconds": 30,
+    "audioStoredOutsideRepository": true,
+    "metadataUsedAtInference": false,
+    "evaluationEligible": false
+  },
+  "items": [
+    {
+      "source": "Wikimedia Commons",
+      "sourceType": "cc-dataset",
+      "datasetName": "Wikimedia Commons Deep house",
+      "trackId": "33116374",
+      "genre": "ディープ・ハウス",
+      "macroGenre": "electronic",
+      "filePath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/wikimedia-unknown80-deep-house-v1/33116374.ogg",
+      "sourceUrl": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/wikimedia-unknown80-deep-house-v1/33116374.ogg",
+      "referenceUrl": "https://commons.wikimedia.org/wiki/File:Cihangir_-_Turn_to_Dust_feat._Miss_Bee_(Manic_Depresion_Mix).ogg",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Cihangir_-_Turn_to_Dust_feat._Miss_Bee_%28Manic_Depresion_Mix%29.ogg",
+      "license": "CC-BY-SA",
+      "licenseVersion": "3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "licenseReviewEvidence": "Wikimedia category: Files from external sources with reviewed licenses",
+      "genreEvidence": "Wikimedia description: Turn to Dust by Cihangir, a deep house track.",
+      "durationSeconds": 454.71074829931973,
+      "audioSha256": "3f91b6545a5e93d42eb2e9a88ff4d0bf5b3c0c881b516581eefbc1d53e6e18e5",
+      "canonicalArtist": "Cihangir feat. Miss Bee",
+      "canonicalTitle": "Turn to Dust (Manic Depresion Mix)",
+      "audioStoragePolicy": "external-local-audio; persist-features-only",
+      "trainingEligible": true,
+      "evaluationEligible": false,
+      "productionEligible": false,
+      "reviewStatus": "explicit-deep-house-reviewed-license"
+    }
+  ]
+}

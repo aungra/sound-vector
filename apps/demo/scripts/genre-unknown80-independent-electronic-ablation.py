@@ -55,6 +55,7 @@ GROUPS = (
 MODELS = ("logistic", "extra-trees")
 VIEWS = ("rhythm", "full")
 STRENGTHS = (0.25, 0.5, 0.75, 1.0)
+CONFIDENCE_FLOORS = (0.0, 0.7, 0.8, 0.9, 0.95)
 
 
 def load_module(path, name):
@@ -66,6 +67,7 @@ def load_module(path, name):
 
 def rerank_group(
     base_scores, features, model, labels, group, strength, applicable,
+    min_confidence=0.0,
 ):
     output = np.asarray(base_scores, dtype=np.float64).copy()
     if not np.any(applicable):
@@ -78,7 +80,9 @@ def rerank_group(
     estimator = model if hasattr(model, "classes_") else model[-1]
     classes = list(estimator.classes_)
     learned = probabilities[:, [classes.index(label) for label in group]]
+    confident = np.max(learned, axis=1) >= min_confidence
     target = old * (1.0 - strength) + learned * strength
+    target[~confident] = old[~confident]
     selected_rows = np.flatnonzero(applicable)
     top3 = np.argsort(-output, axis=1)[:, :3]
     utilities = np.log(np.maximum(output, 1e-12))
@@ -280,16 +284,25 @@ def run(args):
                 if not fold_models:
                     continue
                 for strength in STRENGTHS:
-                    name = f"{'-'.join(group)}-{kind}-{view}-overlay-w{strength:g}"
-                    output = incumbent.copy()
-                    for indexes, features, model, applicable in fold_models:
-                        output[indexes] = rerank_group(
-                            incumbent[indexes], features, model, labels,
-                            group, strength, applicable,
+                    for confidence_floor in CONFIDENCE_FLOORS:
+                        floor_suffix = (
+                            "" if confidence_floor == 0.0
+                            else f"-confidence{confidence_floor:g}"
                         )
-                    candidates[name] = module.compare_output(
-                        output, incumbent, actual, labels, sources
-                    )
+                        name = (
+                            f"{'-'.join(group)}-{kind}-{view}-overlay-"
+                            f"w{strength:g}{floor_suffix}"
+                        )
+                        output = incumbent.copy()
+                        for indexes, features, model, applicable in fold_models:
+                            output[indexes] = rerank_group(
+                                incumbent[indexes], features, model, labels,
+                                group, strength, applicable,
+                                min_confidence=confidence_floor,
+                            )
+                        candidates[name] = module.compare_output(
+                            output, incumbent, actual, labels, sources
+                        )
     baseline = candidates["v99-incumbent"]
     promotion = [
         name for name, score in candidates.items()

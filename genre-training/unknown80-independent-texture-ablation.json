@@ -1,0 +1,1034 @@
+{
+  "objective": "Test full-track independent Ambient/Drone/Noise overlays against the source-heldout v99 stack.",
+  "policy": {
+    "metadataUsedAtInference": false,
+    "urlSpecificRulesUsed": false,
+    "knownSongRulesUsed": false,
+    "sealedFinalHoldoutUsed": false,
+    "overlayRowsEvaluated": false,
+    "matchingProviderExcludedFromOuterFold": true,
+    "incumbentReconstructedPerFold": true,
+    "productionModelUpdated": false
+  },
+  "dataset": {
+    "formalRows": 1883,
+    "formalLibrosaCoverage": 1639,
+    "overlayRows": 138,
+    "overlayByGenre": {
+      "アンビエント": 7,
+      "ドローン": 43,
+      "ノイズミュージック": 88
+    },
+    "overlayBySource": {
+      "Internet Archive": 9,
+      "Wikimedia Commons": 31,
+      "FMA": 97,
+      "ccMixter": 1
+    },
+    "heldOutSources": [
+      "FMA",
+      "IdolSongsJp",
+      "Internet Archive",
+      "Jamendo",
+      "MagnaTagATune research evaluation",
+      "RWC Music Database",
+      "Wikimedia Commons",
+      "Zenodo CAPHE Hybrid Opera 18288509"
+    ]
+  },
+  "incumbent": {
+    "top1Accuracy": 58.68,
+    "balancedTop1": 58.69,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 0,
+    "sourceTop1": {
+      "FMA": 59.94,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 54.21,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 83.05,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    }
+  },
+  "candidates": {
+    "v99-incumbent": {
+      "top1Accuracy": 58.68,
+      "balancedTop1": 58.69,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 0,
+      "sourceTop1": {
+        "FMA": 59.94,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 54.21,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 83.05,
+        "Wikimedia Commons": 65.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      }
+    },
+    "アンビエント-ドローン-logistic-rhythm-overlay-w0.25": {
+      "top1Accuracy": 58.68,
+      "balancedTop1": 58.76,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 18,
+      "sourceTop1": {
+        "FMA": 60.55,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 54.13,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 83.05,
+        "Wikimedia Commons": 60.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      },
+      "improved": 5,
+      "harmed": 5
+    },
+    "アンビエント-ドローン-logistic-rhythm-overlay-w0.5": {
+      "top1Accuracy": 58.58,
+      "balancedTop1": 58.77,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 25,
+      "sourceTop1": {
+        "FMA": 60.86,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 53.88,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 83.05,
+        "Wikimedia Commons": 60.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      },
+      "improved": 6,
+      "harmed": 8
+    },
+    "アンビエント-ドローン-logistic-rhythm-overlay-w0.75": {
+      "top1Accuracy": 58.52,
+      "balancedTop1": 58.95,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 32,
+      "sourceTop1": {
+        "FMA": 61.77,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 53.54,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 83.05,
+        "Wikimedia Commons": 60.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      },
+      "improved": 9,
+      "harmed": 12
+    },
+    "アンビエント-ドローン-logistic-rhythm-overlay-w1": {
+      "top1Accuracy": 58.42,
+      "balancedTop1": 58.88,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 34,
+      "sourceTop1": {
+        "FMA": 61.77,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 53.38,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 83.05,
+        "Wikimedia Commons": 60.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      },
+      "improved": 9,
+      "harmed": 14
+    },
+    "アンビエント-ドローン-logistic-full-overlay-w0.25": {
+      "top1Accuracy": 58.52,
+      "balancedTop1": 58.59,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 21,
+      "sourceTop1": {
+        "FMA": 60.24,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 53.96,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 83.05,
+        "Wikimedia Commons": 60.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      },
+      "improved": 4,
+      "harmed": 7
+    },
+    "アンビエント-ドローン-logistic-full-overlay-w0.5": {
+      "top1Accuracy": 58.15,
+      "balancedTop1": 58.43,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 32,
+      "sourceTop1": {
+        "FMA": 60.55,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 53.29,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 83.05,
+        "Wikimedia Commons": 60.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      },
+      "improved": 5,
+      "harmed": 15
+    },
+    "アンビエント-ドローン-logistic-full-overlay-w0.75": {
+      "top1Accuracy": 58.05,
+      "balancedTop1": 58.37,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 38,
+      "sourceTop1": {
+        "FMA": 60.55,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 53.13,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 83.05,
+        "Wikimedia Commons": 60.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      },
+      "improved": 5,
+      "harmed": 17
+    },
+    "アンビエント-ドローン-logistic-full-overlay-w1": {
+      "top1Accuracy": 57.99,
+      "balancedTop1": 58.47,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 44,
+      "sourceTop1": {
+        "FMA": 61.16,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 52.88,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 83.05,
+        "Wikimedia Commons": 60.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      },
+      "improved": 7,
+      "harmed": 20
+    },
+    "アンビエント-ドローン-extra-trees-rhythm-overlay-w0.25": {
+      "top1Accuracy": 58.26,
+      "balancedTop1": 58.06,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 14,
+      "sourceTop1": {
+        "FMA": 58.72,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 53.96,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 83.05,
+        "Wikimedia Commons": 60.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      },
+      "improved": 0,
+      "harmed": 8
+    },
+    "アンビエント-ドローン-extra-trees-rhythm-overlay-w0.5": {
+      "top1Accuracy": 57.99,
+      "balancedTop1": 57.68,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 22,
+      "sourceTop1": {
+        "FMA": 57.8,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 53.79,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 83.05,
+        "Wikimedia Commons": 60.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      },
+      "improved": 0,
+      "harmed": 13
+    },
+    "アンビエント-ドローン-extra-trees-rhythm-overlay-w0.75": {
+      "top1Accuracy": 57.3,
+      "balancedTop1": 57.25,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 44,
+      "sourceTop1": {
+        "FMA": 57.8,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 52.71,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 83.05,
+        "Wikimedia Commons": 60.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      },
+      "improved": 0,
+      "harmed": 26
+    },
+    "アンビエント-ドローン-extra-trees-rhythm-overlay-w1": {
+      "top1Accuracy": 57.2,
+      "balancedTop1": 57.26,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 50,
+      "sourceTop1": {
+        "FMA": 58.1,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 52.46,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 83.05,
+        "Wikimedia Commons": 60.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      },
+      "improved": 1,
+      "harmed": 29
+    },
+    "アンビエント-ドローン-extra-trees-full-overlay-w0.25": {
+      "top1Accuracy": 58.36,
+      "balancedTop1": 58.28,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 13,
+      "sourceTop1": {
+        "FMA": 59.02,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 53.96,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 83.05,
+        "Wikimedia Commons": 65.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      },
+      "improved": 0,
+      "harmed": 6
+    },
+    "アンビエント-ドローン-extra-trees-full-overlay-w0.5": {
+      "top1Accuracy": 58.15,
+      "balancedTop1": 58.0,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 21,
+      "sourceTop1": {
+        "FMA": 58.72,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 53.79,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 83.05,
+        "Wikimedia Commons": 60.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      },
+      "improved": 1,
+      "harmed": 11
+    },
+    "アンビエント-ドローン-extra-trees-full-overlay-w0.75": {
+      "top1Accuracy": 57.46,
+      "balancedTop1": 57.5,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 38,
+      "sourceTop1": {
+        "FMA": 58.41,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 52.79,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 83.05,
+        "Wikimedia Commons": 60.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      },
+      "improved": 1,
+      "harmed": 24
+    },
+    "アンビエント-ドローン-extra-trees-full-overlay-w1": {
+      "top1Accuracy": 57.14,
+      "balancedTop1": 57.3,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 46,
+      "sourceTop1": {
+        "FMA": 58.41,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 52.29,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 83.05,
+        "Wikimedia Commons": 60.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      },
+      "improved": 1,
+      "harmed": 30
+    }
+  },
+  "ranking": [
+    "アンビエント-ドローン-logistic-rhythm-overlay-w0.25",
+    "v99-incumbent",
+    "アンビエント-ドローン-logistic-rhythm-overlay-w0.5",
+    "アンビエント-ドローン-logistic-rhythm-overlay-w0.75",
+    "アンビエント-ドローン-logistic-full-overlay-w0.25",
+    "アンビエント-ドローン-logistic-rhythm-overlay-w1",
+    "アンビエント-ドローン-extra-trees-full-overlay-w0.25",
+    "アンビエント-ドローン-extra-trees-rhythm-overlay-w0.25",
+    "アンビエント-ドローン-logistic-full-overlay-w0.5",
+    "アンビエント-ドローン-extra-trees-full-overlay-w0.5",
+    "アンビエント-ドローン-logistic-full-overlay-w0.75",
+    "アンビエント-ドローン-logistic-full-overlay-w1",
+    "アンビエント-ドローン-extra-trees-rhythm-overlay-w0.5",
+    "アンビエント-ドローン-extra-trees-full-overlay-w0.75",
+    "アンビエント-ドローン-extra-trees-rhythm-overlay-w0.75",
+    "アンビエント-ドローン-extra-trees-rhythm-overlay-w1",
+    "アンビエント-ドローン-extra-trees-full-overlay-w1"
+  ],
+  "promotionScreen": [],
+  "decision": "reject-no-strict-oof-gain",
+  "diagnostics": {
+    "アンビエント|ドローン|logistic|rhythm": [
+      {
+        "heldOutSource": "FMA",
+        "status": "fitted",
+        "rows": {
+          "アンビエント": 82,
+          "ドローン": 11
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ドローン": 3
+        },
+        "trainingOnlyOverlayRows": 17,
+        "applicableEvaluationRows": 31
+      },
+      {
+        "heldOutSource": "IdolSongsJp",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 78,
+          "アンビエント": 90
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 4,
+          "ドローン": 4
+        },
+        "trainingOnlyOverlayRows": 50,
+        "applicableEvaluationRows": 0
+      },
+      {
+        "heldOutSource": "Internet Archive",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 74,
+          "アンビエント": 85
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ドローン": 3
+        },
+        "trainingOnlyOverlayRows": 41,
+        "applicableEvaluationRows": 1
+      },
+      {
+        "heldOutSource": "Jamendo",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 78,
+          "アンビエント": 15
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ドローン": 4
+        },
+        "trainingOnlyOverlayRows": 50,
+        "applicableEvaluationRows": 49
+      },
+      {
+        "heldOutSource": "MagnaTagATune research evaluation",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 78,
+          "アンビエント": 90
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 4,
+          "ドローン": 4
+        },
+        "trainingOnlyOverlayRows": 50,
+        "applicableEvaluationRows": 0
+      },
+      {
+        "heldOutSource": "RWC Music Database",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 78,
+          "アンビエント": 90
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 4,
+          "ドローン": 4
+        },
+        "trainingOnlyOverlayRows": 50,
+        "applicableEvaluationRows": 0
+      },
+      {
+        "heldOutSource": "Wikimedia Commons",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 72,
+          "アンビエント": 88
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ドローン": 3
+        },
+        "trainingOnlyOverlayRows": 43,
+        "applicableEvaluationRows": 6
+      },
+      {
+        "heldOutSource": "Zenodo CAPHE Hybrid Opera 18288509",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 78,
+          "アンビエント": 90
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 4,
+          "ドローン": 4
+        },
+        "trainingOnlyOverlayRows": 50,
+        "applicableEvaluationRows": 0
+      }
+    ],
+    "アンビエント|ドローン|logistic|full": [
+      {
+        "heldOutSource": "FMA",
+        "status": "fitted",
+        "rows": {
+          "アンビエント": 82,
+          "ドローン": 11
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ドローン": 3
+        },
+        "trainingOnlyOverlayRows": 17,
+        "applicableEvaluationRows": 31
+      },
+      {
+        "heldOutSource": "IdolSongsJp",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 78,
+          "アンビエント": 90
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 4,
+          "ドローン": 4
+        },
+        "trainingOnlyOverlayRows": 50,
+        "applicableEvaluationRows": 0
+      },
+      {
+        "heldOutSource": "Internet Archive",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 74,
+          "アンビエント": 85
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ドローン": 3
+        },
+        "trainingOnlyOverlayRows": 41,
+        "applicableEvaluationRows": 1
+      },
+      {
+        "heldOutSource": "Jamendo",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 78,
+          "アンビエント": 15
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ドローン": 4
+        },
+        "trainingOnlyOverlayRows": 50,
+        "applicableEvaluationRows": 49
+      },
+      {
+        "heldOutSource": "MagnaTagATune research evaluation",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 78,
+          "アンビエント": 90
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 4,
+          "ドローン": 4
+        },
+        "trainingOnlyOverlayRows": 50,
+        "applicableEvaluationRows": 0
+      },
+      {
+        "heldOutSource": "RWC Music Database",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 78,
+          "アンビエント": 90
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 4,
+          "ドローン": 4
+        },
+        "trainingOnlyOverlayRows": 50,
+        "applicableEvaluationRows": 0
+      },
+      {
+        "heldOutSource": "Wikimedia Commons",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 72,
+          "アンビエント": 88
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ドローン": 3
+        },
+        "trainingOnlyOverlayRows": 43,
+        "applicableEvaluationRows": 6
+      },
+      {
+        "heldOutSource": "Zenodo CAPHE Hybrid Opera 18288509",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 78,
+          "アンビエント": 90
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 4,
+          "ドローン": 4
+        },
+        "trainingOnlyOverlayRows": 50,
+        "applicableEvaluationRows": 0
+      }
+    ],
+    "アンビエント|ドローン|extra-trees|rhythm": [
+      {
+        "heldOutSource": "FMA",
+        "status": "fitted",
+        "rows": {
+          "アンビエント": 82,
+          "ドローン": 11
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ドローン": 3
+        },
+        "trainingOnlyOverlayRows": 17,
+        "applicableEvaluationRows": 31
+      },
+      {
+        "heldOutSource": "IdolSongsJp",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 78,
+          "アンビエント": 90
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 4,
+          "ドローン": 4
+        },
+        "trainingOnlyOverlayRows": 50,
+        "applicableEvaluationRows": 0
+      },
+      {
+        "heldOutSource": "Internet Archive",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 74,
+          "アンビエント": 85
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ドローン": 3
+        },
+        "trainingOnlyOverlayRows": 41,
+        "applicableEvaluationRows": 1
+      },
+      {
+        "heldOutSource": "Jamendo",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 78,
+          "アンビエント": 15
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ドローン": 4
+        },
+        "trainingOnlyOverlayRows": 50,
+        "applicableEvaluationRows": 49
+      },
+      {
+        "heldOutSource": "MagnaTagATune research evaluation",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 78,
+          "アンビエント": 90
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 4,
+          "ドローン": 4
+        },
+        "trainingOnlyOverlayRows": 50,
+        "applicableEvaluationRows": 0
+      },
+      {
+        "heldOutSource": "RWC Music Database",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 78,
+          "アンビエント": 90
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 4,
+          "ドローン": 4
+        },
+        "trainingOnlyOverlayRows": 50,
+        "applicableEvaluationRows": 0
+      },
+      {
+        "heldOutSource": "Wikimedia Commons",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 72,
+          "アンビエント": 88
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ドローン": 3
+        },
+        "trainingOnlyOverlayRows": 43,
+        "applicableEvaluationRows": 6
+      },
+      {
+        "heldOutSource": "Zenodo CAPHE Hybrid Opera 18288509",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 78,
+          "アンビエント": 90
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 4,
+          "ドローン": 4
+        },
+        "trainingOnlyOverlayRows": 50,
+        "applicableEvaluationRows": 0
+      }
+    ],
+    "アンビエント|ドローン|extra-trees|full": [
+      {
+        "heldOutSource": "FMA",
+        "status": "fitted",
+        "rows": {
+          "アンビエント": 82,
+          "ドローン": 11
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ドローン": 3
+        },
+        "trainingOnlyOverlayRows": 17,
+        "applicableEvaluationRows": 31
+      },
+      {
+        "heldOutSource": "IdolSongsJp",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 78,
+          "アンビエント": 90
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 4,
+          "ドローン": 4
+        },
+        "trainingOnlyOverlayRows": 50,
+        "applicableEvaluationRows": 0
+      },
+      {
+        "heldOutSource": "Internet Archive",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 74,
+          "アンビエント": 85
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ドローン": 3
+        },
+        "trainingOnlyOverlayRows": 41,
+        "applicableEvaluationRows": 1
+      },
+      {
+        "heldOutSource": "Jamendo",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 78,
+          "アンビエント": 15
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ドローン": 4
+        },
+        "trainingOnlyOverlayRows": 50,
+        "applicableEvaluationRows": 49
+      },
+      {
+        "heldOutSource": "MagnaTagATune research evaluation",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 78,
+          "アンビエント": 90
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 4,
+          "ドローン": 4
+        },
+        "trainingOnlyOverlayRows": 50,
+        "applicableEvaluationRows": 0
+      },
+      {
+        "heldOutSource": "RWC Music Database",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 78,
+          "アンビエント": 90
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 4,
+          "ドローン": 4
+        },
+        "trainingOnlyOverlayRows": 50,
+        "applicableEvaluationRows": 0
+      },
+      {
+        "heldOutSource": "Wikimedia Commons",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 72,
+          "アンビエント": 88
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ドローン": 3
+        },
+        "trainingOnlyOverlayRows": 43,
+        "applicableEvaluationRows": 6
+      },
+      {
+        "heldOutSource": "Zenodo CAPHE Hybrid Opera 18288509",
+        "status": "fitted",
+        "rows": {
+          "ドローン": 78,
+          "アンビエント": 90
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 4,
+          "ドローン": 4
+        },
+        "trainingOnlyOverlayRows": 50,
+        "applicableEvaluationRows": 0
+      }
+    ],
+    "ドローン|ノイズミュージック|logistic|rhythm": [
+      {
+        "heldOutSource": "FMA",
+        "status": "blocked-source-coverage",
+        "rows": {
+          "ドローン": 11,
+          "ノイズミュージック": 27
+        },
+        "sourcesPerLabel": {
+          "ドローン": 3,
+          "ノイズミュージック": 1
+        }
+      }
+    ],
+    "ドローン|ノイズミュージック|logistic|full": [
+      {
+        "heldOutSource": "FMA",
+        "status": "blocked-source-coverage",
+        "rows": {
+          "ドローン": 11,
+          "ノイズミュージック": 27
+        },
+        "sourcesPerLabel": {
+          "ドローン": 3,
+          "ノイズミュージック": 1
+        }
+      }
+    ],
+    "ドローン|ノイズミュージック|extra-trees|rhythm": [
+      {
+        "heldOutSource": "FMA",
+        "status": "blocked-source-coverage",
+        "rows": {
+          "ドローン": 11,
+          "ノイズミュージック": 27
+        },
+        "sourcesPerLabel": {
+          "ドローン": 3,
+          "ノイズミュージック": 1
+        }
+      }
+    ],
+    "ドローン|ノイズミュージック|extra-trees|full": [
+      {
+        "heldOutSource": "FMA",
+        "status": "blocked-source-coverage",
+        "rows": {
+          "ドローン": 11,
+          "ノイズミュージック": 27
+        },
+        "sourcesPerLabel": {
+          "ドローン": 3,
+          "ノイズミュージック": 1
+        }
+      }
+    ],
+    "アンビエント|ノイズミュージック|logistic|rhythm": [
+      {
+        "heldOutSource": "FMA",
+        "status": "blocked-source-coverage",
+        "rows": {
+          "アンビエント": 82,
+          "ノイズミュージック": 27
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ノイズミュージック": 1
+        }
+      }
+    ],
+    "アンビエント|ノイズミュージック|logistic|full": [
+      {
+        "heldOutSource": "FMA",
+        "status": "blocked-source-coverage",
+        "rows": {
+          "アンビエント": 82,
+          "ノイズミュージック": 27
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ノイズミュージック": 1
+        }
+      }
+    ],
+    "アンビエント|ノイズミュージック|extra-trees|rhythm": [
+      {
+        "heldOutSource": "FMA",
+        "status": "blocked-source-coverage",
+        "rows": {
+          "アンビエント": 82,
+          "ノイズミュージック": 27
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ノイズミュージック": 1
+        }
+      }
+    ],
+    "アンビエント|ノイズミュージック|extra-trees|full": [
+      {
+        "heldOutSource": "FMA",
+        "status": "blocked-source-coverage",
+        "rows": {
+          "アンビエント": 82,
+          "ノイズミュージック": 27
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ノイズミュージック": 1
+        }
+      }
+    ],
+    "アンビエント|ドローン|ノイズミュージック|logistic|rhythm": [
+      {
+        "heldOutSource": "FMA",
+        "status": "blocked-source-coverage",
+        "rows": {
+          "アンビエント": 82,
+          "ドローン": 11,
+          "ノイズミュージック": 27
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ドローン": 3,
+          "ノイズミュージック": 1
+        }
+      }
+    ],
+    "アンビエント|ドローン|ノイズミュージック|logistic|full": [
+      {
+        "heldOutSource": "FMA",
+        "status": "blocked-source-coverage",
+        "rows": {
+          "アンビエント": 82,
+          "ドローン": 11,
+          "ノイズミュージック": 27
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ドローン": 3,
+          "ノイズミュージック": 1
+        }
+      }
+    ],
+    "アンビエント|ドローン|ノイズミュージック|extra-trees|rhythm": [
+      {
+        "heldOutSource": "FMA",
+        "status": "blocked-source-coverage",
+        "rows": {
+          "アンビエント": 82,
+          "ドローン": 11,
+          "ノイズミュージック": 27
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ドローン": 3,
+          "ノイズミュージック": 1
+        }
+      }
+    ],
+    "アンビエント|ドローン|ノイズミュージック|extra-trees|full": [
+      {
+        "heldOutSource": "FMA",
+        "status": "blocked-source-coverage",
+        "rows": {
+          "アンビエント": 82,
+          "ドローン": 11,
+          "ノイズミュージック": 27
+        },
+        "sourcesPerLabel": {
+          "アンビエント": 3,
+          "ドローン": 3,
+          "ノイズミュージック": 1
+        }
+      }
+    ]
+  }
+}

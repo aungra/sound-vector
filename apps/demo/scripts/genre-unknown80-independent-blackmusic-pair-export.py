@@ -66,6 +66,12 @@ MEMBER_CONFIGS = (
         "strength": 0.25,
     },
 )
+MODEL_VERSION = "unknown80-independent-blackmusic-20260823-v2"
+COMBINATION_NAME = "conservative-three-pair"
+SOURCE_HELDOUT_TOP1_BEFORE = 58.10
+SOURCE_HELDOUT_TOP1_AFTER = 58.68
+SOURCE_HELDOUT_IMPROVED = 16
+SOURCE_HELDOUT_HARMED = 5
 
 
 def load_module(path, name):
@@ -145,6 +151,7 @@ def run(args):
         members.append({
             "pair": list(pair),
             "strength": config["strength"],
+            "confidenceFloor": config.get("confidenceFloor", 0.0),
             "featureIndexes": feature_indexes.tolist(),
             "normalizationMode": "identity",
         })
@@ -160,7 +167,7 @@ def run(args):
         })
     bundle = {
         "schemaVersion": "mmfr.unknown80-rhythm-top3-pairwise.v1",
-        "modelVersion": "unknown80-independent-blackmusic-20260823-v2",
+        "modelVersion": MODEL_VERSION,
         "method": "audio-only-member-view-independent-source-pair-stack",
         "labels": labels,
         "librosaVectorLength": module.LIBROSA_DIMENSIONS,
@@ -169,7 +176,7 @@ def run(args):
         "robustScaleMedian": [0.0] * module.LIBROSA_DIMENSIONS,
         "robustScaleIqr": [1.0] * module.LIBROSA_DIMENSIONS,
         "robustScaleClip": None,
-        "combinationName": "conservative-three-pair",
+        "combinationName": COMBINATION_NAME,
         "members": members,
         "models": models,
         "policy": {
@@ -229,6 +236,7 @@ def run(args):
                 {
                     "pair": list(config["pair"]),
                     "strength": config["strength"],
+                    "confidenceFloor": config.get("confidenceFloor", 0.0),
                     "view": config["view"],
                     "featureIndexCount": (
                         len(module.RHYTHM_INDEXES)
@@ -242,10 +250,10 @@ def run(args):
         "evaluation": {
             "sourceHeldoutReport": str(OOF_REPORT.relative_to(ROOT)),
             "sourceHeldoutReportSha256": sha256(OOF_REPORT),
-            "sourceHeldoutTop1Before": 58.10,
-            "sourceHeldoutTop1After": 58.68,
-            "sourceHeldoutImproved": 16,
-            "sourceHeldoutHarmed": 5,
+            "sourceHeldoutTop1Before": SOURCE_HELDOUT_TOP1_BEFORE,
+            "sourceHeldoutTop1After": SOURCE_HELDOUT_TOP1_AFTER,
+            "sourceHeldoutImproved": SOURCE_HELDOUT_IMPROVED,
+            "sourceHeldoutHarmed": SOURCE_HELDOUT_HARMED,
             "gtzanReport": str(GTZAN_REPORT.relative_to(ROOT)),
             "gtzanReportSha256": sha256(GTZAN_REPORT),
             "gtzanTop1Before": 75.65,

@@ -78,6 +78,17 @@ class Unknown80RhythmRerankerTest(unittest.TestCase):
         self.assertTrue(details["scoreMultisetPreserved"])
         np.testing.assert_allclose(np.sort(scores), [0.05, 0.15, 0.35, 0.45])
 
+    def test_member_confidence_floor_blocks_low_confidence_model(self):
+        value = bundle()
+        value["members"][0]["confidenceFloor"] = 0.99
+        scores, details = MODULE.rerank(
+            value, ["a", "b", "c", "d"],
+            [0.45, 0.35, 0.15, 0.05], [0.0, 1.0, 0.0, 1.0],
+        )
+        self.assertFalse(details["applied"])
+        self.assertEqual(details["before"], details["after"])
+        np.testing.assert_allclose(scores, [0.45, 0.35, 0.15, 0.05])
+
     def test_load_bundle_validates_schema(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "candidate.pkl"

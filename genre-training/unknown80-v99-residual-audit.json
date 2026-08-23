@@ -1,0 +1,1225 @@
+{
+  "objective": "Audit fold-reconstructed v99 residual errors.",
+  "policy": {
+    "sourceHeldout": true,
+    "metadataUsedAtInference": false,
+    "urlSpecificRulesUsed": false,
+    "sealedFinalHoldoutUsed": false
+  },
+  "metric": {
+    "top1Accuracy": 58.68,
+    "balancedTop1": 58.69,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 0,
+    "sourceTop1": {
+      "FMA": 59.94,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 54.21,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 83.05,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    }
+  },
+  "confusions": [
+    {
+      "actual": "ディープ・ハウス",
+      "predicted": "ハウス",
+      "count": 26
+    },
+    {
+      "actual": "ハウス",
+      "predicted": "テクノ",
+      "count": 24
+    },
+    {
+      "actual": "ディープ・ハウス",
+      "predicted": "テクノ",
+      "count": 23
+    },
+    {
+      "actual": "テクノ",
+      "predicted": "トランス",
+      "count": 22
+    },
+    {
+      "actual": "メタル",
+      "predicted": "ロック",
+      "count": 21
+    },
+    {
+      "actual": "ダブ",
+      "predicted": "レゲエ",
+      "count": 20
+    },
+    {
+      "actual": "ラテン",
+      "predicted": "フォーク",
+      "count": 20
+    },
+    {
+      "actual": "ファンク",
+      "predicted": "ロック",
+      "count": 17
+    },
+    {
+      "actual": "レゲエ",
+      "predicted": "ダブ",
+      "count": 15
+    },
+    {
+      "actual": "クラシック音楽",
+      "predicted": "アンビエント",
+      "count": 15
+    },
+    {
+      "actual": "ブルース",
+      "predicted": "ロック",
+      "count": 15
+    },
+    {
+      "actual": "ドローン",
+      "predicted": "ノイズミュージック",
+      "count": 14
+    },
+    {
+      "actual": "クラシック音楽",
+      "predicted": "オペラ",
+      "count": 11
+    },
+    {
+      "actual": "クラシック音楽",
+      "predicted": "フォーク",
+      "count": 11
+    },
+    {
+      "actual": "ロック",
+      "predicted": "パンク",
+      "count": 10
+    },
+    {
+      "actual": "テクノ",
+      "predicted": "ハウス",
+      "count": 10
+    },
+    {
+      "actual": "メタル",
+      "predicted": "ハードコア",
+      "count": 10
+    },
+    {
+      "actual": "ハウス",
+      "predicted": "トランス",
+      "count": 10
+    },
+    {
+      "actual": "ドラムンベース",
+      "predicted": "ダブステップ",
+      "count": 9
+    },
+    {
+      "actual": "クラシック音楽",
+      "predicted": "ジャズ",
+      "count": 9
+    },
+    {
+      "actual": "ファンク",
+      "predicted": "ジャズ",
+      "count": 9
+    },
+    {
+      "actual": "アンビエント",
+      "predicted": "ドローン",
+      "count": 9
+    },
+    {
+      "actual": "ロック",
+      "predicted": "メタル",
+      "count": 8
+    },
+    {
+      "actual": "ドローン",
+      "predicted": "アンビエント",
+      "count": 8
+    },
+    {
+      "actual": "アンビエント",
+      "predicted": "ジャズ",
+      "count": 8
+    },
+    {
+      "actual": "トランス",
+      "predicted": "テクノ",
+      "count": 8
+    },
+    {
+      "actual": "ブルース",
+      "predicted": "フォーク",
+      "count": 8
+    },
+    {
+      "actual": "フォーク",
+      "predicted": "ロック",
+      "count": 7
+    },
+    {
+      "actual": "テクノ",
+      "predicted": "アンビエント",
+      "count": 7
+    },
+    {
+      "actual": "ダブステップ",
+      "predicted": "アンビエント",
+      "count": 7
+    },
+    {
+      "actual": "テクノ",
+      "predicted": "ドラムンベース",
+      "count": 7
+    },
+    {
+      "actual": "ハウス",
+      "predicted": "ディープ・ハウス",
+      "count": 7
+    },
+    {
+      "actual": "ジャズ",
+      "predicted": "ブルース",
+      "count": 7
+    },
+    {
+      "actual": "ブルース",
+      "predicted": "ジャズ",
+      "count": 7
+    },
+    {
+      "actual": "パンク",
+      "predicted": "レゲエ",
+      "count": 7
+    },
+    {
+      "actual": "ダブステップ",
+      "predicted": "テクノ",
+      "count": 6
+    },
+    {
+      "actual": "アンビエント",
+      "predicted": "クラシック音楽",
+      "count": 6
+    },
+    {
+      "actual": "メタル",
+      "predicted": "パンク",
+      "count": 6
+    },
+    {
+      "actual": "ダブステップ",
+      "predicted": "トランス",
+      "count": 6
+    },
+    {
+      "actual": "ダブ",
+      "predicted": "アンビエント",
+      "count": 6
+    },
+    {
+      "actual": "ドラムンベース",
+      "predicted": "テクノ",
+      "count": 6
+    },
+    {
+      "actual": "テクノ",
+      "predicted": "ハードコア",
+      "count": 6
+    },
+    {
+      "actual": "ロック",
+      "predicted": "フォーク",
+      "count": 6
+    },
+    {
+      "actual": "ファンク",
+      "predicted": "ソウルミュージック",
+      "count": 6
+    },
+    {
+      "actual": "フォーク",
+      "predicted": "クラシック音楽",
+      "count": 5
+    },
+    {
+      "actual": "パンク",
+      "predicted": "ロック",
+      "count": 5
+    },
+    {
+      "actual": "アンビエント",
+      "predicted": "ダブ",
+      "count": 5
+    },
+    {
+      "actual": "ラテン",
+      "predicted": "ロック",
+      "count": 5
+    },
+    {
+      "actual": "チップチューン",
+      "predicted": "テクノ",
+      "count": 4
+    },
+    {
+      "actual": "ダブステップ",
+      "predicted": "ヒップホップ",
+      "count": 4
+    },
+    {
+      "actual": "ダブステップ",
+      "predicted": "ドラムンベース",
+      "count": 4
+    },
+    {
+      "actual": "ハウス",
+      "predicted": "ヒップホップ",
+      "count": 4
+    },
+    {
+      "actual": "テクノ",
+      "predicted": "ノイズミュージック",
+      "count": 4
+    },
+    {
+      "actual": "ディープ・ハウス",
+      "predicted": "アンビエント",
+      "count": 4
+    },
+    {
+      "actual": "ジャズ",
+      "predicted": "ロック",
+      "count": 4
+    },
+    {
+      "actual": "ダブ",
+      "predicted": "ハウス",
+      "count": 4
+    },
+    {
+      "actual": "ダブ",
+      "predicted": "テクノ",
+      "count": 4
+    },
+    {
+      "actual": "アンビエント",
+      "predicted": "テクノ",
+      "count": 4
+    },
+    {
+      "actual": "ダブ",
+      "predicted": "ヒップホップ",
+      "count": 4
+    },
+    {
+      "actual": "ブルース",
+      "predicted": "ソウルミュージック",
+      "count": 4
+    },
+    {
+      "actual": "ドラムンベース",
+      "predicted": "アンビエント",
+      "count": 4
+    },
+    {
+      "actual": "ロック",
+      "predicted": "レゲエ",
+      "count": 4
+    },
+    {
+      "actual": "ロック",
+      "predicted": "ハードコア",
+      "count": 3
+    },
+    {
+      "actual": "ロック",
+      "predicted": "ドラムンベース",
+      "count": 3
+    },
+    {
+      "actual": "フォーク",
+      "predicted": "ジャズ",
+      "count": 3
+    },
+    {
+      "actual": "ダブステップ",
+      "predicted": "ダブ",
+      "count": 3
+    },
+    {
+      "actual": "ハウス",
+      "predicted": "ディスコ",
+      "count": 3
+    },
+    {
+      "actual": "ファンク",
+      "predicted": "ヒップホップ",
+      "count": 3
+    },
+    {
+      "actual": "ドラムンベース",
+      "predicted": "トランス",
+      "count": 3
+    },
+    {
+      "actual": "ドラムンベース",
+      "predicted": "ファンク",
+      "count": 3
+    },
+    {
+      "actual": "ファンク",
+      "predicted": "アンビエント",
+      "count": 3
+    },
+    {
+      "actual": "ハウス",
+      "predicted": "チップチューン",
+      "count": 3
+    },
+    {
+      "actual": "ファンク",
+      "predicted": "ブルース",
+      "count": 3
+    },
+    {
+      "actual": "ダブステップ",
+      "predicted": "メタル",
+      "count": 3
+    },
+    {
+      "actual": "アンビエント",
+      "predicted": "ロック",
+      "count": 3
+    },
+    {
+      "actual": "ブルース",
+      "predicted": "ファンク",
+      "count": 3
+    },
+    {
+      "actual": "ファンク",
+      "predicted": "ドラムンベース",
+      "count": 3
+    },
+    {
+      "actual": "ロック",
+      "predicted": "ブルース",
+      "count": 3
+    },
+    {
+      "actual": "クラシック音楽",
+      "predicted": "ブルース",
+      "count": 3
+    },
+    {
+      "actual": "ヒップホップ",
+      "predicted": "フォーク",
+      "count": 3
+    },
+    {
+      "actual": "ハウス",
+      "predicted": "J-POP",
+      "count": 3
+    },
+    {
+      "actual": "アンビエント",
+      "predicted": "フォーク",
+      "count": 3
+    },
+    {
+      "actual": "ジャズ",
+      "predicted": "メタル",
+      "count": 3
+    },
+    {
+      "actual": "ドラムンベース",
+      "predicted": "ジャズ",
+      "count": 3
+    },
+    {
+      "actual": "ジャズ",
+      "predicted": "ラテン",
+      "count": 3
+    },
+    {
+      "actual": "フォーク",
+      "predicted": "ドローン",
+      "count": 2
+    },
+    {
+      "actual": "ドローン",
+      "predicted": "オペラ",
+      "count": 2
+    },
+    {
+      "actual": "ノイズミュージック",
+      "predicted": "フォーク",
+      "count": 2
+    },
+    {
+      "actual": "ラテン",
+      "predicted": "オペラ",
+      "count": 2
+    },
+    {
+      "actual": "チップチューン",
+      "predicted": "ダブステップ",
+      "count": 2
+    },
+    {
+      "actual": "ダブステップ",
+      "predicted": "チップチューン",
+      "count": 2
+    },
+    {
+      "actual": "ダブ",
+      "predicted": "ダブステップ",
+      "count": 2
+    },
+    {
+      "actual": "アンビエント",
+      "predicted": "J-POP",
+      "count": 2
+    },
+    {
+      "actual": "ブルース",
+      "predicted": "アンビエント",
+      "count": 2
+    },
+    {
+      "actual": "ファンク",
+      "predicted": "メタル",
+      "count": 2
+    },
+    {
+      "actual": "ハウス",
+      "predicted": "アンビエント",
+      "count": 2
+    },
+    {
+      "actual": "ロック",
+      "predicted": "ジャズ",
+      "count": 2
+    },
+    {
+      "actual": "ロック",
+      "predicted": "ファンク",
+      "count": 2
+    },
+    {
+      "actual": "レゲエ",
+      "predicted": "フォーク",
+      "count": 2
+    },
+    {
+      "actual": "ロック",
+      "predicted": "アンビエント",
+      "count": 2
+    },
+    {
+      "actual": "ダブステップ",
+      "predicted": "J-POP",
+      "count": 2
+    },
+    {
+      "actual": "レゲエ",
+      "predicted": "ロック",
+      "count": 2
+    },
+    {
+      "actual": "ジャズ",
+      "predicted": "フォーク",
+      "count": 2
+    },
+    {
+      "actual": "ファンク",
+      "predicted": "テクノ",
+      "count": 2
+    },
+    {
+      "actual": "ディープ・ハウス",
+      "predicted": "トランス",
+      "count": 2
+    },
+    {
+      "actual": "アンビエント",
+      "predicted": "ブルース",
+      "count": 2
+    },
+    {
+      "actual": "ドラムンベース",
+      "predicted": "ヒップホップ",
+      "count": 2
+    },
+    {
+      "actual": "ラテン",
+      "predicted": "レゲエ",
+      "count": 2
+    },
+    {
+      "actual": "オペラ",
+      "predicted": "クラシック音楽",
+      "count": 2
+    },
+    {
+      "actual": "ロック",
+      "predicted": "ヒップホップ",
+      "count": 2
+    },
+    {
+      "actual": "ジャズ",
+      "predicted": "ファンク",
+      "count": 2
+    },
+    {
+      "actual": "トラップ",
+      "predicted": "ヒップホップ",
+      "count": 1
+    },
+    {
+      "actual": "トラップ",
+      "predicted": "メタル",
+      "count": 1
+    },
+    {
+      "actual": "トラップ",
+      "predicted": "ダブステップ",
+      "count": 1
+    },
+    {
+      "actual": "トラップ",
+      "predicted": "アンビエント",
+      "count": 1
+    },
+    {
+      "actual": "ロック",
+      "predicted": "オペラ",
+      "count": 1
+    },
+    {
+      "actual": "フォーク",
+      "predicted": "アンビエント",
+      "count": 1
+    },
+    {
+      "actual": "フォーク",
+      "predicted": "ブルース",
+      "count": 1
+    },
+    {
+      "actual": "フォーク",
+      "predicted": "ノイズミュージック",
+      "count": 1
+    },
+    {
+      "actual": "ロック",
+      "predicted": "ノイズミュージック",
+      "count": 1
+    },
+    {
+      "actual": "ノイズミュージック",
+      "predicted": "チップチューン",
+      "count": 1
+    },
+    {
+      "actual": "パンク",
+      "predicted": "ジャズ",
+      "count": 1
+    },
+    {
+      "actual": "ノイズミュージック",
+      "predicted": "ジャズ",
+      "count": 1
+    },
+    {
+      "actual": "ハウス",
+      "predicted": "ダブ",
+      "count": 1
+    },
+    {
+      "actual": "パンク",
+      "predicted": "フォーク",
+      "count": 1
+    },
+    {
+      "actual": "ラテン",
+      "predicted": "ハードコア",
+      "count": 1
+    },
+    {
+      "actual": "ドローン",
+      "predicted": "ジャズ",
+      "count": 1
+    },
+    {
+      "actual": "ドローン",
+      "predicted": "ラテン",
+      "count": 1
+    },
+    {
+      "actual": "ドローン",
+      "predicted": "ロック",
+      "count": 1
+    },
+    {
+      "actual": "ノイズミュージック",
+      "predicted": "ドラムンベース",
+      "count": 1
+    },
+    {
+      "actual": "アンビエント",
+      "predicted": "ヒップホップ",
+      "count": 1
+    },
+    {
+      "actual": "チップチューン",
+      "predicted": "ハウス",
+      "count": 1
+    },
+    {
+      "actual": "テクノ",
+      "predicted": "ヒップホップ",
+      "count": 1
+    },
+    {
+      "actual": "テクノ",
+      "predicted": "ファンク",
+      "count": 1
+    },
+    {
+      "actual": "パンク",
+      "predicted": "ブルース",
+      "count": 1
+    },
+    {
+      "actual": "ハードコア",
+      "predicted": "ロック",
+      "count": 1
+    },
+    {
+      "actual": "テクノ",
+      "predicted": "ディープ・ハウス",
+      "count": 1
+    },
+    {
+      "actual": "パンク",
+      "predicted": "ファンク",
+      "count": 1
+    },
+    {
+      "actual": "J-POP",
+      "predicted": "ハウス",
+      "count": 1
+    },
+    {
+      "actual": "J-POP",
+      "predicted": "ヒップホップ",
+      "count": 1
+    },
+    {
+      "actual": "ジャズ",
+      "predicted": "アンビエント",
+      "count": 1
+    },
+    {
+      "actual": "アンビエント",
+      "predicted": "ソウルミュージック",
+      "count": 1
+    },
+    {
+      "actual": "アンビエント",
+      "predicted": "ディープ・ハウス",
+      "count": 1
+    },
+    {
+      "actual": "ダブステップ",
+      "predicted": "ハードコア",
+      "count": 1
+    },
+    {
+      "actual": "ドラムンベース",
+      "predicted": "フォーク",
+      "count": 1
+    },
+    {
+      "actual": "ジャズ",
+      "predicted": "ドラムンベース",
+      "count": 1
+    },
+    {
+      "actual": "ドラムンベース",
+      "predicted": "メタル",
+      "count": 1
+    },
+    {
+      "actual": "アンビエント",
+      "predicted": "ハウス",
+      "count": 1
+    },
+    {
+      "actual": "レゲエ",
+      "predicted": "ヒップホップ",
+      "count": 1
+    },
+    {
+      "actual": "ファンク",
+      "predicted": "ダブ",
+      "count": 1
+    },
+    {
+      "actual": "レゲエ",
+      "predicted": "ラテン",
+      "count": 1
+    },
+    {
+      "actual": "ファンク",
+      "predicted": "チップチューン",
+      "count": 1
+    },
+    {
+      "actual": "レゲエ",
+      "predicted": "J-POP",
+      "count": 1
+    },
+    {
+      "actual": "ダブ",
+      "predicted": "ディープ・ハウス",
+      "count": 1
+    },
+    {
+      "actual": "ヒップホップ",
+      "predicted": "トラップ",
+      "count": 1
+    },
+    {
+      "actual": "ハウス",
+      "predicted": "フォーク",
+      "count": 1
+    },
+    {
+      "actual": "ジャズ",
+      "predicted": "チップチューン",
+      "count": 1
+    },
+    {
+      "actual": "レゲエ",
+      "predicted": "パンク",
+      "count": 1
+    },
+    {
+      "actual": "テクノ",
+      "predicted": "ディスコ",
+      "count": 1
+    },
+    {
+      "actual": "クラシック音楽",
+      "predicted": "ドローン",
+      "count": 1
+    },
+    {
+      "actual": "ドラムンベース",
+      "predicted": "ダブ",
+      "count": 1
+    },
+    {
+      "actual": "ダブ",
+      "predicted": "フォーク",
+      "count": 1
+    },
+    {
+      "actual": "フォーク",
+      "predicted": "オペラ",
+      "count": 1
+    },
+    {
+      "actual": "テクノ",
+      "predicted": "ダブ",
+      "count": 1
+    },
+    {
+      "actual": "テクノ",
+      "predicted": "ダブステップ",
+      "count": 1
+    },
+    {
+      "actual": "ブルース",
+      "predicted": "チップチューン",
+      "count": 1
+    },
+    {
+      "actual": "ロック",
+      "predicted": "ソウルミュージック",
+      "count": 1
+    },
+    {
+      "actual": "ファンク",
+      "predicted": "フォーク",
+      "count": 1
+    },
+    {
+      "actual": "ドラムンベース",
+      "predicted": "J-POP",
+      "count": 1
+    },
+    {
+      "actual": "ダブステップ",
+      "predicted": "ハウス",
+      "count": 1
+    },
+    {
+      "actual": "ブルース",
+      "predicted": "ハウス",
+      "count": 1
+    },
+    {
+      "actual": "ダブステップ",
+      "predicted": "クラシック音楽",
+      "count": 1
+    },
+    {
+      "actual": "ドラムンベース",
+      "predicted": "ハウス",
+      "count": 1
+    },
+    {
+      "actual": "ダブステップ",
+      "predicted": "レゲエ",
+      "count": 1
+    },
+    {
+      "actual": "ヒップホップ",
+      "predicted": "テクノ",
+      "count": 1
+    },
+    {
+      "actual": "ヒップホップ",
+      "predicted": "ハウス",
+      "count": 1
+    },
+    {
+      "actual": "ハウス",
+      "predicted": "レゲエ",
+      "count": 1
+    },
+    {
+      "actual": "ダブステップ",
+      "predicted": "ロック",
+      "count": 1
+    },
+    {
+      "actual": "ディープ・ハウス",
+      "predicted": "ヒップホップ",
+      "count": 1
+    },
+    {
+      "actual": "ヒップホップ",
+      "predicted": "J-POP",
+      "count": 1
+    },
+    {
+      "actual": "ダブステップ",
+      "predicted": "オペラ",
+      "count": 1
+    },
+    {
+      "actual": "ヒップホップ",
+      "predicted": "クラシック音楽",
+      "count": 1
+    },
+    {
+      "actual": "クラシック音楽",
+      "predicted": "ラテン",
+      "count": 1
+    },
+    {
+      "actual": "フォーク",
+      "predicted": "ソウルミュージック",
+      "count": 1
+    },
+    {
+      "actual": "ブルース",
+      "predicted": "ヒップホップ",
+      "count": 1
+    },
+    {
+      "actual": "ブルース",
+      "predicted": "トランス",
+      "count": 1
+    },
+    {
+      "actual": "メタル",
+      "predicted": "ドローン",
+      "count": 1
+    },
+    {
+      "actual": "ラテン",
+      "predicted": "パンク",
+      "count": 1
+    },
+    {
+      "actual": "ラテン",
+      "predicted": "ブルース",
+      "count": 1
+    },
+    {
+      "actual": "レゲエ",
+      "predicted": "ジャズ",
+      "count": 1
+    },
+    {
+      "actual": "パンク",
+      "predicted": "メタル",
+      "count": 1
+    },
+    {
+      "actual": "アンビエント",
+      "predicted": "オペラ",
+      "count": 1
+    },
+    {
+      "actual": "アンビエント",
+      "predicted": "ラテン",
+      "count": 1
+    },
+    {
+      "actual": "フォーク",
+      "predicted": "レゲエ",
+      "count": 1
+    },
+    {
+      "actual": "ディープ・ハウス",
+      "predicted": "ダブ",
+      "count": 1
+    },
+    {
+      "actual": "ディープ・ハウス",
+      "predicted": "J-POP",
+      "count": 1
+    },
+    {
+      "actual": "テクノ",
+      "predicted": "ドローン",
+      "count": 1
+    },
+    {
+      "actual": "アンビエント",
+      "predicted": "チップチューン",
+      "count": 1
+    },
+    {
+      "actual": "ダブ",
+      "predicted": "ジャズ",
+      "count": 1
+    },
+    {
+      "actual": "ラテン",
+      "predicted": "ジャズ",
+      "count": 1
+    },
+    {
+      "actual": "ハウス",
+      "predicted": "ファンク",
+      "count": 1
+    },
+    {
+      "actual": "アンビエント",
+      "predicted": "ファンク",
+      "count": 1
+    },
+    {
+      "actual": "ソウルミュージック",
+      "predicted": "J-POP",
+      "count": 1
+    },
+    {
+      "actual": "ソウルミュージック",
+      "predicted": "ジャズ",
+      "count": 1
+    },
+    {
+      "actual": "ラテン",
+      "predicted": "クラシック音楽",
+      "count": 1
+    },
+    {
+      "actual": "ドラムンベース",
+      "predicted": "ドローン",
+      "count": 1
+    },
+    {
+      "actual": "ノイズミュージック",
+      "predicted": "アンビエント",
+      "count": 1
+    },
+    {
+      "actual": "ノイズミュージック",
+      "predicted": "ドローン",
+      "count": 1
+    },
+    {
+      "actual": "ロック",
+      "predicted": "ダブ",
+      "count": 1
+    },
+    {
+      "actual": "テクノ",
+      "predicted": "トラップ",
+      "count": 1
+    },
+    {
+      "actual": "メタル",
+      "predicted": "ドラムンベース",
+      "count": 1
+    },
+    {
+      "actual": "テクノ",
+      "predicted": "パンク",
+      "count": 1
+    }
+  ],
+  "genreRecall": [
+    {
+      "genre": "ディープ・ハウス",
+      "recall": 22.67,
+      "rows": 75
+    },
+    {
+      "genre": "ドローン",
+      "recall": 22.86,
+      "rows": 35
+    },
+    {
+      "genre": "ソウルミュージック",
+      "recall": 33.33,
+      "rows": 3
+    },
+    {
+      "genre": "ノイズミュージック",
+      "recall": 36.36,
+      "rows": 11
+    },
+    {
+      "genre": "ファンク",
+      "recall": 41.38,
+      "rows": 87
+    },
+    {
+      "genre": "トラップ",
+      "recall": 42.86,
+      "rows": 7
+    },
+    {
+      "genre": "ハウス",
+      "recall": 44.95,
+      "rows": 109
+    },
+    {
+      "genre": "ラテン",
+      "recall": 49.25,
+      "rows": 67
+    },
+    {
+      "genre": "ブルース",
+      "recall": 49.41,
+      "rows": 85
+    },
+    {
+      "genre": "テクノ",
+      "recall": 51.13,
+      "rows": 133
+    },
+    {
+      "genre": "メタル",
+      "recall": 53.01,
+      "rows": 83
+    },
+    {
+      "genre": "ダブステップ",
+      "recall": 53.26,
+      "rows": 92
+    },
+    {
+      "genre": "アンビエント",
+      "recall": 55.75,
+      "rows": 113
+    },
+    {
+      "genre": "ダブ",
+      "recall": 59.05,
+      "rows": 105
+    },
+    {
+      "genre": "クラシック音楽",
+      "recall": 61.36,
+      "rows": 132
+    },
+    {
+      "genre": "ドラムンベース",
+      "recall": 63.27,
+      "rows": 98
+    },
+    {
+      "genre": "ロック",
+      "recall": 63.97,
+      "rows": 136
+    },
+    {
+      "genre": "ハードコア",
+      "recall": 66.67,
+      "rows": 3
+    },
+    {
+      "genre": "ジャズ",
+      "recall": 67.12,
+      "rows": 73
+    },
+    {
+      "genre": "パンク",
+      "recall": 72.13,
+      "rows": 61
+    },
+    {
+      "genre": "レゲエ",
+      "recall": 73.91,
+      "rows": 92
+    },
+    {
+      "genre": "フォーク",
+      "recall": 74.73,
+      "rows": 91
+    },
+    {
+      "genre": "トランス",
+      "recall": 80.49,
+      "rows": 41
+    },
+    {
+      "genre": "オペラ",
+      "recall": 83.33,
+      "rows": 12
+    },
+    {
+      "genre": "J-POP",
+      "recall": 86.67,
+      "rows": 15
+    },
+    {
+      "genre": "チップチューン",
+      "recall": 87.5,
+      "rows": 56
+    },
+    {
+      "genre": "ヒップホップ",
+      "recall": 88.24,
+      "rows": 68
+    }
+  ]
+}

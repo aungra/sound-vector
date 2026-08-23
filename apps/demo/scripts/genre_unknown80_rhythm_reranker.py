@@ -84,6 +84,9 @@ def rerank(bundle, labels, base_scores, librosa_vector):
             probabilities[classes.index(pair[0])],
             probabilities[classes.index(pair[1])],
         ], dtype=np.float64)
+        confidence_floor = float(member.get("confidenceFloor", 0.0))
+        if float(np.max(learned)) < confidence_floor:
+            continue
         current = normalize_scores(scores[[first, second]])
         target = normalize_scores(current * (1.0 - strength) + learned * strength)
         delta = np.log(np.maximum(target, 1e-12)) - np.log(np.maximum(current, 1e-12))
@@ -92,6 +95,7 @@ def rerank(bundle, labels, base_scores, librosa_vector):
         applied.append({
             "pair": list(pair),
             "strength": strength,
+            "confidenceFloor": confidence_floor,
             "learned": learned.tolist(),
         })
     output = scores.copy()
