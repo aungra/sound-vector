@@ -9,6 +9,13 @@ import {
   embeddingInferenceAttemptPlan,
   runEmbeddingInferenceAttempts,
 } from "./genre-embedding-runtime-policy.mjs";
+import {
+  buildTrackPredictionContract,
+  planTrackSampleRanges,
+  preserveRequestedPcmSketch,
+  promoteReliableExternalTrackPrediction,
+  summarizeTrackSegmentPredictions,
+} from "./genre-track-sampling.mjs";
 import { shouldRunUnknownSourceConsensus } from "./genre-unknown-consensus-policy.mjs";
 import {
   classifyYouTubeFailure,
@@ -31,6 +38,8 @@ const HOST = process.env.MMFR_AUDIO_HOST || "127.0.0.1";
 const PUBLIC_MODE = process.env.MMFR_PUBLIC_MODE === "1";
 const MAX_BYTES = PUBLIC_MODE ? 32 * 1024 : 80 * 1024 * 1024;
 const ANALYSIS_WINDOW_SECONDS = Math.max(0, Number(process.env.MMFR_ANALYSIS_SECONDS || 120));
+const TRACK_SAMPLE_COUNT = 4;
+const TRACK_SAMPLE_WINDOW_SECONDS = 30;
 const PUBLIC_ALLOWED_ORIGINS = parseAllowedOrigins(process.env.MMFR_ALLOWED_ORIGINS);
 const PUBLIC_MAX_CONCURRENT = Math.max(1, Number(process.env.MMFR_PUBLIC_MAX_CONCURRENT || 1));
 const PUBLIC_RATE_LIMIT = Math.max(1, Number(process.env.MMFR_PUBLIC_RATE_LIMIT || 4));
@@ -584,69 +593,21 @@ function splitFloat32PcmWindows(buffer, sampleRate = 22050, count = 3) {
   });
 }
 
-function summarizeLocalSegmentPredictions(predictions = []) {
-  const usable = predictions.filter(item => item?.top?.length && !item.error);
-  if (usable.length < 3) return { available: false, count: usable.length };
-  const labelVotes = new Map();
-  const labelScores = new Map();
-  const macroVotes = new Map();
-  const margins = [];
-  for (const prediction of usable) {
-    const leader = prediction.top[0]?.label || prediction.top[0]?.name || "";
-    const macroLeader = prediction.macro?.[0]?.label || prediction.macro?.[0]?.macro || "";
-    if (leader) labelVotes.set(leader, (labelVotes.get(leader) || 0) + 1);
-    if (macroLeader) macroVotes.set(macroLeader, (macroVotes.get(macroLeader) || 0) + 1);
-    margins.push(Math.max(0, (Number(prediction.top[0]?.score) || 0) - (Number(prediction.top[1]?.score) || 0)));
-    for (const item of prediction.top) {
-      const label = item.label || item.name || "";
-      if (!label) continue;
-      labelScores.set(label, (labelScores.get(label) || 0) + Math.max(0, Number(item.score) || 0));
-    }
-  }
-  const rankedVotes = [...labelVotes.entries()].sort((a, b) => b[1] - a[1]
-    || (labelScores.get(b[0]) || 0) - (labelScores.get(a[0]) || 0)
-    || a[0].localeCompare(b[0]));
-  const rankedMacroVotes = [...macroVotes.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
-  const leader = rankedVotes[0]?.[0] || "";
-  const votes = Number(rankedVotes[0]?.[1] || 0);
-  const macroLeader = rankedMacroVotes[0]?.[0] || "";
-  const macroVotesForLeader = Number(rankedMacroVotes[0]?.[1] || 0);
-  const averageMargin = margins.reduce((sum, value) => sum + value, 0) / Math.max(1, margins.length);
-  const top = [...labelScores.entries()]
-    .map(([label, score]) => ({
-      label,
-      score: Math.round(score / usable.length * 10) / 10,
-      votes: Number(labelVotes.get(label) || 0)
-    }))
-    .sort((a, b) => b.votes - a.votes || b.score - a.score || a.label.localeCompare(b.label))
-    .slice(0, 5);
-  return {
-    available: true,
-    count: usable.length,
-    leader,
-    leaders: usable.map(item => item.top[0]?.label || item.top[0]?.name || ""),
-    votes,
-    voteShare: Math.round(votes / usable.length * 1000) / 1000,
-    unanimous: votes === usable.length,
-    averageMargin: Math.round(averageMargin * 10) / 10,
-    macroLeader,
-    macroVotes: macroVotesForLeader,
-    macroVoteShare: Math.round(macroVotesForLeader / usable.length * 1000) / 1000,
-    reliable: votes === usable.length && macroVotesForLeader === usable.length && averageMargin >= 12,
-    top
-  };
-}
-
-async function analyzeProductionLocalGenreSegments(buffer, sampleRate = 22050) {
+async function analyzeProductionLocalGenreSegments(buffer, sampleRate = 22050, ranges = []) {
   if (!LOCAL_SEGMENT_CONSENSUS_ENABLED) return { available: false, count: 0, disabled: true };
-  const windows = splitFloat32PcmWindows(buffer, sampleRate, 3);
-  if (windows.length < 3) return { available: false, count: windows.length };
-  const predictions = [];
-  for (const window of windows) {
+  const expectedCount = ranges.length || 3;
+  const windows = splitFloat32PcmWindows(buffer, sampleRate, expectedCount);
+  if (windows.length < expectedCount) return { available: false, count: windows.length };
+  const records = [];
+  for (let index = 0; index < windows.length; index += 1) {
+    const window = windows[index];
     const features = analyzeFloat32Pcm(window, sampleRate);
-    predictions.push(await analyzeProductionLocalGenre(features, "segment-consensus"));
+    records.push({
+      range: ranges[index] || { index },
+      prediction: await analyzeProductionLocalGenre(features, "segment-consensus"),
+    });
   }
-  return summarizeLocalSegmentPredictions(predictions);
+  return summarizeTrackSegmentPredictions(records, expectedCount);
 }
 
 async function applyBrowserGenreCalibration(prediction = {}, features = {}, japaneseVocalEvidence = {}) {
@@ -944,6 +905,13 @@ function pcmSketchFromSamples(samples, sampleRate = 22050, targetRate = 11025, m
     pcmSketchSampleRate: targetRate,
     pcmSketchDuration: Math.round(duration * 1000) / 1000,
     pcmSketchFrameCount: length
+  };
+}
+
+function pcmSketchFeaturesFromFloat32Buffer(buffer, sampleRate = 22050) {
+  const samples = new Float32Array(buffer.buffer, buffer.byteOffset, Math.floor(buffer.byteLength / 4));
+  return {
+    detail: pcmSketchFromSamples(samples, sampleRate, 11025, 24),
   };
 }
 
@@ -1285,18 +1253,37 @@ async function analyzeYouTube(youtubeUrl, options = {}) {
     };
     finishStage("metadata", { strategy: metaResult.strategy, retryCount: metaResult.retryCount });
 
+    const sampledRanges = planTrackSampleRanges({
+      durationSeconds: Number.isFinite(durationSeconds) ? durationSeconds : startSeconds + Math.max(1, ANALYSIS_WINDOW_SECONDS),
+      requestedStartSeconds: startSeconds,
+      windowSeconds: TRACK_SAMPLE_WINDOW_SECONDS,
+      count: TRACK_SAMPLE_COUNT,
+    });
+    if (!sampledRanges.length) {
+      sampledRanges.push({
+        index: 0,
+        role: "requested",
+        startSeconds,
+        endSeconds: startSeconds + Math.max(1, ANALYSIS_WINDOW_SECONDS),
+        durationSeconds: Math.max(1, ANALYSIS_WINDOW_SECONDS),
+      });
+    }
+
     startStage("download");
-    const sectionEnd = startSeconds + Math.max(1, ANALYSIS_WINDOW_SECONDS || 45);
     let acquisitionMode = "range";
     let downloadResult;
     try {
+      const sectionArgs = sampledRanges.flatMap(range => [
+        "--download-sections", `*${range.startSeconds}-${range.endSeconds}`,
+      ]);
       downloadResult = await runYtDlp(tools.ytDlp, [
         "--no-playlist",
         "--ffmpeg-location", path.dirname(tools.ffmpeg),
-        "--download-sections", `*${startSeconds}-${sectionEnd}`,
+        ...sectionArgs,
+        "--force-keyframes-at-cuts",
         "--max-filesize", "80M",
         "-f", "bestaudio/best",
-        "-o", path.join(tempDir, "source-range.%(ext)s"),
+        "-o", path.join(tempDir, "source-range-%(section_start)010.3f.%(ext)s"),
         youtubeUrl
       ], {
         timeoutMs: 180000,
@@ -1310,9 +1297,6 @@ async function analyzeYouTube(youtubeUrl, options = {}) {
         || failure.code === "AGE_RESTRICTED" || failure.code === "YOUTUBE_COOKIE_REQUIRED") throw error;
       acquisitionMode = "full-fallback";
       analysisLog(requestId, "range-fallback", { code: failure.code });
-      for (const file of await fs.promises.readdir(tempDir)) {
-        if (file.startsWith("source-range.")) await fs.promises.rm(path.join(tempDir, file), { force: true });
-      }
       downloadResult = await runYtDlp(tools.ytDlp, [
         "--no-playlist",
         "--ffmpeg-location", path.dirname(tools.ffmpeg),
@@ -1326,30 +1310,83 @@ async function analyzeYouTube(youtubeUrl, options = {}) {
         onAttempt: ({ strategy, attempt }) => analysisLog(requestId, "youtube-attempt", { stage: "full-download", strategy, retryCount: attempt }),
       });
     }
-    const files = await fs.promises.readdir(tempDir);
-    const sourceFile = files.find(file => file.startsWith(acquisitionMode === "range" ? "source-range." : "source-full."));
-    if (!sourceFile) throw new Error("Downloaded audio file was not found.");
-    const sourcePath = path.join(tempDir, sourceFile);
+    let files = await fs.promises.readdir(tempDir);
+    const availableRangeSourceFiles = files
+      .filter(file => file.startsWith("source-range-") && !file.endsWith(".part"))
+      .sort();
+    const rangeSourceFiles = sampledRanges.map(range => {
+      const expectedStart = Number(range.startSeconds || 0);
+      return availableRangeSourceFiles.find(file => {
+        const parsedStart = Number(file.match(/^source-range-([0-9]+(?:\.[0-9]+)?)\./)?.[1]);
+        return Number.isFinite(parsedStart) && Math.abs(parsedStart - expectedStart) < .01;
+      }) || "";
+    });
+    if (acquisitionMode === "range" && (
+      rangeSourceFiles.length !== sampledRanges.length || rangeSourceFiles.some(file => !file)
+    )) {
+      acquisitionMode = "full-fallback";
+      analysisLog(requestId, "range-fallback", {
+        code: "INCOMPLETE_MULTI_RANGE",
+        expected: sampledRanges.length,
+        actual: rangeSourceFiles.length,
+      });
+      downloadResult = await runYtDlp(tools.ytDlp, [
+        "--no-playlist",
+        "--ffmpeg-location", path.dirname(tools.ffmpeg),
+        "--max-filesize", "80M",
+        "-f", "bestaudio/best",
+        "-o", path.join(tempDir, "source-full.%(ext)s"),
+        youtubeUrl
+      ], {
+        timeoutMs: 180000,
+        signal,
+        onAttempt: ({ strategy, attempt }) => analysisLog(requestId, "youtube-attempt", { stage: "full-download", strategy, retryCount: attempt }),
+      });
+      files = await fs.promises.readdir(tempDir);
+    }
+    const fullSourceFile = files.find(file => file.startsWith("source-full.") && !file.endsWith(".part"));
+    if (acquisitionMode === "full-fallback" && !fullSourceFile) throw new Error("Downloaded audio file was not found.");
     finishStage("download", { acquisitionMode, strategy: downloadResult.strategy, retryCount: downloadResult.retryCount });
-    // Normalise the requested slice once. Python audio backends cannot reliably
-    // open yt-dlp's WebM output, whereas PCM WAV is portable and deterministic.
-    const analysisAudioPath = path.join(tempDir, "analysis-window.wav");
-    const analysisSliceArgs = [
+
+    startStage("decode");
+    const segmentAudioPaths = [];
+    for (let index = 0; index < sampledRanges.length; index += 1) {
+      const range = sampledRanges[index];
+      const sourcePath = acquisitionMode === "range"
+        ? path.join(tempDir, rangeSourceFiles[index])
+        : path.join(tempDir, fullSourceFile);
+      const segmentAudioPath = path.join(tempDir, `analysis-segment-${String(index).padStart(2, "0")}.wav`);
+      const sliceArgs = ["-hide_banner", "-loglevel", "error"];
+      if (acquisitionMode === "full-fallback") sliceArgs.push("-ss", String(range.startSeconds));
+      sliceArgs.push(
+        "-i", sourcePath,
+        "-t", String(range.durationSeconds),
+        "-vn",
+        "-ac", "1",
+        "-ar", "22050",
+        "-c:a", "pcm_s16le",
+        segmentAudioPath,
+      );
+      await run(tools.ffmpeg, sliceArgs, { timeoutMs: 90000, signal });
+      segmentAudioPaths.push(segmentAudioPath);
+    }
+
+    // Keep one deterministic analysis file so the expensive embedding and
+    // vocal models still run once while the local head sees every track range.
+    const analysisAudioPath = path.join(tempDir, "analysis-track.wav");
+    const concatInputs = segmentAudioPaths.flatMap(segmentPath => ["-i", segmentPath]);
+    const concatFilter = `${segmentAudioPaths.map((_, index) => `[${index}:a]`).join("")}concat=n=${segmentAudioPaths.length}:v=0:a=1[out]`;
+    await run(tools.ffmpeg, [
       "-hide_banner",
-      "-loglevel", "error"
-    ];
-    if (acquisitionMode === "full-fallback" && startSeconds > 0) analysisSliceArgs.push("-ss", String(startSeconds));
-    analysisSliceArgs.push("-i", sourcePath);
-    if (ANALYSIS_WINDOW_SECONDS > 0) analysisSliceArgs.push("-t", String(ANALYSIS_WINDOW_SECONDS));
-    analysisSliceArgs.push(
-      "-vn",
+      "-loglevel", "error",
+      ...concatInputs,
+      "-filter_complex", concatFilter,
+      "-map", "[out]",
       "-ac", "1",
       "-ar", "22050",
       "-c:a", "pcm_s16le",
-      analysisAudioPath
-    );
-    startStage("decode");
-    await run(tools.ffmpeg, analysisSliceArgs, { timeoutMs: 90000, signal });
+      analysisAudioPath,
+    ], { timeoutMs: 90000, signal });
 
     const ffmpegArgs = [
       "-hide_banner",
@@ -1366,28 +1403,57 @@ async function analyzeYouTube(youtubeUrl, options = {}) {
       ...ffmpegArgs
     ], { timeoutMs: 90000, signal });
     if (!stdout.length) throw new Error(`No audio was decoded from ${startSeconds}s. Try an earlier start time.`);
+    const requestedSegmentIndex = Math.max(0, sampledRanges.findIndex(range => range.role === "requested"));
+    const { stdout: requestedPcmStdout } = await run(tools.ffmpeg, [
+      "-hide_banner", "-loglevel", "error",
+      "-i", segmentAudioPaths[requestedSegmentIndex],
+      "-ac", "1", "-ar", "22050", "-f", "f32le", "pipe:1",
+    ], { timeoutMs: 90000, signal });
+    if (!requestedPcmStdout.length) throw new Error("No audio was decoded from the requested reversible-PCM range.");
     finishStage("decode", { bytes: stdout.length });
     startStage("features");
-    const features = analyzeFloat32Pcm(stdout, 22050);
-    const segmentConsensus = await analyzeProductionLocalGenreSegments(stdout, 22050);
+    const features = preserveRequestedPcmSketch(
+      analyzeFloat32Pcm(stdout, 22050),
+      pcmSketchFeaturesFromFloat32Buffer(requestedPcmStdout, 22050),
+    );
+    const segmentConsensus = await analyzeProductionLocalGenreSegments(stdout, 22050, sampledRanges);
     const japaneseVocalEvidence = await analyzeJapaneseVocalEvidenceForFile(analysisAudioPath, {
       startSeconds: 0,
       ffmpegPath: tools.ffmpeg
     });
-    const embeddingGenrePrediction = await resolveGenrePrediction(
+    const rawGenrePrediction = await resolveGenrePrediction(
       analysisAudioPath,
       features,
       japaneseVocalEvidence,
       segmentConsensus
     );
+    const gatedGenrePrediction = promoteReliableExternalTrackPrediction(rawGenrePrediction);
+    const trackContract = buildTrackPredictionContract({
+      prediction: gatedGenrePrediction,
+      sampledRanges,
+      segmentSummary: segmentConsensus,
+      fallbackModelVersion: GENRE_INFERENCE_REVISION,
+    });
+    const embeddingGenrePrediction = trackContract?.prediction || gatedGenrePrediction;
+    const segmentAgreement = trackContract?.segmentAgreement || null;
+    const evidenceCoverage = Number(trackContract?.evidenceCoverage || 0);
     finishStage("features");
     analysisLog(requestId, "complete", { totalMs: Date.now() - startedAt, acquisitionMode });
+    const sampledAudioSeconds = sampledRanges.reduce((sum, range) => sum + Number(range.durationSeconds || 0), 0);
     return {
       ...features,
       sourceUrl: youtubeUrl,
       normalizedUrl: youtubeUrl,
       startSeconds,
-      analysisWindowSeconds: ANALYSIS_WINDOW_SECONDS,
+      analysisWindowSeconds: sampledAudioSeconds,
+      classificationScope: "track",
+      sampledRanges,
+      segmentPredictions: segmentConsensus.segmentPredictions || [],
+      segmentAgreement,
+      evidenceCoverage,
+      confidence: Number(embeddingGenrePrediction?.confidence || embeddingGenrePrediction?.top?.[0]?.score || 0),
+      needsReview: Boolean(embeddingGenrePrediction?.needsReview),
+      modelVersion: embeddingGenrePrediction?.modelVersion || GENRE_INFERENCE_REVISION,
       acquisitionMode,
       youtubeMeta,
       japaneseVocalEvidence,
@@ -1429,6 +1495,23 @@ async function analyzePreviewUrl(previewUrl, options = {}) {
   };
 }
 
+async function probeAudioDuration(filePath, ffmpegPath) {
+  try {
+    const result = await run(ffmpegPath, [
+      "-hide_banner",
+      "-i", filePath,
+      "-t", "0",
+      "-f", "null",
+      "-",
+    ], { timeoutMs: 30000 });
+    const match = String(result.stderr || "").match(/Duration:\s*(\d+):(\d+):(\d+(?:\.\d+)?)/);
+    if (!match) return 0;
+    return Number(match[1]) * 3600 + Number(match[2]) * 60 + Number(match[3]);
+  } catch {
+    return 0;
+  }
+}
+
 async function analyzeLocalFile(filePath, options = {}) {
   const targetPath = path.resolve(String(filePath || ""));
   if (!targetPath) throw new Error("Local audio file path is missing.");
@@ -1437,47 +1520,100 @@ async function analyzeLocalFile(filePath, options = {}) {
   if (!tools.ffmpeg) {
     throw new Error(`Missing required command: ffmpeg. Run "Install Audio Tools.command" first, then restart this server.`);
   }
-  const duration = Math.max(1, Math.min(180, Number(options.durationSeconds || ANALYSIS_WINDOW_SECONDS || 60)));
   const startSeconds = Math.max(0, Math.floor(Number(options.startSeconds || 0)));
-  const ffmpegArgs = [
-    "-hide_banner",
-    "-loglevel", "error"
-  ];
-  if (startSeconds > 0) ffmpegArgs.push("-ss", String(startSeconds));
-  ffmpegArgs.push(
-    "-i", targetPath,
-    "-t", String(duration),
-    "-ac", "1",
-    "-ar", "22050",
-    "-f", "f32le",
-    "pipe:1"
-  );
-  const { stdout } = await run(tools.ffmpeg, ffmpegArgs, { timeoutMs: 180000 });
-  if (!stdout.length) throw new Error(`No audio was decoded from local file: ${targetPath}`);
-  const segmentConsensus = await analyzeProductionLocalGenreSegments(stdout, 22050);
-  const japaneseVocalEvidence = await analyzeJapaneseVocalEvidenceForFile(targetPath, {
-    startSeconds,
-    ffmpegPath: tools.ffmpeg
+  const durationSeconds = await probeAudioDuration(targetPath, tools.ffmpeg);
+  const sampledRanges = planTrackSampleRanges({
+    durationSeconds: durationSeconds || startSeconds + Math.max(1, ANALYSIS_WINDOW_SECONDS),
+    requestedStartSeconds: startSeconds,
+    windowSeconds: TRACK_SAMPLE_WINDOW_SECONDS,
+    count: TRACK_SAMPLE_COUNT,
   });
-  const features = analyzeFloat32Pcm(stdout, 22050);
-  const embeddingGenrePrediction = await resolveGenrePrediction(
-    targetPath,
-    features,
-    japaneseVocalEvidence,
-    segmentConsensus
-  );
-  return {
-    ...features,
-    source: "local-audio-analysis-server",
-    sourceType: options.sourceType || "cc-dataset",
-    sourceUrl: targetPath,
-    normalizedUrl: targetPath,
-    startSeconds,
-    analysisWindowSeconds: duration,
-    localMeta: options.localMeta || {},
-    japaneseVocalEvidence,
-    embeddingGenrePrediction
-  };
+  const tempDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), "mmfr-local-track-"));
+  try {
+    const segmentAudioPaths = [];
+    for (let index = 0; index < sampledRanges.length; index += 1) {
+      const range = sampledRanges[index];
+      const segmentPath = path.join(tempDir, `segment-${String(index).padStart(2, "0")}.wav`);
+      await run(tools.ffmpeg, [
+        "-hide_banner", "-loglevel", "error",
+        "-ss", String(range.startSeconds),
+        "-i", targetPath,
+        "-t", String(range.durationSeconds),
+        "-ac", "1", "-ar", "22050", "-c:a", "pcm_s16le",
+        segmentPath,
+      ], { timeoutMs: 90000 });
+      segmentAudioPaths.push(segmentPath);
+    }
+    const analysisAudioPath = path.join(tempDir, "analysis-track.wav");
+    const concatFilter = `${segmentAudioPaths.map((_, index) => `[${index}:a]`).join("")}concat=n=${segmentAudioPaths.length}:v=0:a=1[out]`;
+    await run(tools.ffmpeg, [
+      "-hide_banner", "-loglevel", "error",
+      ...segmentAudioPaths.flatMap(segmentPath => ["-i", segmentPath]),
+      "-filter_complex", concatFilter,
+      "-map", "[out]",
+      "-ac", "1", "-ar", "22050", "-c:a", "pcm_s16le",
+      analysisAudioPath,
+    ], { timeoutMs: 90000 });
+    const { stdout } = await run(tools.ffmpeg, [
+      "-hide_banner", "-loglevel", "error",
+      "-i", analysisAudioPath,
+      "-ac", "1", "-ar", "22050", "-f", "f32le", "pipe:1",
+    ], { timeoutMs: 180000 });
+    if (!stdout.length) throw new Error(`No audio was decoded from local file: ${targetPath}`);
+    const requestedSegmentIndex = Math.max(0, sampledRanges.findIndex(range => range.role === "requested"));
+    const { stdout: requestedPcmStdout } = await run(tools.ffmpeg, [
+      "-hide_banner", "-loglevel", "error",
+      "-i", segmentAudioPaths[requestedSegmentIndex],
+      "-ac", "1", "-ar", "22050", "-f", "f32le", "pipe:1",
+    ], { timeoutMs: 90000 });
+    if (!requestedPcmStdout.length) throw new Error("No audio was decoded from the requested reversible-PCM range.");
+    const segmentConsensus = await analyzeProductionLocalGenreSegments(stdout, 22050, sampledRanges);
+    const japaneseVocalEvidence = await analyzeJapaneseVocalEvidenceForFile(analysisAudioPath, {
+      startSeconds: 0,
+      ffmpegPath: tools.ffmpeg
+    });
+    const features = preserveRequestedPcmSketch(
+      analyzeFloat32Pcm(stdout, 22050),
+      pcmSketchFeaturesFromFloat32Buffer(requestedPcmStdout, 22050),
+    );
+    const rawGenrePrediction = await resolveGenrePrediction(
+      analysisAudioPath,
+      features,
+      japaneseVocalEvidence,
+      segmentConsensus
+    );
+    const gatedGenrePrediction = promoteReliableExternalTrackPrediction(rawGenrePrediction);
+    const trackContract = buildTrackPredictionContract({
+      prediction: gatedGenrePrediction,
+      sampledRanges,
+      segmentSummary: segmentConsensus,
+      fallbackModelVersion: GENRE_INFERENCE_REVISION,
+    });
+    const embeddingGenrePrediction = trackContract?.prediction || gatedGenrePrediction;
+    const sampledAudioSeconds = sampledRanges.reduce((sum, range) => sum + Number(range.durationSeconds || 0), 0);
+    return {
+      ...features,
+      source: "local-audio-analysis-server",
+      sourceType: options.sourceType || "cc-dataset",
+      sourceUrl: targetPath,
+      normalizedUrl: targetPath,
+      startSeconds,
+      analysisWindowSeconds: sampledAudioSeconds,
+      classificationScope: "track",
+      sampledRanges,
+      segmentPredictions: segmentConsensus.segmentPredictions || [],
+      segmentAgreement: trackContract?.segmentAgreement || null,
+      evidenceCoverage: Number(trackContract?.evidenceCoverage || 0),
+      confidence: Number(embeddingGenrePrediction?.confidence || embeddingGenrePrediction?.top?.[0]?.score || 0),
+      needsReview: Boolean(embeddingGenrePrediction?.needsReview),
+      modelVersion: embeddingGenrePrediction?.modelVersion || GENRE_INFERENCE_REVISION,
+      localMeta: options.localMeta || {},
+      japaneseVocalEvidence,
+      embeddingGenrePrediction
+    };
+  } finally {
+    await fs.promises.rm(tempDir, { recursive: true, force: true });
+  }
 }
 
 function validRequestId(value) {
@@ -1645,7 +1781,6 @@ const server = http.createServer(async (req, res) => {
       endpoint: `http://${HOST}:${PORT}/api/audio-analyze`,
       health: `http://${HOST}:${PORT}/health`,
       genreInferenceRevision: GENRE_INFERENCE_REVISION,
-      analysisWindowSeconds: ANALYSIS_WINDOW_SECONDS,
       dependencies: {
         ytDlp: Boolean(tools.ytDlp),
         ffmpeg: Boolean(tools.ffmpeg),
@@ -1656,6 +1791,9 @@ const server = http.createServer(async (req, res) => {
         embeddingGenreLive: EMBEDDING_GENRE_LIVE_ENABLED,
         embeddingGenreConsensus: EMBEDDING_GENRE_CONSENSUS_ENABLED,
         localSegmentConsensus: LOCAL_SEGMENT_CONSENSUS_ENABLED,
+        classificationScope: "track",
+        trackSampleCount: TRACK_SAMPLE_COUNT,
+        trackSampleWindowSeconds: TRACK_SAMPLE_WINDOW_SECONDS,
         japaneseVocalEvidence: japaneseVocalEvidenceReady(),
         sharedLocalGenre: fs.existsSync(LOCAL_GENRE_MODEL_PATH)
       }
@@ -1669,7 +1807,6 @@ const server = http.createServer(async (req, res) => {
       service: "MUSIC MEMORY FITTING ROOM audio analysis server",
       endpoint: `http://${HOST}:${PORT}/api/audio-analyze`,
       genreInferenceRevision: GENRE_INFERENCE_REVISION,
-      analysisWindowSeconds: ANALYSIS_WINDOW_SECONDS,
       dependencies: {
         ytDlp: Boolean(tools.ytDlp),
         ffmpeg: Boolean(tools.ffmpeg),
@@ -1683,6 +1820,9 @@ const server = http.createServer(async (req, res) => {
         embeddingGenreLive: EMBEDDING_GENRE_LIVE_ENABLED,
         embeddingGenreConsensus: EMBEDDING_GENRE_CONSENSUS_ENABLED,
         localSegmentConsensus: LOCAL_SEGMENT_CONSENSUS_ENABLED,
+        classificationScope: "track",
+        trackSampleCount: TRACK_SAMPLE_COUNT,
+        trackSampleWindowSeconds: TRACK_SAMPLE_WINDOW_SECONDS,
         japaneseVocalEvidence: japaneseVocalEvidenceReady(),
         sharedLocalGenre: fs.existsSync(LOCAL_GENRE_MODEL_PATH),
         sharedLocalGenreModel: fs.existsSync(LOCAL_GENRE_MODEL_PATH) ? LOCAL_GENRE_MODEL_PATH : "",
@@ -1703,7 +1843,6 @@ const server = http.createServer(async (req, res) => {
       endpoint: `http://${HOST}:${PORT}/api/audio-analyze`,
       health: `http://${HOST}:${PORT}/health`,
       genreInferenceRevision: GENRE_INFERENCE_REVISION,
-      analysisWindowSeconds: ANALYSIS_WINDOW_SECONDS,
       dependencies: {
         ytDlp: Boolean(tools.ytDlp),
         ffmpeg: Boolean(tools.ffmpeg),
@@ -1714,6 +1853,9 @@ const server = http.createServer(async (req, res) => {
         embeddingGenreLive: EMBEDDING_GENRE_LIVE_ENABLED,
         embeddingGenreConsensus: EMBEDDING_GENRE_CONSENSUS_ENABLED,
         localSegmentConsensus: LOCAL_SEGMENT_CONSENSUS_ENABLED,
+        classificationScope: "track",
+        trackSampleCount: TRACK_SAMPLE_COUNT,
+        trackSampleWindowSeconds: TRACK_SAMPLE_WINDOW_SECONDS,
         sharedLocalGenre: fs.existsSync(LOCAL_GENRE_MODEL_PATH)
       }
     });

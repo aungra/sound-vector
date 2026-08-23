@@ -1,0 +1,494 @@
+{
+  "version": "track-boundary-independent-evaluation-v1",
+  "generatedAt": "2026-08-23T01:52:40.387Z",
+  "inferenceRevision": "2026-08-23-track-boundary-reranker-v97",
+  "baseline": "same production inference with v97's three boundary rerankers disabled",
+  "dataPolicy": "full-length, evaluation-only, training-ineligible CC tracks; no title, artist, URL or channel inference",
+  "manifest": "track-boundary-v97-control-manifest.json",
+  "summary": {
+    "controls": 18,
+    "fullTrackControls": 18,
+    "baselineTop1": 0.1111111111111111,
+    "currentTop1": 0.1111111111111111,
+    "changed": 0,
+    "rescues": 0,
+    "regressions": 0,
+    "boundaryStats": {
+      "spokenRapBlackMusicBoundary": {
+        "activations": 0,
+        "falseActivations": 0,
+        "rescues": 0,
+        "regressions": 0
+      },
+      "distributedDanceRockBoundary": {
+        "activations": 0,
+        "falseActivations": 0,
+        "rescues": 0,
+        "regressions": 0
+      },
+      "postPunkRockConsensus": {
+        "activations": 0,
+        "falseActivations": 0,
+        "rescues": 0,
+        "regressions": 0
+      }
+    },
+    "promotionGate": {
+      "noAggregateTop1Degradation": true,
+      "noUnrelatedFalseActivations": true,
+      "passed": true
+    }
+  },
+  "records": [
+    {
+      "controlId": "0026eb51caf464190fb9",
+      "expectedGenre": "ドローン",
+      "sourceFamily": "ccMixter explicit-tag CC music",
+      "sampledRangeCount": 4,
+      "analysisWindowSeconds": 120,
+      "baselineTop": [
+        "ソウルミュージック",
+        "ファンク",
+        "ディスコ"
+      ],
+      "currentTop": [
+        "ソウルミュージック",
+        "ファンク",
+        "ディスコ"
+      ],
+      "baselineCorrect": false,
+      "currentCorrect": false,
+      "changed": false,
+      "rescued": false,
+      "regressed": false,
+      "boundaryMethods": [],
+      "falseBoundaryMethods": [],
+      "needsReview": true
+    },
+    {
+      "controlId": "01007570dc40c72e242b",
+      "expectedGenre": "ディスコ",
+      "sourceFamily": "ccMixter explicit-tag CC music",
+      "sampledRangeCount": 4,
+      "analysisWindowSeconds": 120,
+      "baselineTop": [
+        "ファンク",
+        "レゲエ",
+        "ブルース"
+      ],
+      "currentTop": [
+        "ファンク",
+        "レゲエ",
+        "ブルース"
+      ],
+      "baselineCorrect": false,
+      "currentCorrect": false,
+      "changed": false,
+      "rescued": false,
+      "regressed": false,
+      "boundaryMethods": [],
+      "falseBoundaryMethods": [],
+      "needsReview": true
+    },
+    {
+      "controlId": "0b0d91fee5bffe28ec35",
+      "expectedGenre": "ブルース",
+      "sourceFamily": "ccMixter explicit-tag CC music",
+      "sampledRangeCount": 4,
+      "analysisWindowSeconds": 120,
+      "baselineTop": [
+        "ブルース",
+        "ダブ",
+        "レゲエ"
+      ],
+      "currentTop": [
+        "ブルース",
+        "ダブ",
+        "レゲエ"
+      ],
+      "baselineCorrect": true,
+      "currentCorrect": true,
+      "changed": false,
+      "rescued": false,
+      "regressed": false,
+      "boundaryMethods": [],
+      "falseBoundaryMethods": [],
+      "needsReview": true
+    },
+    {
+      "controlId": "3336e5444a0064ffd114",
+      "expectedGenre": "ファンク",
+      "sourceFamily": "ccMixter explicit-tag CC music",
+      "sampledRangeCount": 4,
+      "analysisWindowSeconds": 120,
+      "baselineTop": [
+        "ソウルミュージック",
+        "ディスコ",
+        "ヒップホップ"
+      ],
+      "currentTop": [
+        "ソウルミュージック",
+        "ディスコ",
+        "ヒップホップ"
+      ],
+      "baselineCorrect": false,
+      "currentCorrect": false,
+      "changed": false,
+      "rescued": false,
+      "regressed": false,
+      "boundaryMethods": [],
+      "falseBoundaryMethods": [],
+      "needsReview": true
+    },
+    {
+      "controlId": "4c6ca05e812a48142e8e",
+      "expectedGenre": "テクノ",
+      "sourceFamily": "ccMixter explicit-tag CC music",
+      "sampledRangeCount": 4,
+      "analysisWindowSeconds": 120,
+      "baselineTop": [
+        "J-POP",
+        "アニメソング",
+        "アカペラ"
+      ],
+      "currentTop": [
+        "J-POP",
+        "アニメソング",
+        "アカペラ"
+      ],
+      "baselineCorrect": false,
+      "currentCorrect": false,
+      "changed": false,
+      "rescued": false,
+      "regressed": false,
+      "boundaryMethods": [],
+      "falseBoundaryMethods": [],
+      "needsReview": true
+    },
+    {
+      "controlId": "7b89117e70ddab9b9dad",
+      "expectedGenre": "トランス",
+      "sourceFamily": "ccMixter explicit-tag CC music",
+      "sampledRangeCount": 4,
+      "analysisWindowSeconds": 120,
+      "baselineTop": [
+        "ブルース",
+        "ソウルミュージック",
+        "ディスコ"
+      ],
+      "currentTop": [
+        "ブルース",
+        "ソウルミュージック",
+        "ディスコ"
+      ],
+      "baselineCorrect": false,
+      "currentCorrect": false,
+      "changed": false,
+      "rescued": false,
+      "regressed": false,
+      "boundaryMethods": [],
+      "falseBoundaryMethods": [],
+      "needsReview": true
+    },
+    {
+      "controlId": "7c52de8a1b79612d5604",
+      "expectedGenre": "ソウルミュージック",
+      "sourceFamily": "ccMixter explicit-tag CC music",
+      "sampledRangeCount": 4,
+      "analysisWindowSeconds": 120,
+      "baselineTop": [
+        "クラシック音楽",
+        "オペラ",
+        "フォーク"
+      ],
+      "currentTop": [
+        "クラシック音楽",
+        "オペラ",
+        "フォーク"
+      ],
+      "baselineCorrect": false,
+      "currentCorrect": false,
+      "changed": false,
+      "rescued": false,
+      "regressed": false,
+      "boundaryMethods": [],
+      "falseBoundaryMethods": [],
+      "needsReview": true
+    },
+    {
+      "controlId": "7e3ceb8464e28eca20b1",
+      "expectedGenre": "オペラ",
+      "sourceFamily": "ccMixter explicit-tag CC music",
+      "sampledRangeCount": 4,
+      "analysisWindowSeconds": 120,
+      "baselineTop": [
+        "オペラ",
+        "クラシック音楽",
+        "アンビエント"
+      ],
+      "currentTop": [
+        "オペラ",
+        "クラシック音楽",
+        "アンビエント"
+      ],
+      "baselineCorrect": true,
+      "currentCorrect": true,
+      "changed": false,
+      "rescued": false,
+      "regressed": false,
+      "boundaryMethods": [],
+      "falseBoundaryMethods": [],
+      "needsReview": true
+    },
+    {
+      "controlId": "8fadd26c277fe9ee6d38",
+      "expectedGenre": "オペラ",
+      "sourceFamily": "ccMixter explicit-tag CC music",
+      "sampledRangeCount": 4,
+      "analysisWindowSeconds": 120,
+      "baselineTop": [
+        "ドローン",
+        "ブルース",
+        "アンビエント"
+      ],
+      "currentTop": [
+        "ドローン",
+        "ブルース",
+        "アンビエント"
+      ],
+      "baselineCorrect": false,
+      "currentCorrect": false,
+      "changed": false,
+      "rescued": false,
+      "regressed": false,
+      "boundaryMethods": [],
+      "falseBoundaryMethods": [],
+      "needsReview": true
+    },
+    {
+      "controlId": "909845829fe63831a2f9",
+      "expectedGenre": "ファンク",
+      "sourceFamily": "ccMixter explicit-tag CC music",
+      "sampledRangeCount": 4,
+      "analysisWindowSeconds": 120,
+      "baselineTop": [
+        "ブルース",
+        "レゲエ",
+        "ディスコ"
+      ],
+      "currentTop": [
+        "ブルース",
+        "レゲエ",
+        "ディスコ"
+      ],
+      "baselineCorrect": false,
+      "currentCorrect": false,
+      "changed": false,
+      "rescued": false,
+      "regressed": false,
+      "boundaryMethods": [],
+      "falseBoundaryMethods": [],
+      "needsReview": true
+    },
+    {
+      "controlId": "922f061558716cf08de2",
+      "expectedGenre": "ソウルミュージック",
+      "sourceFamily": "ccMixter explicit-tag CC music",
+      "sampledRangeCount": 4,
+      "analysisWindowSeconds": 120,
+      "baselineTop": [
+        "ファンク",
+        "ヒップホップ",
+        "レゲエ"
+      ],
+      "currentTop": [
+        "ファンク",
+        "ヒップホップ",
+        "レゲエ"
+      ],
+      "baselineCorrect": false,
+      "currentCorrect": false,
+      "changed": false,
+      "rescued": false,
+      "regressed": false,
+      "boundaryMethods": [],
+      "falseBoundaryMethods": [],
+      "needsReview": false
+    },
+    {
+      "controlId": "a646f7bbdae4244e6988",
+      "expectedGenre": "トランス",
+      "sourceFamily": "ccMixter explicit-tag CC music",
+      "sampledRangeCount": 4,
+      "analysisWindowSeconds": 120,
+      "baselineTop": [
+        "ファンク",
+        "ダブ",
+        "ロック"
+      ],
+      "currentTop": [
+        "ファンク",
+        "ダブ",
+        "ロック"
+      ],
+      "baselineCorrect": false,
+      "currentCorrect": false,
+      "changed": false,
+      "rescued": false,
+      "regressed": false,
+      "boundaryMethods": [],
+      "falseBoundaryMethods": [],
+      "needsReview": true
+    },
+    {
+      "controlId": "a8158c6fd4f159d1db5c",
+      "expectedGenre": "トランス",
+      "sourceFamily": "ccMixter explicit-tag CC music",
+      "sampledRangeCount": 4,
+      "analysisWindowSeconds": 120,
+      "baselineTop": [
+        "ブルース",
+        "レゲエ",
+        "ディスコ"
+      ],
+      "currentTop": [
+        "ブルース",
+        "レゲエ",
+        "ディスコ"
+      ],
+      "baselineCorrect": false,
+      "currentCorrect": false,
+      "changed": false,
+      "rescued": false,
+      "regressed": false,
+      "boundaryMethods": [],
+      "falseBoundaryMethods": [],
+      "needsReview": true
+    },
+    {
+      "controlId": "b3afddf00a43c41140b0",
+      "expectedGenre": "ブルース",
+      "sourceFamily": "ccMixter explicit-tag CC music",
+      "sampledRangeCount": 4,
+      "analysisWindowSeconds": 120,
+      "baselineTop": [
+        "ロック",
+        "メタル",
+        "テクノ"
+      ],
+      "currentTop": [
+        "ロック",
+        "メタル",
+        "テクノ"
+      ],
+      "baselineCorrect": false,
+      "currentCorrect": false,
+      "changed": false,
+      "rescued": false,
+      "regressed": false,
+      "boundaryMethods": [],
+      "falseBoundaryMethods": [],
+      "needsReview": true
+    },
+    {
+      "controlId": "dc24e153dd082729e403",
+      "expectedGenre": "オペラ",
+      "sourceFamily": "ccMixter explicit-tag CC music",
+      "sampledRangeCount": 4,
+      "analysisWindowSeconds": 120,
+      "baselineTop": [
+        "クラシック音楽",
+        "フォーク",
+        "ラテン"
+      ],
+      "currentTop": [
+        "クラシック音楽",
+        "フォーク",
+        "ラテン"
+      ],
+      "baselineCorrect": false,
+      "currentCorrect": false,
+      "changed": false,
+      "rescued": false,
+      "regressed": false,
+      "boundaryMethods": [],
+      "falseBoundaryMethods": [],
+      "needsReview": true
+    },
+    {
+      "controlId": "e823e3598b7bb4e02572",
+      "expectedGenre": "テクノ",
+      "sourceFamily": "ccMixter explicit-tag CC music",
+      "sampledRangeCount": 4,
+      "analysisWindowSeconds": 120,
+      "baselineTop": [
+        "ハウス",
+        "トランス",
+        "テクノ"
+      ],
+      "currentTop": [
+        "ハウス",
+        "トランス",
+        "テクノ"
+      ],
+      "baselineCorrect": false,
+      "currentCorrect": false,
+      "changed": false,
+      "rescued": false,
+      "regressed": false,
+      "boundaryMethods": [],
+      "falseBoundaryMethods": [],
+      "needsReview": true
+    },
+    {
+      "controlId": "f40c4c332b05890df840",
+      "expectedGenre": "ファンク",
+      "sourceFamily": "ccMixter explicit-tag CC music",
+      "sampledRangeCount": 4,
+      "analysisWindowSeconds": 120,
+      "baselineTop": [
+        "ロック",
+        "メタル",
+        "パンク"
+      ],
+      "currentTop": [
+        "ロック",
+        "メタル",
+        "パンク"
+      ],
+      "baselineCorrect": false,
+      "currentCorrect": false,
+      "changed": false,
+      "rescued": false,
+      "regressed": false,
+      "boundaryMethods": [],
+      "falseBoundaryMethods": [],
+      "needsReview": true
+    },
+    {
+      "controlId": "fe9fb801651b1415f467",
+      "expectedGenre": "オペラ",
+      "sourceFamily": "ccMixter explicit-tag CC music",
+      "sampledRangeCount": 4,
+      "analysisWindowSeconds": 120,
+      "baselineTop": [
+        "ブルース",
+        "フォーク",
+        "レゲエ"
+      ],
+      "currentTop": [
+        "ブルース",
+        "フォーク",
+        "レゲエ"
+      ],
+      "baselineCorrect": false,
+      "currentCorrect": false,
+      "changed": false,
+      "rescued": false,
+      "regressed": false,
+      "boundaryMethods": [],
+      "falseBoundaryMethods": [],
+      "needsReview": true
+    }
+  ]
+}
