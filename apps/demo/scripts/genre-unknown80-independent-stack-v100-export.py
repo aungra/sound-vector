@@ -36,6 +36,24 @@ ELECTRONIC_REPORT = TRAINING / "unknown80-independent-electronic-ablation.json"
 PRODUCTION_REPORT = (
     TRAINING / "unknown80-independent-stack-v100-production-regression.json"
 )
+MEMBER_CONFIGS = ({
+    "pair": ("テクノ", "トランス"),
+    "kind": "extra-trees",
+    "view": "rhythm",
+    "strength": 0.25,
+    "confidenceFloor": 0.8,
+},)
+MODEL_VERSION = "unknown80-independent-multiboundary-20260823-v100"
+COMBINATION_NAME = "conservative-four-pair-confidence-stack"
+METHOD = "audio-only-source-heldout-four-pair-confidence-stack"
+SOURCE_HELDOUT_TOP1_BEFORE = 58.68
+SOURCE_HELDOUT_TOP1_AFTER = 58.79
+SOURCE_HELDOUT_IMPROVED = 2
+SOURCE_HELDOUT_HARMED = 0
+STRICT_TOP1 = 58.79
+STRICT_BALANCED_TOP1 = 58.75
+STRICT_MINIMUM_SOURCE_TOP1 = 31.58
+STRICT_TOP3 = 83.48
 
 
 def load_module(path, name):
@@ -75,19 +93,13 @@ def merge_inputs(manifest_paths, cache_paths, directory):
 
 def run(args):
     shared = load_module(SHARED_PATH, "stack_v100_shared")
-    shared.MEMBER_CONFIGS = (*shared.MEMBER_CONFIGS, {
-        "pair": ("テクノ", "トランス"),
-        "kind": "extra-trees",
-        "view": "rhythm",
-        "strength": 0.25,
-        "confidenceFloor": 0.8,
-    })
-    shared.MODEL_VERSION = "unknown80-independent-multiboundary-20260823-v100"
-    shared.COMBINATION_NAME = "conservative-four-pair-confidence-stack"
-    shared.SOURCE_HELDOUT_TOP1_BEFORE = 58.68
-    shared.SOURCE_HELDOUT_TOP1_AFTER = 58.79
-    shared.SOURCE_HELDOUT_IMPROVED = 2
-    shared.SOURCE_HELDOUT_HARMED = 0
+    shared.MEMBER_CONFIGS = (*shared.MEMBER_CONFIGS, *MEMBER_CONFIGS)
+    shared.MODEL_VERSION = MODEL_VERSION
+    shared.COMBINATION_NAME = COMBINATION_NAME
+    shared.SOURCE_HELDOUT_TOP1_BEFORE = SOURCE_HELDOUT_TOP1_BEFORE
+    shared.SOURCE_HELDOUT_TOP1_AFTER = SOURCE_HELDOUT_TOP1_AFTER
+    shared.SOURCE_HELDOUT_IMPROVED = SOURCE_HELDOUT_IMPROVED
+    shared.SOURCE_HELDOUT_HARMED = SOURCE_HELDOUT_HARMED
     shared.OOF_REPORT = ELECTRONIC_REPORT
     shared.PRODUCTION_REPORT = PRODUCTION_REPORT
     with tempfile.TemporaryDirectory() as directory:
@@ -106,17 +118,17 @@ def run(args):
         )
         manifest = shared.run(export_args)
     payload = json.loads(args.manifest.read_text())
-    payload["method"] = "audio-only-source-heldout-four-pair-confidence-stack"
+    payload["method"] = METHOD
     payload["evaluation"]["electronicSourceHeldoutReport"] = str(
         ELECTRONIC_REPORT.relative_to(ROOT)
     )
     payload["evaluation"]["electronicSourceHeldoutReportSha256"] = sha256(
         ELECTRONIC_REPORT
     )
-    payload["evaluation"]["strictTop1"] = 58.79
-    payload["evaluation"]["strictBalancedTop1"] = 58.75
-    payload["evaluation"]["strictMinimumSourceTop1"] = 31.58
-    payload["evaluation"]["strictTop3"] = 83.48
+    payload["evaluation"]["strictTop1"] = STRICT_TOP1
+    payload["evaluation"]["strictBalancedTop1"] = STRICT_BALANCED_TOP1
+    payload["evaluation"]["strictMinimumSourceTop1"] = STRICT_MINIMUM_SOURCE_TOP1
+    payload["evaluation"]["strictTop3"] = STRICT_TOP3
     args.manifest.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n")
     return payload
 
