@@ -24,9 +24,19 @@ class IndependentBlackMusicPairExportTest(unittest.TestCase):
     def setUp(self):
         self.module = load_script()
 
-    def test_locked_pair_and_strength(self):
-        self.assertEqual(self.module.PAIR, ("ブルース", "フォーク"))
-        self.assertEqual(self.module.STRENGTH, 0.25)
+    def test_locked_conservative_three_pair_stack(self):
+        self.assertEqual(
+            [member["pair"] for member in self.module.MEMBER_CONFIGS],
+            [
+                ("ファンク", "ロック"),
+                ("ブルース", "フォーク"),
+                ("レゲエ", "ダブ"),
+            ],
+        )
+        self.assertEqual(
+            [member["strength"] for member in self.module.MEMBER_CONFIGS],
+            [0.5, 0.25, 0.25],
+        )
 
     def test_output_is_external(self):
         self.assertTrue(str(self.module.DEFAULT_OUTPUT).startswith("/Volumes/"))

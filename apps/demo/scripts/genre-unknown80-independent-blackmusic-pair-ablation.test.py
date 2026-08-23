@@ -65,6 +65,23 @@ class IndependentBlackMusicPairAblationTest(unittest.TestCase):
             self.module.LIBROSA_DIMENSIONS,
         )
 
+    def test_candidate_outputs_combine_only_disjoint_rows(self):
+        base = np.asarray([
+            [0.6, 0.3, 0.1],
+            [0.5, 0.4, 0.1],
+        ])
+        first = base.copy()
+        first[0] = [0.3, 0.6, 0.1]
+        second = base.copy()
+        second[1] = [0.4, 0.5, 0.1]
+        combined = self.module.combine_candidate_outputs(
+            base, [first, second]
+        )
+        np.testing.assert_allclose(combined[0], first[0])
+        np.testing.assert_allclose(combined[1], second[1])
+        with self.assertRaisesRegex(ValueError, "overlapping rows"):
+            self.module.combine_candidate_outputs(base, [first, first])
+
 
 if __name__ == "__main__":
     unittest.main()

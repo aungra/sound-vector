@@ -17,10 +17,10 @@ test("legacy pairwise reranker is opt-in after outer-source regression", () => {
   assert.equal(pairwiseRerankerPolicy("1").enabled, true);
 });
 
-test("independent pair reranker is enabled after both promotion gates", () => {
+test("independent pair stack is enabled after all promotion gates", () => {
   assert.deepEqual(independentPairRerankerPolicy(), {
     enabled: true,
-    mode: "enabled-source-heldout-and-gtzan-gated",
+    mode: "enabled-source-heldout-gtzan-production-gated-stack",
   });
   assert.equal(independentPairRerankerPolicy("0").enabled, false);
   assert.equal(independentPairRerankerPolicy("1").enabled, true);

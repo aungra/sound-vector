@@ -90,7 +90,7 @@ UNKNOWN80_FUNK_ROCK_MODEL_PATH = Path(os.environ.get(
 UNKNOWN80_INDEPENDENT_PAIR_MODEL_PATH = Path(os.environ.get(
     "MMFR_UNKNOWN80_INDEPENDENT_PAIR_MODEL_PATH",
     "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/"
-    "unknown80-independent-blackmusic-pair-candidate.pkl",
+    "unknown80-independent-blackmusic-stack-candidate.pkl",
 ))
 ENABLE_UNKNOWN80_RHYTHM_RERANKER = (
     os.environ.get("MMFR_ENABLE_UNKNOWN80_RHYTHM_RERANKER", "1") == "1"

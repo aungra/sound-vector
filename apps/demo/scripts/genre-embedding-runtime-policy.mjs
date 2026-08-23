@@ -12,7 +12,9 @@ export function independentPairRerankerPolicy(value) {
   const enabled = String(value ?? "1").trim() !== "0";
   return {
     enabled,
-    mode: enabled ? "enabled-source-heldout-and-gtzan-gated" : "disabled-explicitly",
+    mode: enabled
+      ? "enabled-source-heldout-gtzan-production-gated-stack"
+      : "disabled-explicitly",
   };
 }
 

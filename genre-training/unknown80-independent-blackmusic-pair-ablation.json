@@ -8,7 +8,18 @@
     "overlayRowsEvaluated": false,
     "overlayProviderExcludedFromMatchingOuterFold": true,
     "productionModelUpdated": false,
-    "overlayWeight": 0.5
+    "overlayWeight": 0.5,
+    "candidateCombinations": {
+      "conservative-two-pair": [
+        "ファンク-ロック-logistic-rhythm-overlay-w0.5",
+        "ブルース-フォーク-logistic-full-overlay-w0.25"
+      ],
+      "conservative-three-pair": [
+        "ファンク-ロック-logistic-rhythm-overlay-w0.5",
+        "ブルース-フォーク-logistic-full-overlay-w0.25",
+        "レゲエ-ダブ-extra-trees-full-overlay-w0.25"
+      ]
+    }
   },
   "dataset": {
     "formalRows": 1883,
@@ -1592,9 +1603,49 @@
       },
       "improved": 17,
       "harmed": 43
+    },
+    "conservative-two-pair": {
+      "top1Accuracy": 58.52,
+      "balancedTop1": 58.6,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 17,
+      "sourceTop1": {
+        "FMA": 59.94,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 53.96,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 83.05,
+        "Wikimedia Commons": 65.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      },
+      "improved": 10,
+      "harmed": 2
+    },
+    "conservative-three-pair": {
+      "top1Accuracy": 58.68,
+      "balancedTop1": 58.69,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 27,
+      "sourceTop1": {
+        "FMA": 59.94,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 54.21,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 83.05,
+        "Wikimedia Commons": 65.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      },
+      "improved": 16,
+      "harmed": 5
     }
   },
   "ranking": [
+    "conservative-three-pair",
+    "conservative-two-pair",
     "ファンク-ロック-logistic-rhythm-overlay-w0.75",
     "ファンク-ロック-logistic-rhythm-overlay-w1",
     "ファンク-ロック-logistic-full-overlay-w0.75",
@@ -1699,7 +1750,9 @@
     "ファンク-ロック-extra-trees-full-overlay-w1",
     "レゲエ-ダブ-logistic-full-overlay-w0.25",
     "レゲエ-ダブ-extra-trees-rhythm-overlay-w0.25",
-    "レゲエ-ダブ-extra-trees-full-overlay-w0.25"
+    "レゲエ-ダブ-extra-trees-full-overlay-w0.25",
+    "conservative-two-pair",
+    "conservative-three-pair"
   ],
   "decision": "continue-nested-and-outer-gates",
   "diagnostics": {
@@ -4765,7 +4818,7 @@
     ]
   },
   "reproducibility": {
-    "scriptSha256": "e12d660da85c0aeaad9f248f13e0a9a797c0fb7eccf17a4a154f7c47766877da",
+    "scriptSha256": "12b524d37f1147ac886ba7e068f27a9ef78ec7937d907144ffd469466e6151ae",
     "oofSha256": "a17948e1e07951e2d3891079afe573718a0c92c9ba15144fc64c03b34f9aed8f",
     "formalLibrosaSha256": [
       "ccfbff2275442cfb0614f59674c9374f9fb93ca16145cbe3b505b0b89bb22160"

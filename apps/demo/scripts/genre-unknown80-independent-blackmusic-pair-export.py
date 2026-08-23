@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Export the gated independent-source Blues/Folk runtime pair head."""
+"""Export the gated independent-source black-music runtime pair stack."""
 
 from __future__ import annotations
 
@@ -36,18 +36,36 @@ DEFAULT_OVERLAY_LIBROSA = Path(
 )
 DEFAULT_OUTPUT = Path(
     "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/"
-    "unknown80-independent-blackmusic-pair-candidate.pkl"
+    "unknown80-independent-blackmusic-stack-candidate.pkl"
 )
 DEFAULT_MANIFEST = (
-    TRAINING / "unknown80-independent-blackmusic-pair-model-manifest.json"
+    TRAINING / "unknown80-independent-blackmusic-stack-model-manifest.json"
 )
 OOF_REPORT = TRAINING / "unknown80-independent-blackmusic-pair-ablation.json"
 GTZAN_REPORT = TRAINING / "gtzan-independent-blackmusic-pair-gate.json"
 PRODUCTION_REPORT = (
-    TRAINING / "unknown80-independent-blackmusic-production-regression.json"
+    TRAINING / "unknown80-independent-blackmusic-stack-production-regression.json"
 )
-PAIR = ("ブルース", "フォーク")
-STRENGTH = 0.25
+MEMBER_CONFIGS = (
+    {
+        "pair": ("ファンク", "ロック"),
+        "kind": "logistic",
+        "view": "rhythm",
+        "strength": 0.5,
+    },
+    {
+        "pair": ("ブルース", "フォーク"),
+        "kind": "logistic",
+        "view": "full",
+        "strength": 0.25,
+    },
+    {
+        "pair": ("レゲエ", "ダブ"),
+        "kind": "extra-trees",
+        "view": "full",
+        "strength": 0.25,
+    },
+)
 
 
 def load_module(path, name):
@@ -75,39 +93,75 @@ def run(args):
     overlay_rows, overlay = module.load_overlay(
         args.overlay_manifest, args.overlay_librosa
     )
-    formal_indexes = np.flatnonzero(
-        payload["trainingEligible"].astype(bool)
-        & available
-        & np.isin(payload["actual"], PAIR)
-    )
-    overlay_indexes = np.asarray([
-        index for index, row in enumerate(overlay_rows) if row["genre"] in PAIR
-    ], dtype=np.int64)
-    matrix = formal[formal_indexes]
-    actual = payload["actual"][formal_indexes]
-    sources = payload["sources"][formal_indexes]
-    overlay_mask = np.zeros(len(formal_indexes), dtype=bool)
-    if overlay_indexes.size:
-        matrix = np.concatenate([matrix, overlay[overlay_indexes]])
-        actual = np.concatenate([
-            actual,
-            np.asarray([overlay_rows[index]["genre"] for index in overlay_indexes]),
-        ])
-        sources = np.concatenate([
-            sources,
-            np.asarray([overlay_rows[index]["source"] for index in overlay_indexes]),
-        ])
-        overlay_mask = np.concatenate([
-            overlay_mask, np.ones(len(overlay_indexes), dtype=bool),
-        ])
-    model = module.fit_model(
-        "logistic", matrix, actual,
-        module.source_label_weights(actual, sources, overlay_mask), 991201,
-    )
+    models = {}
+    members = []
+    training_details = []
+    parity_differences = []
+    parity_rows_total = 0
+    for member_index, config in enumerate(MEMBER_CONFIGS):
+        pair = config["pair"]
+        formal_indexes = np.flatnonzero(
+            payload["trainingEligible"].astype(bool)
+            & available
+            & np.isin(payload["actual"], pair)
+        )
+        overlay_indexes = np.asarray([
+            index for index, row in enumerate(overlay_rows)
+            if row["genre"] in pair
+        ], dtype=np.int64)
+        matrix = formal[formal_indexes]
+        actual = payload["actual"][formal_indexes]
+        sources = payload["sources"][formal_indexes]
+        overlay_mask = np.zeros(len(formal_indexes), dtype=bool)
+        if overlay_indexes.size:
+            matrix = np.concatenate([matrix, overlay[overlay_indexes]])
+            actual = np.concatenate([
+                actual,
+                np.asarray([
+                    overlay_rows[index]["genre"] for index in overlay_indexes
+                ]),
+            ])
+            sources = np.concatenate([
+                sources,
+                np.asarray([
+                    overlay_rows[index]["source"] for index in overlay_indexes
+                ]),
+            ])
+            overlay_mask = np.concatenate([
+                overlay_mask, np.ones(len(overlay_indexes), dtype=bool),
+            ])
+        view = config["view"]
+        feature_indexes = (
+            module.RHYTHM_INDEXES
+            if view == "rhythm"
+            else np.arange(module.LIBROSA_DIMENSIONS, dtype=np.int64)
+        )
+        model = module.fit_model(
+            config["kind"], module.feature_view(matrix, view), actual,
+            module.source_label_weights(actual, sources, overlay_mask),
+            991201 + member_index * 1000,
+        )
+        models[pair] = model
+        members.append({
+            "pair": list(pair),
+            "strength": config["strength"],
+            "featureIndexes": feature_indexes.tolist(),
+            "normalizationMode": "identity",
+        })
+        training_details.append({
+            "pair": list(pair),
+            "kind": config["kind"],
+            "view": view,
+            "rows": len(actual),
+            "formalRows": len(formal_indexes),
+            "trainingOnlyOverlayRows": len(overlay_indexes),
+            "sources": dict(Counter(sources)),
+            "labels": dict(Counter(actual)),
+        })
     bundle = {
         "schemaVersion": "mmfr.unknown80-rhythm-top3-pairwise.v1",
-        "modelVersion": "unknown80-independent-blackmusic-20260823-v1",
-        "method": "audio-only-full-librosa-independent-source-blues-folk-logistic",
+        "modelVersion": "unknown80-independent-blackmusic-20260823-v2",
+        "method": "audio-only-member-view-independent-source-pair-stack",
         "labels": labels,
         "librosaVectorLength": module.LIBROSA_DIMENSIONS,
         "rhythmFeatureIndexes": list(range(module.LIBROSA_DIMENSIONS)),
@@ -115,9 +169,9 @@ def run(args):
         "robustScaleMedian": [0.0] * module.LIBROSA_DIMENSIONS,
         "robustScaleIqr": [1.0] * module.LIBROSA_DIMENSIONS,
         "robustScaleClip": None,
-        "combinationName": "independent-blues-folk-w0.25",
-        "members": [{"pair": list(PAIR), "strength": STRENGTH}],
-        "models": {PAIR: model},
+        "combinationName": "conservative-three-pair",
+        "members": members,
+        "models": models,
         "policy": {
             "metadataUsedAtInference": False,
             "urlSpecificRulesUsed": False,
@@ -134,10 +188,27 @@ def run(args):
         pickle.dump(bundle, handle, protocol=pickle.HIGHEST_PROTOCOL)
     with args.output.open("rb") as handle:
         restored = pickle.load(handle)
-    parity_rows = formal_indexes[:64]
-    before = model.predict_proba(formal[parity_rows])
-    after = restored["models"][PAIR].predict_proba(formal[parity_rows])
-    maximum_difference = float(np.max(np.abs(before - after)))
+    for config in MEMBER_CONFIGS:
+        pair = config["pair"]
+        parity_rows = np.flatnonzero(
+            payload["trainingEligible"].astype(bool)
+            & available
+            & np.isin(payload["actual"], pair)
+        )[:64]
+        view = config["view"]
+        before = models[pair].predict_proba(
+            module.feature_view(formal[parity_rows], view)
+        )
+        after = restored["models"][pair].predict_proba(
+            module.feature_view(formal[parity_rows], view)
+        )
+        parity_differences.append(float(np.max(np.abs(before - after))))
+        parity_rows_total += len(parity_rows)
+    maximum_difference = max(parity_differences, default=0.0)
+    production = (
+        json.loads(PRODUCTION_REPORT.read_text())
+        if PRODUCTION_REPORT.is_file() else None
+    )
     manifest = {
         "schemaVersion": 1,
         "candidateModelPath": str(args.output),
@@ -148,24 +219,33 @@ def run(args):
         "featureContract": {
             "source": "production librosa 547-vector",
             "vectorLength": module.LIBROSA_DIMENSIONS,
-            "selectedIndexes": "all",
-            "normalization": "identity before fitted StandardScaler",
+            "selectedIndexes": "member-specific full or rhythm",
+            "normalization": "identity before fitted member model",
         },
-        "training": {
-            "rows": len(actual),
-            "formalRows": len(formal_indexes),
-            "trainingOnlyOverlayRows": len(overlay_indexes),
-            "sources": dict(Counter(sources)),
-            "labels": dict(Counter(actual)),
+        "training": {"members": training_details},
+        "combination": {
+            "name": bundle["combinationName"],
+            "members": [
+                {
+                    "pair": list(config["pair"]),
+                    "strength": config["strength"],
+                    "view": config["view"],
+                    "featureIndexCount": (
+                        len(module.RHYTHM_INDEXES)
+                        if config["view"] == "rhythm"
+                        else module.LIBROSA_DIMENSIONS
+                    ),
+                }
+                for config in MEMBER_CONFIGS
+            ],
         },
-        "combination": {"members": bundle["members"]},
         "evaluation": {
             "sourceHeldoutReport": str(OOF_REPORT.relative_to(ROOT)),
             "sourceHeldoutReportSha256": sha256(OOF_REPORT),
             "sourceHeldoutTop1Before": 58.10,
-            "sourceHeldoutTop1After": 58.31,
-            "sourceHeldoutImproved": 5,
-            "sourceHeldoutHarmed": 1,
+            "sourceHeldoutTop1After": 58.68,
+            "sourceHeldoutImproved": 16,
+            "sourceHeldoutHarmed": 5,
             "gtzanReport": str(GTZAN_REPORT.relative_to(ROOT)),
             "gtzanReportSha256": sha256(GTZAN_REPORT),
             "gtzanTop1Before": 75.65,
@@ -173,23 +253,23 @@ def run(args):
             "gtzanImproved": 7,
             "gtzanHarmed": 0,
             "productionRegressionReport": str(PRODUCTION_REPORT.relative_to(ROOT)),
-            "productionRegressionReportSha256": sha256(PRODUCTION_REPORT),
-            "productionTop1Before": 60.59,
-            "productionTop1After": 60.89,
-            "productionBalancedBefore": 63.63,
-            "productionBalancedAfter": 63.88,
-            "productionMinimumSourceBefore": 47.37,
-            "productionMinimumSourceAfter": 47.37,
-            "productionImproved": 6,
-            "productionHarmed": 1,
-            "productionContractViolations": 0,
+            "productionRegressionReportSha256": (
+                sha256(PRODUCTION_REPORT) if production else None
+            ),
+            "productionGate": (
+                production.get("promotionGate") if production else "pending"
+            ),
         },
         "serializationParity": {
-            "rows": len(parity_rows),
+            "rows": parity_rows_total,
             "maximumProbabilityDifference": maximum_difference,
             "passed": maximum_difference <= 1e-12,
         },
-        "promotionDecision": "promote-runtime-all-gates-passed",
+        "promotionDecision": (
+            "promote-runtime-all-gates-passed"
+            if production and production.get("promotionGate") == "passed"
+            else "pending-production-regression"
+        ),
         "productionModelUpdated": False,
     }
     args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")

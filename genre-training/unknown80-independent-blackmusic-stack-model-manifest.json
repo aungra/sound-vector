@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "candidateModelPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown80-independent-blackmusic-stack-candidate.pkl",
+  "candidateModelSha256": "a94172b7f85a9b2706d3e5e55335ce233d0ae264632a602df857e63a17d8ca35",
+  "candidateModelBytes": 2812111,
+  "modelVersion": "unknown80-independent-blackmusic-20260823-v2",
+  "method": "audio-only-member-view-independent-source-pair-stack",
+  "featureContract": {
+    "source": "production librosa 547-vector",
+    "vectorLength": 547,
+    "selectedIndexes": "member-specific full or rhythm",
+    "normalization": "identity before fitted member model"
+  },
+  "training": {
+    "members": [
+      {
+        "pair": [
+          "ファンク",
+          "ロック"
+        ],
+        "kind": "logistic",
+        "view": "rhythm",
+        "rows": 198,
+        "formalRows": 193,
+        "trainingOnlyOverlayRows": 5,
+        "sources": {
+          "FMA": 26,
+          "Jamendo": 161,
+          "RWC Music Database": 6,
+          "ccMixter": 2,
+          "Internet Archive": 2,
+          "Openverse": 1
+        },
+        "labels": {
+          "ロック": 106,
+          "ファンク": 92
+        }
+      },
+      {
+        "pair": [
+          "ブルース",
+          "フォーク"
+        ],
+        "kind": "logistic",
+        "view": "full",
+        "rows": 157,
+        "formalRows": 152,
+        "trainingOnlyOverlayRows": 5,
+        "sources": {
+          "FMA": 40,
+          "Jamendo": 107,
+          "RWC Music Database": 5,
+          "ccMixter": 5
+        },
+        "labels": {
+          "フォーク": 67,
+          "ブルース": 90
+        }
+      },
+      {
+        "pair": [
+          "レゲエ",
+          "ダブ"
+        ],
+        "kind": "extra-trees",
+        "view": "full",
+        "rows": 189,
+        "formalRows": 185,
+        "trainingOnlyOverlayRows": 4,
+        "sources": {
+          "FMA": 39,
+          "Jamendo": 143,
+          "RWC Music Database": 3,
+          "ccMixter": 1,
+          "Internet Archive": 3
+        },
+        "labels": {
+          "ダブ": 106,
+          "レゲエ": 83
+        }
+      }
+    ]
+  },
+  "combination": {
+    "name": "conservative-three-pair",
+    "members": [
+      {
+        "pair": [
+          "ファンク",
+          "ロック"
+        ],
+        "strength": 0.5,
+        "view": "rhythm",
+        "featureIndexCount": 157
+      },
+      {
+        "pair": [
+          "ブルース",
+          "フォーク"
+        ],
+        "strength": 0.25,
+        "view": "full",
+        "featureIndexCount": 547
+      },
+      {
+        "pair": [
+          "レゲエ",
+          "ダブ"
+        ],
+        "strength": 0.25,
+        "view": "full",
+        "featureIndexCount": 547
+      }
+    ]
+  },
+  "evaluation": {
+    "sourceHeldoutReport": "genre-training/unknown80-independent-blackmusic-pair-ablation.json",
+    "sourceHeldoutReportSha256": "a8c69ebb5140086cc82d630083c3e7c6c3af000dc80697c4df43f5e0bffd052d",
+    "sourceHeldoutTop1Before": 58.1,
+    "sourceHeldoutTop1After": 58.68,
+    "sourceHeldoutImproved": 16,
+    "sourceHeldoutHarmed": 5,
+    "gtzanReport": "genre-training/gtzan-independent-blackmusic-pair-gate.json",
+    "gtzanReportSha256": "d08fcc3d01d5c8d0e11c7b4e6c1914f91c1512207d2fb9577ff28249b43dd729",
+    "gtzanTop1Before": 75.65,
+    "gtzanTop1After": 78.7,
+    "gtzanImproved": 7,
+    "gtzanHarmed": 0,
+    "productionRegressionReport": "genre-training/unknown80-independent-blackmusic-stack-production-regression.json",
+    "productionRegressionReportSha256": "9a100235750fe3d0b11f9461a4de4345567cbc8348998798c17b540d14c7dea6",
+    "productionGate": "passed"
+  },
+  "serializationParity": {
+    "rows": 192,
+    "maximumProbabilityDifference": 2.220446049250313e-16,
+    "passed": true
+  },
+  "promotionDecision": "promote-runtime-all-gates-passed",
+  "productionModelUpdated": false
+}

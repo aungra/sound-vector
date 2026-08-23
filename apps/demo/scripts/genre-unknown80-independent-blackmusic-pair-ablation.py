@@ -54,6 +54,17 @@ MODELS = ("logistic", "extra-trees")
 VIEWS = ("rhythm", "full")
 STRENGTHS = (0.25, 0.5, 0.75, 1.0)
 OVERLAY_WEIGHT = 0.5
+COMBINATIONS = {
+    "conservative-two-pair": (
+        "ファンク-ロック-logistic-rhythm-overlay-w0.5",
+        "ブルース-フォーク-logistic-full-overlay-w0.25",
+    ),
+    "conservative-three-pair": (
+        "ファンク-ロック-logistic-rhythm-overlay-w0.5",
+        "ブルース-フォーク-logistic-full-overlay-w0.25",
+        "レゲエ-ダブ-extra-trees-full-overlay-w0.25",
+    ),
+}
 
 
 def sha256_file(path):
@@ -214,6 +225,10 @@ def aggregate_fold_scores(fold_outputs, base, actual, labels, sources):
     output = np.asarray(base, dtype=np.float64).copy()
     for indexes, scores in fold_outputs:
         output[indexes] = scores
+    return compare_output(output, base, actual, labels, sources)
+
+
+def compare_output(output, base, actual, labels, sources):
     result = metric(actual, output, labels, sources)
     base_top = np.argmax(base, axis=1)
     candidate_top = np.argmax(output, axis=1)
@@ -230,6 +245,19 @@ def aggregate_fold_scores(fold_outputs, base, actual, labels, sources):
         & (np.asarray(labels)[base_top] == actual)
     ))
     return result
+
+
+def combine_candidate_outputs(base, outputs):
+    base = np.asarray(base, dtype=np.float64)
+    combined = base.copy()
+    occupied = np.zeros(len(base), dtype=bool)
+    for output in outputs:
+        changed = np.any(np.asarray(output) != base, axis=1)
+        if np.any(occupied & changed):
+            raise ValueError("candidate combination has overlapping rows")
+        combined[changed] = output[changed]
+        occupied |= changed
+    return combined
 
 
 def run(args):
@@ -255,6 +283,7 @@ def run(args):
         source for source, count in Counter(sources).items() if count >= 8
     )
     candidates = {"incumbent": metric(actual, base, labels, sources)}
+    candidate_outputs = {"incumbent": base}
     diagnostics = defaultdict(list)
     for pair_index, pair in enumerate(PAIRS):
         pair_overlay_indexes = np.asarray([
@@ -364,11 +393,25 @@ def run(args):
                         candidates[name] = aggregate_fold_scores(
                             fold_outputs, base, actual, labels, sources
                         )
+                        output = np.asarray(base, dtype=np.float64).copy()
+                        for indexes, scores in fold_outputs:
+                            output[indexes] = scores
+                        candidate_outputs[name] = output
+    for name, members in COMBINATIONS.items():
+        if not all(member in candidate_outputs for member in members):
+            continue
+        output = combine_candidate_outputs(
+            base, [candidate_outputs[member] for member in members]
+        )
+        candidate_outputs[name] = output
+        candidates[name] = compare_output(
+            output, base, actual, labels, sources
+        )
     baseline = candidates["incumbent"]
     eligible_names = [
         name for name, score in candidates.items()
         if name != "incumbent"
-        and "-overlay-" in name
+        and ("-overlay-" in name or name in COMBINATIONS)
         and score["top1Accuracy"] > baseline["top1Accuracy"]
         and score["balancedTop1"] >= baseline["balancedTop1"]
         and score["minimumSourceTop1"] >= baseline["minimumSourceTop1"]
@@ -391,6 +434,7 @@ def run(args):
             "overlayProviderExcludedFromMatchingOuterFold": True,
             "productionModelUpdated": False,
             "overlayWeight": OVERLAY_WEIGHT,
+            "candidateCombinations": COMBINATIONS,
         },
         "dataset": {
             "formalRows": len(actual),

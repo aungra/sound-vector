@@ -26,19 +26,32 @@ def load_bundle(path):
     return bundle
 
 
-def rhythm_features(bundle, librosa_vector):
+def rhythm_features(bundle, librosa_vector, member=None):
     vector = np.asarray(librosa_vector, dtype=np.float32).reshape(-1)
     expected = int(bundle.get("librosaVectorLength", 0))
     if vector.size != expected:
         raise ValueError(
             f"unknown80 rhythm vector length {vector.size} differs from {expected}"
         )
-    indexes = np.asarray(bundle["rhythmFeatureIndexes"], dtype=np.int64)
+    member = member or {}
+    indexes = np.asarray(
+        member.get("featureIndexes", bundle["rhythmFeatureIndexes"]),
+        dtype=np.int64,
+    )
     selected = vector[indexes]
-    if bundle.get("normalizationMode") == "identity":
+    normalization_mode = member.get(
+        "normalizationMode", bundle.get("normalizationMode")
+    )
+    if normalization_mode == "identity":
         return selected
-    median = np.asarray(bundle["robustScaleMedian"], dtype=np.float32)
-    scale = np.asarray(bundle["robustScaleIqr"], dtype=np.float32)
+    median = np.asarray(
+        member.get("robustScaleMedian", bundle["robustScaleMedian"]),
+        dtype=np.float32,
+    )
+    scale = np.asarray(
+        member.get("robustScaleIqr", bundle["robustScaleIqr"]),
+        dtype=np.float32,
+    )
     if selected.size != median.size or selected.size != scale.size:
         raise ValueError("unknown80 rhythm normalization contract mismatch")
     return np.clip((selected - median) / np.maximum(scale, 1e-6), -8.0, 8.0)
@@ -50,7 +63,6 @@ def rerank(bundle, labels, base_scores, librosa_vector):
     scores = normalize_scores(base_scores)
     top3 = np.argsort(-scores, kind="stable")[:3]
     utilities = np.log(np.maximum(scores, 1e-12))
-    features = rhythm_features(bundle, librosa_vector).reshape(1, -1)
     applied = []
     for member in bundle["members"]:
         pair = tuple(member.get("pair") or [])
@@ -63,6 +75,9 @@ def rerank(bundle, labels, base_scores, librosa_vector):
         first, second = (label_index[label] for label in pair)
         if first not in top3 or second not in top3:
             continue
+        features = rhythm_features(
+            bundle, librosa_vector, member
+        ).reshape(1, -1)
         probabilities = model.predict_proba(features)[0]
         classes = list(model.classes_)
         learned = np.asarray([

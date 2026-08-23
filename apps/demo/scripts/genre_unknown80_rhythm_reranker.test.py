@@ -20,6 +20,16 @@ class FixedModel:
         return np.tile([[0.05, 0.95]], (len(values), 1))
 
 
+class DimensionModel(FixedModel):
+    def __init__(self, dimensions):
+        self.dimensions = dimensions
+
+    def predict_proba(self, values):
+        if values.shape[1] != self.dimensions:
+            raise ValueError("wrong feature dimensions")
+        return super().predict_proba(values)
+
+
 def bundle():
     return {
         "schemaVersion": MODULE.SCHEMA_VERSION,
@@ -44,6 +54,18 @@ class Unknown80RhythmRerankerTest(unittest.TestCase):
         }
         values = MODULE.rhythm_features(bundle, [12.0, 2.0, 300.0, -4.0])
         np.testing.assert_allclose(values, [12.0, 300.0, -4.0])
+
+    def test_member_can_select_its_own_feature_view(self):
+        value = bundle()
+        value["normalizationMode"] = "identity"
+        value["members"][0]["featureIndexes"] = [0, 1, 2]
+        value["members"][0]["normalizationMode"] = "identity"
+        value["models"] = {("a", "b"): DimensionModel(3)}
+        _scores, details = MODULE.rerank(
+            value, ["a", "b", "c", "d"],
+            [0.45, 0.35, 0.15, 0.05], [0.0, 1.0, 2.0, 3.0],
+        )
+        self.assertTrue(details["applied"])
 
     def test_rerank_preserves_top3_and_score_values(self):
         scores, details = MODULE.rerank(

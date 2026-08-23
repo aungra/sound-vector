@@ -4,6 +4,8 @@ Candidate tracks are training-only. A provider's candidate rows are excluded whe
 
 | candidate | Top1 | balanced | minimum source | Top3 | changes | + / - |
 |---|---:|---:|---:|---:|---:|---:|
+| conservative-three-pair | 58.68% | 58.69% | 31.58% | 83.48% | 27 | 16 / 5 |
+| conservative-two-pair | 58.52% | 58.60% | 31.58% | 83.48% | 17 | 10 / 2 |
 | ファンク-ロック-logistic-rhythm-overlay-w0.75 | 58.36% | 58.49% | 31.58% | 83.48% | 10 | 7 / 2 |
 | ファンク-ロック-logistic-rhythm-overlay-w1 | 58.36% | 58.49% | 31.58% | 83.48% | 12 | 8 / 3 |
 | ファンク-ロック-logistic-full-overlay-w0.75 | 58.31% | 58.44% | 31.58% | 83.48% | 16 | 8 / 4 |
@@ -26,8 +28,6 @@ Candidate tracks are training-only. A provider's candidate rows are excluded whe
 | ファンク-ロック-logistic-rhythm-overlay-w0.25 | 58.15% | 58.30% | 31.58% | 83.48% | 3 | 2 / 1 |
 | ブルース-フォーク-logistic-rhythm-overlay-w0.25 | 58.15% | 58.29% | 31.58% | 83.48% | 9 | 3 / 2 |
 | レゲエ-ダブ-logistic-full-overlay-w0.25 | 58.15% | 58.25% | 31.58% | 83.48% | 17 | 8 / 7 |
-| レゲエ-ダブ-extra-trees-full-overlay-w0.5 | 58.15% | 58.23% | 31.58% | 83.48% | 23 | 11 / 10 |
-| ファンク-ロック-extra-trees-rhythm-overlay-w0.25 | 58.10% | 58.26% | 31.58% | 83.48% | 3 | 1 / 1 |
 
 Decision: **continue-nested-and-outer-gates**
 
@@ -55,3 +55,5 @@ Promotion-screen candidates:
 - レゲエ-ダブ-logistic-full-overlay-w0.25
 - レゲエ-ダブ-extra-trees-rhythm-overlay-w0.25
 - レゲエ-ダブ-extra-trees-full-overlay-w0.25
+- conservative-two-pair
+- conservative-three-pair
