@@ -3,8 +3,18 @@ import test from "node:test";
 
 import {
   embeddingInferenceAttemptPlan,
+  pairwiseRerankerPolicy,
   runEmbeddingInferenceAttempts,
 } from "./genre-embedding-runtime-policy.mjs";
+
+test("legacy pairwise reranker is opt-in after outer-source regression", () => {
+  assert.deepEqual(pairwiseRerankerPolicy(), {
+    enabled: false,
+    mode: "disabled-outer-source-regression",
+  });
+  assert.equal(pairwiseRerankerPolicy("0").enabled, false);
+  assert.equal(pairwiseRerankerPolicy("1").enabled, true);
+});
 
 test("v2.2 head contract gets a stable v2.1 fallback", () => {
   const attempts = embeddingInferenceAttemptPlan({

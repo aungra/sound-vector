@@ -1,0 +1,21 @@
+{
+  "objective": "Measure unknown-source transfer on a filtered public research cohort.",
+  "rows": 230,
+  "byGenre": {
+    "クラシック音楽": 31,
+    "ジャズ": 27,
+    "ディスコ": 29,
+    "ヒップホップ": 27,
+    "ブルース": 31,
+    "メタル": 27,
+    "レゲエ": 26,
+    "ロック": 32
+  },
+  "rejected": {
+    "outside-32-genre-contract": 60
+  },
+  "allAudioExternal": true,
+  "allEvaluationOnly": true,
+  "productionModelUpdated": false,
+  "archiveSha256": "b28cc067ff6199bd826f5d1a6931458586d64acae7f44b2e882b7a97af057531"
+}

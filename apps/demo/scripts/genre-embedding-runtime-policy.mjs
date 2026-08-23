@@ -1,5 +1,13 @@
 import path from "node:path";
 
+export function pairwiseRerankerPolicy(value = "") {
+  const enabled = String(value || "").trim() === "1";
+  return {
+    enabled,
+    mode: enabled ? "experimental-opt-in" : "disabled-outer-source-regression",
+  };
+}
+
 export function embeddingInferenceAttemptPlan({
   contract = {},
   primaryModelPath = "",

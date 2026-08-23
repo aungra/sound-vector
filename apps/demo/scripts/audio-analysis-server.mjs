@@ -7,6 +7,7 @@ import { spawn, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import {
   embeddingInferenceAttemptPlan,
+  pairwiseRerankerPolicy,
   runEmbeddingInferenceAttempts,
 } from "./genre-embedding-runtime-policy.mjs";
 import {
@@ -111,6 +112,14 @@ const EMBEDDING_GENRE_LIVE_ENABLED = cliArgs.has("--embedding-live")
   || process.env.MMFR_EMBEDDING_GENRE_LIVE_ENABLED === "1";
 const EMBEDDING_GENRE_CONSENSUS_ENABLED = EMBEDDING_GENRE_LIVE_ENABLED
   && process.env.MMFR_EMBEDDING_GENRE_CONSENSUS_ENABLED !== "0";
+// The legacy pairwise bundle regressed on the independent GTZAN outer source
+// and contains pair heads that no longer pass the strict source-coverage gate.
+// Keep it opt-in until a replacement improves every promotion evaluation.
+const EMBEDDING_GENRE_PAIRWISE_RERANKER_POLICY = pairwiseRerankerPolicy(
+  process.env.MMFR_ENABLE_UNKNOWN80_RHYTHM_RERANKER,
+);
+const EMBEDDING_GENRE_PAIRWISE_RERANKER_ENABLED =
+  EMBEDDING_GENRE_PAIRWISE_RERANKER_POLICY.enabled;
 const LOCAL_SEGMENT_CONSENSUS_ENABLED = process.env.MMFR_LOCAL_SEGMENT_CONSENSUS_ENABLED !== "0";
 const LOCAL_GENRE_MODEL_PATH = process.env.MMFR_LOCAL_GENRE_MODEL_PATH
   || path.resolve(SCRIPT_DIR, "../../../genre-training/genre-model.json");
@@ -483,7 +492,9 @@ async function analyzeEmbeddingGenreForFile(filePath, japaneseVocalEvidence = {}
         // crashes on Apple Silicon. Discogs + librosa has compatible fitted
         // members and keeps the MTG head opt-in for controlled benchmarks.
         MMFR_EMBEDDING_INFER_SOURCES: process.env.MMFR_EMBEDDING_INFER_SOURCES || "discogs,librosa",
-        MMFR_ESSENTIA_DISCOGS_HEAD: attempt.discogsHead ? "1" : "0"
+        MMFR_ESSENTIA_DISCOGS_HEAD: attempt.discogsHead ? "1" : "0",
+        MMFR_ENABLE_UNKNOWN80_RHYTHM_RERANKER:
+          EMBEDDING_GENRE_PAIRWISE_RERANKER_ENABLED ? "1" : "0"
       }
     });
     const parsed = parseFinalJsonLine(stdout, "Embedding genre inference");
@@ -1792,6 +1803,8 @@ const server = http.createServer(async (req, res) => {
         embeddingGenreContract: embeddingGenreContractStatus(),
         embeddingGenreLive: EMBEDDING_GENRE_LIVE_ENABLED,
         embeddingGenreConsensus: EMBEDDING_GENRE_CONSENSUS_ENABLED,
+        embeddingGenrePairwiseReranker: EMBEDDING_GENRE_PAIRWISE_RERANKER_ENABLED,
+        embeddingGenrePairwiseRerankerMode: EMBEDDING_GENRE_PAIRWISE_RERANKER_POLICY.mode,
         localSegmentConsensus: LOCAL_SEGMENT_CONSENSUS_ENABLED,
         classificationScope: "track",
         trackSampleCount: TRACK_SAMPLE_COUNT,
@@ -1821,6 +1834,8 @@ const server = http.createServer(async (req, res) => {
         embeddingGenreContract: embeddingGenreContractStatus(),
         embeddingGenreLive: EMBEDDING_GENRE_LIVE_ENABLED,
         embeddingGenreConsensus: EMBEDDING_GENRE_CONSENSUS_ENABLED,
+        embeddingGenrePairwiseReranker: EMBEDDING_GENRE_PAIRWISE_RERANKER_ENABLED,
+        embeddingGenrePairwiseRerankerMode: EMBEDDING_GENRE_PAIRWISE_RERANKER_POLICY.mode,
         localSegmentConsensus: LOCAL_SEGMENT_CONSENSUS_ENABLED,
         classificationScope: "track",
         trackSampleCount: TRACK_SAMPLE_COUNT,
@@ -1854,6 +1869,8 @@ const server = http.createServer(async (req, res) => {
         embeddingGenreContract: embeddingGenreContractStatus(),
         embeddingGenreLive: EMBEDDING_GENRE_LIVE_ENABLED,
         embeddingGenreConsensus: EMBEDDING_GENRE_CONSENSUS_ENABLED,
+        embeddingGenrePairwiseReranker: EMBEDDING_GENRE_PAIRWISE_RERANKER_ENABLED,
+        embeddingGenrePairwiseRerankerMode: EMBEDDING_GENRE_PAIRWISE_RERANKER_POLICY.mode,
         localSegmentConsensus: LOCAL_SEGMENT_CONSENSUS_ENABLED,
         classificationScope: "track",
         trackSampleCount: TRACK_SAMPLE_COUNT,
