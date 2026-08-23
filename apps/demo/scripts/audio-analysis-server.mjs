@@ -1831,6 +1831,7 @@ const server = http.createServer(async (req, res) => {
         classificationScope: "track",
         trackSampleCount: TRACK_SAMPLE_COUNT,
         trackSampleWindowSeconds: TRACK_SAMPLE_WINDOW_SECONDS,
+        embeddingTrackSegmentInput: "planned-30s-ranges",
         japaneseVocalEvidence: japaneseVocalEvidenceReady(),
         sharedLocalGenre: fs.existsSync(LOCAL_GENRE_MODEL_PATH)
       }
@@ -1864,6 +1865,7 @@ const server = http.createServer(async (req, res) => {
         classificationScope: "track",
         trackSampleCount: TRACK_SAMPLE_COUNT,
         trackSampleWindowSeconds: TRACK_SAMPLE_WINDOW_SECONDS,
+        embeddingTrackSegmentInput: "planned-30s-ranges",
         japaneseVocalEvidence: japaneseVocalEvidenceReady(),
         sharedLocalGenre: fs.existsSync(LOCAL_GENRE_MODEL_PATH),
         sharedLocalGenreModel: fs.existsSync(LOCAL_GENRE_MODEL_PATH) ? LOCAL_GENRE_MODEL_PATH : "",
@@ -1901,6 +1903,7 @@ const server = http.createServer(async (req, res) => {
         classificationScope: "track",
         trackSampleCount: TRACK_SAMPLE_COUNT,
         trackSampleWindowSeconds: TRACK_SAMPLE_WINDOW_SECONDS,
+        embeddingTrackSegmentInput: "planned-30s-ranges",
         sharedLocalGenre: fs.existsSync(LOCAL_GENRE_MODEL_PATH)
       }
     });
