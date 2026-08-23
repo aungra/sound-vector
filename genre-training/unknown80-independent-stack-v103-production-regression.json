@@ -1,0 +1,115 @@
+{
+  "objective": "Production-model regression guard; not an independent accuracy estimate.",
+  "policy": {
+    "metadataUsedAtInference": false,
+    "urlSpecificRulesUsed": false,
+    "sealedFinalHoldoutUsed": false,
+    "rowsMayOverlapModelTraining": true,
+    "eligibleForAccuracyClaim": false,
+    "productionModelUpdated": false
+  },
+  "dataset": {
+    "requestedRows": 1883,
+    "evaluatedRows": 1639,
+    "missing": {
+      "feature-cache": 244
+    }
+  },
+  "baseline": {
+    "total": 1639,
+    "top1Accuracy": 60.59,
+    "balancedTop1": 63.63
+  },
+  "candidate": {
+    "total": 1639,
+    "top1Accuracy": 63.03,
+    "balancedTop1": 64.39
+  },
+  "minimumSource": {
+    "before": 47.37,
+    "after": 47.37
+  },
+  "changes": {
+    "changedRows": 76,
+    "improvedRows": 54,
+    "regressedRows": 14,
+    "netCorrectChanges": 40
+  },
+  "appliedRows": 358,
+  "changedContractViolations": 0,
+  "bySource": {
+    "FMA": {
+      "before": {
+        "total": 327,
+        "top1Accuracy": 67.89,
+        "balancedTop1": 67.31
+      },
+      "after": {
+        "total": 327,
+        "top1Accuracy": 71.25,
+        "balancedTop1": 70.12
+      }
+    },
+    "IdolSongsJp": {
+      "before": {
+        "total": 15,
+        "top1Accuracy": 93.33,
+        "balancedTop1": 93.33
+      },
+      "after": {
+        "total": 15,
+        "top1Accuracy": 93.33,
+        "balancedTop1": 93.33
+      }
+    },
+    "Internet Archive": {
+      "before": {
+        "total": 19,
+        "top1Accuracy": 47.37,
+        "balancedTop1": 60.56
+      },
+      "after": {
+        "total": 19,
+        "top1Accuracy": 47.37,
+        "balancedTop1": 60.56
+      }
+    },
+    "Jamendo": {
+      "before": {
+        "total": 1199,
+        "top1Accuracy": 57.05,
+        "balancedTop1": 59.38
+      },
+      "after": {
+        "total": 1199,
+        "top1Accuracy": 59.47,
+        "balancedTop1": 62.05
+      }
+    },
+    "RWC Music Database": {
+      "before": {
+        "total": 59,
+        "top1Accuracy": 83.05,
+        "balancedTop1": 77.56
+      },
+      "after": {
+        "total": 59,
+        "top1Accuracy": 83.05,
+        "balancedTop1": 83.97
+      }
+    },
+    "Wikimedia Commons": {
+      "before": {
+        "total": 20,
+        "top1Accuracy": 75.0,
+        "balancedTop1": 82.29
+      },
+      "after": {
+        "total": 20,
+        "top1Accuracy": 75.0,
+        "balancedTop1": 82.29
+      }
+    }
+  },
+  "promotionGate": "passed"
+}
