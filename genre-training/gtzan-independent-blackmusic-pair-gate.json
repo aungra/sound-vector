@@ -1,0 +1,225 @@
+{
+  "objective": "Gate source-heldout pair candidates on unseen GTZAN without training on GTZAN.",
+  "policy": {
+    "gtzanTrainingRows": 0,
+    "gtzanEvaluationOnly": true,
+    "metadataUsedAtInference": false,
+    "productionModelUpdated": false
+  },
+  "dataset": {
+    "rows": 230,
+    "genres": {
+      "ブルース": 31,
+      "クラシック音楽": 31,
+      "ディスコ": 29,
+      "ヒップホップ": 27,
+      "ジャズ": 27,
+      "メタル": 27,
+      "レゲエ": 26,
+      "ロック": 32
+    }
+  },
+  "training": {
+    "funk-rock-logistic-rhythm-w0.5": {
+      "rows": {
+        "ロック": 106,
+        "ファンク": 92
+      },
+      "sourcesPerLabel": {
+        "ファンク": 5,
+        "ロック": 3
+      },
+      "overlayRows": 5
+    },
+    "funk-rock-logistic-rhythm-w0.75": {
+      "rows": {
+        "ロック": 106,
+        "ファンク": 92
+      },
+      "sourcesPerLabel": {
+        "ファンク": 5,
+        "ロック": 3
+      },
+      "overlayRows": 5
+    },
+    "blues-folk-logistic-full-w0.25": {
+      "rows": {
+        "フォーク": 67,
+        "ブルース": 90
+      },
+      "sourcesPerLabel": {
+        "ブルース": 3,
+        "フォーク": 3
+      },
+      "overlayRows": 5
+    },
+    "blues-rock-extra-trees-full-w0.25": {
+      "rows": {
+        "ロック": 106,
+        "ブルース": 90
+      },
+      "sourcesPerLabel": {
+        "ブルース": 3,
+        "ロック": 3
+      },
+      "overlayRows": 5
+    },
+    "reggae-dub-extra-trees-full-w0.25": {
+      "rows": {
+        "ダブ": 106,
+        "レゲエ": 83
+      },
+      "sourcesPerLabel": {
+        "レゲエ": 4,
+        "ダブ": 3
+      },
+      "overlayRows": 4
+    }
+  },
+  "candidates": {
+    "incumbent": {
+      "top1Accuracy": 75.65,
+      "balancedTop1": 75.63,
+      "minimumSourceTop1": 75.65,
+      "top3Accuracy": 95.22,
+      "changedTop1": 0,
+      "sourceTop1": {
+        "GTZAN": 75.65
+      },
+      "improved": 0,
+      "harmed": 0
+    },
+    "funk-rock-logistic-rhythm-w0.5": {
+      "top1Accuracy": 75.65,
+      "balancedTop1": 75.63,
+      "minimumSourceTop1": 75.65,
+      "top3Accuracy": 95.22,
+      "changedTop1": 0,
+      "sourceTop1": {
+        "GTZAN": 75.65
+      },
+      "improved": 0,
+      "harmed": 0
+    },
+    "funk-rock-logistic-rhythm-w0.75": {
+      "top1Accuracy": 75.65,
+      "balancedTop1": 75.63,
+      "minimumSourceTop1": 75.65,
+      "top3Accuracy": 95.22,
+      "changedTop1": 0,
+      "sourceTop1": {
+        "GTZAN": 75.65
+      },
+      "improved": 0,
+      "harmed": 0
+    },
+    "blues-folk-logistic-full-w0.25": {
+      "top1Accuracy": 78.7,
+      "balancedTop1": 78.45,
+      "minimumSourceTop1": 78.7,
+      "top3Accuracy": 95.22,
+      "changedTop1": 7,
+      "sourceTop1": {
+        "GTZAN": 78.7
+      },
+      "improved": 7,
+      "harmed": 0
+    },
+    "blues-rock-extra-trees-full-w0.25": {
+      "top1Accuracy": 75.65,
+      "balancedTop1": 75.61,
+      "minimumSourceTop1": 75.65,
+      "top3Accuracy": 95.22,
+      "changedTop1": 2,
+      "sourceTop1": {
+        "GTZAN": 75.65
+      },
+      "improved": 1,
+      "harmed": 1
+    },
+    "reggae-dub-extra-trees-full-w0.25": {
+      "top1Accuracy": 75.65,
+      "balancedTop1": 75.63,
+      "minimumSourceTop1": 75.65,
+      "top3Accuracy": 95.22,
+      "changedTop1": 0,
+      "sourceTop1": {
+        "GTZAN": 75.65
+      },
+      "improved": 0,
+      "harmed": 0
+    },
+    "conservative-three-pair": {
+      "top1Accuracy": 78.7,
+      "balancedTop1": 78.45,
+      "minimumSourceTop1": 78.7,
+      "top3Accuracy": 95.22,
+      "changedTop1": 7,
+      "sourceTop1": {
+        "GTZAN": 78.7
+      },
+      "improved": 7,
+      "harmed": 0
+    },
+    "conservative-four-pair": {
+      "top1Accuracy": 78.7,
+      "balancedTop1": 78.44,
+      "minimumSourceTop1": 78.7,
+      "top3Accuracy": 95.22,
+      "changedTop1": 9,
+      "sourceTop1": {
+        "GTZAN": 78.7
+      },
+      "improved": 8,
+      "harmed": 1
+    }
+  },
+  "applicability": {
+    "incumbent": {},
+    "funk-rock-logistic-rhythm-w0.5": {
+      "funk-rock-logistic-rhythm-w0.5": 3
+    },
+    "funk-rock-logistic-rhythm-w0.75": {
+      "funk-rock-logistic-rhythm-w0.75": 3
+    },
+    "blues-folk-logistic-full-w0.25": {
+      "blues-folk-logistic-full-w0.25": 22
+    },
+    "blues-rock-extra-trees-full-w0.25": {
+      "blues-rock-extra-trees-full-w0.25": 27
+    },
+    "reggae-dub-extra-trees-full-w0.25": {
+      "reggae-dub-extra-trees-full-w0.25": 20
+    },
+    "conservative-three-pair": {
+      "funk-rock-logistic-rhythm-w0.5": 3,
+      "blues-folk-logistic-full-w0.25": 22,
+      "reggae-dub-extra-trees-full-w0.25": 20
+    },
+    "conservative-four-pair": {
+      "funk-rock-logistic-rhythm-w0.5": 3,
+      "blues-folk-logistic-full-w0.25": 22,
+      "blues-rock-extra-trees-full-w0.25": 27,
+      "reggae-dub-extra-trees-full-w0.25": 20
+    }
+  },
+  "ranking": [
+    "blues-folk-logistic-full-w0.25",
+    "conservative-three-pair",
+    "conservative-four-pair",
+    "incumbent",
+    "funk-rock-logistic-rhythm-w0.5",
+    "funk-rock-logistic-rhythm-w0.75",
+    "reggae-dub-extra-trees-full-w0.25",
+    "blues-rock-extra-trees-full-w0.25"
+  ],
+  "promotionScreen": [
+    "funk-rock-logistic-rhythm-w0.5",
+    "funk-rock-logistic-rhythm-w0.75",
+    "blues-folk-logistic-full-w0.25",
+    "reggae-dub-extra-trees-full-w0.25",
+    "conservative-three-pair",
+    "conservative-four-pair"
+  ],
+  "decision": "continue-cross-fitted-gate"
+}

@@ -3,6 +3,7 @@ import test from "node:test";
 
 import {
   embeddingInferenceAttemptPlan,
+  independentPairRerankerPolicy,
   pairwiseRerankerPolicy,
   runEmbeddingInferenceAttempts,
 } from "./genre-embedding-runtime-policy.mjs";
@@ -14,6 +15,15 @@ test("legacy pairwise reranker is opt-in after outer-source regression", () => {
   });
   assert.equal(pairwiseRerankerPolicy("0").enabled, false);
   assert.equal(pairwiseRerankerPolicy("1").enabled, true);
+});
+
+test("independent pair reranker is enabled after both promotion gates", () => {
+  assert.deepEqual(independentPairRerankerPolicy(), {
+    enabled: true,
+    mode: "enabled-source-heldout-and-gtzan-gated",
+  });
+  assert.equal(independentPairRerankerPolicy("0").enabled, false);
+  assert.equal(independentPairRerankerPolicy("1").enabled, true);
 });
 
 test("v2.2 head contract gets a stable v2.1 fallback", () => {

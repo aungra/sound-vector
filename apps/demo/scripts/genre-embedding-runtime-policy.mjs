@@ -8,6 +8,14 @@ export function pairwiseRerankerPolicy(value = "") {
   };
 }
 
+export function independentPairRerankerPolicy(value) {
+  const enabled = String(value ?? "1").trim() !== "0";
+  return {
+    enabled,
+    mode: enabled ? "enabled-source-heldout-and-gtzan-gated" : "disabled-explicitly",
+  };
+}
+
 export function embeddingInferenceAttemptPlan({
   contract = {},
   primaryModelPath = "",

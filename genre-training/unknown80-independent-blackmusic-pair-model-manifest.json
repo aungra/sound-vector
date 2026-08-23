@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "candidateModelPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown80-independent-blackmusic-pair-candidate.pkl",
+  "candidateModelSha256": "f701be841c467ee73282f7385fdc23b477843474f2609a51c9fa92339d3f14d9",
+  "candidateModelBytes": 30121,
+  "modelVersion": "unknown80-independent-blackmusic-20260823-v1",
+  "method": "audio-only-full-librosa-independent-source-blues-folk-logistic",
+  "featureContract": {
+    "source": "production librosa 547-vector",
+    "vectorLength": 547,
+    "selectedIndexes": "all",
+    "normalization": "identity before fitted StandardScaler"
+  },
+  "training": {
+    "rows": 157,
+    "formalRows": 152,
+    "trainingOnlyOverlayRows": 5,
+    "sources": {
+      "FMA": 40,
+      "Jamendo": 107,
+      "RWC Music Database": 5,
+      "ccMixter": 5
+    },
+    "labels": {
+      "フォーク": 67,
+      "ブルース": 90
+    }
+  },
+  "combination": {
+    "members": [
+      {
+        "pair": [
+          "ブルース",
+          "フォーク"
+        ],
+        "strength": 0.25
+      }
+    ]
+  },
+  "evaluation": {
+    "sourceHeldoutReport": "genre-training/unknown80-independent-blackmusic-pair-ablation.json",
+    "sourceHeldoutReportSha256": "bc6d2f805f5319d5df9368670388044319b6bee4ae53704e2a0e803822e87b46",
+    "sourceHeldoutTop1Before": 58.1,
+    "sourceHeldoutTop1After": 58.31,
+    "sourceHeldoutImproved": 5,
+    "sourceHeldoutHarmed": 1,
+    "gtzanReport": "genre-training/gtzan-independent-blackmusic-pair-gate.json",
+    "gtzanReportSha256": "d08fcc3d01d5c8d0e11c7b4e6c1914f91c1512207d2fb9577ff28249b43dd729",
+    "gtzanTop1Before": 75.65,
+    "gtzanTop1After": 78.7,
+    "gtzanImproved": 7,
+    "gtzanHarmed": 0,
+    "productionRegressionReport": "genre-training/unknown80-independent-blackmusic-production-regression.json",
+    "productionRegressionReportSha256": "c6daabb64cb2a87ecaa875bec2b7be8cbe18c336f001c421cad9e089da18bed7",
+    "productionTop1Before": 60.59,
+    "productionTop1After": 60.89,
+    "productionBalancedBefore": 63.63,
+    "productionBalancedAfter": 63.88,
+    "productionMinimumSourceBefore": 47.37,
+    "productionMinimumSourceAfter": 47.37,
+    "productionImproved": 6,
+    "productionHarmed": 1,
+    "productionContractViolations": 0
+  },
+  "serializationParity": {
+    "rows": 64,
+    "maximumProbabilityDifference": 0.0,
+    "passed": true
+  },
+  "promotionDecision": "promoted-runtime-all-gates-passed",
+  "productionModelUpdated": true,
+  "deployedRevision": "2026-08-23-independent-blues-folk-v98"
+}
