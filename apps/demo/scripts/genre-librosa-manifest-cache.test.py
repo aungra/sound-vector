@@ -58,6 +58,22 @@ class LibrosaManifestCacheTest(unittest.TestCase):
             self.assertEqual(len(next(iter(cache.values()))), 547)
             self.assertIsInstance(next(iter(cache.values()))[1], float)
 
+    def test_build_cache_accepts_explicit_sidecar_dimensions(self):
+        with tempfile.TemporaryDirectory() as directory:
+            audio = Path(directory) / "test.mp3"
+            audio.write_bytes(b"audio")
+            rows = [{
+                "sourceType": "cc-dataset",
+                "sourceUrl": str(audio),
+                "filePath": str(audio),
+            }]
+            cache, errors = self.module.build_cache(
+                rows, lambda *_: [0.0] * 48, expected_dimensions=48,
+            )
+            self.assertFalse(errors)
+            self.assertEqual(len(next(iter(cache.values()))), 48)
+            self.assertEqual(self.module.EXPECTED_DIMENSIONS, 547)
+
 
 if __name__ == "__main__":
     unittest.main()

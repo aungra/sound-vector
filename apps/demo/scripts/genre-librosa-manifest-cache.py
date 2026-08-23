@@ -24,7 +24,7 @@ def source_key(row):
     return f"{row['sourceType']}:{row['sourceUrl']}"
 
 
-def build_cache(items, extractor):
+def build_cache(items, extractor, expected_dimensions=EXPECTED_DIMENSIONS):
     output = {}
     errors = []
     for row in items:
@@ -35,9 +35,9 @@ def build_cache(items, extractor):
             continue
         try:
             vector = extractor(path, 0.0)
-            if len(vector) != EXPECTED_DIMENSIONS:
+            if len(vector) != expected_dimensions:
                 raise ValueError(
-                    f"expected {EXPECTED_DIMENSIONS} features, received {len(vector)}"
+                    f"expected {expected_dimensions} features, received {len(vector)}"
                 )
             output[key] = [float(value) for value in vector]
         except Exception as error:
@@ -58,6 +58,9 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--infer-script", type=Path, default=INFER_PATH)
     parser.add_argument("--extractor-name", default="extract_librosa")
+    parser.add_argument(
+        "--expected-dimensions", type=int, default=EXPECTED_DIMENSIONS,
+    )
     args = parser.parse_args()
     items = json.loads(args.manifest.read_text()).get("items", [])
     inference = load_module(args.infer_script, "manifest_librosa_inference")
@@ -67,7 +70,7 @@ def main():
         if args.extractor_name == "extract_features"
         else named_extractor
     )
-    cache, errors = build_cache(items, extractor)
+    cache, errors = build_cache(items, extractor, args.expected_dimensions)
     atomic_write(args.output, cache)
     print(json.dumps({
         "manifest": str(args.manifest),
