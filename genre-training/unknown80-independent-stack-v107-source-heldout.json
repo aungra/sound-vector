@@ -1,0 +1,681 @@
+{
+  "objective": "Resolve Latin/Folk using provider-cross-fitted rhythm evidence.",
+  "policy": {
+    "metadataUsedAtInference": false,
+    "urlSpecificRulesUsed": false,
+    "sealedFinalHoldoutUsed": false,
+    "top3CandidateSetChanged": false,
+    "scoreMultisetChanged": false,
+    "matchingProviderExcludedFromOuterFold": true,
+    "productionModelUpdated": false
+  },
+  "dataset": {
+    "rows": 1883,
+    "labels": 28,
+    "featureCoverage": 1639,
+    "heldOutSources": [
+      "FMA",
+      "IdolSongsJp",
+      "Internet Archive",
+      "Jamendo",
+      "MagnaTagATune research evaluation",
+      "RWC Music Database",
+      "Wikimedia Commons",
+      "Zenodo CAPHE Hybrid Opera 18288509"
+    ],
+    "trainingOnlyOverlayRows": 0
+  },
+  "baseline": {
+    "top1Accuracy": 59.9,
+    "balancedTop1": 59.7,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 0,
+    "sourceTop1": {
+      "FMA": 60.55,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 55.88,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 84.75,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    }
+  },
+  "candidate": {
+    "top1Accuracy": 60.06,
+    "balancedTop1": 59.86,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 4,
+    "sourceTop1": {
+      "FMA": 60.55,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 55.88,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    },
+    "improved": 3,
+    "harmed": 0
+  },
+  "v106ConflictingRowsLeftAtV103": 0,
+  "candidateConflictingRowsLeftAtV103": 0,
+  "existingDetails": [
+    {
+      "applicableRows": 5,
+      "changedRows": 1,
+      "folds": [
+        {
+          "heldOutSource": "FMA",
+          "rows": {
+            "ディープ・ハウス": 97,
+            "ハウス": 98
+          },
+          "sourcesPerLabel": {
+            "ディープ・ハウス": 3,
+            "ハウス": 2
+          },
+          "trainingOnlyOverlayRows": 22
+        },
+        {
+          "heldOutSource": "IdolSongsJp",
+          "rows": {
+            "ハウス": 109,
+            "ディープ・ハウス": 97
+          },
+          "sourcesPerLabel": {
+            "ディープ・ハウス": 3,
+            "ハウス": 3
+          },
+          "trainingOnlyOverlayRows": 22
+        },
+        {
+          "heldOutSource": "Internet Archive",
+          "rows": {
+            "ハウス": 109,
+            "ディープ・ハウス": 77
+          },
+          "sourcesPerLabel": {
+            "ディープ・ハウス": 2,
+            "ハウス": 3
+          },
+          "trainingOnlyOverlayRows": 14
+        },
+        {
+          "heldOutSource": "Jamendo",
+          "rows": {
+            "ハウス": 14,
+            "ディープ・ハウス": 21
+          },
+          "sourcesPerLabel": {
+            "ディープ・ハウス": 2,
+            "ハウス": 2
+          },
+          "trainingOnlyOverlayRows": 9
+        },
+        {
+          "heldOutSource": "MagnaTagATune research evaluation",
+          "rows": {
+            "ハウス": 109,
+            "ディープ・ハウス": 97
+          },
+          "sourcesPerLabel": {
+            "ディープ・ハウス": 3,
+            "ハウス": 3
+          },
+          "trainingOnlyOverlayRows": 22
+        },
+        {
+          "heldOutSource": "RWC Music Database",
+          "rows": {
+            "ハウス": 106,
+            "ディープ・ハウス": 97
+          },
+          "sourcesPerLabel": {
+            "ディープ・ハウス": 3,
+            "ハウス": 2
+          },
+          "trainingOnlyOverlayRows": 22
+        },
+        {
+          "heldOutSource": "Wikimedia Commons",
+          "rows": {
+            "ハウス": 109,
+            "ディープ・ハウス": 96
+          },
+          "sourcesPerLabel": {
+            "ディープ・ハウス": 2,
+            "ハウス": 3
+          },
+          "trainingOnlyOverlayRows": 21
+        },
+        {
+          "heldOutSource": "Zenodo CAPHE Hybrid Opera 18288509",
+          "rows": {
+            "ハウス": 109,
+            "ディープ・ハウス": 97
+          },
+          "sourcesPerLabel": {
+            "ディープ・ハウス": 3,
+            "ハウス": 3
+          },
+          "trainingOnlyOverlayRows": 22
+        }
+      ]
+    },
+    {
+      "applicableRows": 58,
+      "changedRows": 17,
+      "folds": [
+        {
+          "heldOutSource": "FMA",
+          "rows": {
+            "ディープ・ハウス": 97,
+            "テクノ": 82
+          },
+          "sourcesPerLabel": {
+            "ディープ・ハウス": 3,
+            "テクノ": 3
+          },
+          "trainingOnlyOverlayRows": 22
+        },
+        {
+          "heldOutSource": "IdolSongsJp",
+          "rows": {
+            "テクノ": 103,
+            "ディープ・ハウス": 97
+          },
+          "sourcesPerLabel": {
+            "ディープ・ハウス": 3,
+            "テクノ": 4
+          },
+          "trainingOnlyOverlayRows": 22
+        },
+        {
+          "heldOutSource": "Internet Archive",
+          "rows": {
+            "テクノ": 103,
+            "ディープ・ハウス": 77
+          },
+          "sourcesPerLabel": {
+            "ディープ・ハウス": 2,
+            "テクノ": 4
+          },
+          "trainingOnlyOverlayRows": 14
+        },
+        {
+          "heldOutSource": "Jamendo",
+          "rows": {
+            "テクノ": 27,
+            "ディープ・ハウス": 21
+          },
+          "sourcesPerLabel": {
+            "ディープ・ハウス": 2,
+            "テクノ": 3
+          },
+          "trainingOnlyOverlayRows": 9
+        },
+        {
+          "heldOutSource": "MagnaTagATune research evaluation",
+          "rows": {
+            "テクノ": 103,
+            "ディープ・ハウス": 97
+          },
+          "sourcesPerLabel": {
+            "ディープ・ハウス": 3,
+            "テクノ": 4
+          },
+          "trainingOnlyOverlayRows": 22
+        },
+        {
+          "heldOutSource": "RWC Music Database",
+          "rows": {
+            "テクノ": 101,
+            "ディープ・ハウス": 97
+          },
+          "sourcesPerLabel": {
+            "ディープ・ハウス": 3,
+            "テクノ": 3
+          },
+          "trainingOnlyOverlayRows": 22
+        },
+        {
+          "heldOutSource": "Wikimedia Commons",
+          "rows": {
+            "テクノ": 99,
+            "ディープ・ハウス": 96
+          },
+          "sourcesPerLabel": {
+            "ディープ・ハウス": 2,
+            "テクノ": 3
+          },
+          "trainingOnlyOverlayRows": 21
+        },
+        {
+          "heldOutSource": "Zenodo CAPHE Hybrid Opera 18288509",
+          "rows": {
+            "テクノ": 103,
+            "ディープ・ハウス": 97
+          },
+          "sourcesPerLabel": {
+            "ディープ・ハウス": 3,
+            "テクノ": 4
+          },
+          "trainingOnlyOverlayRows": 22
+        }
+      ]
+    },
+    {
+      "applicableRows": 56,
+      "changedRows": 2,
+      "folds": [
+        {
+          "heldOutSource": "FMA",
+          "rows": {
+            "ロック": 80,
+            "メタル": 40
+          },
+          "sourcesPerLabel": {
+            "メタル": 2,
+            "ロック": 2
+          },
+          "trainingOnlyOverlayRows": 0
+        },
+        {
+          "heldOutSource": "IdolSongsJp",
+          "rows": {
+            "ロック": 106,
+            "メタル": 53
+          },
+          "sourcesPerLabel": {
+            "メタル": 3,
+            "ロック": 3
+          },
+          "trainingOnlyOverlayRows": 0
+        },
+        {
+          "heldOutSource": "Internet Archive",
+          "rows": {
+            "ロック": 106,
+            "メタル": 53
+          },
+          "sourcesPerLabel": {
+            "メタル": 3,
+            "ロック": 3
+          },
+          "trainingOnlyOverlayRows": 0
+        },
+        {
+          "heldOutSource": "Jamendo",
+          "rows": {
+            "ロック": 29,
+            "メタル": 16
+          },
+          "sourcesPerLabel": {
+            "メタル": 2,
+            "ロック": 2
+          },
+          "trainingOnlyOverlayRows": 0
+        },
+        {
+          "heldOutSource": "MagnaTagATune research evaluation",
+          "rows": {
+            "ロック": 106,
+            "メタル": 53
+          },
+          "sourcesPerLabel": {
+            "メタル": 3,
+            "ロック": 3
+          },
+          "trainingOnlyOverlayRows": 0
+        },
+        {
+          "heldOutSource": "RWC Music Database",
+          "rows": {
+            "ロック": 103,
+            "メタル": 50
+          },
+          "sourcesPerLabel": {
+            "メタル": 2,
+            "ロック": 2
+          },
+          "trainingOnlyOverlayRows": 0
+        },
+        {
+          "heldOutSource": "Wikimedia Commons",
+          "rows": {
+            "ロック": 106,
+            "メタル": 53
+          },
+          "sourcesPerLabel": {
+            "メタル": 3,
+            "ロック": 3
+          },
+          "trainingOnlyOverlayRows": 0
+        },
+        {
+          "heldOutSource": "Zenodo CAPHE Hybrid Opera 18288509",
+          "rows": {
+            "ロック": 106,
+            "メタル": 53
+          },
+          "sourcesPerLabel": {
+            "メタル": 3,
+            "ロック": 3
+          },
+          "trainingOnlyOverlayRows": 0
+        }
+      ]
+    },
+    {
+      "applicableRows": 6,
+      "changedRows": 1,
+      "folds": [
+        {
+          "heldOutSource": "FMA",
+          "rows": {
+            "ロック": 80,
+            "ファンク": 92
+          },
+          "sourcesPerLabel": {
+            "ファンク": 5,
+            "ロック": 2
+          },
+          "trainingOnlyOverlayRows": 5
+        },
+        {
+          "heldOutSource": "IdolSongsJp",
+          "rows": {
+            "ロック": 106,
+            "ファンク": 92
+          },
+          "sourcesPerLabel": {
+            "ファンク": 5,
+            "ロック": 3
+          },
+          "trainingOnlyOverlayRows": 5
+        },
+        {
+          "heldOutSource": "Internet Archive",
+          "rows": {
+            "ロック": 106,
+            "ファンク": 90
+          },
+          "sourcesPerLabel": {
+            "ファンク": 4,
+            "ロック": 3
+          },
+          "trainingOnlyOverlayRows": 3
+        },
+        {
+          "heldOutSource": "Jamendo",
+          "rows": {
+            "ロック": 29,
+            "ファンク": 8
+          },
+          "sourcesPerLabel": {
+            "ファンク": 4,
+            "ロック": 2
+          },
+          "trainingOnlyOverlayRows": 5
+        },
+        {
+          "heldOutSource": "MagnaTagATune research evaluation",
+          "rows": {
+            "ロック": 106,
+            "ファンク": 92
+          },
+          "sourcesPerLabel": {
+            "ファンク": 5,
+            "ロック": 3
+          },
+          "trainingOnlyOverlayRows": 5
+        },
+        {
+          "heldOutSource": "RWC Music Database",
+          "rows": {
+            "ロック": 103,
+            "ファンク": 89
+          },
+          "sourcesPerLabel": {
+            "ファンク": 4,
+            "ロック": 2
+          },
+          "trainingOnlyOverlayRows": 5
+        },
+        {
+          "heldOutSource": "Wikimedia Commons",
+          "rows": {
+            "ロック": 106,
+            "ファンク": 92
+          },
+          "sourcesPerLabel": {
+            "ファンク": 5,
+            "ロック": 3
+          },
+          "trainingOnlyOverlayRows": 5
+        },
+        {
+          "heldOutSource": "Zenodo CAPHE Hybrid Opera 18288509",
+          "rows": {
+            "ロック": 106,
+            "ファンク": 92
+          },
+          "sourcesPerLabel": {
+            "ファンク": 5,
+            "ロック": 3
+          },
+          "trainingOnlyOverlayRows": 5
+        }
+      ]
+    },
+    {
+      "applicableRows": 39,
+      "changedRows": 12,
+      "folds": [
+        {
+          "heldOutSource": "FMA",
+          "rows": {
+            "ドローン": 11,
+            "ノイズミュージック": 37
+          },
+          "sourcesPerLabel": {
+            "ドローン": 3,
+            "ノイズミュージック": 2
+          },
+          "trainingOnlyOverlayRows": 44
+        },
+        {
+          "heldOutSource": "IdolSongsJp",
+          "rows": {
+            "ドローン": 78,
+            "ノイズミュージック": 109
+          },
+          "sourcesPerLabel": {
+            "ドローン": 4,
+            "ノイズミュージック": 3
+          },
+          "trainingOnlyOverlayRows": 141
+        },
+        {
+          "heldOutSource": "Internet Archive",
+          "rows": {
+            "ドローン": 74,
+            "ノイズミュージック": 99
+          },
+          "sourcesPerLabel": {
+            "ドローン": 3,
+            "ノイズミュージック": 2
+          },
+          "trainingOnlyOverlayRows": 127
+        },
+        {
+          "heldOutSource": "Jamendo",
+          "rows": {
+            "ドローン": 78,
+            "ノイズミュージック": 109
+          },
+          "sourcesPerLabel": {
+            "ドローン": 4,
+            "ノイズミュージック": 3
+          },
+          "trainingOnlyOverlayRows": 141
+        },
+        {
+          "heldOutSource": "MagnaTagATune research evaluation",
+          "rows": {
+            "ドローン": 78,
+            "ノイズミュージック": 109
+          },
+          "sourcesPerLabel": {
+            "ドローン": 4,
+            "ノイズミュージック": 3
+          },
+          "trainingOnlyOverlayRows": 141
+        },
+        {
+          "heldOutSource": "RWC Music Database",
+          "rows": {
+            "ドローン": 78,
+            "ノイズミュージック": 109
+          },
+          "sourcesPerLabel": {
+            "ドローン": 4,
+            "ノイズミュージック": 3
+          },
+          "trainingOnlyOverlayRows": 141
+        },
+        {
+          "heldOutSource": "Wikimedia Commons",
+          "rows": {
+            "ドローン": 72,
+            "ノイズミュージック": 82
+          },
+          "sourcesPerLabel": {
+            "ドローン": 3,
+            "ノイズミュージック": 2
+          },
+          "trainingOnlyOverlayRows": 112
+        },
+        {
+          "heldOutSource": "Zenodo CAPHE Hybrid Opera 18288509",
+          "rows": {
+            "ドローン": 78,
+            "ノイズミュージック": 109
+          },
+          "sourcesPerLabel": {
+            "ドローン": 4,
+            "ノイズミュージック": 3
+          },
+          "trainingOnlyOverlayRows": 141
+        }
+      ]
+    }
+  ],
+  "latinFolkDetails": {
+    "applicableRows": 27,
+    "changedRows": 6,
+    "folds": [
+      {
+        "heldOutSource": "FMA",
+        "rows": {
+          "フォーク": 27,
+          "ラテン": 53
+        },
+        "sourcesPerLabel": {
+          "ラテン": 2,
+          "フォーク": 2
+        },
+        "trainingOnlyOverlayRows": 0
+      },
+      {
+        "heldOutSource": "IdolSongsJp",
+        "rows": {
+          "フォーク": 67,
+          "ラテン": 67
+        },
+        "sourcesPerLabel": {
+          "ラテン": 3,
+          "フォーク": 3
+        },
+        "trainingOnlyOverlayRows": 0
+      },
+      {
+        "heldOutSource": "Internet Archive",
+        "rows": {
+          "フォーク": 67,
+          "ラテン": 67
+        },
+        "sourcesPerLabel": {
+          "ラテン": 3,
+          "フォーク": 3
+        },
+        "trainingOnlyOverlayRows": 0
+      },
+      {
+        "heldOutSource": "Jamendo",
+        "rows": {
+          "フォーク": 42,
+          "ラテン": 26
+        },
+        "sourcesPerLabel": {
+          "ラテン": 2,
+          "フォーク": 2
+        },
+        "trainingOnlyOverlayRows": 0
+      },
+      {
+        "heldOutSource": "MagnaTagATune research evaluation",
+        "rows": {
+          "フォーク": 67,
+          "ラテン": 67
+        },
+        "sourcesPerLabel": {
+          "ラテン": 3,
+          "フォーク": 3
+        },
+        "trainingOnlyOverlayRows": 0
+      },
+      {
+        "heldOutSource": "RWC Music Database",
+        "rows": {
+          "フォーク": 65,
+          "ラテン": 55
+        },
+        "sourcesPerLabel": {
+          "ラテン": 2,
+          "フォーク": 2
+        },
+        "trainingOnlyOverlayRows": 0
+      },
+      {
+        "heldOutSource": "Wikimedia Commons",
+        "rows": {
+          "フォーク": 67,
+          "ラテン": 67
+        },
+        "sourcesPerLabel": {
+          "ラテン": 3,
+          "フォーク": 3
+        },
+        "trainingOnlyOverlayRows": 0
+      },
+      {
+        "heldOutSource": "Zenodo CAPHE Hybrid Opera 18288509",
+        "rows": {
+          "フォーク": 67,
+          "ラテン": 67
+        },
+        "sourcesPerLabel": {
+          "ラテン": 3,
+          "フォーク": 3
+        },
+        "trainingOnlyOverlayRows": 0
+      }
+    ]
+  },
+  "decision": "continue-production-gate"
+}
