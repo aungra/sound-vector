@@ -7,10 +7,12 @@ import { fileURLToPath } from "node:url";
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(SCRIPT_DIR, "../..");
-const configPath = process.argv[2]
+const cliArgs = process.argv.slice(2);
+const htmlOnly = cliArgs.includes("--html-only");
+const configPath = cliArgs.find(value => !value.startsWith("--"))
   || path.join(os.homedir(), "Library", "Application Support", "MUSICTee", ".env.sftp");
 
-const mappings = [
+const allMappings = [
   {
     local: path.join(ROOT, "apps", "demo", "MUSIC MEMORY FITTING ROOM.html"),
     remote: "/home/aungraphic02/www/wp/sound-form/index.html"
@@ -44,6 +46,7 @@ const mappings = [
     remote: "/home/aungraphic02/musictee-audio-service/deploy/aun-graphic-sound-form/genre-feedback-holdout.json"
   }
 ];
+const mappings = htmlOnly ? allMappings.slice(0, 2) : allMappings;
 
 function parseEnv(file) {
   const result = {};
