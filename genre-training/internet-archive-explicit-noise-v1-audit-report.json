@@ -1,0 +1,178 @@
+{
+  "objective": "Add an independent explicit-label Noise provider for source-heldout boundary training.",
+  "selectedWorks": 10,
+  "distinctCreators": 10,
+  "licenses": {
+    "CC0": 0,
+    "CC-BY": 6,
+    "CC-BY-SA": 4
+  },
+  "audioDownloaded": true,
+  "rows": [
+    {
+      "identifier": "Stigmancy",
+      "fileName": "01_Stigmancy.ogg",
+      "subjects": [
+        "noise"
+      ],
+      "license": "CC-BY",
+      "licenseUrl": "http://creativecommons.org/licenses/by/4.0/",
+      "acquisition": "downloaded-and-verified",
+      "localAudioPresent": true
+    },
+    {
+      "identifier": "analogvsratioi",
+      "fileName": "Analog Vs - Ratio I - ConneXtT.ogg",
+      "subjects": [
+        "noise"
+      ],
+      "license": "CC-BY-SA",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/4.0/",
+      "acquisition": "downloaded-and-verified",
+      "localAudioPresent": true
+    },
+    {
+      "identifier": "fnq-adlm",
+      "fileName": "CH=gcrt~.mp3",
+      "subjects": [
+        "noise",
+        "abibeur",
+        "music",
+        "french",
+        "français",
+        "musique"
+      ],
+      "license": "CC-BY-SA",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "acquisition": "downloaded-and-verified",
+      "localAudioPresent": true
+    },
+    {
+      "identifier": "SPNet064-nuoh-nuohshandsinflataffectsguts",
+      "fileName": "Spnet064-Nuoh-NuohsHandsInFlatAffectsGuts-01-DoYouLikeItNow.ogg",
+      "subjects": [
+        "sp net",
+        "nuoh",
+        "flat affect",
+        "ambient",
+        "noise"
+      ],
+      "license": "CC-BY-SA",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "acquisition": "downloaded-and-verified",
+      "localAudioPresent": true
+    },
+    {
+      "identifier": "expensiveequipmentcheaprecording_201501",
+      "fileName": "01 - Discovery.ogg",
+      "subjects": [
+        "improvised",
+        "improv",
+        "improvised music",
+        "instrumental",
+        "yamaha",
+        "recording",
+        "noise",
+        "noise music",
+        "raw"
+      ],
+      "license": "CC-BY",
+      "licenseUrl": "http://creativecommons.org/licenses/by/3.0/",
+      "acquisition": "downloaded-and-verified",
+      "localAudioPresent": true
+    },
+    {
+      "identifier": "thunderverbolt11-10-10",
+      "fileName": "thunderverbolt11-10-10.ogg",
+      "subjects": [
+        "min og dog",
+        "kevin mehmed",
+        "kevin ediz",
+        "todd irwin",
+        "sage brooks",
+        "sagie1234",
+        "kkkkasioflubellegend",
+        "kkkcasioflubellegend",
+        "heeetc",
+        "skyler",
+        "maryland",
+        "montgomery county",
+        "noise",
+        "noise music",
+        "gt10",
+        "boss",
+        "silver spring",
+        "montgomery villiage",
+        "fl studio",
+        "fruity loops",
+        "cubase",
+        "acid"
+      ],
+      "license": "CC-BY-SA",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "acquisition": "downloaded-and-verified",
+      "localAudioPresent": true
+    },
+    {
+      "identifier": "SleepDeprivationRevisited",
+      "fileName": "01_stage1_64kb.mp3",
+      "subjects": [
+        "electronic",
+        "noise",
+        "experiment"
+      ],
+      "license": "CC-BY",
+      "licenseUrl": "http://creativecommons.org/licenses/by/2.0/uk/",
+      "acquisition": "downloaded-and-verified",
+      "localAudioPresent": true
+    },
+    {
+      "identifier": "drugvomitsoundvomit",
+      "fileName": "drugvomit - Soundvomit (compilation) - 02 sss-(((O)))-⁑- (long distance etc.).mp3",
+      "subjects": [
+        "noise",
+        "album",
+        "bandcamp",
+        "harsh noise",
+        "ambient",
+        "drone",
+        "drugvomit"
+      ],
+      "license": "CC-BY",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "acquisition": "downloaded-and-verified",
+      "localAudioPresent": true
+    },
+    {
+      "identifier": "acidct_001",
+      "fileName": "02_track_02.ogg",
+      "subjects": [
+        "abstract",
+        "acid cop's temple",
+        "drone",
+        "find sounds",
+        "huita",
+        "noise"
+      ],
+      "license": "CC-BY",
+      "licenseUrl": "http://creativecommons.org/licenses/by/3.0/",
+      "acquisition": "downloaded-and-verified",
+      "localAudioPresent": true
+    },
+    {
+      "identifier": "JVidlehands",
+      "fileName": "idlehands_64kb.mp3",
+      "subjects": [
+        "lord open",
+        "experimental",
+        "ambient",
+        "noise"
+      ],
+      "license": "CC-BY",
+      "licenseUrl": "http://creativecommons.org/licenses/by/3.0/",
+      "acquisition": "downloaded-and-verified",
+      "localAudioPresent": true
+    }
+  ],
+  "decision": "ready-for-feature-extraction"
+}
