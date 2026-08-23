@@ -8,8 +8,12 @@ const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(SCRIPT_DIR, "../../..");
 const TRAINING_DIR = path.join(ROOT, "genre-training");
 const LOCAL_CACHE_PATHS_PATH = path.join(TRAINING_DIR, "cache-paths.local.json");
-const PLAN_PATH = path.join(TRAINING_DIR, "mtg-jamendo-audio-plan.json");
-const OUT_REPORT = path.join(TRAINING_DIR, "mtg-jamendo-partial-download-report.json");
+const PLAN_PATH = path.resolve(
+  process.env.MMFR_MTG_DOWNLOAD_PLAN || path.join(TRAINING_DIR, "mtg-jamendo-audio-plan.json")
+);
+const OUT_REPORT = path.resolve(
+  process.env.MMFR_MTG_DOWNLOAD_REPORT || path.join(TRAINING_DIR, "mtg-jamendo-partial-download-report.json")
+);
 
 function loadJson(pathname, fallback) {
   if (!fs.existsSync(pathname)) return fallback;
@@ -122,7 +126,8 @@ const TARGET_GENRES = new Set(
 );
 
 const plan = loadJson(PLAN_PATH, null);
-if (!plan?.selected?.length) {
+const planItems = plan?.selected || plan?.items || [];
+if (!planItems.length) {
   console.error(`MTG audio plan not found or empty: ${path.relative(ROOT, PLAN_PATH)}`);
   process.exitCode = 1;
 } else if (!fs.existsSync(checksumPath)) {
@@ -133,7 +138,7 @@ if (!plan?.selected?.length) {
   process.exitCode = 1;
 } else {
   const checksums = loadTrackChecksums(checksumPath);
-  const rows = plan.selected
+  const rows = planItems
     .filter(row => !TARGET_GENRES.size || TARGET_GENRES.has(row.genre))
     .map(row => {
       const audioPath = audioLowPathFor(row.sourcePath);

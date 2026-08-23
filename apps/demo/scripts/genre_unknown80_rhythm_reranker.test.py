@@ -162,6 +162,53 @@ class RuntimeMacroRerankerTest(unittest.TestCase):
         np.testing.assert_allclose(scores, [0.6, 0.3, 0.1, 1e-12], atol=1e-10)
         self.assertTrue(details["groupConflictLeftAtBaseline"])
 
+    def test_post_group_member_runs_after_group_member(self):
+        group_member = {
+            "labels": ["A", "B"], "strength": 1.0,
+            "featureIndexes": [0], "normalizationMode": "identity",
+        }
+        post_member = {
+            "labels": ["B", "C"], "strength": 1.0,
+            "featureIndexes": [0], "normalizationMode": "identity",
+        }
+        value = bundle(
+            [group_member],
+            {("A", "B"): FixedModel(["A", "B"], [0.1, 0.9])},
+        )
+        value["postGroupMembers"] = [post_member]
+        value["postGroupModels"] = {
+            ("B", "C"): FixedModel(["B", "C"], [0.1, 0.9]),
+        }
+        scores, details = MODULE.rerank(
+            value, ["A", "B", "C", "D"],
+            [0.6, 0.3, 0.1, 0.0], [1, 2, 3, 4],
+        )
+        self.assertEqual(int(np.argmax(scores)), 2)
+        self.assertEqual(details["postGroupProposalCount"], 1)
+        self.assertFalse(details["postGroupConflictLeftAtBaseline"])
+
+    def test_conflicting_post_group_members_keep_post_group_baseline(self):
+        first = {
+            "labels": ["A", "B"], "strength": 1.0,
+            "featureIndexes": [0], "normalizationMode": "identity",
+        }
+        second = {
+            "labels": ["A", "C"], "strength": 1.0,
+            "featureIndexes": [0], "normalizationMode": "identity",
+        }
+        value = bundle([], {})
+        value["postGroupMembers"] = [first, second]
+        value["postGroupModels"] = {
+            ("A", "B"): FixedModel(["A", "B"], [0.1, 0.9]),
+            ("A", "C"): FixedModel(["A", "C"], [0.1, 0.9]),
+        }
+        scores, details = MODULE.rerank(
+            value, ["A", "B", "C", "D"],
+            [0.6, 0.3, 0.1, 0.0], [1, 2, 3, 4],
+        )
+        np.testing.assert_allclose(scores, [0.6, 0.3, 0.1, 1e-12], atol=1e-10)
+        self.assertTrue(details["postGroupConflictLeftAtBaseline"])
+
 
 if __name__ == "__main__":
     unittest.main()

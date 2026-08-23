@@ -66,9 +66,12 @@ def aligned_score_features(bundle_labels, labels, scores):
     return np.log(np.maximum(aligned, 1e-12))
 
 
-def rerank_group_member(bundle, member, labels, base_scores, librosa_vector):
+def rerank_group_member(
+    bundle, member, labels, base_scores, librosa_vector,
+    model_store="groupModels",
+):
     group = tuple(member.get("labels") or [])
-    model = (bundle.get("groupModels") or {}).get(group)
+    model = (bundle.get(model_store) or {}).get(group)
     if len(group) < 2 or model is None:
         return np.asarray(base_scores, dtype=np.float64), None
     label_index = {label: index for index, label in enumerate(labels)}
@@ -175,6 +178,19 @@ def rerank(bundle, labels, base_scores, librosa_vector):
         output, group_detail = group_proposals[0]
         applied.append({"group": group_detail})
 
+    post_group_proposals = []
+    for member in bundle.get("postGroupMembers") or []:
+        proposed, post_group_detail = rerank_group_member(
+            bundle, member, labels, output, librosa_vector,
+            model_store="postGroupModels",
+        )
+        if post_group_detail is not None and not np.allclose(proposed, output):
+            post_group_proposals.append((proposed, post_group_detail))
+    post_group_conflict = len(post_group_proposals) > 1
+    if len(post_group_proposals) == 1:
+        output, post_group_detail = post_group_proposals[0]
+        applied.append({"postGroup": post_group_detail})
+
     before = labels[int(np.argmax(scores))]
     after = labels[int(np.argmax(output))]
     return output, {
@@ -187,5 +203,7 @@ def rerank(bundle, labels, base_scores, librosa_vector):
         "members": applied,
         "groupProposalCount": len(group_proposals),
         "groupConflictLeftAtBaseline": group_conflict,
+        "postGroupProposalCount": len(post_group_proposals),
+        "postGroupConflictLeftAtBaseline": post_group_conflict,
         "modelVersion": bundle.get("modelVersion", ""),
     }

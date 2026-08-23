@@ -9,7 +9,12 @@ os.environ.setdefault("NUMBA_CACHE_DIR", "/tmp/mmfr-numba-cache")
 
 import librosa
 import numpy as np
-from essentia.standard import MonoLoader, TensorflowPredict2D, TensorflowPredictEffnetDiscogs
+try:
+    from essentia.standard import (
+        MonoLoader, TensorflowPredict2D, TensorflowPredictEffnetDiscogs,
+    )
+except ModuleNotFoundError:
+    MonoLoader = TensorflowPredict2D = TensorflowPredictEffnetDiscogs = None
 
 from genre_runtime_contract import (
     SEGMENT_COUNT as CONTRACT_SEGMENT_COUNT,
@@ -91,7 +96,7 @@ UNKNOWN80_FUNK_ROCK_MODEL_PATH = Path(os.environ.get(
 UNKNOWN80_INDEPENDENT_PAIR_MODEL_PATH = Path(os.environ.get(
     "MMFR_UNKNOWN80_INDEPENDENT_PAIR_MODEL_PATH",
     "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/"
-    "unknown80-independent-multiboundary-stack-v103-candidate.pkl",
+    "unknown80-independent-multiboundary-stack-v104-candidate.pkl",
 ))
 ENABLE_UNKNOWN80_RHYTHM_RERANKER = (
     os.environ.get("MMFR_ENABLE_UNKNOWN80_RHYTHM_RERANKER", "1") == "1"
@@ -211,6 +216,8 @@ class EssentiaExtractors:
         self.audio_cache = {}
 
     def ensure_embedding_model(self):
+        if TensorflowPredictEffnetDiscogs is None:
+            raise RuntimeError("Essentia is required for live embedding extraction")
         if self.embedding_model is None:
             self.embedding_model = TensorflowPredictEffnetDiscogs(
                 graphFilename=str(EFFNET_MODEL_DIR / "discogs-effnet-bs64-1.pb"),
@@ -219,6 +226,8 @@ class EssentiaExtractors:
         return self.embedding_model
 
     def ensure_discogs_model(self):
+        if TensorflowPredict2D is None:
+            raise RuntimeError("Essentia is required for live Discogs extraction")
         if self.discogs_model is None:
             self.discogs_model = TensorflowPredict2D(
                 graphFilename=str(EFFNET_MODEL_DIR / "genre_discogs400-discogs-effnet-1.pb"),
@@ -228,6 +237,8 @@ class EssentiaExtractors:
         return self.discogs_model
 
     def ensure_mtg_model(self):
+        if TensorflowPredict2D is None:
+            raise RuntimeError("Essentia is required for live MTG extraction")
         if self.mtg_model is None:
             self.mtg_model = TensorflowPredict2D(
                 graphFilename=str(MTG_MODEL_DIR / "mtg_jamendo_genre-discogs-effnet-1.pb"),
@@ -237,6 +248,8 @@ class EssentiaExtractors:
         return self.mtg_model
 
     def audio(self, audio_path):
+        if MonoLoader is None:
+            raise RuntimeError("Essentia is required for live audio loading")
         cache_key = str(audio_path)
         if cache_key not in self.audio_cache:
             self.audio_cache[cache_key] = MonoLoader(

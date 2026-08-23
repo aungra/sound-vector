@@ -1,0 +1,365 @@
+{
+  "objective": "Separate known weak-label sensitivity from engine accuracy.",
+  "policy": {
+    "productionBaselineReplaced": false,
+    "engineGainClaimedFromRowRemoval": false,
+    "sealedFinalHoldoutUsed": false,
+    "knownWeakOrigins": [
+      "maest-weak-source-plan.json"
+    ]
+  },
+  "allRows": {
+    "rows": 1883,
+    "metrics": {
+      "top1Accuracy": 59.59,
+      "balancedTop1": 59.31,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 0,
+      "sourceTop1": {
+        "FMA": 59.94,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 55.55,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 84.75,
+        "Wikimedia Commons": 65.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      }
+    },
+    "labelRecalls": {
+      "J-POP": {
+        "rows": 15,
+        "top1Recall": 86.67
+      },
+      "アンビエント": {
+        "rows": 113,
+        "top1Recall": 55.75
+      },
+      "オペラ": {
+        "rows": 12,
+        "top1Recall": 83.33
+      },
+      "クラシック音楽": {
+        "rows": 132,
+        "top1Recall": 63.64
+      },
+      "ジャズ": {
+        "rows": 73,
+        "top1Recall": 68.49
+      },
+      "ソウルミュージック": {
+        "rows": 3,
+        "top1Recall": 33.33
+      },
+      "ダブ": {
+        "rows": 105,
+        "top1Recall": 60.0
+      },
+      "ダブステップ": {
+        "rows": 92,
+        "top1Recall": 53.26
+      },
+      "チップチューン": {
+        "rows": 56,
+        "top1Recall": 87.5
+      },
+      "テクノ": {
+        "rows": 133,
+        "top1Recall": 52.63
+      },
+      "ディープ・ハウス": {
+        "rows": 75,
+        "top1Recall": 22.67
+      },
+      "トラップ": {
+        "rows": 7,
+        "top1Recall": 42.86
+      },
+      "トランス": {
+        "rows": 41,
+        "top1Recall": 80.49
+      },
+      "ドラムンベース": {
+        "rows": 98,
+        "top1Recall": 63.27
+      },
+      "ドローン": {
+        "rows": 35,
+        "top1Recall": 22.86
+      },
+      "ノイズミュージック": {
+        "rows": 11,
+        "top1Recall": 36.36
+      },
+      "ハウス": {
+        "rows": 109,
+        "top1Recall": 44.95
+      },
+      "ハードコア": {
+        "rows": 3,
+        "top1Recall": 66.67
+      },
+      "パンク": {
+        "rows": 61,
+        "top1Recall": 70.49
+      },
+      "ヒップホップ": {
+        "rows": 68,
+        "top1Recall": 88.24
+      },
+      "ファンク": {
+        "rows": 87,
+        "top1Recall": 41.38
+      },
+      "フォーク": {
+        "rows": 91,
+        "top1Recall": 76.92
+      },
+      "ブルース": {
+        "rows": 85,
+        "top1Recall": 49.41
+      },
+      "メタル": {
+        "rows": 83,
+        "top1Recall": 54.22
+      },
+      "ラテン": {
+        "rows": 67,
+        "top1Recall": 55.22
+      },
+      "レゲエ": {
+        "rows": 92,
+        "top1Recall": 73.91
+      },
+      "ロック": {
+        "rows": 136,
+        "top1Recall": 66.91
+      }
+    }
+  },
+  "knownWeakExcludedSubset": {
+    "rows": 1876,
+    "metrics": {
+      "top1Accuracy": 59.7,
+      "balancedTop1": 59.29,
+      "minimumSourceTop1": 33.33,
+      "top3Accuracy": 83.53,
+      "changedTop1": 0,
+      "sourceTop1": {
+        "FMA": 59.94,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 33.33,
+        "Jamendo": 55.55,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 84.75,
+        "Wikimedia Commons": 65.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      }
+    },
+    "labelRecalls": {
+      "J-POP": {
+        "rows": 15,
+        "top1Recall": 86.67
+      },
+      "アンビエント": {
+        "rows": 113,
+        "top1Recall": 55.75
+      },
+      "オペラ": {
+        "rows": 12,
+        "top1Recall": 83.33
+      },
+      "クラシック音楽": {
+        "rows": 132,
+        "top1Recall": 63.64
+      },
+      "ジャズ": {
+        "rows": 73,
+        "top1Recall": 68.49
+      },
+      "ソウルミュージック": {
+        "rows": 3,
+        "top1Recall": 33.33
+      },
+      "ダブ": {
+        "rows": 105,
+        "top1Recall": 60.0
+      },
+      "ダブステップ": {
+        "rows": 92,
+        "top1Recall": 53.26
+      },
+      "チップチューン": {
+        "rows": 56,
+        "top1Recall": 87.5
+      },
+      "テクノ": {
+        "rows": 133,
+        "top1Recall": 52.63
+      },
+      "ディープ・ハウス": {
+        "rows": 68,
+        "top1Recall": 22.06
+      },
+      "トラップ": {
+        "rows": 7,
+        "top1Recall": 42.86
+      },
+      "トランス": {
+        "rows": 41,
+        "top1Recall": 80.49
+      },
+      "ドラムンベース": {
+        "rows": 98,
+        "top1Recall": 63.27
+      },
+      "ドローン": {
+        "rows": 35,
+        "top1Recall": 22.86
+      },
+      "ノイズミュージック": {
+        "rows": 11,
+        "top1Recall": 36.36
+      },
+      "ハウス": {
+        "rows": 109,
+        "top1Recall": 44.95
+      },
+      "ハードコア": {
+        "rows": 3,
+        "top1Recall": 66.67
+      },
+      "パンク": {
+        "rows": 61,
+        "top1Recall": 70.49
+      },
+      "ヒップホップ": {
+        "rows": 68,
+        "top1Recall": 88.24
+      },
+      "ファンク": {
+        "rows": 87,
+        "top1Recall": 41.38
+      },
+      "フォーク": {
+        "rows": 91,
+        "top1Recall": 76.92
+      },
+      "ブルース": {
+        "rows": 85,
+        "top1Recall": 49.41
+      },
+      "メタル": {
+        "rows": 83,
+        "top1Recall": 54.22
+      },
+      "ラテン": {
+        "rows": 67,
+        "top1Recall": 55.22
+      },
+      "レゲエ": {
+        "rows": 92,
+        "top1Recall": 73.91
+      },
+      "ロック": {
+        "rows": 136,
+        "top1Recall": 66.91
+      }
+    }
+  },
+  "excluded": {
+    "rows": 7,
+    "bySource": {
+      "Internet Archive": 7
+    },
+    "byGenre": {
+      "ディープ・ハウス": 7
+    },
+    "correct": 2,
+    "items": [
+      {
+        "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/internet-archive/テ-ィーフ-ハウス/MNE007-Gartner-snk-12-Gartner-snk-12-mp3.mp3",
+        "actual": "ディープ・ハウス",
+        "predicted": "アンビエント",
+        "correct": false,
+        "genre": "ディープ・ハウス",
+        "source": "Internet Archive",
+        "candidateOrigin": "maest-weak-source-plan.json",
+        "referenceUrl": "https://archive.org/details/MNE007_Gartner--snk"
+      },
+      {
+        "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/internet-archive/テ-ィーフ-ハウス/MNF018-Sir-Leaks-Sonidos-Bajotierra-05-Sir-Leaks-Espacio-D-Tranquilo-Bobby-Remix-mp3.mp3",
+        "actual": "ディープ・ハウス",
+        "predicted": "テクノ",
+        "correct": false,
+        "genre": "ディープ・ハウス",
+        "source": "Internet Archive",
+        "candidateOrigin": "maest-weak-source-plan.json",
+        "referenceUrl": "https://archive.org/details/MNF018_Sir_Leaks--Sonidos_Bajotierra"
+      },
+      {
+        "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/internet-archive/テ-ィーフ-ハウス/MNF021-Eviru-Dibad-Altitud-Sur-02-Eviru-Dibad-Latitudes-Intermedias-mp3.mp3",
+        "actual": "ディープ・ハウス",
+        "predicted": "テクノ",
+        "correct": false,
+        "genre": "ディープ・ハウス",
+        "source": "Internet Archive",
+        "candidateOrigin": "maest-weak-source-plan.json",
+        "referenceUrl": "https://archive.org/details/MNF021_Eviru_Dibad--Altitud_Sur"
+      },
+      {
+        "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/internet-archive/テ-ィーフ-ハウス/MNF022-DCM-Elevacion-03-DCM-Oblivion-mp3.mp3",
+        "actual": "ディープ・ハウス",
+        "predicted": "ディープ・ハウス",
+        "correct": true,
+        "genre": "ディープ・ハウス",
+        "source": "Internet Archive",
+        "candidateOrigin": "maest-weak-source-plan.json",
+        "referenceUrl": "https://archive.org/details/MNF022_DCM--Elevacion"
+      },
+      {
+        "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/internet-archive/テ-ィーフ-ハウス/MNF024-Bobby-Marleni-Defected-Jamz-Vol-2-06-Bobby-Marleni-Sexy-Sexy-mp3.mp3",
+        "actual": "ディープ・ハウス",
+        "predicted": "ディープ・ハウス",
+        "correct": true,
+        "genre": "ディープ・ハウス",
+        "source": "Internet Archive",
+        "candidateOrigin": "maest-weak-source-plan.json",
+        "referenceUrl": "https://archive.org/details/MNF024_Bobby_Marleni--Defected_Jamz_Vol_2"
+      },
+      {
+        "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/internet-archive/テ-ィーフ-ハウス/MNF027-Dsum-Intimate-03-Dsum-Frolic-mp3.mp3",
+        "actual": "ディープ・ハウス",
+        "predicted": "ハウス",
+        "correct": false,
+        "genre": "ディープ・ハウス",
+        "source": "Internet Archive",
+        "candidateOrigin": "maest-weak-source-plan.json",
+        "referenceUrl": "https://archive.org/details/MNF027_Dsum--Intimate"
+      },
+      {
+        "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/internet-archive/テ-ィーフ-ハウス/MNS006-VA-Colores-Paralelos-08-Christopher-Historias-Cortas-Bipolar-Mix-mp3.mp3",
+        "actual": "ディープ・ハウス",
+        "predicted": "テクノ",
+        "correct": false,
+        "genre": "ディープ・ハウス",
+        "source": "Internet Archive",
+        "candidateOrigin": "maest-weak-source-plan.json",
+        "referenceUrl": "https://archive.org/details/MNS006_VA--Colores_Paralelos"
+      }
+    ]
+  },
+  "heldOutSources": [
+    "FMA",
+    "IdolSongsJp",
+    "Internet Archive",
+    "Jamendo",
+    "MagnaTagATune research evaluation",
+    "RWC Music Database",
+    "Wikimedia Commons",
+    "Zenodo CAPHE Hybrid Opera 18288509"
+  ],
+  "v103ConflictingRowsLeftAtV102": 0,
+  "decision": "diagnostic-only-keep-v103"
+}
