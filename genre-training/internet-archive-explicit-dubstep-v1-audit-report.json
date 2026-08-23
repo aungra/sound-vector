@@ -1,0 +1,195 @@
+{
+  "objective": "Add an independent explicit-label Dubstep provider for source-heldout boundary training.",
+  "selectedWorks": 10,
+  "distinctCreators": 10,
+  "licenses": {
+    "CC-BY": 7,
+    "CC0": 1,
+    "CC-BY-SA": 2
+  },
+  "audioDownloaded": true,
+  "rows": [
+    {
+      "identifier": "Eoto2010-09-17BellvueCo.Mishwaka",
+      "fileName": "eoto100917d1_01_Akawahsim.mp3",
+      "subjects": [
+        "eoto",
+        "dubstep",
+        "dub step",
+        "psychadelic",
+        "trance",
+        "house",
+        "electronic",
+        "mishwaka",
+        "colorado",
+        "bellvue"
+      ],
+      "license": "CC-BY",
+      "licenseUrl": "http://creativecommons.org/licenses/by/3.0/",
+      "acquisition": "downloaded-and-verified",
+      "localAudioPresent": true
+    },
+    {
+      "identifier": "gt459AnchoreState-ChangesOfLifeEp",
+      "fileName": "1.ItsNotAToy.mp3",
+      "subjects": [
+        "genetic trance",
+        "anchore state",
+        "moscow",
+        "russia",
+        "dubstep",
+        "grime",
+        "experimental",
+        "ambient",
+        "dark",
+        "experimental"
+      ],
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "acquisition": "downloaded-and-verified",
+      "localAudioPresent": true
+    },
+    {
+      "identifier": "rz098",
+      "fileName": "03_Malevolent_-_Intermittent_Pulse.mp3",
+      "subjects": [
+        "dubstep",
+        "ruszud"
+      ],
+      "license": "CC-BY",
+      "licenseUrl": "http://creativecommons.org/licenses/by/3.0/",
+      "acquisition": "downloaded-and-verified",
+      "localAudioPresent": true
+    },
+    {
+      "identifier": "rz109",
+      "fileName": "01_Di-Bit_-_Flare_Chaff.mp3",
+      "subjects": [
+        "di-bit",
+        "rabbit skewer",
+        "breakcore",
+        "dubstep",
+        "ruszud"
+      ],
+      "license": "CC-BY",
+      "licenseUrl": "http://creativecommons.org/licenses/by/3.0/",
+      "acquisition": "downloaded-and-verified",
+      "localAudioPresent": true
+    },
+    {
+      "identifier": "onmp225",
+      "fileName": "02_Boktor_Dead_ball_situation.mp3",
+      "subjects": [
+        "2 step",
+        "uk garage",
+        "dubstep",
+        "garage",
+        "drum and bass",
+        "dub",
+        "electronic",
+        "bass",
+        "experimental",
+        "mr.devo!",
+        "sneek",
+        "utrecht",
+        "deep",
+        "breakbeat",
+        "holland",
+        "the netherlands"
+      ],
+      "license": "CC-BY",
+      "licenseUrl": "http://creativecommons.org/licenses/by/3.0/",
+      "acquisition": "downloaded-and-verified",
+      "localAudioPresent": true
+    },
+    {
+      "identifier": "rz089",
+      "fileName": "01_-_M.A.R.K_and_POLICAy_-_Therapy.mp3",
+      "subjects": [
+        "m.a.r.k",
+        "policay",
+        "ruszud",
+        "drum &amp",
+        "bass",
+        "dubstep"
+      ],
+      "license": "CC-BY",
+      "licenseUrl": "http://creativecommons.org/licenses/by/3.0/",
+      "acquisition": "downloaded-and-verified",
+      "localAudioPresent": true
+    },
+    {
+      "identifier": "ArcuIris",
+      "fileName": "Arcu Iris.mp3",
+      "subjects": [
+        "arcu",
+        "iris",
+        "arco",
+        "soundwavesofficial",
+        "electronica",
+        "techno",
+        "dance",
+        "electro",
+        "deep",
+        "house",
+        "dubstep",
+        "breakdancing"
+      ],
+      "license": "CC-BY-SA",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "acquisition": "downloaded-and-verified",
+      "localAudioPresent": true
+    },
+    {
+      "identifier": "rz069",
+      "fileName": "03_Mechant_-_Le_Dub_Mai.mp3",
+      "subjects": [
+        "dubstep",
+        "dubcore",
+        "le dub mai",
+        "mechant"
+      ],
+      "license": "CC-BY",
+      "licenseUrl": "http://creativecommons.org/licenses/by/3.0/",
+      "acquisition": "downloaded-and-verified",
+      "localAudioPresent": true
+    },
+    {
+      "identifier": "EE030-entero",
+      "fileName": "01. Vía Entero.mp3",
+      "subjects": [
+        "electronic",
+        "music",
+        "netlabel",
+        "russia",
+        "witch house",
+        "dubstep",
+        "darkwave",
+        "idm",
+        "elegant elephant"
+      ],
+      "license": "CC-BY-SA",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "acquisition": "downloaded-and-verified",
+      "localAudioPresent": true
+    },
+    {
+      "identifier": "flembazindigo",
+      "fileName": "01 - Welcome to The Internet, I'll Be Your Guide.mp3",
+      "subjects": [
+        "chill out",
+        "dubstep",
+        "electro house",
+        "experimental",
+        "glitch hop",
+        "progressive house",
+        "techno"
+      ],
+      "license": "CC-BY",
+      "licenseUrl": "http://creativecommons.org/licenses/by/3.0/",
+      "acquisition": "downloaded-and-verified",
+      "localAudioPresent": true
+    }
+  ],
+  "decision": "ready-for-feature-extraction"
+}

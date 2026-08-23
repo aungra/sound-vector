@@ -1,0 +1,11 @@
+{
+  "objective": "Extract the production librosa contract for the reviewed Internet Archive Dubstep overlay.",
+  "manifest": "genre-training/internet-archive-explicit-dubstep-v1-cc-source-manifest.json",
+  "featureCache": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/internet-archive-explicit-dubstep-v1-librosa.json",
+  "requestedRows": 10,
+  "cachedRows": 10,
+  "featureDimensions": 547,
+  "errors": [],
+  "audioStoredOutsideRepository": true,
+  "decision": "ready-for-source-heldout-boundary-screen"
+}
