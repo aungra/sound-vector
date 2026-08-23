@@ -432,6 +432,20 @@ function embeddingGenreContractStatus() {
   return embeddingGenreContractCache;
 }
 
+function genreInferenceRuntimeStatus() {
+  const contract = embeddingGenreContractStatus();
+  const independentVersion = contract?.independentReranker?.modelVersion || "";
+  const runtimeRevision = independentVersion || contract?.modelVersion || GENRE_INFERENCE_REVISION;
+  const declaredVersion = GENRE_INFERENCE_REVISION.match(/v\d+$/)?.[0] || "";
+  const runtimeVersion = runtimeRevision.match(/v\d+$/)?.[0] || "";
+  return {
+    declaredRevision: GENRE_INFERENCE_REVISION,
+    runtimeRevision,
+    revisionMatch: Boolean(declaredVersion && runtimeVersion && declaredVersion === runtimeVersion),
+    independentReranker: contract?.independentReranker || null,
+  };
+}
+
 function japaneseVocalEvidenceReady() {
   return EMBEDDING_GENRE_ENABLED
     && fs.existsSync(JAPANESE_VOCAL_SCRIPT)
@@ -1813,7 +1827,8 @@ const server = http.createServer(async (req, res) => {
       message: "Use POST /api/audio-analyze from the app, or open /health to check dependencies.",
       endpoint: `http://${HOST}:${PORT}/api/audio-analyze`,
       health: `http://${HOST}:${PORT}/health`,
-      genreInferenceRevision: GENRE_INFERENCE_REVISION,
+      genreInferenceRevision: genreInferenceRuntimeStatus().runtimeRevision,
+      genreInferenceRuntime: genreInferenceRuntimeStatus(),
       dependencies: {
         ytDlp: Boolean(tools.ytDlp),
         ffmpeg: Boolean(tools.ffmpeg),
@@ -1844,7 +1859,8 @@ const server = http.createServer(async (req, res) => {
       ok: true,
       service: "MUSIC MEMORY FITTING ROOM audio analysis server",
       endpoint: `http://${HOST}:${PORT}/api/audio-analyze`,
-      genreInferenceRevision: GENRE_INFERENCE_REVISION,
+      genreInferenceRevision: genreInferenceRuntimeStatus().runtimeRevision,
+      genreInferenceRuntime: genreInferenceRuntimeStatus(),
       dependencies: {
         ytDlp: Boolean(tools.ytDlp),
         ffmpeg: Boolean(tools.ffmpeg),
@@ -1885,7 +1901,8 @@ const server = http.createServer(async (req, res) => {
       method: "POST",
       endpoint: `http://${HOST}:${PORT}/api/audio-analyze`,
       health: `http://${HOST}:${PORT}/health`,
-      genreInferenceRevision: GENRE_INFERENCE_REVISION,
+      genreInferenceRevision: genreInferenceRuntimeStatus().runtimeRevision,
+      genreInferenceRuntime: genreInferenceRuntimeStatus(),
       dependencies: {
         ytDlp: Boolean(tools.ytDlp),
         ffmpeg: Boolean(tools.ffmpeg),

@@ -916,12 +916,27 @@ def model_validation_payload(bundle):
     expected_digest = feature_contract_digest(feature_contract(
         bool(contract.get("discogsTagHeadRequired"))
     ))
+    independent_reranker = {
+        "enabled": ENABLE_UNKNOWN80_INDEPENDENT_PAIR_RERANKER,
+        "path": str(UNKNOWN80_INDEPENDENT_PAIR_MODEL_PATH),
+        "available": UNKNOWN80_INDEPENDENT_PAIR_MODEL_PATH.is_file(),
+        "modelVersion": "",
+    }
+    if independent_reranker["enabled"] and independent_reranker["available"]:
+        reranker_bundle = load_unknown80_rhythm_bundle(
+            UNKNOWN80_INDEPENDENT_PAIR_MODEL_PATH,
+        )
+        independent_reranker["modelVersion"] = (
+            reranker_bundle.get("modelVersion")
+            or reranker_bundle.get("version", "")
+        )
     return {
         "ok": True,
         "modelVersion": bundle.get("modelVersion") or bundle.get("version", ""),
         "runtimeFeatureContractSha256": bundle.get("runtimeFeatureContractSha256"),
         "expectedRuntimeFeatureContractSha256": expected_digest,
         "discogsTagHeadRequired": bool(contract.get("discogsTagHeadRequired")),
+        "independentReranker": independent_reranker,
     }
 
 
