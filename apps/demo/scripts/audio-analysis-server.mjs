@@ -81,8 +81,10 @@ const COOKIE_FILE = process.env.MMFR_YTDLP_COOKIES_FILE || (fs.existsSync(DEFAUL
 const YTDLP_SLEEP_REQUESTS = Math.max(0, Number(process.env.MMFR_YTDLP_SLEEP_REQUESTS || 1));
 const YTDLP_SLEEP_INTERVAL = Math.max(0, Number(process.env.MMFR_YTDLP_SLEEP_INTERVAL || 1));
 const YTDLP_MAX_SLEEP_INTERVAL = Math.max(YTDLP_SLEEP_INTERVAL, Number(process.env.MMFR_YTDLP_MAX_SLEEP_INTERVAL || 3));
-const EMBEDDING_GENRE_SCRIPT = path.join(SCRIPT_DIR, "genre-embedding-infer.py");
-const JAPANESE_VOCAL_SCRIPT = path.join(SCRIPT_DIR, "genre-japanese-vocal-evidence.py");
+const EMBEDDING_GENRE_SCRIPT = process.env.MMFR_EMBEDDING_GENRE_SCRIPT
+  || path.join(SCRIPT_DIR, "genre-embedding-infer.py");
+const JAPANESE_VOCAL_SCRIPT = process.env.MMFR_JAPANESE_VOCAL_SCRIPT
+  || path.join(SCRIPT_DIR, "genre-japanese-vocal-evidence.py");
 const EMBEDDING_GENRE_MODEL_PATH = process.env.MMFR_EMBEDDING_GENRE_MODEL_PATH
   || "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/embedding-genre-model.pkl";
 const EMBEDDING_GENRE_FALLBACK_MODEL_PATH = process.env.MMFR_EMBEDDING_GENRE_FALLBACK_MODEL_PATH

@@ -126,7 +126,14 @@ function selectControls(manifestPath, limit = 0) {
 
 async function analyzeControl(control, options) {
   const cachePath = path.join(options.cacheDir, `${control.controlId}.json`);
-  if (!options.refresh && fs.existsSync(cachePath)) return JSON.parse(fs.readFileSync(cachePath, "utf8"));
+  if (!options.refresh && fs.existsSync(cachePath)) {
+    const cached = JSON.parse(fs.readFileSync(cachePath, "utf8"));
+    if (cached.analysisContract?.embeddingGenreLive !== true
+      || cached.analysisContract?.embeddingGenreConsensus !== true) {
+      throw new Error(`Degraded cache rejected for ${control.controlId}; rerun with --refresh.`);
+    }
+    return cached;
+  }
   const response = await fetch(options.apiUrl, {
     method: "POST",
     headers: {
@@ -151,11 +158,43 @@ async function analyzeControl(control, options) {
     controlId: control.controlId,
     expectedGenre: control.genre,
     sourceFamily: control.datasetName || control.source || "unknown",
+    analysisContract: options.analysisContract,
     features: payload.features
   };
   fs.mkdirSync(options.cacheDir, { recursive: true });
   fs.writeFileSync(cachePath, `${JSON.stringify(cached)}\n`);
   return cached;
+}
+
+async function requireProductionAnalysisContract(options) {
+  const healthUrl = new URL(options.apiUrl);
+  healthUrl.pathname = "/health";
+  healthUrl.search = "";
+  const response = await fetch(healthUrl, { signal: AbortSignal.timeout(10_000) });
+  const health = await response.json();
+  const dependencies = health.dependencies || {};
+  const contract = {
+    revision: health.genreInferenceRevision || "",
+    embeddingGenreLive: dependencies.embeddingGenreLive === true,
+    embeddingGenreConsensus: dependencies.embeddingGenreConsensus === true,
+    localSegmentConsensus: dependencies.localSegmentConsensus === true,
+    japaneseVocalEvidence: dependencies.japaneseVocalEvidence === true,
+    classificationScope: dependencies.classificationScope || "",
+    trackSampleCount: Number(dependencies.trackSampleCount || 0),
+    trackSampleWindowSeconds: Number(dependencies.trackSampleWindowSeconds || 0)
+  };
+  const valid = response.ok
+    && health.ok === true
+    && contract.revision === REVISION
+    && contract.embeddingGenreLive
+    && contract.embeddingGenreConsensus
+    && contract.localSegmentConsensus
+    && contract.japaneseVocalEvidence
+    && contract.classificationScope === "track"
+    && contract.trackSampleCount === 4
+    && contract.trackSampleWindowSeconds === 30;
+  if (!valid) throw new Error(`Production analysis contract unavailable: ${JSON.stringify(contract)}`);
+  return contract;
 }
 
 function topNames(analysis) {
@@ -231,6 +270,7 @@ function summarize(records) {
 
 async function main() {
   const options = parseArgs(process.argv.slice(2));
+  options.analysisContract = await requireProductionAnalysisContract(options);
   const controls = selectControls(options.manifestPath, options.limit);
   if (!controls.length) throw new Error("No eligible full-track controls were found.");
   const baselineApi = loadInferenceApi({ disableV97Boundaries: true });
@@ -251,6 +291,7 @@ async function main() {
     inferenceRevision: currentApi.GENRE_INFERENCE_REVISION,
     baseline: "same production inference with v97's three boundary rerankers disabled",
     dataPolicy: "full-length, evaluation-only, training-ineligible CC tracks; no title, artist, URL or channel inference",
+    analysisContract: options.analysisContract,
     manifest: path.basename(options.manifestPath),
     summary: summarize(records),
     records

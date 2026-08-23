@@ -1,9 +1,19 @@
 {
   "version": "track-boundary-independent-evaluation-v1",
-  "generatedAt": "2026-08-23T01:52:40.387Z",
+  "generatedAt": "2026-08-23T02:23:49.544Z",
   "inferenceRevision": "2026-08-23-track-boundary-reranker-v97",
   "baseline": "same production inference with v97's three boundary rerankers disabled",
   "dataPolicy": "full-length, evaluation-only, training-ineligible CC tracks; no title, artist, URL or channel inference",
+  "analysisContract": {
+    "revision": "2026-08-23-track-boundary-reranker-v97",
+    "embeddingGenreLive": true,
+    "embeddingGenreConsensus": true,
+    "localSegmentConsensus": true,
+    "japaneseVocalEvidence": true,
+    "classificationScope": "track",
+    "trackSampleCount": 4,
+    "trackSampleWindowSeconds": 30
+  },
   "manifest": "track-boundary-v97-control-manifest.json",
   "summary": {
     "controls": 18,
@@ -397,14 +407,14 @@
       "sampledRangeCount": 4,
       "analysisWindowSeconds": 120,
       "baselineTop": [
-        "クラシック音楽",
         "フォーク",
-        "ラテン"
+        "アンビエント",
+        "クラシック音楽"
       ],
       "currentTop": [
-        "クラシック音楽",
         "フォーク",
-        "ラテン"
+        "アンビエント",
+        "クラシック音楽"
       ],
       "baselineCorrect": false,
       "currentCorrect": false,
