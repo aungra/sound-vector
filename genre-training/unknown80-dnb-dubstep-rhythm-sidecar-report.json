@@ -1,0 +1,12 @@
+{
+  "objective": "Extract temporal rhythm sidecars for every fixed OOF DnB and Dubstep row.",
+  "oof": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown80-incumbent-caphe-oof-audio-only.npz",
+  "featureCache": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown80-dnb-dubstep-rhythm-sidecar.json",
+  "requestedRows": 190,
+  "cachedRows": 190,
+  "featureDimensions": 48,
+  "labels": ["ダブステップ", "ドラムンベース"],
+  "errors": [],
+  "audioStoredOutsideRepository": true,
+  "decision": "available-for-source-heldout-representation-screen"
+}
