@@ -1,0 +1,1210 @@
+{
+  "objective": "Outer-source-blind nested confirmation of the FMA Soul pair overlay.",
+  "policy": {
+    "metadataUsedAtInference": false,
+    "overlayRowsEvaluated": false,
+    "overlayExcludedWheneverFmaHeldOut": true,
+    "outerRowsSelectHyperparameters": false,
+    "strictPositiveTop1GainRequired": true,
+    "sealedFinalHoldoutUsed": false,
+    "productionModelUpdated": false
+  },
+  "dataset": {
+    "formalRows": 1883,
+    "overlayRows": 13,
+    "overlayArtists": 4,
+    "targetPairs": [
+      [
+        "ファンク",
+        "ソウルミュージック"
+      ],
+      [
+        "ブルース",
+        "ソウルミュージック"
+      ],
+      [
+        "ジャズ",
+        "ソウルミュージック"
+      ]
+    ]
+  },
+  "baseline": {
+    "pooled": {
+      "top1Accuracy": 58.15,
+      "top3Accuracy": 83.48,
+      "total": 1883,
+      "balancedTop1": 58.29,
+      "minimumSourceTop1": 31.58
+    },
+    "bySource": {
+      "FMA": {
+        "total": 327,
+        "top1Accuracy": 59.94
+      },
+      "IdolSongsJp": {
+        "total": 15,
+        "top1Accuracy": 86.67
+      },
+      "Internet Archive": {
+        "total": 19,
+        "top1Accuracy": 31.58
+      },
+      "Jamendo": {
+        "total": 1199,
+        "top1Accuracy": 53.38
+      },
+      "MagnaTagATune research evaluation": {
+        "total": 234,
+        "top1Accuracy": 72.65
+      },
+      "RWC Music Database": {
+        "total": 59,
+        "top1Accuracy": 83.05
+      },
+      "Wikimedia Commons": {
+        "total": 20,
+        "top1Accuracy": 65.0
+      },
+      "Zenodo CAPHE Hybrid Opera 18288509": {
+        "total": 10,
+        "top1Accuracy": 80.0
+      }
+    },
+    "byLabel": {
+      "J-POP": {
+        "total": 15,
+        "top1": 13,
+        "accuracy": 86.7
+      },
+      "アンビエント": {
+        "total": 113,
+        "top1": 63,
+        "accuracy": 55.8
+      },
+      "オペラ": {
+        "total": 12,
+        "top1": 10,
+        "accuracy": 83.3
+      },
+      "クラシック音楽": {
+        "total": 132,
+        "top1": 81,
+        "accuracy": 61.4
+      },
+      "ジャズ": {
+        "total": 73,
+        "top1": 50,
+        "accuracy": 68.5
+      },
+      "ソウルミュージック": {
+        "total": 3,
+        "top1": 1,
+        "accuracy": 33.3
+      },
+      "ダブ": {
+        "total": 105,
+        "top1": 56,
+        "accuracy": 53.3
+      },
+      "ダブステップ": {
+        "total": 92,
+        "top1": 49,
+        "accuracy": 53.3
+      },
+      "チップチューン": {
+        "total": 56,
+        "top1": 49,
+        "accuracy": 87.5
+      },
+      "テクノ": {
+        "total": 133,
+        "top1": 68,
+        "accuracy": 51.1
+      },
+      "ディープ・ハウス": {
+        "total": 75,
+        "top1": 17,
+        "accuracy": 22.7
+      },
+      "トラップ": {
+        "total": 7,
+        "top1": 3,
+        "accuracy": 42.9
+      },
+      "トランス": {
+        "total": 41,
+        "top1": 33,
+        "accuracy": 80.5
+      },
+      "ドラムンベース": {
+        "total": 98,
+        "top1": 62,
+        "accuracy": 63.3
+      },
+      "ドローン": {
+        "total": 35,
+        "top1": 8,
+        "accuracy": 22.9
+      },
+      "ノイズミュージック": {
+        "total": 11,
+        "top1": 4,
+        "accuracy": 36.4
+      },
+      "ハウス": {
+        "total": 109,
+        "top1": 49,
+        "accuracy": 45.0
+      },
+      "ハードコア": {
+        "total": 3,
+        "top1": 2,
+        "accuracy": 66.7
+      },
+      "パンク": {
+        "total": 61,
+        "top1": 44,
+        "accuracy": 72.1
+      },
+      "ヒップホップ": {
+        "total": 68,
+        "top1": 60,
+        "accuracy": 88.2
+      },
+      "ファンク": {
+        "total": 87,
+        "top1": 31,
+        "accuracy": 35.6
+      },
+      "フォーク": {
+        "total": 91,
+        "top1": 68,
+        "accuracy": 74.7
+      },
+      "ブルース": {
+        "total": 85,
+        "top1": 39,
+        "accuracy": 45.9
+      },
+      "メタル": {
+        "total": 83,
+        "top1": 44,
+        "accuracy": 53.0
+      },
+      "ラテン": {
+        "total": 67,
+        "top1": 33,
+        "accuracy": 49.3
+      },
+      "レゲエ": {
+        "total": 92,
+        "top1": 70,
+        "accuracy": 76.1
+      },
+      "ロック": {
+        "total": 136,
+        "top1": 88,
+        "accuracy": 64.7
+      }
+    },
+    "bySourceLabel": {
+      "FMA": {
+        "アンビエント": {
+          "total": 8,
+          "top1": 2,
+          "accuracy": 25.0
+        },
+        "ダブ": {
+          "total": 36,
+          "top1": 30,
+          "accuracy": 83.3
+        },
+        "ダブステップ": {
+          "total": 13,
+          "top1": 7,
+          "accuracy": 53.8
+        },
+        "チップチューン": {
+          "total": 55,
+          "top1": 48,
+          "accuracy": 87.3
+        },
+        "テクノ": {
+          "total": 21,
+          "top1": 9,
+          "accuracy": 42.9
+        },
+        "ドラムンベース": {
+          "total": 8,
+          "top1": 8,
+          "accuracy": 100.0
+        },
+        "ドローン": {
+          "total": 34,
+          "top1": 7,
+          "accuracy": 20.6
+        },
+        "ノイズミュージック": {
+          "total": 8,
+          "top1": 3,
+          "accuracy": 37.5
+        },
+        "ハウス": {
+          "total": 11,
+          "top1": 2,
+          "accuracy": 18.2
+        },
+        "ハードコア": {
+          "total": 3,
+          "top1": 2,
+          "accuracy": 66.7
+        },
+        "パンク": {
+          "total": 11,
+          "top1": 3,
+          "accuracy": 27.3
+        },
+        "ヒップホップ": {
+          "total": 23,
+          "top1": 23,
+          "accuracy": 100.0
+        },
+        "フォーク": {
+          "total": 40,
+          "top1": 29,
+          "accuracy": 72.5
+        },
+        "メタル": {
+          "total": 13,
+          "top1": 6,
+          "accuracy": 46.2
+        },
+        "ラテン": {
+          "total": 14,
+          "top1": 2,
+          "accuracy": 14.3
+        },
+        "レゲエ": {
+          "total": 3,
+          "top1": 3,
+          "accuracy": 100.0
+        },
+        "ロック": {
+          "total": 26,
+          "top1": 12,
+          "accuracy": 46.2
+        }
+      },
+      "IdolSongsJp": {
+        "J-POP": {
+          "total": 15,
+          "top1": 13,
+          "accuracy": 86.7
+        }
+      },
+      "Internet Archive": {
+        "ジャズ": {
+          "total": 2,
+          "top1": 1,
+          "accuracy": 50.0
+        },
+        "ディープ・ハウス": {
+          "total": 12,
+          "top1": 3,
+          "accuracy": 25.0
+        },
+        "トラップ": {
+          "total": 5,
+          "top1": 2,
+          "accuracy": 40.0
+        }
+      },
+      "Jamendo": {
+        "アンビエント": {
+          "total": 75,
+          "top1": 39,
+          "accuracy": 52.0
+        },
+        "クラシック音楽": {
+          "total": 87,
+          "top1": 40,
+          "accuracy": 46.0
+        },
+        "ジャズ": {
+          "total": 34,
+          "top1": 19,
+          "accuracy": 55.9
+        },
+        "ダブ": {
+          "total": 69,
+          "top1": 26,
+          "accuracy": 37.7
+        },
+        "ダブステップ": {
+          "total": 79,
+          "top1": 42,
+          "accuracy": 53.2
+        },
+        "テクノ": {
+          "total": 76,
+          "top1": 38,
+          "accuracy": 50.0
+        },
+        "ディープ・ハウス": {
+          "total": 63,
+          "top1": 14,
+          "accuracy": 22.2
+        },
+        "トランス": {
+          "total": 41,
+          "top1": 33,
+          "accuracy": 80.5
+        },
+        "ドラムンベース": {
+          "total": 86,
+          "top1": 52,
+          "accuracy": 60.5
+        },
+        "ハウス": {
+          "total": 95,
+          "top1": 45,
+          "accuracy": 47.4
+        },
+        "パンク": {
+          "total": 32,
+          "top1": 23,
+          "accuracy": 71.9
+        },
+        "ヒップホップ": {
+          "total": 42,
+          "top1": 34,
+          "accuracy": 81.0
+        },
+        "ファンク": {
+          "total": 84,
+          "top1": 28,
+          "accuracy": 33.3
+        },
+        "フォーク": {
+          "total": 25,
+          "top1": 16,
+          "accuracy": 64.0
+        },
+        "ブルース": {
+          "total": 82,
+          "top1": 36,
+          "accuracy": 43.9
+        },
+        "メタル": {
+          "total": 37,
+          "top1": 27,
+          "accuracy": 73.0
+        },
+        "ラテン": {
+          "total": 41,
+          "top1": 23,
+          "accuracy": 56.1
+        },
+        "レゲエ": {
+          "total": 74,
+          "top1": 56,
+          "accuracy": 75.7
+        },
+        "ロック": {
+          "total": 77,
+          "top1": 49,
+          "accuracy": 63.6
+        }
+      },
+      "MagnaTagATune research evaluation": {
+        "アンビエント": {
+          "total": 30,
+          "top1": 22,
+          "accuracy": 73.3
+        },
+        "クラシック音楽": {
+          "total": 30,
+          "top1": 26,
+          "accuracy": 86.7
+        },
+        "ジャズ": {
+          "total": 30,
+          "top1": 24,
+          "accuracy": 80.0
+        },
+        "テクノ": {
+          "total": 30,
+          "top1": 17,
+          "accuracy": 56.7
+        },
+        "パンク": {
+          "total": 18,
+          "top1": 18,
+          "accuracy": 100.0
+        },
+        "フォーク": {
+          "total": 24,
+          "top1": 21,
+          "accuracy": 87.5
+        },
+        "メタル": {
+          "total": 30,
+          "top1": 10,
+          "accuracy": 33.3
+        },
+        "レゲエ": {
+          "total": 12,
+          "top1": 8,
+          "accuracy": 66.7
+        },
+        "ロック": {
+          "total": 30,
+          "top1": 24,
+          "accuracy": 80.0
+        }
+      },
+      "RWC Music Database": {
+        "クラシック音楽": {
+          "total": 12,
+          "top1": 12,
+          "accuracy": 100.0
+        },
+        "ジャズ": {
+          "total": 7,
+          "top1": 6,
+          "accuracy": 85.7
+        },
+        "ソウルミュージック": {
+          "total": 3,
+          "top1": 1,
+          "accuracy": 33.3
+        },
+        "テクノ": {
+          "total": 2,
+          "top1": 2,
+          "accuracy": 100.0
+        },
+        "ハウス": {
+          "total": 3,
+          "top1": 2,
+          "accuracy": 66.7
+        },
+        "ヒップホップ": {
+          "total": 3,
+          "top1": 3,
+          "accuracy": 100.0
+        },
+        "ファンク": {
+          "total": 3,
+          "top1": 3,
+          "accuracy": 100.0
+        },
+        "フォーク": {
+          "total": 2,
+          "top1": 2,
+          "accuracy": 100.0
+        },
+        "ブルース": {
+          "total": 3,
+          "top1": 3,
+          "accuracy": 100.0
+        },
+        "メタル": {
+          "total": 3,
+          "top1": 1,
+          "accuracy": 33.3
+        },
+        "ラテン": {
+          "total": 12,
+          "top1": 8,
+          "accuracy": 66.7
+        },
+        "レゲエ": {
+          "total": 3,
+          "top1": 3,
+          "accuracy": 100.0
+        },
+        "ロック": {
+          "total": 3,
+          "top1": 3,
+          "accuracy": 100.0
+        }
+      },
+      "Wikimedia Commons": {
+        "オペラ": {
+          "total": 2,
+          "top1": 2,
+          "accuracy": 100.0
+        },
+        "クラシック音楽": {
+          "total": 3,
+          "top1": 3,
+          "accuracy": 100.0
+        },
+        "チップチューン": {
+          "total": 1,
+          "top1": 1,
+          "accuracy": 100.0
+        },
+        "テクノ": {
+          "total": 4,
+          "top1": 2,
+          "accuracy": 50.0
+        },
+        "トラップ": {
+          "total": 2,
+          "top1": 1,
+          "accuracy": 50.0
+        },
+        "ドラムンベース": {
+          "total": 4,
+          "top1": 2,
+          "accuracy": 50.0
+        },
+        "ドローン": {
+          "total": 1,
+          "top1": 1,
+          "accuracy": 100.0
+        },
+        "ノイズミュージック": {
+          "total": 3,
+          "top1": 1,
+          "accuracy": 33.3
+        }
+      },
+      "Zenodo CAPHE Hybrid Opera 18288509": {
+        "オペラ": {
+          "total": 10,
+          "top1": 8,
+          "accuracy": 80.0
+        }
+      }
+    }
+  },
+  "candidate": {
+    "pooled": {
+      "top1Accuracy": 58.15,
+      "top3Accuracy": 83.48,
+      "total": 1883,
+      "balancedTop1": 58.29,
+      "minimumSourceTop1": 31.58
+    },
+    "bySource": {
+      "FMA": {
+        "total": 327,
+        "top1Accuracy": 59.94
+      },
+      "IdolSongsJp": {
+        "total": 15,
+        "top1Accuracy": 86.67
+      },
+      "Internet Archive": {
+        "total": 19,
+        "top1Accuracy": 31.58
+      },
+      "Jamendo": {
+        "total": 1199,
+        "top1Accuracy": 53.38
+      },
+      "MagnaTagATune research evaluation": {
+        "total": 234,
+        "top1Accuracy": 72.65
+      },
+      "RWC Music Database": {
+        "total": 59,
+        "top1Accuracy": 83.05
+      },
+      "Wikimedia Commons": {
+        "total": 20,
+        "top1Accuracy": 65.0
+      },
+      "Zenodo CAPHE Hybrid Opera 18288509": {
+        "total": 10,
+        "top1Accuracy": 80.0
+      }
+    },
+    "byLabel": {
+      "J-POP": {
+        "total": 15,
+        "top1": 13,
+        "accuracy": 86.7
+      },
+      "アンビエント": {
+        "total": 113,
+        "top1": 63,
+        "accuracy": 55.8
+      },
+      "オペラ": {
+        "total": 12,
+        "top1": 10,
+        "accuracy": 83.3
+      },
+      "クラシック音楽": {
+        "total": 132,
+        "top1": 81,
+        "accuracy": 61.4
+      },
+      "ジャズ": {
+        "total": 73,
+        "top1": 50,
+        "accuracy": 68.5
+      },
+      "ソウルミュージック": {
+        "total": 3,
+        "top1": 1,
+        "accuracy": 33.3
+      },
+      "ダブ": {
+        "total": 105,
+        "top1": 56,
+        "accuracy": 53.3
+      },
+      "ダブステップ": {
+        "total": 92,
+        "top1": 49,
+        "accuracy": 53.3
+      },
+      "チップチューン": {
+        "total": 56,
+        "top1": 49,
+        "accuracy": 87.5
+      },
+      "テクノ": {
+        "total": 133,
+        "top1": 68,
+        "accuracy": 51.1
+      },
+      "ディープ・ハウス": {
+        "total": 75,
+        "top1": 17,
+        "accuracy": 22.7
+      },
+      "トラップ": {
+        "total": 7,
+        "top1": 3,
+        "accuracy": 42.9
+      },
+      "トランス": {
+        "total": 41,
+        "top1": 33,
+        "accuracy": 80.5
+      },
+      "ドラムンベース": {
+        "total": 98,
+        "top1": 62,
+        "accuracy": 63.3
+      },
+      "ドローン": {
+        "total": 35,
+        "top1": 8,
+        "accuracy": 22.9
+      },
+      "ノイズミュージック": {
+        "total": 11,
+        "top1": 4,
+        "accuracy": 36.4
+      },
+      "ハウス": {
+        "total": 109,
+        "top1": 49,
+        "accuracy": 45.0
+      },
+      "ハードコア": {
+        "total": 3,
+        "top1": 2,
+        "accuracy": 66.7
+      },
+      "パンク": {
+        "total": 61,
+        "top1": 44,
+        "accuracy": 72.1
+      },
+      "ヒップホップ": {
+        "total": 68,
+        "top1": 60,
+        "accuracy": 88.2
+      },
+      "ファンク": {
+        "total": 87,
+        "top1": 31,
+        "accuracy": 35.6
+      },
+      "フォーク": {
+        "total": 91,
+        "top1": 68,
+        "accuracy": 74.7
+      },
+      "ブルース": {
+        "total": 85,
+        "top1": 39,
+        "accuracy": 45.9
+      },
+      "メタル": {
+        "total": 83,
+        "top1": 44,
+        "accuracy": 53.0
+      },
+      "ラテン": {
+        "total": 67,
+        "top1": 33,
+        "accuracy": 49.3
+      },
+      "レゲエ": {
+        "total": 92,
+        "top1": 70,
+        "accuracy": 76.1
+      },
+      "ロック": {
+        "total": 136,
+        "top1": 88,
+        "accuracy": 64.7
+      }
+    },
+    "bySourceLabel": {
+      "FMA": {
+        "アンビエント": {
+          "total": 8,
+          "top1": 2,
+          "accuracy": 25.0
+        },
+        "ダブ": {
+          "total": 36,
+          "top1": 30,
+          "accuracy": 83.3
+        },
+        "ダブステップ": {
+          "total": 13,
+          "top1": 7,
+          "accuracy": 53.8
+        },
+        "チップチューン": {
+          "total": 55,
+          "top1": 48,
+          "accuracy": 87.3
+        },
+        "テクノ": {
+          "total": 21,
+          "top1": 9,
+          "accuracy": 42.9
+        },
+        "ドラムンベース": {
+          "total": 8,
+          "top1": 8,
+          "accuracy": 100.0
+        },
+        "ドローン": {
+          "total": 34,
+          "top1": 7,
+          "accuracy": 20.6
+        },
+        "ノイズミュージック": {
+          "total": 8,
+          "top1": 3,
+          "accuracy": 37.5
+        },
+        "ハウス": {
+          "total": 11,
+          "top1": 2,
+          "accuracy": 18.2
+        },
+        "ハードコア": {
+          "total": 3,
+          "top1": 2,
+          "accuracy": 66.7
+        },
+        "パンク": {
+          "total": 11,
+          "top1": 3,
+          "accuracy": 27.3
+        },
+        "ヒップホップ": {
+          "total": 23,
+          "top1": 23,
+          "accuracy": 100.0
+        },
+        "フォーク": {
+          "total": 40,
+          "top1": 29,
+          "accuracy": 72.5
+        },
+        "メタル": {
+          "total": 13,
+          "top1": 6,
+          "accuracy": 46.2
+        },
+        "ラテン": {
+          "total": 14,
+          "top1": 2,
+          "accuracy": 14.3
+        },
+        "レゲエ": {
+          "total": 3,
+          "top1": 3,
+          "accuracy": 100.0
+        },
+        "ロック": {
+          "total": 26,
+          "top1": 12,
+          "accuracy": 46.2
+        }
+      },
+      "IdolSongsJp": {
+        "J-POP": {
+          "total": 15,
+          "top1": 13,
+          "accuracy": 86.7
+        }
+      },
+      "Internet Archive": {
+        "ジャズ": {
+          "total": 2,
+          "top1": 1,
+          "accuracy": 50.0
+        },
+        "ディープ・ハウス": {
+          "total": 12,
+          "top1": 3,
+          "accuracy": 25.0
+        },
+        "トラップ": {
+          "total": 5,
+          "top1": 2,
+          "accuracy": 40.0
+        }
+      },
+      "Jamendo": {
+        "アンビエント": {
+          "total": 75,
+          "top1": 39,
+          "accuracy": 52.0
+        },
+        "クラシック音楽": {
+          "total": 87,
+          "top1": 40,
+          "accuracy": 46.0
+        },
+        "ジャズ": {
+          "total": 34,
+          "top1": 19,
+          "accuracy": 55.9
+        },
+        "ダブ": {
+          "total": 69,
+          "top1": 26,
+          "accuracy": 37.7
+        },
+        "ダブステップ": {
+          "total": 79,
+          "top1": 42,
+          "accuracy": 53.2
+        },
+        "テクノ": {
+          "total": 76,
+          "top1": 38,
+          "accuracy": 50.0
+        },
+        "ディープ・ハウス": {
+          "total": 63,
+          "top1": 14,
+          "accuracy": 22.2
+        },
+        "トランス": {
+          "total": 41,
+          "top1": 33,
+          "accuracy": 80.5
+        },
+        "ドラムンベース": {
+          "total": 86,
+          "top1": 52,
+          "accuracy": 60.5
+        },
+        "ハウス": {
+          "total": 95,
+          "top1": 45,
+          "accuracy": 47.4
+        },
+        "パンク": {
+          "total": 32,
+          "top1": 23,
+          "accuracy": 71.9
+        },
+        "ヒップホップ": {
+          "total": 42,
+          "top1": 34,
+          "accuracy": 81.0
+        },
+        "ファンク": {
+          "total": 84,
+          "top1": 28,
+          "accuracy": 33.3
+        },
+        "フォーク": {
+          "total": 25,
+          "top1": 16,
+          "accuracy": 64.0
+        },
+        "ブルース": {
+          "total": 82,
+          "top1": 36,
+          "accuracy": 43.9
+        },
+        "メタル": {
+          "total": 37,
+          "top1": 27,
+          "accuracy": 73.0
+        },
+        "ラテン": {
+          "total": 41,
+          "top1": 23,
+          "accuracy": 56.1
+        },
+        "レゲエ": {
+          "total": 74,
+          "top1": 56,
+          "accuracy": 75.7
+        },
+        "ロック": {
+          "total": 77,
+          "top1": 49,
+          "accuracy": 63.6
+        }
+      },
+      "MagnaTagATune research evaluation": {
+        "アンビエント": {
+          "total": 30,
+          "top1": 22,
+          "accuracy": 73.3
+        },
+        "クラシック音楽": {
+          "total": 30,
+          "top1": 26,
+          "accuracy": 86.7
+        },
+        "ジャズ": {
+          "total": 30,
+          "top1": 24,
+          "accuracy": 80.0
+        },
+        "テクノ": {
+          "total": 30,
+          "top1": 17,
+          "accuracy": 56.7
+        },
+        "パンク": {
+          "total": 18,
+          "top1": 18,
+          "accuracy": 100.0
+        },
+        "フォーク": {
+          "total": 24,
+          "top1": 21,
+          "accuracy": 87.5
+        },
+        "メタル": {
+          "total": 30,
+          "top1": 10,
+          "accuracy": 33.3
+        },
+        "レゲエ": {
+          "total": 12,
+          "top1": 8,
+          "accuracy": 66.7
+        },
+        "ロック": {
+          "total": 30,
+          "top1": 24,
+          "accuracy": 80.0
+        }
+      },
+      "RWC Music Database": {
+        "クラシック音楽": {
+          "total": 12,
+          "top1": 12,
+          "accuracy": 100.0
+        },
+        "ジャズ": {
+          "total": 7,
+          "top1": 6,
+          "accuracy": 85.7
+        },
+        "ソウルミュージック": {
+          "total": 3,
+          "top1": 1,
+          "accuracy": 33.3
+        },
+        "テクノ": {
+          "total": 2,
+          "top1": 2,
+          "accuracy": 100.0
+        },
+        "ハウス": {
+          "total": 3,
+          "top1": 2,
+          "accuracy": 66.7
+        },
+        "ヒップホップ": {
+          "total": 3,
+          "top1": 3,
+          "accuracy": 100.0
+        },
+        "ファンク": {
+          "total": 3,
+          "top1": 3,
+          "accuracy": 100.0
+        },
+        "フォーク": {
+          "total": 2,
+          "top1": 2,
+          "accuracy": 100.0
+        },
+        "ブルース": {
+          "total": 3,
+          "top1": 3,
+          "accuracy": 100.0
+        },
+        "メタル": {
+          "total": 3,
+          "top1": 1,
+          "accuracy": 33.3
+        },
+        "ラテン": {
+          "total": 12,
+          "top1": 8,
+          "accuracy": 66.7
+        },
+        "レゲエ": {
+          "total": 3,
+          "top1": 3,
+          "accuracy": 100.0
+        },
+        "ロック": {
+          "total": 3,
+          "top1": 3,
+          "accuracy": 100.0
+        }
+      },
+      "Wikimedia Commons": {
+        "オペラ": {
+          "total": 2,
+          "top1": 2,
+          "accuracy": 100.0
+        },
+        "クラシック音楽": {
+          "total": 3,
+          "top1": 3,
+          "accuracy": 100.0
+        },
+        "チップチューン": {
+          "total": 1,
+          "top1": 1,
+          "accuracy": 100.0
+        },
+        "テクノ": {
+          "total": 4,
+          "top1": 2,
+          "accuracy": 50.0
+        },
+        "トラップ": {
+          "total": 2,
+          "top1": 1,
+          "accuracy": 50.0
+        },
+        "ドラムンベース": {
+          "total": 4,
+          "top1": 2,
+          "accuracy": 50.0
+        },
+        "ドローン": {
+          "total": 1,
+          "top1": 1,
+          "accuracy": 100.0
+        },
+        "ノイズミュージック": {
+          "total": 3,
+          "top1": 1,
+          "accuracy": 33.3
+        }
+      },
+      "Zenodo CAPHE Hybrid Opera 18288509": {
+        "オペラ": {
+          "total": 10,
+          "top1": 8,
+          "accuracy": 80.0
+        }
+      }
+    }
+  },
+  "selections": [
+    {
+      "outerSource": "FMA",
+      "selected": null,
+      "outerOverlayIncluded": false
+    },
+    {
+      "outerSource": "IdolSongsJp",
+      "selected": {
+        "pair": [
+          "ジャズ",
+          "ソウルミュージック"
+        ],
+        "strength": 0.25
+      },
+      "outerOverlayIncluded": true
+    },
+    {
+      "outerSource": "Internet Archive",
+      "selected": {
+        "pair": [
+          "ジャズ",
+          "ソウルミュージック"
+        ],
+        "strength": 0.5
+      },
+      "outerOverlayIncluded": true
+    },
+    {
+      "outerSource": "Jamendo",
+      "selected": null,
+      "outerOverlayIncluded": true
+    },
+    {
+      "outerSource": "MagnaTagATune research evaluation",
+      "selected": {
+        "pair": [
+          "ジャズ",
+          "ソウルミュージック"
+        ],
+        "strength": 0.5
+      },
+      "outerOverlayIncluded": true
+    },
+    {
+      "outerSource": "RWC Music Database",
+      "selected": null,
+      "outerOverlayIncluded": true
+    },
+    {
+      "outerSource": "Wikimedia Commons",
+      "selected": {
+        "pair": [
+          "ジャズ",
+          "ソウルミュージック"
+        ],
+        "strength": 0.5
+      },
+      "outerOverlayIncluded": true
+    },
+    {
+      "outerSource": "Zenodo CAPHE Hybrid Opera 18288509",
+      "selected": {
+        "pair": [
+          "ジャズ",
+          "ソウルミュージック"
+        ],
+        "strength": 0.75
+      },
+      "outerOverlayIncluded": true
+    }
+  ],
+  "decision": "reject-no-nested-gain"
+}

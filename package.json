@@ -13,7 +13,7 @@
     "audio-server": "npm --workspace apps/demo run audio-server",
     "genre-collect": "npm --workspace apps/demo run genre-collect",
     "genre-train": "npm --workspace apps/demo run genre-train",
-    "test": "npm --workspace packages/reversible-svg run test && node --test apps/demo/scripts/audio-analysis-public-policy.test.mjs apps/demo/scripts/genre-track-sampling.test.mjs apps/demo/scripts/genre-training-import.test.mjs apps/demo/scripts/genre-unknown-consensus-policy.test.mjs && node apps/demo/scripts/genre-patterns.test.mjs",
+    "test": "npm --workspace packages/reversible-svg run test && node --test apps/demo/scripts/audio-analysis-public-policy.test.mjs apps/demo/scripts/fma-selective-audio-download.test.mjs apps/demo/scripts/genre-track-sampling.test.mjs apps/demo/scripts/genre-training-import.test.mjs apps/demo/scripts/genre-unknown-consensus-policy.test.mjs && node apps/demo/scripts/genre-patterns.test.mjs",
     "typecheck": "npm --workspace apps/demo run typecheck",
     "check": "npm run test && npm run typecheck && npm run build"
   },

@@ -1,0 +1,20 @@
+{
+  "contract": "muq-mulan-10s-three-position-v1",
+  "cachePath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/fma-soul-training-overlay-muq-mulan.sqlite3",
+  "seedCachePath": "",
+  "manifestPath": "genre-training/fma-soul-training-overlay-manifest.json",
+  "selectedRows": 13,
+  "perGenre": 30,
+  "segmentTarget": 3,
+  "segmentDurationSeconds": 10.0,
+  "seededFirstSegments": 0,
+  "pendingRowsBeforeDryRun": 13,
+  "processedSegments": 39,
+  "tracksBySegmentCount": {
+    "3": 13
+  },
+  "errorCount": 0,
+  "errors": [],
+  "decodedAudioPersisted": false,
+  "sealedHoldoutUsed": false
+}
