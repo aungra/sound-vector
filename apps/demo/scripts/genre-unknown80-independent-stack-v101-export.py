@@ -30,6 +30,17 @@ GUITAR_MEMBER = {
     "strength": 0.25,
     "confidenceFloor": 0.9,
 }
+ADDITIONAL_MEMBERS = (GUITAR_MEMBER,)
+MODEL_VERSION = "unknown80-independent-multiboundary-20260823-v101"
+COMBINATION_NAME = "conservative-five-pair-confidence-stack"
+METHOD = "audio-only-source-heldout-five-pair-confidence-stack"
+SOURCE_HELDOUT_TOP1_AFTER = 59.00
+SOURCE_HELDOUT_IMPROVED = 7
+SOURCE_HELDOUT_HARMED = 1
+STRICT_TOP1 = 59.00
+STRICT_BALANCED_TOP1 = 58.84
+STRICT_MINIMUM_SOURCE_TOP1 = 31.58
+STRICT_TOP3 = 83.48
 
 
 def load_module(path, name):
@@ -41,15 +52,17 @@ def load_module(path, name):
 
 def run(args):
     v100 = load_module(V100_PATH, "stack_v101_shared")
-    v100.MEMBER_CONFIGS = (*v100.MEMBER_CONFIGS, GUITAR_MEMBER)
-    v100.MODEL_VERSION = "unknown80-independent-multiboundary-20260823-v101"
-    v100.COMBINATION_NAME = "conservative-five-pair-confidence-stack"
-    v100.METHOD = "audio-only-source-heldout-five-pair-confidence-stack"
-    v100.SOURCE_HELDOUT_TOP1_AFTER = 58.90
-    v100.SOURCE_HELDOUT_IMPROVED = 7
-    v100.SOURCE_HELDOUT_HARMED = 1
-    v100.STRICT_TOP1 = 58.90
-    v100.STRICT_BALANCED_TOP1 = 58.78
+    v100.MEMBER_CONFIGS = (*v100.MEMBER_CONFIGS, *ADDITIONAL_MEMBERS)
+    v100.MODEL_VERSION = MODEL_VERSION
+    v100.COMBINATION_NAME = COMBINATION_NAME
+    v100.METHOD = METHOD
+    v100.SOURCE_HELDOUT_TOP1_AFTER = SOURCE_HELDOUT_TOP1_AFTER
+    v100.SOURCE_HELDOUT_IMPROVED = SOURCE_HELDOUT_IMPROVED
+    v100.SOURCE_HELDOUT_HARMED = SOURCE_HELDOUT_HARMED
+    v100.STRICT_TOP1 = STRICT_TOP1
+    v100.STRICT_BALANCED_TOP1 = STRICT_BALANCED_TOP1
+    v100.STRICT_MINIMUM_SOURCE_TOP1 = STRICT_MINIMUM_SOURCE_TOP1
+    v100.STRICT_TOP3 = STRICT_TOP3
     v100.PRODUCTION_REPORT = PRODUCTION_REPORT
     payload = v100.run(args)
     payload = json.loads(args.manifest.read_text())

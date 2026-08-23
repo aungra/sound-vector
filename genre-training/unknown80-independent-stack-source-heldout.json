@@ -1,0 +1,982 @@
+{
+  "objective": "Measure cumulative boundary stack gains with provider-heldout retraining.",
+  "policy": {
+    "metadataUsedAtInference": false,
+    "urlSpecificRulesUsed": false,
+    "knownSongRulesUsed": false,
+    "sealedFinalHoldoutUsed": false,
+    "matchingProviderExcludedFromOuterFold": true,
+    "allMembersRetrainedPerFold": true,
+    "productionModelUpdated": false
+  },
+  "dataset": {
+    "rows": 1883,
+    "featureCoverage": 1639,
+    "heldOutSources": [
+      "FMA",
+      "IdolSongsJp",
+      "Internet Archive",
+      "Jamendo",
+      "MagnaTagATune research evaluation",
+      "RWC Music Database",
+      "Wikimedia Commons",
+      "Zenodo CAPHE Hybrid Opera 18288509"
+    ],
+    "overlayRows": 75
+  },
+  "stacks": {
+    "v99": {
+      "top1Accuracy": 58.68,
+      "balancedTop1": 58.69,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 0,
+      "sourceTop1": {
+        "FMA": 59.94,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 54.21,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 83.05,
+        "Wikimedia Commons": 65.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      }
+    },
+    "v100": {
+      "top1Accuracy": 58.79,
+      "balancedTop1": 58.75,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 3,
+      "sourceTop1": {
+        "FMA": 59.94,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 54.38,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 83.05,
+        "Wikimedia Commons": 65.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      },
+      "improved": 2,
+      "harmed": 0,
+      "absoluteImprovedVsV99": 2,
+      "absoluteHarmedVsV99": 0
+    },
+    "v101": {
+      "top1Accuracy": 59.0,
+      "balancedTop1": 58.84,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 7,
+      "sourceTop1": {
+        "FMA": 59.63,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 54.71,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 84.75,
+        "Wikimedia Commons": 65.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      },
+      "improved": 5,
+      "harmed": 1,
+      "absoluteImprovedVsV99": 7,
+      "absoluteHarmedVsV99": 1
+    },
+    "v102-candidate": {
+      "top1Accuracy": 59.27,
+      "balancedTop1": 59.1,
+      "minimumSourceTop1": 31.58,
+      "top3Accuracy": 83.48,
+      "changedTop1": 5,
+      "sourceTop1": {
+        "FMA": 59.94,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 31.58,
+        "Jamendo": 55.05,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 84.75,
+        "Wikimedia Commons": 65.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      },
+      "improved": 5,
+      "harmed": 0,
+      "absoluteImprovedVsV99": 12,
+      "absoluteHarmedVsV99": 1
+    }
+  },
+  "decision": "promote-v102-production-gate",
+  "diagnostics": {
+    "v100": [
+      {
+        "heldOutSource": "FMA",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 90,
+          "トランス": 55
+        },
+        "sourcesPerLabel": {
+          "テクノ": 4,
+          "トランス": 4
+        },
+        "trainingOnlyOverlayRows": 22,
+        "applicableRows": 10,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "IdolSongsJp",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 121,
+          "トランス": 56
+        },
+        "sourcesPerLabel": {
+          "テクノ": 5,
+          "トランス": 5
+        },
+        "trainingOnlyOverlayRows": 33,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "Internet Archive",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 121,
+          "トランス": 50
+        },
+        "sourcesPerLabel": {
+          "テクノ": 5,
+          "トランス": 4
+        },
+        "trainingOnlyOverlayRows": 27,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "Jamendo",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 45,
+          "トランス": 15
+        },
+        "sourcesPerLabel": {
+          "テクノ": 4,
+          "トランス": 4
+        },
+        "trainingOnlyOverlayRows": 33,
+        "applicableRows": 118,
+        "changedRows": 5
+      },
+      {
+        "heldOutSource": "MagnaTagATune research evaluation",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 121,
+          "トランス": 56
+        },
+        "sourcesPerLabel": {
+          "テクノ": 5,
+          "トランス": 5
+        },
+        "trainingOnlyOverlayRows": 33,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "RWC Music Database",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 119,
+          "トランス": 56
+        },
+        "sourcesPerLabel": {
+          "テクノ": 4,
+          "トランス": 5
+        },
+        "trainingOnlyOverlayRows": 33,
+        "applicableRows": 1,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "Wikimedia Commons",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 111,
+          "トランス": 51
+        },
+        "sourcesPerLabel": {
+          "テクノ": 4,
+          "トランス": 4
+        },
+        "trainingOnlyOverlayRows": 22,
+        "applicableRows": 3,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "Zenodo CAPHE Hybrid Opera 18288509",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 121,
+          "トランス": 56
+        },
+        "sourcesPerLabel": {
+          "テクノ": 5,
+          "トランス": 5
+        },
+        "trainingOnlyOverlayRows": 33,
+        "applicableRows": 0,
+        "changedRows": 0
+      }
+    ],
+    "v101": [
+      {
+        "heldOutSource": "FMA",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 90,
+          "トランス": 55
+        },
+        "sourcesPerLabel": {
+          "テクノ": 4,
+          "トランス": 4
+        },
+        "trainingOnlyOverlayRows": 22,
+        "applicableRows": 10,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "FMA",
+        "pair": [
+          "ロック",
+          "メタル"
+        ],
+        "trainingRows": {
+          "ロック": 80,
+          "メタル": 40
+        },
+        "sourcesPerLabel": {
+          "ロック": 2,
+          "メタル": 2
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 13,
+        "changedRows": 5
+      },
+      {
+        "heldOutSource": "IdolSongsJp",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 121,
+          "トランス": 56
+        },
+        "sourcesPerLabel": {
+          "テクノ": 5,
+          "トランス": 5
+        },
+        "trainingOnlyOverlayRows": 33,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "IdolSongsJp",
+        "pair": [
+          "ロック",
+          "メタル"
+        ],
+        "trainingRows": {
+          "ロック": 106,
+          "メタル": 53
+        },
+        "sourcesPerLabel": {
+          "ロック": 3,
+          "メタル": 3
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "Internet Archive",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 121,
+          "トランス": 50
+        },
+        "sourcesPerLabel": {
+          "テクノ": 5,
+          "トランス": 4
+        },
+        "trainingOnlyOverlayRows": 27,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "Internet Archive",
+        "pair": [
+          "ロック",
+          "メタル"
+        ],
+        "trainingRows": {
+          "ロック": 106,
+          "メタル": 53
+        },
+        "sourcesPerLabel": {
+          "ロック": 3,
+          "メタル": 3
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "Jamendo",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 45,
+          "トランス": 15
+        },
+        "sourcesPerLabel": {
+          "テクノ": 4,
+          "トランス": 4
+        },
+        "trainingOnlyOverlayRows": 33,
+        "applicableRows": 118,
+        "changedRows": 5
+      },
+      {
+        "heldOutSource": "Jamendo",
+        "pair": [
+          "ロック",
+          "メタル"
+        ],
+        "trainingRows": {
+          "ロック": 29,
+          "メタル": 16
+        },
+        "sourcesPerLabel": {
+          "ロック": 2,
+          "メタル": 2
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 69,
+        "changedRows": 12
+      },
+      {
+        "heldOutSource": "MagnaTagATune research evaluation",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 121,
+          "トランス": 56
+        },
+        "sourcesPerLabel": {
+          "テクノ": 5,
+          "トランス": 5
+        },
+        "trainingOnlyOverlayRows": 33,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "MagnaTagATune research evaluation",
+        "pair": [
+          "ロック",
+          "メタル"
+        ],
+        "trainingRows": {
+          "ロック": 106,
+          "メタル": 53
+        },
+        "sourcesPerLabel": {
+          "ロック": 3,
+          "メタル": 3
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "RWC Music Database",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 119,
+          "トランス": 56
+        },
+        "sourcesPerLabel": {
+          "テクノ": 4,
+          "トランス": 5
+        },
+        "trainingOnlyOverlayRows": 33,
+        "applicableRows": 1,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "RWC Music Database",
+        "pair": [
+          "ロック",
+          "メタル"
+        ],
+        "trainingRows": {
+          "ロック": 103,
+          "メタル": 50
+        },
+        "sourcesPerLabel": {
+          "ロック": 2,
+          "メタル": 2
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 5,
+        "changedRows": 1
+      },
+      {
+        "heldOutSource": "Wikimedia Commons",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 111,
+          "トランス": 51
+        },
+        "sourcesPerLabel": {
+          "テクノ": 4,
+          "トランス": 4
+        },
+        "trainingOnlyOverlayRows": 22,
+        "applicableRows": 3,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "Wikimedia Commons",
+        "pair": [
+          "ロック",
+          "メタル"
+        ],
+        "trainingRows": {
+          "ロック": 106,
+          "メタル": 53
+        },
+        "sourcesPerLabel": {
+          "ロック": 3,
+          "メタル": 3
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "Zenodo CAPHE Hybrid Opera 18288509",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 121,
+          "トランス": 56
+        },
+        "sourcesPerLabel": {
+          "テクノ": 5,
+          "トランス": 5
+        },
+        "trainingOnlyOverlayRows": 33,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "Zenodo CAPHE Hybrid Opera 18288509",
+        "pair": [
+          "ロック",
+          "メタル"
+        ],
+        "trainingRows": {
+          "ロック": 106,
+          "メタル": 53
+        },
+        "sourcesPerLabel": {
+          "ロック": 3,
+          "メタル": 3
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 0,
+        "changedRows": 0
+      }
+    ],
+    "v102-candidate": [
+      {
+        "heldOutSource": "FMA",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 90,
+          "トランス": 55
+        },
+        "sourcesPerLabel": {
+          "テクノ": 4,
+          "トランス": 4
+        },
+        "trainingOnlyOverlayRows": 22,
+        "applicableRows": 10,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "FMA",
+        "pair": [
+          "ロック",
+          "メタル"
+        ],
+        "trainingRows": {
+          "ロック": 80,
+          "メタル": 40
+        },
+        "sourcesPerLabel": {
+          "ロック": 2,
+          "メタル": 2
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 13,
+        "changedRows": 5
+      },
+      {
+        "heldOutSource": "FMA",
+        "pair": [
+          "ラテン",
+          "フォーク"
+        ],
+        "trainingRows": {
+          "フォーク": 27,
+          "ラテン": 53
+        },
+        "sourcesPerLabel": {
+          "ラテン": 2,
+          "フォーク": 2
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 3,
+        "changedRows": 2
+      },
+      {
+        "heldOutSource": "IdolSongsJp",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 121,
+          "トランス": 56
+        },
+        "sourcesPerLabel": {
+          "テクノ": 5,
+          "トランス": 5
+        },
+        "trainingOnlyOverlayRows": 33,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "IdolSongsJp",
+        "pair": [
+          "ロック",
+          "メタル"
+        ],
+        "trainingRows": {
+          "ロック": 106,
+          "メタル": 53
+        },
+        "sourcesPerLabel": {
+          "ロック": 3,
+          "メタル": 3
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "IdolSongsJp",
+        "pair": [
+          "ラテン",
+          "フォーク"
+        ],
+        "trainingRows": {
+          "フォーク": 67,
+          "ラテン": 67
+        },
+        "sourcesPerLabel": {
+          "ラテン": 3,
+          "フォーク": 3
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "Internet Archive",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 121,
+          "トランス": 50
+        },
+        "sourcesPerLabel": {
+          "テクノ": 5,
+          "トランス": 4
+        },
+        "trainingOnlyOverlayRows": 27,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "Internet Archive",
+        "pair": [
+          "ロック",
+          "メタル"
+        ],
+        "trainingRows": {
+          "ロック": 106,
+          "メタル": 53
+        },
+        "sourcesPerLabel": {
+          "ロック": 3,
+          "メタル": 3
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "Internet Archive",
+        "pair": [
+          "ラテン",
+          "フォーク"
+        ],
+        "trainingRows": {
+          "フォーク": 67,
+          "ラテン": 67
+        },
+        "sourcesPerLabel": {
+          "ラテン": 3,
+          "フォーク": 3
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "Jamendo",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 45,
+          "トランス": 15
+        },
+        "sourcesPerLabel": {
+          "テクノ": 4,
+          "トランス": 4
+        },
+        "trainingOnlyOverlayRows": 33,
+        "applicableRows": 118,
+        "changedRows": 5
+      },
+      {
+        "heldOutSource": "Jamendo",
+        "pair": [
+          "ロック",
+          "メタル"
+        ],
+        "trainingRows": {
+          "ロック": 29,
+          "メタル": 16
+        },
+        "sourcesPerLabel": {
+          "ロック": 2,
+          "メタル": 2
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 69,
+        "changedRows": 12
+      },
+      {
+        "heldOutSource": "Jamendo",
+        "pair": [
+          "ラテン",
+          "フォーク"
+        ],
+        "trainingRows": {
+          "フォーク": 42,
+          "ラテン": 26
+        },
+        "sourcesPerLabel": {
+          "ラテン": 2,
+          "フォーク": 2
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 30,
+        "changedRows": 8
+      },
+      {
+        "heldOutSource": "MagnaTagATune research evaluation",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 121,
+          "トランス": 56
+        },
+        "sourcesPerLabel": {
+          "テクノ": 5,
+          "トランス": 5
+        },
+        "trainingOnlyOverlayRows": 33,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "MagnaTagATune research evaluation",
+        "pair": [
+          "ロック",
+          "メタル"
+        ],
+        "trainingRows": {
+          "ロック": 106,
+          "メタル": 53
+        },
+        "sourcesPerLabel": {
+          "ロック": 3,
+          "メタル": 3
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "MagnaTagATune research evaluation",
+        "pair": [
+          "ラテン",
+          "フォーク"
+        ],
+        "trainingRows": {
+          "フォーク": 67,
+          "ラテン": 67
+        },
+        "sourcesPerLabel": {
+          "ラテン": 3,
+          "フォーク": 3
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "RWC Music Database",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 119,
+          "トランス": 56
+        },
+        "sourcesPerLabel": {
+          "テクノ": 4,
+          "トランス": 5
+        },
+        "trainingOnlyOverlayRows": 33,
+        "applicableRows": 1,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "RWC Music Database",
+        "pair": [
+          "ロック",
+          "メタル"
+        ],
+        "trainingRows": {
+          "ロック": 103,
+          "メタル": 50
+        },
+        "sourcesPerLabel": {
+          "ロック": 2,
+          "メタル": 2
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 5,
+        "changedRows": 1
+      },
+      {
+        "heldOutSource": "RWC Music Database",
+        "pair": [
+          "ラテン",
+          "フォーク"
+        ],
+        "trainingRows": {
+          "フォーク": 65,
+          "ラテン": 55
+        },
+        "sourcesPerLabel": {
+          "ラテン": 2,
+          "フォーク": 2
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 5,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "Wikimedia Commons",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 111,
+          "トランス": 51
+        },
+        "sourcesPerLabel": {
+          "テクノ": 4,
+          "トランス": 4
+        },
+        "trainingOnlyOverlayRows": 22,
+        "applicableRows": 3,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "Wikimedia Commons",
+        "pair": [
+          "ロック",
+          "メタル"
+        ],
+        "trainingRows": {
+          "ロック": 106,
+          "メタル": 53
+        },
+        "sourcesPerLabel": {
+          "ロック": 3,
+          "メタル": 3
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "Wikimedia Commons",
+        "pair": [
+          "ラテン",
+          "フォーク"
+        ],
+        "trainingRows": {
+          "フォーク": 67,
+          "ラテン": 67
+        },
+        "sourcesPerLabel": {
+          "ラテン": 3,
+          "フォーク": 3
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "Zenodo CAPHE Hybrid Opera 18288509",
+        "pair": [
+          "テクノ",
+          "トランス"
+        ],
+        "trainingRows": {
+          "テクノ": 121,
+          "トランス": 56
+        },
+        "sourcesPerLabel": {
+          "テクノ": 5,
+          "トランス": 5
+        },
+        "trainingOnlyOverlayRows": 33,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "Zenodo CAPHE Hybrid Opera 18288509",
+        "pair": [
+          "ロック",
+          "メタル"
+        ],
+        "trainingRows": {
+          "ロック": 106,
+          "メタル": 53
+        },
+        "sourcesPerLabel": {
+          "ロック": 3,
+          "メタル": 3
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 0,
+        "changedRows": 0
+      },
+      {
+        "heldOutSource": "Zenodo CAPHE Hybrid Opera 18288509",
+        "pair": [
+          "ラテン",
+          "フォーク"
+        ],
+        "trainingRows": {
+          "フォーク": 67,
+          "ラテン": 67
+        },
+        "sourcesPerLabel": {
+          "ラテン": 3,
+          "フォーク": 3
+        },
+        "trainingOnlyOverlayRows": 0,
+        "applicableRows": 0,
+        "changedRows": 0
+      }
+    ]
+  }
+}

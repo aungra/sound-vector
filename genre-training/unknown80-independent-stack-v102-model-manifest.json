@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "candidateModelPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown80-independent-multiboundary-stack-v101-candidate.pkl",
-  "candidateModelSha256": "26ef011de45b3ce3148759723c19ca92ecf53a1336969878f03100f125b1dc31",
-  "candidateModelBytes": 5679763,
-  "modelVersion": "unknown80-independent-multiboundary-20260823-v101",
-  "method": "audio-only-source-heldout-five-pair-confidence-stack",
+  "candidateModelPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown80-independent-multiboundary-stack-v102-candidate.pkl",
+  "candidateModelSha256": "bf8e8d5a5e33e9c2106d2310af760dc475ea31bcac15798e651c4f99107c6f31",
+  "candidateModelBytes": 5685408,
+  "modelVersion": "unknown80-independent-multiboundary-20260823-v102",
+  "method": "audio-only-source-heldout-six-pair-confidence-stack",
   "featureContract": {
     "source": "production librosa 547-vector",
     "vectorLength": 547,
@@ -121,11 +121,31 @@
           "ロック": 106,
           "メタル": 53
         }
+      },
+      {
+        "pair": [
+          "ラテン",
+          "フォーク"
+        ],
+        "kind": "logistic",
+        "view": "rhythm",
+        "rows": 134,
+        "formalRows": 134,
+        "trainingOnlyOverlayRows": 0,
+        "sources": {
+          "FMA": 54,
+          "Jamendo": 66,
+          "RWC Music Database": 14
+        },
+        "labels": {
+          "フォーク": 67,
+          "ラテン": 67
+        }
       }
     ]
   },
   "combination": {
-    "name": "conservative-five-pair-confidence-stack",
+    "name": "conservative-six-pair-confidence-stack",
     "members": [
       {
         "pair": [
@@ -176,6 +196,16 @@
         "confidenceFloor": 0.9,
         "view": "full",
         "featureIndexCount": 547
+      },
+      {
+        "pair": [
+          "ラテン",
+          "フォーク"
+        ],
+        "strength": 1.0,
+        "confidenceFloor": 0.95,
+        "view": "rhythm",
+        "featureIndexCount": 157
       }
     ]
   },
@@ -183,8 +213,8 @@
     "sourceHeldoutReport": "genre-training/unknown80-independent-electronic-ablation.json",
     "sourceHeldoutReportSha256": "e73c2e59032e783d202379cf7f37c6808de29b96dbb178964cee5924a9b68502",
     "sourceHeldoutTop1Before": 58.68,
-    "sourceHeldoutTop1After": 59.0,
-    "sourceHeldoutImproved": 7,
+    "sourceHeldoutTop1After": 59.27,
+    "sourceHeldoutImproved": 12,
     "sourceHeldoutHarmed": 1,
     "gtzanReport": "genre-training/gtzan-independent-blackmusic-pair-gate.json",
     "gtzanReportSha256": "d08fcc3d01d5c8d0e11c7b4e6c1914f91c1512207d2fb9577ff28249b43dd729",
@@ -192,20 +222,22 @@
     "gtzanTop1After": 78.7,
     "gtzanImproved": 7,
     "gtzanHarmed": 0,
-    "productionRegressionReport": "genre-training/unknown80-independent-stack-v101-production-regression.json",
-    "productionRegressionReportSha256": "e55143a7ad0689597287d32cf38fb1eb3b58e959c823e490df70afd6246cdcd6",
+    "productionRegressionReport": "genre-training/unknown80-independent-stack-v102-production-regression.json",
+    "productionRegressionReportSha256": "60392ef2f464c4176f888110e8e8b5619c3cfa552eac906adb6362464be4f214",
     "productionGate": "passed",
     "electronicSourceHeldoutReport": "genre-training/unknown80-independent-electronic-ablation.json",
     "electronicSourceHeldoutReportSha256": "e73c2e59032e783d202379cf7f37c6808de29b96dbb178964cee5924a9b68502",
-    "strictTop1": 59.0,
-    "strictBalancedTop1": 58.84,
+    "strictTop1": 59.27,
+    "strictBalancedTop1": 59.1,
     "strictMinimumSourceTop1": 31.58,
     "strictTop3": 83.48,
     "guitarSourceHeldoutReport": "genre-training/unknown80-independent-guitar-ablation.json",
-    "guitarSourceHeldoutReportSha256": "17335e0fe17d1abc4df343aee9c477a02826144b00b8edc8787c1605b226d48f"
+    "guitarSourceHeldoutReportSha256": "17335e0fe17d1abc4df343aee9c477a02826144b00b8edc8787c1605b226d48f",
+    "cumulativeSourceHeldoutReport": "genre-training/unknown80-independent-stack-source-heldout.json",
+    "cumulativeSourceHeldoutReportSha256": "965b1850080586cd9a31af33fc282d6ef7db803ddf7bd00487a58d54eefccf58"
   },
   "serializationParity": {
-    "rows": 320,
+    "rows": 384,
     "maximumProbabilityDifference": 2.220446049250313e-16,
     "passed": true
   },
