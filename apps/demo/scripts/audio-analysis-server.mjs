@@ -28,6 +28,7 @@ import {
   requestClientAddress,
   YOUTUBE_RETRY_DELAYS_MS,
 } from "./audio-analysis-public-policy.mjs";
+import { embeddingSegmentArgs } from "./genre-embedding-segment-input.mjs";
 
 const cliArgs = new Set(process.argv.slice(2));
 const cliValue = name => {
@@ -472,7 +473,7 @@ async function analyzeJapaneseVocalEvidenceForFile(filePath, options = {}) {
   }
 }
 
-async function analyzeEmbeddingGenreForFile(filePath, japaneseVocalEvidence = {}) {
+async function analyzeEmbeddingGenreForFile(filePath, japaneseVocalEvidence = {}, segmentAudioPaths = [], sampledRanges = []) {
   if (!embeddingGenreReady() || !EMBEDDING_GENRE_LIVE_ENABLED) return null;
   const contract = embeddingGenreContractStatus();
   const attempts = embeddingInferenceAttemptPlan({
@@ -485,10 +486,12 @@ async function analyzeEmbeddingGenreForFile(filePath, japaneseVocalEvidence = {}
     if (EMBEDDING_GENRE_TEST_FAIL_PRIMARY && attempt.role === "primary") {
       throw new Error("simulated primary failure for API integration test");
     }
+    const segmentArgs = embeddingSegmentArgs(segmentAudioPaths, sampledRanges);
     const { stdout } = await run(EMBEDDING_GENRE_PYTHON, [
       EMBEDDING_GENRE_SCRIPT,
       "--model-path", attempt.modelPath,
       "--audio", filePath,
+      ...segmentArgs,
       "--japanese-vocal-evidence", JSON.stringify(japaneseVocalEvidence || {})
     ], {
       timeoutMs: 240000,
@@ -791,7 +794,7 @@ function applyOperaticVocalRescue(prediction = {}, features = {}, vocalEvidence 
   };
 }
 
-async function resolveGenrePrediction(filePath, features, japaneseVocalEvidence = {}, segmentConsensus = {}) {
+async function resolveGenrePrediction(filePath, features, japaneseVocalEvidence = {}, segmentConsensus = {}, segmentAudioPaths = [], sampledRanges = []) {
   const localPrediction = await analyzeProductionLocalGenre(features, "");
   const local = localPrediction?.top?.length
     ? { ...localPrediction, segmentConsensus }
@@ -801,7 +804,9 @@ async function resolveGenrePrediction(filePath, features, japaneseVocalEvidence 
     if (!EMBEDDING_GENRE_CONSENSUS_ENABLED || !shouldRunUnknownSourceConsensus(local, japaneseVocalEvidence, features)) {
       return local;
     }
-    const external = await analyzeEmbeddingGenreForFile(filePath, japaneseVocalEvidence);
+    const external = await analyzeEmbeddingGenreForFile(
+      filePath, japaneseVocalEvidence, segmentAudioPaths, sampledRanges
+    );
     if (external?.top?.length && !external.error) {
       return {
         ...local,
@@ -813,7 +818,9 @@ async function resolveGenrePrediction(filePath, features, japaneseVocalEvidence 
 
   // Keep the embedding model as the full fallback when the production-local
   // runtime is unavailable. Browser-side calibration still runs exactly once.
-  const external = await analyzeEmbeddingGenreForFile(filePath, japaneseVocalEvidence);
+  const external = await analyzeEmbeddingGenreForFile(
+    filePath, japaneseVocalEvidence, segmentAudioPaths, sampledRanges
+  );
   if (external?.top?.length && !external.error) return { ...external, segmentConsensus };
   return local || external;
 }
@@ -1447,7 +1454,9 @@ async function analyzeYouTube(youtubeUrl, options = {}) {
       analysisAudioPath,
       features,
       japaneseVocalEvidence,
-      segmentConsensus
+      segmentConsensus,
+      segmentAudioPaths,
+      sampledRanges
     );
     const gatedGenrePrediction = promoteReliableExternalTrackPrediction(rawGenrePrediction);
     const trackContract = buildTrackPredictionContract({
@@ -1602,7 +1611,9 @@ async function analyzeLocalFile(filePath, options = {}) {
       analysisAudioPath,
       features,
       japaneseVocalEvidence,
-      segmentConsensus
+      segmentConsensus,
+      segmentAudioPaths,
+      sampledRanges
     );
     const gatedGenrePrediction = promoteReliableExternalTrackPrediction(rawGenrePrediction);
     const trackContract = buildTrackPredictionContract({

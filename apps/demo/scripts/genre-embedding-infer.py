@@ -30,6 +30,7 @@ from genre_unknown80_rhythm_reranker import (
     load_bundle as load_unknown80_rhythm_bundle,
     rerank as apply_unknown80_rhythm_reranker,
 )
+from genre_librosa_contract import extract_librosa as extract_runtime_librosa
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -275,45 +276,9 @@ class EssentiaExtractors:
 
 
 def extract_librosa(audio_path, offset_seconds=0.0):
-    y, sr = librosa.load(
-        str(audio_path), sr=LIBROSA_SR, mono=True, offset=float(offset_seconds), duration=DURATION,
+    return extract_runtime_librosa(
+        audio_path, offset_seconds=offset_seconds, duration=DURATION
     )
-    if y.size < sr:
-        raise ValueError("audio too short for embedding inference")
-    y = librosa.util.normalize(y)
-    hop = 512
-    stft_power = np.abs(librosa.stft(y, hop_length=hop)) ** 2
-    onset_env = librosa.onset.onset_strength(y=y, sr=sr, hop_length=hop)
-    tempo = safe_feature(lambda: librosa.feature.tempo(onset_envelope=onset_env, sr=sr, hop_length=hop), np.asarray([0.0]))
-    mfcc = safe_feature(lambda: librosa.feature.mfcc(y=y, sr=sr, n_mfcc=20, hop_length=hop), np.zeros((20, 1)))
-    delta = safe_feature(lambda: librosa.feature.delta(mfcc), np.zeros_like(mfcc))
-    chroma = safe_feature(lambda: librosa.feature.chroma_stft(S=stft_power, sr=sr, tuning=0), np.zeros((12, 1)))
-    contrast = safe_feature(lambda: librosa.feature.spectral_contrast(y=y, sr=sr, hop_length=hop), np.zeros((7, 1)))
-    centroid = safe_feature(lambda: librosa.feature.spectral_centroid(y=y, sr=sr, hop_length=hop), np.zeros((1, 1)))
-    bandwidth = safe_feature(lambda: librosa.feature.spectral_bandwidth(y=y, sr=sr, hop_length=hop), np.zeros((1, 1)))
-    rolloff85 = safe_feature(lambda: librosa.feature.spectral_rolloff(y=y, sr=sr, hop_length=hop, roll_percent=0.85), np.zeros((1, 1)))
-    rolloff95 = safe_feature(lambda: librosa.feature.spectral_rolloff(y=y, sr=sr, hop_length=hop, roll_percent=0.95), np.zeros((1, 1)))
-    flatness = safe_feature(lambda: librosa.feature.spectral_flatness(y=y, hop_length=hop), np.zeros((1, 1)))
-    zcr = safe_feature(lambda: librosa.feature.zero_crossing_rate(y, hop_length=hop), np.zeros((1, 1)))
-    rms = safe_feature(lambda: librosa.feature.rms(y=y, hop_length=hop), np.zeros((1, 1)))
-    tempogram = safe_feature(lambda: librosa.feature.tempogram(onset_envelope=onset_env, sr=sr, hop_length=hop), np.zeros((384, 1)))
-    tempogram_small = tempogram[::16, :] if tempogram.ndim == 2 else np.zeros((24, 1))
-    onset_peaks = librosa.onset.onset_detect(onset_envelope=onset_env, sr=sr, hop_length=hop, units="frames")
-    onset_gaps = np.diff(onset_peaks) if onset_peaks.size > 1 else np.asarray([0.0])
-    y_abs = np.abs(y)
-    crest = float(np.max(y_abs) / max(1e-9, np.sqrt(np.mean(y * y))))
-    features = [
-        float(np.ravel(tempo)[0]) / 220.0,
-        float(np.mean(onset_env)),
-        float(np.std(onset_env)),
-        float(len(onset_peaks) / max(1.0, DURATION)),
-        float(np.mean(onset_gaps) / 64.0),
-        float(np.std(onset_gaps) / 64.0),
-        crest / 20.0,
-    ]
-    for block in (mfcc, delta, chroma, contrast, centroid, bandwidth, rolloff85, rolloff95, flatness, zcr, rms, tempogram_small):
-        features.extend(stat_block(block))
-    return safe_list(features)
 
 
 def extract_pop_audio_evidence(audio_path, offset_seconds=0.0):
@@ -391,6 +356,47 @@ def vectors_from_audio_segments(audio_path, segment_count=SEGMENT_COUNT):
 
 def vectors_from_audio(audio_path):
     return vectors_from_audio_segments(audio_path, 1)[0][1]
+
+
+def vectors_from_audio_paths(audio_paths, offsets=None):
+    """Extract one model vector per already planned track range."""
+    if not INFER_SOURCES:
+        raise ValueError("MMFR_EMBEDDING_INFER_SOURCES did not select a supported source")
+    extractors = EssentiaExtractors(INFER_SOURCES)
+    segments = []
+    offsets = list(offsets or [])
+    if offsets and len(offsets) != len(audio_paths):
+        raise ValueError("segment audio and offset counts differ")
+    for index, audio_path in enumerate(audio_paths):
+        path = Path(audio_path)
+        vectors = {}
+        if "discogs" in INFER_SOURCES:
+            vectors["discogs"] = np.asarray(
+                extractors.discogs(path, 0.0), dtype=np.float32,
+            )
+        if "mtg" in INFER_SOURCES:
+            vectors["mtg"] = np.asarray(
+                extractors.mtg(path, 0.0), dtype=np.float32,
+            )
+        if "librosa" in INFER_SOURCES:
+            vectors["librosa"] = np.asarray(
+                extract_librosa(path, 0.0), dtype=np.float32,
+            )
+        for source, length in SOURCE_VECTOR_LENGTHS.items():
+            if source not in vectors:
+                vectors[source] = np.zeros(length, dtype=np.float32)
+        vectors["effnet_tail"] = vectors["discogs"][
+            DISCOGS_TAG_DIMENSIONS:
+        ].copy()
+        errors = validate_runtime_vectors(vectors)
+        if errors:
+            raise ValueError(
+                "Runtime feature contract mismatch: " + "; ".join(errors)
+            )
+        segments.append((
+            float(offsets[index]) if offsets else float(index), vectors
+        ))
+    return segments
 
 
 def vectors_from_cache_key(cache_key):
@@ -1268,11 +1274,16 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model-path", default=str(DEFAULT_MODEL_PATH))
     parser.add_argument("--audio")
+    parser.add_argument("--segment-audio", action="append", default=[])
+    parser.add_argument("--segment-offset", action="append", type=float, default=[])
     parser.add_argument("--cache-key")
     parser.add_argument("--japanese-vocal-evidence", default="{}")
     parser.add_argument("--validate-model", action="store_true")
     args = parser.parse_args()
-    if not args.audio and not args.cache_key and not args.validate_model:
+    if (
+        not args.audio and not args.segment_audio
+        and not args.cache_key and not args.validate_model
+    ):
         raise SystemExit("Provide --audio or --cache-key")
     bundle = load_model(args.model_path)
     if args.validate_model:
@@ -1282,6 +1293,14 @@ def main():
     if args.cache_key:
         vector_segments = [(0.0, vectors_from_cache_key(args.cache_key))]
         pop_audio = {}
+    elif args.segment_audio:
+        audio_paths = [Path(value) for value in args.segment_audio]
+        vector_segments = vectors_from_audio_paths(
+            audio_paths, offsets=args.segment_offset
+        )
+        pop_audio = aggregate_pop_audio([
+            extract_pop_audio_evidence(path, 0.0) for path in audio_paths
+        ])
     else:
         audio_path = Path(args.audio)
         vector_segments = vectors_from_audio_segments(audio_path)

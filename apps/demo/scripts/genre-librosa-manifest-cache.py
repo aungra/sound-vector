@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 
 
-INFER_PATH = Path(__file__).with_name("genre-embedding-infer.py")
+INFER_PATH = Path(__file__).with_name("genre_librosa_contract.py")
 EXPECTED_DIMENSIONS = 547
 
 

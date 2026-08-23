@@ -1,0 +1,92 @@
+{
+  "objective": "Align embedding inference with the four planned 30-second track ranges without changing the v99 model.",
+  "generatedAt": "2026-08-23T23:55:00+09:00",
+  "policy": {
+    "metadataUsedAtInference": false,
+    "urlSpecificRulesUsed": false,
+    "knownSongRulesUsed": false,
+    "audioPersistedInRepository": false,
+    "strictUnknownSourceAccuracyClaim": false
+  },
+  "contract": {
+    "before": "Concatenate four 30-second ranges, then resample as three overlapping 45-second inference windows.",
+    "after": "Pass the requested, 20%, 50%, and 80% 30-second files directly to embedding inference.",
+    "totalPlannedAudioSeconds": 120,
+    "librosaVectorLength": 547,
+    "librosaTrainingParity": {
+      "rowsChecked": 1,
+      "maximumAbsoluteDifference": 0.0000152587890625,
+      "tolerancePassed": true
+    }
+  },
+  "diagnosticTracks": [
+    {
+      "expected": "ハウス",
+      "source": "Internet Archive",
+      "finalTop1Before": "ハウス",
+      "finalTop1After": "ハウス",
+      "embeddingTop1Before": "ハウス",
+      "embeddingTop1After": "ハウス",
+      "embeddingScoreBefore": 38.5,
+      "embeddingScoreAfter": 41.3,
+      "embeddingMarginBefore": 25.5,
+      "embeddingMarginAfter": 29.3,
+      "segmentCountBefore": 3,
+      "segmentCountAfter": 4
+    },
+    {
+      "expected": "テクノ",
+      "source": "Wikimedia Commons",
+      "finalTop1Before": "ファンク",
+      "finalTop1After": "ファンク",
+      "embeddingTop1Before": "テクノ",
+      "embeddingTop1After": "テクノ",
+      "embeddingScoreBefore": 31.0,
+      "embeddingScoreAfter": 33.4,
+      "embeddingMarginBefore": 18.8,
+      "embeddingMarginAfter": 21.9,
+      "segmentCountBefore": 3,
+      "segmentCountAfter": 4
+    },
+    {
+      "expected": "トランス",
+      "source": "Internet Archive",
+      "finalTop1Before": "ディープ・ハウス",
+      "finalTop1After": "ディープ・ハウス",
+      "embeddingTop1Before": "ディープ・ハウス",
+      "embeddingTop1After": "ディープ・ハウス",
+      "embeddingScoreBefore": 20.9,
+      "embeddingScoreAfter": 21.1,
+      "embeddingMarginBefore": 2.6,
+      "embeddingMarginAfter": 1.2,
+      "segmentCountBefore": 3,
+      "segmentCountAfter": 4
+    },
+    {
+      "expected": "ディープ・ハウス",
+      "source": "Internet Archive",
+      "finalTop1Before": "レゲエ",
+      "finalTop1After": "レゲエ",
+      "embeddingTop1Before": "アンビエント",
+      "embeddingTop1After": "アンビエント",
+      "embeddingScoreBefore": 36.2,
+      "embeddingScoreAfter": 38.7,
+      "embeddingMarginBefore": 10.2,
+      "embeddingMarginAfter": 11.6,
+      "segmentCountBefore": 3,
+      "segmentCountAfter": 4
+    }
+  ],
+  "summary": {
+    "finalTop1Changed": 0,
+    "finalTop1Improved": 0,
+    "finalTop1Harmed": 0,
+    "embeddingExpectedTop1Retained": 2,
+    "decision": "promote-runtime-contract-only-no-accuracy-claim"
+  },
+  "strictSourceHeldout": {
+    "incumbentTop1": 58.68,
+    "electronicOverlayBestTop1": 58.63,
+    "electronicRerankerDecision": "rejected"
+  }
+}
