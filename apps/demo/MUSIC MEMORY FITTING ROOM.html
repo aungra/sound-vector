@@ -650,7 +650,7 @@
       };
     }
     const keys = { creators: "mmfr.creators", tshirts: "mmfr.tshirts", sessions: "mmfr.sessions", apiConfig: "mmfr.apiConfig", genreAdjustmentLearning: "mmfr.genreAdjustmentLearning.v1" };
-    const GENRE_INFERENCE_REVISION = "2026-08-21-cross-head-arbitration-v96";
+    const GENRE_INFERENCE_REVISION = "2026-08-23-track-boundary-reranker-v97";
     const inlineArt = {};
     let activeCollisionField = null;
     const state = { answers: {}, moodId: null, youtubeUrl: "", audioFeatures: null, sourceMood: null, variantSalt: 0, engineId: "youtube_audio", realtime: false, tick: 0, session: null, generated: null, message: "", genreProfiles: null, genreModel: null, sharedGenreLearning: { records: [], revision: 0, modelVersion: "" }, generationProgress: null, patternMotion: { shirtId: "", phase: 0, running: false, lastTimestamp: 0 }, equalizer: { shirtId: "", playing: false, startedAt: 0, duration: 0, detail: null, analyser: null, returningAt: 0 } };
@@ -5566,10 +5566,77 @@
         && context.detectedLanguage && context.detectedLanguage !== "ja"
         && Number(context.vocalPresence || 0) >= .9
         && Number(context.stemVocalPresence || 0) >= .75
-        && Number(context.speechRapLikelihood || 0) >= .45
-        && Number(context.transcriptTokenRate || 0) >= 2.8
-        && Number(context.melodicVocalLikelihood || 0) <= .56
+        && Number(context.speechRapLikelihood || 0) >= .4
+        && Number(context.transcriptTokenRate || 0) >= 2.75
+        && Number(context.melodicVocalLikelihood || 0) <= .5
         && vector.fourOnFloor < .34;
+    }
+    function distributedDanceRockEvidence(vector = {}, context = {}) {
+      const segment = context.segmentConsensus || {};
+      const leaders = Array.isArray(segment.leaders) ? segment.leaders.filter(Boolean) : [];
+      const danceLabels = new Set(["ディスコ", "ファンク", "ブルース", "レゲエ", "ダブ", "ソウルミュージック"]);
+      const danceVotes = leaders.filter(label => danceLabels.has(label)).length;
+      const externalScore = name => (Number((context.externalTop || [])
+        .find(item => (item.name || item.label) === name)?.score) || 0) / 100;
+      const externalDanceScore = externalScore("ハウス") + externalScore("ファンク") + externalScore("ディスコ");
+      return ["アンビエント", "レゲエ", "ソウルミュージック", "ファンク", "ブルース", "ディスコ"].includes(context.leader)
+        && Number(context.analysisWindowSeconds || 0) >= 100
+        && Number(context.rockMacro || 0) >= .22
+        && segment.available === true && Number(segment.count || 0) >= 4
+        && Number(segment.evidenceCoverage || 0) >= .99
+        && leaders.includes("ロック") && danceVotes >= 2
+        && Number(segment.voteShare || 0) <= .5
+        && String(context.detectedLanguage || "").toLowerCase() === "en"
+        && Number(context.vocalPresence || 0) >= .8
+        && Number(context.melodicVocalLikelihood || 0) >= .55
+        && Number(context.speechRapLikelihood || 0) < .18
+        && vector.tempo >= 100 && vector.tempo <= 122
+        && vector.energy >= .45 && vector.energy <= .7
+        && vector.bass >= .8 && vector.lowBandRatio >= .65
+        && vector.midBandRatio >= .15 && vector.midBandRatio <= .35
+        && vector.highBandRatio < .05
+        && vector.rhythm >= .22 && vector.rhythm <= .45
+        && vector.onset >= .14 && vector.onset <= .32
+        && vector.syncopation >= .7 && vector.breakbeatCycle >= .5
+        && vector.fourOnFloor < .3 && vector.harmonicRatio >= .72
+        && vector.distortion < .2 && vector.sustainRatio >= .85
+        && externalDanceScore >= .35;
+    }
+    function postPunkRockConsensusEvidence(vector = {}, context = {}) {
+      const segment = context.segmentConsensus || {};
+      const leaders = Array.isArray(segment.leaders) ? segment.leaders.filter(Boolean) : [];
+      const externalTop = context.externalTop || [];
+      const externalScore = name => (Number(externalTop
+        .find(item => (item.name || item.label) === name)?.score) || 0) / 100;
+      const externalLeader = externalTop[0]?.name || externalTop[0]?.label || "";
+      return ["ジャズ", "フォーク", "ソウルミュージック", "ファンク", "ディスコ"].includes(context.leader)
+        && Number(context.analysisWindowSeconds || 0) >= 100
+        && Number(context.rockMacro || 0) >= .22
+        && externalLeader === "ロック"
+        && externalScore("ロック") >= .15 && externalScore("パンク") >= .06
+        && externalScore("ロック") - Number(externalTop[1]?.score || 0) / 100 >= .04
+        && context.externalNeedsReview === true
+        && Number(context.externalSegmentAgreement || 0) <= .5
+        && segment.available === true && Number(segment.count || 0) >= 4
+        && Number(segment.evidenceCoverage || 0) >= .99
+        && new Set(leaders).size >= 3
+        && String(context.detectedLanguage || "").toLowerCase() === "en"
+        && Number(context.vocalPresence || 0) >= .75
+        && Number(context.melodicVocalLikelihood || 0) >= .5
+        && Number(context.melodicVocalLikelihood || 0) <= .75
+        && Number(context.speechRapLikelihood || 0) < .12
+        && vector.tempo >= 88 && vector.tempo <= 112
+        && vector.energy >= .65 && vector.energy <= .82
+        && vector.bass >= .3 && vector.bass <= .55
+        && vector.midBandRatio >= .55 && vector.midBandRatio <= .72
+        && vector.highBandRatio >= .05 && vector.highBandRatio <= .12
+        && vector.rhythm >= .32 && vector.rhythm <= .52
+        && vector.onset >= .22 && vector.onset <= .38
+        && vector.syncopation >= .45 && vector.fourOnFloor < .35
+        && vector.harmonicRatio >= .82
+        && vector.distortion >= .17 && vector.distortion <= .27
+        && vector.guitarBand >= .006 && vector.guitarBand <= .018
+        && vector.structureRecurrence >= .6;
     }
     function alternativeDanceGrooveEvidence(vector = {}, context = {}) {
       return ["ラテン", "フォーク", "ワールドミュージック"].includes(context.leader)
@@ -9111,6 +9178,28 @@
         });
       }
 
+      const distributedDanceRock = distributedDanceRockEvidence(vector, {
+        leader, analysisWindowSeconds: Number(features.analysisWindowSeconds || 0),
+        rockMacro: rawMacro("rock"), detectedLanguage, vocalPresence,
+        melodicVocalLikelihood: melodic, speechRapLikelihood: speechRap,
+        segmentConsensus: embedding.segmentConsensus || {},
+        externalTop: external.top || []
+      });
+      if (distributedDanceRock) {
+        return promote("ロック", {
+          suppressLabels: ["アンビエント", "レゲエ", "ダブ", "ブルース", "ソウルミュージック"], factor: .44,
+          companionCandidates: [{ name: "ファンク", relativeScore: .62 }, { name: "ディスコ", relativeScore: .52 }],
+          method: "distributedDanceRockBoundary", needsReview: true,
+          sourceNote: "曲全体の分散区間にRockと反復グルーヴが共存し、英語旋律歌唱と非4つ打ちのベース主導構造も一致するため、Ambient/Black-music音色の過予測からDance Rock境界へ戻しています。",
+          evidence: {
+            rockMacro: rawMacro("rock"), segmentLeaders: embedding.segmentConsensus?.leaders || [],
+            tempo: vector.tempo, bass: vector.bass, lowBandRatio: vector.lowBandRatio,
+            syncopation: vector.syncopation, breakbeatCycle: vector.breakbeatCycle,
+            externalHouse: externalScore("ハウス"), externalFunk: externalScore("ファンク")
+          }
+        });
+      }
+
       const spokenRapBlackMusic = spokenRapBlackMusicEvidence(vector, {
         leader, blackMacro: rawMacro("black_music"), hiphopScore: rawScore("ヒップホップ"),
         detectedLanguage, vocalPresence, stemVocalPresence,
@@ -9131,6 +9220,28 @@
             melodicVocalLikelihood: melodic,
             hiphop: rawScore("ヒップホップ"), blackMacro: rawMacro("black_music"),
             fourOnFloor: vector.fourOnFloor
+          }
+        });
+      }
+
+      const postPunkRockConsensus = postPunkRockConsensusEvidence(vector, {
+        leader, analysisWindowSeconds: Number(features.analysisWindowSeconds || 0),
+        rockMacro: rawMacro("rock"), detectedLanguage, vocalPresence,
+        melodicVocalLikelihood: melodic, speechRapLikelihood: speechRap,
+        segmentConsensus: embedding.segmentConsensus || {},
+        externalTop: external.top || [], externalNeedsReview: external.needsReview === true,
+        externalSegmentAgreement: Number(external.segmentAnalysis?.agreement || 0)
+      });
+      if (postPunkRockConsensus) {
+        return promote("ロック", {
+          suppressLabels: ["ジャズ", "ソウルミュージック", "ファンク", "ディスコ"], factor: .4,
+          companionCandidates: [{ name: "パンク", relativeScore: .58 }, { name: "フォーク", relativeScore: .42 }],
+          method: "postPunkRockConsensus", needsReview: true,
+          sourceNote: "独立モデルのRock/Punk候補、英語旋律歌唱、中域主体の低い4つ打ち、曲中区間の多様性が一致するため、Jazz/Soul音色の過予測からPost-punk系Rock境界へ戻しています。",
+          evidence: {
+            rockMacro: rawMacro("rock"), externalRock: externalScore("ロック"), externalPunk: externalScore("パンク"),
+            segmentLeaders: embedding.segmentConsensus?.leaders || [], tempo: vector.tempo,
+            midBandRatio: vector.midBandRatio, distortion: vector.distortion, guitarBand: vector.guitarBand
           }
         });
       }
