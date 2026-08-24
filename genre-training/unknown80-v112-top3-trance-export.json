@@ -1,0 +1,143 @@
+{
+  "generatedAt": "2026-08-24T05:07:08.427698+00:00",
+  "objective": "Add a source-isolated Top3 Techno/Trance stage after v111.",
+  "policy": {
+    "metadataUsedAtInference": false,
+    "urlSpecificRulesUsed": false,
+    "sealedFinalHoldoutUsed": false,
+    "overlayRowsEvaluated": false,
+    "matchingProviderExcludedFromOuterFold": true,
+    "top3CandidateSetChanged": false,
+    "productionModelUpdated": false
+  },
+  "dataset": {
+    "oofRows": 1883,
+    "cachedRows": 1195,
+    "trainingOnlyOverlayRows": 47,
+    "pair": [
+      "テクノ",
+      "トランス"
+    ],
+    "view": "rhythm",
+    "sourceSupport": {
+      "テクノ": [
+        "FMA",
+        "Jamendo",
+        "MagnaTagATune research evaluation",
+        "RWC Music Database",
+        "Wikimedia Commons",
+        "ccMixter"
+      ],
+      "トランス": [
+        "FMA",
+        "Internet Archive",
+        "Jamendo",
+        "Wikimedia Commons",
+        "ccMixter"
+      ]
+    }
+  },
+  "config": {
+    "weight": 0.1,
+    "confidenceFloor": 0.5,
+    "routeTopK": 3
+  },
+  "folds": [
+    {
+      "heldOutSource": "FMA",
+      "trainingRows": 175,
+      "trainingOverlayRows": 22,
+      "routedRows": 5
+    },
+    {
+      "heldOutSource": "Jamendo",
+      "trainingRows": 90,
+      "trainingOverlayRows": 33,
+      "routedRows": 108
+    },
+    {
+      "heldOutSource": "MagnaTagATune research evaluation",
+      "trainingRows": 177,
+      "trainingOverlayRows": 33,
+      "routedRows": 11
+    },
+    {
+      "heldOutSource": "RWC Music Database",
+      "trainingRows": 205,
+      "trainingOverlayRows": 33,
+      "routedRows": 1
+    },
+    {
+      "heldOutSource": "Wikimedia Commons",
+      "trainingRows": 192,
+      "trainingOverlayRows": 22,
+      "routedRows": 3
+    }
+  ],
+  "baseline": {
+    "top1Accuracy": 60.44,
+    "balancedTop1": 60.08,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 0,
+    "sourceTop1": {
+      "FMA": 61.16,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 56.3,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    }
+  },
+  "sourceHeldout": {
+    "top1Accuracy": 60.49,
+    "balancedTop1": 60.1,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 1,
+    "sourceTop1": {
+      "FMA": 61.16,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 56.38,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    },
+    "improved": 1,
+    "harmed": 0
+  },
+  "sourceHeldoutChangedRows": 4,
+  "finalFitDiagnostic": {
+    "top1Accuracy": 60.65,
+    "balancedTop1": 60.37,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 4,
+    "sourceTop1": {
+      "FMA": 61.16,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 56.63,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    },
+    "improved": 4,
+    "harmed": 0
+  },
+  "finalFitChangedRows": 8,
+  "serializationParity": {
+    "rows": 24,
+    "maxAbsoluteProbabilityDelta": 0.0,
+    "tolerance": 1e-08,
+    "passes": true
+  },
+  "modelPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown80-track-pair-v112-candidate.pkl",
+  "modelSha256": "b2390bf664e6a740759c5967208909be774b1901c3cb8ac09b7298198e25999e",
+  "decision": "continue-v112-runtime-parity"
+}

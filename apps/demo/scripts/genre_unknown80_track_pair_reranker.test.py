@@ -69,6 +69,27 @@ class TrackPairRuntimeTest(unittest.TestCase):
         self.assertTrue(details["applied"])
         self.assertEqual(list(scores), [0.3, 0.6, 0.1])
 
+    def test_route_top3_can_rescue_the_third_ranked_pair_member(self):
+        bundle = {
+            "version": "unknown80-track-pair-v112-candidate",
+            "labels": ["A", "B", "C"],
+            "pairs": [{
+                "labels": ["A", "B"], "view": "rhythm",
+                "config": {
+                    "weight": 1.0, "confidenceFloor": 0.8,
+                    "routeTopK": 3,
+                },
+                "pipeline": FakePipeline(),
+            }],
+        }
+        scores, details = MODULE.rerank(
+            bundle, ["A", "B", "C"], np.asarray([0.6, 0.1, 0.3]),
+            [vectors(index) for index in range(4)],
+        )
+        self.assertTrue(details["applied"])
+        self.assertEqual(details["evaluatedPairs"][0]["routeTopK"], 3)
+        self.assertEqual(list(scores), [0.1, 0.6, 0.3])
+
     def test_rerank_falls_back_with_three_segments(self):
         scores, details = MODULE.rerank(
             {"version": "v", "labels": ["A"], "pairs": []},

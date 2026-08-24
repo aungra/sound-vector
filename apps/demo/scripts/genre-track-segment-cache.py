@@ -246,6 +246,23 @@ def persist_track(connection, row, ranges, extracted):
             )
 
 
+def extract_librosa_only_ranges(inference, audio_path, ranges):
+    """Build a rhythm-only cache row without requiring the Essentia runtime."""
+    extracted = []
+    for item in ranges:
+        offset = max(0.0, float(item.get("startSeconds", 0.0)))
+        duration = max(1.0, float(item.get("durationSeconds", 30.0)))
+        librosa = np.asarray(
+            inference.extract_librosa(audio_path, offset, duration),
+            dtype=np.float32,
+        )
+        extracted.append((offset, duration, {
+            "effnet_tail": np.zeros(3840, dtype=np.float32),
+            "librosa": librosa,
+        }))
+    return extracted
+
+
 def run(args):
     audit = load_module(AUDIT_PATH, "track_cache_duration_audit")
     inference = load_module(INFER_PATH, "track_cache_embedding_inference")
@@ -269,14 +286,21 @@ def run(args):
         if args.manifest else resolve_oof_rows(args, audit)
     )
     selected = balanced_selection(rows, existing, args)
-    extractors = inference.EssentiaExtractors(inference.INFER_SOURCES)
+    extractors = (
+        None if args.librosa_only
+        else inference.EssentiaExtractors(inference.INFER_SOURCES)
+    )
     completed = 0
     failures = []
     for position, row in enumerate(selected, 1):
         try:
             ranges = plan_track_sample_ranges(row["durationSeconds"])
-            extracted = inference.vectors_from_audio_ranges(
-                row["filePath"], ranges, extractors=extractors,
+            extracted = (
+                extract_librosa_only_ranges(inference, row["filePath"], ranges)
+                if args.librosa_only
+                else inference.vectors_from_audio_ranges(
+                    row["filePath"], ranges, extractors=extractors,
+                )
             )
             persist_track(connection, row, ranges, extracted)
             completed += 1
@@ -287,7 +311,8 @@ def run(args):
                 "label": row["label"], "error": str(error),
             })
         finally:
-            extractors.release_audio(row["filePath"])
+            if extractors is not None:
+                extractors.release_audio(row["filePath"])
     total_cached = connection.execute(
         "SELECT COUNT(*) FROM (SELECT source_key FROM segments GROUP BY source_key HAVING COUNT(*)=4)"
     ).fetchone()[0]
@@ -313,6 +338,7 @@ def run(args):
         "cachedByAvailability": availability,
         "cachedBySource": source_counts,
         "audioRetained": False,
+        "featureAvailability": "librosa-only" if args.librosa_only else "full",
         "metadataUsedAtInference": False,
         "sealedFinalHoldoutUsed": False,
     }
@@ -334,6 +360,7 @@ def main():
     parser.add_argument("--genre", action="append", default=[])
     parser.add_argument("--source", action="append", default=[])
     parser.add_argument("--verbose-essentia", action="store_true")
+    parser.add_argument("--librosa-only", action="store_true")
     args = parser.parse_args()
     if not args.splits:
         args.splits = list(audit.DEFAULT_SPLITS)

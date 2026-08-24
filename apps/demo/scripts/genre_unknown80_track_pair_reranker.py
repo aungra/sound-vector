@@ -58,6 +58,7 @@ def load_bundle(path):
         "unknown80-track-pair-v109-candidate",
         "unknown80-track-pair-v110-candidate",
         "unknown80-track-pair-v111-candidate",
+        "unknown80-track-pair-v112-candidate",
     }:
         raise ValueError("unsupported temporal pair model version")
     if bundle.get("schemaVersion") != 1:
@@ -97,8 +98,10 @@ def rerank(bundle, labels, scores, segment_vectors):
                 "reason": "pair-label-missing",
             })
             continue
-        order = np.argsort(-output, kind="stable")[:2]
-        if {labels[int(index)] for index in order} != set(pair):
+        config = item.get("config") or {}
+        route_top_k = max(2, min(3, int(config.get("routeTopK", 2))))
+        order = np.argsort(-output, kind="stable")[:route_top_k]
+        if not set(pair).issubset({labels[int(index)] for index in order}):
             continue
         view = item["view"]
         if view not in features_by_view:
@@ -107,7 +110,6 @@ def rerank(bundle, labels, scores, segment_vectors):
         raw = model.predict_proba(features_by_view[view].reshape(1, -1))[0]
         classes = list(model[-1].classes_)
         learned = np.asarray([raw[classes.index(label)] for label in pair])
-        config = item.get("config") or {}
         confidence = float(np.max(learned))
         applied = False
         if confidence >= float(config.get("confidenceFloor", 1.0)):
@@ -127,6 +129,7 @@ def rerank(bundle, labels, scores, segment_vectors):
         details["evaluatedPairs"].append({
             "labels": pair,
             "view": view,
+            "routeTopK": route_top_k,
             "confidence": round(confidence, 6),
             "applied": applied,
         })

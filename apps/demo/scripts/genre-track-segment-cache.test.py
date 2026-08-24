@@ -95,6 +95,36 @@ class TrackSegmentCacheTest(unittest.TestCase):
             self.assertEqual(len(rows[0]["vectors"]["librosa"]), 547)
             connection.close()
 
+    def test_librosa_only_ranges_preserve_rhythm_contract(self):
+        calls = []
+
+        class Inference:
+            @staticmethod
+            def extract_librosa(audio_path, offset, duration):
+                calls.append((audio_path, offset, duration))
+                return [float(len(calls))] * 547
+
+        ranges = [
+            {"startSeconds": index * 30, "durationSeconds": 30, "role": role}
+            for index, role in enumerate(("requested", "track-20", "track-50", "track-80"))
+        ]
+        extracted = MODULE.extract_librosa_only_ranges(Inference, "track.wav", ranges)
+
+        self.assertEqual(len(extracted), 4)
+        self.assertEqual(calls, [
+            ("track.wav", 0.0, 30.0),
+            ("track.wav", 30.0, 30.0),
+            ("track.wav", 60.0, 30.0),
+            ("track.wav", 90.0, 30.0),
+        ])
+        for index, (offset, duration, vectors) in enumerate(extracted, 1):
+            self.assertEqual(duration, 30.0)
+            self.assertEqual(offset, float((index - 1) * 30))
+            self.assertEqual(vectors["librosa"].shape, (547,))
+            self.assertTrue((vectors["librosa"] == float(index)).all())
+            self.assertEqual(vectors["effnet_tail"].shape, (3840,))
+            self.assertTrue((vectors["effnet_tail"] == 0.0).all())
+
 
 if __name__ == "__main__":
     unittest.main()

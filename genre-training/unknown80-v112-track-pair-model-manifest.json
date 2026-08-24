@@ -1,0 +1,189 @@
+{
+  "version": "unknown80-track-pair-v112-candidate",
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-24T05:07:08.427698+00:00",
+  "modelPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown80-track-pair-v112-candidate.pkl",
+  "modelSha256": "b2390bf664e6a740759c5967208909be774b1901c3cb8ac09b7298198e25999e",
+  "runtimeFeatureContractSha256": "ea833af2bcfb08af88098281a02fc5dbc9b45661fee6c609cab7299e4d03f7fe",
+  "baseVersion": "unknown80-track-pair-v111-candidate",
+  "pairs": [
+    {
+      "labels": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "effnet",
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8
+      },
+      "sourceSupport": {
+        "ハウス": [
+          "FMA",
+          "Internet Archive",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database",
+          "Wikimedia Commons",
+          "ccMixter"
+        ]
+      }
+    },
+    {
+      "labels": [
+        "パンク",
+        "ロック"
+      ],
+      "view": "effnet",
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.7
+      },
+      "sourceSupport": {
+        "パンク": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation"
+        ],
+        "ロック": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database"
+        ]
+      }
+    },
+    {
+      "labels": [
+        "パンク",
+        "ロック"
+      ],
+      "view": "effnet",
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.5
+      },
+      "sourceSupport": {
+        "パンク": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation"
+        ],
+        "ロック": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database"
+        ]
+      },
+      "modelKind": "extra-trees",
+      "stage": "v110-nonlinear-punk-rock"
+    },
+    {
+      "labels": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "rhythm",
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7
+      },
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo",
+          "Wikimedia Commons"
+        ],
+        "ハウス": [
+          "FMA",
+          "Internet Archive",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "modelKind": "extra-trees",
+      "stage": "v111-deep-house-house"
+    },
+    {
+      "labels": [
+        "テクノ",
+        "トランス"
+      ],
+      "view": "rhythm",
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceSupport": {
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database",
+          "Wikimedia Commons",
+          "ccMixter"
+        ],
+        "トランス": [
+          "FMA",
+          "Internet Archive",
+          "Jamendo",
+          "Wikimedia Commons",
+          "ccMixter"
+        ]
+      },
+      "modelKind": "extra-trees",
+      "stage": "v112-top3-techno-trance"
+    }
+  ],
+  "addedStage": {
+    "labels": [
+      "テクノ",
+      "トランス"
+    ],
+    "view": "rhythm",
+    "config": {
+      "weight": 0.1,
+      "confidenceFloor": 0.5,
+      "routeTopK": 3
+    },
+    "sourceSupport": {
+      "テクノ": [
+        "FMA",
+        "Jamendo",
+        "MagnaTagATune research evaluation",
+        "RWC Music Database",
+        "Wikimedia Commons",
+        "ccMixter"
+      ],
+      "トランス": [
+        "FMA",
+        "Internet Archive",
+        "Jamendo",
+        "Wikimedia Commons",
+        "ccMixter"
+      ]
+    },
+    "modelKind": "extra-trees"
+  },
+  "promotionState": "promoted",
+  "promotedAt": "2026-08-24T05:07:46.167238+00:00",
+  "productionModelUpdated": true,
+  "sealedFinalHoldoutUsed": false,
+  "evaluation": {
+    "sourceHeldoutReport": "genre-training/unknown80-v112-top3-trance-export.json",
+    "sourceHeldoutReportSha256": "a9d2f63ec9bb2d8c11e2707d50b1da4949dee06843269fd386415bfa103c7b7d",
+    "runtimeParityReport": "genre-training/unknown80-v112-runtime-parity.json",
+    "runtimeParityReportSha256": "3a7321f5b0069d7bcc5109a3cf6e2072d57aa348209b37b7c7b633fb3e500b9e",
+    "incumbentProductionRegressionReport": "genre-training/unknown80-independent-stack-v107-production-regression.json",
+    "incumbentProductionRegressionReportSha256": "7d2164fd5bdee701644c90f3134176ecd7dd5fdb4279f74f7c38652c278ecc6c"
+  }
+}
