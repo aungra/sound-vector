@@ -1,0 +1,10 @@
+{
+  "selectedRows": 212,
+  "previouslyCached": 115,
+  "requested": 97,
+  "completed": 97,
+  "failures": [],
+  "cachePath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/musicfm-house-boundary-30s-cache.json",
+  "audioRetained": false,
+  "metadataUsedAtInference": false
+}

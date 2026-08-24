@@ -1,0 +1,3695 @@
+{
+  "generatedAt": "2026-08-24T05:40:27.927743+00:00",
+  "objective": "Screen MIT/Apache-2.0 MusicFM embeddings on fixed v113 Top3.",
+  "policy": {
+    "metadataUsedAtInference": false,
+    "urlSpecificRulesUsed": false,
+    "sealedFinalHoldoutUsed": false,
+    "matchingProviderExcludedFromOuterFold": true,
+    "top3CandidateSetChanged": false,
+    "productionEligible": true,
+    "productionModelUpdated": false,
+    "pilotSubsetAccuracyIsNotFullUnknownSourceAccuracy": true
+  },
+  "dataset": {
+    "oofRows": 1883,
+    "cache10": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/musicfm-msd-10s-pilot-cache.json",
+    "cache30": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/musicfm-msd-30s-pilot-cache.json",
+    "rowsByView": {
+      "30s-embedding": 164,
+      "30s-moment-mean": 164,
+      "30s-joint-mean": 164,
+      "10s30s-embedding": 164,
+      "10s30s-joint-mean": 164
+    }
+  },
+  "baseline": {
+    "top1Accuracy": 60.54,
+    "balancedTop1": 60.21,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 0,
+    "sourceTop1": {
+      "FMA": 61.47,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 56.38,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    }
+  },
+  "passed": [],
+  "results": [
+    {
+      "view": "30s-embedding",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "eligibleLabelCount": 22,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.6,
+        "marginFloor": 0.0
+      },
+      "metric": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.27,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 2,
+        "harmed": 1
+      },
+      "changedRows": 5,
+      "passed": false
+    },
+    {
+      "view": "10s30s-joint-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "eligibleLabelCount": 22,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.5,
+        "marginFloor": 0.0
+      },
+      "metric": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.67,
+        "minimumSourceTop1": 42.11,
+        "top3Accuracy": 83.48,
+        "changedTop1": 6,
+        "improved": 3,
+        "harmed": 3
+      },
+      "changedRows": 18,
+      "passed": false
+    },
+    {
+      "view": "30s-moment-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "eligibleLabelCount": 22,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.6,
+        "marginFloor": 0.0
+      },
+      "metric": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.24,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 4,
+        "improved": 2,
+        "harmed": 2
+      },
+      "changedRows": 7,
+      "passed": false
+    },
+    {
+      "view": "10s30s-embedding",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "eligibleLabelCount": 22,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "marginFloor": 0.2
+      },
+      "metric": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.24,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 4,
+        "improved": 2,
+        "harmed": 2
+      },
+      "changedRows": 7,
+      "passed": false
+    },
+    {
+      "view": "10s30s-joint-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "eligibleLabelCount": 22,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.5,
+        "marginFloor": 0.0
+      },
+      "metric": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.24,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 4,
+        "improved": 2,
+        "harmed": 2
+      },
+      "changedRows": 10,
+      "passed": false
+    },
+    {
+      "view": "30s-joint-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "eligibleLabelCount": 22,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8,
+        "marginFloor": 0.0
+      },
+      "metric": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.23,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 1
+      },
+      "changedRows": 2,
+      "passed": false
+    },
+    {
+      "view": "30s-embedding",
+      "modelKind": "logistic",
+      "rows": 164,
+      "eligibleLabelCount": 22,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8,
+        "marginFloor": 0.0
+      },
+      "metric": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.17,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 4,
+        "improved": 2,
+        "harmed": 2
+      },
+      "changedRows": 6,
+      "passed": false
+    },
+    {
+      "view": "30s-moment-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "eligibleLabelCount": 22,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8,
+        "marginFloor": 0.0
+      },
+      "metric": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.17,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 4,
+        "improved": 2,
+        "harmed": 2
+      },
+      "changedRows": 6,
+      "passed": false
+    },
+    {
+      "view": "30s-joint-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "eligibleLabelCount": 22,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8,
+        "marginFloor": 0.0
+      },
+      "metric": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.17,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 4,
+        "improved": 2,
+        "harmed": 2
+      },
+      "changedRows": 6,
+      "passed": false
+    },
+    {
+      "view": "10s30s-embedding",
+      "modelKind": "logistic",
+      "rows": 164,
+      "eligibleLabelCount": 22,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8,
+        "marginFloor": 0.0
+      },
+      "metric": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.15,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 1
+      },
+      "changedRows": 3,
+      "passed": false
+    }
+  ],
+  "pairwisePassed": [
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "30s-moment-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.26,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 1,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.26,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "passed": true
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "30s-joint-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.26,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 1,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.26,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "passed": true
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "10s30s-embedding",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.26,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 1,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.26,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "passed": true
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "10s30s-joint-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.26,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 1,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.26,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "passed": true
+    }
+  ],
+  "pairwiseResults": [
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "30s-moment-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.26,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 1,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.26,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "passed": true
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "30s-joint-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.26,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 1,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.26,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "passed": true
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "10s30s-embedding",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.26,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 1,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.26,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "passed": true
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "10s30s-joint-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.26,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 1,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.26,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "passed": true
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "30s-embedding",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.26,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 1,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "30s-moment-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.26,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 1,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "30s-joint-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.26,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 1,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "10s30s-embedding",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.26,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 1,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "10s30s-joint-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.26,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 1,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "30s-embedding",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 1.0,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.22,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 5,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 8,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.24,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 4,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 7,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "30s-moment-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 1.0,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.22,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 5,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 8,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.24,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 4,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 8,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "30s-joint-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 1.0,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.22,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 5,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 8,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.24,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 4,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 7,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "10s30s-embedding",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.75,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.22,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 5,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 8,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.24,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 4,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 7,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "10s30s-joint-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.75,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.22,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 5,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 9,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.24,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 4,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 7,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "30s-embedding",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 2,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.26,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "30s-embedding",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ダブ",
+        "レゲエ"
+      ],
+      "view": "30s-embedding",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ダブ": [
+          "FMA",
+          "Jamendo"
+        ],
+        "レゲエ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ダブ",
+        "レゲエ"
+      ],
+      "view": "30s-embedding",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ダブ": [
+          "FMA",
+          "Jamendo"
+        ],
+        "レゲエ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.65,
+        "balancedTop1": 60.28,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 2,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "passed": false
+    },
+    {
+      "pair": [
+        "メタル",
+        "ロック"
+      ],
+      "view": "30s-embedding",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "メタル": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "ロック": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.75,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 3,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.25,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "passed": false
+    },
+    {
+      "pair": [
+        "メタル",
+        "ロック"
+      ],
+      "view": "30s-embedding",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "メタル": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "ロック": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 3,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.25,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "テクノ"
+      ],
+      "view": "30s-embedding",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.6,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ドローン",
+        "ノイズミュージック"
+      ],
+      "view": "30s-embedding",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ドローン": [
+          "FMA",
+          "Wikimedia Commons"
+        ],
+        "ノイズミュージック": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 1.0,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 3,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.7,
+        "balancedTop1": 60.76,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 3,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ドローン",
+        "ノイズミュージック"
+      ],
+      "view": "30s-embedding",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ドローン": [
+          "FMA",
+          "Wikimedia Commons"
+        ],
+        "ノイズミュージック": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 1.0,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 3,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.7,
+        "balancedTop1": 60.76,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 3,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "passed": false
+    },
+    {
+      "pair": [
+        "アンビエント",
+        "ドローン"
+      ],
+      "view": "30s-embedding",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "アンビエント": [
+          "FMA",
+          "Jamendo"
+        ],
+        "ドローン": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.32,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "passed": false
+    },
+    {
+      "pair": [
+        "アンビエント",
+        "ドローン"
+      ],
+      "view": "30s-embedding",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "アンビエント": [
+          "FMA",
+          "Jamendo"
+        ],
+        "ドローン": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.32,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "30s-moment-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ダブ",
+        "レゲエ"
+      ],
+      "view": "30s-moment-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ダブ": [
+          "FMA",
+          "Jamendo"
+        ],
+        "レゲエ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ダブ",
+        "レゲエ"
+      ],
+      "view": "30s-moment-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ダブ": [
+          "FMA",
+          "Jamendo"
+        ],
+        "レゲエ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.65,
+        "balancedTop1": 60.28,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 2,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "passed": false
+    },
+    {
+      "pair": [
+        "メタル",
+        "ロック"
+      ],
+      "view": "30s-moment-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "メタル": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "ロック": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.75,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 3,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.25,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "passed": false
+    },
+    {
+      "pair": [
+        "メタル",
+        "ロック"
+      ],
+      "view": "30s-moment-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "メタル": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "ロック": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.25,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "テクノ"
+      ],
+      "view": "30s-moment-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.6,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ドローン",
+        "ノイズミュージック"
+      ],
+      "view": "30s-moment-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ドローン": [
+          "FMA",
+          "Wikimedia Commons"
+        ],
+        "ノイズミュージック": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 1.0,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 3,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.7,
+        "balancedTop1": 60.76,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 3,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ドローン",
+        "ノイズミュージック"
+      ],
+      "view": "30s-moment-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ドローン": [
+          "FMA",
+          "Wikimedia Commons"
+        ],
+        "ノイズミュージック": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 1.0,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 3,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.7,
+        "balancedTop1": 60.76,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 3,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "passed": false
+    },
+    {
+      "pair": [
+        "アンビエント",
+        "ドローン"
+      ],
+      "view": "30s-moment-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "アンビエント": [
+          "FMA",
+          "Jamendo"
+        ],
+        "ドローン": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.32,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "passed": false
+    },
+    {
+      "pair": [
+        "アンビエント",
+        "ドローン"
+      ],
+      "view": "30s-moment-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "アンビエント": [
+          "FMA",
+          "Jamendo"
+        ],
+        "ドローン": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.32,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "30s-joint-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ダブ",
+        "レゲエ"
+      ],
+      "view": "30s-joint-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ダブ": [
+          "FMA",
+          "Jamendo"
+        ],
+        "レゲエ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ダブ",
+        "レゲエ"
+      ],
+      "view": "30s-joint-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ダブ": [
+          "FMA",
+          "Jamendo"
+        ],
+        "レゲエ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.65,
+        "balancedTop1": 60.28,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 2,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "passed": false
+    },
+    {
+      "pair": [
+        "メタル",
+        "ロック"
+      ],
+      "view": "30s-joint-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "メタル": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "ロック": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.75,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 3,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.25,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "passed": false
+    },
+    {
+      "pair": [
+        "メタル",
+        "ロック"
+      ],
+      "view": "30s-joint-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "メタル": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "ロック": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.25,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "テクノ"
+      ],
+      "view": "30s-joint-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.6,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ドローン",
+        "ノイズミュージック"
+      ],
+      "view": "30s-joint-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ドローン": [
+          "FMA",
+          "Wikimedia Commons"
+        ],
+        "ノイズミュージック": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 1.0,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 3,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.7,
+        "balancedTop1": 60.76,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 3,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ドローン",
+        "ノイズミュージック"
+      ],
+      "view": "30s-joint-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ドローン": [
+          "FMA",
+          "Wikimedia Commons"
+        ],
+        "ノイズミュージック": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 1.0,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 3,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.7,
+        "balancedTop1": 60.76,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 3,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "passed": false
+    },
+    {
+      "pair": [
+        "アンビエント",
+        "ドローン"
+      ],
+      "view": "30s-joint-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "アンビエント": [
+          "FMA",
+          "Jamendo"
+        ],
+        "ドローン": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.32,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "passed": false
+    },
+    {
+      "pair": [
+        "アンビエント",
+        "ドローン"
+      ],
+      "view": "30s-joint-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "アンビエント": [
+          "FMA",
+          "Jamendo"
+        ],
+        "ドローン": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.32,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "10s30s-embedding",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ダブ",
+        "レゲエ"
+      ],
+      "view": "10s30s-embedding",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ダブ": [
+          "FMA",
+          "Jamendo"
+        ],
+        "レゲエ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ダブ",
+        "レゲエ"
+      ],
+      "view": "10s30s-embedding",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ダブ": [
+          "FMA",
+          "Jamendo"
+        ],
+        "レゲエ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.65,
+        "balancedTop1": 60.28,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 2,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "passed": false
+    },
+    {
+      "pair": [
+        "メタル",
+        "ロック"
+      ],
+      "view": "10s30s-embedding",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "メタル": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "ロック": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "passed": false
+    },
+    {
+      "pair": [
+        "メタル",
+        "ロック"
+      ],
+      "view": "10s30s-embedding",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "メタル": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "ロック": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.25,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "テクノ"
+      ],
+      "view": "10s30s-embedding",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.6,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "テクノ"
+      ],
+      "view": "10s30s-embedding",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ドローン",
+        "ノイズミュージック"
+      ],
+      "view": "10s30s-embedding",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ドローン": [
+          "FMA",
+          "Wikimedia Commons"
+        ],
+        "ノイズミュージック": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 1.0,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 3,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.7,
+        "balancedTop1": 60.76,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 3,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ドローン",
+        "ノイズミュージック"
+      ],
+      "view": "10s30s-embedding",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ドローン": [
+          "FMA",
+          "Wikimedia Commons"
+        ],
+        "ノイズミュージック": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 1.0,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 3,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.7,
+        "balancedTop1": 60.76,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 3,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "passed": false
+    },
+    {
+      "pair": [
+        "アンビエント",
+        "ドローン"
+      ],
+      "view": "10s30s-embedding",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "アンビエント": [
+          "FMA",
+          "Jamendo"
+        ],
+        "ドローン": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.32,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "10s30s-joint-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ダブ",
+        "レゲエ"
+      ],
+      "view": "10s30s-joint-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ダブ": [
+          "FMA",
+          "Jamendo"
+        ],
+        "レゲエ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ダブ",
+        "レゲエ"
+      ],
+      "view": "10s30s-joint-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ダブ": [
+          "FMA",
+          "Jamendo"
+        ],
+        "レゲエ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.65,
+        "balancedTop1": 60.28,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 2,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "passed": false
+    },
+    {
+      "pair": [
+        "メタル",
+        "ロック"
+      ],
+      "view": "10s30s-joint-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "メタル": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "ロック": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "passed": false
+    },
+    {
+      "pair": [
+        "メタル",
+        "ロック"
+      ],
+      "view": "10s30s-joint-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "メタル": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "ロック": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.25,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "テクノ"
+      ],
+      "view": "10s30s-joint-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.6,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "テクノ"
+      ],
+      "view": "10s30s-joint-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ドローン",
+        "ノイズミュージック"
+      ],
+      "view": "10s30s-joint-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "ドローン": [
+          "FMA",
+          "Wikimedia Commons"
+        ],
+        "ノイズミュージック": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 1.0,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 3,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.7,
+        "balancedTop1": 60.76,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 3,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ドローン",
+        "ノイズミュージック"
+      ],
+      "view": "10s30s-joint-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ドローン": [
+          "FMA",
+          "Wikimedia Commons"
+        ],
+        "ノイズミュージック": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 1.0,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 3,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.7,
+        "balancedTop1": 60.76,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 3,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "passed": false
+    },
+    {
+      "pair": [
+        "アンビエント",
+        "ドローン"
+      ],
+      "view": "10s30s-joint-mean",
+      "modelKind": "logistic",
+      "rows": 164,
+      "sourceSupport": {
+        "アンビエント": [
+          "FMA",
+          "Jamendo"
+        ],
+        "ドローン": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.32,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "passed": false
+    },
+    {
+      "pair": [
+        "アンビエント",
+        "ドローン"
+      ],
+      "view": "10s30s-joint-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "アンビエント": [
+          "FMA",
+          "Jamendo"
+        ],
+        "ドローン": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.32,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "テクノ"
+      ],
+      "view": "30s-embedding",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.6,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.18,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 0,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 1,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "テクノ"
+      ],
+      "view": "30s-moment-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.18,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 0,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 1,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "passed": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "テクノ"
+      ],
+      "view": "30s-joint-mean",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.18,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 0,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 1,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "passed": false
+    },
+    {
+      "pair": [
+        "アンビエント",
+        "ドローン"
+      ],
+      "view": "10s30s-embedding",
+      "modelKind": "extra-trees",
+      "rows": 164,
+      "sourceSupport": {
+        "アンビエント": [
+          "FMA",
+          "Jamendo"
+        ],
+        "ドローン": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 0,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 1,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.32,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "passed": false
+    }
+  ],
+  "decision": "expand-musicfm-cache"
+}
