@@ -435,14 +435,18 @@ function embeddingGenreContractStatus() {
 function genreInferenceRuntimeStatus() {
   const contract = embeddingGenreContractStatus();
   const independentVersion = contract?.independentReranker?.modelVersion || "";
-  const runtimeRevision = independentVersion || contract?.modelVersion || GENRE_INFERENCE_REVISION;
-  const declaredVersion = GENRE_INFERENCE_REVISION.match(/v\d+$/)?.[0] || "";
-  const runtimeVersion = runtimeRevision.match(/v\d+$/)?.[0] || "";
+  const trackPair = contract?.trackPairReranker || null;
+  const trackVersion = trackPair?.promotion?.promoted ? trackPair.modelVersion || "" : "";
+  const runtimeRevision = trackVersion || independentVersion || contract?.modelVersion || GENRE_INFERENCE_REVISION;
+  const revisionToken = value => String(value || "").match(/v\d+/g)?.at(-1) || "";
+  const declaredVersion = revisionToken(GENRE_INFERENCE_REVISION);
+  const runtimeVersion = revisionToken(runtimeRevision);
   return {
     declaredRevision: GENRE_INFERENCE_REVISION,
     runtimeRevision,
     revisionMatch: Boolean(declaredVersion && runtimeVersion && declaredVersion === runtimeVersion),
     independentReranker: contract?.independentReranker || null,
+    trackPairReranker: trackPair,
   };
 }
 

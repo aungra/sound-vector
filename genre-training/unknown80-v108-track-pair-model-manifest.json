@@ -1,0 +1,50 @@
+{
+  "version": "unknown80-track-pair-v108-candidate",
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-24T03:32:45.038307+00:00",
+  "modelPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown80-track-pair-v108-candidate.pkl",
+  "modelSha256": "b4889bb6c1464e3ad866f4be490a030cb88af668cbb7cdae6fe9a0b03852daf5",
+  "runtimeFeatureContractSha256": "ea833af2bcfb08af88098281a02fc5dbc9b45661fee6c609cab7299e4d03f7fe",
+  "pairs": [
+    {
+      "labels": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "effnet",
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8
+      },
+      "sourceSupport": {
+        "ハウス": [
+          "FMA",
+          "Internet Archive",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database",
+          "Wikimedia Commons",
+          "ccMixter"
+        ]
+      }
+    }
+  ],
+  "promotionState": "promoted",
+  "promotedAt": "2026-08-24T03:39:51.488302+00:00",
+  "productionModelUpdated": true,
+  "sealedFinalHoldoutUsed": false,
+  "evaluation": {
+    "sourceHeldoutReport": "genre-training/unknown80-v108-track-pair-export.json",
+    "sourceHeldoutReportSha256": "d506b0268a58081086cdb9bd10fd3ab0d341588614f9c5318acfc6af4e8c89fc",
+    "runtimeParityReport": "genre-training/unknown80-v108-runtime-parity.json",
+    "runtimeParityReportSha256": "1ddb0417779841155206fc07feb061a061083f816d347efc7b119947b758b394",
+    "incumbentProductionRegressionReport": "genre-training/unknown80-independent-stack-v107-production-regression.json",
+    "incumbentProductionRegressionReportSha256": "7d2164fd5bdee701644c90f3134176ecd7dd5fdb4279f74f7c38652c278ecc6c"
+  }
+}

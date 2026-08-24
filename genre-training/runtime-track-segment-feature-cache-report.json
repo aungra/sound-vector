@@ -1,0 +1,60 @@
+{
+  "generatedAt": "2026-08-24T03:31:09.792801+00:00",
+  "cachePath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/runtime-track-segment-features-v3_0.sqlite3",
+  "featureContract": {
+    "version": "mmfr-track-audio-v3.0-4x30",
+    "sources": [
+      "discogs-effnet-embedding-tail",
+      "librosa-aggregate"
+    ],
+    "features": [
+      "effnet_tail",
+      "librosa"
+    ],
+    "featureLengths": {
+      "effnet_tail": 3840,
+      "librosa": 547
+    },
+    "segmentCount": 4,
+    "minimumSegmentCount": 1,
+    "segmentDurationSeconds": 30.0,
+    "segmentOffsets": "requested,track-20,track-50,track-80-with-dedup-grid",
+    "segmentAggregation": "median-probability-with-temporal-diagnostics",
+    "shortTrackPolicy": "split-full-track-into-four-equal-ranges",
+    "segmentDiagnostics": [
+      "agreement",
+      "macroAgreement",
+      "probabilityMedian",
+      "probabilityVariance",
+      "distributionDrift",
+      "evidenceCoverage"
+    ],
+    "missingFeaturePolicy": "required-source-fails-segment",
+    "metadataUsed": false
+  },
+  "featureContractSha256": "ea833af2bcfb08af88098281a02fc5dbc9b45661fee6c609cab7299e4d03f7fe",
+  "oofRows": 1883,
+  "previouslyCached": 532,
+  "requested": 269,
+  "completed": 269,
+  "failureCount": 0,
+  "failureExamples": [],
+  "totalCachedTracks": 801,
+  "cachedByAvailability": {
+    "full-4x30": 506,
+    "shorter-than-30": 207,
+    "shorter-than-4x30": 88
+  },
+  "cachedBySource": {
+    "FMA": 162,
+    "IdolSongsJp": 10,
+    "Internet Archive": 19,
+    "Jamendo": 425,
+    "MagnaTagATune research evaluation": 110,
+    "RWC Music Database": 55,
+    "Wikimedia Commons": 20
+  },
+  "audioRetained": false,
+  "metadataUsedAtInference": false,
+  "sealedFinalHoldoutUsed": false
+}

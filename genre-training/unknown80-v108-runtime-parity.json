@@ -1,0 +1,81 @@
+{
+  "generatedAt": "2026-08-24T03:34:50.849493+00:00",
+  "objective": "Verify v108 serialized runtime parity and bound final-fit behavior.",
+  "policy": {
+    "diagnosticOnly": true,
+    "inSampleResultIsNotUnknownSourceAccuracy": true,
+    "productionModelUpdated": false,
+    "sealedFinalHoldoutUsed": false
+  },
+  "baseline": {
+    "top1Accuracy": 60.06,
+    "balancedTop1": 59.86,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 0,
+    "sourceTop1": {
+      "FMA": 60.55,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 55.88,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    }
+  },
+  "cachedRows": 801,
+  "routedRows": 90,
+  "appliedRows": 3,
+  "pairCounts": {
+    "ハウス / テクノ": {
+      "routed": 90,
+      "applied": 3
+    }
+  },
+  "changes": [
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/38/658538.low.mp3",
+      "source": "Jamendo",
+      "actual": "ハウス",
+      "before": "テクノ",
+      "after": "ハウス"
+    },
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/53/670353.low.mp3",
+      "source": "Jamendo",
+      "actual": "トランス",
+      "before": "テクノ",
+      "after": "ハウス"
+    },
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/76/1173976.low.mp3",
+      "source": "Jamendo",
+      "actual": "ハウス",
+      "before": "テクノ",
+      "after": "ハウス"
+    }
+  ],
+  "maximumTrainingRuntimeFeatureDelta": 0.0,
+  "featureParityPasses": true,
+  "finalFitDiagnostic": {
+    "top1Accuracy": 60.17,
+    "balancedTop1": 59.93,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 3,
+    "sourceTop1": {
+      "FMA": 60.55,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 56.05,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    },
+    "improved": 2,
+    "harmed": 0
+  },
+  "decision": "continue-production-regression-gate"
+}

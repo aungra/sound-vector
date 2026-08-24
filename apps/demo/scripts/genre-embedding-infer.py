@@ -1,4 +1,5 @@
 import argparse
+import hashlib
 import importlib.util
 import json
 import os
@@ -10,9 +11,13 @@ os.environ.setdefault("NUMBA_CACHE_DIR", "/tmp/mmfr-numba-cache")
 import librosa
 import numpy as np
 try:
+    import essentia
     from essentia.standard import (
         MonoLoader, TensorflowPredict2D, TensorflowPredictEffnetDiscogs,
     )
+    if os.environ.get("MMFR_ESSENTIA_QUIET", "1") == "1":
+        essentia.log.infoActive = False
+        essentia.log.warningActive = False
 except ModuleNotFoundError:
     MonoLoader = TensorflowPredict2D = TensorflowPredictEffnetDiscogs = None
 
@@ -34,6 +39,10 @@ from genre_runtime_models import (
 from genre_unknown80_rhythm_reranker import (
     load_bundle as load_unknown80_rhythm_bundle,
     rerank as apply_unknown80_rhythm_reranker,
+)
+from genre_unknown80_track_pair_reranker import (
+    load_bundle as load_unknown80_track_pair_bundle,
+    rerank as apply_unknown80_track_pair_reranker,
 )
 from genre_librosa_contract import extract_librosa as extract_runtime_librosa
 
@@ -98,15 +107,28 @@ UNKNOWN80_INDEPENDENT_PAIR_MODEL_PATH = Path(os.environ.get(
     "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/"
     "unknown80-independent-multiboundary-stack-v107-candidate.pkl",
 ))
+UNKNOWN80_TRACK_PAIR_MODEL_PATH = Path(os.environ.get(
+    "MMFR_UNKNOWN80_TRACK_PAIR_MODEL_PATH",
+    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/"
+    "unknown80-track-pair-v108-candidate.pkl",
+))
+UNKNOWN80_TRACK_PAIR_MANIFEST_PATH = Path(os.environ.get(
+    "MMFR_UNKNOWN80_TRACK_PAIR_MANIFEST_PATH",
+    str(ROOT / "genre-training" / "unknown80-v108-track-pair-model-manifest.json"),
+))
 ENABLE_UNKNOWN80_RHYTHM_RERANKER = (
     os.environ.get("MMFR_ENABLE_UNKNOWN80_RHYTHM_RERANKER", "1") == "1"
 )
 ENABLE_UNKNOWN80_INDEPENDENT_PAIR_RERANKER = (
     os.environ.get("MMFR_ENABLE_UNKNOWN80_INDEPENDENT_PAIR_RERANKER", "1") == "1"
 )
+ENABLE_UNKNOWN80_TRACK_PAIR_RERANKER = (
+    os.environ.get("MMFR_ENABLE_UNKNOWN80_TRACK_PAIR_RERANKER", "1") == "1"
+)
 UNKNOWN80_RHYTHM_BUNDLE = None
 UNKNOWN80_FUNK_ROCK_BUNDLE = None
 UNKNOWN80_INDEPENDENT_PAIR_BUNDLE = None
+UNKNOWN80_TRACK_PAIR_BUNDLE = None
 
 FINE_LABEL_MACRO_MAP = {
     "アンビエント": "ambient",
@@ -257,13 +279,24 @@ class EssentiaExtractors:
             )()
         return self.audio_cache[cache_key]
 
-    def embeddings(self, audio_path, offset_seconds=0.0):
-        cache_key = (str(audio_path), round(float(offset_seconds), 3))
+    def release_audio(self, audio_path):
+        """Release per-track PCM and embeddings while retaining loaded models."""
+        cache_key = str(audio_path)
+        self.audio_cache.pop(cache_key, None)
+        stale = [key for key in self.embedding_cache if key[0] == cache_key]
+        for key in stale:
+            self.embedding_cache.pop(key, None)
+
+    def embeddings(self, audio_path, offset_seconds=0.0, duration_seconds=None):
+        duration = DURATION if duration_seconds is None else max(1.0, float(duration_seconds))
+        cache_key = (
+            str(audio_path), round(float(offset_seconds), 3), round(duration, 3),
+        )
         if cache_key in self.embedding_cache:
             return self.embedding_cache[cache_key]
         audio = self.audio(audio_path)
         start_sample = max(0, int(float(offset_seconds) * ESSENTIA_SR))
-        max_samples = int(ESSENTIA_SR * DURATION)
+        max_samples = int(ESSENTIA_SR * duration)
         segment = audio[start_sample:start_sample + max_samples]
         if len(segment) < ESSENTIA_SR:
             raise ValueError("audio segment too short for embedding inference")
@@ -271,8 +304,8 @@ class EssentiaExtractors:
         self.embedding_cache[cache_key] = embeddings
         return embeddings
 
-    def discogs(self, audio_path, offset_seconds=0.0):
-        embeddings = self.embeddings(audio_path, offset_seconds)
+    def discogs(self, audio_path, offset_seconds=0.0, duration_seconds=None):
+        embeddings = self.embeddings(audio_path, offset_seconds, duration_seconds)
         embedding_stats = matrix_stats(embeddings)
         if not DISCOGS_HEAD_ENABLED:
             # The TensorFlow 2D tag head intermittently segfaults on Apple
@@ -282,15 +315,16 @@ class EssentiaExtractors:
         predictions = self.ensure_discogs_model()(embeddings)
         return safe_list(matrix_stats(predictions) + embedding_stats)
 
-    def mtg(self, audio_path, offset_seconds=0.0):
-        embeddings = self.embeddings(audio_path, offset_seconds)
+    def mtg(self, audio_path, offset_seconds=0.0, duration_seconds=None):
+        embeddings = self.embeddings(audio_path, offset_seconds, duration_seconds)
         predictions = self.ensure_mtg_model()(embeddings)
         return safe_list(matrix_stats(predictions))
 
 
-def extract_librosa(audio_path, offset_seconds=0.0):
+def extract_librosa(audio_path, offset_seconds=0.0, duration_seconds=None):
     return extract_runtime_librosa(
-        audio_path, offset_seconds=offset_seconds, duration=DURATION
+        audio_path, offset_seconds=offset_seconds,
+        duration=DURATION if duration_seconds is None else max(1.0, float(duration_seconds)),
     )
 
 
@@ -409,6 +443,39 @@ def vectors_from_audio_paths(audio_paths, offsets=None):
         segments.append((
             float(offsets[index]) if offsets else float(index), vectors
         ))
+    return segments
+
+
+def vectors_from_audio_ranges(audio_path, ranges, extractors=None):
+    """Extract exact planned ranges without creating or retaining audio clips."""
+    if not INFER_SOURCES:
+        raise ValueError("MMFR_EMBEDDING_INFER_SOURCES did not select a supported source")
+    extractors = extractors or EssentiaExtractors(INFER_SOURCES)
+    segments = []
+    for item in ranges:
+        offset = max(0.0, float(item.get("startSeconds", 0.0)))
+        duration = max(1.0, float(item.get("durationSeconds", DURATION)))
+        vectors = {}
+        if "discogs" in INFER_SOURCES:
+            vectors["discogs"] = np.asarray(
+                extractors.discogs(audio_path, offset, duration), dtype=np.float32,
+            )
+        if "mtg" in INFER_SOURCES:
+            vectors["mtg"] = np.asarray(
+                extractors.mtg(audio_path, offset, duration), dtype=np.float32,
+            )
+        if "librosa" in INFER_SOURCES:
+            vectors["librosa"] = np.asarray(
+                extract_librosa(audio_path, offset, duration), dtype=np.float32,
+            )
+        for source, length in SOURCE_VECTOR_LENGTHS.items():
+            if source not in vectors:
+                vectors[source] = np.zeros(length, dtype=np.float32)
+        vectors["effnet_tail"] = vectors["discogs"][DISCOGS_TAG_DIMENSIONS:].copy()
+        errors = validate_runtime_vectors(vectors)
+        if errors:
+            raise ValueError("Runtime feature contract mismatch: " + "; ".join(errors))
+        segments.append((offset, duration, vectors))
     return segments
 
 
@@ -911,6 +978,50 @@ def maybe_apply_unknown80_rhythm(labels, scores, vector_segments):
     return output, details
 
 
+def maybe_apply_unknown80_track_pairs(labels, scores, vector_segments):
+    global UNKNOWN80_TRACK_PAIR_BUNDLE
+    if not ENABLE_UNKNOWN80_TRACK_PAIR_RERANKER:
+        return np.asarray(scores, dtype=np.float64), {
+            "enabled": False, "applied": False, "reason": "disabled",
+        }
+    promotion = track_pair_promotion_status()
+    if not promotion["promoted"]:
+        return np.asarray(scores, dtype=np.float64), {
+            "enabled": False, "applied": False,
+            "reason": promotion["reason"],
+        }
+    if not UNKNOWN80_TRACK_PAIR_MODEL_PATH.is_file():
+        return np.asarray(scores, dtype=np.float64), {
+            "enabled": False, "applied": False, "reason": "model-missing",
+        }
+    if UNKNOWN80_TRACK_PAIR_BUNDLE is None:
+        UNKNOWN80_TRACK_PAIR_BUNDLE = load_unknown80_track_pair_bundle(
+            UNKNOWN80_TRACK_PAIR_MODEL_PATH,
+        )
+    return apply_unknown80_track_pair_reranker(
+        UNKNOWN80_TRACK_PAIR_BUNDLE, labels, scores,
+        [vectors for _offset, vectors in vector_segments],
+    )
+
+
+def track_pair_promotion_status():
+    if not UNKNOWN80_TRACK_PAIR_MANIFEST_PATH.is_file():
+        return {"promoted": False, "reason": "promotion-manifest-missing"}
+    try:
+        manifest = json.loads(UNKNOWN80_TRACK_PAIR_MANIFEST_PATH.read_text())
+    except (OSError, ValueError):
+        return {"promoted": False, "reason": "promotion-manifest-invalid"}
+    if manifest.get("promotionState") != "promoted":
+        return {"promoted": False, "reason": "model-not-promoted"}
+    expected = str(manifest.get("modelSha256") or "")
+    if not expected or not UNKNOWN80_TRACK_PAIR_MODEL_PATH.is_file():
+        return {"promoted": False, "reason": "promoted-model-missing"}
+    digest = hashlib.sha256(UNKNOWN80_TRACK_PAIR_MODEL_PATH.read_bytes()).hexdigest()
+    if digest != expected:
+        return {"promoted": False, "reason": "promoted-model-sha256-mismatch"}
+    return {"promoted": True, "reason": "promoted", "modelSha256": digest}
+
+
 def model_validation_payload(bundle):
     contract = bundle.get("runtimeFeatureContract") or {}
     expected_digest = feature_contract_digest(feature_contract(
@@ -930,6 +1041,26 @@ def model_validation_payload(bundle):
             reranker_bundle.get("modelVersion")
             or reranker_bundle.get("version", "")
         )
+    track_pair_reranker = {
+        "enabled": ENABLE_UNKNOWN80_TRACK_PAIR_RERANKER,
+        "path": str(UNKNOWN80_TRACK_PAIR_MODEL_PATH),
+        "available": UNKNOWN80_TRACK_PAIR_MODEL_PATH.is_file(),
+        "modelVersion": "",
+        "runtimeFeatureContractSha256": "",
+        "promotion": track_pair_promotion_status(),
+    }
+    if (
+        track_pair_reranker["enabled"]
+        and track_pair_reranker["available"]
+        and track_pair_reranker["promotion"]["promoted"]
+    ):
+        track_bundle = load_unknown80_track_pair_bundle(
+            UNKNOWN80_TRACK_PAIR_MODEL_PATH,
+        )
+        track_pair_reranker["modelVersion"] = track_bundle.get("version", "")
+        track_pair_reranker["runtimeFeatureContractSha256"] = track_bundle.get(
+            "runtimeFeatureContractSha256", "",
+        )
     return {
         "ok": True,
         "modelVersion": bundle.get("modelVersion") or bundle.get("version", ""),
@@ -937,6 +1068,7 @@ def model_validation_payload(bundle):
         "expectedRuntimeFeatureContractSha256": expected_digest,
         "discogsTagHeadRequired": bool(contract.get("discogsTagHeadRequired")),
         "independentReranker": independent_reranker,
+        "trackPairReranker": track_pair_reranker,
     }
 
 
@@ -1349,6 +1481,9 @@ def main():
     adjusted_fine_scores, rhythm_reranker_details = maybe_apply_unknown80_rhythm(
         fine_labels, adjusted_fine_scores, vector_segments,
     )
+    adjusted_fine_scores, track_pair_details = maybe_apply_unknown80_track_pairs(
+        fine_labels, adjusted_fine_scores, vector_segments,
+    )
     segment_details = segment_analysis(
         [offset for offset, _vectors in vector_segments],
         fine_labels,
@@ -1432,6 +1567,7 @@ def main():
         "degradedSources": degraded_sources,
         "segmentAnalysis": segment_details,
         "unknown80RhythmReranker": rhythm_reranker_details,
+        "unknown80TrackPairReranker": track_pair_details,
         "evidenceCoverage": evidence_coverage,
         "needsReview": bool(degraded_sources) or evidence_coverage < 1.0 or not reliable_prediction or confidence < 45 or margin < 3 or (
             segment_details["segmentCount"] > 1 and segment_details["stability"] < 0.55

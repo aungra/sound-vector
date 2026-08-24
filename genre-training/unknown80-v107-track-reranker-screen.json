@@ -1,0 +1,378 @@
+{
+  "objective": "Test production-equivalent 4-segment evidence with nested provider exclusion against fixed v107.",
+  "policy": {
+    "metadataUsedAtInference": false,
+    "urlSpecificRulesUsed": false,
+    "sealedFinalHoldoutUsed": false,
+    "matchingProviderExcludedFromOuterFold": true,
+    "configurationSelectedInInnerSourceFolds": true,
+    "top3CandidateSetChanged": false,
+    "productionModelUpdated": false
+  },
+  "dataset": {
+    "oofRows": 1883,
+    "cachedRows": 801,
+    "crossFittedRows": 801,
+    "cachedLabels": 27,
+    "cachedSources": 7,
+    "heldOutSources": [
+      "FMA",
+      "IdolSongsJp",
+      "Internet Archive",
+      "Jamendo",
+      "MagnaTagATune research evaluation",
+      "RWC Music Database",
+      "Wikimedia Commons",
+      "Zenodo CAPHE Hybrid Opera 18288509"
+    ],
+    "featureContractSha256": "ea833af2bcfb08af88098281a02fc5dbc9b45661fee6c609cab7299e4d03f7fe",
+    "candidateFeatureMode": "raw-full-4segment-moments"
+  },
+  "baseline": {
+    "top1Accuracy": 60.06,
+    "balancedTop1": 59.86,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 0,
+    "sourceTop1": {
+      "FMA": 60.55,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 55.88,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    }
+  },
+  "candidate": {
+    "top1Accuracy": 60.06,
+    "balancedTop1": 59.86,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 0,
+    "sourceTop1": {
+      "FMA": 60.55,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 55.88,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    },
+    "improved": 0,
+    "harmed": 0
+  },
+  "diagnostics": {
+    "v107OnCached": {
+      "top1Accuracy": 58.43,
+      "balancedTop1": 63.34,
+      "minimumSourceTop1": 31.58
+    },
+    "learnedCrossfitOnCovered": {
+      "top1Accuracy": 42.82,
+      "balancedTop1": 34.06,
+      "minimumSourceTop1": 0.0
+    },
+    "v107Top3OracleOnCached": 85.89,
+    "changedRows": []
+  },
+  "folds": [
+    {
+      "heldOutSource": "FMA",
+      "trainingRows": 639,
+      "evaluationRows": 162,
+      "changedRows": 0,
+      "selectedConfig": null,
+      "innerSelection": {
+        "rows": 639,
+        "candidateCount": 65,
+        "baseline": {
+          "top1Accuracy": 60.41,
+          "balancedTop1": 66.96,
+          "minimumSourceTop1": 31.58
+        },
+        "selected": {
+          "config": null,
+          "metric": {
+            "top1Accuracy": 60.41,
+            "balancedTop1": 66.96,
+            "minimumSourceTop1": 31.58
+          },
+          "changedRows": 0,
+          "improved": 0,
+          "harmed": 0
+        }
+      },
+      "baseline": {
+        "top1Accuracy": 50.62,
+        "balancedTop1": 54.13,
+        "minimumSourceTop1": 50.62
+      },
+      "candidate": {
+        "top1Accuracy": 50.62,
+        "balancedTop1": 54.13,
+        "minimumSourceTop1": 50.62
+      },
+      "learned": {
+        "top1Accuracy": 40.12,
+        "balancedTop1": 40.53,
+        "minimumSourceTop1": 40.12
+      }
+    },
+    {
+      "heldOutSource": "IdolSongsJp",
+      "trainingRows": 791,
+      "evaluationRows": 10,
+      "changedRows": 0,
+      "selectedConfig": null,
+      "innerSelection": {
+        "rows": 791,
+        "candidateCount": 65,
+        "baseline": {
+          "top1Accuracy": 58.15,
+          "balancedTop1": 62.7,
+          "minimumSourceTop1": 31.58
+        },
+        "selected": {
+          "config": null,
+          "metric": {
+            "top1Accuracy": 58.15,
+            "balancedTop1": 62.7,
+            "minimumSourceTop1": 31.58
+          },
+          "changedRows": 0,
+          "improved": 0,
+          "harmed": 0
+        }
+      },
+      "baseline": {
+        "top1Accuracy": 80.0,
+        "balancedTop1": 80.0,
+        "minimumSourceTop1": 80.0
+      },
+      "candidate": {
+        "top1Accuracy": 80.0,
+        "balancedTop1": 80.0,
+        "minimumSourceTop1": 80.0
+      },
+      "learned": {
+        "top1Accuracy": 0.0,
+        "balancedTop1": 0.0,
+        "minimumSourceTop1": 0.0
+      }
+    },
+    {
+      "heldOutSource": "Internet Archive",
+      "trainingRows": 782,
+      "evaluationRows": 19,
+      "changedRows": 0,
+      "selectedConfig": null,
+      "innerSelection": {
+        "rows": 782,
+        "candidateCount": 65,
+        "baseline": {
+          "top1Accuracy": 59.08,
+          "balancedTop1": 63.66,
+          "minimumSourceTop1": 50.62
+        },
+        "selected": {
+          "config": null,
+          "metric": {
+            "top1Accuracy": 59.08,
+            "balancedTop1": 63.66,
+            "minimumSourceTop1": 50.62
+          },
+          "changedRows": 0,
+          "improved": 0,
+          "harmed": 0
+        }
+      },
+      "baseline": {
+        "top1Accuracy": 31.58,
+        "balancedTop1": 38.33,
+        "minimumSourceTop1": 31.58
+      },
+      "candidate": {
+        "top1Accuracy": 31.58,
+        "balancedTop1": 38.33,
+        "minimumSourceTop1": 31.58
+      },
+      "learned": {
+        "top1Accuracy": 68.42,
+        "balancedTop1": 57.78,
+        "minimumSourceTop1": 68.42
+      }
+    },
+    {
+      "heldOutSource": "Jamendo",
+      "trainingRows": 376,
+      "evaluationRows": 425,
+      "changedRows": 0,
+      "selectedConfig": null,
+      "innerSelection": {
+        "rows": 376,
+        "candidateCount": 65,
+        "baseline": {
+          "top1Accuracy": 62.77,
+          "balancedTop1": 65.5,
+          "minimumSourceTop1": 31.58
+        },
+        "selected": {
+          "config": null,
+          "metric": {
+            "top1Accuracy": 62.77,
+            "balancedTop1": 65.5,
+            "minimumSourceTop1": 31.58
+          },
+          "changedRows": 0,
+          "improved": 0,
+          "harmed": 0
+        }
+      },
+      "baseline": {
+        "top1Accuracy": 54.59,
+        "balancedTop1": 62.43,
+        "minimumSourceTop1": 54.59
+      },
+      "candidate": {
+        "top1Accuracy": 54.59,
+        "balancedTop1": 62.43,
+        "minimumSourceTop1": 54.59
+      },
+      "learned": {
+        "top1Accuracy": 41.18,
+        "balancedTop1": 42.32,
+        "minimumSourceTop1": 41.18
+      }
+    },
+    {
+      "heldOutSource": "MagnaTagATune research evaluation",
+      "trainingRows": 691,
+      "evaluationRows": 110,
+      "changedRows": 0,
+      "selectedConfig": null,
+      "innerSelection": {
+        "rows": 691,
+        "candidateCount": 65,
+        "baseline": {
+          "top1Accuracy": 56.44,
+          "balancedTop1": 62.32,
+          "minimumSourceTop1": 31.58
+        },
+        "selected": {
+          "config": null,
+          "metric": {
+            "top1Accuracy": 56.44,
+            "balancedTop1": 62.32,
+            "minimumSourceTop1": 31.58
+          },
+          "changedRows": 0,
+          "improved": 0,
+          "harmed": 0
+        }
+      },
+      "baseline": {
+        "top1Accuracy": 70.91,
+        "balancedTop1": 74.07,
+        "minimumSourceTop1": 70.91
+      },
+      "candidate": {
+        "top1Accuracy": 70.91,
+        "balancedTop1": 74.07,
+        "minimumSourceTop1": 70.91
+      },
+      "learned": {
+        "top1Accuracy": 45.45,
+        "balancedTop1": 45.93,
+        "minimumSourceTop1": 45.45
+      }
+    },
+    {
+      "heldOutSource": "RWC Music Database",
+      "trainingRows": 746,
+      "evaluationRows": 55,
+      "changedRows": 0,
+      "selectedConfig": null,
+      "innerSelection": {
+        "rows": 746,
+        "candidateCount": 65,
+        "baseline": {
+          "top1Accuracy": 56.17,
+          "balancedTop1": 62.56,
+          "minimumSourceTop1": 31.58
+        },
+        "selected": {
+          "config": null,
+          "metric": {
+            "top1Accuracy": 56.17,
+            "balancedTop1": 62.56,
+            "minimumSourceTop1": 31.58
+          },
+          "changedRows": 0,
+          "improved": 0,
+          "harmed": 0
+        }
+      },
+      "baseline": {
+        "top1Accuracy": 89.09,
+        "balancedTop1": 87.88,
+        "minimumSourceTop1": 89.09
+      },
+      "candidate": {
+        "top1Accuracy": 89.09,
+        "balancedTop1": 87.88,
+        "minimumSourceTop1": 89.09
+      },
+      "learned": {
+        "top1Accuracy": 50.91,
+        "balancedTop1": 48.24,
+        "minimumSourceTop1": 50.91
+      }
+    },
+    {
+      "heldOutSource": "Wikimedia Commons",
+      "trainingRows": 781,
+      "evaluationRows": 20,
+      "changedRows": 0,
+      "selectedConfig": null,
+      "innerSelection": {
+        "rows": 781,
+        "candidateCount": 65,
+        "baseline": {
+          "top1Accuracy": 58.26,
+          "balancedTop1": 61.65,
+          "minimumSourceTop1": 31.58
+        },
+        "selected": {
+          "config": null,
+          "metric": {
+            "top1Accuracy": 58.26,
+            "balancedTop1": 61.65,
+            "minimumSourceTop1": 31.58
+          },
+          "changedRows": 0,
+          "improved": 0,
+          "harmed": 0
+        }
+      },
+      "baseline": {
+        "top1Accuracy": 65.0,
+        "balancedTop1": 72.92,
+        "minimumSourceTop1": 65.0
+      },
+      "candidate": {
+        "top1Accuracy": 65.0,
+        "balancedTop1": 72.92,
+        "minimumSourceTop1": 65.0
+      },
+      "learned": {
+        "top1Accuracy": 60.0,
+        "balancedTop1": 57.29,
+        "minimumSourceTop1": 60.0
+      }
+    }
+  ],
+  "decision": "reject-current-temporal-candidate"
+}
