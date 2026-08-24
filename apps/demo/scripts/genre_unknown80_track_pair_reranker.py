@@ -53,7 +53,10 @@ def raw_temporal_features(segment_vectors, view="full"):
 def load_bundle(path):
     with Path(path).open("rb") as handle:
         bundle = pickle.load(handle)
-    if bundle.get("version") != "unknown80-track-pair-v108-candidate":
+    if bundle.get("version") not in {
+        "unknown80-track-pair-v108-candidate",
+        "unknown80-track-pair-v109-candidate",
+    }:
         raise ValueError("unsupported temporal pair model version")
     if bundle.get("schemaVersion") != 1:
         raise ValueError("unsupported temporal pair schema version")

@@ -1,0 +1,74 @@
+{
+  "version": "unknown80-track-pair-v109-candidate",
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-24T04:07:54.442187+00:00",
+  "modelPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown80-track-pair-v109-candidate.pkl",
+  "modelSha256": "2abe0d400e4516a1926cb802d0866923439ffc328dc6bdaa97f93205731f2e2d",
+  "runtimeFeatureContractSha256": "ea833af2bcfb08af88098281a02fc5dbc9b45661fee6c609cab7299e4d03f7fe",
+  "pairs": [
+    {
+      "labels": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "effnet",
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8
+      },
+      "sourceSupport": {
+        "ハウス": [
+          "FMA",
+          "Internet Archive",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database",
+          "Wikimedia Commons",
+          "ccMixter"
+        ]
+      }
+    },
+    {
+      "labels": [
+        "パンク",
+        "ロック"
+      ],
+      "view": "effnet",
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.7
+      },
+      "sourceSupport": {
+        "パンク": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation"
+        ],
+        "ロック": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database"
+        ]
+      }
+    }
+  ],
+  "promotionState": "promoted",
+  "promotedAt": "2026-08-24T04:09:02.249685+00:00",
+  "productionModelUpdated": true,
+  "sealedFinalHoldoutUsed": false,
+  "evaluation": {
+    "sourceHeldoutReport": "genre-training/unknown80-v109-track-pair-export.json",
+    "sourceHeldoutReportSha256": "2b3d257a1b3499042c9c85f558f83cd816b4b9dbe820d1344fc5d0ca1f824568",
+    "runtimeParityReport": "genre-training/unknown80-v109-runtime-parity.json",
+    "runtimeParityReportSha256": "e17b2ecfbe9852a8f2a3e9b928c25774d1a23a0d3eb286cce1bdc3a529b0549b",
+    "incumbentProductionRegressionReport": "genre-training/unknown80-independent-stack-v107-production-regression.json",
+    "incumbentProductionRegressionReportSha256": "7d2164fd5bdee701644c90f3134176ecd7dd5fdb4279f74f7c38652c278ecc6c"
+  }
+}

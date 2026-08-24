@@ -70,18 +70,18 @@ def run(args):
         elif sha256_file(model_path) != manifest.get("modelSha256"):
             failures.append("candidate model SHA-256 differs from manifest")
     if failures:
-        raise RuntimeError("v108 promotion rejected: " + "; ".join(failures))
+        raise RuntimeError("track-pair promotion rejected: " + "; ".join(failures))
     manifest.update({
         "promotionState": "promoted",
         "promotedAt": datetime.now(timezone.utc).isoformat(),
         "productionModelUpdated": True,
         "sealedFinalHoldoutUsed": False,
         "evaluation": {
-            "sourceHeldoutReport": str(args.export_report.relative_to(ROOT)),
+            "sourceHeldoutReport": str(args.export_report.resolve().relative_to(ROOT)),
             "sourceHeldoutReportSha256": sha256_file(args.export_report),
-            "runtimeParityReport": str(args.parity_report.relative_to(ROOT)),
+            "runtimeParityReport": str(args.parity_report.resolve().relative_to(ROOT)),
             "runtimeParityReportSha256": sha256_file(args.parity_report),
-            "incumbentProductionRegressionReport": str(args.production_report.relative_to(ROOT)),
+            "incumbentProductionRegressionReport": str(args.production_report.resolve().relative_to(ROOT)),
             "incumbentProductionRegressionReportSha256": sha256_file(args.production_report),
         },
     })

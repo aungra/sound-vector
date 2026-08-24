@@ -113,37 +113,45 @@ def crossfit_probabilities(items, pair, labels, held_sources, pair_module, seed)
     return records, folds
 
 
-def select_global_config(records, pair, labels, v107, payload, baseline, black, pair_module):
+def select_global_config(
+    records, pair, labels, v107, payload, baseline, black, pair_module,
+    forced_config=None,
+):
     ranking = []
-    for weight in pair_module.WEIGHTS:
-        for confidence in pair_module.CONFIDENCE_FLOORS:
-            config = {"weight": weight, "confidenceFloor": confidence}
-            output = np.asarray(v107, dtype=np.float64).copy()
-            if records:
-                indexes = np.asarray([record["item"]["index"] for record in records], dtype=np.int64)
-                base = output[indexes]
-                probabilities = np.asarray([record["probabilities"] for record in records])
-                candidate, changed = pair_module.apply_pair(
-                    base, probabilities, pair, labels, config,
-                )
-                output[indexes] = candidate
-            else:
-                changed = np.zeros(0, dtype=bool)
-            metric = black.compare_output(
-                output, v107, payload["actual"], labels, payload["sources"],
+    configs = (
+        [forced_config] if forced_config else [
+            {"weight": weight, "confidenceFloor": confidence}
+            for weight in pair_module.WEIGHTS
+            for confidence in pair_module.CONFIDENCE_FLOORS
+        ]
+    )
+    for config in configs:
+        output = np.asarray(v107, dtype=np.float64).copy()
+        if records:
+            indexes = np.asarray([record["item"]["index"] for record in records], dtype=np.int64)
+            base = output[indexes]
+            probabilities = np.asarray([record["probabilities"] for record in records])
+            candidate, changed = pair_module.apply_pair(
+                base, probabilities, pair, labels, config,
             )
-            passed = (
-                metric["top1Accuracy"] > baseline["top1Accuracy"]
-                and metric["balancedTop1"] >= baseline["balancedTop1"]
-                and metric["minimumSourceTop1"] >= baseline["minimumSourceTop1"]
-                and metric["top3Accuracy"] >= baseline["top3Accuracy"]
-                and metric["improved"] > metric["harmed"]
-            )
-            ranking.append({
-                "config": config, "metric": metric,
-                "changedRows": int(np.sum(changed)), "passed": passed,
-                "output": output,
-            })
+            output[indexes] = candidate
+        else:
+            changed = np.zeros(0, dtype=bool)
+        metric = black.compare_output(
+            output, v107, payload["actual"], labels, payload["sources"],
+        )
+        passed = (
+            metric["top1Accuracy"] > baseline["top1Accuracy"]
+            and metric["balancedTop1"] >= baseline["balancedTop1"]
+            and metric["minimumSourceTop1"] >= baseline["minimumSourceTop1"]
+            and metric["top3Accuracy"] >= baseline["top3Accuracy"]
+            and metric["improved"] > metric["harmed"]
+        )
+        ranking.append({
+            "config": config, "metric": metric,
+            "changedRows": int(np.sum(changed)), "passed": passed,
+            "output": output,
+        })
     ranking.sort(key=lambda item: (
         item["passed"], item["metric"]["top1Accuracy"],
         item["metric"]["balancedTop1"],
@@ -168,6 +176,15 @@ def run(args):
     _source, black, payload, v107, held_sources, baseline = shared.build_v107()
     labels = list(payload["labels"])
     selections = selected_pairs(args.selection)
+    forced_configs = {}
+    if args.config_screen:
+        config_report = json.loads(args.config_screen.read_text())
+        if config_report.get("decision") != "continue-v109-export-with-safe-configs":
+            raise RuntimeError("final-fit config screen did not pass")
+        forced_configs = {
+            item["pair"]: item["selected"]["config"]
+            for item in config_report.get("results") or [] if item.get("selected")
+        }
     output = np.asarray(v107, dtype=np.float64).copy()
     used_indexes = set()
     exported_pairs = []
@@ -192,7 +209,14 @@ def run(args):
         )
         selected, ranking = select_global_config(
             records, pair, labels, v107, payload, baseline, black, pair_module,
+            forced_configs.get(pair_module.pair_name(pair)) if args.config_screen else None,
         )
+        if args.config_screen and pair_module.pair_name(pair) not in forced_configs:
+            details.append({
+                "pair": pair_module.pair_name(pair), "view": view,
+                "decision": "reject-finalfit-config-screen",
+            })
+            continue
         training = [item for item in items if item["trainingEligible"]]
         source_support = {
             label: sorted({item["source"] for item in training if item["actual"] == label})
@@ -255,7 +279,7 @@ def run(args):
         and candidate["improved"] >= candidate["harmed"]
     )
     bundle = {
-        "version": "unknown80-track-pair-v108-candidate",
+        "version": args.version,
         "schemaVersion": 1,
         "runtimeFeatureContractSha256": shared.feature_contract_digest(),
         "labels": labels,
@@ -334,7 +358,9 @@ def run(args):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--cache", type=Path, default=DEFAULT_CACHE)
+    parser.add_argument("--version", default="unknown80-track-pair-v108-candidate")
     parser.add_argument("--selection", type=Path, default=DEFAULT_SELECTION)
+    parser.add_argument("--config-screen", type=Path)
     parser.add_argument("--overlay-cache", type=Path, default=DEFAULT_OVERLAY_CACHE)
     parser.add_argument("--model", type=Path, default=DEFAULT_MODEL)
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)

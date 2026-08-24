@@ -97,7 +97,7 @@ def run(args):
     )
     report = {
         "generatedAt": datetime.now(timezone.utc).isoformat(),
-        "objective": "Verify v108 serialized runtime parity and bound final-fit behavior.",
+        "objective": f"Verify {bundle['version']} runtime parity and bound final-fit behavior.",
         "policy": {
             "diagnosticOnly": True,
             "inSampleResultIsNotUnknownSourceAccuracy": True,

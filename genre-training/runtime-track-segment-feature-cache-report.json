@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-24T03:31:09.792801+00:00",
+  "generatedAt": "2026-08-24T04:00:59.189600+00:00",
   "cachePath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/runtime-track-segment-features-v3_0.sqlite3",
   "featureContract": {
     "version": "mmfr-track-audio-v3.0-4x30",
@@ -34,23 +34,23 @@
   },
   "featureContractSha256": "ea833af2bcfb08af88098281a02fc5dbc9b45661fee6c609cab7299e4d03f7fe",
   "oofRows": 1883,
-  "previouslyCached": 532,
-  "requested": 269,
-  "completed": 269,
+  "previouslyCached": 801,
+  "requested": 394,
+  "completed": 394,
   "failureCount": 0,
   "failureExamples": [],
-  "totalCachedTracks": 801,
+  "totalCachedTracks": 1195,
   "cachedByAvailability": {
-    "full-4x30": 506,
-    "shorter-than-30": 207,
-    "shorter-than-4x30": 88
+    "full-4x30": 743,
+    "shorter-than-30": 319,
+    "shorter-than-4x30": 133
   },
   "cachedBySource": {
-    "FMA": 162,
+    "FMA": 238,
     "IdolSongsJp": 10,
     "Internet Archive": 19,
-    "Jamendo": 425,
-    "MagnaTagATune research evaluation": 110,
+    "Jamendo": 679,
+    "MagnaTagATune research evaluation": 174,
     "RWC Music Database": 55,
     "Wikimedia Commons": 20
   },
