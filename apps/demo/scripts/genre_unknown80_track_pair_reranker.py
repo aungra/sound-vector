@@ -57,6 +57,7 @@ def load_bundle(path):
         "unknown80-track-pair-v108-candidate",
         "unknown80-track-pair-v109-candidate",
         "unknown80-track-pair-v110-candidate",
+        "unknown80-track-pair-v111-candidate",
     }:
         raise ValueError("unsupported temporal pair model version")
     if bundle.get("schemaVersion") != 1:

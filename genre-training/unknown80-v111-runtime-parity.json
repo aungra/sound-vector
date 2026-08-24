@@ -1,0 +1,236 @@
+{
+  "generatedAt": "2026-08-24T04:50:37.562933+00:00",
+  "objective": "Verify unknown80-track-pair-v111-candidate runtime parity and bound final-fit behavior.",
+  "policy": {
+    "diagnosticOnly": true,
+    "inSampleResultIsNotUnknownSourceAccuracy": true,
+    "productionModelUpdated": false,
+    "sealedFinalHoldoutUsed": false
+  },
+  "baseline": {
+    "top1Accuracy": 60.06,
+    "balancedTop1": 59.86,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 0,
+    "sourceTop1": {
+      "FMA": 60.55,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 55.88,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    }
+  },
+  "cachedRows": 1195,
+  "routedRows": 242,
+  "appliedRows": 24,
+  "pairCounts": {
+    "パンク / ロック": {
+      "routed": 182,
+      "applied": 12
+    },
+    "ディープ・ハウス / ハウス": {
+      "routed": 61,
+      "applied": 9
+    },
+    "ハウス / テクノ": {
+      "routed": 90,
+      "applied": 3
+    }
+  },
+  "changes": [
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/000/000368.mp3",
+      "source": "FMA",
+      "actual": "ロック",
+      "before": "パンク",
+      "after": "ロック"
+    },
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/000/000825.mp3",
+      "source": "FMA",
+      "actual": "ロック",
+      "before": "パンク",
+      "after": "ロック"
+    },
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/001/001270.mp3",
+      "source": "FMA",
+      "actual": "ロック",
+      "before": "パンク",
+      "after": "ロック"
+    },
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/001/001883.mp3",
+      "source": "FMA",
+      "actual": "ロック",
+      "before": "パンク",
+      "after": "ロック"
+    },
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/075/075903.mp3",
+      "source": "FMA",
+      "actual": "パンク",
+      "before": "ロック",
+      "after": "パンク"
+    },
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/075/075908.mp3",
+      "source": "FMA",
+      "actual": "パンク",
+      "before": "ロック",
+      "after": "パンク"
+    },
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/119/119571.mp3",
+      "source": "FMA",
+      "actual": "メタル",
+      "before": "パンク",
+      "after": "ロック"
+    },
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/136/136320.mp3",
+      "source": "FMA",
+      "actual": "ハウス",
+      "before": "ディープ・ハウス",
+      "after": "ハウス"
+    },
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/internet-archive/テ-ィーフ-ハウス/TheDependanceEpByWalkerThereIsNoPath-DepenDance-mp3.mp3",
+      "source": "Internet Archive",
+      "actual": "ディープ・ハウス",
+      "before": "ハウス",
+      "after": "ディープ・ハウス"
+    },
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/internet-archive/テ-ィーフ-ハウス/jamendo-170099-05-1467132-BACKIT-Loving-Deep-Radio-Set-mp3.mp3",
+      "source": "Internet Archive",
+      "actual": "ディープ・ハウス",
+      "before": "ハウス",
+      "after": "ディープ・ハウス"
+    },
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/02/7202.low.mp3",
+      "source": "Jamendo",
+      "actual": "パンク",
+      "before": "ロック",
+      "after": "パンク"
+    },
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/14/743014.low.mp3",
+      "source": "Jamendo",
+      "actual": "ハウス",
+      "before": "ディープ・ハウス",
+      "after": "ハウス"
+    },
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/15/743015.low.mp3",
+      "source": "Jamendo",
+      "actual": "ハウス",
+      "before": "ディープ・ハウス",
+      "after": "ハウス"
+    },
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/22/1308622.low.mp3",
+      "source": "Jamendo",
+      "actual": "ディープ・ハウス",
+      "before": "ハウス",
+      "after": "ディープ・ハウス"
+    },
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/27/658527.low.mp3",
+      "source": "Jamendo",
+      "actual": "ハウス",
+      "before": "ディープ・ハウス",
+      "after": "ハウス"
+    },
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/32/1089932.low.mp3",
+      "source": "Jamendo",
+      "actual": "ディープ・ハウス",
+      "before": "ハウス",
+      "after": "ディープ・ハウス"
+    },
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/38/658538.low.mp3",
+      "source": "Jamendo",
+      "actual": "ハウス",
+      "before": "テクノ",
+      "after": "ハウス"
+    },
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/53/670353.low.mp3",
+      "source": "Jamendo",
+      "actual": "トランス",
+      "before": "テクノ",
+      "after": "ハウス"
+    },
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/76/1173976.low.mp3",
+      "source": "Jamendo",
+      "actual": "ハウス",
+      "before": "テクノ",
+      "after": "ハウス"
+    },
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/85/13285.low.mp3",
+      "source": "Jamendo",
+      "actual": "ロック",
+      "before": "パンク",
+      "after": "ロック"
+    },
+    {
+      "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/mtg-jamendo/raw_30s/audio-low/97/1116697.low.mp3",
+      "source": "Jamendo",
+      "actual": "ディープ・ハウス",
+      "before": "ハウス",
+      "after": "ディープ・ハウス"
+    },
+    {
+      "sourceKey": "public-research-dataset:http://he3.magnatune.com/all/01-Save%20Me-The%20Napoleon%20Blown%20Aparts.mp3",
+      "source": "MagnaTagATune research evaluation",
+      "actual": "メタル",
+      "before": "パンク",
+      "after": "ロック"
+    },
+    {
+      "sourceKey": "public-research-dataset:http://he3.magnatune.com/all/02-Runnin%20Amok-Seismic%20Anamoly.mp3",
+      "source": "MagnaTagATune research evaluation",
+      "actual": "メタル",
+      "before": "ロック",
+      "after": "パンク"
+    },
+    {
+      "sourceKey": "public-research-dataset:http://he3.magnatune.com/all/04-Julie's%20Tune-Seismic%20Anamoly.mp3",
+      "source": "MagnaTagATune research evaluation",
+      "actual": "メタル",
+      "before": "ロック",
+      "after": "パンク"
+    }
+  ],
+  "maximumTrainingRuntimeFeatureDelta": 0.0,
+  "featureParityPasses": true,
+  "finalFitDiagnostic": {
+    "top1Accuracy": 61.07,
+    "balancedTop1": 60.63,
+    "minimumSourceTop1": 42.11,
+    "top3Accuracy": 83.48,
+    "changedTop1": 24,
+    "sourceTop1": {
+      "FMA": 62.69,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 42.11,
+      "Jamendo": 56.71,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    },
+    "improved": 19,
+    "harmed": 0
+  },
+  "decision": "continue-production-regression-gate"
+}

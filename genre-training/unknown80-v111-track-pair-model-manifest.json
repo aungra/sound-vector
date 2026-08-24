@@ -1,0 +1,154 @@
+{
+  "version": "unknown80-track-pair-v111-candidate",
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-24T04:50:10.326871+00:00",
+  "modelPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown80-track-pair-v111-candidate.pkl",
+  "modelSha256": "3c6596f9bec69d6dde1f3704f4ecd772408b003c8faa37729de3905e05799638",
+  "runtimeFeatureContractSha256": "ea833af2bcfb08af88098281a02fc5dbc9b45661fee6c609cab7299e4d03f7fe",
+  "baseVersion": "unknown80-track-pair-v110-candidate",
+  "pairs": [
+    {
+      "labels": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "effnet",
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8
+      },
+      "sourceSupport": {
+        "ハウス": [
+          "FMA",
+          "Internet Archive",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database",
+          "Wikimedia Commons",
+          "ccMixter"
+        ]
+      }
+    },
+    {
+      "labels": [
+        "パンク",
+        "ロック"
+      ],
+      "view": "effnet",
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.7
+      },
+      "sourceSupport": {
+        "パンク": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation"
+        ],
+        "ロック": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database"
+        ]
+      }
+    },
+    {
+      "labels": [
+        "パンク",
+        "ロック"
+      ],
+      "view": "effnet",
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.5
+      },
+      "sourceSupport": {
+        "パンク": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation"
+        ],
+        "ロック": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database"
+        ]
+      },
+      "modelKind": "extra-trees",
+      "stage": "v110-nonlinear-punk-rock"
+    },
+    {
+      "labels": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "rhythm",
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7
+      },
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo",
+          "Wikimedia Commons"
+        ],
+        "ハウス": [
+          "FMA",
+          "Internet Archive",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "modelKind": "extra-trees",
+      "stage": "v111-deep-house-house"
+    }
+  ],
+  "addedStage": {
+    "labels": [
+      "ディープ・ハウス",
+      "ハウス"
+    ],
+    "view": "rhythm",
+    "config": {
+      "weight": 0.1,
+      "confidenceFloor": 0.7
+    },
+    "sourceSupport": {
+      "ディープ・ハウス": [
+        "Internet Archive",
+        "Jamendo",
+        "Wikimedia Commons"
+      ],
+      "ハウス": [
+        "FMA",
+        "Internet Archive",
+        "Jamendo",
+        "RWC Music Database",
+        "Wikimedia Commons"
+      ]
+    },
+    "modelKind": "extra-trees"
+  },
+  "promotionState": "promoted",
+  "promotedAt": "2026-08-24T04:51:04.472009+00:00",
+  "productionModelUpdated": true,
+  "sealedFinalHoldoutUsed": false,
+  "evaluation": {
+    "sourceHeldoutReport": "genre-training/unknown80-v111-deep-house-export.json",
+    "sourceHeldoutReportSha256": "e8e2625acd5b488afcedf0358f01b56f8ccc1cc82cde8ec9467fa2f459ae2793",
+    "runtimeParityReport": "genre-training/unknown80-v111-runtime-parity.json",
+    "runtimeParityReportSha256": "83795853a1a9380fdc559b5656e2dbae3becbebf0625e5771562fb86d49ff00a",
+    "incumbentProductionRegressionReport": "genre-training/unknown80-independent-stack-v107-production-regression.json",
+    "incumbentProductionRegressionReportSha256": "7d2164fd5bdee701644c90f3134176ecd7dd5fdb4279f74f7c38652c278ecc6c"
+  }
+}

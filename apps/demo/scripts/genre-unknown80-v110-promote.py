@@ -22,13 +22,18 @@ def sha256_file(path):
     return digest.hexdigest()
 
 
-def gate_failures(export, parity, production, manifest):
+def gate_failures(
+    export, parity, production, manifest,
+    expected_version="unknown80-track-pair-v110-candidate",
+    expected_decision="continue-v110-runtime-parity",
+    minimum_stages=3,
+):
     candidate = export.get("sourceHeldout") or {}
     baseline = export.get("baseline") or {}
     final_fit = export.get("finalFitDiagnostic") or {}
     runtime_fit = parity.get("finalFitDiagnostic") or {}
     checks = [
-        (export.get("decision") == "continue-v110-runtime-parity", "export gate did not pass"),
+        (export.get("decision") == expected_decision, "export gate did not pass"),
         (candidate.get("top1Accuracy", 0) > baseline.get("top1Accuracy", 0), "Top1 did not improve"),
         (candidate.get("balancedTop1", 0) >= baseline.get("balancedTop1", 0), "balanced Top1 regressed"),
         (candidate.get("minimumSourceTop1", 0) >= baseline.get("minimumSourceTop1", 0), "minimum source regressed"),
@@ -40,9 +45,9 @@ def gate_failures(export, parity, production, manifest):
         (runtime_fit.get("harmed", 0) == 0, "runtime final-fit diagnostic harmed rows"),
         (production.get("promotionGate") == "passed", "incumbent production regression gate is not passed"),
         (manifest.get("promotionState") == "candidate-runtime-parity-pending", "manifest is not a pending candidate"),
-        (manifest.get("version") == "unknown80-track-pair-v110-candidate", "manifest version is not v110"),
+        (manifest.get("version") == expected_version, "manifest version differs from expected version"),
         (bool(manifest.get("modelPath") and manifest.get("modelSha256")), "candidate model identity is missing"),
-        (len(manifest.get("pairs") or []) >= 3, "candidate does not contain all v109 and v110 stages"),
+        (len(manifest.get("pairs") or []) >= minimum_stages, "candidate does not contain every required stage"),
         (all(
             len(sources) >= 2
             for pair in manifest.get("pairs") or []
@@ -57,7 +62,12 @@ def run(args):
     parity = json.loads(args.parity_report.read_text())
     production = json.loads(args.production_report.read_text())
     manifest = json.loads(args.manifest.read_text())
-    failures = gate_failures(export, parity, production, manifest)
+    failures = gate_failures(
+        export, parity, production, manifest,
+        expected_version=args.expected_version,
+        expected_decision=args.expected_decision,
+        minimum_stages=args.minimum_stages,
+    )
     model_path = Path(str(manifest.get("modelPath") or ""))
     if not failures:
         if not model_path.is_file():
@@ -90,6 +100,9 @@ def main():
     parser.add_argument("--parity-report", type=Path, default=TRAINING / "unknown80-v110-runtime-parity.json")
     parser.add_argument("--production-report", type=Path, default=TRAINING / "unknown80-independent-stack-v107-production-regression.json")
     parser.add_argument("--manifest", type=Path, default=TRAINING / "unknown80-v110-track-pair-model-manifest.json")
+    parser.add_argument("--expected-version", default="unknown80-track-pair-v110-candidate")
+    parser.add_argument("--expected-decision", default="continue-v110-runtime-parity")
+    parser.add_argument("--minimum-stages", type=int, default=3)
     args = parser.parse_args()
     manifest = run(args)
     print(json.dumps({

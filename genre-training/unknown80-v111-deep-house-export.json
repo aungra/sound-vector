@@ -1,0 +1,133 @@
+{
+  "generatedAt": "2026-08-24T04:50:10.326871+00:00",
+  "objective": "Add a source-isolated nonlinear Deep House/House stage after v110.",
+  "policy": {
+    "metadataUsedAtInference": false,
+    "urlSpecificRulesUsed": false,
+    "sealedFinalHoldoutUsed": false,
+    "overlayRowsEvaluated": false,
+    "matchingProviderExcludedFromOuterFold": true,
+    "top3CandidateSetChanged": false,
+    "productionModelUpdated": false
+  },
+  "dataset": {
+    "oofRows": 1883,
+    "cachedRows": 1195,
+    "trainingOnlyOverlayRows": 47,
+    "pair": [
+      "ディープ・ハウス",
+      "ハウス"
+    ],
+    "view": "rhythm",
+    "sourceSupport": {
+      "ディープ・ハウス": [
+        "Internet Archive",
+        "Jamendo",
+        "Wikimedia Commons"
+      ],
+      "ハウス": [
+        "FMA",
+        "Internet Archive",
+        "Jamendo",
+        "RWC Music Database",
+        "Wikimedia Commons"
+      ]
+    }
+  },
+  "config": {
+    "weight": 0.1,
+    "confidenceFloor": 0.7
+  },
+  "folds": [
+    {
+      "heldOutSource": "FMA",
+      "trainingRows": 187,
+      "trainingOverlayRows": 14,
+      "routedRows": 3
+    },
+    {
+      "heldOutSource": "Internet Archive",
+      "trainingRows": 177,
+      "trainingOverlayRows": 5,
+      "routedRows": 3
+    },
+    {
+      "heldOutSource": "Jamendo",
+      "trainingRows": 40,
+      "trainingOverlayRows": 14,
+      "routedRows": 54
+    },
+    {
+      "heldOutSource": "RWC Music Database",
+      "trainingRows": 195,
+      "trainingOverlayRows": 14,
+      "routedRows": 1
+    }
+  ],
+  "baseline": {
+    "top1Accuracy": 60.33,
+    "balancedTop1": 60.01,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 0,
+    "sourceTop1": {
+      "FMA": 61.16,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 56.13,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    }
+  },
+  "sourceHeldout": {
+    "top1Accuracy": 60.44,
+    "balancedTop1": 60.08,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 2,
+    "sourceTop1": {
+      "FMA": 61.16,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 56.3,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    },
+    "improved": 2,
+    "harmed": 0
+  },
+  "sourceHeldoutChangedRows": 2,
+  "finalFitDiagnostic": {
+    "top1Accuracy": 60.81,
+    "balancedTop1": 60.39,
+    "minimumSourceTop1": 42.11,
+    "top3Accuracy": 83.48,
+    "changedTop1": 9,
+    "sourceTop1": {
+      "FMA": 61.47,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 42.11,
+      "Jamendo": 56.63,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    },
+    "improved": 9,
+    "harmed": 0
+  },
+  "finalFitChangedRows": 9,
+  "serializationParity": {
+    "rows": 24,
+    "maxAbsoluteProbabilityDelta": 1.1102230246251565e-16,
+    "tolerance": 1e-08,
+    "passes": true
+  },
+  "modelPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown80-track-pair-v111-candidate.pkl",
+  "modelSha256": "3c6596f9bec69d6dde1f3704f4ecd772408b003c8faa37729de3905e05799638",
+  "decision": "continue-v111-runtime-parity"
+}
