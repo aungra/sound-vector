@@ -71,7 +71,7 @@ class TrackPairRuntimeTest(unittest.TestCase):
 
     def test_route_top3_can_rescue_the_third_ranked_pair_member(self):
         bundle = {
-            "version": "unknown80-track-pair-v112-candidate",
+            "version": "unknown80-track-pair-v113-candidate",
             "labels": ["A", "B", "C"],
             "pairs": [{
                 "labels": ["A", "B"], "view": "rhythm",

@@ -1,0 +1,210 @@
+{
+  "version": "unknown80-track-pair-v113-candidate",
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-24T05:24:27.118831+00:00",
+  "modelPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown80-track-pair-v113-candidate.pkl",
+  "modelSha256": "59389e578a4b88fd35ae0f66571d59c1945c98f6e0197422c14bacb6a59da9a3",
+  "runtimeFeatureContractSha256": "ea833af2bcfb08af88098281a02fc5dbc9b45661fee6c609cab7299e4d03f7fe",
+  "baseVersion": "unknown80-track-pair-v112-candidate",
+  "pairs": [
+    {
+      "labels": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "effnet",
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8
+      },
+      "sourceSupport": {
+        "ハウス": [
+          "FMA",
+          "Internet Archive",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database",
+          "Wikimedia Commons",
+          "ccMixter"
+        ]
+      }
+    },
+    {
+      "labels": [
+        "パンク",
+        "ロック"
+      ],
+      "view": "effnet",
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.7
+      },
+      "sourceSupport": {
+        "パンク": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation"
+        ],
+        "ロック": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database"
+        ]
+      }
+    },
+    {
+      "labels": [
+        "パンク",
+        "ロック"
+      ],
+      "view": "effnet",
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.5
+      },
+      "sourceSupport": {
+        "パンク": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation"
+        ],
+        "ロック": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database"
+        ]
+      },
+      "modelKind": "extra-trees",
+      "stage": "v110-nonlinear-punk-rock"
+    },
+    {
+      "labels": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "rhythm",
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7
+      },
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo",
+          "Wikimedia Commons"
+        ],
+        "ハウス": [
+          "FMA",
+          "Internet Archive",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "modelKind": "extra-trees",
+      "stage": "v111-deep-house-house"
+    },
+    {
+      "labels": [
+        "テクノ",
+        "トランス"
+      ],
+      "view": "rhythm",
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceSupport": {
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database",
+          "Wikimedia Commons",
+          "ccMixter"
+        ],
+        "トランス": [
+          "FMA",
+          "Internet Archive",
+          "Jamendo",
+          "Wikimedia Commons",
+          "ccMixter"
+        ]
+      },
+      "modelKind": "extra-trees",
+      "stage": "v112-top3-techno-trance"
+    },
+    {
+      "labels": [
+        "ドローン",
+        "ノイズミュージック"
+      ],
+      "view": "rhythm",
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceSupport": {
+        "ドローン": [
+          "FMA",
+          "Internet Archive",
+          "Wikimedia Commons",
+          "ccMixter"
+        ],
+        "ノイズミュージック": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "modelKind": "logistic",
+      "stage": "v113-drone-noise"
+    }
+  ],
+  "addedStage": {
+    "labels": [
+      "ドローン",
+      "ノイズミュージック"
+    ],
+    "view": "rhythm",
+    "config": {
+      "weight": 0.25,
+      "confidenceFloor": 0.5,
+      "routeTopK": 3
+    },
+    "sourceSupport": {
+      "ドローン": [
+        "FMA",
+        "Internet Archive",
+        "Wikimedia Commons",
+        "ccMixter"
+      ],
+      "ノイズミュージック": [
+        "FMA",
+        "Wikimedia Commons"
+      ]
+    },
+    "modelKind": "logistic"
+  },
+  "promotionState": "promoted",
+  "promotedAt": "2026-08-24T05:25:21.880388+00:00",
+  "productionModelUpdated": true,
+  "sealedFinalHoldoutUsed": false,
+  "evaluation": {
+    "sourceHeldoutReport": "genre-training/unknown80-v113-drone-noise-export.json",
+    "sourceHeldoutReportSha256": "cf805549bd0d445d0a55acda36afa1495ef4563846cff161fcb0bb360e3dc314",
+    "runtimeParityReport": "genre-training/unknown80-v113-runtime-parity.json",
+    "runtimeParityReportSha256": "9890a6ba5f9554f8d9589d9a9c9224706cacb427b80ef7856ab9bf6ac5ae6ece",
+    "incumbentProductionRegressionReport": "genre-training/unknown80-independent-stack-v107-production-regression.json",
+    "incumbentProductionRegressionReportSha256": "7d2164fd5bdee701644c90f3134176ecd7dd5fdb4279f74f7c38652c278ecc6c"
+  }
+}

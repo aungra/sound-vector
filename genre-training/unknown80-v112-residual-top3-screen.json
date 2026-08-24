@@ -1,0 +1,3700 @@
+{
+  "generatedAt": "2026-08-24T05:32:05.099322+00:00",
+  "objective": "Screen v112 Top3 residual pairs without source leakage.",
+  "policy": {
+    "metadataUsedAtInference": false,
+    "urlSpecificRulesUsed": false,
+    "sealedFinalHoldoutUsed": false,
+    "matchingProviderExcludedFromOuterFold": true,
+    "top3CandidateSetChanged": false,
+    "productionModelUpdated": false
+  },
+  "dataset": {
+    "oofRows": 1883,
+    "cachedByView": {
+      "rhythm": 1195,
+      "effnet": 1195,
+      "librosa": 1195,
+      "full": 1195
+    },
+    "views": [
+      "rhythm",
+      "effnet",
+      "librosa",
+      "full"
+    ],
+    "pairs": [
+      [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      [
+        "ハウス",
+        "テクノ"
+      ],
+      [
+        "ダブ",
+        "レゲエ"
+      ],
+      [
+        "テクノ",
+        "トランス"
+      ],
+      [
+        "メタル",
+        "ロック"
+      ],
+      [
+        "ディープ・ハウス",
+        "テクノ"
+      ],
+      [
+        "ドローン",
+        "ノイズミュージック"
+      ],
+      [
+        "ハードコア",
+        "メタル"
+      ],
+      [
+        "クラシック音楽",
+        "オペラ"
+      ],
+      [
+        "アンビエント",
+        "ドローン"
+      ]
+    ]
+  },
+  "baseline": {
+    "top1Accuracy": 60.49,
+    "balancedTop1": 60.1,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 0,
+    "sourceTop1": {
+      "FMA": 61.16,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 56.38,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    }
+  },
+  "passed": [
+    {
+      "pair": [
+        "ドローン",
+        "ノイズミュージック"
+      ],
+      "view": "rhythm",
+      "modelKind": "logistic",
+      "seed": 15201001,
+      "finalSeed": 15210001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 2,
+      "passed": true,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "finalFitPasses": true,
+      "sourceSupport": {
+        "ドローン": [
+          "FMA",
+          "Internet Archive",
+          "Wikimedia Commons",
+          "ccMixter"
+        ],
+        "ノイズミュージック": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "folds": [
+        {
+          "heldOutSource": "FMA",
+          "trainingRows": 38,
+          "routedRows": 11
+        },
+        {
+          "heldOutSource": "Internet Archive",
+          "trainingRows": 149,
+          "routedRows": 1
+        },
+        {
+          "heldOutSource": "Jamendo",
+          "trainingRows": 153,
+          "routedRows": 2
+        },
+        {
+          "heldOutSource": "MagnaTagATune research evaluation",
+          "trainingRows": 153,
+          "routedRows": 2
+        },
+        {
+          "heldOutSource": "Wikimedia Commons",
+          "trainingRows": 120,
+          "routedRows": 4
+        }
+      ]
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "テクノ"
+      ],
+      "view": "librosa",
+      "modelKind": "logistic",
+      "seed": 15391001,
+      "finalSeed": 15400001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.15,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 3,
+      "passed": true,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.2,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 2,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "finalFitPasses": true,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo",
+          "Wikimedia Commons"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database",
+          "Wikimedia Commons",
+          "ccMixter"
+        ]
+      },
+      "folds": [
+        {
+          "heldOutSource": "FMA",
+          "trainingRows": 203,
+          "routedRows": 7
+        },
+        {
+          "heldOutSource": "Internet Archive",
+          "trainingRows": 215,
+          "routedRows": 9
+        },
+        {
+          "heldOutSource": "Jamendo",
+          "trainingRows": 95,
+          "routedRows": 88
+        },
+        {
+          "heldOutSource": "MagnaTagATune research evaluation",
+          "trainingRows": 204,
+          "routedRows": 7
+        },
+        {
+          "heldOutSource": "Wikimedia Commons",
+          "trainingRows": 223,
+          "routedRows": 1
+        }
+      ]
+    },
+    {
+      "pair": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "rhythm",
+      "modelKind": "extra-trees",
+      "seed": 15150001,
+      "finalSeed": 15159001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 4,
+      "passed": true,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 61.6,
+        "balancedTop1": 60.77,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 21,
+        "improved": 21,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 27,
+      "finalFitPasses": true,
+      "sourceSupport": {
+        "ハウス": [
+          "FMA",
+          "Internet Archive",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database",
+          "Wikimedia Commons",
+          "ccMixter"
+        ]
+      },
+      "folds": [
+        {
+          "heldOutSource": "FMA",
+          "trainingRows": 224,
+          "routedRows": 13
+        },
+        {
+          "heldOutSource": "Internet Archive",
+          "trainingRows": 264,
+          "routedRows": 10
+        },
+        {
+          "heldOutSource": "Jamendo",
+          "trainingRows": 95,
+          "routedRows": 153
+        },
+        {
+          "heldOutSource": "MagnaTagATune research evaluation",
+          "trainingRows": 236,
+          "routedRows": 17
+        },
+        {
+          "heldOutSource": "RWC Music Database",
+          "trainingRows": 261,
+          "routedRows": 1
+        },
+        {
+          "heldOutSource": "Wikimedia Commons",
+          "trainingRows": 252,
+          "routedRows": 2
+        }
+      ]
+    },
+    {
+      "pair": [
+        "テクノ",
+        "トランス"
+      ],
+      "view": "rhythm",
+      "modelKind": "extra-trees",
+      "seed": 15170001,
+      "finalSeed": 15179001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 2,
+      "passed": true,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.65,
+        "balancedTop1": 60.19,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 3,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "finalFitPasses": true,
+      "sourceSupport": {
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database",
+          "Wikimedia Commons",
+          "ccMixter"
+        ],
+        "トランス": [
+          "FMA",
+          "Internet Archive",
+          "Jamendo",
+          "Wikimedia Commons",
+          "ccMixter"
+        ]
+      },
+      "folds": [
+        {
+          "heldOutSource": "FMA",
+          "trainingRows": 175,
+          "routedRows": 5
+        },
+        {
+          "heldOutSource": "Jamendo",
+          "trainingRows": 90,
+          "routedRows": 108
+        },
+        {
+          "heldOutSource": "MagnaTagATune research evaluation",
+          "trainingRows": 177,
+          "routedRows": 11
+        },
+        {
+          "heldOutSource": "RWC Music Database",
+          "trainingRows": 205,
+          "routedRows": 1
+        },
+        {
+          "heldOutSource": "Wikimedia Commons",
+          "trainingRows": 192,
+          "routedRows": 3
+        }
+      ]
+    },
+    {
+      "pair": [
+        "テクノ",
+        "トランス"
+      ],
+      "view": "effnet",
+      "modelKind": "extra-trees",
+      "seed": 15270001,
+      "finalSeed": 15279001,
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 3,
+      "passed": true,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 61.66,
+        "balancedTop1": 61.09,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 22,
+        "improved": 22,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 23,
+      "finalFitPasses": true,
+      "sourceSupport": {
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database",
+          "Wikimedia Commons",
+          "ccMixter"
+        ],
+        "トランス": [
+          "FMA",
+          "Internet Archive",
+          "Jamendo",
+          "Wikimedia Commons",
+          "ccMixter"
+        ]
+      },
+      "folds": [
+        {
+          "heldOutSource": "FMA",
+          "trainingRows": 175,
+          "routedRows": 5
+        },
+        {
+          "heldOutSource": "Jamendo",
+          "trainingRows": 90,
+          "routedRows": 108
+        },
+        {
+          "heldOutSource": "MagnaTagATune research evaluation",
+          "trainingRows": 177,
+          "routedRows": 11
+        },
+        {
+          "heldOutSource": "RWC Music Database",
+          "trainingRows": 205,
+          "routedRows": 1
+        },
+        {
+          "heldOutSource": "Wikimedia Commons",
+          "trainingRows": 192,
+          "routedRows": 3
+        }
+      ]
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "テクノ"
+      ],
+      "view": "effnet",
+      "modelKind": "extra-trees",
+      "seed": 15290001,
+      "finalSeed": 15299001,
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 4,
+      "passed": true,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 61.23,
+        "balancedTop1": 60.75,
+        "minimumSourceTop1": 47.37,
+        "top3Accuracy": 83.48,
+        "changedTop1": 17,
+        "improved": 14,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 22,
+      "finalFitPasses": true,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo",
+          "Wikimedia Commons"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database",
+          "Wikimedia Commons",
+          "ccMixter"
+        ]
+      },
+      "folds": [
+        {
+          "heldOutSource": "FMA",
+          "trainingRows": 203,
+          "routedRows": 7
+        },
+        {
+          "heldOutSource": "Internet Archive",
+          "trainingRows": 215,
+          "routedRows": 9
+        },
+        {
+          "heldOutSource": "Jamendo",
+          "trainingRows": 95,
+          "routedRows": 88
+        },
+        {
+          "heldOutSource": "MagnaTagATune research evaluation",
+          "trainingRows": 204,
+          "routedRows": 7
+        },
+        {
+          "heldOutSource": "Wikimedia Commons",
+          "trainingRows": 223,
+          "routedRows": 1
+        }
+      ]
+    },
+    {
+      "pair": [
+        "テクノ",
+        "トランス"
+      ],
+      "view": "librosa",
+      "modelKind": "extra-trees",
+      "seed": 15370001,
+      "finalSeed": 15379001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 1,
+      "passed": true,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.91,
+        "balancedTop1": 60.51,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 8,
+        "improved": 8,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 10,
+      "finalFitPasses": true,
+      "sourceSupport": {
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database",
+          "Wikimedia Commons",
+          "ccMixter"
+        ],
+        "トランス": [
+          "FMA",
+          "Internet Archive",
+          "Jamendo",
+          "Wikimedia Commons",
+          "ccMixter"
+        ]
+      },
+      "folds": [
+        {
+          "heldOutSource": "FMA",
+          "trainingRows": 175,
+          "routedRows": 5
+        },
+        {
+          "heldOutSource": "Jamendo",
+          "trainingRows": 90,
+          "routedRows": 108
+        },
+        {
+          "heldOutSource": "MagnaTagATune research evaluation",
+          "trainingRows": 177,
+          "routedRows": 11
+        },
+        {
+          "heldOutSource": "RWC Music Database",
+          "trainingRows": 205,
+          "routedRows": 1
+        },
+        {
+          "heldOutSource": "Wikimedia Commons",
+          "trainingRows": 192,
+          "routedRows": 3
+        }
+      ]
+    },
+    {
+      "pair": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "full",
+      "modelKind": "logistic",
+      "seed": 15451001,
+      "finalSeed": 15460001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 2,
+      "passed": true,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.65,
+        "balancedTop1": 60.19,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 4,
+        "improved": 3,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 7,
+      "finalFitPasses": true,
+      "sourceSupport": {
+        "ハウス": [
+          "FMA",
+          "Internet Archive",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database",
+          "Wikimedia Commons",
+          "ccMixter"
+        ]
+      },
+      "folds": [
+        {
+          "heldOutSource": "FMA",
+          "trainingRows": 224,
+          "routedRows": 13
+        },
+        {
+          "heldOutSource": "Internet Archive",
+          "trainingRows": 264,
+          "routedRows": 10
+        },
+        {
+          "heldOutSource": "Jamendo",
+          "trainingRows": 95,
+          "routedRows": 153
+        },
+        {
+          "heldOutSource": "MagnaTagATune research evaluation",
+          "trainingRows": 236,
+          "routedRows": 17
+        },
+        {
+          "heldOutSource": "RWC Music Database",
+          "trainingRows": 261,
+          "routedRows": 1
+        },
+        {
+          "heldOutSource": "Wikimedia Commons",
+          "trainingRows": 252,
+          "routedRows": 2
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "rhythm",
+      "modelKind": "extra-trees",
+      "seed": 15140001,
+      "finalSeed": 15149001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.91,
+        "balancedTop1": 60.47,
+        "minimumSourceTop1": 47.37,
+        "top3Accuracy": 83.48,
+        "changedTop1": 8,
+        "improved": 8,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 10,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "rhythm",
+      "modelKind": "logistic",
+      "seed": 15141001,
+      "finalSeed": 15150001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.38,
+        "balancedTop1": 60.02,
+        "minimumSourceTop1": 26.32,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 0,
+        "harmed": 2
+      },
+      "sourceHeldoutChangedRows": 3,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.14,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "rhythm",
+      "modelKind": "extra-trees",
+      "seed": 15150001,
+      "finalSeed": 15159001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 4,
+      "passed": true,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 61.6,
+        "balancedTop1": 60.77,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 21,
+        "improved": 21,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 27,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "rhythm",
+      "modelKind": "logistic",
+      "seed": 15151001,
+      "finalSeed": 15160001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.75,
+        "balancedTop1": 60.27,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 12,
+        "improved": 6,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 16,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.65,
+        "balancedTop1": 60.2,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 5,
+        "improved": 3,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 6,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "ダブ",
+        "レゲエ"
+      ],
+      "view": "rhythm",
+      "modelKind": "extra-trees",
+      "seed": 15160001,
+      "finalSeed": 15169001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.7,
+        "balancedTop1": 60.25,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 4,
+        "improved": 4,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ダブ",
+        "レゲエ"
+      ],
+      "view": "rhythm",
+      "modelKind": "logistic",
+      "seed": 15161001,
+      "finalSeed": 15170001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.38,
+        "balancedTop1": 60.04,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 6,
+        "improved": 2,
+        "harmed": 4
+      },
+      "sourceHeldoutChangedRows": 6,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.14,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "テクノ",
+        "トランス"
+      ],
+      "view": "rhythm",
+      "modelKind": "extra-trees",
+      "seed": 15170001,
+      "finalSeed": 15179001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 2,
+      "passed": true,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.65,
+        "balancedTop1": 60.19,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 3,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "テクノ",
+        "トランス"
+      ],
+      "view": "rhythm",
+      "modelKind": "logistic",
+      "seed": 15171001,
+      "finalSeed": 15180001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 7,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.22,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 6,
+        "improved": 3,
+        "harmed": 1
+      },
+      "finalFitChangedRows": 8,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "メタル",
+        "ロック"
+      ],
+      "view": "rhythm",
+      "modelKind": "extra-trees",
+      "seed": 15180001,
+      "finalSeed": 15189001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.19,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 2,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 3,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "メタル",
+        "ロック"
+      ],
+      "view": "rhythm",
+      "modelKind": "logistic",
+      "seed": 15181001,
+      "finalSeed": 15190001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.44,
+        "balancedTop1": 60.06,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 0,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 1,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.44,
+        "balancedTop1": 60.08,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 1,
+        "harmed": 2
+      },
+      "finalFitChangedRows": 4,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "テクノ"
+      ],
+      "view": "rhythm",
+      "modelKind": "extra-trees",
+      "seed": 15190001,
+      "finalSeed": 15199001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.44,
+        "balancedTop1": 60.05,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 0,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 1,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "テクノ"
+      ],
+      "view": "rhythm",
+      "modelKind": "logistic",
+      "seed": 15191001,
+      "finalSeed": 15200001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.18,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 6,
+        "improved": 4,
+        "harmed": 2
+      },
+      "sourceHeldoutChangedRows": 8,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.18,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 6,
+        "improved": 4,
+        "harmed": 2
+      },
+      "finalFitChangedRows": 9,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "ドローン",
+        "ノイズミュージック"
+      ],
+      "view": "rhythm",
+      "modelKind": "extra-trees",
+      "seed": 15200001,
+      "finalSeed": 15209001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 1,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.65,
+        "balancedTop1": 60.42,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 3,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 3,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ドローン",
+        "ノイズミュージック"
+      ],
+      "view": "rhythm",
+      "modelKind": "logistic",
+      "seed": 15201001,
+      "finalSeed": 15210001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 2,
+      "passed": true,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ハードコア",
+        "メタル"
+      ],
+      "view": "rhythm",
+      "modelKind": "extra-trees",
+      "seed": 15210001,
+      "finalSeed": 15219001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.81,
+        "balancedTop1": 60.37,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 6,
+        "improved": 6,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 10,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 61.02,
+        "balancedTop1": 60.55,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 10,
+        "improved": 10,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 15,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ハードコア",
+        "メタル"
+      ],
+      "view": "rhythm",
+      "modelKind": "logistic",
+      "seed": 15211001,
+      "finalSeed": 15220001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.75,
+        "balancedTop1": 60.33,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 5,
+        "improved": 5,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 9,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.81,
+        "balancedTop1": 60.37,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 8,
+        "improved": 7,
+        "harmed": 1
+      },
+      "finalFitChangedRows": 11,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "クラシック音楽",
+        "オペラ"
+      ],
+      "view": "rhythm",
+      "modelKind": "extra-trees",
+      "seed": 15220001,
+      "finalSeed": 15229001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 2,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "クラシック音楽",
+        "オペラ"
+      ],
+      "view": "rhythm",
+      "modelKind": "logistic",
+      "seed": 15221001,
+      "finalSeed": 15230001,
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 3,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 5,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "アンビエント",
+        "ドローン"
+      ],
+      "view": "rhythm",
+      "modelKind": "extra-trees",
+      "seed": 15230001,
+      "finalSeed": 15239001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 2,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "アンビエント",
+        "ドローン"
+      ],
+      "view": "rhythm",
+      "modelKind": "logistic",
+      "seed": 15231001,
+      "finalSeed": 15240001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.44,
+        "balancedTop1": 60.0,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 0,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 2,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "effnet",
+      "modelKind": "extra-trees",
+      "seed": 15240001,
+      "finalSeed": 15249001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.6,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.91,
+        "balancedTop1": 60.47,
+        "minimumSourceTop1": 47.37,
+        "top3Accuracy": 83.48,
+        "changedTop1": 9,
+        "improved": 8,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 11,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "effnet",
+      "modelKind": "logistic",
+      "seed": 15241001,
+      "finalSeed": 15250001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "effnet",
+      "modelKind": "extra-trees",
+      "seed": 15250001,
+      "finalSeed": 15259001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.91,
+        "balancedTop1": 60.35,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 8,
+        "improved": 8,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 10,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "effnet",
+      "modelKind": "logistic",
+      "seed": 15251001,
+      "finalSeed": 15260001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 6,
+        "improved": 2,
+        "harmed": 2
+      },
+      "sourceHeldoutChangedRows": 10,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.81,
+        "balancedTop1": 60.31,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 13,
+        "improved": 8,
+        "harmed": 2
+      },
+      "finalFitChangedRows": 21,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "ダブ",
+        "レゲエ"
+      ],
+      "view": "effnet",
+      "modelKind": "extra-trees",
+      "seed": 15260001,
+      "finalSeed": 15269001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.7,
+        "balancedTop1": 60.25,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 4,
+        "improved": 4,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ダブ",
+        "レゲエ"
+      ],
+      "view": "effnet",
+      "modelKind": "logistic",
+      "seed": 15261001,
+      "finalSeed": 15270001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.14,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "テクノ",
+        "トランス"
+      ],
+      "view": "effnet",
+      "modelKind": "extra-trees",
+      "seed": 15270001,
+      "finalSeed": 15279001,
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 3,
+      "passed": true,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 61.66,
+        "balancedTop1": 61.09,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 22,
+        "improved": 22,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 23,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "テクノ",
+        "トランス"
+      ],
+      "view": "effnet",
+      "modelKind": "logistic",
+      "seed": 15271001,
+      "finalSeed": 15280001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 1,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.44,
+        "balancedTop1": 60.08,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 0,
+        "harmed": 1
+      },
+      "finalFitChangedRows": 2,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "メタル",
+        "ロック"
+      ],
+      "view": "effnet",
+      "modelKind": "extra-trees",
+      "seed": 15280001,
+      "finalSeed": 15289001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.65,
+        "balancedTop1": 60.24,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 3,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "メタル",
+        "ロック"
+      ],
+      "view": "effnet",
+      "modelKind": "logistic",
+      "seed": 15281001,
+      "finalSeed": 15290001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "テクノ"
+      ],
+      "view": "effnet",
+      "modelKind": "extra-trees",
+      "seed": 15290001,
+      "finalSeed": 15299001,
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 4,
+      "passed": true,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 61.23,
+        "balancedTop1": 60.75,
+        "minimumSourceTop1": 47.37,
+        "top3Accuracy": 83.48,
+        "changedTop1": 17,
+        "improved": 14,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 22,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "テクノ"
+      ],
+      "view": "effnet",
+      "modelKind": "logistic",
+      "seed": 15291001,
+      "finalSeed": 15300001,
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.2,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 2,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 4,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.86,
+        "balancedTop1": 60.47,
+        "minimumSourceTop1": 47.37,
+        "top3Accuracy": 83.48,
+        "changedTop1": 12,
+        "improved": 8,
+        "harmed": 1
+      },
+      "finalFitChangedRows": 18,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "ドローン",
+        "ノイズミュージック"
+      ],
+      "view": "effnet",
+      "modelKind": "extra-trees",
+      "seed": 15300001,
+      "finalSeed": 15309001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.65,
+        "balancedTop1": 60.42,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 3,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 3,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ドローン",
+        "ノイズミュージック"
+      ],
+      "view": "effnet",
+      "modelKind": "logistic",
+      "seed": 15301001,
+      "finalSeed": 15310001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.21,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ハードコア",
+        "メタル"
+      ],
+      "view": "effnet",
+      "modelKind": "extra-trees",
+      "seed": 15310001,
+      "finalSeed": 15319001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.81,
+        "balancedTop1": 60.37,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 6,
+        "improved": 6,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 9,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 61.02,
+        "balancedTop1": 60.55,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 11,
+        "improved": 10,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 16,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ハードコア",
+        "メタル"
+      ],
+      "view": "effnet",
+      "modelKind": "logistic",
+      "seed": 15311001,
+      "finalSeed": 15320001,
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.81,
+        "balancedTop1": 60.37,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 6,
+        "improved": 6,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 10,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 61.02,
+        "balancedTop1": 60.55,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 12,
+        "improved": 10,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 17,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "クラシック音楽",
+        "オペラ"
+      ],
+      "view": "effnet",
+      "modelKind": "extra-trees",
+      "seed": 15320001,
+      "finalSeed": 15329001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 2,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "クラシック音楽",
+        "オペラ"
+      ],
+      "view": "effnet",
+      "modelKind": "logistic",
+      "seed": 15321001,
+      "finalSeed": 15330001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 2,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "アンビエント",
+        "ドローン"
+      ],
+      "view": "effnet",
+      "modelKind": "extra-trees",
+      "seed": 15330001,
+      "finalSeed": 15339001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 1,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "アンビエント",
+        "ドローン"
+      ],
+      "view": "effnet",
+      "modelKind": "logistic",
+      "seed": 15331001,
+      "finalSeed": 15340001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "librosa",
+      "modelKind": "extra-trees",
+      "seed": 15340001,
+      "finalSeed": 15349001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.97,
+        "balancedTop1": 60.52,
+        "minimumSourceTop1": 47.37,
+        "top3Accuracy": 83.48,
+        "changedTop1": 10,
+        "improved": 9,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 12,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "librosa",
+      "modelKind": "logistic",
+      "seed": 15341001,
+      "finalSeed": 15350001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.15,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 4,
+        "improved": 2,
+        "harmed": 1
+      },
+      "finalFitChangedRows": 4,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "librosa",
+      "modelKind": "extra-trees",
+      "seed": 15350001,
+      "finalSeed": 15359001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.91,
+        "balancedTop1": 60.35,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 8,
+        "improved": 8,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 10,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "librosa",
+      "modelKind": "logistic",
+      "seed": 15351001,
+      "finalSeed": 15360001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.14,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 1,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.17,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 6,
+        "improved": 3,
+        "harmed": 1
+      },
+      "finalFitChangedRows": 10,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "ダブ",
+        "レゲエ"
+      ],
+      "view": "librosa",
+      "modelKind": "extra-trees",
+      "seed": 15360001,
+      "finalSeed": 15369001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.7,
+        "balancedTop1": 60.25,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 4,
+        "improved": 4,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ダブ",
+        "レゲエ"
+      ],
+      "view": "librosa",
+      "modelKind": "logistic",
+      "seed": 15361001,
+      "finalSeed": 15370001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.38,
+        "balancedTop1": 60.06,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 16,
+        "improved": 6,
+        "harmed": 8
+      },
+      "sourceHeldoutChangedRows": 16,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.7,
+        "balancedTop1": 60.25,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 4,
+        "improved": 4,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "テクノ",
+        "トランス"
+      ],
+      "view": "librosa",
+      "modelKind": "extra-trees",
+      "seed": 15370001,
+      "finalSeed": 15379001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 1,
+      "passed": true,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.91,
+        "balancedTop1": 60.51,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 8,
+        "improved": 8,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 10,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "テクノ",
+        "トランス"
+      ],
+      "view": "librosa",
+      "modelKind": "logistic",
+      "seed": 15371001,
+      "finalSeed": 15380001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.28,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 7,
+        "improved": 4,
+        "harmed": 2
+      },
+      "sourceHeldoutChangedRows": 10,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.28,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 7,
+        "improved": 3,
+        "harmed": 1
+      },
+      "finalFitChangedRows": 12,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "メタル",
+        "ロック"
+      ],
+      "view": "librosa",
+      "modelKind": "extra-trees",
+      "seed": 15380001,
+      "finalSeed": 15389001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.65,
+        "balancedTop1": 60.24,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 3,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "メタル",
+        "ロック"
+      ],
+      "view": "librosa",
+      "modelKind": "logistic",
+      "seed": 15381001,
+      "finalSeed": 15390001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.44,
+        "balancedTop1": 60.06,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 0,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 1,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.12,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 1
+      },
+      "finalFitChangedRows": 3,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "テクノ"
+      ],
+      "view": "librosa",
+      "modelKind": "extra-trees",
+      "seed": 15390001,
+      "finalSeed": 15399001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "テクノ"
+      ],
+      "view": "librosa",
+      "modelKind": "logistic",
+      "seed": 15391001,
+      "finalSeed": 15400001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.15,
+        "minimumSourceTop1": 36.84,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 3,
+      "passed": true,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.2,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 2,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ドローン",
+        "ノイズミュージック"
+      ],
+      "view": "librosa",
+      "modelKind": "extra-trees",
+      "seed": 15400001,
+      "finalSeed": 15409001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.7,
+        "balancedTop1": 60.53,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 4,
+        "improved": 4,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ドローン",
+        "ノイズミュージック"
+      ],
+      "view": "librosa",
+      "modelKind": "logistic",
+      "seed": 15401001,
+      "finalSeed": 15410001,
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.33,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 2,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.44,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ハードコア",
+        "メタル"
+      ],
+      "view": "librosa",
+      "modelKind": "extra-trees",
+      "seed": 15410001,
+      "finalSeed": 15419001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.81,
+        "balancedTop1": 60.37,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 6,
+        "improved": 6,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 9,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 61.02,
+        "balancedTop1": 60.55,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 11,
+        "improved": 10,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 15,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ハードコア",
+        "メタル"
+      ],
+      "view": "librosa",
+      "modelKind": "logistic",
+      "seed": 15411001,
+      "finalSeed": 15420001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.81,
+        "balancedTop1": 60.37,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 6,
+        "improved": 6,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 10,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.97,
+        "balancedTop1": 60.51,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 9,
+        "improved": 9,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 13,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "クラシック音楽",
+        "オペラ"
+      ],
+      "view": "librosa",
+      "modelKind": "extra-trees",
+      "seed": 15420001,
+      "finalSeed": 15429001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 2,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "クラシック音楽",
+        "オペラ"
+      ],
+      "view": "librosa",
+      "modelKind": "logistic",
+      "seed": 15421001,
+      "finalSeed": 15430001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 2,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "アンビエント",
+        "ドローン"
+      ],
+      "view": "librosa",
+      "modelKind": "extra-trees",
+      "seed": 15430001,
+      "finalSeed": 15439001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 3,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "アンビエント",
+        "ドローン"
+      ],
+      "view": "librosa",
+      "modelKind": "logistic",
+      "seed": 15431001,
+      "finalSeed": 15440001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.44,
+        "balancedTop1": 60.0,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 0,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 2,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "full",
+      "modelKind": "extra-trees",
+      "seed": 15440001,
+      "finalSeed": 15449001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.6,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.91,
+        "balancedTop1": 60.47,
+        "minimumSourceTop1": 47.37,
+        "top3Accuracy": 83.48,
+        "changedTop1": 8,
+        "improved": 8,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 11,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "full",
+      "modelKind": "logistic",
+      "seed": 15441001,
+      "finalSeed": 15450001,
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.6,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.12,
+        "minimumSourceTop1": 42.11,
+        "top3Accuracy": 83.48,
+        "changedTop1": 6,
+        "improved": 2,
+        "harmed": 2
+      },
+      "sourceHeldoutChangedRows": 8,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.86,
+        "balancedTop1": 60.57,
+        "minimumSourceTop1": 52.63,
+        "top3Accuracy": 83.48,
+        "changedTop1": 35,
+        "improved": 19,
+        "harmed": 12
+      },
+      "finalFitChangedRows": 55,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "full",
+      "modelKind": "extra-trees",
+      "seed": 15450001,
+      "finalSeed": 15459001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.91,
+        "balancedTop1": 60.35,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 8,
+        "improved": 8,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 10,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "full",
+      "modelKind": "logistic",
+      "seed": 15451001,
+      "finalSeed": 15460001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 2,
+      "passed": true,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.65,
+        "balancedTop1": 60.19,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 4,
+        "improved": 3,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 7,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ダブ",
+        "レゲエ"
+      ],
+      "view": "full",
+      "modelKind": "extra-trees",
+      "seed": 15460001,
+      "finalSeed": 15469001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.7,
+        "balancedTop1": 60.25,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 4,
+        "improved": 4,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ダブ",
+        "レゲエ"
+      ],
+      "view": "full",
+      "modelKind": "logistic",
+      "seed": 15461001,
+      "finalSeed": 15470001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.14,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "テクノ",
+        "トランス"
+      ],
+      "view": "full",
+      "modelKind": "extra-trees",
+      "seed": 15470001,
+      "finalSeed": 15479001,
+      "config": {
+        "weight": 0.75,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.75,
+        "balancedTop1": 60.18,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 8,
+        "improved": 6,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 11,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 61.71,
+        "balancedTop1": 61.12,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 25,
+        "improved": 23,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 27,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "テクノ",
+        "トランス"
+      ],
+      "view": "full",
+      "modelKind": "logistic",
+      "seed": 15471001,
+      "finalSeed": 15480001,
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.59,
+        "balancedTop1": 60.16,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 9,
+        "improved": 4,
+        "harmed": 2
+      },
+      "sourceHeldoutChangedRows": 13,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.65,
+        "balancedTop1": 60.19,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 9,
+        "improved": 4,
+        "harmed": 1
+      },
+      "finalFitChangedRows": 13,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "メタル",
+        "ロック"
+      ],
+      "view": "full",
+      "modelKind": "extra-trees",
+      "seed": 15480001,
+      "finalSeed": 15489001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.65,
+        "balancedTop1": 60.24,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 3,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 4,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "メタル",
+        "ロック"
+      ],
+      "view": "full",
+      "modelKind": "logistic",
+      "seed": 15481001,
+      "finalSeed": 15490001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "テクノ"
+      ],
+      "view": "full",
+      "modelKind": "extra-trees",
+      "seed": 15490001,
+      "finalSeed": 15499001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "テクノ"
+      ],
+      "view": "full",
+      "modelKind": "logistic",
+      "seed": 15491001,
+      "finalSeed": 15500001,
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.7,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.65,
+        "balancedTop1": 60.25,
+        "minimumSourceTop1": 42.11,
+        "top3Accuracy": 83.48,
+        "changedTop1": 4,
+        "improved": 3,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 8,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.91,
+        "balancedTop1": 60.52,
+        "minimumSourceTop1": 47.37,
+        "top3Accuracy": 83.48,
+        "changedTop1": 14,
+        "improved": 9,
+        "harmed": 1
+      },
+      "finalFitChangedRows": 23,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "ドローン",
+        "ノイズミュージック"
+      ],
+      "view": "full",
+      "modelKind": "extra-trees",
+      "seed": 15500001,
+      "finalSeed": 15509001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.65,
+        "balancedTop1": 60.42,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 3,
+        "improved": 3,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 3,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ドローン",
+        "ノイズミュージック"
+      ],
+      "view": "full",
+      "modelKind": "logistic",
+      "seed": 15501001,
+      "finalSeed": 15510001,
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.33,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 1
+      },
+      "sourceHeldoutChangedRows": 2,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.81,
+        "balancedTop1": 60.97,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 6,
+        "improved": 6,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 6,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ハードコア",
+        "メタル"
+      ],
+      "view": "full",
+      "modelKind": "extra-trees",
+      "seed": 15510001,
+      "finalSeed": 15519001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.81,
+        "balancedTop1": 60.37,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 6,
+        "improved": 6,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 9,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 61.02,
+        "balancedTop1": 60.55,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 11,
+        "improved": 10,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 16,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "ハードコア",
+        "メタル"
+      ],
+      "view": "full",
+      "modelKind": "logistic",
+      "seed": 15511001,
+      "finalSeed": 15520001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.81,
+        "balancedTop1": 60.37,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 6,
+        "improved": 6,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 9,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 61.02,
+        "balancedTop1": 60.55,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 11,
+        "improved": 10,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 15,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "クラシック音楽",
+        "オペラ"
+      ],
+      "view": "full",
+      "modelKind": "extra-trees",
+      "seed": 15520001,
+      "finalSeed": 15529001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 2,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "クラシック音楽",
+        "オペラ"
+      ],
+      "view": "full",
+      "modelKind": "logistic",
+      "seed": 15521001,
+      "finalSeed": 15530001,
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.5,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 2,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.54,
+        "balancedTop1": 60.13,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 2,
+      "finalFitPasses": true
+    },
+    {
+      "pair": [
+        "アンビエント",
+        "ドローン"
+      ],
+      "view": "full",
+      "modelKind": "extra-trees",
+      "seed": 15530001,
+      "finalSeed": 15539001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 1,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 2,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 0,
+      "finalFitPasses": false
+    },
+    {
+      "pair": [
+        "アンビエント",
+        "ドローン"
+      ],
+      "view": "full",
+      "modelKind": "logistic",
+      "seed": 15531001,
+      "finalSeed": 15540001,
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.9,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "sourceHeldoutChangedRows": 0,
+      "passed": false,
+      "finalFitDiagnostic": {
+        "top1Accuracy": 60.49,
+        "balancedTop1": 60.1,
+        "minimumSourceTop1": 31.58,
+        "top3Accuracy": 83.48,
+        "changedTop1": 0,
+        "improved": 0,
+        "harmed": 0
+      },
+      "finalFitChangedRows": 1,
+      "finalFitPasses": false
+    }
+  ],
+  "decision": "inspect-passed-candidates"
+}
