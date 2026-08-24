@@ -1,0 +1,126 @@
+{
+  "version": "unknown80-track-pair-v110-candidate",
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-24T04:41:26.180278+00:00",
+  "modelPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown80-track-pair-v110-candidate.pkl",
+  "modelSha256": "56f63194a1d64573e48eaf04edbaa961484e4a7a2f0cf2dd327e23aec863a471",
+  "runtimeFeatureContractSha256": "ea833af2bcfb08af88098281a02fc5dbc9b45661fee6c609cab7299e4d03f7fe",
+  "baseVersion": "unknown80-track-pair-v109-candidate",
+  "pairs": [
+    {
+      "labels": [
+        "ハウス",
+        "テクノ"
+      ],
+      "view": "effnet",
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8
+      },
+      "sourceSupport": {
+        "ハウス": [
+          "FMA",
+          "Internet Archive",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ],
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database",
+          "Wikimedia Commons",
+          "ccMixter"
+        ]
+      }
+    },
+    {
+      "labels": [
+        "パンク",
+        "ロック"
+      ],
+      "view": "effnet",
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.7
+      },
+      "sourceSupport": {
+        "パンク": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation"
+        ],
+        "ロック": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database"
+        ]
+      }
+    },
+    {
+      "labels": [
+        "パンク",
+        "ロック"
+      ],
+      "view": "effnet",
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.5
+      },
+      "sourceSupport": {
+        "パンク": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation"
+        ],
+        "ロック": [
+          "FMA",
+          "Jamendo",
+          "MagnaTagATune research evaluation",
+          "RWC Music Database"
+        ]
+      },
+      "modelKind": "extra-trees",
+      "stage": "v110-nonlinear-punk-rock"
+    }
+  ],
+  "addedStage": {
+    "labels": [
+      "パンク",
+      "ロック"
+    ],
+    "view": "effnet",
+    "config": {
+      "weight": 0.25,
+      "confidenceFloor": 0.5
+    },
+    "sourceSupport": {
+      "パンク": [
+        "FMA",
+        "Jamendo",
+        "MagnaTagATune research evaluation"
+      ],
+      "ロック": [
+        "FMA",
+        "Jamendo",
+        "MagnaTagATune research evaluation",
+        "RWC Music Database"
+      ]
+    },
+    "modelKind": "extra-trees"
+  },
+  "promotionState": "promoted",
+  "promotedAt": "2026-08-24T04:41:31.942469+00:00",
+  "productionModelUpdated": true,
+  "sealedFinalHoldoutUsed": false,
+  "evaluation": {
+    "sourceHeldoutReport": "genre-training/unknown80-v110-extra-trees-export.json",
+    "sourceHeldoutReportSha256": "b5ea8d8d4ee6984dca00b75246e066356e8424f9604579521d89fae3d04b649f",
+    "runtimeParityReport": "genre-training/unknown80-v110-runtime-parity.json",
+    "runtimeParityReportSha256": "691ea1d0c52ffd316f31a180665be78567b55db076895b0276a9cb8ca01df14e",
+    "incumbentProductionRegressionReport": "genre-training/unknown80-independent-stack-v107-production-regression.json",
+    "incumbentProductionRegressionReportSha256": "7d2164fd5bdee701644c90f3134176ecd7dd5fdb4279f74f7c38652c278ecc6c"
+  }
+}

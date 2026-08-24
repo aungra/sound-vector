@@ -1,0 +1,127 @@
+{
+  "generatedAt": "2026-08-24T04:41:26.180278+00:00",
+  "objective": "Add a nonlinear production-input Punk/Rock stage after fixed v109.",
+  "policy": {
+    "metadataUsedAtInference": false,
+    "urlSpecificRulesUsed": false,
+    "sealedFinalHoldoutUsed": false,
+    "matchingProviderExcludedFromOuterFold": true,
+    "singleGlobalConfig": true,
+    "top3CandidateSetChanged": false,
+    "productionModelUpdated": false
+  },
+  "dataset": {
+    "oofRows": 1883,
+    "cachedRows": 1195,
+    "pair": [
+      "パンク",
+      "ロック"
+    ],
+    "view": "effnet",
+    "sourceSupport": {
+      "パンク": [
+        "FMA",
+        "Jamendo",
+        "MagnaTagATune research evaluation"
+      ],
+      "ロック": [
+        "FMA",
+        "Jamendo",
+        "MagnaTagATune research evaluation",
+        "RWC Music Database"
+      ]
+    }
+  },
+  "config": {
+    "weight": 0.25,
+    "confidenceFloor": 0.5
+  },
+  "folds": [
+    {
+      "heldOutSource": "FMA",
+      "trainingRows": 160,
+      "routedRows": 19
+    },
+    {
+      "heldOutSource": "Jamendo",
+      "trainingRows": 88,
+      "routedRows": 34
+    },
+    {
+      "heldOutSource": "MagnaTagATune research evaluation",
+      "trainingRows": 149,
+      "routedRows": 37
+    },
+    {
+      "heldOutSource": "RWC Music Database",
+      "trainingRows": 194,
+      "routedRows": 1
+    }
+  ],
+  "baseline": {
+    "top1Accuracy": 60.22,
+    "balancedTop1": 59.95,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 0,
+    "sourceTop1": {
+      "FMA": 60.86,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 56.05,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    }
+  },
+  "sourceHeldout": {
+    "top1Accuracy": 60.33,
+    "balancedTop1": 60.01,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 4,
+    "sourceTop1": {
+      "FMA": 61.16,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 56.13,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    },
+    "improved": 2,
+    "harmed": 0
+  },
+  "sourceHeldoutChangedRows": 4,
+  "finalFitDiagnostic": {
+    "top1Accuracy": 60.49,
+    "balancedTop1": 60.16,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 6,
+    "sourceTop1": {
+      "FMA": 61.77,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 56.21,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    },
+    "improved": 5,
+    "harmed": 0
+  },
+  "finalFitChangedRows": 6,
+  "serializationParity": {
+    "rows": 24,
+    "maxAbsoluteProbabilityDelta": 0.0,
+    "tolerance": 1e-08,
+    "passes": true
+  },
+  "modelPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown80-track-pair-v110-candidate.pkl",
+  "modelSha256": "56f63194a1d64573e48eaf04edbaa961484e4a7a2f0cf2dd327e23aec863a471",
+  "decision": "continue-v110-runtime-parity"
+}

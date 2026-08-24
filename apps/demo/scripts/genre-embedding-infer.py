@@ -110,11 +110,11 @@ UNKNOWN80_INDEPENDENT_PAIR_MODEL_PATH = Path(os.environ.get(
 UNKNOWN80_TRACK_PAIR_MODEL_PATH = Path(os.environ.get(
     "MMFR_UNKNOWN80_TRACK_PAIR_MODEL_PATH",
     "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/"
-    "unknown80-track-pair-v109-candidate.pkl",
+    "unknown80-track-pair-v110-candidate.pkl",
 ))
 UNKNOWN80_TRACK_PAIR_MANIFEST_PATH = Path(os.environ.get(
     "MMFR_UNKNOWN80_TRACK_PAIR_MANIFEST_PATH",
-    str(ROOT / "genre-training" / "unknown80-v109-track-pair-model-manifest.json"),
+    str(ROOT / "genre-training" / "unknown80-v110-track-pair-model-manifest.json"),
 ))
 ENABLE_UNKNOWN80_RHYTHM_RERANKER = (
     os.environ.get("MMFR_ENABLE_UNKNOWN80_RHYTHM_RERANKER", "1") == "1"
