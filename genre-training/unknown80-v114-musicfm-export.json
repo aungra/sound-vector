@@ -1,0 +1,202 @@
+{
+  "generatedAt": "2026-08-24T06:33:30.536707+00:00",
+  "objective": "Export source-heldout MusicFM Top3 v114 runtime candidate.",
+  "policy": {
+    "metadataUsedAtInference": false,
+    "urlSpecificRulesUsed": false,
+    "sealedFinalHoldoutUsed": false,
+    "matchingProviderExcludedFromOuterFold": true,
+    "top3CandidateSetChanged": false,
+    "productionModelUpdated": false,
+    "finalFitDiagnosticIsNotUnknownSourceAccuracy": true
+  },
+  "baseline": {
+    "top1Accuracy": 60.54,
+    "balancedTop1": 60.21,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 0,
+    "sourceTop1": {
+      "FMA": 61.47,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 56.38,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    }
+  },
+  "sourceHeldout": {
+    "top1Accuracy": 60.7,
+    "balancedTop1": 60.3,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 5,
+    "sourceTop1": {
+      "FMA": 62.08,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 56.46,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    },
+    "improved": 3,
+    "harmed": 0
+  },
+  "sourceHeldoutChangedRows": 5,
+  "trainingRows": 429,
+  "eligibleLabels": [
+    "アンビエント",
+    "クラシック音楽",
+    "ジャズ",
+    "ダブ",
+    "ダブステップ",
+    "チップチューン",
+    "テクノ",
+    "ディープ・ハウス",
+    "トラップ",
+    "ドラムンベース",
+    "ドローン",
+    "ノイズミュージック",
+    "ハウス",
+    "パンク",
+    "ヒップホップ",
+    "ファンク",
+    "フォーク",
+    "ブルース",
+    "メタル",
+    "ラテン",
+    "レゲエ",
+    "ロック"
+  ],
+  "sourceSupport": {
+    "アンビエント": [
+      "FMA",
+      "Jamendo"
+    ],
+    "クラシック音楽": [
+      "Jamendo",
+      "RWC Music Database",
+      "Wikimedia Commons"
+    ],
+    "ジャズ": [
+      "Internet Archive",
+      "RWC Music Database"
+    ],
+    "ダブ": [
+      "FMA",
+      "Jamendo"
+    ],
+    "ダブステップ": [
+      "FMA",
+      "Jamendo"
+    ],
+    "チップチューン": [
+      "FMA",
+      "Wikimedia Commons"
+    ],
+    "テクノ": [
+      "FMA",
+      "Jamendo",
+      "RWC Music Database",
+      "Wikimedia Commons"
+    ],
+    "ディープ・ハウス": [
+      "Internet Archive",
+      "Jamendo"
+    ],
+    "トラップ": [
+      "Internet Archive",
+      "Wikimedia Commons"
+    ],
+    "ドラムンベース": [
+      "FMA",
+      "Jamendo",
+      "Wikimedia Commons"
+    ],
+    "ドローン": [
+      "FMA",
+      "Wikimedia Commons"
+    ],
+    "ノイズミュージック": [
+      "FMA",
+      "Wikimedia Commons"
+    ],
+    "ハウス": [
+      "FMA",
+      "Jamendo",
+      "RWC Music Database"
+    ],
+    "パンク": [
+      "FMA",
+      "Jamendo"
+    ],
+    "ヒップホップ": [
+      "FMA",
+      "Jamendo",
+      "RWC Music Database"
+    ],
+    "ファンク": [
+      "Jamendo",
+      "RWC Music Database"
+    ],
+    "フォーク": [
+      "FMA",
+      "Jamendo"
+    ],
+    "ブルース": [
+      "Jamendo",
+      "RWC Music Database"
+    ],
+    "メタル": [
+      "FMA",
+      "Jamendo",
+      "RWC Music Database"
+    ],
+    "ラテン": [
+      "FMA",
+      "Jamendo",
+      "RWC Music Database"
+    ],
+    "レゲエ": [
+      "FMA",
+      "Jamendo",
+      "RWC Music Database"
+    ],
+    "ロック": [
+      "FMA",
+      "Jamendo",
+      "RWC Music Database"
+    ]
+  },
+  "serializationParity": {
+    "rows": 32,
+    "maxAbsoluteProbabilityDelta": 1.1102230246251565e-16,
+    "tolerance": 1e-08,
+    "passes": true
+  },
+  "runtimeFeatureContract": {
+    "schemaVersion": 1,
+    "modelFamily": "MusicFM MSD inference",
+    "modelLicense": "MIT; Apache-2.0",
+    "modelLicenseEvidence": "local-model/LICENSE",
+    "sampleRate": 24000,
+    "durationSeconds": 29.1,
+    "frameCount": 728,
+    "hiddenSize": 1024,
+    "summary": [
+      "frame-mean",
+      "moment-mean"
+    ],
+    "featureLength": 2048,
+    "channelMix": "mean-float32",
+    "resampler": "soxr-HQ"
+  },
+  "runtimeFeatureContractSha256": "2a0ac68b103e0c7262c31a8401c928cc2cfcb1326adf56c373c2f9c5fdcdacd5",
+  "modelPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown80-musicfm-top3-v114-candidate.pkl",
+  "modelSha256": "c6df3b01d96a5b284e15287a7f05b5728dcb78aa99c14c082004740e888e7749",
+  "decision": "continue-v114-runtime-feature-parity"
+}

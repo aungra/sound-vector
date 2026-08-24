@@ -1,0 +1,87 @@
+{
+  "generatedAt": "2026-08-24T06:34:10.763939+00:00",
+  "objective": "Verify v114 runtime helper, live extraction, and promotion gates.",
+  "policy": {
+    "metadataUsedAtInference": false,
+    "urlSpecificRulesUsed": false,
+    "sealedFinalHoldoutUsed": false,
+    "cachedFinalFitIsNotUnknownSourceAccuracy": true
+  },
+  "baseline": {
+    "top1Accuracy": 60.54,
+    "balancedTop1": 60.21,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 0,
+    "sourceTop1": {
+      "FMA": 61.47,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 56.38,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    }
+  },
+  "sourceHeldout": {
+    "top1Accuracy": 60.7,
+    "balancedTop1": 60.3,
+    "minimumSourceTop1": 31.58,
+    "top3Accuracy": 83.48,
+    "changedTop1": 5,
+    "sourceTop1": {
+      "FMA": 62.08,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 31.58,
+      "Jamendo": 56.46,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    },
+    "improved": 3,
+    "harmed": 0
+  },
+  "cachedRows": 429,
+  "cachedRuntimeAppliedRows": 79,
+  "cachedRuntimeDiagnostic": {
+    "top1Accuracy": 64.37,
+    "balancedTop1": 65.46,
+    "minimumSourceTop1": 59.8,
+    "top3Accuracy": 83.48,
+    "changedTop1": 74,
+    "sourceTop1": {
+      "FMA": 66.97,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 73.68,
+      "Jamendo": 59.8,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 91.53,
+      "Wikimedia Commons": 85.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    },
+    "improved": 72,
+    "harmed": 0
+  },
+  "liveExtractionSample": {
+    "sourceKey": "cc-dataset:/Volumes/20251005_12TBskyhawk/MUSICTee-cache/external-data/fma/fma_small/042/042018.mp3",
+    "maxAbsoluteFeatureDelta": 0.0,
+    "maxAbsoluteProbabilityDelta": 1.1102230246251565e-16,
+    "extractionSeconds": 5.155
+  },
+  "modelSha256": "c6df3b01d96a5b284e15287a7f05b5728dcb78aa99c14c082004740e888e7749",
+  "gates": {
+    "modelShaMatches": true,
+    "sourceHeldoutImproves": true,
+    "sourceHeldoutHarmedZero": true,
+    "cachedRuntimeHarmedZero": true,
+    "featureParity": true,
+    "probabilityParity": true,
+    "contractParity": true
+  },
+  "passes": true,
+  "promotionRequested": false,
+  "promotionState": "candidate-latency-gate-pending",
+  "decision": "measure-production-latency"
+}

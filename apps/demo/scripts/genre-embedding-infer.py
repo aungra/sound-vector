@@ -4,6 +4,7 @@ import importlib.util
 import json
 import os
 import pickle
+import subprocess
 from pathlib import Path
 
 os.environ.setdefault("NUMBA_CACHE_DIR", "/tmp/mmfr-numba-cache")
@@ -43,6 +44,10 @@ from genre_unknown80_rhythm_reranker import (
 from genre_unknown80_track_pair_reranker import (
     load_bundle as load_unknown80_track_pair_bundle,
     rerank as apply_unknown80_track_pair_reranker,
+)
+from genre_musicfm_runtime import (
+    load_bundle as load_musicfm_bundle,
+    rerank as apply_musicfm_reranker,
 )
 from genre_librosa_contract import extract_librosa as extract_runtime_librosa
 
@@ -116,6 +121,22 @@ UNKNOWN80_TRACK_PAIR_MANIFEST_PATH = Path(os.environ.get(
     "MMFR_UNKNOWN80_TRACK_PAIR_MANIFEST_PATH",
     str(ROOT / "genre-training" / "unknown80-v113-track-pair-model-manifest.json"),
 ))
+UNKNOWN80_MUSICFM_MODEL_PATH = Path(os.environ.get(
+    "MMFR_UNKNOWN80_MUSICFM_MODEL_PATH",
+    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/"
+    "unknown80-musicfm-top3-v114-candidate.pkl",
+))
+UNKNOWN80_MUSICFM_MANIFEST_PATH = Path(os.environ.get(
+    "MMFR_UNKNOWN80_MUSICFM_MANIFEST_PATH",
+    str(ROOT / "genre-training" / "unknown80-v114-musicfm-model-manifest.json"),
+))
+MUSICFM_EXTRACTOR_PATH = Path(__file__).with_name("genre-musicfm-runtime-extract.py")
+MUSICFM_PYTHON = os.environ.get("MMFR_MUSICFM_PYTHON", "/usr/bin/python3")
+MUSICFM_PYTHONPATH = os.environ.get(
+    "MMFR_MUSICFM_PYTHONPATH",
+    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/python/mulan-runtime:"
+    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/python/musicfm-runtime",
+)
 ENABLE_UNKNOWN80_RHYTHM_RERANKER = (
     os.environ.get("MMFR_ENABLE_UNKNOWN80_RHYTHM_RERANKER", "1") == "1"
 )
@@ -125,10 +146,14 @@ ENABLE_UNKNOWN80_INDEPENDENT_PAIR_RERANKER = (
 ENABLE_UNKNOWN80_TRACK_PAIR_RERANKER = (
     os.environ.get("MMFR_ENABLE_UNKNOWN80_TRACK_PAIR_RERANKER", "1") == "1"
 )
+ENABLE_UNKNOWN80_MUSICFM_RERANKER = (
+    os.environ.get("MMFR_ENABLE_UNKNOWN80_MUSICFM_RERANKER", "0") == "1"
+)
 UNKNOWN80_RHYTHM_BUNDLE = None
 UNKNOWN80_FUNK_ROCK_BUNDLE = None
 UNKNOWN80_INDEPENDENT_PAIR_BUNDLE = None
 UNKNOWN80_TRACK_PAIR_BUNDLE = None
+UNKNOWN80_MUSICFM_BUNDLE = None
 
 FINE_LABEL_MACRO_MAP = {
     "アンビエント": "ambient",
@@ -1022,6 +1047,80 @@ def track_pair_promotion_status():
     return {"promoted": True, "reason": "promoted", "modelSha256": digest}
 
 
+def musicfm_promotion_status():
+    if not UNKNOWN80_MUSICFM_MANIFEST_PATH.is_file():
+        return {"promoted": False, "reason": "promotion-manifest-missing"}
+    try:
+        manifest = json.loads(UNKNOWN80_MUSICFM_MANIFEST_PATH.read_text())
+    except (OSError, ValueError):
+        return {"promoted": False, "reason": "promotion-manifest-invalid"}
+    if manifest.get("promotionState") != "promoted":
+        return {"promoted": False, "reason": "model-not-promoted"}
+    expected = str(manifest.get("modelSha256") or "")
+    if not expected or not UNKNOWN80_MUSICFM_MODEL_PATH.is_file():
+        return {"promoted": False, "reason": "promoted-model-missing"}
+    digest = hashlib.sha256(UNKNOWN80_MUSICFM_MODEL_PATH.read_bytes()).hexdigest()
+    if digest != expected:
+        return {"promoted": False, "reason": "promoted-model-sha256-mismatch"}
+    return {"promoted": True, "reason": "promoted", "modelSha256": digest}
+
+
+def extract_musicfm_record(audio_path):
+    environment = os.environ.copy()
+    environment.update({
+        "PYTHONPATH": MUSICFM_PYTHONPATH,
+        "HF_HUB_OFFLINE": "1",
+        "TRANSFORMERS_OFFLINE": "1",
+    })
+    completed = subprocess.run(
+        [MUSICFM_PYTHON, str(MUSICFM_EXTRACTOR_PATH), "--audio", str(audio_path)],
+        check=True, capture_output=True, text=True, timeout=120,
+        env=environment,
+    )
+    lines = [line for line in completed.stdout.splitlines() if line.strip()]
+    if not lines:
+        raise RuntimeError("MusicFM extractor returned no output")
+    payload = json.loads(lines[-1])
+    if not payload.get("ok") or not isinstance(payload.get("record"), dict):
+        raise RuntimeError("MusicFM extractor returned an invalid payload")
+    return payload
+
+
+def maybe_apply_unknown80_musicfm(labels, scores, audio_path):
+    global UNKNOWN80_MUSICFM_BUNDLE
+    if not ENABLE_UNKNOWN80_MUSICFM_RERANKER:
+        return np.asarray(scores, dtype=np.float64), {
+            "enabled": False, "applied": False, "reason": "disabled",
+        }
+    promotion = musicfm_promotion_status()
+    if not promotion["promoted"]:
+        return np.asarray(scores, dtype=np.float64), {
+            "enabled": False, "applied": False, "reason": promotion["reason"],
+        }
+    if audio_path is None or not Path(audio_path).is_file():
+        return np.asarray(scores, dtype=np.float64), {
+            "enabled": False, "applied": False, "reason": "audio-missing",
+        }
+    try:
+        if UNKNOWN80_MUSICFM_BUNDLE is None:
+            UNKNOWN80_MUSICFM_BUNDLE = load_musicfm_bundle(
+                UNKNOWN80_MUSICFM_MODEL_PATH,
+            )
+        extracted = extract_musicfm_record(audio_path)
+        output, details = apply_musicfm_reranker(
+            UNKNOWN80_MUSICFM_BUNDLE, labels, scores, extracted["record"],
+        )
+        details["runtimeFeatureContractSha256"] = extracted.get(
+            "runtimeFeatureContractSha256", "",
+        )
+        return output, details
+    except Exception as error:
+        return np.asarray(scores, dtype=np.float64), {
+            "enabled": False, "applied": False,
+            "reason": f"runtime-failed:{str(error)[-300:]}",
+        }
+
+
 def model_validation_payload(bundle):
     contract = bundle.get("runtimeFeatureContract") or {}
     expected_digest = feature_contract_digest(feature_contract(
@@ -1061,6 +1160,24 @@ def model_validation_payload(bundle):
         track_pair_reranker["runtimeFeatureContractSha256"] = track_bundle.get(
             "runtimeFeatureContractSha256", "",
         )
+    musicfm_reranker = {
+        "enabled": ENABLE_UNKNOWN80_MUSICFM_RERANKER,
+        "path": str(UNKNOWN80_MUSICFM_MODEL_PATH),
+        "available": UNKNOWN80_MUSICFM_MODEL_PATH.is_file(),
+        "modelVersion": "",
+        "runtimeFeatureContractSha256": "",
+        "promotion": musicfm_promotion_status(),
+    }
+    if (
+        musicfm_reranker["enabled"]
+        and musicfm_reranker["available"]
+        and musicfm_reranker["promotion"]["promoted"]
+    ):
+        musicfm_bundle = load_musicfm_bundle(UNKNOWN80_MUSICFM_MODEL_PATH)
+        musicfm_reranker["modelVersion"] = musicfm_bundle.get("version", "")
+        musicfm_reranker["runtimeFeatureContractSha256"] = musicfm_bundle.get(
+            "runtimeFeatureContractSha256", "",
+        )
     return {
         "ok": True,
         "modelVersion": bundle.get("modelVersion") or bundle.get("version", ""),
@@ -1069,6 +1186,7 @@ def model_validation_payload(bundle):
         "discogsTagHeadRequired": bool(contract.get("discogsTagHeadRequired")),
         "independentReranker": independent_reranker,
         "trackPairReranker": track_pair_reranker,
+        "musicFmReranker": musicfm_reranker,
     }
 
 
@@ -1450,11 +1568,13 @@ def main():
         print(json.dumps(model_validation_payload(bundle), ensure_ascii=False), flush=True)
         return
     vocal_evidence = json.loads(args.japanese_vocal_evidence or "{}")
+    musicfm_audio_path = None
     if args.cache_key:
         vector_segments = [(0.0, vectors_from_cache_key(args.cache_key))]
         pop_audio = {}
     elif args.segment_audio:
         audio_paths = [Path(value) for value in args.segment_audio]
+        musicfm_audio_path = audio_paths[0] if audio_paths else None
         vector_segments = vectors_from_audio_paths(
             audio_paths, offsets=args.segment_offset
         )
@@ -1463,6 +1583,7 @@ def main():
         ])
     else:
         audio_path = Path(args.audio)
+        musicfm_audio_path = audio_path
         vector_segments = vectors_from_audio_segments(audio_path)
         pop_audio = aggregate_pop_audio([
             extract_pop_audio_evidence(audio_path, offset_seconds)
@@ -1483,6 +1604,9 @@ def main():
     )
     adjusted_fine_scores, track_pair_details = maybe_apply_unknown80_track_pairs(
         fine_labels, adjusted_fine_scores, vector_segments,
+    )
+    adjusted_fine_scores, musicfm_details = maybe_apply_unknown80_musicfm(
+        fine_labels, adjusted_fine_scores, musicfm_audio_path,
     )
     segment_details = segment_analysis(
         [offset for offset, _vectors in vector_segments],
@@ -1568,6 +1692,7 @@ def main():
         "segmentAnalysis": segment_details,
         "unknown80RhythmReranker": rhythm_reranker_details,
         "unknown80TrackPairReranker": track_pair_details,
+        "unknown80MusicFmReranker": musicfm_details,
         "evidenceCoverage": evidence_coverage,
         "needsReview": bool(degraded_sources) or evidence_coverage < 1.0 or not reliable_prediction or confidence < 45 or margin < 3 or (
             segment_details["segmentCount"] > 1 and segment_details["stability"] < 0.55
