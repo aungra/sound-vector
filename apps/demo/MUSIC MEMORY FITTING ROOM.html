@@ -930,11 +930,11 @@
       const stages = source === "youtube"
         ? [
           { at: 0, percent: 6, label: "解析サーバーへ接続", estimate: "通常 60〜150秒" },
-          { at: 2800, percent: 18, label: "YouTube音声を取得", estimate: "認証確認がある場合は長くなります" },
+          { at: 2800, percent: 18, label: "YouTube音声を取得", estimate: "認証の確認がある場合は時間がかかります" },
           { at: 14000, percent: 42, label: "音声をPCMへ変換", estimate: "音声の一部を解析用に展開" },
           { at: 30000, percent: 66, label: "RMS・拍・周波数を解析", estimate: "波形とスペクトルを計算" },
-          { at: 52000, percent: 82, label: "ジャンル候補を照合", estimate: "32ジャンルの分類器を実行" },
-          { at: 78000, percent: 90, label: "解析結果を待機", estimate: "混雑時でも最大4分ほど" }
+          { at: 52000, percent: 82, label: "ジャンル候補を照合", estimate: "32ジャンルの分類を実行" },
+          { at: 78000, percent: 90, label: "解析結果を待機", estimate: "混雑時は最大4分ほどかかります" }
         ]
         : source === "genre-adjust"
         ? [
@@ -948,7 +948,7 @@
           { at: 0, percent: 8, label: "音源ファイルを読み込み", estimate: "通常 5〜20秒" },
           { at: 1200, percent: 30, label: "ブラウザで音声をデコード", estimate: "曲の長さにより変わります" },
           { at: 4200, percent: 62, label: "RMS・拍・周波数を解析", estimate: "波形とスペクトルを計算" },
-          { at: 8200, percent: 82, label: "ジャンル候補を照合", estimate: "32ジャンルの分類器を実行" },
+          { at: 8200, percent: 82, label: "ジャンル候補を照合", estimate: "32ジャンルの分類を実行" },
           { at: 14000, percent: 90, label: "図形化の準備", estimate: "可逆PCMを配置" }
         ];
       state.generationProgress = { runId, source, stages, stage: 0, ...stages[0] };
@@ -967,7 +967,7 @@
       const percent = Math.max(0, Math.min(100, Math.round(progress.percent)));
       return `<section class="generation-progress" role="status" aria-live="polite" aria-atomic="true">
         <div class="generation-progress-head"><strong>${escapeAttr(progress.label)}</strong><span class="generation-progress-percent">${percent}%</span></div>
-        <div class="generation-progress-track" role="progressbar" aria-label="生成の進捗" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${percent}"><div class="generation-progress-fill" style="width:${percent}%"></div></div>
+        <div class="generation-progress-track" role="progressbar" aria-label="進捗" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${percent}"><div class="generation-progress-fill" style="width:${percent}%"></div></div>
         <p class="muted">${escapeAttr(progress.estimate)}</p>
         ${progress.source === "youtube" || progress.source === "genre-adjust" ? `<button class="secondary" type="button" onclick="cancelYoutubeAnalysis()">解析を中止</button>` : ""}
         <ol class="generation-progress-steps">${progress.stages.map((stage, index) => `<li class="${index < progress.stage ? "done" : index === progress.stage ? "current" : ""}">${index < progress.stage ? "完了" : index === progress.stage ? "進行中" : "待機"} ${escapeAttr(stage.label)}</li>`).join("")}</ol>
@@ -16355,10 +16355,10 @@
         id,
         creatorId: "audio-pattern-generator",
         title,
-        description: `YouTube音声の解析結果から、曲ごとに固有の黒地に白一色の可逆エアロゾル粒子フォームを生成します。RMS推移、onset分布、chroma重心、波形断片に加え、Wikipediaの音楽ジャンル一覧を基にした推定ジャンル（${genreText}${styleText}）を粒子密度と余白へ反映します。`,
+        description: `YouTube音声の解析結果から、曲ごとに図形を生成します。RMS推移、onset分布、chroma、波形に加え、Wikipediaの音楽ジャンル一覧を基にした推定ジャンル（${genreText}${styleText}）を粒子密度と余白へ反映します。`,
         location: "Generated / Reversible Pattern",
         price: "参考生成",
-        stockNote: "別パターン生成は行いません。同じ曲は同じ音響指紋から同じ図案へ固定し、違う曲では音響指紋そのものが変わるため構図も変化します。音の復元性は保護PCMレイヤーで維持します。",
+        stockNote: "別パターン生成は行いません。同じ曲は音響指紋から同じ図案へ固定し、違う曲では違う音響指紋そのものが変わるため構図も変化します。音の復元性はPCM粒子で維持します。",
         tags: unique(["可逆", "YouTube解析", "PCM"].concat(mood.tags || []).concat(audio?.inferredStyle ? [audio.inferredStyle] : []).concat(audio?.genreAnalysis?.top?.map(item => item.name) || [])).slice(0, 10),
         image: "",
         art,
@@ -18260,7 +18260,7 @@
           <h1>SOUND FORM</h1>
           <span class="simple-ongaku" aria-hidden="true">音<br>楽</span>
         </div>
-        <p class="simple-intro">音声を解析し、32ジャンルの構図規則で黒地に白一色の編集可能なSVGへ変換します。出力した図形には、音を戻すための保護PCMレイヤーも共存します。</p>
+        <p class="simple-intro">SOUND FORMは、音楽を解析し、編集可能な図形データ「SVG」へ変換するシステムです。完成したSVGには、幾何学のパターンと、復元用音声データ（Pulse Code Modulation、以下PCM）を内包する粒子が収録されます。音の図形化、音声復元などを一つのファイルで扱うことを目的としたプロジェクトです。</p>
       </header>`;
     }
     function renderShirtArt(shirt, ratio) {
@@ -18574,14 +18574,14 @@
       const equalizerActive = state.equalizer.shirtId === shirt.id && state.equalizer.playing;
       const equalizerDuration = state.equalizer.shirtId === shirt.id ? state.equalizer.duration : 0;
       return `<section class="panel"><div class="top"><div><p class="eyebrow">Reversible archive</p><h2>可逆性データ</h2></div><strong>SVG geometry</strong></div>
-        <p class="muted">可逆SVGのmetadataは最小限の形式宣言だけにします。復元音の主データになるPCMは文字列で埋め込まず、書き出し時に <strong>pcm_reversible_data</strong> という見える保護図案へ変換します。</p>
+        <p class="muted">可逆SVGのmetadataは最小限にします。復元音の主データになるPCMは文字列で埋め込まず、書き出し時に <strong>pcm_reversible_data</strong> という図案へ変換します。</p>
         <div class="reversible-actions">
           <button class="secondary" onclick="downloadReversibleSvg('${shirt.id}')">可逆SVGを書き出す</button>
           <button class="secondary" onclick="downloadReversibleJson('${shirt.id}')">補助JSONを書き出す</button>
           <button class="secondary" onclick="${equalizerActive ? "stopReconstructedAudio()" : `playReconstructedAudio('${shirt.id}')`}">${equalizerActive ? "復元音を停止" : "復元音を再生"}</button>
         </div>
         <div class="equalizer-progress" aria-live="polite"><span id="equalizerElapsed">0:00</span><div class="equalizer-progress-track"><span id="equalizerProgress" class="equalizer-progress-fill"></span></div><span id="equalizerDuration">${formatPlaybackTime(equalizerDuration)}</span></div>
-        <p class="reversible-note"><strong>${mode}</strong><br>${sourceLine}<br>Illustratorでは見た目の粒子群は編集できます。音を保つには、表示したままロックした <strong>pcm_reversible_data</strong> 保護粒子レイヤーを削除・変形しないでください。</p>
+        <p class="reversible-note"><strong>${mode}</strong><br>${sourceLine}<br>Illustratorで見た目の粒子群は編集できます。音を保つには、表示したままロックした <strong>pcm_reversible_data</strong> 保護粒子レイヤーを削除・変形しないでください。</p>
       </section>`;
     }
     function renderHome() {
@@ -18619,11 +18619,11 @@
         ? ` / style ${styleName}${Number.isFinite(styleScore) ? ` ${Math.round(styleScore)}%` : ""}${styleReview ? "（要確認）" : ""}`
         : "";
       const patternMotionRunning = isReversibleAudio && state.patternMotion.shirtId === generated?.id && state.patternMotion.running;
-      const generatedHeading = isReversibleAudio ? "生成した可逆パターン" : state.realtime ? `<span class="live-dot"></span>リアルタイム生成中` : "生成した図案";
+      const generatedHeading = isReversibleAudio ? "生成された可逆パターン" : state.realtime ? `<span class="live-dot"></span>リアルタイム生成中` : "生成した図案";
       const generatedActions = isReversibleAudio
         ? `<div class="pattern-motion-controls"><span class="tag pattern-motion-status">${patternMotionRunning ? "自動再生中" : "停止中"}</span><button class="secondary" onclick="${patternMotionRunning ? "pausePatternMotion()" : "resumePatternMotion()"}">${patternMotionRunning ? "停止" : "再開"}</button><button class="secondary" onclick="resetPatternMotion()">先頭へ戻す</button><button class="secondary" onclick="acceptRealtimeDesign()">このパターンを採用</button><button class="secondary" onclick="resetMood()">曲を入れ直す</button></div>`
         : `${state.realtime ? `<button class="secondary" onclick="pauseRealtime()">止める</button>` : `<button class="secondary" onclick="resumeRealtime()">再開</button>`} <button class="secondary" onclick="acceptRealtimeDesign()">この図案を採用</button> <button class="secondary" onclick="rerunCurrentGeneration()">別案を走らせる</button> <button class="secondary" onclick="resetMood()">もう一度選ぶ</button>`;
-      const generatedStateText = isReversibleAudio ? `${patternMotionRunning ? "音響連動アニメーション" : "静止フレーム"} / 復元データ保持` : state.realtime ? "更新中" : "停止中";
+      const generatedStateText = isReversibleAudio ? `${patternMotionRunning ? "連動アニメーション" : "静止フレーム"} / 復元データ保持` : state.realtime ? "更新中" : "停止中";
       return `<main class="wrap${generated ? " has-result" : ""}">
         ${renderInterfaceHeader()}
         ${!generated ? `<section id="conversion-workbench" class="simple-conversion" aria-label="音源から図形を生成">
@@ -18637,7 +18637,7 @@
             </div>
           </div>
           <div class="simple-source">
-            <h2>音源ファイルから生成</h2>
+            <h2>音源ファイル【MP3（推奨）、WAV／PCM（推奨）、M4A／AAC（推奨）】から生成</h2>
             <div class="simple-input-action simple-file-action">
               <input class="simple-file-input" id="audioFile" type="file" accept="audio/*" aria-label="音源ファイルを選択" ${isGenerating ? "disabled" : ""}>
               <button type="button" onclick="startUploadedAudioGeneration()" ${isGenerating ? "disabled" : ""}>${isGenerating ? "解析中…" : "解析して生成"}</button>
@@ -18647,7 +18647,7 @@
         </section>` :
           `<section id="conversion-workbench" class="panel"><div class="top"><div><p class="eyebrow">04 / OUTPUT</p><h2>${generatedHeading}</h2></div><div>${generatedActions}</div></div>
           ${renderGenerationProgress()}
-          <div class="generated-layout"><article class="generated-preview">${renderShirtArt(generated)}<div class="design-spec"><p><strong>音源</strong><br>${sourceLabel}</p><p><strong>生成</strong><br>${selectedEngine.label}</p><p><strong>状態</strong><br>${generatedStateText}</p><p><strong>Genre</strong><br>${genreLabel}${styleLabel}${genreReviewAction ? `<br>${genreReviewAction}` : ""}</p><p><strong>音響根拠</strong><br>${genreEvidence}</p><p><strong>Tempo</strong><br>${features?.tempo ? `${features.tempo} BPM` : "local"}</p><p><strong>Centroid</strong><br>${features?.centroid ? `${features.centroid} Hz` : "SVG"}</p><p><strong>可逆PCM</strong><br>${formatPcmGeometryText(features)}</p></div>${genreFeedbackPanel}</article><article><h3>${generated.title}</h3><p>${generated.description}</p>${generated.youtubeUrl ? `<p class="muted"><a href="${escapeAttr(generated.youtubeUrl)}" target="_blank" rel="noreferrer">参照YouTubeリンク</a></p>` : ""}${state.message ? `<p class="tag">${state.message}</p>` : ""}${generated.externalNote ? `<p class="tag">${generated.externalNote}</p>` : ""}<p class="muted">${generated.stockNote}</p></article></div></section>`}
+          <div class="generated-layout"><article class="generated-preview">${renderShirtArt(generated)}<div class="design-spec"><p><strong>音源</strong><br>${sourceLabel}</p><p><strong>生成</strong><br>${selectedEngine.label}</p><p><strong>状態</strong><br>${generatedStateText}</p><p><strong>Genre</strong><br>${genreLabel}${styleLabel}${genreReviewAction ? `<br>${genreReviewAction}` : ""}</p><p><strong>根拠</strong><br>${genreEvidence}</p><p><strong>Tempo</strong><br>${features?.tempo ? `${features.tempo} BPM` : "local"}</p><p><strong>Centroid</strong><br>${features?.centroid ? `${features.centroid} Hz` : "SVG"}</p><p><strong>可逆PCM</strong><br>${formatPcmGeometryText(features)}</p></div>${genreFeedbackPanel}</article><article><h3>${generated.title}</h3><p>${generated.description}</p>${generated.youtubeUrl ? `<p class="muted"><a href="${escapeAttr(generated.youtubeUrl)}" target="_blank" rel="noreferrer">参照YouTubeリンク</a></p>` : ""}${state.message ? `<p class="tag">${state.message}</p>` : ""}${generated.externalNote ? `<p class="tag">${generated.externalNote}</p>` : ""}<p class="muted">${generated.stockNote}</p></article></div></section>`}
         ${generated ? renderReversiblePanel(generated) : ""}
         ${generated && !isReversibleAudio ? renderAudioMappingDiagram(features) : ""}
       </main>`;
