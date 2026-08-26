@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-26T22:42:20.412Z",
+  "generatedAt": "2026-08-26T22:58:21.375Z",
   "policyVersion": "training-license-v1",
   "sources": {
     "existing-explicit-formal": {
@@ -143,6 +143,19 @@
         "techno": 1,
         "acid-techno": 1,
         "drum-and-bass": 4
+      }
+    },
+    "Wikimedia-reviewed-category-candidates": {
+      "rows": 10,
+      "usage": {
+        "production-training": 10
+      },
+      "licenses": {
+        "Public Domain": 10
+      },
+      "representedDetailLabels": 1,
+      "byDetail": {
+        "jazz": 10
       }
     },
     "ccMixter-reviewed-candidates": {
@@ -531,6 +544,7 @@
       "productionSources": [
         "FMA",
         "MTG-Jamendo",
+        "US Air Force recordings",
         "ccMixter"
       ],
       "supportSources": [],
@@ -539,20 +553,23 @@
         "MTG-Jamendo",
         "RWC"
       ],
-      "productionSourceCount": 3,
+      "productionSourceCount": 4,
       "productionRowsBySource": {
         "FMA": 37,
         "MTG-Jamendo": 9,
+        "US Air Force recordings": 10,
         "ccMixter": 3
       },
       "productionSourcesWithAtLeast2Tracks": [
         "FMA",
         "MTG-Jamendo",
+        "US Air Force recordings",
         "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": [
         "FMA",
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "US Air Force recordings"
       ]
     },
     "bebop": {

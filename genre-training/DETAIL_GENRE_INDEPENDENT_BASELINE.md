@@ -1,6 +1,6 @@
 # 詳細ジャンル独立ソースベースライン
 
-生成日時: 2026-08-26T22:42:46.001Z
+生成日時: 2026-08-26T22:58:21.282Z
 
 CC0 / Public Domain / CC-BY / CC-BY-SAのフル楽曲だけを使用しています。NC・ND・研究限定・ループ素材は含みません。
 この評価は対象分類が少ないため120分類全体の精度ではありません。
@@ -48,6 +48,14 @@ Top1 100% / Top3 100% / balanced Top1 100%
 | detail | train | test | Top1 | Top3 |
 | --- | ---: | ---: | ---: | ---: |
 | metal | 10 | 5 | 100% | 100% |
+
+## FMA + MTG-Jamendo + ccMixter -> Wikimedia category origins
+
+Top1 100% / Top3 100% / balanced Top1 100%
+
+| detail | train | test | Top1 | Top3 |
+| --- | ---: | ---: | ---: | ---: |
+| jazz | 36 | 10 | 100% | 100% |
 
 ## 昇格判定
 

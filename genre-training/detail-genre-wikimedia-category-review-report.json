@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-08-27",
+  "candidateRows": 232,
+  "reviewedRows": 35,
+  "byDetail": {
+    "jazz": 24,
+    "house": 8,
+    "progressive-house": 2,
+    "tech-house": 1
+  },
+  "byOrigin": {
+    "US Air Force recordings": 24,
+    "Audiotool": 6,
+    "Luis Gabriel Aguilera creator-supplied recordings": 5
+  },
+  "byLicense": {
+    "Public Domain": 24,
+    "CC-BY-SA-3.0": 11
+  },
+  "safeguards": [
+    "All USAF ensembles are one source family; ensemble names do not inflate independent-source counts.",
+    "Wikimedia is only the distributor and is not counted as a separate source.",
+    "Holiday arrangements, ambiguous historic recordings, exercises, research audio and mixed-genre rows remain excluded.",
+    "Audiotool subgenres use their explicit Tech house or Progressive house category rather than generic House."
+  ],
+  "promotionPolicy": "Reviewed download candidates only; origin-heldout ablation is required before production training."
+}
