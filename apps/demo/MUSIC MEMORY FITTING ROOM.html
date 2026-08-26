@@ -2746,6 +2746,9 @@
       if (lastError?.code === "YOUTUBE_RATE_LIMITED") {
         throw new Error(`${lastError.message} cookieは読めていますが、YouTube側の一時制限で音声取得が止まっています。時間を置いて再度お試しください。`);
       }
+      if (lastError?.code === "CLIENT_UPDATE_REQUIRED") {
+        throw new Error(lastError.message || "解析画面と解析APIのバージョンが一致していません。ページを再読み込みしてください。");
+      }
       throw new Error("解析サービスを自動復旧できませんでした。30秒ほど待って、もう一度解析してください。");
     }
     function goertzelPower(channel, start, size, sampleRate, frequency) {

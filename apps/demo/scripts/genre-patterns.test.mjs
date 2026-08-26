@@ -128,6 +128,9 @@ test("public deployment reads a guarded API setting instead of visitor localhost
   assert.match(audioProxy, /X-MMFR-Analysis-Tier: rich-parity/);
   assert.match(audioProxy, /CLIENT_UPDATE_REQUIRED/);
   assert.match(audioProxy, /REQUIRED_CLIENT_INFERENCE_REVISION/);
+  const clientRevision = html.match(/const GENRE_INFERENCE_REVISION = "([^"]+)"/)?.[1];
+  const proxyRevision = audioProxy.match(/const REQUIRED_CLIENT_INFERENCE_REVISION = '([^']+)'/)?.[1];
+  assert.equal(proxyRevision, clientRevision, "public API and client must require the same inference revision");
   assert.match(audioProxy, /RICH_ANALYSIS_REQUIRED/);
   assert.match(html, /attempt < retryDelays\.length/);
   assert.doesNotMatch(html, /aungraphic-musictee-audio-api\.hf\.space/);
