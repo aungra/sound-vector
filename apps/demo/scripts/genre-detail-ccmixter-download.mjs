@@ -17,7 +17,7 @@ async function download(item, audioRoot) {
   if (!fs.existsSync(filePath) || fs.statSync(filePath).size < 100_000) {
     const temporary = `${filePath}.part`;
     await execFileAsync("curl", [
-      "-fL", "--retry", "2", "--connect-timeout", "15",
+      "-fL", "--retry", "2", "--connect-timeout", "15", "--max-time", "300",
       "-A", "Mozilla/5.0", "-e", item.referenceUrl,
       "-o", temporary, item.downloadUrl
     ], { maxBuffer: 1024 * 1024 });

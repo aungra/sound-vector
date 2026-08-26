@@ -1,6 +1,6 @@
 # 詳細ジャンル学習ライセンス監査
 
-生成日時: 2026-08-26T16:49:20.962Z
+生成日時: 2026-08-26T17:11:19.843Z
 
 | source | rows | detail labels | production | support only | research only | ND excluded | verify |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -8,18 +8,18 @@
 | MTG-Jamendo-candidates | 1819 | 39 | 498 | 0 | 809 | 417 | 95 |
 | FMA-independent-candidates | 4514 | 7 | 1288 | 0 | 1841 | 1377 | 8 |
 | Wikimedia-reviewed-origin-candidates | 10 | 5 | 10 | 0 | 0 | 0 | 0 |
-| ccMixter-reviewed-candidates | 10 | 7 | 10 | 0 | 0 | 0 | 0 |
+| ccMixter-reviewed-candidates | 89 | 21 | 89 | 0 | 0 | 0 | 0 |
 | WaivOps-rhythm-support | 49 | 2 | 0 | 49 | 0 | 0 | 0 |
 | RWC-research-only | 200 | 21 | 0 | 0 | 200 | 0 | 0 |
 
 ## 独立ソースcoverage
 
-- 本番利用可能なソースあり: 35/120
-- 本番利用可能な2ソース以上: 15/120
-- 各ソース2曲以上で2ソース達成: 9/120
-- 各ソース5曲以上で2ソース達成: 8/120
-- 本番利用可能なソースなし: 85/120
-- 2ソース達成: drone / classical / blues / jazz / folk / electronic / idm / techno / minimal-techno / funk / drum-and-bass / hip-hop / dub / rock / punk
+- 本番利用可能なソースあり: 36/120
+- 本番利用可能な2ソース以上: 22/120
+- 各ソース2曲以上で2ソース達成: 19/120
+- 各ソース5曲以上で2ソース達成: 11/120
+- 本番利用可能なソースなし: 84/120
+- 2ソース達成: ambient / drone / classical / blues / jazz / soul / folk / electronic / idm / techno / minimal-techno / house / trance / funk / disco / drum-and-bass / dubstep / hip-hop / reggae / dub / rock / punk
 
 ## 採用規則
 

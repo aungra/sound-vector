@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-26T16:46:31.273Z",
+  "generatedAt": "2026-08-26T16:57:08.942Z",
   "dataset": "ccMixter uploader-tagged music",
   "queriedTags": [
     "ambient",
@@ -34,21 +34,41 @@
     "classical",
     "noise"
   ],
-  "fetchedRowsBeforeDeduplication": 256,
+  "queryLimitPerTag": 100,
+  "queryPageSize": 10,
+  "maximumTracksPerDetail": 20,
+  "maximumTracksPerArtistAndDetail": 2,
+  "fetchedRowsBeforeDeduplication": 2280,
   "failedTags": [],
-  "productionSafeSingleTargetFullTrackCandidates": 10,
-  "representedDetailLabels": 7,
+  "productionSafeSingleTargetFullTrackCandidates": 89,
+  "representedDetailLabels": 21,
   "byDetail": {
-    "electronic": 2,
-    "hip-hop": 2,
-    "rock": 2,
-    "classical": 1,
-    "idm": 1,
-    "punk": 1,
-    "techno": 1
+    "classical": 9,
+    "reggae": 8,
+    "blues": 6,
+    "electronic": 6,
+    "ambient": 5,
+    "drum-and-bass": 5,
+    "dub": 5,
+    "hip-hop": 5,
+    "noise": 5,
+    "punk": 5,
+    "trance": 4,
+    "folk": 3,
+    "funk": 3,
+    "house": 3,
+    "idm": 3,
+    "jazz": 3,
+    "rock": 3,
+    "techno": 3,
+    "dubstep": 2,
+    "soul": 2,
+    "disco": 1
   },
   "byLicense": {
-    "CC-BY": 10
+    "CC-BY": 85,
+    "CC-BY-SA": 3,
+    "CC0": 1
   },
   "rightsReview": {
     "itemLicenses": "Each candidate retains the item API license_url.",

@@ -28,3 +28,8 @@ test("specific tags replace their broad parent but unrelated multi-label rows ar
 test("a cappella uploads are not treated as full-track genre ground truth", () => {
   assert.equal(buildCcmixterCandidates([row({ upload_extra: { usertags: "reggae", ccud: "media,acappella" } })]).length, 0);
 });
+
+test("one uploader cannot dominate a detailed label", () => {
+  const records = [1, 2, 3].map(upload_id => row({ upload_id, user_name: "same-artist" }));
+  assert.equal(buildCcmixterCandidates(records).length, 2);
+});

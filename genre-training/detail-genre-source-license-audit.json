@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-26T16:49:20.962Z",
+  "generatedAt": "2026-08-26T17:11:19.843Z",
   "policyVersion": "training-license-v1",
   "sources": {
     "existing-explicit-formal": {
@@ -146,22 +146,38 @@
       }
     },
     "ccMixter-reviewed-candidates": {
-      "rows": 10,
+      "rows": 89,
       "usage": {
-        "production-training": 10
+        "production-training": 89
       },
       "licenses": {
-        "CC-BY": 10
+        "CC-BY": 85,
+        "CC-BY-SA": 3,
+        "CC0": 1
       },
-      "representedDetailLabels": 7,
+      "representedDetailLabels": 21,
       "byDetail": {
-        "classical": 1,
-        "electronic": 2,
-        "hip-hop": 2,
-        "idm": 1,
-        "punk": 1,
-        "rock": 2,
-        "techno": 1
+        "ambient": 5,
+        "blues": 6,
+        "classical": 9,
+        "disco": 1,
+        "drum-and-bass": 5,
+        "dub": 5,
+        "dubstep": 2,
+        "electronic": 6,
+        "folk": 3,
+        "funk": 3,
+        "hip-hop": 5,
+        "house": 3,
+        "idm": 3,
+        "jazz": 3,
+        "noise": 5,
+        "punk": 5,
+        "reggae": 8,
+        "rock": 3,
+        "soul": 2,
+        "techno": 3,
+        "trance": 4
       }
     },
     "WaivOps-rhythm-support": {
@@ -215,21 +231,25 @@
   "detailSourceCoverage": {
     "ambient": {
       "productionSources": [
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "supportSources": [],
       "researchSources": [
         "MTG-Jamendo"
       ],
-      "productionSourceCount": 1,
+      "productionSourceCount": 2,
       "productionRowsBySource": {
-        "MTG-Jamendo": 19
+        "MTG-Jamendo": 19,
+        "ccMixter": 5
       },
       "productionSourcesWithAtLeast2Tracks": [
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": [
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ]
     },
     "dark-ambient": {
@@ -312,15 +332,17 @@
       "productionRowsBySource": {
         "FMA": 67,
         "MTG-Jamendo": 22,
-        "ccMixter": 1
+        "ccMixter": 9
       },
       "productionSourcesWithAtLeast2Tracks": [
         "FMA",
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": [
         "FMA",
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ]
     },
     "baroque": {
@@ -443,25 +465,29 @@
     "blues": {
       "productionSources": [
         "FMA",
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "supportSources": [],
       "researchSources": [
         "MTG-Jamendo",
         "RWC"
       ],
-      "productionSourceCount": 2,
+      "productionSourceCount": 3,
       "productionRowsBySource": {
         "FMA": 17,
-        "MTG-Jamendo": 12
+        "MTG-Jamendo": 12,
+        "ccMixter": 6
       },
       "productionSourcesWithAtLeast2Tracks": [
         "FMA",
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": [
         "FMA",
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ]
     },
     "delta-blues": {
@@ -485,7 +511,8 @@
     "jazz": {
       "productionSources": [
         "FMA",
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "supportSources": [],
       "researchSources": [
@@ -493,14 +520,16 @@
         "MTG-Jamendo",
         "RWC"
       ],
-      "productionSourceCount": 2,
+      "productionSourceCount": 3,
       "productionRowsBySource": {
         "FMA": 37,
-        "MTG-Jamendo": 9
+        "MTG-Jamendo": 9,
+        "ccMixter": 3
       },
       "productionSourcesWithAtLeast2Tracks": [
         "FMA",
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": [
         "FMA",
@@ -538,19 +567,22 @@
     },
     "soul": {
       "productionSources": [
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "supportSources": [],
       "researchSources": [
         "MTG-Jamendo",
         "RWC"
       ],
-      "productionSourceCount": 1,
+      "productionSourceCount": 2,
       "productionRowsBySource": {
-        "MTG-Jamendo": 15
+        "MTG-Jamendo": 15,
+        "ccMixter": 2
       },
       "productionSourcesWithAtLeast2Tracks": [
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": [
         "MTG-Jamendo"
@@ -599,7 +631,8 @@
     "folk": {
       "productionSources": [
         "FMA",
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "supportSources": [],
       "researchSources": [
@@ -607,14 +640,16 @@
         "MTG-Jamendo",
         "RWC"
       ],
-      "productionSourceCount": 2,
+      "productionSourceCount": 3,
       "productionRowsBySource": {
         "FMA": 152,
-        "MTG-Jamendo": 7
+        "MTG-Jamendo": 7,
+        "ccMixter": 3
       },
       "productionSourcesWithAtLeast2Tracks": [
         "FMA",
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": [
         "FMA",
@@ -672,7 +707,7 @@
       "productionRowsBySource": {
         "FMA": 295,
         "MTG-Jamendo": 130,
-        "ccMixter": 2
+        "ccMixter": 6
       },
       "productionSourcesWithAtLeast2Tracks": [
         "FMA",
@@ -681,7 +716,8 @@
       ],
       "productionSourcesWithAtLeast5Tracks": [
         "FMA",
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ]
     },
     "idm": {
@@ -696,10 +732,11 @@
       "productionSourceCount": 2,
       "productionRowsBySource": {
         "MTG-Jamendo": 2,
-        "ccMixter": 1
+        "ccMixter": 3
       },
       "productionSourcesWithAtLeast2Tracks": [
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": []
     },
@@ -750,10 +787,11 @@
       "productionRowsBySource": {
         "MTG-Jamendo": 94,
         "Wikimedia self-published": 1,
-        "ccMixter": 1
+        "ccMixter": 3
       },
       "productionSourcesWithAtLeast2Tracks": [
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": [
         "MTG-Jamendo"
@@ -809,7 +847,8 @@
     },
     "house": {
       "productionSources": [
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "supportSources": [
         "WaivOps"
@@ -818,12 +857,14 @@
         "MTG-Jamendo",
         "RWC"
       ],
-      "productionSourceCount": 1,
+      "productionSourceCount": 2,
       "productionRowsBySource": {
-        "MTG-Jamendo": 92
+        "MTG-Jamendo": 92,
+        "ccMixter": 3
       },
       "productionSourcesWithAtLeast2Tracks": [
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": [
         "MTG-Jamendo"
@@ -895,18 +936,21 @@
     },
     "trance": {
       "productionSources": [
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "supportSources": [],
       "researchSources": [
         "MTG-Jamendo"
       ],
-      "productionSourceCount": 1,
+      "productionSourceCount": 2,
       "productionRowsBySource": {
-        "MTG-Jamendo": 26
+        "MTG-Jamendo": 26,
+        "ccMixter": 4
       },
       "productionSourcesWithAtLeast2Tracks": [
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": [
         "MTG-Jamendo"
@@ -951,7 +995,8 @@
     "funk": {
       "productionSources": [
         "FMA",
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "supportSources": [],
       "researchSources": [
@@ -959,13 +1004,15 @@
         "MTG-Jamendo",
         "RWC"
       ],
-      "productionSourceCount": 2,
+      "productionSourceCount": 3,
       "productionRowsBySource": {
         "FMA": 1,
-        "MTG-Jamendo": 35
+        "MTG-Jamendo": 35,
+        "ccMixter": 3
       },
       "productionSourcesWithAtLeast2Tracks": [
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": [
         "MTG-Jamendo"
@@ -973,15 +1020,17 @@
     },
     "disco": {
       "productionSources": [
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "supportSources": [],
       "researchSources": [
         "MTG-Jamendo"
       ],
-      "productionSourceCount": 1,
+      "productionSourceCount": 2,
       "productionRowsBySource": {
-        "MTG-Jamendo": 21
+        "MTG-Jamendo": 21,
+        "ccMixter": 1
       },
       "productionSourcesWithAtLeast2Tracks": [
         "MTG-Jamendo"
@@ -1041,25 +1090,29 @@
         "Bandcamp via Internet Archive",
         "Internet Archive",
         "MTG-Jamendo",
-        "SoundCloud"
+        "SoundCloud",
+        "ccMixter"
       ],
       "supportSources": [],
       "researchSources": [
         "MTG-Jamendo"
       ],
-      "productionSourceCount": 4,
+      "productionSourceCount": 5,
       "productionRowsBySource": {
         "Bandcamp via Internet Archive": 2,
         "Internet Archive": 1,
         "MTG-Jamendo": 32,
-        "SoundCloud": 1
+        "SoundCloud": 1,
+        "ccMixter": 5
       },
       "productionSourcesWithAtLeast2Tracks": [
         "Bandcamp via Internet Archive",
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": [
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ]
     },
     "jungle": {
@@ -1111,18 +1164,21 @@
     },
     "dubstep": {
       "productionSources": [
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "supportSources": [],
       "researchSources": [
         "MTG-Jamendo"
       ],
-      "productionSourceCount": 1,
+      "productionSourceCount": 2,
       "productionRowsBySource": {
-        "MTG-Jamendo": 39
+        "MTG-Jamendo": 39,
+        "ccMixter": 2
       },
       "productionSourcesWithAtLeast2Tracks": [
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": [
         "MTG-Jamendo"
@@ -1162,7 +1218,7 @@
       "productionRowsBySource": {
         "FMA": 367,
         "MTG-Jamendo": 31,
-        "ccMixter": 2
+        "ccMixter": 5
       },
       "productionSourcesWithAtLeast2Tracks": [
         "FMA",
@@ -1171,7 +1227,8 @@
       ],
       "productionSourcesWithAtLeast5Tracks": [
         "FMA",
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ]
     },
     "boom-bap": {
@@ -1221,22 +1278,26 @@
     },
     "reggae": {
       "productionSources": [
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "supportSources": [],
       "researchSources": [
         "MTG-Jamendo",
         "RWC"
       ],
-      "productionSourceCount": 1,
+      "productionSourceCount": 2,
       "productionRowsBySource": {
-        "MTG-Jamendo": 62
+        "MTG-Jamendo": 62,
+        "ccMixter": 8
       },
       "productionSourcesWithAtLeast2Tracks": [
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": [
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ]
     },
     "roots-reggae": {
@@ -1260,25 +1321,29 @@
     "dub": {
       "productionSources": [
         "FMA",
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "supportSources": [],
       "researchSources": [
         "FMA",
         "MTG-Jamendo"
       ],
-      "productionSourceCount": 2,
+      "productionSourceCount": 3,
       "productionRowsBySource": {
         "FMA": 7,
-        "MTG-Jamendo": 51
+        "MTG-Jamendo": 51,
+        "ccMixter": 5
       },
       "productionSourcesWithAtLeast2Tracks": [
         "FMA",
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": [
         "FMA",
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ]
     },
     "latin": {
@@ -1397,13 +1462,21 @@
       ]
     },
     "noise": {
-      "productionSources": [],
+      "productionSources": [
+        "ccMixter"
+      ],
       "supportSources": [],
       "researchSources": [],
-      "productionSourceCount": 0,
-      "productionRowsBySource": {},
-      "productionSourcesWithAtLeast2Tracks": [],
-      "productionSourcesWithAtLeast5Tracks": []
+      "productionSourceCount": 1,
+      "productionRowsBySource": {
+        "ccMixter": 5
+      },
+      "productionSourcesWithAtLeast2Tracks": [
+        "ccMixter"
+      ],
+      "productionSourcesWithAtLeast5Tracks": [
+        "ccMixter"
+      ]
     },
     "harsh-noise": {
       "productionSources": [],
@@ -1439,7 +1512,7 @@
       "productionRowsBySource": {
         "FMA": 353,
         "MTG-Jamendo": 67,
-        "ccMixter": 2
+        "ccMixter": 3
       },
       "productionSourcesWithAtLeast2Tracks": [
         "FMA",
@@ -1535,12 +1608,15 @@
       "productionSourceCount": 2,
       "productionRowsBySource": {
         "MTG-Jamendo": 4,
-        "ccMixter": 1
+        "ccMixter": 5
       },
       "productionSourcesWithAtLeast2Tracks": [
-        "MTG-Jamendo"
+        "MTG-Jamendo",
+        "ccMixter"
       ],
-      "productionSourcesWithAtLeast5Tracks": []
+      "productionSourcesWithAtLeast5Tracks": [
+        "ccMixter"
+      ]
     },
     "proto-punk": {
       "productionSources": [],
@@ -1731,46 +1807,47 @@
     }
   },
   "productionCoverage": {
-    "labelsWithOneSource": 35,
-    "labelsWithTwoSources": 15,
-    "labelsWithTwoSourcesAtLeast2Tracks": 9,
-    "labelsWithTwoSourcesAtLeast5Tracks": 8,
-    "labelsWithoutProductionSource": 85,
+    "labelsWithOneSource": 36,
+    "labelsWithTwoSources": 22,
+    "labelsWithTwoSourcesAtLeast2Tracks": 19,
+    "labelsWithTwoSourcesAtLeast5Tracks": 11,
+    "labelsWithoutProductionSource": 84,
     "twoSourceLabels": [
+      "ambient",
       "drone",
       "classical",
       "blues",
       "jazz",
+      "soul",
       "folk",
       "electronic",
       "idm",
       "techno",
       "minimal-techno",
+      "house",
+      "trance",
       "funk",
+      "disco",
       "drum-and-bass",
+      "dubstep",
       "hip-hop",
+      "reggae",
       "dub",
       "rock",
       "punk"
     ],
     "oneSourceLabels": [
-      "ambient",
       "new-age",
       "film-score",
-      "soul",
       "r-and-b",
       "singer-songwriter",
       "acid-techno",
-      "house",
       "deep-house",
-      "trance",
-      "disco",
       "synthpop",
-      "dubstep",
-      "reggae",
       "latin",
       "bossa-nova",
       "world",
+      "noise",
       "metal",
       "hard-rock",
       "pop-rock"
@@ -1835,7 +1912,6 @@
       "samba",
       "afrobeat",
       "afrobeats",
-      "noise",
       "harsh-noise",
       "power-electronics",
       "alternative-rock",

@@ -20,6 +20,10 @@ export const TAG_TO_DETAIL = Object.freeze({
 });
 
 const QUERY_TAGS = Object.keys(TAG_TO_DETAIL);
+const QUERY_LIMIT = 100;
+const QUERY_PAGE_SIZE = 10;
+const MAX_TRACKS_PER_DETAIL = 20;
+const MAX_TRACKS_PER_ARTIST_AND_DETAIL = 2;
 
 function parseDuration(value) {
   const cells = String(value || "").split(":").map(Number);
@@ -90,7 +94,18 @@ export function buildCcmixterCandidates(records) {
       audioStoragePolicy: "candidate-metadata-only; download to external cache after review"
     });
   }
-  return items.sort((a, b) => a.detailTarget.localeCompare(b.detailTarget) || a.trackId.localeCompare(b.trackId));
+  const selected = [];
+  const detailCounts = new Map();
+  const artistDetailCounts = new Map();
+  for (const item of items.sort((a, b) => a.detailTarget.localeCompare(b.detailTarget) || a.trackId.localeCompare(b.trackId))) {
+    const artistKey = `${item.detailTarget}:${item.workGroup}`;
+    if ((detailCounts.get(item.detailTarget) || 0) >= MAX_TRACKS_PER_DETAIL) continue;
+    if ((artistDetailCounts.get(artistKey) || 0) >= MAX_TRACKS_PER_ARTIST_AND_DETAIL) continue;
+    selected.push(item);
+    detailCounts.set(item.detailTarget, (detailCounts.get(item.detailTarget) || 0) + 1);
+    artistDetailCounts.set(artistKey, (artistDetailCounts.get(artistKey) || 0) + 1);
+  }
+  return selected;
 }
 
 function countsBy(items, key) {
@@ -110,12 +125,22 @@ async function main() {
   const records = [];
   const failedTags = [];
   const batches = await Promise.all(QUERY_TAGS.map(async tag => {
-    const url = new URL("https://ccmixter.org/api/query");
-    url.search = new URLSearchParams({ datasource: "uploads", tags: tag, f: "json", limit: "10" });
-    try { return await fetchJson(url); } catch (error) {
-      failedTags.push({ tag, error: error.message });
-      return [];
+    const rows = [];
+    for (let offset = 0; offset < QUERY_LIMIT; offset += QUERY_PAGE_SIZE) {
+      const url = new URL("https://ccmixter.org/api/query");
+      url.search = new URLSearchParams({
+        datasource: "uploads", tags: tag, f: "json",
+        limit: String(QUERY_PAGE_SIZE), offset: String(offset)
+      });
+      try {
+        const page = await fetchJson(url);
+        rows.push(...page);
+        if (page.length < QUERY_PAGE_SIZE) break;
+      } catch (error) {
+        failedTags.push({ tag, offset, error: error.message });
+      }
     }
+    return rows;
   }));
   records.push(...batches.flat());
   const items = buildCcmixterCandidates(records);
@@ -125,6 +150,10 @@ async function main() {
     generatedAt: new Date().toISOString(),
     dataset: "ccMixter uploader-tagged music",
     queriedTags: QUERY_TAGS,
+    queryLimitPerTag: QUERY_LIMIT,
+    queryPageSize: QUERY_PAGE_SIZE,
+    maximumTracksPerDetail: MAX_TRACKS_PER_DETAIL,
+    maximumTracksPerArtistAndDetail: MAX_TRACKS_PER_ARTIST_AND_DETAIL,
     fetchedRowsBeforeDeduplication: records.length,
     failedTags,
     productionSafeSingleTargetFullTrackCandidates: items.length,

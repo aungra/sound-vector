@@ -83,7 +83,7 @@
     "genre-detail-license-audit": "node scripts/genre-detail-source-license-audit.mjs",
     "genre-detail-ccmixter-manifest": "node scripts/genre-detail-ccmixter-manifest.mjs",
     "genre-detail-ccmixter-download": "node scripts/genre-detail-ccmixter-download.mjs",
-    "genre-detail-extract-mtg-features": "python3 scripts/genre-detail-extract-mtg-features.py",
+    "genre-detail-extract-mtg-features": "node scripts/genre-detail-extract-mtg-features-runner.mjs",
     "genre-detail-fma-manifest": "python3 scripts/genre-detail-fma-manifest.py",
     "genre-detail-wikimedia-manifest": "node scripts/genre-detail-wikimedia-manifest.mjs",
     "genre-detail-independent-baseline": "node scripts/genre-detail-independent-baseline.mjs",
