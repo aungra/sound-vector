@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-26T16:46:31.273Z",
+  "dataset": "ccMixter uploader-tagged music",
+  "queriedTags": [
+    "ambient",
+    "blues",
+    "jazz",
+    "bebop",
+    "free_jazz",
+    "folk",
+    "electronic",
+    "idm",
+    "techno",
+    "minimal_techno",
+    "acid_techno",
+    "house",
+    "deep_house",
+    "trance",
+    "funk",
+    "disco",
+    "soul",
+    "rnb",
+    "drum_and_bass",
+    "dnb",
+    "dubstep",
+    "hip_hop",
+    "hiphop",
+    "reggae",
+    "dub",
+    "rock",
+    "punk",
+    "metal",
+    "classical",
+    "noise"
+  ],
+  "fetchedRowsBeforeDeduplication": 256,
+  "failedTags": [],
+  "productionSafeSingleTargetFullTrackCandidates": 10,
+  "representedDetailLabels": 7,
+  "byDetail": {
+    "electronic": 2,
+    "hip-hop": 2,
+    "rock": 2,
+    "classical": 1,
+    "idm": 1,
+    "punk": 1,
+    "techno": 1
+  },
+  "byLicense": {
+    "CC-BY": 10
+  },
+  "rightsReview": {
+    "itemLicenses": "Each candidate retains the item API license_url.",
+    "officialTerms": "https://ccmixter.org/terms",
+    "officialAbout": "https://ccmixter.org/about",
+    "productionAllow": [
+      "CC0",
+      "CC-BY",
+      "CC-BY-SA"
+    ],
+    "exclusions": [
+      "NC",
+      "ND",
+      "unspecified license",
+      "stems/samples",
+      "under 90 seconds",
+      "multi-genre labels"
+    ]
+  },
+  "promotionPolicy": "Candidate metadata only. Download, verify availability, extract production features and pass origin-heldout ablation before training."
+}

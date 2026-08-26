@@ -56,9 +56,11 @@ function main() {
   const features = JSON.parse(fs.readFileSync(path.join(cacheRoot, "essentia-mtg-jamendo-feature-cache.json"), "utf8"));
   const mtg = loadRows(cacheRoot, "detail-genre-mtg-source-manifest.json", features);
   const fma = loadRows(cacheRoot, "detail-genre-fma-source-manifest.json", features);
+  const ccmixter = loadRows(cacheRoot, "detail-genre-ccmixter-source-manifest.json", features);
   const directions = {
     "MTG-Jamendo -> FMA": crossSourceDirection(mtg, fma),
-    "FMA -> MTG-Jamendo": crossSourceDirection(fma, mtg)
+    "FMA -> MTG-Jamendo": crossSourceDirection(fma, mtg),
+    "FMA + MTG-Jamendo -> ccMixter": crossSourceDirection([...fma, ...mtg], ccmixter, { minTest: 2 })
   };
   const report = {
     schemaVersion: 1,
@@ -68,7 +70,7 @@ function main() {
     licensePolicy: "CC0/Public Domain/CC-BY/CC-BY-SA full tracks only",
     directions,
     promotionEligible: false,
-    promotionBlocker: "Only 2-3 detailed labels currently satisfy bidirectional support thresholds."
+    promotionBlocker: "Only a small subset of detailed labels satisfies independent-source support thresholds; ccMixter remains evaluation-only."
   };
   fs.writeFileSync(path.join(ROOT, "genre-training/detail-genre-independent-baseline.json"), `${JSON.stringify(report, null, 2)}\n`);
   fs.writeFileSync(path.join(ROOT, "genre-training/DETAIL_GENRE_INDEPENDENT_BASELINE.md"), markdown(report));

@@ -47,14 +47,17 @@ function sourceFamily(item) {
 
 function detailSourceCoverage(items, vocabulary) {
   const coverage = Object.fromEntries(vocabulary.map(id => [id, {
-    productionSources: new Set(), supportSources: new Set(), researchSources: new Set()
+    productionSources: new Set(), supportSources: new Set(), researchSources: new Set(), productionRowsBySource: new Map()
   }]));
   for (const item of items) {
     const decision = effectiveTrainingUsage(item);
     const family = sourceFamily(item);
     for (const detail of item.detailLabels || []) {
       if (!coverage[detail]) continue;
-      if (decision.usage === TRAINING_USAGE.PRODUCTION) coverage[detail].productionSources.add(family);
+      if (decision.usage === TRAINING_USAGE.PRODUCTION) {
+        coverage[detail].productionSources.add(family);
+        coverage[detail].productionRowsBySource.set(family, (coverage[detail].productionRowsBySource.get(family) || 0) + 1);
+      }
       else if (decision.usage === TRAINING_USAGE.SUPPORT) coverage[detail].supportSources.add(family);
       else if (decision.usage === TRAINING_USAGE.RESEARCH) coverage[detail].researchSources.add(family);
     }
@@ -63,7 +66,10 @@ function detailSourceCoverage(items, vocabulary) {
     productionSources: [...value.productionSources].sort(),
     supportSources: [...value.supportSources].sort(),
     researchSources: [...value.researchSources].sort(),
-    productionSourceCount: value.productionSources.size
+    productionSourceCount: value.productionSources.size,
+    productionRowsBySource: Object.fromEntries([...value.productionRowsBySource.entries()].sort()),
+    productionSourcesWithAtLeast2Tracks: [...value.productionRowsBySource].filter(([, count]) => count >= 2).map(([source]) => source).sort(),
+    productionSourcesWithAtLeast5Tracks: [...value.productionRowsBySource].filter(([, count]) => count >= 5).map(([source]) => source).sort()
   }]));
 }
 
@@ -144,6 +150,8 @@ function markdown(report) {
     "",
     `- 本番利用可能なソースあり: ${report.productionCoverage.labelsWithOneSource}/120`,
     `- 本番利用可能な2ソース以上: ${report.productionCoverage.labelsWithTwoSources}/120`,
+    `- 各ソース2曲以上で2ソース達成: ${report.productionCoverage.labelsWithTwoSourcesAtLeast2Tracks}/120`,
+    `- 各ソース5曲以上で2ソース達成: ${report.productionCoverage.labelsWithTwoSourcesAtLeast5Tracks}/120`,
     `- 本番利用可能なソースなし: ${report.productionCoverage.labelsWithoutProductionSource}/120`,
     `- 2ソース達成: ${report.productionCoverage.twoSourceLabels.join(" / ") || "なし"}`,
     "",
@@ -161,6 +169,8 @@ function markdown(report) {
     "- MTG-Jamendo: per-track Creative Commons licenses in `audio_licenses.txt`. https://github.com/MTG/mtg-jamendo-dataset",
     "- WaivOps EDM-HSE: CC BY 4.0 and explicitly intended for machine learning. https://doi.org/10.5281/zenodo.13769544",
     "- WaivOps EDM-TECH: CC BY 4.0 and explicitly intended for model development. https://doi.org/10.5281/zenodo.17584890",
+    "- Wikimedia Commons: item-level genre categories and imageinfo.extmetadata license fields. https://commons.wikimedia.org/w/api.php",
+    "- ccMixter: item-level license, uploader tags and upload type. https://ccmixter.org/terms",
     "- Creative Commons license conditions. https://creativecommons.org/share-your-work/cclicenses/",
     "",
     "この分類はプロジェクトの保守的な運用規則であり、法律上の助言ではありません。",
@@ -172,21 +182,27 @@ function main() {
   const cacheRoot = path.resolve(process.env.MMFR_CACHE_ROOT || DEFAULT_CACHE);
   const mtgPath = path.join(cacheRoot, "genre-training/detail-genre-mtg-source-manifest.json");
   const fmaPath = path.join(cacheRoot, "genre-training/detail-genre-fma-source-manifest.json");
+  const wikimediaPath = path.join(cacheRoot, "genre-training/detail-genre-wikimedia-source-manifest.json");
+  const ccmixterPath = path.join(cacheRoot, "genre-training/detail-genre-ccmixter-source-manifest.json");
   const h = hierarchy();
   const existing = existingExplicitRows(h);
   const mtg = readJson(mtgPath).items.map(item => ({ ...item, sourceFamily: "MTG-Jamendo", contentScope: "full-track" }));
   const fma = readJson(fmaPath).items.map(item => ({ ...item, sourceFamily: "FMA", contentScope: "full-track" }));
+  const wikimedia = readJson(wikimediaPath).items.map(item => ({ ...item, contentScope: "full-track" }));
+  const ccmixter = readJson(ccmixterPath).items.map(item => ({ ...item, sourceFamily: "ccMixter", contentScope: "full-track" }));
   const waivops = waivOpsRows(cacheRoot).map(item => ({ ...item, sourceFamily: "WaivOps" }));
   const rwc = rwcRows().map(item => ({ ...item, sourceFamily: "RWC" }));
   const sources = {
     "existing-explicit-formal": sourceSummary(existing),
     "MTG-Jamendo-candidates": sourceSummary(mtg),
     "FMA-independent-candidates": sourceSummary(fma),
+    "Wikimedia-reviewed-origin-candidates": sourceSummary(wikimedia),
+    "ccMixter-reviewed-candidates": sourceSummary(ccmixter),
     "WaivOps-rhythm-support": sourceSummary(waivops),
     "RWC-research-only": sourceSummary(rwc)
   };
   const detailIds = h.DETAIL_GENRES.map(item => item.id);
-  const coverage = detailSourceCoverage([...existing, ...mtg, ...fma, ...waivops, ...rwc], detailIds);
+  const coverage = detailSourceCoverage([...existing, ...mtg, ...fma, ...wikimedia, ...ccmixter, ...waivops, ...rwc], detailIds);
   const twoSourceLabels = Object.entries(coverage).filter(([, item]) => item.productionSourceCount >= 2).map(([detail]) => detail);
   const oneSourceLabels = Object.entries(coverage).filter(([, item]) => item.productionSourceCount === 1).map(([detail]) => detail);
   const zeroSourceLabels = Object.entries(coverage).filter(([, item]) => item.productionSourceCount === 0).map(([detail]) => detail);
@@ -199,6 +215,8 @@ function main() {
     productionCoverage: {
       labelsWithOneSource: Object.values(coverage).filter(item => item.productionSourceCount >= 1).length,
       labelsWithTwoSources: Object.values(coverage).filter(item => item.productionSourceCount >= 2).length,
+      labelsWithTwoSourcesAtLeast2Tracks: Object.values(coverage).filter(item => item.productionSourcesWithAtLeast2Tracks.length >= 2).length,
+      labelsWithTwoSourcesAtLeast5Tracks: Object.values(coverage).filter(item => item.productionSourcesWithAtLeast5Tracks.length >= 2).length,
       labelsWithoutProductionSource: Object.values(coverage).filter(item => item.productionSourceCount === 0).length,
       twoSourceLabels,
       oneSourceLabels,

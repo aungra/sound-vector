@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-26T16:48:54.450Z",
+  "candidates": 10,
+  "downloadedAndValidated": 10,
+  "failures": [],
+  "representedDetailLabels": 7,
+  "byDetail": {
+    "classical": 1,
+    "electronic": 2,
+    "hip-hop": 2,
+    "idm": 1,
+    "punk": 1,
+    "rock": 2,
+    "techno": 1
+  },
+  "totalBytes": 109035310,
+  "promotionPolicy": "Downloaded evaluation candidates only; not part of the production model until source-heldout ablation passes."
+}
