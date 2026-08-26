@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const DEMO_DIR = path.resolve(SCRIPT_DIR, "..");
 const HTML_PATH = path.join(DEMO_DIR, "MUSIC MEMORY FITTING ROOM.html");
+const GENRE_HIERARCHY_PATH = path.join(DEMO_DIR, "genre-hierarchy.js");
 const PUBLIC_HTACCESS_PATH = path.resolve(DEMO_DIR, "../../deploy/aun-graphic-sound-form/.htaccess");
 const PUBLIC_AUDIO_PROXY_PATH = path.resolve(DEMO_DIR, "../../deploy/aun-graphic-sound-form/api/audio-analyze.php");
 const ARTIST_MASTER_PATH = path.join(DEMO_DIR, "artist-master-patterns.js");
@@ -41,7 +42,7 @@ export function loadPatternApi({ artistMasters = false } = {}) {
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]);
   const appScript = scripts.at(-1).replace(
     /cleanupStoredSessions\(\);\s*(?:restoreLatestAcceptedSession\(\);\s*)?render\(\);\s*loadCalibratedGenreProfiles\(\);(?:\s*await loadSharedGenreFeedbackModel\(\);)?\s*$/,
-    "globalThis.__patternApi={state,GENRE_INFERENCE_REVISION,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,prepareArtistMasterMotionMarkup,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,applyHighTempoRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,bassLedAlternativeDanceRockEvidence,spokenRapBlackMusicEvidence,distributedDanceRockEvidence,postPunkRockConsensusEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,strongExternalCrossHeadEvidence,slowMelodicRockConsensusEvidence,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreAdjustmentFeatureSignature,normaliseGenreAdjustmentLearningRecords,applyGenreAdjustmentLearning,enforceRichAnalysisOutputConsistency,genreVisualWeight,genreDisplayText,inferMusicGenres,storedGenreEvidenceRequiresRichReanalysis,refreshReversibleSoundClothShirt};"
+    "globalThis.__patternApi={state,GENRE_INFERENCE_REVISION,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,prepareArtistMasterMotionMarkup,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,applyHighTempoRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,bassLedAlternativeDanceRockEvidence,spokenRapBlackMusicEvidence,distributedDanceRockEvidence,postPunkRockConsensusEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,strongExternalCrossHeadEvidence,slowMelodicRockConsensusEvidence,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreAdjustmentFeatureSignature,normaliseGenreAdjustmentLearningRecords,applyGenreAdjustmentLearning,enforceRichAnalysisOutputConsistency,genreVisualWeight,genreDisplayText,genreDetailText,inferMusicGenres,enrichFeaturesWithGenre,storedGenreEvidenceRequiresRichReanalysis,refreshReversibleSoundClothShirt,genreHierarchy:globalThis.SoundFormGenreHierarchy};"
   );
   const context = {
     console,
@@ -70,6 +71,7 @@ export function loadPatternApi({ artistMasters = false } = {}) {
   vm.createContext(context);
   vm.runInContext(fs.readFileSync(DELAUNAY_VENDOR_PATH, "utf8"), context);
   if (artistMasters) vm.runInContext(fs.readFileSync(ARTIST_MASTER_PATH, "utf8"), context);
+  vm.runInContext(fs.readFileSync(GENRE_HIERARCHY_PATH, "utf8"), context);
   vm.runInContext(appScript, context);
   return context.__patternApi;
 }
@@ -280,6 +282,90 @@ test("live DnB subdivision uses the detailed rhythm window and rejects irregular
   assert.ok(liquidScore >= .55);
   assert.ok(hiphopScore < .55);
   assert.ok(liquidScore > hiphopScore + .25);
+});
+
+test("genre hierarchy keeps 32 visual engines behind a validated 120-detail vocabulary", () => {
+  const { genreHierarchy, genrePatternProfiles, terraGenreEngines } = loadPatternApi();
+  const systems = new Set(["Air", "Signal", "Bass", "Impact"]);
+
+  assert.equal(genreHierarchy.VISUAL_GENRES.length, 32);
+  assert.equal(new Set(genreHierarchy.VISUAL_GENRES).size, 32);
+  assert.equal(genreHierarchy.DETAIL_GENRES.length, 120);
+  assert.equal(new Set(genreHierarchy.DETAIL_GENRES.map(item => item.id)).size, 120);
+  assert.equal(Object.keys(genrePatternProfiles).length, 32);
+  assert.equal(Object.keys(terraGenreEngines).length, 32);
+  assert.deepEqual([...genreHierarchy.VISUAL_GENRES].sort(), Object.keys(genrePatternProfiles).sort());
+
+  for (const visualGenre of genreHierarchy.VISUAL_GENRES) {
+    assert.ok(systems.has(genreHierarchy.SYSTEM_BY_VISUAL[visualGenre]), `${visualGenre} system`);
+  }
+  for (const detail of genreHierarchy.DETAIL_GENRES) {
+    assert.ok(genreHierarchy.VISUAL_GENRES.includes(detail.primaryVisualGenre), `${detail.id} primary visual`);
+    if (detail.secondaryVisualGenre) assert.ok(genreHierarchy.VISUAL_GENRES.includes(detail.secondaryVisualGenre), `${detail.id} secondary visual`);
+    assert.equal(detail.system, genreHierarchy.SYSTEM_BY_VISUAL[detail.primaryVisualGenre], `${detail.id} system`);
+  }
+});
+
+test("post-punk detail blends Rock and Punk without adding a new visual engine", () => {
+  const { genreHierarchy, resolveGenrePattern, resolveGenreBlend } = loadPatternApi();
+  const analysis = { top: [{ name: "ロック", score: 72 }, { name: "パンク", score: 31 }, { name: "メタル", score: 12 }] };
+  const hierarchy = genreHierarchy.classify({
+    analysis,
+    features: { detailedGenrePrediction: { top: [{ id: "post-punk", score: 81 }] } }
+  });
+  const audio = { genreAnalysis: { ...analysis, hierarchy }, inferredGenre: "ロック" };
+
+  assert.equal(hierarchy.status, "detailed");
+  assert.equal(hierarchy.label, "ポストパンク");
+  assert.equal(JSON.stringify(hierarchy.visualBlend.map(item => [item.genre, item.weight])), JSON.stringify([["ロック", .68], ["パンク", .32]]));
+  assert.equal(resolveGenrePattern(audio, 991).genreName, "ロック");
+  assert.equal(JSON.stringify(resolveGenreBlend(audio, 991).slice(0, 2).map(item => item.genreName)), JSON.stringify(["ロック", "パンク"]));
+});
+
+test("low-confidence hierarchy stays Unknown and parent-only fallback preserves visual selection", () => {
+  const { genreHierarchy, resolveGenrePattern, resolveGenreBlend, resolveGenreVisualProfile } = loadPatternApi();
+  const unknown = genreHierarchy.classify({
+    analysis: { needsReview: true, top: [{ name: "電子音楽", score: 38 }, { name: "テクノ", score: 35 }] },
+    features: { detailedGenrePrediction: { top: [{ id: "idm", score: 74 }] } }
+  });
+  assert.equal(unknown.status, "unknown");
+  assert.equal(unknown.label, "Unknown / 判定保留");
+  assert.equal(JSON.stringify(unknown.visualBlend.map(item => item.genre)), JSON.stringify(["電子音楽", "テクノ"]));
+
+  const analysis = { top: [{ name: "ロック", score: 74 }, { name: "メタル", score: 22 }] };
+  const hierarchy = genreHierarchy.classify({ analysis });
+  const baselineAudio = { genreAnalysis: analysis, inferredGenre: "ロック", energy: .57, onset: .48, bass: .52, brightness: .44 };
+  const hierarchyAudio = { ...baselineAudio, genreAnalysis: { ...analysis, hierarchy } };
+  const baselinePattern = resolveGenrePattern(baselineAudio, 717);
+  const hierarchyPattern = resolveGenrePattern(hierarchyAudio, 717);
+
+  assert.equal(hierarchy.status, "parent-only");
+  assert.deepEqual(resolveGenreBlend(hierarchyAudio, 717).map(item => item.genreName), resolveGenreBlend(baselineAudio, 717).map(item => item.genreName));
+  assert.deepEqual(hierarchyPattern, baselinePattern);
+  assert.deepEqual(resolveGenreVisualProfile(hierarchyPattern, hierarchyAudio, 717), resolveGenreVisualProfile(baselinePattern, baselineAudio, 717));
+});
+
+test("detailed hierarchy preserves protected PCM geometry and decoded bytes", () => {
+  const { genreHierarchy, resolveGenrePattern, pcmProtectedDataGroupFromBytes, decodeProtectedPcmDataFromSvg } = loadPatternApi();
+  const source = Uint8Array.from({ length: 256 }, (_, index) => (index * 37 + 19) % 256);
+  const analysis = { top: [{ name: "ロック", score: 76 }, { name: "パンク", score: 34 }] };
+  const hierarchy = genreHierarchy.classify({
+    analysis,
+    features: { detailedGenrePrediction: { top: [{ id: "post-punk", score: 84 }] } }
+  });
+  const baseAudio = { inferredGenre: "ロック", genreAnalysis: analysis, energy: .62, rms: .62, bass: .48, onset: .58, rhythm: .67, brightness: .52, tempo: 132, centroid: 2860 };
+  const hierarchyAudio = { ...baseAudio, genreAnalysis: { ...analysis, hierarchy } };
+  const textureOptions = audio => {
+    const pattern = resolveGenrePattern(audio, 1700);
+    return { seed: 1700, textureMode: pattern.textureMode, textureRegion: pattern.textureRegion, textureShape: pattern.protectedTextureShape };
+  };
+  const baselineProtected = pcmProtectedDataGroupFromBytes(source, 8, 32, textureOptions(baseAudio));
+  const hierarchyProtected = pcmProtectedDataGroupFromBytes(source, 8, 32, textureOptions(hierarchyAudio));
+  const decoded = decodeProtectedPcmDataFromSvg(`<svg>${hierarchyProtected}</svg>`);
+
+  assert.equal(hierarchy.status, "detailed");
+  assert.equal(hierarchyProtected, baselineProtected);
+  assert.deepEqual([...Buffer.from(decoded.pcmSketch, "base64")], [...source]);
 });
 
 test("genre pattern profiles cover all calibrated genre names", () => {

@@ -601,6 +601,7 @@
   <div id="app"></div>
   <script src="vendor/d3-delaunay.min.js"></script>
   <script src="artist-master-patterns.js?v=inline-presentation-v1"></script>
+  <script src="genre-hierarchy.js?v=hierarchy-120-v1"></script>
   <script>
     const questions = [
       { id: "place", title: "その音楽は、どこで鳴っていましたか？", options: ["港", "ライブハウス", "クラブ", "教会", "路面電車", "坂道", "部屋", "祭り"] },
@@ -10369,11 +10370,23 @@
     }
     function enrichFeaturesWithGenre(features = {}) {
       const genreAnalysis = inferMusicGenres(features);
+      const hierarchy = globalThis.SoundFormGenreHierarchy?.classify?.({
+        analysis: genreAnalysis,
+        features,
+        vector: genreFeatureVector(features)
+      }) || null;
+      const enrichedAnalysis = hierarchy ? {
+        ...genreAnalysis,
+        hierarchy,
+        detail: hierarchy.top,
+        inferredDetailGenre: hierarchy.status === "detailed" ? hierarchy.label : ""
+      } : genreAnalysis;
       return {
         ...features,
-        genreAnalysis,
-        inferredGenre: genreAnalysis.top[0]?.name || "",
-        inferredStyle: genreAnalysis.inferredStyle || ""
+        genreAnalysis: enrichedAnalysis,
+        inferredGenre: enrichedAnalysis.top[0]?.name || "",
+        inferredDetailedGenre: hierarchy?.status === "detailed" ? hierarchy.label : "",
+        inferredStyle: enrichedAnalysis.inferredStyle || ""
       };
     }
     function createYouTubeMood(url, features) {
@@ -10386,7 +10399,7 @@
         id: `youtube-${id}-${startSeconds}`,
         label: `YouTube ${id}${startSeconds ? ` @ ${youtubeStartLabel(startSeconds)}` : ""}`,
         cue: "YouTubeリンクから音響特徴量を読み取り、波形・スペクトル・リズム・クロマを一色SVGへ変換。",
-        tags: unique(audioTags(features).concat(features.inferredStyle ? [features.inferredStyle] : []).concat(features.genreAnalysis?.top?.slice(0, 3).map(item => item.name) || [])),
+        tags: unique(audioTags(features).concat(features.inferredStyle ? [features.inferredStyle] : []).concat(features.inferredDetailedGenre ? [features.inferredDetailedGenre] : []).concat(features.genreAnalysis?.top?.slice(0, 3).map(item => item.name) || [])),
         seed: hashString(`${id || urlForStorage}@${startSeconds}`),
         pattern: "youtube_audio",
         youtubeUrl: urlForStorage,
@@ -10400,7 +10413,7 @@
         id: `upload-${hashString(fileName).toString(36)}`,
         label: fileName.replace(/\.[^.]+$/, ""),
         cue: "アップロードされた音源をブラウザ内で実解析し、波形・スペクトル・リズム・クロマを一色SVGへ変換。",
-        tags: unique(audioTags(features).concat(features.inferredStyle ? [features.inferredStyle] : []).concat(features.genreAnalysis?.top?.slice(0, 3).map(item => item.name) || [])),
+        tags: unique(audioTags(features).concat(features.inferredStyle ? [features.inferredStyle] : []).concat(features.inferredDetailedGenre ? [features.inferredDetailedGenre] : []).concat(features.genreAnalysis?.top?.slice(0, 3).map(item => item.name) || [])),
         seed: hashString(fileName),
         pattern: "uploaded_audio",
         audioFileName: fileName,
@@ -11320,6 +11333,13 @@
       if (ranked === "未推定") return ranked;
       return genreAnalysis?.needsReview ? `${ranked} / 要確認` : ranked;
     }
+    function genreDetailText(genreAnalysis = null) {
+      const hierarchy = genreAnalysis?.hierarchy;
+      if (!hierarchy) return "";
+      if (hierarchy.status === "unknown") return "詳細 Unknown / 判定保留";
+      if (hierarchy.status === "parent-only") return `詳細 ${hierarchy.label}（32構図親分類）`;
+      return `詳細 ${hierarchy.label} ${Math.round(Number(hierarchy.confidence) || 0)}%`;
+    }
     function renderGenreReviewAction(shirt = null, genreAnalysis = null, busy = false) {
       if (!genreAnalysis?.needsReview || !shirt?.id) return "";
       if (genreAnalysis.richAnalysisRequired && shirt.youtubeUrl) {
@@ -11937,14 +11957,16 @@
       const bass = clamp01(audio.bass);
       const brightness = clamp01(audio.brightness ?? ((audio.centroid - 400) / 5200));
       const densityLift = (energy * .18 + onset * .14 + bass * .08) - brightness * .05;
+      const hierarchy = audio.genreAnalysis?.hierarchy;
+      const detailModifier = hierarchy?.status === "detailed" ? hierarchy.visualModifier || {} : {};
       return {
         silhouette: genrePattern.silhouette || "flag",
         negativeSpace: genrePattern.negativeSpace || "none",
         primaryScale: clampRange((genrePattern.primaryScale ?? 1) + densityLift * .08, .72, 1.28),
         variantScale: clampRange((genrePattern.variantScale ?? .78) + densityLift * .05, .48, 1.12),
         variantOpacity: clampRange(genrePattern.variantOpacity ?? .54, .25, .82),
-        rotationBias: Number(genrePattern.rotationBias || 0),
-        densityBias: clampRange((genrePattern.densityBias ?? 1) + densityLift, .38, 1.48),
+        rotationBias: Number(genrePattern.rotationBias || 0) + Number(detailModifier.rotationShift || 0),
+        densityBias: clampRange((genrePattern.densityBias ?? 1) + densityLift + Number(detailModifier.densityShift || 0), .38, 1.48),
         strokeBias: clampRange((genrePattern.strokeBias ?? 1) + bass * .08 + onset * .06, .52, 1.52),
         textureRegion: normaliseTextureRegion(genrePattern.textureRegion || "full"),
         collisionStyle: genrePattern.collisionStyle || "quiet",
@@ -11976,12 +11998,21 @@
       return { ...profile, ...visual, genreName, variantFamily, variantIndex, variantPhase };
     }
     function resolveGenrePattern(audio = {}, seed = 1, variantSalt = 0) {
-      const topGenre = audio.genreAnalysis?.top?.[0]?.name || audio.inferredGenre || "";
+      const hierarchyGenre = audio.genreAnalysis?.hierarchy?.status === "detailed"
+        ? audio.genreAnalysis.hierarchy.visualBlend?.[0]?.genre
+        : "";
+      const topGenre = hierarchyGenre || audio.genreAnalysis?.top?.[0]?.name || audio.inferredGenre || "";
       return resolveGenrePatternForName(topGenre, audio, seed, variantSalt);
     }
     function resolveGenreBlend(audio = {}, seed = 1, limit = 4) {
       const ranked = Array.isArray(audio.genreAnalysis?.top) ? audio.genreAnalysis.top : [];
-      const candidates = ranked.length ? ranked : (audio.inferredGenre ? [{ name: audio.inferredGenre, score: 100 }] : []);
+      const hierarchy = audio.genreAnalysis?.hierarchy;
+      const detailedBlend = hierarchy?.status === "detailed" && Array.isArray(hierarchy.visualBlend)
+        ? hierarchy.visualBlend.map(item => ({ name: item.genre, score: Number(item.weight || 0) * 100 }))
+        : [];
+      const candidates = detailedBlend.length
+        ? [...detailedBlend, ...ranked.filter(item => !detailedBlend.some(detail => detail.name === item.name))]
+        : ranked.length ? ranked : (audio.inferredGenre ? [{ name: audio.inferredGenre, score: 100 }] : []);
       const seen = new Set();
       const selected = candidates
         .filter(item => item && genrePatternProfiles[item.name] && !seen.has(item.name) && (seen.add(item.name) || true))
@@ -18375,6 +18406,7 @@
       const sourceLabel = generated?.youtubeUrl ? `YouTube ${features?.id || ""}` : generated?.audioFileName || selectedMood?.label || "";
       const isGenerating = Boolean(state.generationProgress);
       const genreLabel = genreRankedText(features?.genreAnalysis, 2);
+      const genreDetailLabel = genreDetailText(features?.genreAnalysis);
       const genreReviewAction = renderGenreReviewAction(generated, features?.genreAnalysis, isGenerating);
       const genreFeedbackPanel = renderGenreFeedbackPanel(generated, features?.genreAnalysis, isGenerating);
       const analysisProvenance = features?.analysisTier
@@ -18410,7 +18442,7 @@
           <details class="advanced-settings"><summary>解析サーバー設定</summary><div class="api-config"><label for="apiEndpoint"><span class="eyebrow">YouTube audio analysis server</span><input id="apiEndpoint" value="${endpointValue}" placeholder="https://example.com/api/audio-analyze"></label><button class="secondary" onclick="saveApiEndpoint()">接続先を保存</button></div></details></section>` :
           `<section id="conversion-workbench" class="panel"><div class="top"><div><p class="eyebrow">04 / OUTPUT</p><h2>${generatedHeading}</h2></div><div>${generatedActions}</div></div>
           ${renderGenerationProgress()}
-          <div class="generated-layout"><article class="generated-preview">${renderShirtArt(generated)}<div class="design-spec"><p><strong>音源</strong><br>${sourceLabel}</p><p><strong>生成</strong><br>${selectedEngine.label}</p><p><strong>状態</strong><br>${generatedStateText}</p><p><strong>Genre</strong><br>${genreLabel}${styleLabel}${genreReviewAction ? `<br>${genreReviewAction}` : ""}</p><p><strong>音響根拠</strong><br>${genreEvidence}</p><p><strong>Tempo</strong><br>${features?.tempo ? `${features.tempo} BPM` : "local"}</p><p><strong>Centroid</strong><br>${features?.centroid ? `${features.centroid} Hz` : "SVG"}</p><p><strong>可逆PCM</strong><br>${formatPcmGeometryText(features)}</p></div>${genreFeedbackPanel}</article><article><h3>${generated.title}</h3><p>${generated.description}</p>${generated.youtubeUrl ? `<p class="muted"><a href="${escapeAttr(generated.youtubeUrl)}" target="_blank" rel="noreferrer">参照YouTubeリンク</a></p>` : ""}${state.message ? `<p class="tag">${state.message}</p>` : ""}${generated.externalNote ? `<p class="tag">${generated.externalNote}</p>` : ""}<p class="muted">${generated.stockNote}</p></article></div></section>`}
+          <div class="generated-layout"><article class="generated-preview">${renderShirtArt(generated)}<div class="design-spec"><p><strong>音源</strong><br>${sourceLabel}</p><p><strong>生成</strong><br>${selectedEngine.label}</p><p><strong>状態</strong><br>${generatedStateText}</p><p><strong>Genre</strong><br>${genreLabel}${genreDetailLabel ? `<br>${genreDetailLabel}` : ""}${styleLabel}${genreReviewAction ? `<br>${genreReviewAction}` : ""}</p><p><strong>音響根拠</strong><br>${genreEvidence}</p><p><strong>Tempo</strong><br>${features?.tempo ? `${features.tempo} BPM` : "local"}</p><p><strong>Centroid</strong><br>${features?.centroid ? `${features.centroid} Hz` : "SVG"}</p><p><strong>可逆PCM</strong><br>${formatPcmGeometryText(features)}</p></div>${genreFeedbackPanel}</article><article><h3>${generated.title}</h3><p>${generated.description}</p>${generated.youtubeUrl ? `<p class="muted"><a href="${escapeAttr(generated.youtubeUrl)}" target="_blank" rel="noreferrer">参照YouTubeリンク</a></p>` : ""}${state.message ? `<p class="tag">${state.message}</p>` : ""}${generated.externalNote ? `<p class="tag">${generated.externalNote}</p>` : ""}<p class="muted">${generated.stockNote}</p></article></div></section>`}
         ${generated ? renderReversiblePanel(generated) : ""}
         ${generated && !isReversibleAudio ? renderAudioMappingDiagram(features) : ""}
       </main>`;
