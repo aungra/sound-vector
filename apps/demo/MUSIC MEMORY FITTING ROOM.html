@@ -594,6 +594,197 @@
       .api-config { grid-template-columns: 1fr; }
       .genre-feedback-controls, .genre-feedback-controls > div { grid-template-columns: 1fr; }
     }
+
+    /* Minimal SOUND FORM input screen with fluid type, spacing, and controls. */
+    body {
+      min-width: 320px;
+      background: var(--paper);
+      color: var(--ink);
+    }
+    .wrap {
+      width: min(100%, 623px);
+      max-width: none;
+      margin: 0 auto;
+      padding: 0 24px 160px;
+    }
+    .wrap.has-result {
+      width: min(100%, 1248px);
+    }
+    .simple-hero {
+      width: 100%;
+      margin: 0;
+      padding: clamp(94px, 14.5vw, 120px) 0 0;
+    }
+    .simple-title-lockup {
+      position: relative;
+      padding-top: clamp(110px, 15vw, 130px);
+    }
+    .simple-title-lockup h1 {
+      max-width: none;
+      margin: 0;
+      font-family: var(--font-latin);
+      font-size: clamp(58px, 10.8vw, 86px);
+      font-weight: 400;
+      line-height: .92;
+      letter-spacing: -.055em;
+      white-space: nowrap;
+      text-wrap: nowrap;
+    }
+    .simple-ongaku {
+      position: absolute;
+      top: 0;
+      right: 4px;
+      font-size: clamp(40px, 6.5vw, 52px);
+      font-weight: 400;
+      line-height: 1.02;
+      letter-spacing: 0;
+      text-align: center;
+    }
+    .simple-intro {
+      margin: 22px 0 0;
+      font-size: clamp(18px, 3vw, 23px);
+      font-weight: 400;
+      line-height: 1.72;
+      letter-spacing: .015em;
+    }
+    .simple-conversion {
+      margin-top: clamp(108px, 16vw, 132px);
+    }
+    .simple-source + .simple-source {
+      margin-top: 54px;
+    }
+    .simple-source h2 {
+      margin: 0 0 32px;
+      font-family: var(--font-primary);
+      font-size: clamp(27px, 4.2vw, 34px);
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: .02em;
+    }
+    .simple-field-label {
+      display: block;
+      margin-bottom: 10px;
+      font-family: var(--font-latin);
+      font-size: 17px;
+      line-height: 1.2;
+    }
+    .simple-input-action {
+      display: flex;
+      width: 100%;
+      min-height: 80px;
+    }
+    .simple-input-action input {
+      min-width: 0;
+      min-height: 80px;
+      flex: 1 1 auto;
+      border: 3px solid var(--ink);
+      border-right: 0;
+      border-radius: 0;
+      padding: 14px 18px;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.4;
+    }
+    .simple-input-action button {
+      min-width: 166px;
+      min-height: 80px;
+      flex: 0 0 auto;
+      border: 3px solid var(--ink);
+      border-radius: 0;
+      background: var(--ink);
+      color: var(--paper);
+      padding: 12px 10px;
+      box-shadow: none;
+      transform: none;
+      font-size: clamp(19px, 3vw, 23px);
+      font-weight: 500;
+      white-space: nowrap;
+      transition: box-shadow 140ms ease, text-decoration-color 140ms ease;
+    }
+    .simple-input-action button:not(:disabled):hover,
+    .simple-input-action button:not(:disabled):focus-visible {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+      box-shadow: inset 0 0 0 3px var(--paper);
+      transform: none;
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 5px;
+    }
+    .simple-input-action button:not(:disabled):active {
+      box-shadow: inset 0 0 0 5px var(--paper);
+      transform: none;
+    }
+    .simple-input-action button:disabled {
+      cursor: wait;
+      opacity: .55;
+    }
+    .simple-input-action input:focus-visible,
+    .simple-input-action button:focus-visible {
+      position: relative;
+      z-index: 1;
+      outline: 3px solid var(--ink);
+      outline-offset: 4px;
+    }
+    .simple-file-input {
+      padding: 0 18px !important;
+    }
+    input.simple-file-input::file-selector-button {
+      height: 74px;
+      margin: 0 14px 0 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: var(--ink);
+      padding: 0;
+      box-shadow: none;
+      font-weight: 400;
+    }
+    input.simple-file-input:not(:disabled):hover::file-selector-button,
+    input.simple-file-input:focus-visible::file-selector-button {
+      background: transparent;
+      color: var(--ink);
+      border: 0;
+      box-shadow: none;
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 4px;
+    }
+    .simple-message {
+      margin: 24px 0 0;
+      border-left: 3px solid var(--ink);
+      padding: 8px 0 8px 14px;
+      line-height: 1.65;
+    }
+    .simple-conversion .generation-progress {
+      margin-top: 42px;
+    }
+    .has-result .simple-hero {
+      width: min(100%, 575px);
+      margin: 0 auto clamp(72px, 10vw, 120px);
+    }
+    .has-result > .panel {
+      border-radius: 0;
+    }
+    @media (max-width: 520px) {
+      .wrap { padding-right: 20px; padding-left: 20px; }
+      .simple-hero { padding-top: 58px; }
+      .simple-title-lockup { padding-top: 82px; }
+      .simple-title-lockup h1 { font-size: clamp(47px, 14.5vw, 68px); }
+      .simple-ongaku { right: 2px; font-size: clamp(32px, 10vw, 44px); }
+      .simple-intro { margin-top: 18px; font-size: 17px; line-height: 1.75; }
+      .simple-conversion { margin-top: 82px; }
+      .simple-source + .simple-source { margin-top: 46px; }
+      .simple-source h2 { margin-bottom: 24px; font-size: 26px; }
+      .simple-field-label { font-size: 15px; }
+      .simple-input-action, .simple-input-action input, .simple-input-action button { min-height: 68px; }
+      .simple-input-action input { padding: 10px 12px; }
+      .simple-input-action button { min-width: 132px; font-size: 18px; }
+      .simple-file-input { padding: 0 10px !important; font-size: 12px !important; }
+      input.simple-file-input::file-selector-button { height: 62px; margin-right: 8px; }
+    }
   </style>
 </head>
 <body>
@@ -18001,34 +18192,13 @@
         render();
       }
     }
-    function renderWorkflowRail({ generated = false, generating = false } = {}) {
-      const current = generated ? 3 : generating ? 1 : 0;
-      const steps = [
-        ["入力", "URL / 音源"],
-        ["解析", "音響特徴"],
-        ["構図", "32ジャンル"],
-        ["出力", "可逆SVG"]
-      ];
-      return `<ol class="workflow-rail" aria-label="変換工程">${steps.map(([label, note], index) => {
-        const status = index < current ? "done" : index === current ? "current" : "";
-        const currentAttr = index === current ? ' aria-current="step"' : "";
-        return `<li class="workflow-step ${status}"${currentAttr}><span class="workflow-index">${String(index + 1).padStart(2, "0")}</span><span class="workflow-label">${label}</span><span class="workflow-note">${note}</span></li>`;
-      }).join("")}</ol>`;
-    }
-    function renderInterfaceHeader({ generated = false, generating = false } = {}) {
-      return `<header class="interface-header">
-        <div class="interface-bar">
-          <div class="interface-brand"><span class="interface-brand-mark" aria-hidden="true">SF</span><span>Sound Form / Reversible audio graphics</span></div>
+    function renderInterfaceHeader() {
+      return `<header class="simple-hero">
+        <div class="simple-title-lockup">
+          <h1>SOUND FORM</h1>
+          <span class="simple-ongaku" aria-hidden="true">音<br>楽</span>
         </div>
-        <div class="interface-hero">
-          <div><h1>SOUND FORM</h1><p class="interface-intro muted">音声を解析し、32ジャンルの構図規則で黒地に白一色の編集可能なSVGへ変換します。出力した図形には、音を戻すための保護PCMレイヤーも共存します。</p></div>
-          <dl class="system-facts">
-            <div><dt>Input</dt><dd>YouTube / Audio file</dd></div>
-            <div><dt>Output</dt><dd>Editable reversible SVG</dd></div>
-            <div><dt>Rule set</dt><dd>32 genre structures</dd></div>
-          </dl>
-        </div>
-        ${renderWorkflowRail({ generated, generating })}
+        <p class="simple-intro">音声を解析し、32ジャンルの構図規則で黒地に白一色の編集可能なSVGへ変換します。出力した図形には、音を戻すための保護PCMレイヤーも共存します。</p>
       </header>`;
     }
     function renderShirtArt(shirt, ratio) {
@@ -18368,8 +18538,6 @@
         : generated?.engineId === "realtime" || state.engineId === "realtime"
         ? { id: "realtime", label: "Realtime Field", note: "その瞬間ごとにSVGを生成" }
         : engineOptions.find(engine => engine.id === (generated?.engineId || state.engineId)) || engineOptions[0];
-      const config = apiConfig();
-      const endpointValue = (config.endpoint || "").replace(/"/g, "&quot;");
       const youtubeValue = escapeAttr(state.youtubeUrl || generated?.youtubeUrl || "");
       const features = generated?.audioFeatures || state.audioFeatures || null;
       const sourceLabel = generated?.youtubeUrl ? `YouTube ${features?.id || ""}` : generated?.audioFileName || selectedMood?.label || "";
@@ -18394,20 +18562,27 @@
         ? `<div class="pattern-motion-controls"><span class="tag pattern-motion-status">${patternMotionRunning ? "自動再生中" : "停止中"}</span><button class="secondary" onclick="${patternMotionRunning ? "pausePatternMotion()" : "resumePatternMotion()"}">${patternMotionRunning ? "停止" : "再開"}</button><button class="secondary" onclick="resetPatternMotion()">先頭へ戻す</button><button class="secondary" onclick="acceptRealtimeDesign()">このパターンを採用</button><button class="secondary" onclick="resetMood()">曲を入れ直す</button></div>`
         : `${state.realtime ? `<button class="secondary" onclick="pauseRealtime()">止める</button>` : `<button class="secondary" onclick="resumeRealtime()">再開</button>`} <button class="secondary" onclick="acceptRealtimeDesign()">この図案を採用</button> <button class="secondary" onclick="rerunCurrentGeneration()">別案を走らせる</button> <button class="secondary" onclick="resetMood()">もう一度選ぶ</button>`;
       const generatedStateText = isReversibleAudio ? `${patternMotionRunning ? "音響連動アニメーション" : "静止フレーム"} / 復元データ保持` : state.realtime ? "更新中" : "停止中";
-      return `<main class="wrap">
-        ${renderInterfaceHeader({ generated: Boolean(generated), generating: isGenerating })}
-        ${!generated ? `<section id="conversion-workbench" class="panel workbench"><div class="workbench-head"><div><p class="eyebrow">01 / INPUT</p><h2>音を図形へ変換する</h2><p class="muted">YouTube URLまたは音源ファイルを選びます。音響信号だけを解析し、タイトルやサムネイルは構図の根拠に使いません。</p></div><span class="status-badge ${isGenerating ? "busy" : ""}" role="status">${isGenerating ? "Processing" : "Ready"}</span></div>
-          <div class="source-grid">
-            <div class="source-create">
-              <article class="source-card"><div class="route-meta"><span class="route-kind">Input A / Network</span><span class="route-chip">Recommended</span></div><h3>YouTubeから生成</h3><p class="muted">URL先の音声PCMを解析サーバーで取得し、RMS・onset・クロマ・テンポを構図へ渡します。</p><div class="youtube-form"><label><span class="field-label">YouTube URL</span><input id="youtubeUrl" type="url" value="${youtubeValue}" placeholder="https://www.youtube.com/watch?v=..." autocomplete="url" ${isGenerating ? "disabled" : ""} onkeydown="if(event.key==='Enter') startYoutubeGeneration()"></label><button class="secondary" onclick="startYoutubeGeneration()" ${isGenerating ? "disabled" : ""}>${isGenerating ? "解析中…" : "解析して生成"}</button></div></article>
-              <article class="source-card"><div class="route-meta"><span class="route-kind">Input B / Local</span><span class="route-chip">Direct</span></div><h3>音源ファイルから生成</h3><p class="muted">mp3、wav、m4aなどをブラウザでデコードし、音響特徴と可逆PCMを直接生成します。</p><div class="youtube-form"><label><span class="field-label">Audio file</span><input id="audioFile" type="file" accept="audio/*" ${isGenerating ? "disabled" : ""}></label><button class="secondary" onclick="startUploadedAudioGeneration()" ${isGenerating ? "disabled" : ""}>${isGenerating ? "解析中…" : "解析して生成"}</button></div></article>
+      return `<main class="wrap${generated ? " has-result" : ""}">
+        ${renderInterfaceHeader()}
+        ${!generated ? `<section id="conversion-workbench" class="simple-conversion" aria-label="音源から図形を生成">
+          <div class="simple-source">
+            <h2>YouTube から生成</h2>
+            <label class="simple-field-label" for="youtubeUrl">YouTube URL</label>
+            <div class="simple-input-action">
+              <input id="youtubeUrl" type="url" value="${youtubeValue}" aria-label="YouTube URL" autocomplete="url" ${isGenerating ? "disabled" : ""} onkeydown="if(event.key==='Enter') startYoutubeGeneration()">
+              <button type="button" onclick="startYoutubeGeneration()" ${isGenerating ? "disabled" : ""}>${isGenerating ? "解析中…" : "解析して生成"}</button>
             </div>
-            <article class="source-card restore"><div class="route-meta"><span class="route-kind">Reverse / SVG → Audio</span><span class="route-chip">Restore</span></div><h3>可逆SVGから音を戻す</h3><p class="muted">書き出し済みSVGの <strong>pcm_reversible_data</strong> にある図形座標だけから音を復元します。</p><div class="youtube-form"><label><span class="field-label">Reversible SVG</span><input id="reversibleSvgFile" type="file" accept=".svg,image/svg+xml"></label><button class="secondary" onclick="restoreFromReversibleSvg()">読み込んで復元</button></div></article>
+          </div>
+          <div class="simple-source">
+            <h2>音源ファイルから生成</h2>
+            <div class="simple-input-action simple-file-action">
+              <input class="simple-file-input" id="audioFile" type="file" accept="audio/*" aria-label="音源ファイルを選択" ${isGenerating ? "disabled" : ""}>
+              <button type="button" onclick="startUploadedAudioGeneration()" ${isGenerating ? "disabled" : ""}>${isGenerating ? "解析中…" : "解析して生成"}</button>
+            </div>
           </div>
           ${renderGenerationProgress()}
-          ${state.message ? `<p class="tag" role="status">${state.message}</p>` : ""}
-          <div class="process-summary"><p><strong>01 / Audio fingerprint</strong><br>曲固有の構造を決定</p><p><strong>02 / Onset + Chroma</strong><br>密度と方向へ変換</p><p><strong>03 / Protected PCM</strong><br>SVGの可視図形へ保存</p></div>
-          <details class="advanced-settings"><summary>解析サーバー設定</summary><div class="api-config"><label for="apiEndpoint"><span class="eyebrow">YouTube audio analysis server</span><input id="apiEndpoint" value="${endpointValue}" placeholder="https://example.com/api/audio-analyze"></label><button class="secondary" onclick="saveApiEndpoint()">接続先を保存</button></div></details></section>` :
+          ${state.message ? `<p class="simple-message" role="status">${state.message}</p>` : ""}
+        </section>` :
           `<section id="conversion-workbench" class="panel"><div class="top"><div><p class="eyebrow">04 / OUTPUT</p><h2>${generatedHeading}</h2></div><div>${generatedActions}</div></div>
           ${renderGenerationProgress()}
           <div class="generated-layout"><article class="generated-preview">${renderShirtArt(generated)}<div class="design-spec"><p><strong>音源</strong><br>${sourceLabel}</p><p><strong>生成</strong><br>${selectedEngine.label}</p><p><strong>状態</strong><br>${generatedStateText}</p><p><strong>Genre</strong><br>${genreLabel}${styleLabel}${genreReviewAction ? `<br>${genreReviewAction}` : ""}</p><p><strong>音響根拠</strong><br>${genreEvidence}</p><p><strong>Tempo</strong><br>${features?.tempo ? `${features.tempo} BPM` : "local"}</p><p><strong>Centroid</strong><br>${features?.centroid ? `${features.centroid} Hz` : "SVG"}</p><p><strong>可逆PCM</strong><br>${formatPcmGeometryText(features)}</p></div>${genreFeedbackPanel}</article><article><h3>${generated.title}</h3><p>${generated.description}</p>${generated.youtubeUrl ? `<p class="muted"><a href="${escapeAttr(generated.youtubeUrl)}" target="_blank" rel="noreferrer">参照YouTubeリンク</a></p>` : ""}${state.message ? `<p class="tag">${state.message}</p>` : ""}${generated.externalNote ? `<p class="tag">${generated.externalNote}</p>` : ""}<p class="muted">${generated.stockNote}</p></article></div></section>`}
