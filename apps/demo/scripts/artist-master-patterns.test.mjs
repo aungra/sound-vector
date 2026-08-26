@@ -22,6 +22,7 @@ test("approved Illustrator masters are structural, monochrome, and complete", ()
   assert.doesNotMatch(masterSource, /(?:opacity|stroke-opacity|fill-opacity|filter|linearGradient|radialGradient)\s*=/i);
   const colors = [...masterSource.matchAll(/(?:fill|stroke)=["']([^"']+)["']/g)].map(match => match[1]);
   assert.ok(colors.every(color => ["#000", "#fff", "none"].includes(color)), "artist masters must remain black, white, or none");
+  assert.doesNotMatch(masterSource, /<style\b|\bclass=["']/, "runtime masters must use inline SVG presentation attributes");
 });
 
 test("all approved patterns meet the screenprint stroke floor", () => {
@@ -38,6 +39,7 @@ test("all 32 live patterns use the approved Top1 structure and restore productio
     const mood = moodForGenre(api, item.genre, index);
     const generated = api.generateSoundClothReversibleSvg(mood, 1800010000000 + index, { variantSeed: index * 31 });
     assert.match(generated, new RegExp(`data-artist-master-genre=["']${item.genre}["']`));
+    assert.match(generated, /data-artist-master-style=["']inline-presentation-v1["']/);
     assert.match(generated, /data-visual-role=["']approved-artist-master["']/);
     assert.match(generated, /id=["']terra_grain_field["']/);
     assert.match(generated, /id=["']pcm_reversible_data["'][^>]*><\/g>/);
@@ -72,6 +74,10 @@ test("artist master replacement does not alter protected PCM geometry or ranked 
   assert.match(approved, /data-genre-fusion=["']structural-splice-v2["']/);
   assert.match(approved, /data-fusion-anchor-source=["']artist-master-nodes["']/);
   assert.doesNotMatch(approved, /data-blend-scale=|data-fusion-opacity=/);
+
+  const retainedLayerIds = Array.from(original.matchAll(/<g\b[^>]*\bid=["'](terra_(?:grain_field|genre_object|family_structure|council_composition))["']/g), match => match[1]);
+  for (const id of retainedLayerIds) assert.match(approved, new RegExp(`id=["']${id}["']`), `${id} was dropped by artist-master replacement`);
+  assert.doesNotMatch(approved, /<style\b|\bclass=["']/, "generated SVG must not depend on embedded artist-master CSS");
 
   const originalProduction = injectProtectedGeometry(originalApi, original, originalMood.audio.detail, 512);
   const approvedProduction = injectProtectedGeometry(approvedApi, approved, approvedMood.audio.detail, 512);

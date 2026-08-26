@@ -57,6 +57,47 @@ function normalizeScreenprintStrokes(svg) {
   return result;
 }
 
+function inlineSvgClassStyles(svg) {
+  const classRules = new Map();
+  const presentationProperties = new Set([
+    "fill",
+    "stroke",
+    "stroke-linecap",
+    "stroke-linejoin",
+    "stroke-miterlimit",
+    "stroke-width"
+  ]);
+  for (const styleMatch of String(svg).matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/gi)) {
+    for (const rule of styleMatch[1].matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+      const declarations = {};
+      for (const declaration of rule[2].matchAll(/([\w-]+)\s*:\s*([^;{}]+)/g)) {
+        const property = declaration[1].toLowerCase();
+        if (presentationProperties.has(property)) declarations[property] = declaration[2].trim();
+      }
+      for (const selector of rule[1].split(",").map(value => value.trim())) {
+        const className = selector.match(/^\.([\w-]+)$/)?.[1];
+        if (!className) continue;
+        classRules.set(className, { ...(classRules.get(className) || {}), ...declarations });
+      }
+    }
+  }
+  const withoutStyles = String(svg).replace(/<style\b[^>]*>[\s\S]*?<\/style>\s*/gi, "");
+  return withoutStyles.replace(/<([\w:-]+)\b([^>]*)>/g, (tag, name, sourceAttributes) => {
+    const classMatch = sourceAttributes.match(/\sclass=["']([^"']+)["']/);
+    if (!classMatch) return tag;
+    const declarations = {};
+    classMatch[1].split(/\s+/).forEach(className => Object.assign(declarations, classRules.get(className) || {}));
+    const suffix = sourceAttributes.endsWith("/") ? "/" : "";
+    let attributes = (suffix ? sourceAttributes.slice(0, -1) : sourceAttributes)
+      .replace(/\sclass=["'][^"']+["']/, "");
+    for (const [property, value] of Object.entries(declarations)) {
+      attributes = attributes.replace(new RegExp(`\\s${property}=["'][^"']*["']`, "gi"), "");
+      attributes += ` ${property}="${escapeXml(value)}"`;
+    }
+    return `<${name}${attributes}${suffix}>`;
+  });
+}
+
 function screenprintStrokeStats(svg) {
   const source = String(svg);
   const widths = [
@@ -119,14 +160,14 @@ function setRootAttributes(svg, attributes) {
 }
 
 function normalizeApprovedSvg(svg, item) {
-  let result = normalizeScreenprintStrokes(setRootAttributes(svg, {
+  let result = inlineSvgClassStyles(normalizeScreenprintStrokes(setRootAttributes(svg, {
     "data-artist-master-revision": "illustrator-v2",
     "data-genre-pattern": item.genre,
     "data-engine": item.engine,
     "data-pcm-status": "production-injected",
     "data-screenprint-stroke-policy": "sqrt-w2-plus-4-v1",
     "data-screenprint-min-stroke": SCREENPRINT_FLOOR
-  }));
+  })));
   result = result.replace(/<g\b[^>]*id=["']pcm_reversible_data["'][\s\S]*?<\/g>\s*/g, "");
   result = result.replace(/<g\b[^>]*(?:id=["']90_PROTECTED_PCM__PRODUCTION_ONLY["']|inkscape:label=["']90 PROTECTED PCM - PRODUCTION ONLY["'])[^>]*>[\s\S]*?<\/g>\s*/g, "");
   return result.replace(/<\/svg>\s*$/, `<g id="90_PROTECTED_PCM__PRODUCTION_ONLY" inkscape:groupmode="layer" inkscape:label="90 PROTECTED PCM - PRODUCTION ONLY" data-edit-policy="production-injected"></g></svg>`);
