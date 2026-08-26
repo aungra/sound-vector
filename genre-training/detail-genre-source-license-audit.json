@@ -1,0 +1,1245 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-26T16:27:53.228Z",
+  "policyVersion": "training-license-v1",
+  "sources": {
+    "existing-explicit-formal": {
+      "rows": 385,
+      "usage": {
+        "research-only": 254,
+        "production-training": 46,
+        "excluded-no-derivatives": 85
+      },
+      "licenses": {
+        "CC-BY-NC-SA": 134,
+        "CC-BY": 19,
+        "CC-BY-NC-ND": 76,
+        "CC-BY-NC": 22,
+        "CC0": 2,
+        "CC-BY-SA": 25,
+        "CC-BY-ND": 9,
+        "RESEARCH-USE-COPYRIGHT-CLEARED": 98
+      },
+      "representedDetailLabels": 14,
+      "byDetail": {
+        "drone": 88,
+        "funk": 73,
+        "dub": 100,
+        "techno": 32,
+        "city-pop": 60,
+        "jazz-fusion": 3,
+        "bossa-nova": 8,
+        "samba": 3,
+        "baroque": 3,
+        "classical": 3,
+        "romantic": 3,
+        "contemporary-classical": 3,
+        "country": 3,
+        "gospel": 3
+      }
+    },
+    "MTG-Jamendo-candidates": {
+      "rows": 1819,
+      "usage": {
+        "research-only": 809,
+        "production-training": 498,
+        "excluded-no-derivatives": 417,
+        "verification-required": 95
+      },
+      "licenses": {
+        "CC-BY-NC-SA": 726,
+        "CC-BY-SA": 391,
+        "CC-BY-NC-ND": 417,
+        "CC-BY": 107,
+        "CC-BY-NC": 83,
+        "Creative Commons": 95
+      },
+      "representedDetailLabels": 39,
+      "byDetail": {
+        "punk": 55,
+        "metal": 81,
+        "rock": 306,
+        "classical": 96,
+        "disco": 105,
+        "funk": 165,
+        "r-and-b": 101,
+        "ambient": 76,
+        "electronic": 406,
+        "techno": 208,
+        "new-age": 11,
+        "jazz": 128,
+        "pop-rock": 17,
+        "drum-and-bass": 102,
+        "soul": 43,
+        "film-score": 67,
+        "world": 94,
+        "trance": 109,
+        "symphonic": 19,
+        "folk": 62,
+        "dub": 116,
+        "blues": 100,
+        "reggae": 191,
+        "synthpop": 10,
+        "hip-hop": 68,
+        "jazz-fusion": 9,
+        "breakbeat": 2,
+        "country": 1,
+        "alternative-rock": 3,
+        "bossa-nova": 20,
+        "latin": 40,
+        "hard-rock": 9,
+        "heavy-metal": 7,
+        "dubstep": 117,
+        "deep-house": 109,
+        "idm": 10,
+        "singer-songwriter": 6,
+        "house": 202,
+        "industrial": 10
+      }
+    },
+    "FMA-independent-candidates": {
+      "rows": 4514,
+      "usage": {
+        "research-only": 1841,
+        "excluded-no-derivatives": 1377,
+        "production-training": 1288,
+        "verification-required": 8
+      },
+      "licenses": {
+        "CC-BY-NC-SA": 1542,
+        "CC-BY-ND": 1377,
+        "CC-BY": 893,
+        "unspecified": 5,
+        "Sampling Plus": 3,
+        "CC-BY-NC": 299,
+        "Public Domain": 21,
+        "CC-BY-SA": 345,
+        "CC0": 29
+      },
+      "representedDetailLabels": 7,
+      "byDetail": {
+        "hip-hop": 1068,
+        "folk": 1028,
+        "rock": 1191,
+        "electronic": 1080,
+        "jazz": 63,
+        "classical": 67,
+        "blues": 17
+      }
+    },
+    "WaivOps-rhythm-support": {
+      "rows": 49,
+      "usage": {
+        "production-support-only": 49
+      },
+      "licenses": {
+        "CC-BY-4.0": 49
+      },
+      "representedDetailLabels": 2,
+      "byDetail": {
+        "house": 18,
+        "techno": 31
+      }
+    },
+    "RWC-research-only": {
+      "rows": 200,
+      "usage": {
+        "research-only": 200
+      },
+      "licenses": {
+        "CC-BY-NC-4.0": 200
+      },
+      "representedDetailLabels": 21,
+      "byDetail": {
+        "rock": 3,
+        "heavy-metal": 3,
+        "hip-hop": 3,
+        "house": 3,
+        "techno": 3,
+        "funk": 3,
+        "soul": 3,
+        "r-and-b": 3,
+        "jazz": 3,
+        "jazz-fusion": 3,
+        "bossa-nova": 3,
+        "samba": 3,
+        "reggae": 3,
+        "baroque": 3,
+        "classical": 3,
+        "romantic": 3,
+        "contemporary-classical": 3,
+        "blues": 3,
+        "folk": 3,
+        "country": 3,
+        "gospel": 3
+      }
+    }
+  },
+  "detailSourceCoverage": {
+    "ambient": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo"
+      ],
+      "productionSourceCount": 1
+    },
+    "dark-ambient": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "new-age": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo"
+      ],
+      "productionSourceCount": 1
+    },
+    "drone": {
+      "productionSources": [
+        "FMA"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "FMA"
+      ],
+      "productionSourceCount": 1
+    },
+    "minimal-drone": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "electroacoustic": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "classical": {
+      "productionSources": [
+        "FMA",
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo",
+        "RWC"
+      ],
+      "productionSourceCount": 2
+    },
+    "baroque": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [
+        "RWC"
+      ],
+      "productionSourceCount": 0
+    },
+    "romantic": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [
+        "RWC"
+      ],
+      "productionSourceCount": 0
+    },
+    "contemporary-classical": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [
+        "RWC"
+      ],
+      "productionSourceCount": 0
+    },
+    "minimalism": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "chamber-music": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "symphonic": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo"
+      ],
+      "productionSourceCount": 0
+    },
+    "film-score": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo"
+      ],
+      "productionSourceCount": 1
+    },
+    "opera": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "choral": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "requiem": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "art-song": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "blues": {
+      "productionSources": [
+        "FMA",
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo",
+        "RWC"
+      ],
+      "productionSourceCount": 2
+    },
+    "delta-blues": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "electric-blues": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "jazz": {
+      "productionSources": [
+        "FMA",
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "FMA",
+        "MTG-Jamendo",
+        "RWC"
+      ],
+      "productionSourceCount": 2
+    },
+    "bebop": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "free-jazz": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "jazz-fusion": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [
+        "RWC"
+      ],
+      "productionSourceCount": 0
+    },
+    "soul": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo",
+        "RWC"
+      ],
+      "productionSourceCount": 1
+    },
+    "r-and-b": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo",
+        "RWC"
+      ],
+      "productionSourceCount": 1
+    },
+    "neo-soul": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "gospel": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [
+        "RWC"
+      ],
+      "productionSourceCount": 0
+    },
+    "folk": {
+      "productionSources": [
+        "FMA",
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "FMA",
+        "MTG-Jamendo",
+        "RWC"
+      ],
+      "productionSourceCount": 2
+    },
+    "singer-songwriter": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo"
+      ],
+      "productionSourceCount": 1
+    },
+    "country": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo",
+        "RWC"
+      ],
+      "productionSourceCount": 0
+    },
+    "bluegrass": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "electronic": {
+      "productionSources": [
+        "FMA",
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "FMA",
+        "MTG-Jamendo"
+      ],
+      "productionSourceCount": 2
+    },
+    "idm": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo"
+      ],
+      "productionSourceCount": 1
+    },
+    "experimental-electronic": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "glitch": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "industrial": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo"
+      ],
+      "productionSourceCount": 0
+    },
+    "techno": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [
+        "WaivOps"
+      ],
+      "researchSources": [
+        "FMA",
+        "MTG-Jamendo",
+        "RWC"
+      ],
+      "productionSourceCount": 1
+    },
+    "detroit-techno": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "minimal-techno": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "hard-techno": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "acid-techno": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "house": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [
+        "WaivOps"
+      ],
+      "researchSources": [
+        "MTG-Jamendo",
+        "RWC"
+      ],
+      "productionSourceCount": 1
+    },
+    "deep-house": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo"
+      ],
+      "productionSourceCount": 1
+    },
+    "progressive-house": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "tech-house": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "garage-house": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "uk-garage": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "two-step": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "trance": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo"
+      ],
+      "productionSourceCount": 1
+    },
+    "progressive-trance": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "psytrance": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "chiptune": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "game-music": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "funk": {
+      "productionSources": [
+        "FMA",
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "FMA",
+        "MTG-Jamendo",
+        "RWC"
+      ],
+      "productionSourceCount": 2
+    },
+    "disco": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo"
+      ],
+      "productionSourceCount": 1
+    },
+    "nu-disco": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "city-pop": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [
+        "RWC"
+      ],
+      "productionSourceCount": 0
+    },
+    "synthpop": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo"
+      ],
+      "productionSourceCount": 1
+    },
+    "vaporwave": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "drum-and-bass": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo"
+      ],
+      "productionSourceCount": 1
+    },
+    "jungle": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "liquid-dnb": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "neurofunk": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "breakbeat": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo"
+      ],
+      "productionSourceCount": 0
+    },
+    "big-beat": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "dubstep": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo"
+      ],
+      "productionSourceCount": 1
+    },
+    "brostep": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "grime": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "hip-hop": {
+      "productionSources": [
+        "FMA",
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "FMA",
+        "MTG-Jamendo",
+        "RWC"
+      ],
+      "productionSourceCount": 2
+    },
+    "boom-bap": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "alternative-hip-hop": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "conscious-hip-hop": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "trap": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "drill": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "reggae": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo",
+        "RWC"
+      ],
+      "productionSourceCount": 1
+    },
+    "roots-reggae": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "dancehall": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "dub": {
+      "productionSources": [
+        "FMA",
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "FMA",
+        "MTG-Jamendo"
+      ],
+      "productionSourceCount": 2
+    },
+    "latin": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo"
+      ],
+      "productionSourceCount": 1
+    },
+    "salsa": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "reggaeton": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "cumbia": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "samba": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [
+        "RWC"
+      ],
+      "productionSourceCount": 0
+    },
+    "bossa-nova": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo",
+        "RWC",
+        "jaCappella Corpus"
+      ],
+      "productionSourceCount": 1
+    },
+    "afrobeat": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "afrobeats": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "world": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo"
+      ],
+      "productionSourceCount": 1
+    },
+    "noise": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "harsh-noise": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "power-electronics": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "rock": {
+      "productionSources": [
+        "FMA",
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "FMA",
+        "MTG-Jamendo",
+        "RWC"
+      ],
+      "productionSourceCount": 2
+    },
+    "alternative-rock": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "indie-rock": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "post-punk": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "shoegaze": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "britpop": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "psychedelic-rock": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "garage-rock": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "dance-rock": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "punk": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo"
+      ],
+      "productionSourceCount": 1
+    },
+    "proto-punk": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "hardcore-punk": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "post-hardcore": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "emo": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "metal": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo"
+      ],
+      "productionSourceCount": 1
+    },
+    "heavy-metal": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo",
+        "RWC"
+      ],
+      "productionSourceCount": 0
+    },
+    "thrash-metal": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "death-metal": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "black-metal": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "doom-metal": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "sludge-metal": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "metalcore": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "hard-rock": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo"
+      ],
+      "productionSourceCount": 1
+    },
+    "j-pop": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "k-pop": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "anime-song": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    },
+    "pop-rock": {
+      "productionSources": [
+        "MTG-Jamendo"
+      ],
+      "supportSources": [],
+      "researchSources": [
+        "MTG-Jamendo"
+      ],
+      "productionSourceCount": 1
+    },
+    "power-pop": {
+      "productionSources": [],
+      "supportSources": [],
+      "researchSources": [],
+      "productionSourceCount": 0
+    }
+  },
+  "productionCoverage": {
+    "labelsWithOneSource": 33,
+    "labelsWithTwoSources": 9,
+    "labelsWithoutProductionSource": 87,
+    "twoSourceLabels": [
+      "classical",
+      "blues",
+      "jazz",
+      "folk",
+      "electronic",
+      "funk",
+      "hip-hop",
+      "dub",
+      "rock"
+    ],
+    "oneSourceLabels": [
+      "ambient",
+      "new-age",
+      "drone",
+      "film-score",
+      "soul",
+      "r-and-b",
+      "singer-songwriter",
+      "idm",
+      "techno",
+      "house",
+      "deep-house",
+      "trance",
+      "disco",
+      "synthpop",
+      "drum-and-bass",
+      "dubstep",
+      "reggae",
+      "latin",
+      "bossa-nova",
+      "world",
+      "punk",
+      "metal",
+      "hard-rock",
+      "pop-rock"
+    ],
+    "zeroSourceLabels": [
+      "dark-ambient",
+      "minimal-drone",
+      "electroacoustic",
+      "baroque",
+      "romantic",
+      "contemporary-classical",
+      "minimalism",
+      "chamber-music",
+      "symphonic",
+      "opera",
+      "choral",
+      "requiem",
+      "art-song",
+      "delta-blues",
+      "electric-blues",
+      "bebop",
+      "free-jazz",
+      "jazz-fusion",
+      "neo-soul",
+      "gospel",
+      "country",
+      "bluegrass",
+      "experimental-electronic",
+      "glitch",
+      "industrial",
+      "detroit-techno",
+      "minimal-techno",
+      "hard-techno",
+      "acid-techno",
+      "progressive-house",
+      "tech-house",
+      "garage-house",
+      "uk-garage",
+      "two-step",
+      "progressive-trance",
+      "psytrance",
+      "chiptune",
+      "game-music",
+      "nu-disco",
+      "city-pop",
+      "vaporwave",
+      "jungle",
+      "liquid-dnb",
+      "neurofunk",
+      "breakbeat",
+      "big-beat",
+      "brostep",
+      "grime",
+      "boom-bap",
+      "alternative-hip-hop",
+      "conscious-hip-hop",
+      "trap",
+      "drill",
+      "roots-reggae",
+      "dancehall",
+      "salsa",
+      "reggaeton",
+      "cumbia",
+      "samba",
+      "afrobeat",
+      "afrobeats",
+      "noise",
+      "harsh-noise",
+      "power-electronics",
+      "alternative-rock",
+      "indie-rock",
+      "post-punk",
+      "shoegaze",
+      "britpop",
+      "psychedelic-rock",
+      "garage-rock",
+      "dance-rock",
+      "proto-punk",
+      "hardcore-punk",
+      "post-hardcore",
+      "emo",
+      "heavy-metal",
+      "thrash-metal",
+      "death-metal",
+      "black-metal",
+      "doom-metal",
+      "sludge-metal",
+      "metalcore",
+      "j-pop",
+      "k-pop",
+      "anime-song",
+      "power-pop"
+    ]
+  },
+  "safeguards": {
+    "productionAllow": [
+      "CC0",
+      "Public Domain",
+      "CC-BY",
+      "CC-BY-SA"
+    ],
+    "researchOnly": [
+      "CC-BY-NC",
+      "CC-BY-NC-SA",
+      "RWC CC-BY-NC 4.0"
+    ],
+    "excluded": [
+      "CC-BY-ND",
+      "CC-BY-NC-ND"
+    ],
+    "verificationRequired": [
+      "Creative Commons (unspecified)",
+      "missing license"
+    ]
+  }
+}

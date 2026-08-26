@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "dataset": "FMA direct top-genre detail source",
+  "fullManifestPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/detail-genre-fma-source-manifest.json",
+  "audioStoragePolicy": "external-cache-only",
+  "totalAudioCandidates": 4514,
+  "usage": {
+    "research-only": 1841,
+    "excluded-no-derivatives": 1377,
+    "production-training": 1288,
+    "verification-required": 8
+  },
+  "licenses": {
+    "CC-BY-NC-SA": 1542,
+    "CC-BY-ND": 1377,
+    "CC-BY": 893,
+    "": 5,
+    "Sampling Plus": 3,
+    "CC-BY-NC": 299,
+    "Public Domain": 21,
+    "CC-BY-SA": 345,
+    "CC0": 29
+  },
+  "productionTrainingRows": 1288,
+  "productionDetailLabels": 7,
+  "productionByDetail": {
+    "folk": 152,
+    "electronic": 295,
+    "rock": 353,
+    "hip-hop": 367,
+    "classical": 67,
+    "blues": 17,
+    "jazz": 37
+  },
+  "productionBySplit": {
+    "validation": 168,
+    "test": 90,
+    "training": 1030
+  },
+  "labelPolicy": "Only exact FMA track.genre_top labels represented in the 120-detail vocabulary.",
+  "licensePolicy": "Production allows CC0/Public Domain/CC-BY/CC-BY-SA; NC is research-only; ND is excluded.",
+  "promotionPolicy": "Candidate only until source-heldout ablation passes."
+}

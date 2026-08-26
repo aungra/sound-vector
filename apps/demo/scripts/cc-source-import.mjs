@@ -23,8 +23,12 @@ const SOURCE_KIND = String(process.env.MMFR_CC_SOURCE_KIND || "").trim().toLower
 const DRY_RUN = process.env.MMFR_CC_IMPORT_DRY_RUN === "1";
 const START_AFTER = String(process.env.MMFR_CC_IMPORT_START_AFTER || "").trim();
 const REPORT_EVERY = Math.max(1, Number(process.env.MMFR_CC_IMPORT_REPORT_EVERY || 25));
+const USAGE_SCOPE = String(process.env.MMFR_CC_USAGE_SCOPE || "production").trim().toLowerCase();
+const DEFAULT_ALLOWED_LICENSES = USAGE_SCOPE === "research"
+  ? "CC0,CC-BY,CC-BY-SA,CC-BY-NC,CC-BY-NC-SA,RESEARCH-USE-COPYRIGHT-CLEARED"
+  : "CC0,CC-BY,CC-BY-SA";
 const ALLOWED_LICENSES = new Set(
-  String(process.env.MMFR_CC_ALLOWED_LICENSES || "CC0,CC-BY,CC-BY-SA,CC-BY-NC,CC-BY-NC-SA,CC-BY-ND,CC-BY-NC-ND,RESEARCH-USE-COPYRIGHT-CLEARED")
+  String(process.env.MMFR_CC_ALLOWED_LICENSES || DEFAULT_ALLOWED_LICENSES)
     .split(",")
     .map(value => value.trim().toUpperCase())
     .filter(Boolean)
@@ -673,6 +677,7 @@ async function main() {
     reportEvery: REPORT_EVERY,
     durationSeconds: DURATION_SECONDS,
     allowedLicenses: [...ALLOWED_LICENSES],
+    usageScope: USAGE_SCOPE,
     stats,
     selected: selected.length,
     imported: imported.length,

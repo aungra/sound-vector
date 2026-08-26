@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-26T16:29:08.198Z",
+  "evaluationScope": "strict-source-heldout-production-safe",
+  "model": "standardized-nearest-centroid-baseline",
+  "licensePolicy": "CC0/Public Domain/CC-BY/CC-BY-SA full tracks only",
+  "directions": {
+    "MTG-Jamendo -> FMA": {
+      "eligibleDetailLabels": 3,
+      "trainRows": 44,
+      "testRows": 36,
+      "featureDimensions": 261,
+      "top1Accuracy": 88.89,
+      "top3Accuracy": 100,
+      "balancedTop1Accuracy": 92.16,
+      "byDetail": [
+        {
+          "detail": "classical",
+          "trainRows": 10,
+          "testRows": 5,
+          "top1Accuracy": 100,
+          "top3Accuracy": 100
+        },
+        {
+          "detail": "hip-hop",
+          "trainRows": 10,
+          "testRows": 14,
+          "top1Accuracy": 100,
+          "top3Accuracy": 100
+        },
+        {
+          "detail": "rock",
+          "trainRows": 24,
+          "testRows": 17,
+          "top1Accuracy": 76.47,
+          "top3Accuracy": 100
+        }
+      ]
+    },
+    "FMA -> MTG-Jamendo": {
+      "eligibleDetailLabels": 2,
+      "trainRows": 143,
+      "testRows": 25,
+      "featureDimensions": 261,
+      "top1Accuracy": 92,
+      "top3Accuracy": 100,
+      "balancedTop1Accuracy": 93.75,
+      "byDetail": [
+        {
+          "detail": "classical",
+          "trainRows": 59,
+          "testRows": 9,
+          "top1Accuracy": 100,
+          "top3Accuracy": 100
+        },
+        {
+          "detail": "hip-hop",
+          "trainRows": 84,
+          "testRows": 16,
+          "top1Accuracy": 87.5,
+          "top3Accuracy": 100
+        }
+      ]
+    }
+  },
+  "promotionEligible": false,
+  "promotionBlocker": "Only 2-3 detailed labels currently satisfy bidirectional support thresholds."
+}
