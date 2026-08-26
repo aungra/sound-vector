@@ -13,11 +13,16 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function download(item, audioRoot) {
+function destination(item, audioRoot) {
   const directory = path.join(audioRoot, item.detailTarget, encodeURIComponent(item.sourceFamily));
   const extension = path.extname(new URL(item.downloadUrl).pathname) || ".audio";
-  const filePath = path.join(directory, `${item.trackId}${extension}`);
+  return { directory, filePath: path.join(directory, `${item.trackId}${extension}`) };
+}
+
+async function download(item, audioRoot) {
+  const { directory, filePath } = destination(item, audioRoot);
   fs.mkdirSync(directory, { recursive: true });
+  let fetched = false;
   if (!fs.existsSync(filePath) || fs.statSync(filePath).size < 100_000) {
     const temporary = `${filePath}.part`;
     await execFileAsync("curl", [
@@ -28,8 +33,16 @@ async function download(item, audioRoot) {
     ], { maxBuffer: 1024 * 1024 });
     if (fs.statSync(temporary).size < 100_000) throw new Error(`Downloaded file is too small: ${item.trackId}`);
     fs.renameSync(temporary, filePath);
+    fetched = true;
   }
-  return { ...item, filePath, audioStoragePolicy: "external-cache-only" };
+  return { item: { ...item, filePath, audioStoragePolicy: "external-cache-only" }, fetched };
+}
+
+function conciseError(error) {
+  const message = String(error?.message || error);
+  const status = message.match(/(?:error: |HTTP\/\S+ )([45]\d\d)\b/i)?.[1];
+  if (status) return `HTTP ${status}`;
+  return message.split("\n").at(-2)?.trim() || message.slice(0, 240);
 }
 
 async function main() {
@@ -37,15 +50,26 @@ async function main() {
   const outputPath = path.resolve(process.env.MMFR_WIKIMEDIA_CATEGORY_SOURCE || path.join(CACHE_ROOT, "genre-training/detail-genre-wikimedia-category-source-manifest.json"));
   const audioRoot = path.resolve(process.env.MMFR_WIKIMEDIA_CATEGORY_AUDIO_ROOT || path.join(CACHE_ROOT, "external-data/wikimedia-category-detail-v1"));
   const candidates = JSON.parse(fs.readFileSync(reviewedPath, "utf8")).items || [];
+  const existingOnly = process.env.MMFR_WIKIMEDIA_DOWNLOAD_EXISTING_ONLY === "1";
   const items = [];
   const failures = [];
+  const pending = [];
   for (const item of candidates) {
-    try {
-      items.push(await download(item, audioRoot));
-    } catch (error) {
-      failures.push({ trackId: item.trackId, error: error.message });
+    const { filePath } = destination(item, audioRoot);
+    if (existingOnly && (!fs.existsSync(filePath) || fs.statSync(filePath).size < 100_000)) {
+      pending.push(item.trackId);
+      continue;
     }
-    await sleep(1500);
+    let shouldWait = false;
+    try {
+      const result = await download(item, audioRoot);
+      items.push(result.item);
+      shouldWait = result.fetched;
+    } catch (error) {
+      failures.push({ trackId: item.trackId, error: conciseError(error) });
+      shouldWait = true;
+    }
+    if (shouldWait) await sleep(5000);
   }
   const byDetail = {};
   const byOrigin = {};
@@ -58,6 +82,8 @@ async function main() {
     generatedAt: new Date().toISOString(),
     reviewedCandidates: candidates.length,
     downloadedAndValidated: items.length,
+    pendingDownloads: pending.length,
+    pendingTrackIds: pending,
     failures,
     byDetail,
     byOrigin,

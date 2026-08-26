@@ -45,10 +45,11 @@ function sourceFamily(item) {
   return name;
 }
 
-function detailSourceCoverage(items, vocabulary) {
+export function detailSourceCoverage(items, vocabulary) {
   const coverage = Object.fromEntries(vocabulary.map(id => [id, {
     productionSources: new Set(), supportSources: new Set(), researchSources: new Set(), productionRowsBySource: new Map()
   }]));
+  const countedProductionTracks = new Set();
   for (const item of items) {
     const decision = effectiveTrainingUsage(item);
     const family = sourceFamily(item);
@@ -56,7 +57,12 @@ function detailSourceCoverage(items, vocabulary) {
       if (!coverage[detail]) continue;
       if (decision.usage === TRAINING_USAGE.PRODUCTION) {
         coverage[detail].productionSources.add(family);
-        coverage[detail].productionRowsBySource.set(family, (coverage[detail].productionRowsBySource.get(family) || 0) + 1);
+        const identity = item.filePath || item.trackId || item.referenceUrl || item.sourceUrl;
+        const trackKey = identity ? `${family}\u0000${detail}\u0000${identity}` : "";
+        if (!trackKey || !countedProductionTracks.has(trackKey)) {
+          coverage[detail].productionRowsBySource.set(family, (coverage[detail].productionRowsBySource.get(family) || 0) + 1);
+          if (trackKey) countedProductionTracks.add(trackKey);
+        }
       }
       else if (decision.usage === TRAINING_USAGE.SUPPORT) coverage[detail].supportSources.add(family);
       else if (decision.usage === TRAINING_USAGE.RESEARCH) coverage[detail].researchSources.add(family);
@@ -167,6 +173,7 @@ function markdown(report) {
     "",
     "- RWC Music Database 2026 release: CC BY-NC 4.0, research purposes. https://zenodo.org/records/18656623",
     "- MTG-Jamendo: per-track Creative Commons licenses in `audio_licenses.txt`. https://github.com/MTG/mtg-jamendo-dataset",
+    "- FMA: direct per-track genre IDs and license strings in `tracks.csv`, with the genre hierarchy in `genres.csv`. https://github.com/mdeff/fma",
     "- WaivOps EDM-HSE: CC BY 4.0 and explicitly intended for machine learning. https://doi.org/10.5281/zenodo.13769544",
     "- WaivOps EDM-TECH: CC BY 4.0 and explicitly intended for model development. https://doi.org/10.5281/zenodo.17584890",
     "- Wikimedia Commons: item-level genre categories and imageinfo.extmetadata license fields. https://commons.wikimedia.org/w/api.php",

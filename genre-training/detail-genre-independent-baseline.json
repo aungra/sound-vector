@@ -1,76 +1,132 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-26T22:58:21.282Z",
+  "generatedAt": "2026-08-26T23:53:16.033Z",
   "evaluationScope": "strict-source-heldout-production-safe",
   "model": "standardized-nearest-centroid-baseline",
   "licensePolicy": "CC0/Public Domain/CC-BY/CC-BY-SA full tracks only",
   "directions": {
     "MTG-Jamendo -> FMA": {
-      "eligibleDetailLabels": 3,
-      "trainRows": 44,
-      "testRows": 36,
+      "eligibleDetailLabels": 6,
+      "trainRows": 83,
+      "testRows": 411,
       "featureDimensions": 261,
-      "top1Accuracy": 88.89,
-      "top3Accuracy": 100,
-      "balancedTop1Accuracy": 92.16,
+      "top1Accuracy": 65.21,
+      "top3Accuracy": 84.67,
+      "balancedTop1Accuracy": 60.79,
       "byDetail": [
         {
           "detail": "classical",
           "trainRows": 10,
-          "testRows": 5,
-          "top1Accuracy": 100,
+          "testRows": 61,
+          "top1Accuracy": 68.85,
+          "top3Accuracy": 73.77
+        },
+        {
+          "detail": "disco",
+          "trainRows": 5,
+          "testRows": 11,
+          "top1Accuracy": 63.64,
           "top3Accuracy": 100
         },
         {
           "detail": "hip-hop",
           "trainRows": 10,
-          "testRows": 14,
-          "top1Accuracy": 100,
+          "testRows": 98,
+          "top1Accuracy": 68.37,
+          "top3Accuracy": 92.86
+        },
+        {
+          "detail": "house",
+          "trainRows": 13,
+          "testRows": 33,
+          "top1Accuracy": 36.36,
           "top3Accuracy": 100
         },
         {
           "detail": "rock",
           "trainRows": 24,
-          "testRows": 17,
-          "top1Accuracy": 76.47,
-          "top3Accuracy": 100
+          "testRows": 172,
+          "top1Accuracy": 69.19,
+          "top3Accuracy": 77.91
+        },
+        {
+          "detail": "techno",
+          "trainRows": 21,
+          "testRows": 36,
+          "top1Accuracy": 58.33,
+          "top3Accuracy": 94.44
         }
       ]
     },
     "FMA -> MTG-Jamendo": {
-      "eligibleDetailLabels": 2,
-      "trainRows": 143,
-      "testRows": 25,
+      "eligibleDetailLabels": 6,
+      "trainRows": 374,
+      "testRows": 129,
       "featureDimensions": 261,
-      "top1Accuracy": 92,
-      "top3Accuracy": 100,
-      "balancedTop1Accuracy": 93.75,
+      "top1Accuracy": 68.99,
+      "top3Accuracy": 96.9,
+      "balancedTop1Accuracy": 67.72,
       "byDetail": [
         {
           "detail": "classical",
-          "trainRows": 59,
-          "testRows": 9,
-          "top1Accuracy": 100,
+          "trainRows": 56,
+          "testRows": 19,
+          "top1Accuracy": 84.21,
           "top3Accuracy": 100
+        },
+        {
+          "detail": "disco",
+          "trainRows": 11,
+          "testRows": 6,
+          "top1Accuracy": 50,
+          "top3Accuracy": 66.67
         },
         {
           "detail": "hip-hop",
           "trainRows": 84,
-          "testRows": 16,
-          "top1Accuracy": 87.5,
+          "testRows": 26,
+          "top1Accuracy": 84.62,
+          "top3Accuracy": 100
+        },
+        {
+          "detail": "house",
+          "trainRows": 31,
+          "testRows": 13,
+          "top1Accuracy": 53.85,
+          "top3Accuracy": 92.31
+        },
+        {
+          "detail": "rock",
+          "trainRows": 156,
+          "testRows": 27,
+          "top1Accuracy": 88.89,
+          "top3Accuracy": 96.3
+        },
+        {
+          "detail": "techno",
+          "trainRows": 36,
+          "testRows": 38,
+          "top1Accuracy": 44.74,
           "top3Accuracy": 100
         }
       ]
     },
     "FMA + MTG-Jamendo -> ccMixter": {
-      "eligibleDetailLabels": 10,
-      "trainRows": 553,
-      "testRows": 49,
+      "eligibleDetailLabels": 12,
+      "trainRows": 754,
+      "testRows": 59,
       "featureDimensions": 261,
-      "top1Accuracy": 46.94,
-      "top3Accuracy": 79.59,
-      "balancedTop1Accuracy": 41.78,
+      "top1Accuracy": 49.15,
+      "top3Accuracy": 74.58,
+      "balancedTop1Accuracy": 50.28,
       "byDetail": [
+        {
+          "detail": "ambient",
+          "trainRows": 94,
+          "testRows": 5,
+          "top1Accuracy": 20,
+          "top3Accuracy": 80
+        },
         {
           "detail": "blues",
           "trainRows": 12,
@@ -80,17 +136,17 @@
         },
         {
           "detail": "classical",
-          "trainRows": 69,
+          "trainRows": 66,
           "testRows": 9,
-          "top1Accuracy": 77.78,
-          "top3Accuracy": 88.89
+          "top1Accuracy": 66.67,
+          "top3Accuracy": 77.78
         },
         {
           "detail": "electronic",
-          "trainRows": 69,
+          "trainRows": 53,
           "testRows": 6,
-          "top1Accuracy": 33.33,
-          "top3Accuracy": 83.33
+          "top1Accuracy": 16.67,
+          "top3Accuracy": 66.67
         },
         {
           "detail": "folk",
@@ -104,14 +160,14 @@
           "trainRows": 94,
           "testRows": 5,
           "top1Accuracy": 40,
-          "top3Accuracy": 80
+          "top3Accuracy": 60
         },
         {
           "detail": "house",
-          "trainRows": 13,
+          "trainRows": 44,
           "testRows": 3,
-          "top1Accuracy": 0,
-          "top3Accuracy": 66.67
+          "top1Accuracy": 100,
+          "top3Accuracy": 100
         },
         {
           "detail": "jazz",
@@ -119,6 +175,13 @@
           "testRows": 3,
           "top1Accuracy": 0,
           "top3Accuracy": 33.33
+        },
+        {
+          "detail": "noise",
+          "trainRows": 67,
+          "testRows": 5,
+          "top1Accuracy": 60,
+          "top3Accuracy": 60
         },
         {
           "detail": "reggae",
@@ -129,16 +192,16 @@
         },
         {
           "detail": "rock",
-          "trainRows": 188,
+          "trainRows": 180,
           "testRows": 3,
           "top1Accuracy": 33.33,
           "top3Accuracy": 66.67
         },
         {
           "detail": "techno",
-          "trainRows": 21,
+          "trainRows": 57,
           "testRows": 3,
-          "top1Accuracy": 33.33,
+          "top1Accuracy": 66.67,
           "top3Accuracy": 66.67
         }
       ]
@@ -164,7 +227,7 @@
     "FMA + MTG-Jamendo + ccMixter -> Wikimedia category origins": {
       "eligibleDetailLabels": 1,
       "trainRows": 36,
-      "testRows": 10,
+      "testRows": 20,
       "featureDimensions": 261,
       "top1Accuracy": 100,
       "top3Accuracy": 100,
@@ -173,9 +236,185 @@
         {
           "detail": "jazz",
           "trainRows": 36,
-          "testRows": 10,
+          "testRows": 20,
           "top1Accuracy": 100,
           "top3Accuracy": 100
+        }
+      ]
+    }
+  },
+  "ablations": {
+    "comparisonDetails": [
+      "blues",
+      "classical",
+      "electronic",
+      "folk",
+      "hip-hop",
+      "house",
+      "jazz",
+      "reggae",
+      "rock",
+      "techno"
+    ],
+    "withoutFmaExactDetails": {
+      "eligibleDetailLabels": 10,
+      "trainRows": 526,
+      "testRows": 49,
+      "featureDimensions": 261,
+      "top1Accuracy": 46.94,
+      "top3Accuracy": 77.55,
+      "balancedTop1Accuracy": 41.78,
+      "byDetail": [
+        {
+          "detail": "blues",
+          "trainRows": 12,
+          "testRows": 6,
+          "top1Accuracy": 50,
+          "top3Accuracy": 83.33
+        },
+        {
+          "detail": "classical",
+          "trainRows": 66,
+          "testRows": 9,
+          "top1Accuracy": 77.78,
+          "top3Accuracy": 100
+        },
+        {
+          "detail": "electronic",
+          "trainRows": 53,
+          "testRows": 6,
+          "top1Accuracy": 33.33,
+          "top3Accuracy": 83.33
+        },
+        {
+          "detail": "folk",
+          "trainRows": 36,
+          "testRows": 3,
+          "top1Accuracy": 100,
+          "top3Accuracy": 100
+        },
+        {
+          "detail": "hip-hop",
+          "trainRows": 94,
+          "testRows": 5,
+          "top1Accuracy": 40,
+          "top3Accuracy": 60
+        },
+        {
+          "detail": "house",
+          "trainRows": 13,
+          "testRows": 3,
+          "top1Accuracy": 0,
+          "top3Accuracy": 66.67
+        },
+        {
+          "detail": "jazz",
+          "trainRows": 36,
+          "testRows": 3,
+          "top1Accuracy": 0,
+          "top3Accuracy": 33.33
+        },
+        {
+          "detail": "reggae",
+          "trainRows": 15,
+          "testRows": 8,
+          "top1Accuracy": 50,
+          "top3Accuracy": 75
+        },
+        {
+          "detail": "rock",
+          "trainRows": 180,
+          "testRows": 3,
+          "top1Accuracy": 33.33,
+          "top3Accuracy": 66.67
+        },
+        {
+          "detail": "techno",
+          "trainRows": 21,
+          "testRows": 3,
+          "top1Accuracy": 33.33,
+          "top3Accuracy": 66.67
+        }
+      ]
+    },
+    "withFmaExactDetails": {
+      "eligibleDetailLabels": 10,
+      "trainRows": 593,
+      "testRows": 49,
+      "featureDimensions": 261,
+      "top1Accuracy": 53.06,
+      "top3Accuracy": 77.55,
+      "balancedTop1Accuracy": 53.44,
+      "byDetail": [
+        {
+          "detail": "blues",
+          "trainRows": 12,
+          "testRows": 6,
+          "top1Accuracy": 50,
+          "top3Accuracy": 83.33
+        },
+        {
+          "detail": "classical",
+          "trainRows": 66,
+          "testRows": 9,
+          "top1Accuracy": 77.78,
+          "top3Accuracy": 88.89
+        },
+        {
+          "detail": "electronic",
+          "trainRows": 53,
+          "testRows": 6,
+          "top1Accuracy": 16.67,
+          "top3Accuracy": 83.33
+        },
+        {
+          "detail": "folk",
+          "trainRows": 36,
+          "testRows": 3,
+          "top1Accuracy": 100,
+          "top3Accuracy": 100
+        },
+        {
+          "detail": "hip-hop",
+          "trainRows": 94,
+          "testRows": 5,
+          "top1Accuracy": 40,
+          "top3Accuracy": 60
+        },
+        {
+          "detail": "house",
+          "trainRows": 44,
+          "testRows": 3,
+          "top1Accuracy": 100,
+          "top3Accuracy": 100
+        },
+        {
+          "detail": "jazz",
+          "trainRows": 36,
+          "testRows": 3,
+          "top1Accuracy": 0,
+          "top3Accuracy": 33.33
+        },
+        {
+          "detail": "reggae",
+          "trainRows": 15,
+          "testRows": 8,
+          "top1Accuracy": 50,
+          "top3Accuracy": 75
+        },
+        {
+          "detail": "rock",
+          "trainRows": 180,
+          "testRows": 3,
+          "top1Accuracy": 33.33,
+          "top3Accuracy": 66.67
+        },
+        {
+          "detail": "techno",
+          "trainRows": 57,
+          "testRows": 3,
+          "top1Accuracy": 66.67,
+          "top3Accuracy": 66.67
         }
       ]
     }

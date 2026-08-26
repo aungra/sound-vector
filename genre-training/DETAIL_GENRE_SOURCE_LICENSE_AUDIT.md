@@ -1,14 +1,14 @@
 # 詳細ジャンル学習ライセンス監査
 
-生成日時: 2026-08-26T22:58:21.375Z
+生成日時: 2026-08-26T23:54:37.111Z
 
 | source | rows | detail labels | production | support only | research only | ND excluded | verify |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | existing-explicit-formal | 385 | 14 | 46 | 0 | 254 | 85 | 0 |
 | MTG-Jamendo-candidates | 1819 | 39 | 498 | 0 | 809 | 417 | 95 |
-| FMA-independent-candidates | 4514 | 7 | 1288 | 0 | 1841 | 1377 | 8 |
+| FMA-independent-candidates | 5038 | 15 | 1460 | 0 | 2104 | 1466 | 8 |
 | Wikimedia-reviewed-origin-candidates | 10 | 5 | 10 | 0 | 0 | 0 | 0 |
-| Wikimedia-reviewed-category-candidates | 10 | 1 | 10 | 0 | 0 | 0 | 0 |
+| Wikimedia-reviewed-category-candidates | 20 | 1 | 20 | 0 | 0 | 0 | 0 |
 | ccMixter-reviewed-candidates | 89 | 21 | 89 | 0 | 0 | 0 | 0 |
 | Internet-Archive-reviewed-netlabel-candidates | 39 | 5 | 39 | 0 | 0 | 0 | 0 |
 | WaivOps-rhythm-support | 49 | 2 | 0 | 49 | 0 | 0 | 0 |
@@ -16,12 +16,12 @@
 
 ## 独立ソースcoverage
 
-- 本番利用可能なソースあり: 38/120
-- 本番利用可能な2ソース以上: 24/120
-- 各ソース2曲以上で2ソース達成: 21/120
-- 各ソース5曲以上で2ソース達成: 15/120
-- 本番利用可能なソースなし: 82/120
-- 2ソース達成: ambient / drone / classical / blues / jazz / soul / folk / electronic / idm / techno / minimal-techno / house / trance / psytrance / funk / disco / drum-and-bass / dubstep / hip-hop / reggae / dub / rock / punk / metal
+- 本番利用可能なソースあり: 40/120
+- 本番利用可能な2ソース以上: 25/120
+- 各ソース2曲以上で2ソース達成: 23/120
+- 各ソース5曲以上で2ソース達成: 19/120
+- 本番利用可能なソースなし: 80/120
+- 2ソース達成: ambient / drone / classical / blues / jazz / soul / folk / electronic / idm / techno / minimal-techno / house / trance / psytrance / funk / disco / drum-and-bass / dubstep / hip-hop / reggae / dub / noise / rock / punk / metal
 
 ## 採用規則
 
@@ -35,6 +35,7 @@
 
 - RWC Music Database 2026 release: CC BY-NC 4.0, research purposes. https://zenodo.org/records/18656623
 - MTG-Jamendo: per-track Creative Commons licenses in `audio_licenses.txt`. https://github.com/MTG/mtg-jamendo-dataset
+- FMA: direct per-track genre IDs and license strings in `tracks.csv`, with the genre hierarchy in `genres.csv`. https://github.com/mdeff/fma
 - WaivOps EDM-HSE: CC BY 4.0 and explicitly intended for machine learning. https://doi.org/10.5281/zenodo.13769544
 - WaivOps EDM-TECH: CC BY 4.0 and explicitly intended for model development. https://doi.org/10.5281/zenodo.17584890
 - Wikimedia Commons: item-level genre categories and imageinfo.extmetadata license fields. https://commons.wikimedia.org/w/api.php

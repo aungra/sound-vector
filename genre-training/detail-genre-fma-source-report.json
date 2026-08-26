@@ -1,43 +1,69 @@
 {
   "schemaVersion": 1,
-  "dataset": "FMA direct top-genre detail source",
+  "dataset": "FMA direct genre metadata source",
   "fullManifestPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/detail-genre-fma-source-manifest.json",
   "audioStoragePolicy": "external-cache-only",
-  "totalAudioCandidates": 4514,
+  "totalAudioCandidates": 5038,
   "usage": {
-    "research-only": 1841,
-    "excluded-no-derivatives": 1377,
-    "production-training": 1288,
+    "research-only": 2104,
+    "excluded-no-derivatives": 1466,
+    "production-training": 1460,
     "verification-required": 8
   },
   "licenses": {
-    "CC-BY-NC-SA": 1542,
-    "CC-BY-ND": 1377,
-    "CC-BY": 893,
+    "CC-BY-NC-SA": 1715,
+    "CC-BY-ND": 1466,
+    "CC-BY": 924,
     "": 5,
     "Sampling Plus": 3,
-    "CC-BY-NC": 299,
-    "Public Domain": 21,
-    "CC-BY-SA": 345,
-    "CC0": 29
+    "CC-BY-NC": 389,
+    "Public Domain": 22,
+    "CC-BY-SA": 446,
+    "CC0": 68
   },
-  "productionTrainingRows": 1288,
-  "productionDetailLabels": 7,
+  "productionTrainingRows": 1460,
+  "productionDetailLabels": 15,
   "productionByDetail": {
     "folk": 152,
-    "electronic": 295,
-    "rock": 353,
+    "electronic": 187,
+    "rock": 330,
+    "noise": 67,
     "hip-hop": 367,
-    "classical": 67,
+    "classical": 61,
     "blues": 17,
-    "jazz": 37
+    "jazz": 37,
+    "ambient": 97,
+    "house": 33,
+    "drone": 16,
+    "techno": 36,
+    "hardcore-punk": 34,
+    "disco": 11,
+    "opera": 15
   },
   "productionBySplit": {
-    "validation": 168,
-    "test": 90,
-    "training": 1030
+    "validation": 196,
+    "test": 87,
+    "training": 1177
   },
-  "labelPolicy": "Only exact FMA track.genre_top labels represented in the 120-detail vocabulary.",
+  "selection": {
+    "exact-top-genre": 4000,
+    "no-supported-label": 3759,
+    "exact-detail": 1038,
+    "conflicting-detail-tags": 128
+  },
+  "detailGenreIdMap": {
+    "11": "disco",
+    "32": "noise",
+    "42": "ambient",
+    "47": "drone",
+    "107": "ambient",
+    "109": "hardcore-punk",
+    "181": "techno",
+    "182": "house",
+    "441": "opera"
+  },
+  "labelPolicy": "Exact direct FMA track.genres IDs replace broad track.genre_top labels. Inherited genres_all is not used, and tracks with conflicting mapped detail tags are rejected.",
+  "metadataEvidence": "FMA fma_metadata.zip: genres.csv and tracks.csv (https://github.com/mdeff/fma)",
   "licensePolicy": "Production allows CC0/Public Domain/CC-BY/CC-BY-SA; NC is research-only; ND is excluded.",
   "promotionPolicy": "Candidate only until source-heldout ablation passes."
 }

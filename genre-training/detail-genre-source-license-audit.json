@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-26T22:58:21.375Z",
+  "generatedAt": "2026-08-26T23:54:37.111Z",
   "policyVersion": "training-license-v1",
   "sources": {
     "existing-explicit-formal": {
@@ -98,33 +98,41 @@
       }
     },
     "FMA-independent-candidates": {
-      "rows": 4514,
+      "rows": 5038,
       "usage": {
-        "research-only": 1841,
-        "excluded-no-derivatives": 1377,
-        "production-training": 1288,
+        "research-only": 2104,
+        "excluded-no-derivatives": 1466,
+        "production-training": 1460,
         "verification-required": 8
       },
       "licenses": {
-        "CC-BY-NC-SA": 1542,
-        "CC-BY-ND": 1377,
-        "CC-BY": 893,
+        "CC-BY-NC-SA": 1715,
+        "CC-BY-ND": 1466,
+        "CC-BY": 924,
         "unspecified": 5,
         "Sampling Plus": 3,
-        "CC-BY-NC": 299,
-        "Public Domain": 21,
-        "CC-BY-SA": 345,
-        "CC0": 29
+        "CC-BY-NC": 389,
+        "Public Domain": 22,
+        "CC-BY-SA": 446,
+        "CC0": 68
       },
-      "representedDetailLabels": 7,
+      "representedDetailLabels": 15,
       "byDetail": {
         "hip-hop": 1068,
         "folk": 1028,
-        "rock": 1191,
-        "electronic": 1080,
+        "rock": 1089,
+        "noise": 229,
+        "drone": 71,
+        "electronic": 674,
         "jazz": 63,
-        "classical": 67,
-        "blues": 17
+        "hardcore-punk": 113,
+        "classical": 61,
+        "blues": 17,
+        "techno": 78,
+        "ambient": 421,
+        "house": 100,
+        "disco": 11,
+        "opera": 15
       }
     },
     "Wikimedia-reviewed-origin-candidates": {
@@ -146,16 +154,16 @@
       }
     },
     "Wikimedia-reviewed-category-candidates": {
-      "rows": 10,
+      "rows": 20,
       "usage": {
-        "production-training": 10
+        "production-training": 20
       },
       "licenses": {
-        "Public Domain": 10
+        "Public Domain": 20
       },
       "representedDetailLabels": 1,
       "byDetail": {
-        "jazz": 10
+        "jazz": 20
       }
     },
     "ccMixter-reviewed-candidates": {
@@ -263,23 +271,28 @@
   "detailSourceCoverage": {
     "ambient": {
       "productionSources": [
+        "FMA",
         "MTG-Jamendo",
         "ccMixter"
       ],
       "supportSources": [],
       "researchSources": [
+        "FMA",
         "MTG-Jamendo"
       ],
-      "productionSourceCount": 2,
+      "productionSourceCount": 3,
       "productionRowsBySource": {
+        "FMA": 97,
         "MTG-Jamendo": 19,
         "ccMixter": 5
       },
       "productionSourcesWithAtLeast2Tracks": [
+        "FMA",
         "MTG-Jamendo",
         "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": [
+        "FMA",
         "MTG-Jamendo",
         "ccMixter"
       ]
@@ -322,7 +335,7 @@
       "productionSourceCount": 2,
       "productionRowsBySource": {
         "Audiotool": 1,
-        "FMA": 19
+        "FMA": 29
       },
       "productionSourcesWithAtLeast2Tracks": [
         "FMA"
@@ -362,7 +375,7 @@
       ],
       "productionSourceCount": 3,
       "productionRowsBySource": {
-        "FMA": 67,
+        "FMA": 61,
         "MTG-Jamendo": 22,
         "ccMixter": 9
       },
@@ -459,13 +472,21 @@
       ]
     },
     "opera": {
-      "productionSources": [],
+      "productionSources": [
+        "FMA"
+      ],
       "supportSources": [],
       "researchSources": [],
-      "productionSourceCount": 0,
-      "productionRowsBySource": {},
-      "productionSourcesWithAtLeast2Tracks": [],
-      "productionSourcesWithAtLeast5Tracks": []
+      "productionSourceCount": 1,
+      "productionRowsBySource": {
+        "FMA": 15
+      },
+      "productionSourcesWithAtLeast2Tracks": [
+        "FMA"
+      ],
+      "productionSourcesWithAtLeast5Tracks": [
+        "FMA"
+      ]
     },
     "choral": {
       "productionSources": [],
@@ -557,7 +578,7 @@
       "productionRowsBySource": {
         "FMA": 37,
         "MTG-Jamendo": 9,
-        "US Air Force recordings": 10,
+        "US Air Force recordings": 20,
         "ccMixter": 3
       },
       "productionSourcesWithAtLeast2Tracks": [
@@ -745,7 +766,7 @@
       ],
       "productionSourceCount": 3,
       "productionRowsBySource": {
-        "FMA": 295,
+        "FMA": 187,
         "MTG-Jamendo": 130,
         "ccMixter": 6
       },
@@ -811,6 +832,7 @@
     },
     "techno": {
       "productionSources": [
+        "FMA",
         "MTG-Jamendo",
         "Wikimedia self-published",
         "ccMixter"
@@ -823,17 +845,20 @@
         "MTG-Jamendo",
         "RWC"
       ],
-      "productionSourceCount": 3,
+      "productionSourceCount": 4,
       "productionRowsBySource": {
-        "MTG-Jamendo": 94,
+        "FMA": 36,
+        "MTG-Jamendo": 93,
         "Wikimedia self-published": 1,
         "ccMixter": 3
       },
       "productionSourcesWithAtLeast2Tracks": [
+        "FMA",
         "MTG-Jamendo",
         "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": [
+        "FMA",
         "MTG-Jamendo"
       ]
     },
@@ -887,6 +912,7 @@
     },
     "house": {
       "productionSources": [
+        "FMA",
         "MTG-Jamendo",
         "ccMixter"
       ],
@@ -894,19 +920,23 @@
         "WaivOps"
       ],
       "researchSources": [
+        "FMA",
         "MTG-Jamendo",
         "RWC"
       ],
-      "productionSourceCount": 2,
+      "productionSourceCount": 3,
       "productionRowsBySource": {
+        "FMA": 33,
         "MTG-Jamendo": 92,
         "ccMixter": 3
       },
       "productionSourcesWithAtLeast2Tracks": [
+        "FMA",
         "MTG-Jamendo",
         "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": [
+        "FMA",
         "MTG-Jamendo"
       ]
     },
@@ -1071,7 +1101,7 @@
       "productionSourceCount": 3,
       "productionRowsBySource": {
         "FMA": 1,
-        "MTG-Jamendo": 35,
+        "MTG-Jamendo": 30,
         "ccMixter": 3
       },
       "productionSourcesWithAtLeast2Tracks": [
@@ -1084,6 +1114,7 @@
     },
     "disco": {
       "productionSources": [
+        "FMA",
         "MTG-Jamendo",
         "ccMixter"
       ],
@@ -1091,15 +1122,18 @@
       "researchSources": [
         "MTG-Jamendo"
       ],
-      "productionSourceCount": 2,
+      "productionSourceCount": 3,
       "productionRowsBySource": {
+        "FMA": 11,
         "MTG-Jamendo": 21,
         "ccMixter": 1
       },
       "productionSourcesWithAtLeast2Tracks": [
+        "FMA",
         "MTG-Jamendo"
       ],
       "productionSourcesWithAtLeast5Tracks": [
+        "FMA",
         "MTG-Jamendo"
       ]
     },
@@ -1396,7 +1430,7 @@
       "productionSourceCount": 3,
       "productionRowsBySource": {
         "FMA": 7,
-        "MTG-Jamendo": 51,
+        "MTG-Jamendo": 38,
         "ccMixter": 5
       },
       "productionSourcesWithAtLeast2Tracks": [
@@ -1527,18 +1561,24 @@
     },
     "noise": {
       "productionSources": [
+        "FMA",
         "ccMixter"
       ],
       "supportSources": [],
-      "researchSources": [],
-      "productionSourceCount": 1,
+      "researchSources": [
+        "FMA"
+      ],
+      "productionSourceCount": 2,
       "productionRowsBySource": {
+        "FMA": 67,
         "ccMixter": 5
       },
       "productionSourcesWithAtLeast2Tracks": [
+        "FMA",
         "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": [
+        "FMA",
         "ccMixter"
       ]
     },
@@ -1574,7 +1614,7 @@
       ],
       "productionSourceCount": 3,
       "productionRowsBySource": {
-        "FMA": 353,
+        "FMA": 330,
         "MTG-Jamendo": 67,
         "ccMixter": 3
       },
@@ -1692,13 +1732,23 @@
       "productionSourcesWithAtLeast5Tracks": []
     },
     "hardcore-punk": {
-      "productionSources": [],
+      "productionSources": [
+        "FMA"
+      ],
       "supportSources": [],
-      "researchSources": [],
-      "productionSourceCount": 0,
-      "productionRowsBySource": {},
-      "productionSourcesWithAtLeast2Tracks": [],
-      "productionSourcesWithAtLeast5Tracks": []
+      "researchSources": [
+        "FMA"
+      ],
+      "productionSourceCount": 1,
+      "productionRowsBySource": {
+        "FMA": 34
+      },
+      "productionSourcesWithAtLeast2Tracks": [
+        "FMA"
+      ],
+      "productionSourcesWithAtLeast5Tracks": [
+        "FMA"
+      ]
     },
     "post-hardcore": {
       "productionSources": [],
@@ -1875,11 +1925,11 @@
     }
   },
   "productionCoverage": {
-    "labelsWithOneSource": 38,
-    "labelsWithTwoSources": 24,
-    "labelsWithTwoSourcesAtLeast2Tracks": 21,
-    "labelsWithTwoSourcesAtLeast5Tracks": 15,
-    "labelsWithoutProductionSource": 82,
+    "labelsWithOneSource": 40,
+    "labelsWithTwoSources": 25,
+    "labelsWithTwoSourcesAtLeast2Tracks": 23,
+    "labelsWithTwoSourcesAtLeast5Tracks": 19,
+    "labelsWithoutProductionSource": 80,
     "twoSourceLabels": [
       "ambient",
       "drone",
@@ -1902,6 +1952,7 @@
       "hip-hop",
       "reggae",
       "dub",
+      "noise",
       "rock",
       "punk",
       "metal"
@@ -1909,6 +1960,7 @@
     "oneSourceLabels": [
       "new-age",
       "film-score",
+      "opera",
       "r-and-b",
       "singer-songwriter",
       "acid-techno",
@@ -1918,7 +1970,7 @@
       "latin",
       "bossa-nova",
       "world",
-      "noise",
+      "hardcore-punk",
       "hard-rock",
       "pop-rock"
     ],
@@ -1932,7 +1984,6 @@
       "minimalism",
       "chamber-music",
       "symphonic",
-      "opera",
       "choral",
       "requiem",
       "art-song",
@@ -1991,7 +2042,6 @@
       "garage-rock",
       "dance-rock",
       "proto-punk",
-      "hardcore-punk",
       "post-hardcore",
       "emo",
       "heavy-metal",

@@ -27,6 +27,10 @@ REPORT_PATH = Path(os.environ.get(
 ))
 SR = 16000
 DURATION = float(os.environ.get("MMFR_ESSENTIA_DURATION", "45"))
+DETAIL_FILTER = {
+    value.strip() for value in os.environ.get("MMFR_DETAIL_FEATURE_LABELS", "").split(",") if value.strip()
+}
+PRODUCTION_ONLY = os.environ.get("MMFR_DETAIL_FEATURE_PRODUCTION_ONLY", "") == "1"
 
 
 def save_json(path, payload):
@@ -50,7 +54,12 @@ def main():
 
     essentia.log.warningActive = False
     essentia.log.infoActive = False
-    items = json.loads(MANIFEST_PATH.read_text()).get("items", [])
+    manifest_items = json.loads(MANIFEST_PATH.read_text()).get("items", [])
+    items = [
+        item for item in manifest_items
+        if (not DETAIL_FILTER or item.get("detailTarget") in DETAIL_FILTER)
+        and (not PRODUCTION_ONLY or item.get("trainingUsage") == "production-training")
+    ]
     cache = json.loads(FEATURE_PATH.read_text()) if FEATURE_PATH.exists() else {}
     pending = [item for item in items if f"cc-dataset:{item['filePath']}" not in cache]
     embedding = TensorflowPredictEffnetDiscogs(
@@ -81,6 +90,9 @@ def main():
         "featureCachePath": str(FEATURE_PATH),
         "contract": "45s mono 16kHz Discogs-EffNet -> MTG-Jamendo genre sigmoid mean/std/max",
         "manifestRows": len(items),
+        "fullManifestRows": len(manifest_items),
+        "detailFilter": sorted(DETAIL_FILTER),
+        "productionOnly": PRODUCTION_ONLY,
         "pendingBeforeRun": len(pending),
         "rowsWithFeatures": len(available),
         "featureDimensions": len(cache[f"cc-dataset:{available[0]['filePath']}"]) if available else 0,

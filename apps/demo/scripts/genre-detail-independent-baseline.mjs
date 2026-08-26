@@ -16,9 +16,13 @@ function loadRows(cacheRoot, manifestName, features) {
 }
 
 export function crossSourceDirection(trainRows, testRows, options = {}) {
+  const detailFilter = options.details ? new Set(options.details) : null;
+  const include = item => !detailFilter || detailFilter.has(item.detailTarget);
   const rows = [
-    ...trainRows.filter(item => item.split !== "test").map(item => ({ ...item, split: "train" })),
-    ...testRows.filter(item => item.split === "test").map(item => ({ ...item, split: "test" }))
+    ...trainRows.filter(item => item.split !== "test" && include(item)).map(item => ({ ...item, split: "train" })),
+    // The source family itself is the holdout boundary. Using only its
+    // provider-defined test split would discard valid unseen-source evidence.
+    ...testRows.filter(include).map(item => ({ ...item, split: "test" }))
   ];
   return evaluateCentroidBaseline(rows, { minTrain: options.minTrain || 5, minTest: options.minTest || 5 });
 }
@@ -43,6 +47,11 @@ function markdown(report) {
     "この評価は対象分類が少ないため120分類全体の精度ではありません。",
     "",
     ...sections,
+    "## FMA詳細ラベルablation",
+    "",
+    `FMA詳細ラベルなし -> ccMixter: Top1 ${report.ablations.withoutFmaExactDetails.top1Accuracy}% / Top3 ${report.ablations.withoutFmaExactDetails.top3Accuracy}% / balanced Top1 ${report.ablations.withoutFmaExactDetails.balancedTop1Accuracy}%`,
+    `FMA詳細ラベルあり -> ccMixter: Top1 ${report.ablations.withFmaExactDetails.top1Accuracy}% / Top3 ${report.ablations.withFmaExactDetails.top3Accuracy}% / balanced Top1 ${report.ablations.withFmaExactDetails.balancedTop1Accuracy}%`,
+    "",
     "## 昇格判定",
     "",
     "独立ソース精度の初期成立は確認できましたが、評価可能分類数が少ないため本番詳細分類器への昇格は保留です。",
@@ -59,10 +68,18 @@ function main() {
   const ccmixter = loadRows(cacheRoot, "detail-genre-ccmixter-source-manifest.json", features);
   const internetArchive = loadRows(cacheRoot, "detail-genre-internet-archive-source-manifest.json", features);
   const wikimediaCategory = loadRows(cacheRoot, "detail-genre-wikimedia-category-source-manifest.json", features);
+  const fmaWithoutExactDetails = fma.filter(item => item.labelEvidenceType !== "exact-detail");
+  const ccmixterWithoutFmaExactDetails = crossSourceDirection([...fmaWithoutExactDetails, ...mtg], ccmixter, { minTest: 2 });
+  const comparableDetails = ccmixterWithoutFmaExactDetails.byDetail.map(item => item.detail);
+  const ccmixterWithFmaExactDetails = crossSourceDirection([...fma, ...mtg], ccmixter, {
+    minTest: 2,
+    details: comparableDetails
+  });
+  const ccmixterExpanded = crossSourceDirection([...fma, ...mtg], ccmixter, { minTest: 2 });
   const directions = {
     "MTG-Jamendo -> FMA": crossSourceDirection(mtg, fma),
     "FMA -> MTG-Jamendo": crossSourceDirection(fma, mtg),
-    "FMA + MTG-Jamendo -> ccMixter": crossSourceDirection([...fma, ...mtg], ccmixter, { minTest: 2 }),
+    "FMA + MTG-Jamendo -> ccMixter": ccmixterExpanded,
     "FMA + MTG-Jamendo + ccMixter -> IA netlabels": crossSourceDirection([...fma, ...mtg, ...ccmixter], internetArchive, { minTest: 5 }),
     "FMA + MTG-Jamendo + ccMixter -> Wikimedia category origins": crossSourceDirection([...fma, ...mtg, ...ccmixter], wikimediaCategory, { minTest: 5 })
   };
@@ -73,6 +90,11 @@ function main() {
     model: "standardized-nearest-centroid-baseline",
     licensePolicy: "CC0/Public Domain/CC-BY/CC-BY-SA full tracks only",
     directions,
+    ablations: {
+      comparisonDetails: comparableDetails,
+      withoutFmaExactDetails: ccmixterWithoutFmaExactDetails,
+      withFmaExactDetails: ccmixterWithFmaExactDetails
+    },
     promotionEligible: false,
     promotionBlocker: "Only a small subset of detailed labels satisfies independent-source support thresholds; ccMixter, IA netlabels and reviewed Wikimedia origins remain evaluation-only."
   };
