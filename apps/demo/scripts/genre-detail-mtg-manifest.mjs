@@ -17,7 +17,7 @@ export const MTG_DETAIL_TAGS = Object.freeze({
   deephouse: "deep-house", trance: "trance", funk: "funk", disco: "disco",
   synthpop: "synthpop", drumnbass: "drum-and-bass", breakbeat: "breakbeat",
   dubstep: "dubstep", hiphop: "hip-hop", reggae: "reggae", dub: "dub",
-  latin: "latin", bossanova: "bossa-nova", world: "world", punkrock: "punk",
+  latin: "latin", bossanova: "bossa-nova", world: "world", rock: "rock", punkrock: "punk",
   metal: "metal", heavymetal: "heavy-metal", hardrock: "hard-rock",
   poprock: "pop-rock", alternativerock: "alternative-rock"
 });

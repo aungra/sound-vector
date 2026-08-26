@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-26T16:18:31.102Z",
+  "evaluationScope": "source-internal",
+  "model": "standardized-nearest-centroid-baseline",
+  "groundTruth": "single direct MTG genre tag mapped to one detail vocabulary label",
+  "availableSingleTargetRows": 835,
+  "rowsWithCachedFeatures": 784,
+  "metrics": {
+    "eligibleDetailLabels": 16,
+    "trainRows": 400,
+    "testRows": 181,
+    "featureDimensions": 261,
+    "top1Accuracy": 51.93,
+    "top3Accuracy": 88.4,
+    "balancedTop1Accuracy": 46.35,
+    "byDetail": [
+      {
+        "detail": "ambient",
+        "trainRows": 12,
+        "testRows": 4,
+        "top1Accuracy": 0,
+        "top3Accuracy": 75
+      },
+      {
+        "detail": "blues",
+        "trainRows": 20,
+        "testRows": 7,
+        "top1Accuracy": 85.71,
+        "top3Accuracy": 100
+      },
+      {
+        "detail": "classical",
+        "trainRows": 38,
+        "testRows": 11,
+        "top1Accuracy": 27.27,
+        "top3Accuracy": 45.45
+      },
+      {
+        "detail": "disco",
+        "trainRows": 15,
+        "testRows": 3,
+        "top1Accuracy": 66.67,
+        "top3Accuracy": 66.67
+      },
+      {
+        "detail": "electronic",
+        "trainRows": 17,
+        "testRows": 2,
+        "top1Accuracy": 0,
+        "top3Accuracy": 100
+      },
+      {
+        "detail": "folk",
+        "trainRows": 15,
+        "testRows": 11,
+        "top1Accuracy": 63.64,
+        "top3Accuracy": 100
+      },
+      {
+        "detail": "funk",
+        "trainRows": 6,
+        "testRows": 5,
+        "top1Accuracy": 20,
+        "top3Accuracy": 60
+      },
+      {
+        "detail": "hip-hop",
+        "trainRows": 25,
+        "testRows": 16,
+        "top1Accuracy": 100,
+        "top3Accuracy": 100
+      },
+      {
+        "detail": "house",
+        "trainRows": 30,
+        "testRows": 10,
+        "top1Accuracy": 100,
+        "top3Accuracy": 100
+      },
+      {
+        "detail": "jazz",
+        "trainRows": 7,
+        "testRows": 3,
+        "top1Accuracy": 0,
+        "top3Accuracy": 0
+      },
+      {
+        "detail": "metal",
+        "trainRows": 12,
+        "testRows": 16,
+        "top1Accuracy": 50,
+        "top3Accuracy": 75
+      },
+      {
+        "detail": "punk",
+        "trainRows": 18,
+        "testRows": 8,
+        "top1Accuracy": 37.5,
+        "top3Accuracy": 87.5
+      },
+      {
+        "detail": "reggae",
+        "trainRows": 61,
+        "testRows": 14,
+        "top1Accuracy": 64.29,
+        "top3Accuracy": 85.71
+      },
+      {
+        "detail": "rock",
+        "trainRows": 58,
+        "testRows": 25,
+        "top1Accuracy": 44,
+        "top3Accuracy": 96
+      },
+      {
+        "detail": "techno",
+        "trainRows": 40,
+        "testRows": 33,
+        "top1Accuracy": 36.36,
+        "top3Accuracy": 100
+      },
+      {
+        "detail": "trance",
+        "trainRows": 26,
+        "testRows": 13,
+        "top1Accuracy": 46.15,
+        "top3Accuracy": 100
+      }
+    ]
+  },
+  "promotionEligible": false,
+  "promotionBlocker": "Requires at least one independent source for each evaluated detail label."
+}

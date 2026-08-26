@@ -5,10 +5,11 @@ import path from "node:path";
 import test from "node:test";
 import { buildMtgDetailManifest, directDetailLabels } from "./genre-detail-mtg-manifest.mjs";
 
-const vocabulary = new Set(["dark-ambient", "idm", "deep-house", "jazz-fusion"]);
+const vocabulary = new Set(["dark-ambient", "idm", "deep-house", "jazz-fusion", "rock"]);
 
 test("MTG direct tag mapping accepts exact labels and rejects semantic guesses", () => {
   assert.deepEqual(directDetailLabels(["genre---darkambient", "genre---idm"], vocabulary), ["dark-ambient", "idm"]);
+  assert.deepEqual(directDetailLabels(["genre---rock"], vocabulary), ["rock"]);
   assert.deepEqual(directDetailLabels(["genre---experimental", "genre---indie"], vocabulary), []);
 });
 
