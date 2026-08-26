@@ -78,6 +78,7 @@
     "genre-techno-promotion-experiment": "node scripts/genre-techno-promotion-experiment.mjs",
     "genre-source-holdout-experiment": "node scripts/genre-source-holdout-experiment.mjs",
     "genre-detail-evaluate": "node scripts/genre-detail-evaluate.mjs",
+    "genre-detail-mtg-manifest": "node scripts/genre-detail-mtg-manifest.mjs",
     "genre-split-audit": "node scripts/genre-split-audit.mjs",
     "genre-score-search": "node scripts/genre-auto-score-search.mjs",
     "validation-quality-holdout-search": "node scripts/validation-quality-holdout-search.mjs",
