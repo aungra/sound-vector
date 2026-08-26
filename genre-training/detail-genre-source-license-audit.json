@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-26T17:11:19.843Z",
+  "generatedAt": "2026-08-26T22:42:20.412Z",
   "policyVersion": "training-license-v1",
   "sources": {
     "existing-explicit-formal": {
@@ -178,6 +178,25 @@
         "soul": 2,
         "techno": 3,
         "trance": 4
+      }
+    },
+    "Internet-Archive-reviewed-netlabel-candidates": {
+      "rows": 39,
+      "usage": {
+        "production-training": 39
+      },
+      "licenses": {
+        "CC-BY-SA": 20,
+        "CC0": 5,
+        "CC-BY": 14
+      },
+      "representedDetailLabels": 5,
+      "byDetail": {
+        "metal": 5,
+        "progressive-trance": 5,
+        "psytrance": 18,
+        "soul": 5,
+        "trance": 6
       }
     },
     "WaivOps-rhythm-support": {
@@ -567,6 +586,7 @@
     },
     "soul": {
       "productionSources": [
+        "IA netlabel:alga",
         "MTG-Jamendo",
         "ccMixter"
       ],
@@ -575,16 +595,19 @@
         "MTG-Jamendo",
         "RWC"
       ],
-      "productionSourceCount": 2,
+      "productionSourceCount": 3,
       "productionRowsBySource": {
+        "IA netlabel:alga": 5,
         "MTG-Jamendo": 15,
         "ccMixter": 2
       },
       "productionSourcesWithAtLeast2Tracks": [
+        "IA netlabel:alga",
         "MTG-Jamendo",
         "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": [
+        "IA netlabel:alga",
         "MTG-Jamendo"
       ]
     },
@@ -936,6 +959,7 @@
     },
     "trance": {
       "productionSources": [
+        "IA netlabel:toucan",
         "MTG-Jamendo",
         "ccMixter"
       ],
@@ -943,36 +967,59 @@
       "researchSources": [
         "MTG-Jamendo"
       ],
-      "productionSourceCount": 2,
+      "productionSourceCount": 3,
       "productionRowsBySource": {
+        "IA netlabel:toucan": 6,
         "MTG-Jamendo": 26,
         "ccMixter": 4
       },
       "productionSourcesWithAtLeast2Tracks": [
+        "IA netlabel:toucan",
         "MTG-Jamendo",
         "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": [
+        "IA netlabel:toucan",
         "MTG-Jamendo"
       ]
     },
     "progressive-trance": {
-      "productionSources": [],
+      "productionSources": [
+        "IA netlabel:usc-label"
+      ],
       "supportSources": [],
       "researchSources": [],
-      "productionSourceCount": 0,
-      "productionRowsBySource": {},
-      "productionSourcesWithAtLeast2Tracks": [],
-      "productionSourcesWithAtLeast5Tracks": []
+      "productionSourceCount": 1,
+      "productionRowsBySource": {
+        "IA netlabel:usc-label": 5
+      },
+      "productionSourcesWithAtLeast2Tracks": [
+        "IA netlabel:usc-label"
+      ],
+      "productionSourcesWithAtLeast5Tracks": [
+        "IA netlabel:usc-label"
+      ]
     },
     "psytrance": {
-      "productionSources": [],
+      "productionSources": [
+        "IA netlabel:psydanceglobal",
+        "IA netlabel:sunstation"
+      ],
       "supportSources": [],
       "researchSources": [],
-      "productionSourceCount": 0,
-      "productionRowsBySource": {},
-      "productionSourcesWithAtLeast2Tracks": [],
-      "productionSourcesWithAtLeast5Tracks": []
+      "productionSourceCount": 2,
+      "productionRowsBySource": {
+        "IA netlabel:psydanceglobal": 5,
+        "IA netlabel:sunstation": 13
+      },
+      "productionSourcesWithAtLeast2Tracks": [
+        "IA netlabel:psydanceglobal",
+        "IA netlabel:sunstation"
+      ],
+      "productionSourcesWithAtLeast5Tracks": [
+        "IA netlabel:psydanceglobal",
+        "IA netlabel:sunstation"
+      ]
     },
     "chiptune": {
       "productionSources": [],
@@ -1656,20 +1703,24 @@
     },
     "metal": {
       "productionSources": [
+        "IA netlabel:derkleinegruenewuerfel",
         "MTG-Jamendo"
       ],
       "supportSources": [],
       "researchSources": [
         "MTG-Jamendo"
       ],
-      "productionSourceCount": 1,
+      "productionSourceCount": 2,
       "productionRowsBySource": {
+        "IA netlabel:derkleinegruenewuerfel": 5,
         "MTG-Jamendo": 19
       },
       "productionSourcesWithAtLeast2Tracks": [
+        "IA netlabel:derkleinegruenewuerfel",
         "MTG-Jamendo"
       ],
       "productionSourcesWithAtLeast5Tracks": [
+        "IA netlabel:derkleinegruenewuerfel",
         "MTG-Jamendo"
       ]
     },
@@ -1807,11 +1858,11 @@
     }
   },
   "productionCoverage": {
-    "labelsWithOneSource": 36,
-    "labelsWithTwoSources": 22,
-    "labelsWithTwoSourcesAtLeast2Tracks": 19,
-    "labelsWithTwoSourcesAtLeast5Tracks": 11,
-    "labelsWithoutProductionSource": 84,
+    "labelsWithOneSource": 38,
+    "labelsWithTwoSources": 24,
+    "labelsWithTwoSourcesAtLeast2Tracks": 21,
+    "labelsWithTwoSourcesAtLeast5Tracks": 15,
+    "labelsWithoutProductionSource": 82,
     "twoSourceLabels": [
       "ambient",
       "drone",
@@ -1826,6 +1877,7 @@
       "minimal-techno",
       "house",
       "trance",
+      "psytrance",
       "funk",
       "disco",
       "drum-and-bass",
@@ -1834,7 +1886,8 @@
       "reggae",
       "dub",
       "rock",
-      "punk"
+      "punk",
+      "metal"
     ],
     "oneSourceLabels": [
       "new-age",
@@ -1843,12 +1896,12 @@
       "singer-songwriter",
       "acid-techno",
       "deep-house",
+      "progressive-trance",
       "synthpop",
       "latin",
       "bossa-nova",
       "world",
       "noise",
-      "metal",
       "hard-rock",
       "pop-rock"
     ],
@@ -1885,8 +1938,6 @@
       "garage-house",
       "uk-garage",
       "two-step",
-      "progressive-trance",
-      "psytrance",
       "chiptune",
       "game-music",
       "nu-disco",

@@ -1,6 +1,6 @@
 # 詳細ジャンル独立ソースベースライン
 
-生成日時: 2026-08-26T17:11:20.117Z
+生成日時: 2026-08-26T22:42:46.001Z
 
 CC0 / Public Domain / CC-BY / CC-BY-SAのフル楽曲だけを使用しています。NC・ND・研究限定・ループ素材は含みません。
 この評価は対象分類が少ないため120分類全体の精度ではありません。
@@ -41,7 +41,15 @@ Top1 46.94% / Top3 79.59% / balanced Top1 41.78%
 | rock | 188 | 3 | 33.33% | 66.67% |
 | techno | 21 | 3 | 33.33% | 66.67% |
 
+## FMA + MTG-Jamendo + ccMixter -> IA netlabels
+
+Top1 100% / Top3 100% / balanced Top1 100%
+
+| detail | train | test | Top1 | Top3 |
+| --- | ---: | ---: | ---: | ---: |
+| metal | 10 | 5 | 100% | 100% |
+
 ## 昇格判定
 
 独立ソース精度の初期成立は確認できましたが、評価可能分類数が少ないため本番詳細分類器への昇格は保留です。
-次はElectronic / Blues / Jazz / Folkのproduction-safeな第2ソースtestを増やします。
+次はHouse / Jazz / Disco / Deep Houseのproduction-safeな第2ソースtestを増やします。

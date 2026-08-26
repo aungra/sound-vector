@@ -171,6 +171,7 @@ function markdown(report) {
     "- WaivOps EDM-TECH: CC BY 4.0 and explicitly intended for model development. https://doi.org/10.5281/zenodo.17584890",
     "- Wikimedia Commons: item-level genre categories and imageinfo.extmetadata license fields. https://commons.wikimedia.org/w/api.php",
     "- ccMixter: item-level license, uploader tags and upload type. https://ccmixter.org/terms",
+    "- Internet Archive netlabels: item-level licenseurl, subject, release description and original netlabel collection. https://archive.org/about/terms.php",
     "- Creative Commons license conditions. https://creativecommons.org/share-your-work/cclicenses/",
     "",
     "この分類はプロジェクトの保守的な運用規則であり、法律上の助言ではありません。",
@@ -184,12 +185,14 @@ function main() {
   const fmaPath = path.join(cacheRoot, "genre-training/detail-genre-fma-source-manifest.json");
   const wikimediaPath = path.join(cacheRoot, "genre-training/detail-genre-wikimedia-source-manifest.json");
   const ccmixterPath = path.join(cacheRoot, "genre-training/detail-genre-ccmixter-source-manifest.json");
+  const internetArchivePath = path.join(cacheRoot, "genre-training/detail-genre-internet-archive-source-manifest.json");
   const h = hierarchy();
   const existing = existingExplicitRows(h);
   const mtg = readJson(mtgPath).items.map(item => ({ ...item, sourceFamily: "MTG-Jamendo", contentScope: "full-track" }));
   const fma = readJson(fmaPath).items.map(item => ({ ...item, sourceFamily: "FMA", contentScope: "full-track" }));
   const wikimedia = readJson(wikimediaPath).items.map(item => ({ ...item, contentScope: "full-track" }));
   const ccmixter = readJson(ccmixterPath).items.map(item => ({ ...item, sourceFamily: "ccMixter", contentScope: "full-track" }));
+  const internetArchive = readJson(internetArchivePath).items.map(item => ({ ...item, contentScope: "full-track" }));
   const waivops = waivOpsRows(cacheRoot).map(item => ({ ...item, sourceFamily: "WaivOps" }));
   const rwc = rwcRows().map(item => ({ ...item, sourceFamily: "RWC" }));
   const sources = {
@@ -198,11 +201,12 @@ function main() {
     "FMA-independent-candidates": sourceSummary(fma),
     "Wikimedia-reviewed-origin-candidates": sourceSummary(wikimedia),
     "ccMixter-reviewed-candidates": sourceSummary(ccmixter),
+    "Internet-Archive-reviewed-netlabel-candidates": sourceSummary(internetArchive),
     "WaivOps-rhythm-support": sourceSummary(waivops),
     "RWC-research-only": sourceSummary(rwc)
   };
   const detailIds = h.DETAIL_GENRES.map(item => item.id);
-  const coverage = detailSourceCoverage([...existing, ...mtg, ...fma, ...wikimedia, ...ccmixter, ...waivops, ...rwc], detailIds);
+  const coverage = detailSourceCoverage([...existing, ...mtg, ...fma, ...wikimedia, ...ccmixter, ...internetArchive, ...waivops, ...rwc], detailIds);
   const twoSourceLabels = Object.entries(coverage).filter(([, item]) => item.productionSourceCount >= 2).map(([detail]) => detail);
   const oneSourceLabels = Object.entries(coverage).filter(([, item]) => item.productionSourceCount === 1).map(([detail]) => detail);
   const zeroSourceLabels = Object.entries(coverage).filter(([, item]) => item.productionSourceCount === 0).map(([detail]) => detail);
