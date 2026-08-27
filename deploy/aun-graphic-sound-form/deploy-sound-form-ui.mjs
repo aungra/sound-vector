@@ -13,8 +13,17 @@ const stamp = new Date().toISOString().replaceAll(":", "-").replaceAll(".", "-")
 const backupDir = path.join(os.tmpdir(), `sound-form-ui-backup-${stamp}`);
 
 const interfaceHtml = path.join(ROOT, "apps", "demo", "MUSIC MEMORY FITTING ROOM.html");
+const audioAnalyzePhp = path.join(SCRIPT_DIR, "api", "audio-analyze.php");
 const APPROVED_INTERFACE_SHA256 = "fe1e06bba67510c32b91251407009a0ff3b9622c8e97bf1fc0f05b7da76eb368";
 const mappings = [
+  {
+    local: audioAnalyzePhp,
+    remote: "/home/aungraphic02/musictee-audio-service/deploy/aun-graphic-sound-form/api/audio-analyze.php"
+  },
+  {
+    local: audioAnalyzePhp,
+    remote: "/home/aungraphic02/www/wp/sound-form/api/audio-analyze.php"
+  },
   {
     local: interfaceHtml,
     remote: "/home/aungraphic02/www/wp/sound-form/index.html"
@@ -51,6 +60,12 @@ for (const mapping of mappings) {
 }
 
 const interfaceSource = fs.readFileSync(interfaceHtml, "utf8");
+const audioAnalyzeSource = fs.readFileSync(audioAnalyzePhp, "utf8");
+const interfaceRevision = interfaceSource.match(/const GENRE_INFERENCE_REVISION = "([^"]+)"/)?.[1] || "";
+const apiRevision = audioAnalyzeSource.match(/const REQUIRED_CLIENT_INFERENCE_REVISION = '([^']+)'/)?.[1] || "";
+if (!interfaceRevision || interfaceRevision !== apiRevision) {
+  throw new Error(`Refusing to deploy: UI revision ${interfaceRevision || "missing"} does not match API revision ${apiRevision || "missing"}`);
+}
 if (sha256(interfaceHtml) !== APPROVED_INTERFACE_SHA256
   || !interfaceSource.includes('class="interface-header"')
   || !interfaceSource.includes('data-genre-fusion="topology-shape-morph-v5"')
@@ -106,5 +121,6 @@ mappings.forEach((mapping, index) => {
   if (actual !== expected) throw new Error(`SHA mismatch for ${mapping.remote}`);
   process.stdout.write(`${mapping.remote} ${actual}\n`);
 });
+process.stdout.write(`Revision parity: ${interfaceRevision}\n`);
 process.stdout.write(`Local backups: ${backupDir}\n`);
 process.stdout.write(`Remote backup suffix: .bak-${stamp}\n`);
