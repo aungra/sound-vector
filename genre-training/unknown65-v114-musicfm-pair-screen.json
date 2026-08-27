@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-27T04:00:33.160435+00:00",
+  "generatedAt": "2026-08-27T04:09:42.371153+00:00",
   "objective": "Screen expanded MusicFM boundaries after frozen v114.",
   "policy": {
     "metadataUsedAtInference": false,
@@ -10600,5 +10600,10 @@
       }
     }
   },
-  "decision": "inspect-passed-candidates"
+  "decision": "inspect-passed-candidates",
+  "oofOutput": {
+    "path": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown65-v114-musicfm-phase1-oof.npz",
+    "sha256": "6fbcfab2a864fae95e67f8e70960bf04416281e80151755b22e5d5394f534684",
+    "rows": 1883
+  }
 }

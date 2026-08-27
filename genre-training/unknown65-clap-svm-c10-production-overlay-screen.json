@@ -1,0 +1,206 @@
+{
+  "generatedAt": "2026-08-27T05:31:32.278217+00:00",
+  "objective": "Audio-only pair reranking after fixed 61.50% OOF.",
+  "policy": {
+    "metadataUsedAtInference": false,
+    "urlSpecificRulesUsed": false,
+    "sealedFinalHoldoutUsed": false,
+    "heldOutSourceExcludedFromTraining": true,
+    "individualSourceNonRegressionRequired": true,
+    "maximumAllowedSourceDrop": 0.0,
+    "svmC": 10.0,
+    "top3CandidateSetChanged": false,
+    "productionModelUpdated": false
+  },
+  "dataset": {
+    "rows": 1883,
+    "cache": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/clap-30s-cache.json",
+    "cacheFormat": "clap",
+    "baseScoresIncludedAsFeatures": false,
+    "viewRowsIncludingOverlay": {
+      "embedding": 945,
+      "embedding-moment": 945,
+      "moment-mean": 945
+    },
+    "trainingOnlyOverlayRows": 68,
+    "overlayBySource": {
+      "FMA": 40,
+      "Jamendo": 28
+    },
+    "overlayByLabel": {
+      "電子音楽": 9,
+      "チップチューン": 6,
+      "ハウス": 4,
+      "ヒップホップ": 25,
+      "ロック": 2,
+      "ディスコ": 2,
+      "テクノ": 3,
+      "ワールドミュージック": 1,
+      "ソウルミュージック": 12,
+      "トランス": 4
+    }
+  },
+  "baseline": {
+    "top1Accuracy": 64.84,
+    "balancedTop1": 63.69,
+    "minimumSourceTop1": 52.63,
+    "top3Accuracy": 83.48,
+    "sourceTop1": {
+      "FMA": 67.58,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 52.63,
+      "Jamendo": 61.05,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 91.53,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    }
+  },
+  "passed": [
+    {
+      "pair": [
+        "クラシック音楽",
+        "フォーク"
+      ],
+      "view": "embedding",
+      "modelKind": "svm-rbf",
+      "rows": 945,
+      "sourceSupport": {
+        "クラシック音楽": [
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "フォーク": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 64.9,
+        "balancedTop1": 63.71,
+        "minimumSourceTop1": 52.63,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 67.58,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 52.63,
+          "Jamendo": 61.13,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 91.53,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 0,
+        "sourceTop1Delta": {
+          "FMA": 0.0,
+          "IdolSongsJp": 0.0,
+          "Internet Archive": 0.0,
+          "Jamendo": 0.08,
+          "MagnaTagATune research evaluation": 0.0,
+          "RWC Music Database": 0.0,
+          "Wikimedia Commons": 0.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+        },
+        "maximumSourceDrop": 0.0
+      },
+      "changedRows": 2,
+      "passed": true
+    }
+  ],
+  "greedyChain": {
+    "steps": [
+      {
+        "pair": [
+          "クラシック音楽",
+          "フォーク"
+        ],
+        "view": "embedding",
+        "modelKind": "svm-rbf",
+        "changedRows": 2,
+        "comparison": {
+          "top1Accuracy": 64.9,
+          "balancedTop1": 63.71,
+          "minimumSourceTop1": 52.63,
+          "top3Accuracy": 83.48,
+          "sourceTop1": {
+            "FMA": 67.58,
+            "IdolSongsJp": 86.67,
+            "Internet Archive": 52.63,
+            "Jamendo": 61.13,
+            "MagnaTagATune research evaluation": 72.65,
+            "RWC Music Database": 91.53,
+            "Wikimedia Commons": 65.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+          },
+          "changedTop1": 2,
+          "improved": 1,
+          "harmed": 0,
+          "sourceTop1Delta": {
+            "FMA": 0.0,
+            "IdolSongsJp": 0.0,
+            "Internet Archive": 0.0,
+            "Jamendo": 0.08,
+            "MagnaTagATune research evaluation": 0.0,
+            "RWC Music Database": 0.0,
+            "Wikimedia Commons": 0.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+          },
+          "maximumSourceDrop": 0.0
+        },
+        "metric": {
+          "top1Accuracy": 64.9,
+          "balancedTop1": 63.71,
+          "minimumSourceTop1": 52.63,
+          "top3Accuracy": 83.48,
+          "sourceTop1": {
+            "FMA": 67.58,
+            "IdolSongsJp": 86.67,
+            "Internet Archive": 52.63,
+            "Jamendo": 61.13,
+            "MagnaTagATune research evaluation": 72.65,
+            "RWC Music Database": 91.53,
+            "Wikimedia Commons": 65.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+          }
+        },
+        "accepted": true
+      }
+    ],
+    "selectedPairs": [
+      [
+        "クラシック音楽",
+        "フォーク"
+      ]
+    ],
+    "metric": {
+      "top1Accuracy": 64.9,
+      "balancedTop1": 63.71,
+      "minimumSourceTop1": 52.63,
+      "top3Accuracy": 83.48,
+      "sourceTop1": {
+        "FMA": 67.58,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 52.63,
+        "Jamendo": 61.13,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 91.53,
+        "Wikimedia Commons": 65.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      }
+    }
+  },
+  "decision": "continue-independent-validation",
+  "oofOutput": {
+    "path": "/private/tmp/unknown65-v114-svm-c10-clap-oof.npz",
+    "sha256": "745b31c4889b127b28b07d44dc1e234d54e26868cb827b5d481d3d9fa1b72935",
+    "rows": 1883
+  }
+}

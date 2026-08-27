@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import importlib.util
 import json
 import sys
@@ -209,6 +210,24 @@ def run(args):
         },
         "decision": "inspect-passed-candidates" if passed else "reject-expanded-pairs",
     }
+    if args.oof_output:
+        args.oof_output.parent.mkdir(parents=True, exist_ok=True)
+        np.savez_compressed(
+            args.oof_output,
+            selectedScores=current,
+            baselineScores=base,
+            actual=np.asarray(payload["actual"], dtype=str),
+            sources=np.asarray(payload["sources"], dtype=str),
+            sourceKeys=np.asarray(payload["sourceKeys"], dtype=str),
+            labels=np.asarray(labels, dtype=str),
+            trainingEligible=np.asarray(payload["trainingEligible"], dtype=bool),
+        )
+        digest = hashlib.sha256(args.oof_output.read_bytes()).hexdigest()
+        report["oofOutput"] = {
+            "path": str(args.oof_output),
+            "sha256": digest,
+            "rows": len(current),
+        }
     args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     return report
 
@@ -218,6 +237,7 @@ def main():
     parser.add_argument("--musicfm-10", "--cache-10", dest="musicfm_10", type=Path, default=DEFAULT_CACHE_10)
     parser.add_argument("--musicfm-30", "--cache-30", dest="musicfm_30", type=Path, default=DEFAULT_CACHE_30)
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
+    parser.add_argument("--oof-output", type=Path)
     args = parser.parse_args()
     report = run(args)
     print(json.dumps({

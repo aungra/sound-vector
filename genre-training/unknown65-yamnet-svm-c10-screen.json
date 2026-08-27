@@ -1,0 +1,193 @@
+{
+  "generatedAt": "2026-08-27T05:37:26.951206+00:00",
+  "objective": "Audio-only pair reranking after fixed 61.50% OOF.",
+  "policy": {
+    "metadataUsedAtInference": false,
+    "urlSpecificRulesUsed": false,
+    "sealedFinalHoldoutUsed": false,
+    "heldOutSourceExcludedFromTraining": true,
+    "individualSourceNonRegressionRequired": true,
+    "maximumAllowedSourceDrop": 0.0,
+    "svmC": 10.0,
+    "top3CandidateSetChanged": false,
+    "productionModelUpdated": false
+  },
+  "dataset": {
+    "rows": 1883,
+    "cache": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/yamnet-30s-pilot-cache.json",
+    "cacheFormat": "yamnet",
+    "baseScoresIncludedAsFeatures": false,
+    "viewRowsIncludingOverlay": {
+      "dynamics-mean": 141,
+      "embedding-mean": 141,
+      "embedding-tag": 141,
+      "tag-mean": 141
+    },
+    "trainingOnlyOverlayRows": 0,
+    "overlayBySource": {},
+    "overlayByLabel": {}
+  },
+  "baseline": {
+    "top1Accuracy": 64.95,
+    "balancedTop1": 63.75,
+    "minimumSourceTop1": 52.63,
+    "top3Accuracy": 83.48,
+    "sourceTop1": {
+      "FMA": 67.89,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 52.63,
+      "Jamendo": 61.13,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 91.53,
+      "Wikimedia Commons": 65.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    }
+  },
+  "passed": [
+    {
+      "pair": [
+        "アンビエント",
+        "クラシック音楽"
+      ],
+      "view": "embedding-tag",
+      "modelKind": "svm-rbf",
+      "rows": 141,
+      "sourceSupport": {
+        "アンビエント": [
+          "FMA",
+          "Jamendo"
+        ],
+        "クラシック音楽": [
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 65.0,
+        "balancedTop1": 63.78,
+        "minimumSourceTop1": 52.63,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 68.2,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 52.63,
+          "Jamendo": 61.13,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 91.53,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0,
+        "sourceTop1Delta": {
+          "FMA": 0.31,
+          "IdolSongsJp": 0.0,
+          "Internet Archive": 0.0,
+          "Jamendo": 0.0,
+          "MagnaTagATune research evaluation": 0.0,
+          "RWC Music Database": 0.0,
+          "Wikimedia Commons": 0.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+        },
+        "maximumSourceDrop": 0.0
+      },
+      "changedRows": 1,
+      "passed": true
+    }
+  ],
+  "greedyChain": {
+    "steps": [
+      {
+        "pair": [
+          "アンビエント",
+          "クラシック音楽"
+        ],
+        "view": "embedding-tag",
+        "modelKind": "svm-rbf",
+        "changedRows": 1,
+        "comparison": {
+          "top1Accuracy": 65.0,
+          "balancedTop1": 63.78,
+          "minimumSourceTop1": 52.63,
+          "top3Accuracy": 83.48,
+          "sourceTop1": {
+            "FMA": 68.2,
+            "IdolSongsJp": 86.67,
+            "Internet Archive": 52.63,
+            "Jamendo": 61.13,
+            "MagnaTagATune research evaluation": 72.65,
+            "RWC Music Database": 91.53,
+            "Wikimedia Commons": 65.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+          },
+          "changedTop1": 1,
+          "improved": 1,
+          "harmed": 0,
+          "sourceTop1Delta": {
+            "FMA": 0.31,
+            "IdolSongsJp": 0.0,
+            "Internet Archive": 0.0,
+            "Jamendo": 0.0,
+            "MagnaTagATune research evaluation": 0.0,
+            "RWC Music Database": 0.0,
+            "Wikimedia Commons": 0.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+          },
+          "maximumSourceDrop": 0.0
+        },
+        "metric": {
+          "top1Accuracy": 65.0,
+          "balancedTop1": 63.78,
+          "minimumSourceTop1": 52.63,
+          "top3Accuracy": 83.48,
+          "sourceTop1": {
+            "FMA": 68.2,
+            "IdolSongsJp": 86.67,
+            "Internet Archive": 52.63,
+            "Jamendo": 61.13,
+            "MagnaTagATune research evaluation": 72.65,
+            "RWC Music Database": 91.53,
+            "Wikimedia Commons": 65.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+          }
+        },
+        "accepted": true
+      }
+    ],
+    "selectedPairs": [
+      [
+        "アンビエント",
+        "クラシック音楽"
+      ]
+    ],
+    "metric": {
+      "top1Accuracy": 65.0,
+      "balancedTop1": 63.78,
+      "minimumSourceTop1": 52.63,
+      "top3Accuracy": 83.48,
+      "sourceTop1": {
+        "FMA": 68.2,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 52.63,
+        "Jamendo": 61.13,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 91.53,
+        "Wikimedia Commons": 65.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      }
+    }
+  },
+  "decision": "continue-independent-validation",
+  "oofOutput": {
+    "path": "/private/tmp/unknown65-v114-yamnet-svm-c10-oof.npz",
+    "sha256": "45f3c4154f2fbcd95cba2cbe6297bfbde6dce30c67b2006ad7dc0715acc12550",
+    "rows": 1883
+  }
+}
