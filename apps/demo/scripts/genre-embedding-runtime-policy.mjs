@@ -1,5 +1,23 @@
 import path from "node:path";
 
+export function pairwiseRerankerPolicy(value = "") {
+  const enabled = String(value || "").trim() === "1";
+  return {
+    enabled,
+    mode: enabled ? "experimental-opt-in" : "disabled-outer-source-regression",
+  };
+}
+
+export function independentPairRerankerPolicy(value) {
+  const enabled = String(value ?? "1").trim() !== "0";
+  return {
+    enabled,
+    mode: enabled
+      ? "enabled-source-heldout-gtzan-production-gated-stack"
+      : "disabled-explicitly",
+  };
+}
+
 export function embeddingInferenceAttemptPlan({
   contract = {},
   primaryModelPath = "",

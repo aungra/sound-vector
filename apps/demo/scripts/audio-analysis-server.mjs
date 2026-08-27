@@ -7,6 +7,8 @@ import { spawn, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import {
   embeddingInferenceAttemptPlan,
+  independentPairRerankerPolicy,
+  pairwiseRerankerPolicy,
   runEmbeddingInferenceAttempts,
 } from "./genre-embedding-runtime-policy.mjs";
 import {
@@ -26,6 +28,7 @@ import {
   requestClientAddress,
   YOUTUBE_RETRY_DELAYS_MS,
 } from "./audio-analysis-public-policy.mjs";
+import { embeddingSegmentArgs } from "./genre-embedding-segment-input.mjs";
 
 const cliArgs = new Set(process.argv.slice(2));
 const cliValue = name => {
@@ -111,6 +114,20 @@ const EMBEDDING_GENRE_LIVE_ENABLED = cliArgs.has("--embedding-live")
   || process.env.MMFR_EMBEDDING_GENRE_LIVE_ENABLED === "1";
 const EMBEDDING_GENRE_CONSENSUS_ENABLED = EMBEDDING_GENRE_LIVE_ENABLED
   && process.env.MMFR_EMBEDDING_GENRE_CONSENSUS_ENABLED !== "0";
+// The legacy pairwise bundle regressed on the independent GTZAN outer source
+// and contains pair heads that no longer pass the strict source-coverage gate.
+// Keep it opt-in until a replacement improves every promotion evaluation.
+const EMBEDDING_GENRE_PAIRWISE_RERANKER_POLICY = pairwiseRerankerPolicy(
+  process.env.MMFR_ENABLE_UNKNOWN80_RHYTHM_RERANKER,
+);
+const EMBEDDING_GENRE_PAIRWISE_RERANKER_ENABLED =
+  EMBEDDING_GENRE_PAIRWISE_RERANKER_POLICY.enabled;
+const EMBEDDING_GENRE_INDEPENDENT_PAIR_RERANKER_POLICY =
+  independentPairRerankerPolicy(
+    process.env.MMFR_ENABLE_UNKNOWN80_INDEPENDENT_PAIR_RERANKER,
+  );
+const EMBEDDING_GENRE_INDEPENDENT_PAIR_RERANKER_ENABLED =
+  EMBEDDING_GENRE_INDEPENDENT_PAIR_RERANKER_POLICY.enabled;
 const LOCAL_SEGMENT_CONSENSUS_ENABLED = process.env.MMFR_LOCAL_SEGMENT_CONSENSUS_ENABLED !== "0";
 const LOCAL_GENRE_MODEL_PATH = process.env.MMFR_LOCAL_GENRE_MODEL_PATH
   || path.resolve(SCRIPT_DIR, "../../../genre-training/genre-model.json");
@@ -415,6 +432,20 @@ function embeddingGenreContractStatus() {
   return embeddingGenreContractCache;
 }
 
+function genreInferenceRuntimeStatus() {
+  const contract = embeddingGenreContractStatus();
+  const independentVersion = contract?.independentReranker?.modelVersion || "";
+  const runtimeRevision = independentVersion || contract?.modelVersion || GENRE_INFERENCE_REVISION;
+  const declaredVersion = GENRE_INFERENCE_REVISION.match(/v\d+$/)?.[0] || "";
+  const runtimeVersion = runtimeRevision.match(/v\d+$/)?.[0] || "";
+  return {
+    declaredRevision: GENRE_INFERENCE_REVISION,
+    runtimeRevision,
+    revisionMatch: Boolean(declaredVersion && runtimeVersion && declaredVersion === runtimeVersion),
+    independentReranker: contract?.independentReranker || null,
+  };
+}
+
 function japaneseVocalEvidenceReady() {
   return EMBEDDING_GENRE_ENABLED
     && fs.existsSync(JAPANESE_VOCAL_SCRIPT)
@@ -456,7 +487,7 @@ async function analyzeJapaneseVocalEvidenceForFile(filePath, options = {}) {
   }
 }
 
-async function analyzeEmbeddingGenreForFile(filePath, japaneseVocalEvidence = {}) {
+async function analyzeEmbeddingGenreForFile(filePath, japaneseVocalEvidence = {}, segmentAudioPaths = [], sampledRanges = []) {
   if (!embeddingGenreReady() || !EMBEDDING_GENRE_LIVE_ENABLED) return null;
   const contract = embeddingGenreContractStatus();
   const attempts = embeddingInferenceAttemptPlan({
@@ -469,10 +500,12 @@ async function analyzeEmbeddingGenreForFile(filePath, japaneseVocalEvidence = {}
     if (EMBEDDING_GENRE_TEST_FAIL_PRIMARY && attempt.role === "primary") {
       throw new Error("simulated primary failure for API integration test");
     }
+    const segmentArgs = embeddingSegmentArgs(segmentAudioPaths, sampledRanges);
     const { stdout } = await run(EMBEDDING_GENRE_PYTHON, [
       EMBEDDING_GENRE_SCRIPT,
       "--model-path", attempt.modelPath,
       "--audio", filePath,
+      ...segmentArgs,
       "--japanese-vocal-evidence", JSON.stringify(japaneseVocalEvidence || {})
     ], {
       timeoutMs: 240000,
@@ -483,7 +516,11 @@ async function analyzeEmbeddingGenreForFile(filePath, japaneseVocalEvidence = {}
         // crashes on Apple Silicon. Discogs + librosa has compatible fitted
         // members and keeps the MTG head opt-in for controlled benchmarks.
         MMFR_EMBEDDING_INFER_SOURCES: process.env.MMFR_EMBEDDING_INFER_SOURCES || "discogs,librosa",
-        MMFR_ESSENTIA_DISCOGS_HEAD: attempt.discogsHead ? "1" : "0"
+        MMFR_ESSENTIA_DISCOGS_HEAD: attempt.discogsHead ? "1" : "0",
+        MMFR_ENABLE_UNKNOWN80_RHYTHM_RERANKER:
+          EMBEDDING_GENRE_PAIRWISE_RERANKER_ENABLED ? "1" : "0",
+        MMFR_ENABLE_UNKNOWN80_INDEPENDENT_PAIR_RERANKER:
+          EMBEDDING_GENRE_INDEPENDENT_PAIR_RERANKER_ENABLED ? "1" : "0"
       }
     });
     const parsed = parseFinalJsonLine(stdout, "Embedding genre inference");
@@ -771,7 +808,7 @@ function applyOperaticVocalRescue(prediction = {}, features = {}, vocalEvidence 
   };
 }
 
-async function resolveGenrePrediction(filePath, features, japaneseVocalEvidence = {}, segmentConsensus = {}) {
+async function resolveGenrePrediction(filePath, features, japaneseVocalEvidence = {}, segmentConsensus = {}, segmentAudioPaths = [], sampledRanges = []) {
   const localPrediction = await analyzeProductionLocalGenre(features, "");
   const local = localPrediction?.top?.length
     ? { ...localPrediction, segmentConsensus }
@@ -781,7 +818,9 @@ async function resolveGenrePrediction(filePath, features, japaneseVocalEvidence 
     if (!EMBEDDING_GENRE_CONSENSUS_ENABLED || !shouldRunUnknownSourceConsensus(local, japaneseVocalEvidence, features)) {
       return local;
     }
-    const external = await analyzeEmbeddingGenreForFile(filePath, japaneseVocalEvidence);
+    const external = await analyzeEmbeddingGenreForFile(
+      filePath, japaneseVocalEvidence, segmentAudioPaths, sampledRanges
+    );
     if (external?.top?.length && !external.error) {
       return {
         ...local,
@@ -793,7 +832,9 @@ async function resolveGenrePrediction(filePath, features, japaneseVocalEvidence 
 
   // Keep the embedding model as the full fallback when the production-local
   // runtime is unavailable. Browser-side calibration still runs exactly once.
-  const external = await analyzeEmbeddingGenreForFile(filePath, japaneseVocalEvidence);
+  const external = await analyzeEmbeddingGenreForFile(
+    filePath, japaneseVocalEvidence, segmentAudioPaths, sampledRanges
+  );
   if (external?.top?.length && !external.error) return { ...external, segmentConsensus };
   return local || external;
 }
@@ -1427,7 +1468,9 @@ async function analyzeYouTube(youtubeUrl, options = {}) {
       analysisAudioPath,
       features,
       japaneseVocalEvidence,
-      segmentConsensus
+      segmentConsensus,
+      segmentAudioPaths,
+      sampledRanges
     );
     const gatedGenrePrediction = promoteReliableExternalTrackPrediction(rawGenrePrediction);
     const trackContract = buildTrackPredictionContract({
@@ -1582,7 +1625,9 @@ async function analyzeLocalFile(filePath, options = {}) {
       analysisAudioPath,
       features,
       japaneseVocalEvidence,
-      segmentConsensus
+      segmentConsensus,
+      segmentAudioPaths,
+      sampledRanges
     );
     const gatedGenrePrediction = promoteReliableExternalTrackPrediction(rawGenrePrediction);
     const trackContract = buildTrackPredictionContract({
@@ -1782,7 +1827,8 @@ const server = http.createServer(async (req, res) => {
       message: "Use POST /api/audio-analyze from the app, or open /health to check dependencies.",
       endpoint: `http://${HOST}:${PORT}/api/audio-analyze`,
       health: `http://${HOST}:${PORT}/health`,
-      genreInferenceRevision: GENRE_INFERENCE_REVISION,
+      genreInferenceRevision: genreInferenceRuntimeStatus().runtimeRevision,
+      genreInferenceRuntime: genreInferenceRuntimeStatus(),
       dependencies: {
         ytDlp: Boolean(tools.ytDlp),
         ffmpeg: Boolean(tools.ffmpeg),
@@ -1792,10 +1838,15 @@ const server = http.createServer(async (req, res) => {
         embeddingGenreContract: embeddingGenreContractStatus(),
         embeddingGenreLive: EMBEDDING_GENRE_LIVE_ENABLED,
         embeddingGenreConsensus: EMBEDDING_GENRE_CONSENSUS_ENABLED,
+        embeddingGenrePairwiseReranker: EMBEDDING_GENRE_PAIRWISE_RERANKER_ENABLED,
+        embeddingGenrePairwiseRerankerMode: EMBEDDING_GENRE_PAIRWISE_RERANKER_POLICY.mode,
+        embeddingGenreIndependentPairReranker: EMBEDDING_GENRE_INDEPENDENT_PAIR_RERANKER_ENABLED,
+        embeddingGenreIndependentPairRerankerMode: EMBEDDING_GENRE_INDEPENDENT_PAIR_RERANKER_POLICY.mode,
         localSegmentConsensus: LOCAL_SEGMENT_CONSENSUS_ENABLED,
         classificationScope: "track",
         trackSampleCount: TRACK_SAMPLE_COUNT,
         trackSampleWindowSeconds: TRACK_SAMPLE_WINDOW_SECONDS,
+        embeddingTrackSegmentInput: "planned-30s-ranges",
         japaneseVocalEvidence: japaneseVocalEvidenceReady(),
         sharedLocalGenre: fs.existsSync(LOCAL_GENRE_MODEL_PATH)
       }
@@ -1808,7 +1859,8 @@ const server = http.createServer(async (req, res) => {
       ok: true,
       service: "MUSIC MEMORY FITTING ROOM audio analysis server",
       endpoint: `http://${HOST}:${PORT}/api/audio-analyze`,
-      genreInferenceRevision: GENRE_INFERENCE_REVISION,
+      genreInferenceRevision: genreInferenceRuntimeStatus().runtimeRevision,
+      genreInferenceRuntime: genreInferenceRuntimeStatus(),
       dependencies: {
         ytDlp: Boolean(tools.ytDlp),
         ffmpeg: Boolean(tools.ffmpeg),
@@ -1821,10 +1873,15 @@ const server = http.createServer(async (req, res) => {
         embeddingGenreContract: embeddingGenreContractStatus(),
         embeddingGenreLive: EMBEDDING_GENRE_LIVE_ENABLED,
         embeddingGenreConsensus: EMBEDDING_GENRE_CONSENSUS_ENABLED,
+        embeddingGenrePairwiseReranker: EMBEDDING_GENRE_PAIRWISE_RERANKER_ENABLED,
+        embeddingGenrePairwiseRerankerMode: EMBEDDING_GENRE_PAIRWISE_RERANKER_POLICY.mode,
+        embeddingGenreIndependentPairReranker: EMBEDDING_GENRE_INDEPENDENT_PAIR_RERANKER_ENABLED,
+        embeddingGenreIndependentPairRerankerMode: EMBEDDING_GENRE_INDEPENDENT_PAIR_RERANKER_POLICY.mode,
         localSegmentConsensus: LOCAL_SEGMENT_CONSENSUS_ENABLED,
         classificationScope: "track",
         trackSampleCount: TRACK_SAMPLE_COUNT,
         trackSampleWindowSeconds: TRACK_SAMPLE_WINDOW_SECONDS,
+        embeddingTrackSegmentInput: "planned-30s-ranges",
         japaneseVocalEvidence: japaneseVocalEvidenceReady(),
         sharedLocalGenre: fs.existsSync(LOCAL_GENRE_MODEL_PATH),
         sharedLocalGenreModel: fs.existsSync(LOCAL_GENRE_MODEL_PATH) ? LOCAL_GENRE_MODEL_PATH : "",
@@ -1844,7 +1901,8 @@ const server = http.createServer(async (req, res) => {
       method: "POST",
       endpoint: `http://${HOST}:${PORT}/api/audio-analyze`,
       health: `http://${HOST}:${PORT}/health`,
-      genreInferenceRevision: GENRE_INFERENCE_REVISION,
+      genreInferenceRevision: genreInferenceRuntimeStatus().runtimeRevision,
+      genreInferenceRuntime: genreInferenceRuntimeStatus(),
       dependencies: {
         ytDlp: Boolean(tools.ytDlp),
         ffmpeg: Boolean(tools.ffmpeg),
@@ -1854,10 +1912,15 @@ const server = http.createServer(async (req, res) => {
         embeddingGenreContract: embeddingGenreContractStatus(),
         embeddingGenreLive: EMBEDDING_GENRE_LIVE_ENABLED,
         embeddingGenreConsensus: EMBEDDING_GENRE_CONSENSUS_ENABLED,
+        embeddingGenrePairwiseReranker: EMBEDDING_GENRE_PAIRWISE_RERANKER_ENABLED,
+        embeddingGenrePairwiseRerankerMode: EMBEDDING_GENRE_PAIRWISE_RERANKER_POLICY.mode,
+        embeddingGenreIndependentPairReranker: EMBEDDING_GENRE_INDEPENDENT_PAIR_RERANKER_ENABLED,
+        embeddingGenreIndependentPairRerankerMode: EMBEDDING_GENRE_INDEPENDENT_PAIR_RERANKER_POLICY.mode,
         localSegmentConsensus: LOCAL_SEGMENT_CONSENSUS_ENABLED,
         classificationScope: "track",
         trackSampleCount: TRACK_SAMPLE_COUNT,
         trackSampleWindowSeconds: TRACK_SAMPLE_WINDOW_SECONDS,
+        embeddingTrackSegmentInput: "planned-30s-ranges",
         sharedLocalGenre: fs.existsSync(LOCAL_GENRE_MODEL_PATH)
       }
     });

@@ -8,11 +8,15 @@ const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const SERVER_PATH = path.join(SCRIPT_DIR, "audio-analysis-server.mjs");
 const REQUIRED_RUNTIME_FILES = [
   "genre-embedding-infer.py",
+  "genre-japanese-vocal-evidence.py",
   "genre_runtime_contract.py",
   "genre_runtime_models.py",
   "genre_unknown80_rhythm_reranker.py",
   "genre-embedding-macro-specialists.py",
   "genre-embedding-32-benchmark.py",
+  "genre-embedding-runtime-policy.mjs",
+  "genre-embedding-segment-input.mjs",
+  "genre_librosa_contract.py",
   "genre_source_family.py",
 ];
 
