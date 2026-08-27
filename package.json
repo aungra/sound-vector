@@ -11,6 +11,8 @@
     "build": "npm --workspace apps/demo run build",
     "start": "npm --workspace apps/demo run start",
     "audio-server": "npm --workspace apps/demo run audio-server",
+    "deploy:sound-form-ui": "node deploy/aun-graphic-sound-form/deploy-sound-form-ui.mjs",
+    "deploy:sound-form-feedback": "node deploy/aun-graphic-sound-form/deploy-community-feedback.mjs",
     "genre-collect": "npm --workspace apps/demo run genre-collect",
     "genre-train": "npm --workspace apps/demo run genre-train",
     "test": "npm --workspace packages/reversible-svg run test && node --test apps/demo/scripts/audio-analysis-public-policy.test.mjs apps/demo/scripts/fma-selective-audio-download.test.mjs apps/demo/scripts/genre-embedding-runtime-policy.test.mjs apps/demo/scripts/genre-embedding-segment-input.test.mjs apps/demo/scripts/genre-track-sampling.test.mjs apps/demo/scripts/genre-training-import.test.mjs apps/demo/scripts/genre-unknown-consensus-policy.test.mjs apps/demo/scripts/mtg-jamendo-soul-training-overlay.test.mjs && node apps/demo/scripts/genre-patterns.test.mjs",
