@@ -7,6 +7,7 @@ import argparse
 import importlib.util
 import json
 import re
+import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -21,6 +22,8 @@ CACHE = Path("/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training")
 DEFAULT_OOF = CACHE / "unknown80-incumbent-caphe-oof-audio-only.npz"
 DEFAULT_FEATURES = CACHE / "essentia-mtg-jamendo-feature-cache.json"
 DEFAULT_TRACK_DB = CACHE / "runtime-track-segment-features-v3_0.sqlite3"
+DEFAULT_MUSICFM_10 = CACHE / "musicfm-msd-10s-pilot-cache.json"
+DEFAULT_MUSICFM_30 = CACHE / "musicfm-house-boundary-30s-cache.json"
 DEFAULT_REPORT = ROOT / "genre-training/unknown65-independent-aux-screen.json"
 DEFAULT_MARKDOWN = ROOT / "genre-training/unknown65-independent-aux-screen.md"
 MANIFESTS = (
@@ -37,8 +40,92 @@ ALPHAS = (0.05, 0.10, 0.20, 0.30, 0.50)
 def load_module(path, name):
     spec = importlib.util.spec_from_file_location(name, path)
     module = importlib.util.module_from_spec(spec)
+    sys.modules[name] = module
     spec.loader.exec_module(module)
     return module
+
+
+def reconstruct_v114(args):
+    screen = load_module(
+        Path(__file__).with_name("genre-unknown80-v113-musicfm-top3-screen.py"),
+        "unknown65_v114_screen",
+    )
+    residual = screen.load_module(screen.RESIDUAL_PATH, "unknown65_v114_residual")
+    v113 = screen.load_module(screen.V113_PATH, "unknown65_v114_v113")
+    black, payload, base, held_sources, baseline = screen.reconstruct_v113(residual, v113)
+    labels = list(payload["labels"])
+    cache_10 = json.loads(args.musicfm_10.read_text())
+    cache_30 = json.loads(args.musicfm_30.read_text())
+    source_indexes = {str(key): index for index, key in enumerate(payload["sourceKeys"])}
+    expansion_labels = {
+        "アンビエント", "ドローン", "ファンク", "ブルース",
+        "ダブ", "レゲエ", "ロック", "メタル", "パンク",
+        "ドラムンベース", "ダブステップ", "トランス",
+        "クラシック音楽", "フォーク", "ジャズ", "オペラ",
+    }
+    # v114 was selected before these labels were expanded. Reconstruct
+    # its frozen 429-row fold set while leaving the expanded cache available
+    # to later candidate screens.
+    items = []
+    for key, record_30 in cache_30.items():
+        index = source_indexes.get(key)
+        if index is None:
+            continue
+        label = str(payload["actual"][index])
+        if label in expansion_labels and key not in cache_10:
+            continue
+        views = screen.feature_views(cache_10.get(key), record_30)
+        features = views.get("30s-joint-mean")
+        if features is None:
+            continue
+        items.append({
+            "index": index, "sourceKey": key, "actual": label,
+            "source": str(payload["sources"][index]),
+            "trainingEligible": bool(payload["trainingEligible"][index]),
+            "features": features,
+        })
+    support = {
+        label: sorted({item["source"] for item in items if item["actual"] == label})
+        for label in labels
+    }
+    eligible_labels = {label for label, values in support.items() if len(values) >= 2}
+    records = []
+    for fold_index, held_source in enumerate(held_sources):
+        training = [
+            item for item in items
+            if item["source"] != held_source and item["trainingEligible"]
+        ]
+        validation = [item for item in items if item["source"] == held_source]
+        model = screen.fit_model(training, "extra-trees", 15321001 + fold_index * 100)
+        if model is None or not validation:
+            continue
+        learned = screen.aligned_probabilities(model, validation, labels)
+        records.extend(
+            {"item": item, "learned": score}
+            for item, score in zip(validation, learned)
+        )
+    output = np.asarray(base, dtype=np.float64).copy()
+    indexes = np.asarray([record["item"]["index"] for record in records], dtype=np.int64)
+    learned = np.asarray([record["learned"] for record in records])
+    candidate, changed = screen.rerank(
+        output[indexes], learned, eligible_labels, labels,
+        {"weight": 0.5, "confidenceFloor": 0.8, "marginFloor": 0.0},
+    )
+    output[indexes] = candidate
+    observed = black.compare_output(
+        output, base, payload["actual"], labels, payload["sources"],
+    )
+    expected = (60.7, 60.3, 31.58, 83.48, 3, 0)
+    actual = tuple(observed[key] for key in (
+        "top1Accuracy", "balancedTop1", "minimumSourceTop1", "top3Accuracy",
+        "improved", "harmed",
+    ))
+    if actual != expected:
+        raise RuntimeError(f"v114 reconstruction mismatch: {actual} != {expected}")
+    return payload, output, {
+        "v113Baseline": baseline, "v114Metric": observed,
+        "changedRows": int(np.sum(changed)), "featureRows": len(items),
+    }
 
 
 def normalize(values):
@@ -291,12 +378,12 @@ def render(report):
 
 
 def run(args):
-    payload = np.load(args.oof)
+    payload, reconstructed_base, v114_diagnostics = reconstruct_v114(args)
     labels = [str(value) for value in payload["labels"]]
     actual = payload["actual"].astype(object)
     sources = payload["sources"].astype(object)
     eligible = payload["trainingEligible"].astype(bool)
-    base = payload["selectedScores"].astype(np.float64)
+    base = reconstructed_base
     feature_payload = json.loads(args.features.read_text())
     evaluation = np.zeros((len(actual), 261), dtype=np.float32)
     available = np.zeros(len(actual), dtype=bool)
@@ -465,6 +552,7 @@ def run(args):
         },
         "manifestDiagnostics": manifest_diagnostics, "folds": folds,
         "nestedRouter": nested_choices, "nestedPairRouter": pair_choices,
+        "v114Diagnostics": v114_diagnostics,
         "candidates": candidates, "ranking": ranking, "selected": selected,
     }
     args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
@@ -477,6 +565,8 @@ def main():
     parser.add_argument("--oof", type=Path, default=DEFAULT_OOF)
     parser.add_argument("--features", type=Path, default=DEFAULT_FEATURES)
     parser.add_argument("--track-db", type=Path, default=DEFAULT_TRACK_DB)
+    parser.add_argument("--musicfm-10", type=Path, default=DEFAULT_MUSICFM_10)
+    parser.add_argument("--musicfm-30", type=Path, default=DEFAULT_MUSICFM_30)
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
     parser.add_argument("--markdown", type=Path, default=DEFAULT_MARKDOWN)
     args = parser.parse_args()
