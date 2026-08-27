@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -33,6 +34,21 @@ DETAIL_FILTER = {
 PRODUCTION_ONLY = os.environ.get("MMFR_DETAIL_FEATURE_PRODUCTION_ONLY", "") == "1"
 
 
+def production_training_eligible(item):
+    license_id = str(item.get("license") or "").strip().upper().replace("_", "-")
+    if not license_id or license_id in {"CREATIVE COMMONS", "CC"}:
+        return False
+    if "RESEARCH-USE" in license_id or "ND" in license_id or "NC" in license_id:
+        return False
+    allowed = (
+        license_id == "CC0"
+        or "PUBLIC DOMAIN" in license_id
+        or license_id == "PDM"
+        or re.match(r"^CC-BY(?:-SA)?(?:-|$)", license_id) is not None
+    )
+    return allowed and item.get("contentScope") not in {"loop", "stem", "sound-event"}
+
+
 def save_json(path, payload):
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + ".tmp")
@@ -58,7 +74,7 @@ def main():
     items = [
         item for item in manifest_items
         if (not DETAIL_FILTER or item.get("detailTarget") in DETAIL_FILTER)
-        and (not PRODUCTION_ONLY or item.get("trainingUsage") == "production-training")
+        and (not PRODUCTION_ONLY or production_training_eligible(item))
     ]
     cache = json.loads(FEATURE_PATH.read_text()) if FEATURE_PATH.exists() else {}
     pending = [item for item in items if f"cc-dataset:{item['filePath']}" not in cache]
@@ -103,5 +119,16 @@ def main():
     print(json.dumps(report, ensure_ascii=False, indent=2))
 
 
+def self_test():
+    assert production_training_eligible({"license": "CC-BY-SA", "contentScope": "full-track"})
+    assert production_training_eligible({"license": "Public Domain", "contentScope": "full-track"})
+    assert not production_training_eligible({"license": "CC-BY-NC-SA", "contentScope": "full-track"})
+    assert not production_training_eligible({"license": "CC-BY", "contentScope": "loop"})
+    print("Detail feature production license self-test passed")
+
+
 if __name__ == "__main__":
-    main()
+    if "--self-test" in sys.argv:
+        self_test()
+    else:
+        main()

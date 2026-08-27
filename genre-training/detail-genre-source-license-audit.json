@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-26T23:54:37.111Z",
+  "generatedAt": "2026-08-27T00:01:58.525Z",
   "policyVersion": "training-license-v1",
   "sources": {
     "existing-explicit-formal": {
@@ -154,16 +154,20 @@
       }
     },
     "Wikimedia-reviewed-category-candidates": {
-      "rows": 20,
+      "rows": 31,
       "usage": {
-        "production-training": 20
+        "production-training": 31
       },
       "licenses": {
-        "Public Domain": 20
+        "Public Domain": 24,
+        "CC-BY-SA-3.0": 7
       },
-      "representedDetailLabels": 1,
+      "representedDetailLabels": 4,
       "byDetail": {
-        "jazz": 20
+        "jazz": 24,
+        "house": 4,
+        "tech-house": 1,
+        "progressive-house": 2
       }
     },
     "ccMixter-reviewed-candidates": {
@@ -578,7 +582,7 @@
       "productionRowsBySource": {
         "FMA": 37,
         "MTG-Jamendo": 9,
-        "US Air Force recordings": 20,
+        "US Air Force recordings": 24,
         "ccMixter": 3
       },
       "productionSourcesWithAtLeast2Tracks": [
@@ -912,7 +916,9 @@
     },
     "house": {
       "productionSources": [
+        "Audiotool",
         "FMA",
+        "Luis Gabriel Aguilera creator-supplied recordings",
         "MTG-Jamendo",
         "ccMixter"
       ],
@@ -924,13 +930,16 @@
         "MTG-Jamendo",
         "RWC"
       ],
-      "productionSourceCount": 3,
+      "productionSourceCount": 5,
       "productionRowsBySource": {
+        "Audiotool": 3,
         "FMA": 33,
+        "Luis Gabriel Aguilera creator-supplied recordings": 1,
         "MTG-Jamendo": 92,
         "ccMixter": 3
       },
       "productionSourcesWithAtLeast2Tracks": [
+        "Audiotool",
         "FMA",
         "MTG-Jamendo",
         "ccMixter"
@@ -960,20 +969,30 @@
       ]
     },
     "progressive-house": {
-      "productionSources": [],
+      "productionSources": [
+        "Audiotool"
+      ],
       "supportSources": [],
       "researchSources": [],
-      "productionSourceCount": 0,
-      "productionRowsBySource": {},
-      "productionSourcesWithAtLeast2Tracks": [],
+      "productionSourceCount": 1,
+      "productionRowsBySource": {
+        "Audiotool": 2
+      },
+      "productionSourcesWithAtLeast2Tracks": [
+        "Audiotool"
+      ],
       "productionSourcesWithAtLeast5Tracks": []
     },
     "tech-house": {
-      "productionSources": [],
+      "productionSources": [
+        "Audiotool"
+      ],
       "supportSources": [],
       "researchSources": [],
-      "productionSourceCount": 0,
-      "productionRowsBySource": {},
+      "productionSourceCount": 1,
+      "productionRowsBySource": {
+        "Audiotool": 1
+      },
       "productionSourcesWithAtLeast2Tracks": [],
       "productionSourcesWithAtLeast5Tracks": []
     },
@@ -1925,11 +1944,11 @@
     }
   },
   "productionCoverage": {
-    "labelsWithOneSource": 40,
+    "labelsWithOneSource": 42,
     "labelsWithTwoSources": 25,
     "labelsWithTwoSourcesAtLeast2Tracks": 23,
     "labelsWithTwoSourcesAtLeast5Tracks": 19,
-    "labelsWithoutProductionSource": 80,
+    "labelsWithoutProductionSource": 78,
     "twoSourceLabels": [
       "ambient",
       "drone",
@@ -1965,6 +1984,8 @@
       "singer-songwriter",
       "acid-techno",
       "deep-house",
+      "progressive-house",
+      "tech-house",
       "progressive-trance",
       "synthpop",
       "latin",
@@ -2001,8 +2022,6 @@
       "industrial",
       "detroit-techno",
       "hard-techno",
-      "progressive-house",
-      "tech-house",
       "garage-house",
       "uk-garage",
       "two-step",

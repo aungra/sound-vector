@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-26T23:53:16.033Z",
+  "generatedAt": "2026-08-27T00:01:58.407Z",
   "evaluationScope": "strict-source-heldout-production-safe",
   "model": "standardized-nearest-centroid-baseline",
   "licensePolicy": "CC0/Public Domain/CC-BY/CC-BY-SA full tracks only",
@@ -227,7 +227,7 @@
     "FMA + MTG-Jamendo + ccMixter -> Wikimedia category origins": {
       "eligibleDetailLabels": 1,
       "trainRows": 36,
-      "testRows": 20,
+      "testRows": 24,
       "featureDimensions": 261,
       "top1Accuracy": 100,
       "top3Accuracy": 100,
@@ -236,7 +236,32 @@
         {
           "detail": "jazz",
           "trainRows": 36,
-          "testRows": 20,
+          "testRows": 24,
+          "top1Accuracy": 100,
+          "top3Accuracy": 100
+        }
+      ]
+    },
+    "FMA + MTG-Jamendo + ccMixter -> Wikimedia category origins (exploratory min3)": {
+      "eligibleDetailLabels": 2,
+      "trainRows": 80,
+      "testRows": 28,
+      "featureDimensions": 261,
+      "top1Accuracy": 96.43,
+      "top3Accuracy": 100,
+      "balancedTop1Accuracy": 87.5,
+      "byDetail": [
+        {
+          "detail": "house",
+          "trainRows": 44,
+          "testRows": 4,
+          "top1Accuracy": 75,
+          "top3Accuracy": 100
+        },
+        {
+          "detail": "jazz",
+          "trainRows": 36,
+          "testRows": 24,
           "top1Accuracy": 100,
           "top3Accuracy": 100
         }
@@ -420,5 +445,5 @@
     }
   },
   "promotionEligible": false,
-  "promotionBlocker": "Only a small subset of detailed labels satisfies independent-source support thresholds; ccMixter, IA netlabels and reviewed Wikimedia origins remain evaluation-only."
+  "promotionBlocker": "Only a small subset of detailed labels satisfies independent-source support thresholds; ccMixter, IA netlabels and reviewed Wikimedia origins remain evaluation-only. The Wikimedia min3 direction is exploratory and cannot satisfy promotion gates."
 }
