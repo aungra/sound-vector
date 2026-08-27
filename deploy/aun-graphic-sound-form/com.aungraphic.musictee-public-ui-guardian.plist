@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.aungraphic.musictee-public-ui-guardian</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/kahanishimoto/.local/bin/node</string>
+    <string>/Users/kahanishimoto/Library/Application Support/MUSICTee/public-ui-guardian.mjs</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>HOME</key>
+    <string>/Users/kahanishimoto</string>
+    <key>MMFR_SFTP_ENV</key>
+    <string>/Users/kahanishimoto/Library/Application Support/MUSICTee/.env.sftp</string>
+  </dict>
+  <key>WorkingDirectory</key>
+  <string>/Users/kahanishimoto/Library/Application Support/MUSICTee</string>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>ThrottleInterval</key>
+  <integer>10</integer>
+  <key>ProcessType</key>
+  <string>Background</string>
+  <key>StandardOutPath</key>
+  <string>/Users/kahanishimoto/Library/Logs/MUSICTee/public-ui-guardian.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/kahanishimoto/Library/Logs/MUSICTee/public-ui-guardian-error.log</string>
+</dict>
+</plist>

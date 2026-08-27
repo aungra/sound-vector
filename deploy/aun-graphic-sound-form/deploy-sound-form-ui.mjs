@@ -13,15 +13,34 @@ const stamp = new Date().toISOString().replaceAll(":", "-").replaceAll(".", "-")
 const backupDir = path.join(os.tmpdir(), `sound-form-ui-backup-${stamp}`);
 
 const interfaceHtml = path.join(ROOT, "apps", "demo", "MUSIC MEMORY FITTING ROOM.html");
-const APPROVED_INTERFACE_SHA256 = "fe1e06bba67510c32b91251407009a0ff3b9622c8e97bf1fc0f05b7da76eb368";
+const copyEditorHtml = path.join(ROOT, "apps", "demo", "copy-editor.html");
+const audioAnalyzePhp = path.join(SCRIPT_DIR, "api", "audio-analyze.php");
+const APPROVED_INTERFACE_SHA256 = "fcbf3770aa8b1948623a36fdc6b4cd54327133667682ed8a872430fff6b25d02";
+const APPROVED_COPY_EDITOR_SHA256 = "f936539dedef7d75034b0972b8374e7dd24ffd0e7753fe77cc76be8da453d886";
 const mappings = [
+  {
+    local: audioAnalyzePhp,
+    remote: "/home/aungraphic02/musictee-audio-service/deploy/aun-graphic-sound-form/api/audio-analyze.php"
+  },
+  {
+    local: audioAnalyzePhp,
+    remote: "/home/aungraphic02/www/wp/sound-form/api/audio-analyze.php"
+  },
   {
     local: interfaceHtml,
     remote: "/home/aungraphic02/www/wp/sound-form/index.html"
   },
   {
+    local: copyEditorHtml,
+    remote: "/home/aungraphic02/www/wp/sound-form/copy-editor.html"
+  },
+  {
     local: interfaceHtml,
     remote: "/home/aungraphic02/musictee-audio-service/apps/demo/MUSIC MEMORY FITTING ROOM.html"
+  },
+  {
+    local: copyEditorHtml,
+    remote: "/home/aungraphic02/musictee-audio-service/apps/demo/copy-editor.html"
   }
 ];
 
@@ -51,11 +70,25 @@ for (const mapping of mappings) {
 }
 
 const interfaceSource = fs.readFileSync(interfaceHtml, "utf8");
+const audioAnalyzeSource = fs.readFileSync(audioAnalyzePhp, "utf8");
+const interfaceRevision = interfaceSource.match(/const GENRE_INFERENCE_REVISION = "([^"]+)"/)?.[1] || "";
+const apiRevision = audioAnalyzeSource.match(/const REQUIRED_CLIENT_INFERENCE_REVISION = '([^']+)'/)?.[1] || "";
+if (!interfaceRevision || interfaceRevision !== apiRevision) {
+  throw new Error(`Refusing to deploy: UI revision ${interfaceRevision || "missing"} does not match API revision ${apiRevision || "missing"}`);
+}
 if (sha256(interfaceHtml) !== APPROVED_INTERFACE_SHA256
-  || !interfaceSource.includes('class="interface-header"')
+  || !interfaceSource.includes('<p class="simple-intro">SOUND FORMは')
+  || !interfaceSource.includes('class="simple-conversion"')
   || !interfaceSource.includes('data-genre-fusion="topology-shape-morph-v5"')
   || !interfaceSource.includes('data-coordinate-motion-envelope="dynamic-amplitude-v2"')) {
-  throw new Error("Refusing to deploy: the approved topology morph v5 SOUND FORM interface was not found");
+  throw new Error("Refusing to deploy: the approved simple SOUND FORM release was not found");
+}
+
+const copyEditorSource = fs.readFileSync(copyEditorHtml, "utf8");
+if (sha256(copyEditorHtml) !== APPROVED_COPY_EDITOR_SHA256
+  || !copyEditorSource.includes("SOUND FORM / Copy editor")
+  || !copyEditorSource.includes('["H03", "紹介文"')) {
+  throw new Error("Refusing to deploy: the SOUND FORM copy editor was not found");
 }
 
 const config = parseEnv(configPath);

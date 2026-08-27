@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>SOUND FORM 文言校正</title>
+  <style>
+    :root {
+      --ink: #000;
+      --paper: #fff;
+      --subtle: #f3f3f3;
+      --muted: #666;
+      --font: "Yu Gothic", "YuGothic", "游ゴシック体", "游ゴシック", "Noto Sans JP", "Hiragino Sans", Meiryo, sans-serif;
+      --latin: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { color-scheme: light; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+    button, input, textarea { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; }
+    :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+    .wrap { width: min(100%, 1120px); margin: 0 auto; padding: clamp(28px, 6vw, 76px) 24px 120px; }
+    .header { border-bottom: 3px solid var(--ink); padding-bottom: 30px; }
+    .eyebrow { margin: 0 0 10px; font-family: var(--latin); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; }
+    h1 { margin: 0; font-family: var(--latin); font-size: clamp(42px, 7vw, 76px); font-weight: 400; line-height: 1; letter-spacing: -.045em; }
+    .intro { max-width: 68ch; margin: 22px 0 0; font-size: 17px; }
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: grid;
+      grid-template-columns: minmax(180px, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 46px;
+      border-bottom: 2px solid var(--ink);
+      background: var(--paper);
+      padding: 14px 0;
+    }
+    .toolbar-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .search { width: 100%; min-height: 44px; border: 2px solid var(--ink); border-radius: 0; padding: 9px 12px; background: var(--paper); }
+    .button {
+      min-height: 44px;
+      border: 2px solid var(--ink);
+      border-radius: 0;
+      background: var(--paper);
+      color: var(--ink);
+      padding: 8px 13px;
+      font-weight: 500;
+    }
+    .button.primary { background: var(--ink); color: var(--paper); }
+    .button:hover, .button:focus-visible { box-shadow: inset 0 0 0 2px currentColor; text-decoration: underline; text-underline-offset: 4px; }
+    .button.primary:hover, .button.primary:focus-visible { box-shadow: inset 0 0 0 2px var(--paper); }
+    .status { min-height: 28px; margin: 14px 0 0; font-size: 13px; }
+    .summary { display: flex; gap: 18px; flex-wrap: wrap; margin: 18px 0 0; padding: 0; list-style: none; font-family: var(--latin); font-size: 13px; }
+    .group { margin-top: 62px; }
+    .group[hidden] { display: none; }
+    .group-head { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; border-bottom: 2px solid var(--ink); padding-bottom: 10px; }
+    .group h2 { margin: 0; font-size: clamp(23px, 3vw, 32px); font-weight: 500; }
+    .group-count { font-family: var(--latin); font-size: 13px; }
+    .copy-row { display: grid; grid-template-columns: 66px minmax(0, 1fr) 64px; gap: 14px; align-items: start; border-bottom: 1px solid #bbb; padding: 22px 0; }
+    .copy-row[hidden] { display: none; }
+    .copy-id { padding-top: 11px; font-family: var(--latin); font-weight: 600; }
+    .copy-field label { display: block; margin-bottom: 7px; font-size: 12px; color: var(--muted); }
+    .copy-field textarea { width: 100%; min-height: 48px; resize: vertical; border: 2px solid var(--ink); border-radius: 0; padding: 10px 12px; background: var(--paper); line-height: 1.65; }
+    .copy-field textarea.changed { border-left-width: 8px; background: var(--subtle); }
+    .copy-length { padding-top: 13px; color: var(--muted); font-family: var(--latin); font-size: 12px; text-align: right; white-space: nowrap; }
+    .empty { border-top: 2px solid var(--ink); padding-top: 24px; }
+    .import-input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .note { margin-top: 56px; border-left: 4px solid var(--ink); padding: 5px 0 5px 16px; }
+    @media (max-width: 760px) {
+      .wrap { padding-right: 18px; padding-left: 18px; }
+      .toolbar { grid-template-columns: 1fr; }
+      .toolbar-actions { justify-content: flex-start; }
+      .copy-row { grid-template-columns: 52px minmax(0, 1fr); gap: 10px; }
+      .copy-length { grid-column: 2; padding-top: 0; text-align: left; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="header">
+      <p class="eyebrow">SOUND FORM / Copy editor</p>
+      <h1>文言校正</h1>
+      <p class="intro">公開画面で使用する文言をIDごとに編集します。入力内容はこのブラウザだけに自動保存され、公開サイトには直接反映されません。</p>
+      <ul class="summary" aria-label="編集状況">
+        <li>全 <strong id="totalCount">0</strong> 件</li>
+        <li>変更 <strong id="changedCount">0</strong> 件</li>
+        <li id="savedAt">未保存</li>
+      </ul>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </header>
+
+    <div class="toolbar" aria-label="文言校正ツール">
+      <label><span class="eyebrow">検索</span><input id="search" class="search" type="search" placeholder="IDまたは文言で絞り込み"></label>
+      <div class="toolbar-actions">
+        <button id="copyChanged" class="button primary" type="button">変更のみコピー</button>
+        <button id="exportJson" class="button" type="button">JSONを書き出す</button>
+        <label class="button" for="importJson">JSONを読み込む</label>
+        <input id="importJson" class="import-input" type="file" accept="application/json,.json">
+        <button id="resetAll" class="button" type="button">すべて元に戻す</button>
+      </div>
+    </div>
+
+    <div id="editor"></div>
+    <p id="empty" class="empty" hidden>一致する文言がありません。</p>
+    <p class="note">校正後は「変更のみコピー」を押し、コピーされた内容をCodexへ送ってください。内容を確認して公開サイトへ反映できます。</p>
+  </main>
+
+  <script>
+    const STORAGE_KEY = "sound-form.copy-editor.v1";
+    const groups = [
+      ["header", "入力画面", [
+        ["H01", "サイト名", "SOUND FORM"],
+        ["H02", "縦組み見出し", "音楽"],
+        ["H03", "紹介文", "SOUND FORMは、音楽を解析し、編集可能な図形データ「SVG」へ変換するシステムです。完成したSVGには、幾何学のパターンと、復元用音声データ（Pulse Code Modulation、以下PCM）を内包する粒子が収録されます。音の図形化、音声復元などを一つのファイルで扱うことを目的としたプロジェクトです。"],
+        ["I01", "YouTube見出し", "YouTube から生成"],
+        ["I02", "URL入力ラベル", "YouTube URL"],
+        ["I03", "実行ボタン", "解析して生成"],
+        ["I04", "解析中ボタン", "解析中…"],
+        ["I05", "音源ファイル見出し", "音源ファイル【MP3（推奨）、WAV／PCM（推奨）、M4A／AAC（推奨）】から生成"],
+        ["I06", "ファイル入力ラベル", "音源ファイルを選択"],
+        ["I07", "実行ボタン", "解析して生成"],
+        ["I08", "解析中ボタン", "解析中…"]
+      ]],
+      ["youtube-progress", "YouTube解析の進捗", [
+        ["P01", "進捗ラベル", "進捗"], ["P02", "工程状態", "完了"], ["P03", "工程状態", "進行中"], ["P04", "工程状態", "待機"], ["P05", "中止ボタン", "解析を中止"],
+        ["P10", "工程", "解析サーバーへ接続"], ["P11", "所要時間", "通常 60〜150秒"],
+        ["P12", "工程", "YouTube音声を取得"], ["P13", "補足", "認証の確認がある場合は時間がかかります"],
+        ["P14", "工程", "音声をPCMへ変換"], ["P15", "補足", "音声の一部を解析用に展開"],
+        ["P16", "工程", "RMS・拍・周波数を解析"], ["P17", "補足", "波形とスペクトルを計算"],
+        ["P18", "工程", "ジャンル候補を照合"], ["P19", "補足", "32ジャンルの分類を実行"],
+        ["P20", "工程", "解析結果を待機"], ["P21", "補足", "混雑時は最大4分ほどかかります"],
+        ["P22", "工程", "可逆PCMと図形を配置"], ["P23", "補足", "あと数秒"],
+        ["P24", "再接続時", "解析サービスへ再接続"], ["P25", "再接続時", "自動復旧を確認しています（［回数］/6）"]
+      ]],
+      ["file-progress", "音源ファイル解析の進捗", [
+        ["F01", "工程", "音源ファイルを読み込み"], ["F02", "所要時間", "通常 5〜20秒"],
+        ["F03", "工程", "ブラウザで音声をデコード"], ["F04", "補足", "曲の長さにより変わります"],
+        ["F05", "工程", "RMS・拍・周波数を解析"], ["F06", "補足", "波形とスペクトルを計算"],
+        ["F07", "工程", "ジャンル候補を照合"], ["F08", "補足", "32ジャンルの分類を実行"],
+        ["F09", "工程", "図形化の準備"], ["F10", "補足", "可逆PCMを配置"]
+      ]],
+      ["messages", "入力・解析メッセージ", [
+        ["M01", "URL未入力", "YouTubeのURLを入力してください。例: https://www.youtube.com/watch?v=..."],
+        ["M02", "解析先未設定", "YouTubeの音を実解析するには解析サーバーURLが必要です。今すぐ図形を作る場合は、下の「音源アップロード実解析」でmp3/wav/m4aを選択してください。"],
+        ["M03", "解析開始", "開始位置: ［時刻］"],
+        ["M04", "ファイル未選択", "mp3、wav、m4aなどの音源ファイルを選択してください。"],
+        ["M05", "ファイル解析中", "音源ファイルを実解析しています。"],
+        ["M06", "ファイル解析失敗", "音源解析に失敗しました: ［エラー内容］"],
+        ["M07", "解析中止", "解析を中止しました。"],
+        ["M08", "生成完了", "曲の音響指紋から固有の可逆サウンドフォームを生成しました。"],
+        ["M09", "自動設定失敗", "解析サービスを自動設定できませんでした。展示ページを再読み込みしてください。"],
+        ["M10", "高精度解析確認失敗", "高精度解析の確認に失敗しました。ページを再読み込みして、もう一度解析してください。"],
+        ["M11", "APIバージョン不一致", "解析画面と解析APIのバージョンが一致していません。ページを再読み込みしてください。"],
+        ["M12", "自動復旧失敗", "解析サービスを自動復旧できませんでした。30秒ほど待って、もう一度解析してください。"]
+      ]],
+      ["result", "生成結果", [
+        ["R01", "工程ラベル", "04 / OUTPUT"], ["R02", "結果見出し", "生成された可逆パターン"],
+        ["R03", "再生状態", "自動再生中"], ["R04", "再生状態", "停止中"], ["R05", "操作", "停止"], ["R06", "操作", "再開"], ["R07", "操作", "先頭へ戻す"], ["R08", "操作", "このパターンを採用"], ["R09", "操作", "曲を入れ直す"],
+        ["R10", "項目名", "音源"], ["R11", "項目名", "生成"], ["R12", "項目名", "状態"], ["R13", "項目名", "Genre"], ["R14", "項目名", "根拠"], ["R15", "項目名", "Tempo"], ["R16", "項目名", "Centroid"], ["R17", "項目名", "可逆PCM"],
+        ["R18", "状態", "連動アニメーション"], ["R19", "状態", "静止フレーム"], ["R20", "状態", "復元データ保持"], ["R21", "リンク", "参照YouTubeリンク"],
+        ["R30", "生成タイトル", "［曲名］の可逆サウンドフォーム"],
+        ["R31", "生成説明", "YouTube音声の解析結果から、曲ごとに図形を生成します。RMS推移、onset分布、chroma、波形に加え、Wikipediaの音楽ジャンル一覧を基にした推定ジャンル（［解析結果］）を粒子密度と余白へ反映します。"],
+        ["R32", "生成補足", "別パターン生成は行いません。同じ曲は音響指紋から同じ図案へ固定し、違う曲では違う音響指紋そのものが変わるため構図も変化します。音の復元性はPCM粒子で維持します。"]
+      ]],
+      ["archive", "可逆データと書き出し", [
+        ["A01", "英語見出し", "Reversible archive"], ["A02", "見出し", "可逆性データ"], ["A03", "形式", "SVG geometry"],
+        ["A04", "説明", "可逆SVGのmetadataは最小限にします。復元音の主データになるPCMは文字列で埋め込まず、書き出し時に pcm_reversible_data という図案へ変換します。"],
+        ["A05", "操作", "可逆SVGを書き出す"], ["A06", "操作", "補助JSONを書き出す"], ["A07", "操作", "復元音を再生"], ["A08", "操作", "復元音を停止"],
+        ["A09", "保持情報", "元URL、videoId、元ファイル名はSVG内に保持していません"], ["A10", "保持情報", "元音源リンクなし"],
+        ["A11", "編集上の注意", "Illustratorで見た目の粒子群は編集できます。音を保つには、表示したままロックした pcm_reversible_data 保護粒子レイヤーを削除・変形しないでください。"]
+      ]],
+      ["genre", "ジャンル判定が要確認の場合", [
+        ["G01", "操作", "高精度で再解析"], ["G02", "補足", "保存済みの簡易判定を破棄し、高精度解析をやり直す"],
+        ["G03", "操作", "要確認"], ["G04", "補足", "判定を検証し、匿名音響境界を今後の類似曲へ反映"],
+        ["G05", "見出し", "判定結果を確認"], ["G06", "操作", "［ジャンル名］で正しい"], ["G07", "入力ラベル", "正しいジャンル"], ["G08", "操作", "訂正を送信"],
+        ["G09", "同意文", "URL・曲名・音声を含まない匿名音響特徴と選択ジャンルを精度改善に利用することに同意します"],
+        ["G10", "送信後", "ジャンル確認を送信済み"], ["G11", "送信後", "共有エンジンへ昇格済み"], ["G12", "送信後", "隔離評価中 ［票数］/3"]
+      ]]
+    ];
+
+    const defaults = Object.fromEntries(groups.flatMap(group => group[2]).map(([id, , value]) => [id, value]));
+    let values = loadValues();
+    let saveTimer = 0;
+
+    function loadValues() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+        return { ...defaults, ...(saved.values || {}) };
+      } catch {
+        return { ...defaults };
+      }
+    }
+
+    function saveValues(message = "自動保存しました。") {
+      const changed = Object.fromEntries(Object.entries(values).filter(([id, value]) => value !== defaults[id]));
+      const payload = { version: 1, updatedAt: new Date().toISOString(), values: changed };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+      document.getElementById("savedAt").textContent = `保存 ${new Date().toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" })}`;
+      setStatus(message);
+      updateSummary();
+    }
+
+    function scheduleSave() {
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => saveValues(), 350);
+    }
+
+    function setStatus(message) {
+      document.getElementById("status").textContent = message;
+    }
+
+    function changedEntries() {
+      return Object.entries(values).filter(([id, value]) => value !== defaults[id]);
+    }
+
+    function updateSummary() {
+      document.getElementById("totalCount").textContent = Object.keys(defaults).length;
+      document.getElementById("changedCount").textContent = changedEntries().length;
+    }
+
+    function renderEditor() {
+      const editor = document.getElementById("editor");
+      for (const [groupId, title, items] of groups) {
+        const section = document.createElement("section");
+        section.className = "group";
+        section.dataset.group = groupId;
+        const head = document.createElement("div");
+        head.className = "group-head";
+        const heading = document.createElement("h2");
+        heading.textContent = title;
+        const count = document.createElement("span");
+        count.className = "group-count";
+        count.textContent = `${items.length} items`;
+        head.append(heading, count);
+        section.append(head);
+
+        for (const [id, label, original] of items) {
+          const row = document.createElement("div");
+          row.className = "copy-row";
+          row.dataset.search = `${id} ${label} ${original}`.toLowerCase();
+          const idNode = document.createElement("div");
+          idNode.className = "copy-id";
+          idNode.textContent = id;
+          const field = document.createElement("div");
+          field.className = "copy-field";
+          const fieldLabel = document.createElement("label");
+          fieldLabel.htmlFor = `copy-${id}`;
+          fieldLabel.textContent = label;
+          const textarea = document.createElement("textarea");
+          textarea.id = `copy-${id}`;
+          textarea.value = values[id];
+          textarea.rows = Math.min(8, Math.max(1, Math.ceil(values[id].length / 54)));
+          textarea.dataset.id = id;
+          textarea.classList.toggle("changed", values[id] !== original);
+          const length = document.createElement("div");
+          length.className = "copy-length";
+          length.textContent = `${values[id].length}字`;
+          textarea.addEventListener("input", () => {
+            values[id] = textarea.value;
+            textarea.classList.toggle("changed", textarea.value !== defaults[id]);
+            length.textContent = `${textarea.value.length}字`;
+            row.dataset.search = `${id} ${label} ${textarea.value}`.toLowerCase();
+            updateSummary();
+            scheduleSave();
+          });
+          field.append(fieldLabel, textarea);
+          row.append(idNode, field, length);
+          section.append(row);
+        }
+        editor.append(section);
+      }
+      updateSummary();
+    }
+
+    function filterEditor() {
+      const query = document.getElementById("search").value.trim().toLowerCase();
+      let visibleTotal = 0;
+      document.querySelectorAll(".group").forEach(section => {
+        let visibleInGroup = 0;
+        section.querySelectorAll(".copy-row").forEach(row => {
+          const visible = !query || row.dataset.search.includes(query);
+          row.hidden = !visible;
+          if (visible) visibleInGroup += 1;
+        });
+        section.hidden = visibleInGroup === 0;
+        visibleTotal += visibleInGroup;
+      });
+      document.getElementById("empty").hidden = visibleTotal !== 0;
+    }
+
+    async function copyChangedText() {
+      const changed = changedEntries();
+      if (!changed.length) {
+        setStatus("変更された文言はありません。");
+        return;
+      }
+      const text = changed.map(([id, value]) => `${id}｜${value}`).join("\n\n");
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch {
+        const area = document.createElement("textarea");
+        area.value = text;
+        document.body.append(area);
+        area.select();
+        document.execCommand("copy");
+        area.remove();
+      }
+      setStatus(`${changed.length}件の変更をコピーしました。`);
+    }
+
+    function exportJson() {
+      saveValues("編集内容を保存しました。");
+      const payload = { version: 1, exportedAt: new Date().toISOString(), values: Object.fromEntries(changedEntries()) };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const anchor = document.createElement("a");
+      anchor.href = URL.createObjectURL(blob);
+      anchor.download = `sound-form-copy-${new Date().toISOString().slice(0, 10)}.json`;
+      anchor.click();
+      setTimeout(() => URL.revokeObjectURL(anchor.href), 1000);
+      setStatus("校正内容のJSONを書き出しました。");
+    }
+
+    async function importJson(file) {
+      try {
+        const payload = JSON.parse(await file.text());
+        if (!payload.values || typeof payload.values !== "object") throw new Error("valuesがありません");
+        for (const [id, value] of Object.entries(payload.values)) {
+          if (id in defaults && typeof value === "string") values[id] = value;
+        }
+        saveValues("JSONから校正内容を読み込みました。");
+        location.reload();
+      } catch (error) {
+        setStatus(`JSONを読み込めませんでした: ${error.message}`);
+      }
+    }
+
+    function resetAll() {
+      if (!confirm("すべての校正内容を元の文言へ戻しますか？")) return;
+      values = { ...defaults };
+      localStorage.removeItem(STORAGE_KEY);
+      location.reload();
+    }
+
+    renderEditor();
+    document.getElementById("search").addEventListener("input", filterEditor);
+    document.getElementById("copyChanged").addEventListener("click", copyChangedText);
+    document.getElementById("exportJson").addEventListener("click", exportJson);
+    document.getElementById("resetAll").addEventListener("click", resetAll);
+    document.getElementById("importJson").addEventListener("change", event => {
+      const file = event.target.files?.[0];
+      if (file) importJson(file);
+      event.target.value = "";
+    });
+  </script>
+</body>
+</html>

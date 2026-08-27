@@ -116,6 +116,33 @@ export function createFixedWindowRateLimiter({ limit = 4, windowMs = 10 * 60 * 1
   };
 }
 
+export function createExpiringResultCache({ ttlMs = 10 * 60 * 1000, maxEntries = 8 } = {}) {
+  const entries = new Map();
+  const ttl = Math.max(1000, Number(ttlMs) || 0);
+  const limit = Math.max(1, Number(maxEntries) || 0);
+
+  function prune(now) {
+    for (const [key, entry] of entries) {
+      if (entry.expiresAt <= now) entries.delete(key);
+    }
+    while (entries.size > limit) entries.delete(entries.keys().next().value);
+  }
+
+  return {
+    get(key, now = Date.now()) {
+      prune(now);
+      return entries.get(String(key || ""))?.value;
+    },
+    set(key, value, now = Date.now()) {
+      const id = String(key || "");
+      if (!id) return;
+      entries.delete(id);
+      entries.set(id, { value, expiresAt: now + ttl });
+      prune(now);
+    },
+  };
+}
+
 export function requestClientAddress(headers = {}, socketAddress = "") {
   const forwarded = String(headers["x-forwarded-for"] || "").split(",")[0].trim();
   return forwarded || String(headers["x-real-ip"] || "").trim() || socketAddress || "unknown";

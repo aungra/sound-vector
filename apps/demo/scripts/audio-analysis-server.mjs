@@ -21,6 +21,7 @@ import {
 import { shouldRunUnknownSourceConsensus } from "./genre-unknown-consensus-policy.mjs";
 import {
   classifyYouTubeFailure,
+  createExpiringResultCache,
   createFixedWindowRateLimiter,
   isAllowedOrigin,
   normalizePublicYouTubeUrl,
@@ -54,6 +55,10 @@ const publicRateLimiter = createFixedWindowRateLimiter({
 });
 let publicActiveRequests = 0;
 const activeYouTubeAnalyses = new Map();
+const completedYouTubeAnalyses = createExpiringResultCache({
+  ttlMs: Math.max(60000, Number(process.env.MMFR_COMPLETED_ANALYSIS_TTL_MS || 10 * 60 * 1000)),
+  maxEntries: Math.max(1, Number(process.env.MMFR_COMPLETED_ANALYSIS_MAX || 8)),
+});
 const YOUTUBE_DEADLINE_MS = Math.max(30000, Number(process.env.MMFR_YOUTUBE_DEADLINE_MS || 270000));
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(SCRIPT_DIR, "../../..");
@@ -1749,6 +1754,12 @@ async function handleAnalyze(req, res) {
     }
     if (body.action === "analyze-youtube") {
       requestId = validRequestId(body.requestId) || randomUUID();
+      const cachedPayload = completedYouTubeAnalyses.get(requestId);
+      if (cachedPayload) {
+        analysisLog(requestId, "cache-hit");
+        sendJson(res, 200, cachedPayload);
+        return;
+      }
       if (activeYouTubeAnalyses.has(requestId)) {
         sendJson(res, 409, { ok: false, code: "REQUEST_ALREADY_ACTIVE", error: "同じ解析リクエストが処理中です。" });
         return;
@@ -1787,7 +1798,9 @@ async function handleAnalyze(req, res) {
         res.removeListener("close", cancelOnDisconnect);
       }
       if (!disconnected && !res.writableEnded) {
-        sendJson(res, 200, { ok: true, requestId, source: "youtube-audio-analysis-server", features });
+        const responsePayload = { ok: true, requestId, source: "youtube-audio-analysis-server", features };
+        completedYouTubeAnalyses.set(requestId, responsePayload);
+        sendJson(res, 200, responsePayload);
       }
       return;
     }

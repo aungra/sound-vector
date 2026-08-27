@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import "./audio-analysis-runtime-readiness.test.mjs";
 import {
   createFixedWindowRateLimiter,
+  createExpiringResultCache,
   classifyYouTubeFailure,
   isAllowedOrigin,
   normalizePublicYouTubeUrl,
@@ -68,6 +69,19 @@ test("rate limiter resets at the next fixed window", () => {
   assert.equal(limiter.consume("client", 10).allowed, true);
   assert.equal(limiter.consume("client", 20).allowed, false);
   assert.equal(limiter.consume("client", 1000).allowed, true);
+});
+
+test("completed analysis cache supports a short idempotent retry window", () => {
+  const cache = createExpiringResultCache({ ttlMs: 1000, maxEntries: 2 });
+  cache.set("request-a", { ok: true, value: 1 }, 0);
+  assert.deepEqual(cache.get("request-a", 999), { ok: true, value: 1 });
+  assert.equal(cache.get("request-a", 1000), undefined);
+
+  cache.set("request-a", { value: 1 }, 2000);
+  cache.set("request-b", { value: 2 }, 2000);
+  cache.set("request-c", { value: 3 }, 2000);
+  assert.equal(cache.get("request-a", 2000), undefined);
+  assert.deepEqual(cache.get("request-c", 2000), { value: 3 });
 });
 
 test("client address prefers the first proxy address", () => {
