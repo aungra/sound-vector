@@ -1,0 +1,240 @@
+{
+  "objective": "Replay development OOF after one-time GTZAN safety pruning.",
+  "policy": {
+    "gtzanTrainingRowsAdded": 0,
+    "pruningUsedForSafetyOnly": true
+  },
+  "originalStages": 47,
+  "keptStages": 42,
+  "removedStages": 5,
+  "stageMetrics": [
+    {
+      "stageId": "01-panns-overlay",
+      "kept": 21,
+      "removed": 0,
+      "metric": {
+        "top1Accuracy": 63.83,
+        "balancedTop1": 62.83,
+        "minimumSourceTop1": 47.37,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 66.06,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 47.37,
+          "Jamendo": 60.05,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 89.83,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        }
+      }
+    },
+    {
+      "stageId": "02-panns-residual",
+      "kept": 3,
+      "removed": 0,
+      "metric": {
+        "top1Accuracy": 64.05,
+        "balancedTop1": 63.0,
+        "minimumSourceTop1": 52.63,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 66.36,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 52.63,
+          "Jamendo": 60.22,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 89.83,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        }
+      }
+    },
+    {
+      "stageId": "03-panns-svm-c1",
+      "kept": 3,
+      "removed": 1,
+      "metric": {
+        "top1Accuracy": 64.21,
+        "balancedTop1": 63.12,
+        "minimumSourceTop1": 52.63,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 66.36,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 52.63,
+          "Jamendo": 60.47,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 89.83,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        }
+      }
+    },
+    {
+      "stageId": "04-panns-svm-c10",
+      "kept": 4,
+      "removed": 0,
+      "metric": {
+        "top1Accuracy": 64.47,
+        "balancedTop1": 63.39,
+        "minimumSourceTop1": 52.63,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 66.67,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 52.63,
+          "Jamendo": 60.8,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 89.83,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        }
+      }
+    },
+    {
+      "stageId": "05-panns-svm-c100",
+      "kept": 1,
+      "removed": 0,
+      "metric": {
+        "top1Accuracy": 64.52,
+        "balancedTop1": 63.42,
+        "minimumSourceTop1": 52.63,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 66.97,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 52.63,
+          "Jamendo": 60.8,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 89.83,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        }
+      }
+    },
+    {
+      "stageId": "06-yamnet-svm-c10",
+      "kept": 0,
+      "removed": 2,
+      "metric": {
+        "top1Accuracy": 64.52,
+        "balancedTop1": 63.42,
+        "minimumSourceTop1": 52.63,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 66.97,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 52.63,
+          "Jamendo": 60.8,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 89.83,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        }
+      }
+    },
+    {
+      "stageId": "07-yamnet-residual",
+      "kept": 2,
+      "removed": 0,
+      "metric": {
+        "top1Accuracy": 64.63,
+        "balancedTop1": 63.98,
+        "minimumSourceTop1": 57.89,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 67.28,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 57.89,
+          "Jamendo": 60.8,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 89.83,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        }
+      }
+    },
+    {
+      "stageId": "08-ast-residual",
+      "kept": 0,
+      "removed": 1,
+      "metric": {
+        "top1Accuracy": 64.63,
+        "balancedTop1": 63.98,
+        "minimumSourceTop1": 57.89,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 67.28,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 57.89,
+          "Jamendo": 60.8,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 89.83,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        }
+      }
+    },
+    {
+      "stageId": "09-ast-svm-c10",
+      "kept": 1,
+      "removed": 0,
+      "metric": {
+        "top1Accuracy": 64.74,
+        "balancedTop1": 64.42,
+        "minimumSourceTop1": 57.89,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 67.58,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 57.89,
+          "Jamendo": 60.8,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 89.83,
+          "Wikimedia Commons": 70.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        }
+      }
+    },
+    {
+      "stageId": "10-ast-svm-c1",
+      "kept": 0,
+      "removed": 1,
+      "metric": {
+        "top1Accuracy": 64.74,
+        "balancedTop1": 64.42,
+        "minimumSourceTop1": 57.89,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 67.58,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 57.89,
+          "Jamendo": 60.8,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 89.83,
+          "Wikimedia Commons": 70.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        }
+      }
+    }
+  ],
+  "finalDevelopmentMetric": {
+    "top1Accuracy": 64.74,
+    "balancedTop1": 64.42,
+    "minimumSourceTop1": 57.89,
+    "top3Accuracy": 83.48,
+    "sourceTop1": {
+      "FMA": 67.58,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 57.89,
+      "Jamendo": 60.8,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 70.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    }
+  },
+  "bundle": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown65-clap-free-pair-chain-v1-gtzan-pruned.pkl",
+  "promotionEligible": false
+}

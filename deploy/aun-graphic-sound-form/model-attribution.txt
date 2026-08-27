@@ -1,0 +1,21 @@
+SOUND FORM genre inference model attribution
+
+PANNs Cnn14
+Source: Qiuqiang Kong et al., "PANNs: Large-Scale Pretrained Audio Neural Networks for Audio Pattern Recognition"
+Checkpoint: https://zenodo.org/records/3987831
+License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+No upstream endorsement is implied.
+
+YAMNet
+Source: Google TensorFlow Hub YAMNet, https://tfhub.dev/google/yamnet/1
+License: Apache License 2.0
+
+Audio Spectrogram Transformer (AST)
+Source: MIT/ast-finetuned-audioset-10-10-0.4593
+License: BSD 3-Clause
+
+MusicFM
+Source: MusicFM MSD inference model
+Licenses recorded by the model distribution: MIT and Apache License 2.0
+
+The SOUND FORM pairwise reranking code and calibration are maintained by AUN GRAPHIC.

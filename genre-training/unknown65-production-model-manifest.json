@@ -1,0 +1,33 @@
+{
+  "version": "unknown65-clap-free-pair-chain-v1",
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-27T17:15:00+09:00",
+  "modelPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown65-clap-free-pair-chain-v1-gtzan-pruned.pkl",
+  "modelSha256": "f191b04db80823a04d1eca3eedec115897909611b6c2ad0d5e13760c87b38ae2",
+  "modelBytes": 60347873,
+  "runtimeFeatureContractSha256": "225f8a1259ca2127f80692639c5f4042dd2d93216c0e6f93a5d35edf0ae2140b",
+  "runtimeStages": 42,
+  "sourceHeldout": {
+    "top1Accuracy": 64.74,
+    "balancedTop1": 64.42,
+    "minimumSourceTop1": 57.89,
+    "top3Accuracy": 83.48
+  },
+  "independentGtzan": {
+    "baselineTop1": 75.65,
+    "candidateTop1": 76.52,
+    "baselineBalancedTop1": 75.62,
+    "candidateBalancedTop1": 76.41,
+    "top3Accuracy": 95.22
+  },
+  "firstMilestone65Reached": false,
+  "remainingTo65Points": 0.26,
+  "promotionState": "promoted",
+  "promotionReason": "GTZAN safety-pruned, runtime-parity exact, production regression non-degrading, latency gate passed",
+  "reports": {
+    "development": "genre-training/unknown65-safety-pruning-report.json",
+    "independent": "genre-training/unknown65-independent-gtzan-gate.json",
+    "runtimeParity": "genre-training/unknown65-runtime-parity.json",
+    "provenance": "genre-training/unknown65-runtime-provenance-audit.json"
+  }
+}

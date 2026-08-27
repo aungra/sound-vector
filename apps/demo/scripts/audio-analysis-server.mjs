@@ -434,10 +434,19 @@ function embeddingGenreContractStatus() {
 
 function genreInferenceRuntimeStatus() {
   const contract = embeddingGenreContractStatus();
+  const promotedVersion = reranker => reranker?.promotion?.promoted
+    ? reranker.modelVersion || ""
+    : "";
+  const unknown65 = contract?.unknown65Reranker || null;
+  const musicFm = contract?.musicFmReranker || null;
   const independentVersion = contract?.independentReranker?.modelVersion || "";
   const trackPair = contract?.trackPairReranker || null;
-  const trackVersion = trackPair?.promotion?.promoted ? trackPair.modelVersion || "" : "";
-  const runtimeRevision = trackVersion || independentVersion || contract?.modelVersion || GENRE_INFERENCE_REVISION;
+  const runtimeRevision = promotedVersion(unknown65)
+    || promotedVersion(musicFm)
+    || promotedVersion(trackPair)
+    || independentVersion
+    || contract?.modelVersion
+    || GENRE_INFERENCE_REVISION;
   const revisionToken = value => String(value || "").match(/v\d+/g)?.at(-1) || "";
   const declaredVersion = revisionToken(GENRE_INFERENCE_REVISION);
   const runtimeVersion = revisionToken(runtimeRevision);
@@ -445,6 +454,8 @@ function genreInferenceRuntimeStatus() {
     declaredRevision: GENRE_INFERENCE_REVISION,
     runtimeRevision,
     revisionMatch: Boolean(declaredVersion && runtimeVersion && declaredVersion === runtimeVersion),
+    unknown65Reranker: unknown65,
+    musicFmReranker: musicFm,
     independentReranker: contract?.independentReranker || null,
     trackPairReranker: trackPair,
   };

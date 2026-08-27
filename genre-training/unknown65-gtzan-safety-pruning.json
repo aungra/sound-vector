@@ -1,0 +1,13 @@
+{
+  "version": "unknown65-gtzan-safety-pruning-v1",
+  "purpose": "One-time independent safety pruning; GTZAN is not admitted to training.",
+  "baselineTop1": 75.65,
+  "baselineBalancedTop1": 75.62,
+  "dropStages": [
+    {"stageId": "03-panns-svm-c1", "pair": ["メタル", "ロック"], "view": "embedding-mean"},
+    {"stageId": "06-yamnet-svm-c10", "pair": ["ダブ", "レゲエ"], "view": "embedding-tag"},
+    {"stageId": "06-yamnet-svm-c10", "pair": ["アンビエント", "クラシック音楽"], "view": "embedding-tag"},
+    {"stageId": "08-ast-residual", "pair": ["パンク", "ロック"], "view": "embedding"},
+    {"stageId": "10-ast-svm-c1", "pair": ["ダブ", "レゲエ"], "view": "embedding"}
+  ]
+}

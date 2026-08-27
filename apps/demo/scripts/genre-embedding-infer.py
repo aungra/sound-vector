@@ -49,6 +49,10 @@ from genre_musicfm_runtime import (
     load_bundle as load_musicfm_bundle,
     rerank as apply_musicfm_reranker,
 )
+from genre_unknown65_runtime import (
+    load_bundle as load_unknown65_bundle,
+    rerank as apply_unknown65_reranker,
+)
 from genre_librosa_contract import extract_librosa as extract_runtime_librosa
 
 
@@ -149,11 +153,32 @@ ENABLE_UNKNOWN80_TRACK_PAIR_RERANKER = (
 ENABLE_UNKNOWN80_MUSICFM_RERANKER = (
     os.environ.get("MMFR_ENABLE_UNKNOWN80_MUSICFM_RERANKER", "0") == "1"
 )
+UNKNOWN65_MODEL_PATH = Path(os.environ.get(
+    "MMFR_UNKNOWN65_MODEL_PATH",
+    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/"
+    "unknown65-clap-free-pair-chain-v1-gtzan-pruned.pkl",
+))
+UNKNOWN65_MANIFEST_PATH = Path(os.environ.get(
+    "MMFR_UNKNOWN65_MANIFEST_PATH",
+    str(ROOT / "genre-training/unknown65-production-model-manifest.json"),
+))
+UNKNOWN65_EXTRACTOR_PATH = Path(__file__).with_name("genre-unknown65-runtime-extract.py")
+UNKNOWN65_PYTHON = os.environ.get(
+    "MMFR_UNKNOWN65_PYTHON", "/Users/kahanishimoto/.headroom-codex/env/bin/python3",
+)
+UNKNOWN65_PYTHONPATH = os.environ.get(
+    "MMFR_UNKNOWN65_PYTHONPATH",
+    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/python-unknown65-runtime:"
+    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/python-clap:"
+    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/python-audio-features",
+)
+ENABLE_UNKNOWN65_RERANKER = os.environ.get("MMFR_ENABLE_UNKNOWN65_RERANKER", "0") == "1"
 UNKNOWN80_RHYTHM_BUNDLE = None
 UNKNOWN80_FUNK_ROCK_BUNDLE = None
 UNKNOWN80_INDEPENDENT_PAIR_BUNDLE = None
 UNKNOWN80_TRACK_PAIR_BUNDLE = None
 UNKNOWN80_MUSICFM_BUNDLE = None
+UNKNOWN65_BUNDLE = None
 
 FINE_LABEL_MACRO_MAP = {
     "アンビエント": "ambient",
@@ -1121,6 +1146,84 @@ def maybe_apply_unknown80_musicfm(labels, scores, audio_path):
         }
 
 
+def unknown65_promotion_status():
+    if not UNKNOWN65_MANIFEST_PATH.is_file():
+        return {"promoted": False, "reason": "promotion-manifest-missing"}
+    try:
+        manifest = json.loads(UNKNOWN65_MANIFEST_PATH.read_text())
+    except (OSError, ValueError):
+        return {"promoted": False, "reason": "promotion-manifest-invalid"}
+    if manifest.get("promotionState") != "promoted":
+        return {"promoted": False, "reason": "model-not-promoted"}
+    expected = str(manifest.get("modelSha256") or "")
+    if not expected or not UNKNOWN65_MODEL_PATH.is_file():
+        return {"promoted": False, "reason": "promoted-model-missing"}
+    digest = hashlib.sha256(UNKNOWN65_MODEL_PATH.read_bytes()).hexdigest()
+    if digest != expected:
+        return {"promoted": False, "reason": "promoted-model-sha256-mismatch"}
+    return {"promoted": True, "reason": "promoted", "modelSha256": digest}
+
+
+def extract_unknown65_records(audio_path):
+    environment = os.environ.copy()
+    environment.update({
+        "PYTHONPATH": UNKNOWN65_PYTHONPATH,
+        "HF_HUB_OFFLINE": "1",
+        "TRANSFORMERS_OFFLINE": "1",
+    })
+    completed = subprocess.run(
+        [UNKNOWN65_PYTHON, str(UNKNOWN65_EXTRACTOR_PATH), "--audio", str(audio_path)],
+        check=True, capture_output=True, text=True, timeout=180,
+        env=environment,
+    )
+    lines = [line for line in completed.stdout.splitlines() if line.strip()]
+    if not lines:
+        raise RuntimeError("unknown65 extractor returned no output")
+    payload = json.loads(lines[-1])
+    if not payload.get("ok") or not isinstance(payload.get("records"), dict):
+        raise RuntimeError("unknown65 extractor returned an invalid payload")
+    return payload
+
+
+def maybe_apply_unknown65(labels, scores, audio_path):
+    global UNKNOWN65_BUNDLE
+    if not ENABLE_UNKNOWN65_RERANKER:
+        return np.asarray(scores, dtype=np.float64), {
+            "enabled": False, "applied": False, "reason": "disabled",
+        }
+    promotion = unknown65_promotion_status()
+    if not promotion["promoted"]:
+        return np.asarray(scores, dtype=np.float64), {
+            "enabled": False, "applied": False, "reason": promotion["reason"],
+        }
+    if audio_path is None or not Path(audio_path).is_file():
+        return np.asarray(scores, dtype=np.float64), {
+            "enabled": False, "applied": False, "reason": "audio-missing",
+        }
+    try:
+        if UNKNOWN65_BUNDLE is None:
+            UNKNOWN65_BUNDLE = load_unknown65_bundle(UNKNOWN65_MODEL_PATH)
+        extracted = extract_unknown65_records(audio_path)
+        output, stages = apply_unknown65_reranker(
+            UNKNOWN65_BUNDLE, labels, scores, extracted["records"],
+        )
+        return output, {
+            "enabled": True,
+            "applied": any(stage.get("applied") for stage in stages),
+            "reason": "evaluated", "stages": stages,
+            "timings": extracted.get("timings") or {},
+            "modelVersion": UNKNOWN65_BUNDLE.get("version", ""),
+            "runtimeFeatureContractSha256": extracted.get(
+                "runtimeFeatureContractSha256", "",
+            ),
+        }
+    except Exception as error:
+        return np.asarray(scores, dtype=np.float64), {
+            "enabled": False, "applied": False,
+            "reason": f"runtime-failed:{str(error)[-300:]}",
+        }
+
+
 def model_validation_payload(bundle):
     contract = bundle.get("runtimeFeatureContract") or {}
     expected_digest = feature_contract_digest(feature_contract(
@@ -1178,6 +1281,23 @@ def model_validation_payload(bundle):
         musicfm_reranker["runtimeFeatureContractSha256"] = musicfm_bundle.get(
             "runtimeFeatureContractSha256", "",
         )
+    unknown65_reranker = {
+        "enabled": ENABLE_UNKNOWN65_RERANKER,
+        "path": str(UNKNOWN65_MODEL_PATH),
+        "available": UNKNOWN65_MODEL_PATH.is_file(),
+        "pythonAvailable": Path(UNKNOWN65_PYTHON).is_file(),
+        "modelVersion": "", "runtimeFeatureContractSha256": "",
+        "promotion": unknown65_promotion_status(),
+    }
+    if (
+        unknown65_reranker["enabled"] and unknown65_reranker["available"]
+        and unknown65_reranker["promotion"]["promoted"]
+    ):
+        unknown65_bundle = load_unknown65_bundle(UNKNOWN65_MODEL_PATH)
+        unknown65_reranker["modelVersion"] = unknown65_bundle.get("version", "")
+        unknown65_reranker["runtimeFeatureContractSha256"] = unknown65_bundle.get(
+            "runtimeFeatureContractSha256", "",
+        )
     return {
         "ok": True,
         "modelVersion": bundle.get("modelVersion") or bundle.get("version", ""),
@@ -1187,6 +1307,7 @@ def model_validation_payload(bundle):
         "independentReranker": independent_reranker,
         "trackPairReranker": track_pair_reranker,
         "musicFmReranker": musicfm_reranker,
+        "unknown65Reranker": unknown65_reranker,
     }
 
 
@@ -1608,6 +1729,9 @@ def main():
     adjusted_fine_scores, musicfm_details = maybe_apply_unknown80_musicfm(
         fine_labels, adjusted_fine_scores, musicfm_audio_path,
     )
+    adjusted_fine_scores, unknown65_details = maybe_apply_unknown65(
+        fine_labels, adjusted_fine_scores, musicfm_audio_path,
+    )
     segment_details = segment_analysis(
         [offset for offset, _vectors in vector_segments],
         fine_labels,
@@ -1693,6 +1817,7 @@ def main():
         "unknown80RhythmReranker": rhythm_reranker_details,
         "unknown80TrackPairReranker": track_pair_details,
         "unknown80MusicFmReranker": musicfm_details,
+        "unknown65Reranker": unknown65_details,
         "evidenceCoverage": evidence_coverage,
         "needsReview": bool(degraded_sources) or evidence_coverage < 1.0 or not reliable_prediction or confidence < 45 or margin < 3 or (
             segment_details["segmentCount"] > 1 and segment_details["stability"] < 0.55

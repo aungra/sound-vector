@@ -36,6 +36,14 @@ const allMappings = [
   {
     local: path.join(SCRIPT_DIR, "genre-feedback-holdout.json"),
     remote: "/home/aungraphic02/musictee-audio-service/deploy/aun-graphic-sound-form/genre-feedback-holdout.json"
+  },
+  {
+    local: path.join(SCRIPT_DIR, "model-attribution.txt"),
+    remote: "/home/aungraphic02/www/wp/sound-form/model-attribution.txt"
+  },
+  {
+    local: path.join(SCRIPT_DIR, "model-attribution.txt"),
+    remote: "/home/aungraphic02/musictee-audio-service/deploy/aun-graphic-sound-form/model-attribution.txt"
   }
 ];
 const mappings = htmlOnly ? allMappings.slice(0, 2) : allMappings;

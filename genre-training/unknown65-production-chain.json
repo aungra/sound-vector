@@ -1,0 +1,76 @@
+{
+  "version": "unknown65-clap-free-development-chain-v1",
+  "purpose": "Freeze the exact development chain before runtime and independent validation.",
+  "policy": {
+    "metadataUsedAtInference": false,
+    "urlSpecificRulesUsed": false,
+    "sealedHoldoutUsedForSelection": false,
+    "clapUsed": false,
+    "top3CandidateSetChanged": false
+  },
+  "developmentGate": {
+    "minimumTop1": 65.0,
+    "minimumBalancedTop1": 64.0,
+    "minimumSourceTop1": 52.63
+  },
+  "overlayManifests": [
+    "${CACHE_ROOT}/detail-genre-ccmixter-source-manifest.json",
+    "${CACHE_ROOT}/detail-genre-fma-source-manifest.json",
+    "${CACHE_ROOT}/detail-genre-internet-archive-source-manifest.json",
+    "${CACHE_ROOT}/detail-genre-mtg-source-manifest.json",
+    "${CACHE_ROOT}/detail-genre-wikimedia-category-source-manifest.json",
+    "${CACHE_ROOT}/detail-genre-wikimedia-source-manifest.json"
+  ],
+  "stages": [
+    {
+      "id": "01-panns-overlay", "cache": "${CACHE_ROOT}/panns-cnn14-30s-pilot-cache.json",
+      "cacheFormat": "panns", "modelKinds": ["logistic", "extra-trees"], "useOverlay": true,
+      "expected": {"top1Accuracy": 63.52, "balancedTop1": 62.58, "minimumSourceTop1": 47.37}
+    },
+    {
+      "id": "02-panns-residual", "cache": "${CACHE_ROOT}/panns-cnn14-30s-pilot-cache.json",
+      "cacheFormat": "panns", "modelKinds": ["logistic", "extra-trees"], "useOverlay": true,
+      "expected": {"top1Accuracy": 63.99, "balancedTop1": 62.97, "minimumSourceTop1": 52.63}
+    },
+    {
+      "id": "03-panns-svm-c1", "cache": "${CACHE_ROOT}/panns-cnn14-30s-pilot-cache.json",
+      "cacheFormat": "panns", "modelKinds": ["svm-rbf"], "svmC": 1, "useOverlay": true,
+      "expected": {"top1Accuracy": 64.26, "balancedTop1": 63.17, "minimumSourceTop1": 52.63}
+    },
+    {
+      "id": "04-panns-svm-c10", "cache": "${CACHE_ROOT}/panns-cnn14-30s-pilot-cache.json",
+      "cacheFormat": "panns", "modelKinds": ["svm-rbf"], "svmC": 10, "useOverlay": true,
+      "expected": {"top1Accuracy": 64.52, "balancedTop1": 63.43, "minimumSourceTop1": 52.63}
+    },
+    {
+      "id": "05-panns-svm-c100", "cache": "${CACHE_ROOT}/panns-cnn14-30s-pilot-cache.json",
+      "cacheFormat": "panns", "modelKinds": ["svm-rbf"], "svmC": 100, "useOverlay": true,
+      "expected": {"top1Accuracy": 64.58, "balancedTop1": 63.47, "minimumSourceTop1": 52.63}
+    },
+    {
+      "id": "06-yamnet-svm-c10", "cache": "${CACHE_ROOT}/yamnet-30s-pilot-cache.json",
+      "cacheFormat": "yamnet", "modelKinds": ["svm-rbf"], "svmC": 10,
+      "expected": {"top1Accuracy": 64.68, "balancedTop1": 63.53, "minimumSourceTop1": 52.63}
+    },
+    {
+      "id": "07-yamnet-residual", "cache": "${CACHE_ROOT}/yamnet-30s-pilot-cache.json",
+      "cacheFormat": "yamnet", "modelKinds": ["logistic", "extra-trees"],
+      "expected": {"top1Accuracy": 64.79, "balancedTop1": 64.09, "minimumSourceTop1": 57.89}
+    },
+    {
+      "id": "08-ast-residual", "cache": "${CACHE_ROOT}/ast-audioset-30s-pilot-cache.json",
+      "cacheFormat": "ast", "modelKinds": ["logistic", "extra-trees"],
+      "expected": {"top1Accuracy": 64.84, "balancedTop1": 64.18, "minimumSourceTop1": 57.89}
+    },
+    {
+      "id": "09-ast-svm-c10", "cache": "${CACHE_ROOT}/ast-audioset-30s-pilot-cache.json",
+      "cacheFormat": "ast", "modelKinds": ["svm-rbf"], "svmC": 10,
+      "expected": {"top1Accuracy": 64.95, "balancedTop1": 64.62, "minimumSourceTop1": 57.89}
+    },
+    {
+      "id": "10-ast-svm-c1", "cache": "${CACHE_ROOT}/ast-audioset-30s-pilot-cache.json",
+      "cacheFormat": "ast", "modelKinds": ["svm-rbf"], "svmC": 1,
+      "expected": {"top1Accuracy": 65.0, "balancedTop1": 64.66, "minimumSourceTop1": 57.89}
+    }
+  ]
+}

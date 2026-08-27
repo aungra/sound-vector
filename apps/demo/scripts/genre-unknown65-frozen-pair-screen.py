@@ -9,6 +9,7 @@ import importlib.util
 import json
 import re
 import sys
+import warnings
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
@@ -18,6 +19,11 @@ from sklearn.decomposition import PCA
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
+
+
+warnings.filterwarnings(
+    "ignore", message="The `probability` parameter was deprecated", category=FutureWarning,
+)
 
 
 ROOT = Path(__file__).resolve().parents[3]

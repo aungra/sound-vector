@@ -24,6 +24,7 @@
     "improved": 3,
     "harmed": 0
   },
-  "promotionState": "candidate-latency-gate-pending",
-  "runtimeParityReport": "/private/tmp/musictee-track-boundary-v97/genre-training/unknown80-v114-musicfm-runtime-parity.json"
+  "promotionState": "promoted",
+  "runtimeParityReport": "genre-training/unknown80-v114-musicfm-runtime-parity.json",
+  "promotionReason": "source-heldout improvement, exact runtime parity, 5.155s live extraction, and GTZAN non-regression before unknown65"
 }

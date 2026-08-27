@@ -1,0 +1,43 @@
+{
+  "generatedAt": "2026-08-27T15:30:00+09:00",
+  "scope": "Technical provenance and cache/runtime parity; not legal advice.",
+  "representations": {
+    "musicfm": {
+      "model": "MusicFM MSD inference",
+      "runtimeFeatureContractSha256": "2a0ac68b103e0c7262c31a8401c928cc2cfcb1326adf56c373c2f9c5fdcdacd5",
+      "modelLicense": "MIT; Apache-2.0",
+      "cacheParity": {
+        "liveExtractionMaxAbsoluteFeatureDelta": 0.0,
+        "liveExtractionMaxAbsoluteProbabilityDelta": 1.1102230246251565e-16,
+        "passed": true
+      },
+      "technicalGate": "pass",
+      "legalGate": "independent-production-review-required"
+    },
+    "panns": {
+      "sha256": "9e3518fd493df37c0f7ad4030e59b4c2208ec74c5ee468c54ecc2808c5dcdd69",
+      "actualContract": "Cnn14 32kHz, window=1024, hop=320, mel=64, fmin=50, fmax=14000, 3x10s",
+      "directoryNamingWarning": "The directory name contains 16k, but the safetensors is regular 32k Cnn14.",
+      "cacheParity": {"embeddingMomentsMaxAbsDelta": 0.000003337860107421875, "tagMomentsMaxAbsDelta": 0.0000005364418029785156, "passed": true},
+      "upstreamLicense": "CC-BY-4.0", "licenseEvidence": "https://zenodo.org/records/3987831",
+      "technicalGate": "pass-with-attribution", "legalGate": "independent-production-review-required"
+    },
+    "yamnet": {
+      "sha256": "1510041dce24a2e9e84ec546807ac408ae496da6d1ed41bc3ccba649623f8e19",
+      "officialReference": "https://tfhub.dev/google/yamnet/1", "officialReferenceLicense": "Apache-2.0",
+      "officialTensorFlowVsOnnx": {"tagMaxAbsDelta": 0.00003910064697265625, "embeddingMaxAbsDelta": 0.00012993812561035156, "spectrogramMaxAbsDelta": 0.0011210441589355469, "passed": true},
+      "cacheParity": {"allAggregateFeaturesBitExact": true, "passed": true},
+      "technicalGate": "pass", "legalGate": "independent-production-review-required"
+    },
+    "ast": {
+      "model": "MIT/ast-finetuned-audioset-10-10-0.4593",
+      "sha256": "ae0c1e2ad4e1381d851fa9bf298ba13ebc9c5a914cdee2dbe427a6583869924d",
+      "modelLicense": "BSD-3-Clause",
+      "cacheParity": {"embeddingBitExact": true, "momentsBitExact": true, "tagMomentsBitExact": true, "passed": true},
+      "technicalGate": "pass", "legalGate": "independent-production-review-required"
+    }
+  },
+  "promotionDecision": "technical-promotion-passed-after-gtzan-safety-pruning",
+  "publicAttribution": "https://aun-graphic.jp/sound-form/model-attribution.txt",
+  "legalNotice": "Technical and attribution gates passed; this audit is not legal advice and independent production review remains recommended."
+}
