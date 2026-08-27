@@ -1,6 +1,6 @@
 # 詳細ジャンル学習ライセンス監査
 
-生成日時: 2026-08-27T00:01:58.525Z
+生成日時: 2026-08-27T00:12:36.134Z
 
 | source | rows | detail labels | production | support only | research only | ND excluded | verify |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -8,7 +8,7 @@
 | MTG-Jamendo-candidates | 1819 | 39 | 498 | 0 | 809 | 417 | 95 |
 | FMA-independent-candidates | 5038 | 15 | 1460 | 0 | 2104 | 1466 | 8 |
 | Wikimedia-reviewed-origin-candidates | 10 | 5 | 10 | 0 | 0 | 0 | 0 |
-| Wikimedia-reviewed-category-candidates | 31 | 4 | 31 | 0 | 0 | 0 | 0 |
+| Wikimedia-reviewed-category-candidates | 35 | 4 | 35 | 0 | 0 | 0 | 0 |
 | ccMixter-reviewed-candidates | 89 | 21 | 89 | 0 | 0 | 0 | 0 |
 | Internet-Archive-reviewed-netlabel-candidates | 39 | 5 | 39 | 0 | 0 | 0 | 0 |
 | WaivOps-rhythm-support | 49 | 2 | 0 | 49 | 0 | 0 | 0 |

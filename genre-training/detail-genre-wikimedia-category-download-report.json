@@ -1,27 +1,22 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-26T23:59:52.665Z",
+  "generatedAt": "2026-08-27T00:12:02.348Z",
   "reviewedCandidates": 35,
-  "downloadedAndValidated": 31,
-  "pendingDownloads": 4,
-  "pendingTrackIds": [
-    "52796564",
-    "52796567",
-    "52796573",
-    "52796577"
-  ],
+  "downloadedAndValidated": 35,
+  "pendingDownloads": 0,
+  "pendingTrackIds": [],
   "failures": [],
   "byDetail": {
     "jazz": 24,
-    "house": 4,
+    "house": 8,
     "tech-house": 1,
     "progressive-house": 2
   },
   "byOrigin": {
     "US Air Force recordings": 24,
     "Audiotool": 6,
-    "Luis Gabriel Aguilera creator-supplied recordings": 1
+    "Luis Gabriel Aguilera creator-supplied recordings": 5
   },
-  "totalBytes": 363615970,
+  "totalBytes": 345713715,
   "promotionPolicy": "Downloaded reviewed candidates only; origin-heldout ablation is required before production training."
 }

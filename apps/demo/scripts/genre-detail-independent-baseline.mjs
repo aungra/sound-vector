@@ -81,10 +81,7 @@ function main() {
     "FMA -> MTG-Jamendo": crossSourceDirection(fma, mtg),
     "FMA + MTG-Jamendo -> ccMixter": ccmixterExpanded,
     "FMA + MTG-Jamendo + ccMixter -> IA netlabels": crossSourceDirection([...fma, ...mtg, ...ccmixter], internetArchive, { minTest: 5 }),
-    "FMA + MTG-Jamendo + ccMixter -> Wikimedia category origins": crossSourceDirection([...fma, ...mtg, ...ccmixter], wikimediaCategory, { minTest: 5 }),
-    "FMA + MTG-Jamendo + ccMixter -> Wikimedia category origins (exploratory min3)": crossSourceDirection(
-      [...fma, ...mtg, ...ccmixter], wikimediaCategory, { minTest: 3 }
-    )
+    "FMA + MTG-Jamendo + ccMixter -> Wikimedia category origins": crossSourceDirection([...fma, ...mtg, ...ccmixter], wikimediaCategory, { minTest: 5 })
   };
   const report = {
     schemaVersion: 1,
@@ -99,7 +96,7 @@ function main() {
       withFmaExactDetails: ccmixterWithFmaExactDetails
     },
     promotionEligible: false,
-    promotionBlocker: "Only a small subset of detailed labels satisfies independent-source support thresholds; ccMixter, IA netlabels and reviewed Wikimedia origins remain evaluation-only. The Wikimedia min3 direction is exploratory and cannot satisfy promotion gates."
+    promotionBlocker: "Only a small subset of detailed labels satisfies independent-source support thresholds; ccMixter, IA netlabels and reviewed Wikimedia origins remain evaluation-only."
   };
   fs.writeFileSync(path.join(ROOT, "genre-training/detail-genre-independent-baseline.json"), `${JSON.stringify(report, null, 2)}\n`);
   fs.writeFileSync(path.join(ROOT, "genre-training/DETAIL_GENRE_INDEPENDENT_BASELINE.md"), markdown(report));

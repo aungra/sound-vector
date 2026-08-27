@@ -13,14 +13,26 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+export function analysisDownloadUrl(item) {
+  const original = new URL(item.downloadUrl);
+  if (item.mime !== "audio/wav" && !original.pathname.toLowerCase().endsWith(".wav")) return original.href;
+  const prefix = "/wikipedia/commons/";
+  const offset = original.pathname.indexOf(prefix);
+  if (offset < 0) return original.href;
+  const relative = original.pathname.slice(offset + prefix.length);
+  const filename = path.posix.basename(relative);
+  return `${original.origin}${prefix}transcoded/${relative}/${filename}.mp3`;
+}
+
 function destination(item, audioRoot) {
   const directory = path.join(audioRoot, item.detailTarget, encodeURIComponent(item.sourceFamily));
-  const extension = path.extname(new URL(item.downloadUrl).pathname) || ".audio";
+  const extension = path.extname(new URL(analysisDownloadUrl(item)).pathname) || ".audio";
   return { directory, filePath: path.join(directory, `${item.trackId}${extension}`) };
 }
 
 async function download(item, audioRoot) {
   const { directory, filePath } = destination(item, audioRoot);
+  const analysisUrl = analysisDownloadUrl(item);
   fs.mkdirSync(directory, { recursive: true });
   let fetched = false;
   if (!fs.existsSync(filePath) || fs.statSync(filePath).size < 100_000) {
@@ -29,13 +41,22 @@ async function download(item, audioRoot) {
       "-fL", "--retry", "6", "--retry-all-errors", "--retry-delay", "5",
       "--connect-timeout", "15", "--max-time", "600",
       "-A", "MUSICtee reviewed Wikimedia audio downloader", "-e", item.referenceUrl,
-      "-o", temporary, item.downloadUrl
+      "-o", temporary, analysisUrl
     ], { maxBuffer: 1024 * 1024 });
     if (fs.statSync(temporary).size < 100_000) throw new Error(`Downloaded file is too small: ${item.trackId}`);
     fs.renameSync(temporary, filePath);
     fetched = true;
   }
-  return { item: { ...item, filePath, audioStoragePolicy: "external-cache-only" }, fetched };
+  return {
+    item: {
+      ...item,
+      filePath,
+      analysisAudioUrl: analysisUrl,
+      analysisAudioFormat: analysisUrl === item.downloadUrl ? "original" : "Wikimedia Commons MP3 transcode",
+      audioStoragePolicy: "external-cache-only"
+    },
+    fetched
+  };
 }
 
 function conciseError(error) {

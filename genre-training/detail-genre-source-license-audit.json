@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-27T00:01:58.525Z",
+  "generatedAt": "2026-08-27T00:12:36.134Z",
   "policyVersion": "training-license-v1",
   "sources": {
     "existing-explicit-formal": {
@@ -154,18 +154,18 @@
       }
     },
     "Wikimedia-reviewed-category-candidates": {
-      "rows": 31,
+      "rows": 35,
       "usage": {
-        "production-training": 31
+        "production-training": 35
       },
       "licenses": {
         "Public Domain": 24,
-        "CC-BY-SA-3.0": 7
+        "CC-BY-SA-3.0": 11
       },
       "representedDetailLabels": 4,
       "byDetail": {
         "jazz": 24,
-        "house": 4,
+        "house": 8,
         "tech-house": 1,
         "progressive-house": 2
       }
@@ -934,18 +934,20 @@
       "productionRowsBySource": {
         "Audiotool": 3,
         "FMA": 33,
-        "Luis Gabriel Aguilera creator-supplied recordings": 1,
+        "Luis Gabriel Aguilera creator-supplied recordings": 5,
         "MTG-Jamendo": 92,
         "ccMixter": 3
       },
       "productionSourcesWithAtLeast2Tracks": [
         "Audiotool",
         "FMA",
+        "Luis Gabriel Aguilera creator-supplied recordings",
         "MTG-Jamendo",
         "ccMixter"
       ],
       "productionSourcesWithAtLeast5Tracks": [
         "FMA",
+        "Luis Gabriel Aguilera creator-supplied recordings",
         "MTG-Jamendo"
       ]
     },
