@@ -25,14 +25,53 @@ DETAIL_BY_TOP_GENRE = {
 # These IDs come from FMA's official fma_metadata/genres.csv. Only direct
 # track.genres tags are eligible; genres_all also contains inherited parents.
 DETAIL_BY_FMA_GENRE_ID = {
+    9: "country",
     11: "disco",
+    19: "funk",
+    25: "punk",
+    31: "metal",
     32: "noise",
+    41: "electroacoustic",
     42: "ambient",
     47: "drone",
+    58: "psychedelic-rock",
+    63: "bluegrass",
+    66: "indie-rock",
+    70: "industrial",
+    74: "free-jazz",
+    81: "afrobeat",
+    89: "post-punk",
+    100: "alternative-hip-hop",
+    101: "death-metal",
+    103: "singer-songwriter",
     107: "ambient",
     109: "hardcore-punk",
+    111: "power-pop",
+    167: "black-metal",
     181: "techno",
     182: "house",
+    183: "glitch",
+    236: "idm",
+    240: "chiptune",
+    267: "new-age",
+    297: "chiptune",
+    337: "drum-and-bass",
+    359: "shoegaze",
+    362: "synthpop",
+    401: "big-beat",
+    442: "chamber-music",
+    443: "choral",
+    444: "symphonic",
+    456: "minimalism",
+    468: "dubstep",
+    502: "cumbia",
+    504: "latin",
+    542: "breakbeat",
+    567: "gospel",
+    602: "dancehall",
+    659: "contemporary-classical",
+    695: "jungle",
+    808: "salsa",
     441: "opera",
 }
 
@@ -193,6 +232,9 @@ def self_test():
     assert detailed_target([182]) == ("house", "exact-detail")
     assert detailed_target([42, 107]) == ("ambient", "exact-detail")
     assert detailed_target([181, 182]) == (None, "conflicting-detail-tags")
+    assert detailed_target([66]) == ("indie-rock", "exact-detail")
+    assert detailed_target([240, 297]) == ("chiptune", "exact-detail")
+    assert detailed_target([25, 89]) == (None, "conflicting-detail-tags")
     assert detailed_target([15]) == (None, "no-detail-tag")
     print("FMA detail license policy self-test passed")
 

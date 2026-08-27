@@ -1,12 +1,12 @@
 # 詳細ジャンル学習ライセンス監査
 
-生成日時: 2026-08-27T00:12:36.134Z
+生成日時: 2026-08-27T00:19:55.394Z
 
 | source | rows | detail labels | production | support only | research only | ND excluded | verify |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | existing-explicit-formal | 385 | 14 | 46 | 0 | 254 | 85 | 0 |
 | MTG-Jamendo-candidates | 1819 | 39 | 498 | 0 | 809 | 417 | 95 |
-| FMA-independent-candidates | 5038 | 15 | 1460 | 0 | 2104 | 1466 | 8 |
+| FMA-independent-candidates | 5107 | 48 | 1449 | 0 | 2159 | 1491 | 8 |
 | Wikimedia-reviewed-origin-candidates | 10 | 5 | 10 | 0 | 0 | 0 | 0 |
 | Wikimedia-reviewed-category-candidates | 35 | 4 | 35 | 0 | 0 | 0 | 0 |
 | ccMixter-reviewed-candidates | 89 | 21 | 89 | 0 | 0 | 0 | 0 |
@@ -16,12 +16,12 @@
 
 ## 独立ソースcoverage
 
-- 本番利用可能なソースあり: 42/120
-- 本番利用可能な2ソース以上: 25/120
-- 各ソース2曲以上で2ソース達成: 23/120
-- 各ソース5曲以上で2ソース達成: 19/120
-- 本番利用可能なソースなし: 78/120
-- 2ソース達成: ambient / drone / classical / blues / jazz / soul / folk / electronic / idm / techno / minimal-techno / house / trance / psytrance / funk / disco / drum-and-bass / dubstep / hip-hop / reggae / dub / noise / rock / punk / metal
+- 本番利用可能なソースあり: 60/120
+- 本番利用可能な2ソース以上: 29/120
+- 各ソース2曲以上で2ソース達成: 25/120
+- 各ソース5曲以上で2ソース達成: 21/120
+- 本番利用可能なソースなし: 60/120
+- 2ソース達成: ambient / new-age / drone / classical / blues / jazz / soul / folk / singer-songwriter / electronic / idm / techno / minimal-techno / house / trance / psytrance / funk / disco / synthpop / drum-and-bass / dubstep / hip-hop / reggae / dub / latin / noise / rock / punk / metal
 
 ## 採用規則
 
