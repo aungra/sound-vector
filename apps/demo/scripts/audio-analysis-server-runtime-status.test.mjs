@@ -20,3 +20,8 @@ test("reports the promoted unknown65 stack as the active runtime revision", () =
   assert.match(statusFunction, /unknown65Reranker: unknown65/);
   assert.match(statusFunction, /musicFmReranker: musicFm/);
 });
+
+test("keeps unknown65 stage diagnostics in public analysis results", () => {
+  const source = fs.readFileSync(serverPath, "utf8");
+  assert.match(source, /unknown65Reranker: parsed\.unknown65Reranker \|\| \{\}/);
+});

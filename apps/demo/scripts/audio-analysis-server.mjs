@@ -565,6 +565,7 @@ async function analyzeEmbeddingGenreForFile(filePath, japaneseVocalEvidence = {}
       degradedSources: Array.isArray(parsed.degradedSources) ? parsed.degradedSources : [],
       segmentAnalysis: parsed.segmentAnalysis || {},
       unknown80MusicFmReranker: parsed.unknown80MusicFmReranker || {},
+      unknown65Reranker: parsed.unknown65Reranker || {},
       japaneseVocalEvidence: parsed.japaneseVocalEvidence || {},
       popStyle: Array.isArray(parsed.popStyle) ? parsed.popStyle : [],
       inferenceAttempt: result.attempt.role,
