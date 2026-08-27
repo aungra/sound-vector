@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-27T00:57:24.856Z",
+  "generatedAt": "2026-08-27T01:04:40.087Z",
   "evaluationScope": "strict-source-heldout-production-safe",
   "model": "standardized-nearest-centroid-baseline",
   "licensePolicy": "CC0/Public Domain/CC-BY/CC-BY-SA full tracks only",
@@ -235,19 +235,26 @@
       ]
     },
     "FMA + MTG-Jamendo + ccMixter -> IA netlabels": {
-      "eligibleDetailLabels": 1,
-      "trainRows": 32,
-      "testRows": 5,
+      "eligibleDetailLabels": 2,
+      "trainRows": 46,
+      "testRows": 25,
       "featureDimensions": 261,
-      "top1Accuracy": 100,
+      "top1Accuracy": 52,
       "top3Accuracy": 100,
-      "balancedTop1Accuracy": 100,
+      "balancedTop1Accuracy": 70,
       "byDetail": [
         {
           "detail": "metal",
           "trainRows": 32,
           "testRows": 5,
           "top1Accuracy": 100,
+          "top3Accuracy": 100
+        },
+        {
+          "detail": "post-punk",
+          "trainRows": 14,
+          "testRows": 20,
+          "top1Accuracy": 40,
           "top3Accuracy": 100
         }
       ]

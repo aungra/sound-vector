@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-27T00:57:10.066Z",
+  "generatedAt": "2026-08-27T01:04:21.528Z",
   "policyVersion": "training-license-v1",
   "sources": {
     "existing-explicit-formal": {
@@ -245,22 +245,24 @@
       }
     },
     "Internet-Archive-reviewed-netlabel-candidates": {
-      "rows": 39,
+      "rows": 60,
       "usage": {
-        "production-training": 39
+        "production-training": 60
       },
       "licenses": {
-        "CC-BY-SA": 20,
+        "CC-BY-SA": 26,
         "CC0": 5,
-        "CC-BY": 14
+        "CC-BY": 29
       },
-      "representedDetailLabels": 5,
+      "representedDetailLabels": 7,
       "byDetail": {
+        "deep-house": 1,
         "metal": 5,
         "progressive-trance": 5,
         "psytrance": 18,
         "soul": 5,
-        "trance": 6
+        "trance": 6,
+        "post-punk": 20
       }
     },
     "WaivOps-rhythm-support": {
@@ -1090,14 +1092,16 @@
     },
     "deep-house": {
       "productionSources": [
+        "IA netlabel:muzique",
         "MTG-Jamendo"
       ],
       "supportSources": [],
       "researchSources": [
         "MTG-Jamendo"
       ],
-      "productionSourceCount": 1,
+      "productionSourceCount": 2,
       "productionRowsBySource": {
+        "IA netlabel:muzique": 1,
         "MTG-Jamendo": 67
       },
       "productionSourcesWithAtLeast2Tracks": [
@@ -1883,21 +1887,33 @@
     },
     "post-punk": {
       "productionSources": [
-        "FMA"
+        "FMA",
+        "IA netlabel:kraimusic",
+        "IA netlabel:laconia",
+        "IA netlabel:vault-106"
       ],
       "supportSources": [],
       "researchSources": [
         "FMA"
       ],
-      "productionSourceCount": 1,
+      "productionSourceCount": 4,
       "productionRowsBySource": {
-        "FMA": 14
+        "FMA": 14,
+        "IA netlabel:kraimusic": 5,
+        "IA netlabel:laconia": 10,
+        "IA netlabel:vault-106": 5
       },
       "productionSourcesWithAtLeast2Tracks": [
-        "FMA"
+        "FMA",
+        "IA netlabel:kraimusic",
+        "IA netlabel:laconia",
+        "IA netlabel:vault-106"
       ],
       "productionSourcesWithAtLeast5Tracks": [
-        "FMA"
+        "FMA",
+        "IA netlabel:kraimusic",
+        "IA netlabel:laconia",
+        "IA netlabel:vault-106"
       ]
     },
     "shoegaze": {
@@ -2225,9 +2241,9 @@
   },
   "productionCoverage": {
     "labelsWithOneSource": 60,
-    "labelsWithTwoSources": 32,
-    "labelsWithTwoSourcesAtLeast2Tracks": 28,
-    "labelsWithTwoSourcesAtLeast5Tracks": 22,
+    "labelsWithTwoSources": 34,
+    "labelsWithTwoSourcesAtLeast2Tracks": 29,
+    "labelsWithTwoSourcesAtLeast5Tracks": 23,
     "labelsWithoutProductionSource": 60,
     "twoSourceLabels": [
       "ambient",
@@ -2246,6 +2262,7 @@
       "techno",
       "minimal-techno",
       "house",
+      "deep-house",
       "trance",
       "psytrance",
       "chiptune",
@@ -2260,6 +2277,7 @@
       "latin",
       "noise",
       "rock",
+      "post-punk",
       "punk",
       "metal"
     ],
@@ -2273,7 +2291,6 @@
       "glitch",
       "industrial",
       "acid-techno",
-      "deep-house",
       "progressive-house",
       "tech-house",
       "progressive-trance",
@@ -2283,7 +2300,6 @@
       "bossa-nova",
       "world",
       "indie-rock",
-      "post-punk",
       "shoegaze",
       "psychedelic-rock",
       "hardcore-punk",

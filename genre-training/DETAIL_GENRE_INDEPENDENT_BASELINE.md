@@ -1,6 +1,6 @@
 # 詳細ジャンル独立ソースベースライン
 
-生成日時: 2026-08-27T00:57:24.856Z
+生成日時: 2026-08-27T01:04:40.087Z
 
 CC0 / Public Domain / CC-BY / CC-BY-SAのフル楽曲だけを使用しています。NC・ND・研究限定・ループ素材は含みません。
 この評価は対象分類が少ないため120分類全体の精度ではありません。
@@ -56,11 +56,12 @@ Top1 36.11% / Top3 66.67% / balanced Top1 34.64%
 
 ## FMA + MTG-Jamendo + ccMixter -> IA netlabels
 
-Top1 100% / Top3 100% / balanced Top1 100%
+Top1 52% / Top3 100% / balanced Top1 70%
 
 | detail | train | test | Top1 | Top3 |
 | --- | ---: | ---: | ---: | ---: |
 | metal | 32 | 5 | 100% | 100% |
+| post-punk | 14 | 20 | 40% | 100% |
 
 ## FMA + MTG-Jamendo + ccMixter -> Wikimedia category origins
 
@@ -81,4 +82,4 @@ FMA詳細ラベルあり -> ccMixter: Top1 51.02% / Top3 77.55% / balanced Top1 
 ## 昇格判定
 
 Operaを含む独立ソース精度の初期成立は確認できましたが、評価可能分類数が少ないため本番詳細分類器への昇格は保留です。
-次はChoralのCommons originを5曲以上へ補完し、Deep House / Post-punkのproduction-safeな第2ソースtestを増やします。
+Post-punkは独立IAでTop3 100%に対してTop1 40%のため昇格せず、ChoralとDeep Houseの第2originを5曲以上へ補完します。

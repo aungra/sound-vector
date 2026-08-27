@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { buildInternetArchiveCandidates } from "./genre-detail-internet-archive-manifest.mjs";
+import { buildInternetArchiveCandidates, TARGETS } from "./genre-detail-internet-archive-manifest.mjs";
 
 function doc(overrides = {}) {
   return {
@@ -30,6 +30,12 @@ test("multi-genre releases are excluded and specific labels replace parents", ()
   assert.equal(buildInternetArchiveCandidates([doc({ subject: ["House", "Jazz"] })], metadata()).length, 0);
   const deep = buildInternetArchiveCandidates([doc({ subject: ["House", "Deep House"] })], metadata());
   assert.equal(deep[0].detailTarget, "deep-house");
+});
+
+test("post-punk uses an exact Internet Archive subject target", () => {
+  assert.equal(TARGETS["post-punk"], "post punk");
+  const rows = buildInternetArchiveCandidates([doc({ subject: ["Post Punk"], queriedDetail: "post-punk" })], metadata());
+  assert.equal(rows[0].detailTarget, "post-punk");
 });
 
 test("a search hit must resolve to the detail that was queried", () => {

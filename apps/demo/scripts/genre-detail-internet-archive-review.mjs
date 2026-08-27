@@ -16,7 +16,12 @@ export const REVIEWED_RELEASES = Object.freeze({
   va_space_inhabitant_psydg010a: { detailTarget: "psytrance", files: "all", note: "Psy-Dance-Global compilation explicitly labeled psytrance and CC0." },
   tou245: { detailTarget: "trance", files: ["tou245a.mp3", "tou245c.mp3"], note: "Official Toucan release; the chillout remix tou245b is excluded." },
   tou251: { detailTarget: "trance", files: ["tou251a.mp3", "tou251b.mp3"], note: "Official Toucan release; the downtempo chillout remix tou251c is excluded." },
-  tou265: { detailTarget: "trance", files: "all", note: "Official Toucan release description identifies both full-length tracks as trance." }
+  tou265: { detailTarget: "trance", files: "all", note: "Official Toucan release description identifies both full-length tracks as trance." },
+  muzique001: { detailTarget: "deep-house", files: "all", note: "Official Muzique release with Deep House and its House parent only; mixed Hip House release is excluded." },
+  zlzhu_202101: { detailTarget: "post-punk", files: "all", note: "Official kraimusic release explicitly labeled Post Punk; Lo-Fi is production character rather than a competing genre target." },
+  laconia001_kontraband: { detailTarget: "post-punk", files: "all", note: "Official Laconia release with exact Post Punk subject and CC-BY rights." },
+  laconia002_coldcolours: { detailTarget: "post-punk", files: "all", note: "Official Laconia release with exact Post Punk subject and CC-BY rights." },
+  VAULT53: { detailTarget: "post-punk", files: "all", note: "Official Vault 106 cold-wave release explicitly labeled Post Punk and CC-BY-SA." }
 });
 
 function fileName(item) {
@@ -46,8 +51,13 @@ function countsBy(items, key) {
 
 function main() {
   const candidatePath = path.resolve(process.env.MMFR_IA_CANDIDATE_MANIFEST || path.join(CACHE_ROOT, "detail-genre-internet-archive-candidate-manifest.json"));
+  const additionalPaths = String(process.env.MMFR_IA_ADDITIONAL_CANDIDATES || "")
+    .split(",").map(value => value.trim()).filter(Boolean).map(value => path.resolve(value));
   const outputPath = path.resolve(process.env.MMFR_IA_REVIEWED_MANIFEST || path.join(CACHE_ROOT, "detail-genre-internet-archive-reviewed-manifest.json"));
-  const candidates = JSON.parse(fs.readFileSync(candidatePath, "utf8")).items || [];
+  const candidatePaths = [...new Set([candidatePath, ...additionalPaths])].filter(filePath => fs.existsSync(filePath));
+  const candidates = [...new Map(candidatePaths.flatMap(filePath =>
+    (JSON.parse(fs.readFileSync(filePath, "utf8")).items || []).map(item => [item.trackId, item])
+  )).values()];
   const items = reviewedItems(candidates);
   const report = {
     schemaVersion: 1,
@@ -65,7 +75,8 @@ function main() {
       parodySoul: "Multiple Soul/R&B/experimental/parody labels.",
       mixedDeepHouse: "Releases also identify Tech House, Hip House, chiptune or DJ-mix material.",
       restrictedConflict: "Description-level NC or ND overrides permissive item metadata.",
-      chilloutRemixes: "Two Toucan chillout/downtempo remix files are excluded at track level."
+      chilloutRemixes: "Two Toucan chillout/downtempo remix files are excluded at track level.",
+      mixedPostPunk: "Shoegaze, post-rock, noise-rock and multi-genre Post Punk releases remain excluded."
     },
     promotionPolicy: "Reviewed download candidates only; source-heldout ablation is required before production model training."
   };

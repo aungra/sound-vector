@@ -55,7 +55,7 @@ function markdown(report) {
     "## 昇格判定",
     "",
     "Operaを含む独立ソース精度の初期成立は確認できましたが、評価可能分類数が少ないため本番詳細分類器への昇格は保留です。",
-    "次はChoralのCommons originを5曲以上へ補完し、Deep House / Post-punkのproduction-safeな第2ソースtestを増やします。",
+    "Post-punkは独立IAでTop3 100%に対してTop1 40%のため昇格せず、ChoralとDeep Houseの第2originを5曲以上へ補完します。",
     ""
   ].join("\n");
 }

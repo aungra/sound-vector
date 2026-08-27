@@ -17,3 +17,21 @@ test("review allowlist excludes chillout remixes at file level", () => {
   assert.equal(reviewedItems([item("tou245", "trance", "tou245b.mp3")]).length, 0);
   assert.equal(reviewedItems([item("tou251", "trance", "tou251c.mp3")]).length, 0);
 });
+
+test("review accepts exact post-punk releases and rejects unreviewed mixtures", () => {
+  const rows = reviewedItems([
+    item("laconia001_kontraband", "post-punk", "a.mp3"),
+    item("opal-carolina-ep", "post-punk", "b.mp3")
+  ]);
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].detailTarget, "post-punk");
+});
+
+test("review keeps only the non-mixed deep-house release", () => {
+  const rows = reviewedItems([
+    item("muzique001", "deep-house", "a.mp3"),
+    item("tek07", "deep-house", "b.mp3")
+  ]);
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].workGroup, "muzique001");
+});

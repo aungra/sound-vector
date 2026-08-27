@@ -1,29 +1,35 @@
 {
   "schemaVersion": 1,
   "reviewedAt": "2026-08-27",
-  "candidateRows": 194,
-  "reviewedRows": 39,
-  "reviewedReleases": 10,
-  "representedDetailLabels": 5,
-  "representedOriginFamilies": 6,
+  "candidateRows": 239,
+  "reviewedRows": 60,
+  "reviewedReleases": 15,
+  "representedDetailLabels": 7,
+  "representedOriginFamilies": 10,
   "byDetail": {
+    "post-punk": 20,
     "psytrance": 18,
     "trance": 6,
     "metal": 5,
     "progressive-trance": 5,
-    "soul": 5
+    "soul": 5,
+    "deep-house": 1
   },
   "byOrigin": {
     "IA netlabel:sunstation": 13,
+    "IA netlabel:laconia": 10,
     "IA netlabel:toucan": 6,
     "IA netlabel:alga": 5,
     "IA netlabel:derkleinegruenewuerfel": 5,
+    "IA netlabel:kraimusic": 5,
     "IA netlabel:psydanceglobal": 5,
-    "IA netlabel:usc-label": 5
+    "IA netlabel:usc-label": 5,
+    "IA netlabel:vault-106": 5,
+    "IA netlabel:muzique": 1
   },
   "byLicense": {
-    "CC-BY-SA": 20,
-    "CC-BY": 14,
+    "CC-BY": 29,
+    "CC-BY-SA": 26,
     "CC0": 5
   },
   "excludedExamples": {
@@ -31,7 +37,8 @@
     "parodySoul": "Multiple Soul/R&B/experimental/parody labels.",
     "mixedDeepHouse": "Releases also identify Tech House, Hip House, chiptune or DJ-mix material.",
     "restrictedConflict": "Description-level NC or ND overrides permissive item metadata.",
-    "chilloutRemixes": "Two Toucan chillout/downtempo remix files are excluded at track level."
+    "chilloutRemixes": "Two Toucan chillout/downtempo remix files are excluded at track level.",
+    "mixedPostPunk": "Shoegaze, post-rock, noise-rock and multi-genre Post Punk releases remain excluded."
   },
   "promotionPolicy": "Reviewed download candidates only; source-heldout ablation is required before production model training."
 }

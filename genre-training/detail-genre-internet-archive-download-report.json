@@ -1,17 +1,19 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-26T22:40:26.431Z",
-  "reviewedCandidates": 39,
-  "downloadedAndValidated": 39,
+  "generatedAt": "2026-08-27T01:03:24.610Z",
+  "reviewedCandidates": 60,
+  "downloadedAndValidated": 60,
   "failures": [],
-  "representedDetailLabels": 5,
+  "representedDetailLabels": 7,
   "byDetail": {
+    "deep-house": 1,
     "metal": 5,
     "progressive-trance": 5,
     "psytrance": 18,
     "soul": 5,
-    "trance": 6
+    "trance": 6,
+    "post-punk": 20
   },
-  "totalBytes": 438620582,
+  "totalBytes": 671475741,
   "promotionPolicy": "Downloaded reviewed candidates only; source-heldout ablation is required before production model training."
 }

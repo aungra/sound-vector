@@ -10,10 +10,11 @@ const ROOT = path.resolve(SCRIPT_DIR, "../../..");
 const DEFAULT_OUTPUT = "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/detail-genre-internet-archive-candidate-manifest.json";
 const execFileAsync = promisify(execFile);
 
-const TARGETS = Object.freeze({
+export const TARGETS = Object.freeze({
   house: "house", "deep-house": "deep house", trance: "trance", disco: "disco",
   "progressive-trance": "progressive trance", psytrance: "psytrance", soul: "soul",
-  "r-and-b": "rhythm and blues", jazz: "jazz", metal: "metal", noise: "noise", "harsh-noise": "harsh noise"
+  "r-and-b": "rhythm and blues", jazz: "jazz", metal: "metal", noise: "noise", "harsh-noise": "harsh noise",
+  "post-punk": "post punk"
 });
 const SUBJECT_TO_DETAIL = Object.freeze({
   ambient: "ambient", "ambient music": "ambient", "new age": "new-age", newage: "new-age", drone: "drone", blues: "blues", jazz: "jazz", "jazz music": "jazz", folk: "folk",
@@ -27,7 +28,7 @@ const SUBJECT_TO_DETAIL = Object.freeze({
   "r&b": "r-and-b", "r and b": "r-and-b", "rhythm and blues": "r-and-b",
   "drum and bass": "drum-and-bass", dnb: "drum-and-bass", breakbeat: "breakbeat", dubstep: "dubstep",
   "hip hop": "hip-hop", hiphop: "hip-hop", reggae: "reggae", dub: "dub", rock: "rock",
-  punk: "punk", hardcore: "hardcore-punk", metal: "metal", "metal music": "metal", classical: "classical",
+  punk: "punk", "post punk": "post-punk", hardcore: "hardcore-punk", metal: "metal", "metal music": "metal", classical: "classical",
   chiptune: "chiptune", bitpop: "chiptune", vaporwave: "vaporwave", "vapor wave": "vaporwave",
   noise: "noise", "noise music": "noise", "harsh noise": "harsh-noise", "power electronics": "power-electronics"
 });
@@ -155,7 +156,9 @@ async function fetchJson(url) {
 async function main() {
   const docs = [];
   const failures = [];
-  for (const [detail, subject] of Object.entries(TARGETS)) {
+  const requested = new Set(String(process.env.MMFR_IA_DETAIL_TARGETS || "").split(",").map(value => value.trim()).filter(Boolean));
+  const targets = Object.entries(TARGETS).filter(([detail]) => !requested.size || requested.has(detail));
+  for (const [detail, subject] of targets) {
     const url = new URL("https://archive.org/advancedsearch.php");
     url.search = new URLSearchParams({
       q: `mediatype:audio AND collection:netlabels AND subject:"${subject}" AND licenseurl:*`,
@@ -188,7 +191,7 @@ async function main() {
     schemaVersion: 1,
     generatedAt: new Date().toISOString(),
     dataset: "Internet Archive reviewed netlabel releases",
-    queriedTargets: TARGETS,
+    queriedTargets: Object.fromEntries(targets),
     searchRowsPerTarget: SEARCH_ROWS_PER_TARGET,
     maximumTracksPerRelease: MAX_TRACKS_PER_RELEASE,
     searchRowsBeforeDeduplication: docs.length,
