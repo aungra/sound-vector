@@ -47,4 +47,5 @@ test("the public runtime bounds vocal analysis to the requested range", () => {
   const server = fs.readFileSync(SERVER_PATH, "utf8");
   assert.match(server, /MMFR_JAPANESE_VOCAL_TIMEOUT_MS \|\| 120000/);
   assert.match(server, /vocalEvidenceAudioPath\(segmentAudioPaths, requestedSegmentIndex, analysisAudioPath\)/);
+  assert.match(server, /attempted: true,[\s\S]*timedOut: \/timed out\/i\.test\(message\)/);
 });

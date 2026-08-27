@@ -60,6 +60,34 @@ $cases = [
         true,
         $richFeatures
     ), 200, false],
+    ['bounded vocal timeout keeps completed external analysis', payload(
+        [['label' => 'ロック', 'score' => 11.6]],
+        true,
+        [
+            'japaneseVocalEvidence' => [
+                'available' => false,
+                'attempted' => true,
+                'timedOut' => true,
+            ],
+            'embeddingGenrePrediction' => [
+                'unknownSourceConsensus' => ['top' => [['label' => 'ロック', 'score' => 26]]],
+            ],
+        ]
+    ), 200, false],
+    ['unattempted vocal analyzer still lacks parity', payload(
+        [['label' => 'ロック', 'score' => 80]],
+        true,
+        [
+            'japaneseVocalEvidence' => [
+                'available' => false,
+                'attempted' => false,
+                'timedOut' => false,
+            ],
+            'embeddingGenrePrediction' => [
+                'unknownSourceConsensus' => ['top' => [['label' => 'ロック', 'score' => 26]]],
+            ],
+        ]
+    ), 200, true],
     ['vocal analyzer alone is insufficient', payload(
         [['label' => 'ロック', 'score' => 80]],
         true,

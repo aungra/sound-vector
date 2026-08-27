@@ -470,7 +470,9 @@ function parseFinalJsonLine(stdout, context) {
 }
 
 async function analyzeJapaneseVocalEvidenceForFile(filePath, options = {}) {
-  if (!japaneseVocalEvidenceReady()) return { available: false, reason: "analyzer-not-configured" };
+  if (!japaneseVocalEvidenceReady()) {
+    return { available: false, attempted: false, timedOut: false, reason: "analyzer-not-configured" };
+  }
   try {
     const { stdout } = await run(EMBEDDING_GENRE_PYTHON, [
       JAPANESE_VOCAL_SCRIPT,
@@ -486,9 +488,17 @@ async function analyzeJapaneseVocalEvidenceForFile(filePath, options = {}) {
         MMFR_JAPANESE_VOCAL_MODEL_PATH: JAPANESE_VOCAL_MODEL_PATH
       }
     });
-    return parseFinalJsonLine(stdout, "Japanese vocal analysis") || { available: false, reason: "empty-response" };
+    const evidence = parseFinalJsonLine(stdout, "Japanese vocal analysis") || { available: false, reason: "empty-response" };
+    return { ...evidence, attempted: true, timedOut: false, inputScope: "requested-30s-range" };
   } catch (error) {
-    return { available: false, reason: `analyzer-failed:${String(error?.message || error || "unknown")}` };
+    const message = String(error?.message || error || "unknown");
+    return {
+      available: false,
+      attempted: true,
+      timedOut: /timed out/i.test(message),
+      inputScope: "requested-30s-range",
+      reason: `analyzer-failed:${message}`,
+    };
   }
 }
 

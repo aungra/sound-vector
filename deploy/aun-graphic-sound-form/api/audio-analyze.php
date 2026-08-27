@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 const MAX_REQUEST_BYTES = 32768;
 const UPSTREAM_FILE = __DIR__ . '/upstream-url.txt';
-const REQUIRED_CLIENT_INFERENCE_REVISION = '2026-08-21-cross-head-arbitration-v96';
+const REQUIRED_CLIENT_INFERENCE_REVISION = '2026-08-23-track-boundary-reranker-v97';
 
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
@@ -44,7 +44,10 @@ function responseHasRichAnalysisParity(string $response, int $status): bool
         ? $features['japaneseVocalEvidence']
         : [];
     $externalTop = $prediction['unknownSourceConsensus']['top'] ?? null;
-    return ($vocalEvidence['available'] ?? false) === true
+    $vocalEvidenceResolved = ($vocalEvidence['available'] ?? false) === true
+        || (($vocalEvidence['attempted'] ?? false) === true
+            && ($vocalEvidence['timedOut'] ?? false) === true);
+    return $vocalEvidenceResolved
         && is_array($externalTop)
         && $externalTop !== [];
 }
