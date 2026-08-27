@@ -114,7 +114,7 @@ function spawnAnalysisServer() {
     MMFR_ENABLE_UNKNOWN80_INDEPENDENT_PAIR_RERANKER: "0",
     MMFR_ENABLE_UNKNOWN80_MUSICFM_RERANKER: "1",
     MMFR_ENABLE_UNKNOWN65_RERANKER: "1",
-    MMFR_MUSICFM_PYTHON: "/Users/kahanishimoto/.headroom-codex/env/bin/python3",
+    MMFR_MUSICFM_PYTHON: "/usr/bin/python3",
     MMFR_UNKNOWN65_PYTHON: "/Users/kahanishimoto/.headroom-codex/env/bin/python3",
     MMFR_LOCAL_GENRE_MODEL_PATH: path.join(ROOT, "genre-training", "genre-model.json"),
   };
