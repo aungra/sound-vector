@@ -4,34 +4,23 @@ import os from "node:os";
 import path from "node:path";
 import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { readAndVerifyProductionRuntime } from "./analysis-runtime-integrity.mjs";
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.resolve(SCRIPT_DIR, "../..");
-const configPath = process.argv[2]
+const configPath = process.argv.slice(2).find(value => !value.startsWith("--"))
   || path.join(os.homedir(), "Library", "Application Support", "MUSICTee", ".env.sftp");
+const confirmed = process.argv.includes("--confirm-analysis-api");
+const audioAnalyzePhp = path.join(SCRIPT_DIR, "api", "audio-analyze.php");
 const stamp = new Date().toISOString().replaceAll(":", "-").replaceAll(".", "-");
-const backupDir = path.join(os.tmpdir(), `sound-form-ui-backup-${stamp}`);
-
-const interfaceHtml = path.join(ROOT, "apps", "demo", "MUSIC MEMORY FITTING ROOM.html");
-const copyEditorHtml = path.join(ROOT, "apps", "demo", "copy-editor.html");
-const APPROVED_INTERFACE_SHA256 = "fcbf3770aa8b1948623a36fdc6b4cd54327133667682ed8a872430fff6b25d02";
-const APPROVED_COPY_EDITOR_SHA256 = "f936539dedef7d75034b0972b8374e7dd24ffd0e7753fe77cc76be8da453d886";
+const backupDir = path.join(os.tmpdir(), `sound-form-analysis-api-backup-${stamp}`);
 const mappings = [
   {
-    local: interfaceHtml,
-    remote: "/home/aungraphic02/www/wp/sound-form/index.html"
+    local: audioAnalyzePhp,
+    remote: "/home/aungraphic02/musictee-audio-service/deploy/aun-graphic-sound-form/api/audio-analyze.php"
   },
   {
-    local: copyEditorHtml,
-    remote: "/home/aungraphic02/www/wp/sound-form/copy-editor.html"
-  },
-  {
-    local: interfaceHtml,
-    remote: "/home/aungraphic02/musictee-audio-service/apps/demo/MUSIC MEMORY FITTING ROOM.html"
-  },
-  {
-    local: copyEditorHtml,
-    remote: "/home/aungraphic02/musictee-audio-service/apps/demo/copy-editor.html"
+    local: audioAnalyzePhp,
+    remote: "/home/aungraphic02/www/wp/sound-form/api/audio-analyze.php"
   }
 ];
 
@@ -56,32 +45,25 @@ function sha256(file) {
   return crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
 }
 
-for (const mapping of mappings) {
-  if (!fs.existsSync(mapping.local)) throw new Error(`Missing deploy input: ${mapping.local}`);
+const source = fs.readFileSync(audioAnalyzePhp, "utf8");
+const requiredRevision = source.match(/const REQUIRED_CLIENT_INFERENCE_REVISION = '([^']+)'/)?.[1] || "";
+const approvedRevision = process.env.MMFR_APPROVED_ANALYSIS_REVISION || "";
+if (!confirmed || !requiredRevision || approvedRevision !== requiredRevision) {
+  throw new Error(
+    "Refusing analysis API deployment. Pass --confirm-analysis-api and set "
+    + `MMFR_APPROVED_ANALYSIS_REVISION=${requiredRevision || "<required revision>"}.`
+  );
 }
-
-const interfaceSource = fs.readFileSync(interfaceHtml, "utf8");
-if (sha256(interfaceHtml) !== APPROVED_INTERFACE_SHA256
-  || !interfaceSource.includes('<p class="simple-intro">SOUND FORMは')
-  || !interfaceSource.includes('class="simple-conversion"')
-  || !interfaceSource.includes('data-genre-fusion="topology-shape-morph-v5"')
-  || !interfaceSource.includes('data-coordinate-motion-envelope="dynamic-amplitude-v2"')) {
-  throw new Error("Refusing to deploy: the approved simple SOUND FORM release was not found");
+if (source.includes("MUSIC MEMORY FITTING ROOM.html") || source.includes("genre-model.json")) {
+  throw new Error("Refusing analysis API deployment: the proxy unexpectedly references UI or model artifacts");
 }
-
-const copyEditorSource = fs.readFileSync(copyEditorHtml, "utf8");
-if (sha256(copyEditorHtml) !== APPROVED_COPY_EDITOR_SHA256
-  || !copyEditorSource.includes("SOUND FORM / Copy editor")
-  || !copyEditorSource.includes('["H03", "紹介文"')) {
-  throw new Error("Refusing to deploy: the SOUND FORM copy editor was not found");
-}
+const runtime = await readAndVerifyProductionRuntime();
+process.stdout.write(`Verified analysis runtime: ${runtime.runtimeRevision} / ${runtime.modelCount} locked models\n`);
 
 const config = parseEnv(configPath);
-if (!config.AUN_SFTP_HOST || !config.AUN_SFTP_USER) {
-  throw new Error("SFTP host or user is missing");
-}
-
+if (!config.AUN_SFTP_HOST || !config.AUN_SFTP_USER) throw new Error("SFTP host or user is missing");
 fs.mkdirSync(backupDir, { recursive: true, mode: 0o700 });
+
 const args = [
   "-P", config.AUN_SFTP_PORT || "22",
   "-o", "BatchMode=yes",
@@ -94,14 +76,11 @@ args.push(`${config.AUN_SFTP_USER}@${config.AUN_SFTP_HOST}`);
 const commands = [];
 const verificationFiles = [];
 mappings.forEach((mapping, index) => {
-  const basename = path.basename(mapping.remote).replaceAll(" ", "-");
-  const backup = path.join(backupDir, `${index}-${basename}`);
-  const verification = path.join(backupDir, `${index}-${basename}.verify`);
+  const backup = path.join(backupDir, `${index}-audio-analyze.php`);
+  const verification = path.join(backupDir, `${index}-audio-analyze.verify.php`);
   const temporary = `${mapping.remote}.tmp-${process.pid}`;
-  const remoteBackup = `${mapping.remote}.bak-${stamp}`;
   verificationFiles.push(verification);
   commands.push(`get ${quote(mapping.remote)} ${quote(backup)}`);
-  commands.push(`put ${quote(backup)} ${quote(remoteBackup)}`);
   commands.push(`put ${quote(mapping.local)} ${quote(temporary)}`);
   commands.push(`rename ${quote(temporary)} ${quote(mapping.remote)}`);
   commands.push(`get ${quote(mapping.remote)} ${quote(verification)}`);
@@ -124,5 +103,5 @@ mappings.forEach((mapping, index) => {
   if (actual !== expected) throw new Error(`SHA mismatch for ${mapping.remote}`);
   process.stdout.write(`${mapping.remote} ${actual}\n`);
 });
+process.stdout.write(`Analysis API revision: ${requiredRevision}\n`);
 process.stdout.write(`Local backups: ${backupDir}\n`);
-process.stdout.write(`Remote backup suffix: .bak-${stamp}\n`);

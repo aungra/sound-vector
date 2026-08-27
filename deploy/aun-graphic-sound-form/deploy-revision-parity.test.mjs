@@ -17,7 +17,7 @@ test("production UI and analysis proxy require the same inference revision", () 
   assert.equal(apiRevision, uiRevision);
 });
 
-test("the pinned deploy release is the simple interface", () => {
+test("the pinned UI deploy release cannot publish analysis files", () => {
   const html = fs.readFileSync(path.join(ROOT, "apps/demo/MUSIC MEMORY FITTING ROOM.html"), "utf8");
   const deploy = fs.readFileSync(path.join(SCRIPT_DIR, "deploy-sound-form-ui.mjs"), "utf8");
   const actualHash = crypto.createHash("sha256").update(html).digest("hex");
@@ -25,8 +25,19 @@ test("the pinned deploy release is the simple interface", () => {
   assert.equal(approvedHash, actualHash);
   assert.match(html, /<p class="simple-intro">SOUND FORMは/);
   assert.match(html, /class="simple-conversion"/);
+  assert.match(deploy, /approved simple SOUND FORM release/);
+  assert.doesNotMatch(deploy, /audio-analyze\.php/);
+  assert.doesNotMatch(deploy, /REQUIRED_CLIENT_INFERENCE_REVISION/);
+  assert.doesNotMatch(deploy, /genre-model\.json/);
+});
+
+test("analysis API deployment is explicit and cannot publish UI or model files", () => {
+  const deploy = fs.readFileSync(path.join(SCRIPT_DIR, "deploy-sound-form-analysis-api.mjs"), "utf8");
+  assert.match(deploy, /--confirm-analysis-api/);
+  assert.match(deploy, /MMFR_APPROVED_ANALYSIS_REVISION/);
+  assert.match(deploy, /readAndVerifyProductionRuntime/);
   assert.match(deploy, /www\/wp\/sound-form\/api\/audio-analyze\.php/);
   assert.match(deploy, /musictee-audio-service\/deploy\/aun-graphic-sound-form\/api\/audio-analyze\.php/);
-  assert.match(deploy, /interfaceRevision !== apiRevision/);
-  assert.match(deploy, /approved simple SOUND FORM release/);
+  assert.doesNotMatch(deploy, /remote: .*index\.html/);
+  assert.doesNotMatch(deploy, /remote: .*genre-model\.json/);
 });

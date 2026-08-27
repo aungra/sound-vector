@@ -1,0 +1,10 @@
+{
+  "runtimeRevision": "unknown65-first-milestone-v1",
+  "embeddingModelVersion": "runtime-audio-fixed-blend-20260815T175636.113979+0000",
+  "embeddingFeatureContractSha256": "95bfd247ab1b5c5b23dca946d6b67a11a2d70894cd6d9703105b4c79caa2a885",
+  "models": {
+    "unknown65Reranker": "dfcdb703857afb38d1356676e43507273b9b9bbeb78d7fc9fa5f3343ca81a19a",
+    "musicFmReranker": "c6df3b01d96a5b284e15287a7f05b5728dcb78aa99c14c082004740e888e7749",
+    "trackPairReranker": "59389e578a4b88fd35ae0f66571d59c1945c98f6e0197422c14bacb6a59da9a3"
+  }
+}
