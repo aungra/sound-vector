@@ -13,25 +13,15 @@ const stamp = new Date().toISOString().replaceAll(":", "-").replaceAll(".", "-")
 const backupDir = path.join(os.tmpdir(), `sound-form-ui-backup-${stamp}`);
 
 const interfaceHtml = path.join(ROOT, "apps", "demo", "MUSIC MEMORY FITTING ROOM.html");
-const copyEditorHtml = path.join(ROOT, "apps", "demo", "copy-editor.html");
-const APPROVED_INTERFACE_SHA256 = "482cf6d1cd06f4d6d9c6658b7183b9f6e8d90204f21034160ea6e689a570b3de";
-const APPROVED_COPY_EDITOR_SHA256 = "f936539dedef7d75034b0972b8374e7dd24ffd0e7753fe77cc76be8da453d886";
+const APPROVED_INTERFACE_SHA256 = "fe1e06bba67510c32b91251407009a0ff3b9622c8e97bf1fc0f05b7da76eb368";
 const mappings = [
   {
     local: interfaceHtml,
     remote: "/home/aungraphic02/www/wp/sound-form/index.html"
   },
   {
-    local: copyEditorHtml,
-    remote: "/home/aungraphic02/www/wp/sound-form/copy-editor.html"
-  },
-  {
     local: interfaceHtml,
     remote: "/home/aungraphic02/musictee-audio-service/apps/demo/MUSIC MEMORY FITTING ROOM.html"
-  },
-  {
-    local: copyEditorHtml,
-    remote: "/home/aungraphic02/musictee-audio-service/apps/demo/copy-editor.html"
   }
 ];
 
@@ -62,16 +52,10 @@ for (const mapping of mappings) {
 
 const interfaceSource = fs.readFileSync(interfaceHtml, "utf8");
 if (sha256(interfaceHtml) !== APPROVED_INTERFACE_SHA256
-  || !interfaceSource.includes('<p class="simple-intro">SOUND FORMは')
-  || !interfaceSource.includes('class="simple-conversion"')) {
-  throw new Error("Refusing to deploy: the approved simple SOUND FORM interface was not found");
-}
-
-const copyEditorSource = fs.readFileSync(copyEditorHtml, "utf8");
-if (sha256(copyEditorHtml) !== APPROVED_COPY_EDITOR_SHA256
-  || !copyEditorSource.includes("SOUND FORM / Copy editor")
-  || !copyEditorSource.includes('["H03", "紹介文"')) {
-  throw new Error("Refusing to deploy: the SOUND FORM copy editor was not found");
+  || !interfaceSource.includes('class="interface-header"')
+  || !interfaceSource.includes('data-genre-fusion="topology-shape-morph-v5"')
+  || !interfaceSource.includes('data-coordinate-motion-envelope="dynamic-amplitude-v2"')) {
+  throw new Error("Refusing to deploy: the approved topology morph v5 SOUND FORM interface was not found");
 }
 
 const config = parseEnv(configPath);

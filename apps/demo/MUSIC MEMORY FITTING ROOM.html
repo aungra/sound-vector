@@ -12004,7 +12004,7 @@
       const topGenre = hierarchyGenre || audio.genreAnalysis?.top?.[0]?.name || audio.inferredGenre || "";
       return resolveGenrePatternForName(topGenre, audio, seed, variantSalt);
     }
-    function resolveGenreBlend(audio = {}, seed = 1, limit = 4) {
+    function resolveGenreBlend(audio = {}, seed = 1, limit = 3) {
       const ranked = Array.isArray(audio.genreAnalysis?.top) ? audio.genreAnalysis.top : [];
       const hierarchy = audio.genreAnalysis?.hierarchy;
       const detailedBlend = hierarchy?.status === "detailed" && Array.isArray(hierarchy.visualBlend)
@@ -12016,7 +12016,7 @@
       const seen = new Set();
       const selected = candidates
         .filter(item => item && genrePatternProfiles[item.name] && !seen.has(item.name) && (seen.add(item.name) || true))
-        .slice(0, Math.max(1, Math.min(4, Math.floor(limit) || 4)))
+        .slice(0, Math.max(1, Math.min(3, Math.floor(limit) || 3)))
         .map((item, rank, source) => ({
           rank,
           genreName: item.name,
@@ -12029,8 +12029,8 @@
       const topScore = selected[0].score || 1;
       return selected.map(item => {
         const relativeScore = clamp01(item.score / topScore);
-        // Secondary scores control structural participation, never object size,
-        // opacity, or stroke mass. Top1 retains the central silhouette.
+        // Scores become contiguous shares of one morphed silhouette. They never
+        // scale or fade separately placed genre objects.
         const strength = item.rank === 0
           ? 1
           : clampRange(relativeScore * (.62 - item.rank * .11), .14, .58);
@@ -14909,6 +14909,45 @@
     function terraFusionSiteCount(item = {}) {
       return Math.max(1, Math.min(6, Math.round(1 + clamp01(item.relativeScore) * 5)));
     }
+    function circularUnitDistance(a, b) {
+      const distance = Math.abs(a - b) % 1;
+      return Math.min(distance, 1 - distance);
+    }
+    function smoothUnit(value) {
+      const t = clamp01(value);
+      return t * t * (3 - 2 * t);
+    }
+    function genreMorphRegionMix(position, shares = [], transition = .035) {
+      const count = shares.length;
+      if (count <= 1) return [{ index: 0, amount: 1 }];
+      const total = shares.reduce((sum, value) => sum + Math.max(0, Number(value) || 0), 0) || 1;
+      const normalized = shares.map(value => Math.max(0, Number(value) || 0) / total);
+      const boundaries = [];
+      normalized.reduce((sum, value, index) => {
+        const next = sum + value;
+        if (index < count - 1) boundaries.push(next);
+        return next;
+      }, 0);
+      const u = ((Number(position) || 0) % 1 + 1) % 1;
+      let owner = count - 1;
+      let cursor = 0;
+      for (let index = 0; index < count; index += 1) {
+        cursor += normalized[index];
+        if (u < cursor || index === count - 1) { owner = index; break; }
+      }
+      const allBoundaries = boundaries.concat([0]);
+      for (let boundaryIndex = 0; boundaryIndex < allBoundaries.length; boundaryIndex += 1) {
+        const boundary = allBoundaries[boundaryIndex];
+        const distance = circularUnitDistance(u, boundary);
+        if (distance > transition) continue;
+        const left = boundaryIndex === boundaries.length ? count - 1 : boundaryIndex;
+        const right = boundaryIndex === boundaries.length ? 0 : boundaryIndex + 1;
+        const signed = ((u - boundary + 1.5) % 1) - .5;
+        const rightAmount = smoothUnit((signed / transition + 1) * .5);
+        return [{ index: left, amount: 1 - rightAmount }, { index: right, amount: rightAmount }];
+      }
+      return [{ index: owner, amount: 1 }];
+    }
     function terraProceduralFusionNodes(primary = {}, cx, cy, sx, sy, seed = 1) {
       const family = primary.visual?.patternFamily || "";
       const nodes = [];
@@ -14966,19 +15005,25 @@
     }
     function terraGenreBlendStructure(blend = [], cx, cy, sx, sy, audio = {}, seed = 1, council = {}) {
       if (blend.length < 2) return "";
-      const nodes = terraProceduralFusionNodes(blend[0], cx, cy, sx, sy, seed);
-      return blend.slice(1).map(item => {
-        const program = terraFusionProgram(item);
-        const siteCount = terraFusionSiteCount(item);
-        const offset = Math.abs(hashString(`${seed}|${blend[0].genreName}|${item.genreName}`)) % nodes.length;
-        const sites = Array.from({ length: siteCount }, (_, index) => {
-          const aIndex = (offset + index * 5) % nodes.length;
-          const bIndex = (aIndex + 5 + item.rank * 2) % nodes.length;
-          return terraFusionSplice(nodes[aIndex], nodes[bIndex], program, index, item.engine?.id, "#000");
-        });
-        return svgGroupWithAttrs(`terra_genre_blend_${item.rank + 1}`, sites,
-          `data-genre="${escapeAttr(item.genreName)}" data-genre-rank="${item.rank + 1}" data-genre-score="${svgFineNumber(item.score)}" data-genre-weight="${svgFineNumber(item.weight)}" data-genre-strength="${svgFineNumber(item.strength)}" data-genre-fusion="structural-splice-v2" data-fusion-program="${program}" data-fusion-site-count="${siteCount}" data-fusion-percentage-policy="site-participation" data-fusion-size-policy="fixed-splice" data-visual-role="genre-topology-fusion"`);
-      }).join("");
+      const active = blend.slice(0, 3);
+      const signatures = active.map((item, index) => terraProceduralFusionNodes(item, cx, cy, sx, sy, seed + index * 4099));
+      const pointCount = Math.min(...signatures.map(points => points.length));
+      const phase = (Math.abs(hashString(`${seed}|genre-shape-morph`)) % pointCount) / pointCount;
+      const points = Array.from({ length: pointCount }, (_, index) => {
+        const mix = genreMorphRegionMix(index / Math.max(1, pointCount - 1) + phase, active.map(item => item.weight), .055);
+        return mix.reduce((point, member) => ({
+          x: point.x + signatures[member.index][index].x * member.amount,
+          y: point.y + signatures[member.index][index].y * member.amount
+        }), { x: 0, y: 0 });
+      });
+      const path = terraFusionStroke(`M${points.map(point => `${svgFineNumber(point.x)} ${svgFineNumber(point.y)}`).join(" L")}`, 6.2,
+        `data-feature="genre-shape-morph" data-fusion-program="landmark-region-morph" data-morph-point-count="${pointCount}"`, "#000");
+      const shares = active.map(item => `${escapeAttr(item.genreName)}:${svgFineNumber(item.weight)}`).join("|");
+      const surface = svgGroupWithAttrs("terra_genre_morph_surface", [path],
+        `data-genre-fusion="topology-shape-morph-v5" data-morph-shares="${shares}" data-morph-boundary-policy="smooth-landmark-interpolation" data-morph-geometry-policy="procedural-landmarks" data-visual-role="unified-genre-morph"`);
+      const records = active.slice(1).map(item => svgGroupWithAttrs(`terra_genre_blend_${item.rank + 1}`, [],
+        `data-genre="${escapeAttr(item.genreName)}" data-genre-rank="${item.rank + 1}" data-genre-score="${svgFineNumber(item.score)}" data-genre-weight="${svgFineNumber(item.weight)}" data-genre-strength="${svgFineNumber(item.strength)}" data-genre-fusion="topology-shape-morph-v5" data-fusion-program="topology-track-region-morph" data-morph-share="${svgFineNumber(item.weight)}" data-fusion-percentage-policy="contiguous-shape-share" data-fusion-size-policy="unified-silhouette" data-visual-role="genre-morph-record"`));
+      return `${surface}${records.join("")}`;
     }
     function terraCouncilCompositionLayer(council = {}, engine = {}, cx, cy, sx, sy, seed) {
       const move = council.winningMove || "final-arbitration";
@@ -15081,7 +15126,7 @@
       const fingerprint = audioClothFingerprint(audio, detail);
       const seed = songSpecificSoundFormSeed(mood, audio, detail, "terra-5.6-song-form");
       const genrePattern = resolveGenrePattern(audio, seed, 0);
-      const genreBlend = resolveGenreBlend(audio, seed, 4);
+      const genreBlend = resolveGenreBlend(audio, seed, 3);
       const fallbackMode = fallbackSoundFormMode(fingerprint, audio, seed);
       const formMode = genrePattern?.id || fallbackMode;
       const baseFamily = genrePattern?.baseFamily || fallbackMode;
@@ -15180,6 +15225,47 @@
       const markup = globalThis.__soundFormArtistMasters?.[genre];
       return markup ? { genre, markup } : null;
     }
+    function artistPathGeometryPoints(pathData = "") {
+      const tokens = String(pathData || "").match(/[A-Za-z]|[-+]?(?:\d*\.\d+|\d+\.?)(?:[eE][-+]?\d+)?/g) || [];
+      const points = [];
+      let cursor = 0, command = "", currentX = 0, currentY = 0, subpathX = 0, subpathY = 0;
+      const add = (x, y) => { if (Number.isFinite(x) && Number.isFinite(y)) points.push({ x, y }); };
+      while (cursor < tokens.length) {
+        if (/^[A-Za-z]$/.test(tokens[cursor])) command = tokens[cursor++];
+        const upper = command.toUpperCase();
+        const size = svgPathCommandSizes[upper];
+        if (!command || size === undefined) break;
+        if (upper === "Z") { currentX = subpathX; currentY = subpathY; command = ""; continue; }
+        if (cursor + size > tokens.length || /^[A-Za-z]$/.test(tokens[cursor])) break;
+        const values = tokens.slice(cursor, cursor + size).map(Number);
+        if (values.some(value => !Number.isFinite(value))) break;
+        cursor += size;
+        const relative = command === command.toLowerCase();
+        const pair = (xIndex, yIndex) => [values[xIndex] + (relative ? currentX : 0), values[yIndex] + (relative ? currentY : 0)];
+        if (upper === "M" || upper === "L" || upper === "T") {
+          const point = pair(0, 1); add(...point); currentX = point[0]; currentY = point[1];
+          if (upper === "M") { subpathX = currentX; subpathY = currentY; command = relative ? "l" : "L"; }
+        } else if (upper === "H") {
+          currentX = values[0] + (relative ? currentX : 0); add(currentX, currentY);
+        } else if (upper === "V") {
+          currentY = values[0] + (relative ? currentY : 0); add(currentX, currentY);
+        } else if (upper === "C") {
+          const p1 = pair(0, 1), p2 = pair(2, 3), end = pair(4, 5); add(...p1); add(...p2); add(...end); currentX = end[0]; currentY = end[1];
+        } else if (upper === "S" || upper === "Q") {
+          const p1 = pair(0, 1), end = pair(2, 3); add(...p1); add(...end); currentX = end[0]; currentY = end[1];
+        } else if (upper === "A") {
+          const end = pair(5, 6); add(...end); currentX = end[0]; currentY = end[1];
+        }
+      }
+      return points;
+    }
+    function artistPathGeometryTracks(pathData = "") {
+      const subpaths = String(pathData || "").match(/[Mm][^Mm]*/g) || [];
+      return subpaths.map(subpath => ({
+        points: artistPathGeometryPoints(subpath),
+        closed: /[zZ]\s*$/.test(subpath.trim())
+      })).filter(track => track.points.length >= 2);
+    }
     function approvedArtistAnchorPoints(markup = "") {
       const source = String(markup || "");
       const points = [];
@@ -15193,13 +15279,293 @@
         points.push({ x, y });
       };
       const collect = expression => { for (const match of source.matchAll(expression)) add(match[1], match[2]); };
-      collect(/\bd=["']\s*[Mm]\s*(-?\d*\.?\d+)[,\s]+(-?\d*\.?\d+)/g);
+      for (const match of source.matchAll(/\bd=["']([^"']+)["']/g)) artistPathGeometryPoints(match[1]).forEach(point => add(point.x, point.y));
       collect(/\bcx=["'](-?\d*\.?\d+)["'][^>]*\bcy=["'](-?\d*\.?\d+)["']/g);
       collect(/\bx1=["'](-?\d*\.?\d+)["'][^>]*\by1=["'](-?\d*\.?\d+)["']/g);
       collect(/\bx2=["'](-?\d*\.?\d+)["'][^>]*\by2=["'](-?\d*\.?\d+)["']/g);
       collect(/\bpoints=["']\s*(-?\d*\.?\d+)[,\s]+(-?\d*\.?\d+)/g);
       collect(/<(?:rect|image)\b[^>]*\bx=["'](-?\d*\.?\d+)["'][^>]*\by=["'](-?\d*\.?\d+)["']/g);
       return points;
+    }
+    function artistMorphBounds(points = []) {
+      if (!points.length) return null;
+      const xs = points.map(point => point.x);
+      const ys = points.map(point => point.y);
+      const minX = Math.min(...xs), maxX = Math.max(...xs);
+      const minY = Math.min(...ys), maxY = Math.max(...ys);
+      return { minX, maxX, minY, maxY, width: Math.max(1, maxX - minX), height: Math.max(1, maxY - minY), cx: (minX + maxX) / 2, cy: (minY + maxY) / 2 };
+    }
+    function artistMorphSignature(markup = "", targetBounds = null, pointCount = 96, radialQuantile = .94) {
+      const anchors = approvedArtistAnchorPoints(markup);
+      const sourceBounds = artistMorphBounds(anchors);
+      if (!sourceBounds || !targetBounds || anchors.length < 3) return [];
+      const aligned = anchors.map(point => ({
+        x: targetBounds.cx + (point.x - sourceBounds.cx) / sourceBounds.width * targetBounds.width,
+        y: targetBounds.cy + (point.y - sourceBounds.cy) / sourceBounds.height * targetBounds.height
+      }));
+      const polar = aligned.map(point => {
+        const dx = (point.x - targetBounds.cx) / targetBounds.width;
+        const dy = (point.y - targetBounds.cy) / targetBounds.height;
+        return { angle: Math.atan2(dy, dx), radius: Math.hypot(dx, dy) };
+      });
+      return Array.from({ length: pointCount }, (_, index) => {
+        const angle = index / pointCount * Math.PI * 2 - Math.PI / 2;
+        const nearby = polar
+          .map(point => ({ ...point, distance: Math.abs(Math.atan2(Math.sin(point.angle - angle), Math.cos(point.angle - angle))) }))
+          .sort((a, b) => a.distance - b.distance)
+          .slice(0, Math.max(4, Math.min(16, Math.ceil(polar.length / 12))))
+          .map(point => point.radius)
+          .sort((a, b) => a - b);
+        const quantileIndex = Math.max(0, Math.min(nearby.length - 1, Math.round((nearby.length - 1) * clamp01(radialQuantile))));
+        const radius = nearby[quantileIndex] || .05;
+        return {
+          x: targetBounds.cx + Math.cos(angle) * radius * targetBounds.width,
+          y: targetBounds.cy + Math.sin(angle) * radius * targetBounds.height
+        };
+      });
+    }
+    function closedMorphPath(points = []) {
+      if (points.length < 3) return "";
+      const point = index => points[(index + points.length) % points.length];
+      const start = point(0);
+      const commands = [`M${svgFineNumber(start.x)} ${svgFineNumber(start.y)}`];
+      for (let index = 0; index < points.length; index += 1) {
+        const p0 = point(index - 1), p1 = point(index), p2 = point(index + 1), p3 = point(index + 2);
+        const c1 = { x: p1.x + (p2.x - p0.x) / 6, y: p1.y + (p2.y - p0.y) / 6 };
+        const c2 = { x: p2.x - (p3.x - p1.x) / 6, y: p2.y - (p3.y - p1.y) / 6 };
+        commands.push(`C${svgFineNumber(c1.x)} ${svgFineNumber(c1.y)} ${svgFineNumber(c2.x)} ${svgFineNumber(c2.y)} ${svgFineNumber(p2.x)} ${svgFineNumber(p2.y)}`);
+      }
+      return `${commands.join(" ")} Z`;
+    }
+    function openMorphPath(points = []) {
+      if (points.length < 2) return "";
+      const commands = [`M${svgFineNumber(points[0].x)} ${svgFineNumber(points[0].y)}`];
+      for (let index = 0; index < points.length - 1; index += 1) {
+        const p0 = points[Math.max(0, index - 1)], p1 = points[index], p2 = points[index + 1], p3 = points[Math.min(points.length - 1, index + 2)];
+        const c1 = { x: p1.x + (p2.x - p0.x) / 6, y: p1.y + (p2.y - p0.y) / 6 };
+        const c2 = { x: p2.x - (p3.x - p1.x) / 6, y: p2.y - (p3.y - p1.y) / 6 };
+        commands.push(`C${svgFineNumber(c1.x)} ${svgFineNumber(c1.y)} ${svgFineNumber(c2.x)} ${svgFineNumber(c2.y)} ${svgFineNumber(p2.x)} ${svgFineNumber(p2.y)}`);
+      }
+      return commands.join(" ");
+    }
+    function resampleMorphTrack(points = [], pointCount = 96, closed = false) {
+      const clean = points.filter((point, index) => !index || Math.hypot(point.x - points[index - 1].x, point.y - points[index - 1].y) > .01);
+      if (clean.length < 2) return [];
+      const source = closed ? clean.concat([{ ...clean[0] }]) : clean;
+      const lengths = [0];
+      for (let index = 1; index < source.length; index += 1) lengths.push(lengths[index - 1] + Math.hypot(source[index].x - source[index - 1].x, source[index].y - source[index - 1].y));
+      const total = lengths.at(-1) || 1;
+      return Array.from({ length: pointCount }, (_, index) => {
+        const distance = total * (closed ? index / pointCount : index / Math.max(1, pointCount - 1));
+        let segment = 1;
+        while (segment < lengths.length - 1 && lengths[segment] < distance) segment += 1;
+        const startLength = lengths[segment - 1], endLength = lengths[segment];
+        const mix = endLength > startLength ? (distance - startLength) / (endLength - startLength) : 0;
+        const a = source[segment - 1], b = source[segment];
+        return { x: a.x + (b.x - a.x) * mix, y: a.y + (b.y - a.y) * mix };
+      });
+    }
+    function artistMorphTopologyTracks(markup = "", targetBounds = null, trackCount = 3, pointCount = 96) {
+      const sourceBounds = artistMorphBounds(approvedArtistAnchorPoints(markup));
+      if (!sourceBounds || !targetBounds) return [];
+      const records = [];
+      String(markup || "").replace(/<(path|rect|circle|ellipse|polygon|polyline|line)\b([^>]*)\/?\s*>/gi, (original, tagName, attributeText) => {
+        const attributes = {};
+        for (const match of attributeText.matchAll(/([\w:-]+)=(['"])(.*?)\2/g)) attributes[match[1]] = match[3];
+        const type = tagName.toLowerCase();
+        const pathData = type === "path" ? attributes.d : vectorPrimitivePathData(type, name => attributes[name]);
+        const pathTracks = artistPathGeometryTracks(pathData || "");
+        for (const pathTrack of pathTracks) {
+          const points = pathTrack.points.map(point => ({
+            x: targetBounds.cx + (point.x - sourceBounds.cx) / sourceBounds.width * targetBounds.width,
+            y: targetBounds.cy + (point.y - sourceBounds.cy) / sourceBounds.height * targetBounds.height
+          }));
+          const closed = pathTrack.closed || /^(rect|circle|ellipse|polygon)$/.test(type);
+          let length = 0;
+          for (let index = 1; index < points.length; index += 1) length += Math.hypot(points[index].x - points[index - 1].x, points[index].y - points[index - 1].y);
+          if (closed) length += Math.hypot(points[0].x - points.at(-1).x, points[0].y - points.at(-1).y);
+          const bounds = artistMorphBounds(points);
+          const extent = bounds ? Math.hypot(bounds.width, bounds.height) : 0;
+          if (length > 24 && extent > 18) records.push({ points, closed, score: length + extent * .7 });
+        }
+        return original;
+      });
+      const ranked = records.sort((a, b) => b.score - a.score);
+      const strongestScore = ranked[0]?.score || 1;
+      const meaningful = ranked.filter(candidate => candidate.score >= strongestScore * .16);
+      const selected = [];
+      const addCandidate = candidate => {
+        if (!candidate) return false;
+        const center = artistMorphBounds(candidate.points);
+        const duplicatesExisting = selected.some(record => {
+          const other = artistMorphBounds(record.points);
+          return center && other && Math.hypot(center.cx - other.cx, center.cy - other.cy) < 24 && Math.abs(candidate.score - record.score) / Math.max(1, candidate.score) < .08;
+        });
+        if (duplicatesExisting || selected.includes(candidate)) return false;
+        selected.push(candidate);
+        return true;
+      };
+      const openSpine = meaningful.find(candidate => !candidate.closed && candidate.score >= strongestScore * .28);
+      addCandidate(openSpine || ranked[0]);
+      if (selected.length < trackCount) {
+        addCandidate(meaningful.find(candidate => candidate.closed !== selected[0]?.closed));
+      }
+      for (const candidate of meaningful.concat(ranked)) {
+        if (selected.length >= trackCount) break;
+        addCandidate(candidate);
+      }
+      return selected.map(record => ({ ...record, points: resampleMorphTrack(record.points, pointCount, record.closed) }));
+    }
+    function alignMorphTrack(track = null, reference = null) {
+      if (!track?.points?.length || !reference?.points?.length) return track;
+      const points = track.points;
+      const referencePoints = reference.points;
+      const score = candidate => candidate.reduce((sum, point, index) => sum + Math.hypot(point.x - referencePoints[index].x, point.y - referencePoints[index].y), 0);
+      if (!reference.closed) {
+        const reversed = [...points].reverse();
+        return { ...track, points: score(reversed) < score(points) ? reversed : points };
+      }
+      let best = points, bestScore = Infinity;
+      for (const direction of [points, [...points].reverse()]) {
+        for (let shift = 0; shift < direction.length; shift += 4) {
+          const shifted = direction.slice(shift).concat(direction.slice(0, shift));
+          const value = score(shifted);
+          if (value < bestScore) { best = shifted; bestScore = value; }
+        }
+      }
+      return { ...track, points: best };
+    }
+    function morphStaticPathData(pathData = "", pointMapper = point => point) {
+      const source = String(pathData || "").trim();
+      const tokens = source.match(/[A-Za-z]|[-+]?(?:\d*\.\d+|\d+\.?)(?:[eE][-+]?\d+)?/g) || [];
+      const output = [];
+      let cursor = 0, command = "", moveIsFirst = false, currentX = 0, currentY = 0, subpathX = 0, subpathY = 0;
+      const moved = (x, y) => { const point = pointMapper({ x, y }); return [svgFineNumber(point.x), svgFineNumber(point.y)]; };
+      while (cursor < tokens.length) {
+        if (/^[A-Za-z]$/.test(tokens[cursor])) { command = tokens[cursor++]; moveIsFirst = command.toUpperCase() === "M"; }
+        const upper = command.toUpperCase();
+        const size = svgPathCommandSizes[upper];
+        if (!command || size === undefined) return source;
+        if (upper === "Z") { output.push("Z"); currentX = subpathX; currentY = subpathY; command = ""; continue; }
+        if (cursor + size > tokens.length || /^[A-Za-z]$/.test(tokens[cursor])) return source;
+        const values = tokens.slice(cursor, cursor + size).map(Number);
+        if (values.some(value => !Number.isFinite(value))) return source;
+        cursor += size;
+        const relative = command === command.toLowerCase();
+        const pair = (xIndex, yIndex) => [values[xIndex] + (relative ? currentX : 0), values[yIndex] + (relative ? currentY : 0)];
+        if (upper === "M" || upper === "L" || upper === "T") {
+          const point = pair(0, 1), mapped = moved(...point);
+          output.push(`${upper === "M" ? (moveIsFirst ? "M" : "L") : upper} ${mapped[0]} ${mapped[1]}`);
+          currentX = point[0]; currentY = point[1];
+          if (upper === "M" && moveIsFirst) { subpathX = currentX; subpathY = currentY; moveIsFirst = false; }
+        } else if (upper === "H" || upper === "V") {
+          const x = upper === "H" ? values[0] + (relative ? currentX : 0) : currentX;
+          const y = upper === "V" ? values[0] + (relative ? currentY : 0) : currentY;
+          const mapped = moved(x, y); output.push(`L ${mapped[0]} ${mapped[1]}`); currentX = x; currentY = y;
+        } else if (upper === "C") {
+          const p1 = pair(0, 1), p2 = pair(2, 3), end = pair(4, 5);
+          const m1 = moved(...p1), m2 = moved(...p2), m3 = moved(...end);
+          output.push(`C ${m1[0]} ${m1[1]} ${m2[0]} ${m2[1]} ${m3[0]} ${m3[1]}`); currentX = end[0]; currentY = end[1];
+        } else if (upper === "S" || upper === "Q") {
+          const p1 = pair(0, 1), end = pair(2, 3), m1 = moved(...p1), m2 = moved(...end);
+          output.push(`${upper} ${m1[0]} ${m1[1]} ${m2[0]} ${m2[1]}`); currentX = end[0]; currentY = end[1];
+        } else if (upper === "A") {
+          const end = pair(5, 6), mapped = moved(...end);
+          output.push(`A ${svgFineNumber(values[0])} ${svgFineNumber(values[1])} ${svgFineNumber(values[2])} ${values[3] ? 1 : 0} ${values[4] ? 1 : 0} ${mapped[0]} ${mapped[1]}`); currentX = end[0]; currentY = end[1];
+        }
+      }
+      return output.join(" ");
+    }
+    function artistMorphSignaturePoint(signature = [], angle = 0) {
+      if (!signature.length) return { x: 0, y: 0 };
+      const position = (((angle + Math.PI / 2) / (Math.PI * 2)) % 1 + 1) % 1 * signature.length;
+      const index = Math.floor(position) % signature.length;
+      const next = (index + 1) % signature.length;
+      const mix = position - Math.floor(position);
+      return { x: signature[index].x * (1 - mix) + signature[next].x * mix, y: signature[index].y * (1 - mix) + signature[next].y * mix };
+    }
+    function morphArtistMasterMarkup(markup = "", bounds = null, sourceSignature = [], targetSignature = []) {
+      if (!bounds || !sourceSignature.length || sourceSignature.length !== targetSignature.length) return markup;
+      const mapPoint = point => {
+        const dx = point.x - bounds.cx, dy = point.y - bounds.cy;
+        const angle = Math.atan2(dy / bounds.height, dx / bounds.width);
+        const source = artistMorphSignaturePoint(sourceSignature, angle);
+        const target = artistMorphSignaturePoint(targetSignature, angle);
+        const sourceRadius = Math.max(1, Math.hypot(source.x - bounds.cx, source.y - bounds.cy));
+        const radius = Math.hypot(dx, dy);
+        const influence = clampRange(.18 + radius / sourceRadius * .82, .18, 1);
+        let shiftX = (target.x - source.x) * influence;
+        let shiftY = (target.y - source.y) * influence;
+        const shiftLength = Math.hypot(shiftX, shiftY);
+        if (shiftLength > 260) { shiftX *= 260 / shiftLength; shiftY *= 260 / shiftLength; }
+        return { x: point.x + shiftX, y: point.y + shiftY };
+      };
+      return String(markup || "").replace(/<(path|rect|circle|ellipse|polygon|polyline|line)\b([^>]*)\/?\s*>/gi, (original, tagName, attributeText) => {
+        const attributes = {};
+        for (const match of attributeText.matchAll(/([\w:-]+)=(['"])(.*?)\2/g)) attributes[match[1]] = match[3];
+        const pathData = tagName.toLowerCase() === "path" ? attributes.d : vectorPrimitivePathData(tagName, name => attributes[name]);
+        if (!pathData) return original;
+        const geometryNames = new Set(["d", "x", "y", "width", "height", "rx", "ry", "cx", "cy", "r", "x1", "y1", "x2", "y2", "points"]);
+        const presentation = Array.from(attributeText.matchAll(/([\w:-]+)=(['"])(.*?)\2/g))
+          .filter(match => !geometryNames.has(match[1]))
+          .map(match => `${match[1]}=${match[2]}${match[3]}${match[2]}`).join(" ");
+        return `<path d="${morphStaticPathData(pathData, mapPoint)}"${presentation ? ` ${presentation}` : ""}/>`;
+      });
+    }
+    function artistMasterShapeMorphBundle(mood = {}, primaryMarkup = "") {
+      const audio = mood.audio || {};
+      const blend = resolveGenreBlend(audio, hashString(`${mood.id || ""}|artist-shape-morph`), 3)
+        .filter(item => globalThis.__soundFormArtistMasters?.[item.genreName]);
+      if (blend.length < 2) return null;
+      const primaryAnchors = approvedArtistAnchorPoints(primaryMarkup);
+      const targetBounds = artistMorphBounds(primaryAnchors);
+      if (!targetBounds) return null;
+      const pointCount = 96;
+      const outerSignatures = blend.map(item => artistMorphSignature(globalThis.__soundFormArtistMasters[item.genreName], targetBounds, pointCount, .94));
+      if (outerSignatures.some(signature => signature.length !== pointCount)) return null;
+      const phase = (Math.abs(hashString(`${mood.id || ""}|${blend.map(item => item.genreName).join("|")}`)) % pointCount) / pointCount;
+      const transition = clampRange(.018 + (1 - clamp01(audio.onset)) * .045 + clamp01(audio.rhythm) * .008, .018, .07);
+      const blendedOuterSignature = Array.from({ length: pointCount }, (_, index) => {
+        const mix = genreMorphRegionMix(index / pointCount + phase, blend.map(item => item.weight), transition);
+        return mix.reduce((value, member) => ({
+          x: value.x + outerSignatures[member.index][index].x * member.amount,
+          y: value.y + outerSignatures[member.index][index].y * member.amount
+        }), { x: 0, y: 0 });
+      });
+      const topologySets = blend.map(item => artistMorphTopologyTracks(globalThis.__soundFormArtistMasters[item.genreName], targetBounds, 3, pointCount));
+      const referenceTracks = topologySets[0] || [];
+      if (!referenceTracks.length) return null;
+      const tracks = referenceTracks.map((reference, trackIndex) => {
+        const members = topologySets.map((set, memberIndex) => {
+          const candidate = set[trackIndex] || set[set.length - 1] || reference;
+          return memberIndex ? alignMorphTrack(candidate, reference) : reference;
+        });
+        const points = Array.from({ length: pointCount }, (_, index) => {
+          const progress = index / Math.max(1, reference.closed ? pointCount : pointCount - 1);
+          const mix = genreMorphRegionMix(progress + phase, blend.map(item => item.weight), transition);
+          return mix.reduce((value, member) => ({
+            x: value.x + members[member.index].points[index].x * member.amount,
+            y: value.y + members[member.index].points[index].y * member.amount
+          }), { x: 0, y: 0 });
+        });
+        return { points, closed: reference.closed };
+      });
+      const shares = blend.map(item => `${escapeAttr(item.genreName)}:${svgFineNumber(item.weight)}`).join("|");
+      const common = `fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" data-feature="genre-shape-morph" data-coordinate-motion="audio-path-v1"`;
+      const widths = [clampRange(5.6 + clamp01(audio.bass) * 3.8, 5.6, 9.4), 3, 2.2];
+      const roles = ["primary-spine", "supporting-rail", "detail-contour"];
+      const paths = tracks.map((track, index) => `<path d="${track.closed ? closedMorphPath(track.points) : openMorphPath(track.points)}" stroke-width="${svgFineNumber(widths[index] || widths.at(-1))}" ${common} data-morph-semantic-role="${roles[index]}" data-morph-topology="${track.closed ? "closed" : "open"}" data-terra-kind="artist-master-morph-${roles[index]}"/>`).join("");
+      const topologies = tracks.map(track => track.closed ? "closed" : "open").join(",");
+      const surface = `<g id="terra_genre_morph_surface" data-layer="terra_genre_morph_surface" data-genre-fusion="topology-shape-morph-v5" data-morph-shares="${shares}" data-morph-point-count="${pointCount}" data-morph-semantic-roles="${roles.slice(0, tracks.length).join(",")}" data-morph-topologies="${topologies}" data-morph-transition-width="${svgFineNumber(transition)}" data-morph-boundary-policy="audio-weighted-topology-interpolation" data-morph-geometry-policy="artist-path-arc-length-tracks" data-fusion-percentage-policy="contiguous-shape-share" data-fusion-size-policy="unified-silhouette" data-visual-role="unified-artist-master-morph">${paths}</g>`;
+      return { surface, primaryMarkup: morphArtistMasterMarkup(primaryMarkup, targetBounds, outerSignatures[0], blendedOuterSignature) };
+    }
+    function artistMorphRecordGroup(groupMarkup = "") {
+      let opening = String(groupMarkup || "").match(/^<g\b[^>]*>/)?.[0];
+      if (!opening) return groupMarkup;
+      ["data-fusion-anchor-source", "data-genre-fusion", "data-fusion-program", "data-fusion-percentage-policy", "data-fusion-size-policy"].forEach(name => {
+        opening = opening.replace(new RegExp(`\\s${name}=(['\"])[^'\"]*\\1`, "g"), "");
+      });
+      return `${opening.replace(/>$/, ' data-fusion-anchor-source="artist-master-topology-tracks" data-genre-fusion="topology-shape-morph-v5" data-fusion-program="topology-track-region-morph" data-fusion-percentage-policy="contiguous-shape-share" data-fusion-size-policy="unified-silhouette">')}</g>`;
     }
     function artistStructuralFusionGroup(groupMarkup = "", artistMarkup = "", salt = "") {
       const opening = String(groupMarkup || "").match(/^<g\b[^>]*>/)?.[0];
@@ -15257,24 +15623,27 @@
       const surfaceRange = svgGroupRangeById(source, "sound_form_surface");
       if (!surfaceRange) return source;
       const engineId = (source.match(/\bdata-engine=["']([^"']+)["']/) || [])[1] || "terra-fallback-field-v1";
-      const artistMarkup = prepareArtistMasterMotionMarkup(approved.markup, engineId);
+      const morphBundle = artistMasterShapeMorphBundle(mood, approved.markup);
+      const artistMarkup = prepareArtistMasterMotionMarkup(morphBundle?.primaryMarkup || approved.markup, engineId);
       const blendIds = unique(Array.from(source.matchAll(/<g\b[^>]*\bid=["'](terra_genre_blend_\d+)["'][^>]*>/g), match => match[1]));
       const opening = surfaceRange.opening.replace(/>$/, ` data-artist-master-revision="illustrator-v2" data-artist-master-genre="${escapeAttr(approved.genre)}">`);
       const master = `<g id="terra_primary_structure" data-layer="terra_primary_structure" data-visual-role="approved-artist-master" data-genre="${escapeAttr(approved.genre)}" data-terra-engine="${escapeAttr(engineId)}">${artistMarkup}</g>`;
+      const morphSurface = morphBundle?.surface || "";
       let surface = source.slice(surfaceRange.start, surfaceRange.end);
       surface = replaceSvgGroupById(surface, "terra_primary_structure", master);
+      if (morphSurface) surface = replaceSvgGroupById(surface, "terra_genre_morph_surface", morphSurface);
       blendIds.forEach(id => {
         const blend = svgGroupMarkupById(surface, id);
-        surface = replaceSvgGroupById(surface, id, artistStructuralFusionGroup(blend, artistMarkup, `${approved.genre}|${id}`));
+        surface = replaceSvgGroupById(surface, id, artistMorphRecordGroup(blend));
       });
       const inner = surface.slice(surfaceRange.opening.length, -4);
       const replacement = `${opening}${inner}</g>`;
       return `${source.slice(0, surfaceRange.start)}${replacement}${source.slice(surfaceRange.end)}`
-        .replace(/<svg\b/, `<svg data-artist-master-motion="audio-coordinate-v1" data-artist-master-style="inline-presentation-v1" data-artist-master-revision="illustrator-v2" data-artist-master-genre="${escapeAttr(approved.genre)}"`);
+        .replace(/<svg\b/, `<svg data-artist-master-motion="audio-coordinate-v2" data-coordinate-motion-envelope="dynamic-amplitude-v2" data-artist-master-style="inline-presentation-v1" data-artist-master-revision="illustrator-v2" data-artist-master-genre="${escapeAttr(approved.genre)}"`);
     }
     function generateSoundClothReversibleSvg(mood, tick = Date.now(), settings = null) {
       const generated = invertPrintSvgColors(generateTerra56SoundSvg(mood, tick, settings))
-        .replace(/<svg\b/, '<svg data-genre-fusion="structural-splice-v2" data-fusion-percentage-policy="site-participation"');
+        .replace(/<svg\b/, '<svg data-genre-fusion="topology-shape-morph-v5" data-fusion-percentage-policy="contiguous-shape-share" data-fusion-size-policy="unified-silhouette" data-morph-geometry-policy="artist-path-arc-length-tracks"');
       return applyApprovedArtistMaster(generated, mood);
       const audio = mood.audio || {};
       const detail = normaliseAudioDetail(audio.detail || {}, audio);
@@ -16537,10 +16906,14 @@
       return gesture;
     }
     function isCentralMotionPart(partId = "") {
-      return partId === "terra_primary_structure" || partId === "terra_genre_object" || /^terra_genre_blend_\d+$/.test(partId);
+      return partId === "terra_primary_structure" || partId === "terra_genre_morph_surface" || partId === "terra_genre_object" || /^terra_genre_blend_\d+$/.test(partId);
     }
     function centralMotionRole(partId = "") {
       if (partId === "terra_primary_structure") return { gain: 1.16, delay: 0, direction: 1 };
+      // v4 makes this unified contour the dominant visible silhouette. Treating
+      // it as a secondary blend record leaves the heavy outline almost static
+      // while its internal master moves, which visually compresses dynamics.
+      if (partId === "terra_genre_morph_surface") return { gain: 1.08, delay: .08, direction: 1 };
       if (partId === "terra_genre_object") return { gain: .68, delay: .46, direction: -1 };
       const rank = Number((String(partId).match(/^terra_genre_blend_(\d+)$/) || [])[1] || 1);
       return {
@@ -16988,7 +17361,7 @@
       const frame = patternMotionFrameForShirt(shirt, phase, equalizerSignal);
       const shirtMotionProfile = frame.motionProfile || terraFallbackMotionProfile;
       const blendPartIds = Array.from(source.matchAll(/<g\b[^>]*\bid=(["'])?(terra_genre_blend_\d+)\1?[^>]*>/g), match => match[2]);
-      const partIds = unique(["terra_family_structure", "terra_primary_structure", "terra_genre_object", "terra_council_composition", "terra_grain_field"].concat(blendPartIds));
+      const partIds = unique(["terra_family_structure", "terra_primary_structure", "terra_genre_morph_surface", "terra_genre_object", "terra_council_composition", "terra_grain_field"].concat(blendPartIds));
       const withPartFrames = partIds.reduce((svg, partId, index) => svg.replace(new RegExp(`<g\\b([^>]*\\bid=(["'])${partId}\\2[^>]*)>`), (_, attrs) => {
         const groupTag = `<g${attrs}>`;
         const baseTransform = svgAttr(groupTag, "transform");
@@ -18285,9 +18658,9 @@
       if (String(shirt.art || "").includes("reversible-sound-form-v4") || String(shirt.art || "").includes('data-engine-family="terra-5.6"')) {
         const terraArt = String(shirt.art || "").includes('data-engine-family="terra-5.6"');
         const needsPeripheralMigration = terraArt && !String(shirt.art || "").includes('data-peripheral-geometry="suppressed-v1"');
-        const needsFusionMigration = terraArt && !String(shirt.art || "").includes('data-genre-fusion="structural-splice-v2"');
+        const needsFusionMigration = terraArt && !String(shirt.art || "").includes('data-genre-fusion="topology-shape-morph-v5"');
         const needsArtistMasterStyleMigration = terraArt && !String(shirt.art || "").includes('data-artist-master-style="inline-presentation-v1"');
-        const needsArtistMasterMotionMigration = terraArt && !String(shirt.art || "").includes('data-artist-master-motion="audio-coordinate-v1"');
+        const needsArtistMasterMotionMigration = terraArt && !String(shirt.art || "").includes('data-artist-master-motion="audio-coordinate-v2"');
         if (genreUpdated || needsPeripheralMigration || needsFusionMigration || needsArtistMasterStyleMigration || needsArtistMasterMotionMigration) {
           const tick = Number(shirt.variantSeed || Date.now());
           const mood = {

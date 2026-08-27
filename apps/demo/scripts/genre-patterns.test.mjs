@@ -496,7 +496,7 @@ test("genre pattern profiles cover all calibrated genre names", () => {
   }
 });
 
-test("Terra combines the highest-ranked genre structures in deterministic score order", () => {
+test("Terra morphs the highest-ranked three genre structures in deterministic score order", () => {
   const { resolveGenreBlend, generateSoundClothReversibleSvg } = loadPatternApi();
   const audio = {
     inferredGenre: "ダブ",
@@ -512,32 +512,33 @@ test("Terra combines the highest-ranked genre structures in deterministic score 
     detail: { waveform: Array.from({ length: 128 }, (_, index) => Math.sin(index * .19) * .66) }
   };
   const blend = resolveGenreBlend(audio, 8128);
-  assert.equal(blend.length, 4);
-  assert.deepEqual(Array.from(blend, item => item.genreName), ["ダブ", "ディープ・ハウス", "ダブステップ", "レゲエ"]);
+  assert.equal(blend.length, 3);
+  assert.deepEqual(Array.from(blend, item => item.genreName), ["ダブ", "ディープ・ハウス", "ダブステップ"]);
   assert.equal(blend[0].strength, 1);
-  assert.ok(blend[0].weight > blend[1].weight && blend[1].weight > blend[2].weight && blend[2].weight > blend[3].weight);
-  assert.ok(blend[1].strength > blend[2].strength && blend[2].strength > blend[3].strength);
+  assert.ok(blend[0].weight > blend[1].weight && blend[1].weight > blend[2].weight);
+  assert.ok(blend[1].strength > blend[2].strength);
   assert.ok(Math.abs(blend.reduce((sum, item) => sum + item.weight, 0) - 1) < 1e-9);
 
   const mood = { id: "genre-blend", label: "genre blend", audioFileName: "genre-blend.wav", audio };
   const first = generateSoundClothReversibleSvg(mood, 1800002000000);
   const second = generateSoundClothReversibleSvg(mood, 1800002000000);
   assert.equal(first, second);
-  assert.match(first, /data-genre-blend="ダブ:96%:[\d.]+%\|ディープ・ハウス:73%:[\d.]+%\|ダブステップ:48%:[\d.]+%\|レゲエ:24%:[\d.]+%"/);
-  assert.match(first, /data-genre-blend-count="4"/);
+  assert.match(first, /data-genre-blend="ダブ:96%:[\d.]+%\|ディープ・ハウス:73%:[\d.]+%\|ダブステップ:48%:[\d.]+%"/);
+  assert.match(first, /data-genre-blend-count="3"/);
   assert.match(first, /id="terra_primary_structure"[^>]*data-genre="ダブ"[^>]*data-genre-rank="1"[^>]*data-genre-strength="1"/);
   assert.match(first, /id="terra_genre_blend_2"[^>]*data-genre="ディープ・ハウス"[^>]*data-genre-rank="2"/);
   assert.match(first, /id="terra_genre_blend_3"[^>]*data-genre="ダブステップ"[^>]*data-genre-rank="3"/);
-  assert.match(first, /id="terra_genre_blend_4"[^>]*data-genre="レゲエ"[^>]*data-genre-rank="4"/);
-  assert.match(first, /data-genre-fusion="structural-splice-v2"/);
-  assert.match(first, /data-fusion-percentage-policy="site-participation"/);
-  assert.match(first, /data-fusion-size-policy="fixed-splice"/);
+  assert.doesNotMatch(first, /id="terra_genre_blend_4"/);
+  assert.match(first, /id="terra_genre_morph_surface"[^>]*data-genre-fusion="topology-shape-morph-v5"/);
+  assert.match(first, /data-genre-fusion="topology-shape-morph-v5"/);
+  assert.match(first, /data-fusion-percentage-policy="contiguous-shape-share"/);
+  assert.match(first, /data-fusion-size-policy="unified-silhouette"/);
   assert.doesNotMatch(first, /data-blend-scale=|data-variant-opacity=/);
   assert.match(first, /id="pcm_reversible_data"[^>]*data-edit-policy="lock-do-not-edit"/);
   assert.doesNotMatch(first, /data-byte=|data-index=|display="none"|stroke-opacity=|fill-opacity=/);
 });
 
-test("genre percentages change fusion participation instead of motif dimensions", () => {
+test("genre percentages change contiguous morph shares and boundary coordinates", () => {
   const { generateSoundClothReversibleSvg } = loadPatternApi();
   const makeMood = secondaryScore => ({
     id: `fusion-${secondaryScore}`,
@@ -556,11 +557,14 @@ test("genre percentages change fusion participation instead of motif dimensions"
   });
   const high = generateSoundClothReversibleSvg(makeMood(80), 1800002100000);
   const low = generateSoundClothReversibleSvg(makeMood(30), 1800002100000);
-  const siteCount = svg => Number((svg.match(/id="terra_genre_blend_2"[^>]*data-fusion-site-count="(\d+)"/) || [])[1]);
-  assert.ok(siteCount(high) > siteCount(low), `${siteCount(high)} should exceed ${siteCount(low)}`);
+  const secondaryShare = svg => Number((svg.match(/id="terra_genre_blend_2"[^>]*data-morph-share="([\d.]+)"/) || [])[1]);
+  const morphPath = svg => (svg.match(/id="terra_genre_morph_surface"[\s\S]*?<path\b[^>]*\bd="([^"]+)"/) || [])[1] || "";
+  assert.ok(secondaryShare(high) > secondaryShare(low), `${secondaryShare(high)} should exceed ${secondaryShare(low)}`);
+  assert.notEqual(morphPath(high), morphPath(low));
   for (const svg of [high, low]) {
-    assert.match(svg, /id="terra_genre_blend_2"[^>]*data-fusion-program="orthogonal-splice"/);
-    assert.match(svg, /data-fusion-size-policy="fixed-splice"/);
+    assert.match(svg, /id="terra_genre_blend_2"[^>]*data-fusion-program="topology-track-region-morph"/);
+    assert.match(svg, /data-fusion-size-policy="unified-silhouette"/);
+    assert.match(svg, /data-morph-boundary-policy="smooth-landmark-interpolation"/);
     assert.doesNotMatch(svg, /data-blend-scale=|data-genre-opacity=|data-fusion-opacity=/);
   }
 });
@@ -869,12 +873,16 @@ test("motion envelope separates quiet passages from strong attacks by role while
     + Math.abs(accent.rotation) * 5;
   const quietPrimary = centralMotionAccent(quiet, profile, "terra_primary_structure");
   const attackPrimary = centralMotionAccent(attack, profile, "terra_primary_structure");
+  const attackMorph = centralMotionAccent(attack, profile, "terra_genre_morph_surface");
   const attackObject = centralMotionAccent(attack, profile, "terra_genre_object");
   const attackBlend1 = centralMotionAccent(attack, profile, "terra_genre_blend_1");
   const attackBlend3 = centralMotionAccent(attack, profile, "terra_genre_blend_3");
 
   assert.ok(attack.surge > quiet.surge * 12, `expected attack surge contrast, got ${attack.surge / quiet.surge}`);
   assert.ok(displacement(attackPrimary) > displacement(quietPrimary) * 8);
+  assert.ok(displacement(attackMorph) > displacement(attackPrimary) * .72);
+  assert.ok(displacement(attackPrimary) > displacement(attackMorph));
+  assert.ok(displacement(attackMorph) > displacement(attackObject));
   assert.ok(displacement(attackPrimary) > displacement(attackObject));
   assert.ok(displacement(attackObject) > displacement(attackBlend1));
   assert.ok(displacement(attackBlend1) > displacement(attackBlend3));
@@ -947,7 +955,8 @@ test("production artist-master output changes path coordinates from audio withou
   const mood = { id: "artist-coordinate-motion", label: "artist coordinate motion", audioFileName: "punk.wav", audio };
   const svg = generateSoundClothReversibleSvg(mood, 1800002200000);
   const movingTags = Array.from(svg.matchAll(/<(?:path|rect|circle|ellipse|polygon|polyline|line)\b[^>]*\bdata-coordinate-motion="audio-path-v1"[^>]*\/>/g), match => match[0]);
-  const pathTag = movingTags.find(tag => /^<path\b/.test(tag) && /\bd="[^"]+"/.test(tag));
+  const morphMovingTags = movingTags.filter(tag => /data-terra-kind="artist-master-morph-/.test(tag));
+  const pathTag = movingTags.find(tag => /^<path\b/.test(tag) && /\bd="[^"]+"/.test(tag) && !/artist-master-morph-/.test(tag));
   const original = (pathTag?.match(/\bd="([^"]+)"/) || [])[1] || "";
   const motionKind = (pathTag?.match(/\bdata-terra-kind="([^"]+)"/) || [])[1] || "";
   const engineId = (svg.match(/\bdata-engine="([^"]+)"/) || [])[1];
@@ -965,8 +974,10 @@ test("production artist-master output changes path coordinates from audio withou
   const quietPath = deformVisiblePathData(original, quiet, "terra_primary_structure", 0, profile, motionKind);
 
   assert.match(svg, /data-artist-master-revision="illustrator-v2"/);
-  assert.match(svg, /data-artist-master-motion="audio-coordinate-v1"/);
-  assert.ok(movingTags.length >= 8 && movingTags.length <= 36, `coordinate motion count ${movingTags.length}`);
+  assert.match(svg, /data-artist-master-motion="audio-coordinate-v2"/);
+  assert.match(svg, /data-coordinate-motion-envelope="dynamic-amplitude-v2"/);
+  assert.equal(morphMovingTags.length, 3);
+  assert.ok(movingTags.length >= 11 && movingTags.length <= 39, `coordinate motion count ${movingTags.length}`);
   assert.ok(original.length > 0);
   assert.notEqual(loudPath, original);
   assert.notEqual(loudPath, quietPath);

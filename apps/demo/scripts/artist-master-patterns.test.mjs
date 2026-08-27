@@ -54,6 +54,27 @@ test("all 32 live patterns use the approved Top1 structure and restore productio
   }
 });
 
+test("32 artist masters preserve open and closed morph topology instead of sharing one circular contour", () => {
+  const api = loadIllustratorApi({ artistMasters: true });
+  const topologySignatures = [];
+  for (const [index, item] of manifest.files.entries()) {
+    const mood = moodForGenre(api, item.genre, index);
+    mood.audio.genreAnalysis.top = [
+      { name: item.genre, score: 70 },
+      { name: manifest.files[(index + 7) % manifest.files.length].genre, score: 20 },
+      { name: manifest.files[(index + 17) % manifest.files.length].genre, score: 10 }
+    ];
+    const svg = api.generateSoundClothReversibleSvg(mood, 1800020000000 + index, { variantSeed: index });
+    const signature = svg.match(/id=["']terra_genre_morph_surface["'][^>]*data-morph-topologies=["']([^"']+)["']/)?.[1] || "";
+    assert.ok(signature, `${item.genre} did not expose its morph topology`);
+    topologySignatures.push(signature);
+  }
+  assert.ok(topologySignatures.some(signature => signature.includes("open")), "open artist paths were closed into radial contours");
+  assert.ok(topologySignatures.some(signature => signature.includes("closed")), "closed artist contours were not preserved");
+  assert.ok(new Set(topologySignatures).size >= 3, `expected at least 3 topology signatures, received ${new Set(topologySignatures).size}`);
+  assert.ok(topologySignatures.filter(signature => signature.startsWith("open")).length > manifest.files.length / 2, "open primary spines are dominated by closed radial contours");
+});
+
 test("artist master replacement does not alter protected PCM geometry or ranked genre blends", () => {
   const originalApi = loadIllustratorApi();
   const approvedApi = loadIllustratorApi({ artistMasters: true });
@@ -71,8 +92,15 @@ test("artist master replacement does not alter protected PCM geometry or ranked 
   const original = originalApi.generateSoundClothReversibleSvg(originalMood, tick, settings);
   const approved = approvedApi.generateSoundClothReversibleSvg(approvedMood, tick, settings);
   assert.equal((approved.match(/id=["']terra_genre_blend_\d+["']/g) || []).length, 2);
-  assert.match(approved, /data-genre-fusion=["']structural-splice-v2["']/);
-  assert.match(approved, /data-fusion-anchor-source=["']artist-master-nodes["']/);
+  assert.match(approved, /data-genre-fusion=["']topology-shape-morph-v5["']/);
+  assert.match(approved, /id=["']terra_genre_morph_surface["'][^>]*data-morph-point-count=["']96["']/);
+  assert.match(approved, /data-morph-semantic-roles=["']primary-spine(?:,supporting-rail)?(?:,detail-contour)?["']/);
+  assert.match(approved, /data-morph-topologies=["'](?:open|closed)(?:,(?:open|closed)){0,2}["']/);
+  assert.match(approved, /data-morph-boundary-policy=["']audio-weighted-topology-interpolation["']/);
+  assert.match(approved, /data-morph-geometry-policy=["']artist-path-arc-length-tracks["']/);
+  assert.match(approved, /data-fusion-anchor-source=["']artist-master-topology-tracks["']/);
+  assert.match(approved, /data-fusion-percentage-policy=["']contiguous-shape-share["']/);
+  assert.doesNotMatch(approved, /genre-fusion-splice|structural-splice-v2|shape-morph-v3|site-participation/);
   assert.doesNotMatch(approved, /data-blend-scale=|data-fusion-opacity=/);
 
   const retainedLayerIds = Array.from(original.matchAll(/<g\b[^>]*\bid=["'](terra_(?:grain_field|genre_object|family_structure|council_composition))["']/g), match => match[1]);

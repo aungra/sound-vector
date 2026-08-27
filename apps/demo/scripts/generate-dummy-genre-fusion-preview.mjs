@@ -145,8 +145,10 @@ const output = replaceProtectedPcm(api, generated, audio.detail, 2400)
 const root = output.match(/<svg\b[^>]*>/)?.[0] || "";
 const engine = root.match(/data-engine="([^"]+)"/)?.[1] || "";
 const blend = root.match(/data-genre-blend="([^"]+)"/)?.[1] || "";
-const soulSites = output.match(/id="terra_genre_blend_2"[^>]*data-fusion-site-count="(\d+)"/)?.[1] || "0";
-const chipSites = output.match(/id="terra_genre_blend_3"[^>]*data-fusion-site-count="(\d+)"/)?.[1] || "0";
+const soulShare = Number(output.match(/id="terra_genre_blend_2"[^>]*data-morph-share="([\d.]+)"/)?.[1] || 0);
+const chipShare = Number(output.match(/id="terra_genre_blend_3"[^>]*data-morph-share="([\d.]+)"/)?.[1] || 0);
+const morphPoints = output.match(/id="terra_genre_morph_surface"[^>]*data-morph-point-count="(\d+)"/)?.[1] || "0";
+const morphTopologies = output.match(/id="terra_genre_morph_surface"[^>]*data-morph-topologies="([^"]+)"/)?.[1] || "procedural";
 const inner = output.replace(/^<svg\b[^>]*>/, "").replace(/<\/svg>\s*$/, "");
 
 const preview = `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1800" viewBox="0 0 1600 1800" role="img" aria-label="パンク57%、ソウルミュージック24%、チップチューン20%のジャンル融合プレビュー">
@@ -161,12 +163,12 @@ const preview = `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="18
   <text x="120" y="154" class="lead">パンク 57% / ソウルミュージック 24% / チップチューン 20%</text>
   <svg x="200" y="220" width="1200" height="1200" viewBox="0 0 1200 1200">${inner}</svg>
   <line x1="120" y1="1480" x2="1480" y2="1480" stroke="#fff" stroke-width="1"/>
-  <text x="120" y="1532" class="lead">structural-splice-v2</text>
-  <text x="120" y="1574" class="meta">Top1: パンクのIllustrator承認主形を維持</text>
-  <text x="120" y="1612" class="meta">Top2: ソウルの counterpoint-splice / ${xmlText(soulSites)} sites</text>
-  <text x="120" y="1650" class="meta">Top3: チップチューンの orthogonal-splice / ${xmlText(chipSites)} sites</text>
-  <text x="120" y="1698" class="small">比率は独立図形の大小ではなく、主形ノード間を書き換える融合箇所数へ反映。</text>
-  <text x="120" y="1732" class="small">Engine: ${xmlText(engine)} / Blend: ${xmlText(blend)}</text>
+  <text x="120" y="1532" class="lead">topology-shape-morph-v5 / ${xmlText(morphPoints)} arc-length points</text>
+  <text x="120" y="1574" class="meta">Top1: パンクの輪郭占有率 ${xmlText((1 - soulShare - chipShare).toFixed(3))}</text>
+  <text x="120" y="1612" class="meta">Top2: ソウルの輪郭占有率 ${xmlText(soulShare.toFixed(3))}</text>
+  <text x="120" y="1650" class="meta">Top3: チップチューンの輪郭占有率 ${xmlText(chipShare.toFixed(3))}</text>
+  <text x="120" y="1698" class="small">比率は主軸・補助線・詳細輪郭の連続区間へ反映し、境界座標をsmoothstep補間。</text>
+  <text x="120" y="1732" class="small">Topology: ${xmlText(morphTopologies)} / Engine: ${xmlText(engine)} / Blend: ${xmlText(blend)}</text>
   <text x="120" y="1764" class="small">Preview PCM: visible, locked, 2,400 geometry points. No PCM in metadata.</text>
 </svg>`;
 

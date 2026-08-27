@@ -20,17 +20,20 @@ Illustrator修正版は音の入れ物ではなく主構造の原器である。
 - Illustratorで削除・縮小された大面積の塗り、壁、円、フレームは復活させない。削除も承認判断の一部として扱う。
 - 回転、縦横比、歪みだけを新しい構造とは数えない。主プリミティブ、接続関係、余白の位置が同じなら同一構造である。
 - Artist masterへ `terra_grain_field`、`pcm_reversible_data`、`90_PROTECTED_PCM` を混入させない。
-- 本番合成の重なり順は、曲固有粒子、Artist master、Top2/Top3構造融合、Protected PCMとする。融合線はArtist masterの実端点・ノードから始め、Protected PCMは静止・無変形で保持する。
+- 本番合成の重なり順は、曲固有粒子、Artist master、Top1〜Top3形状モーフ、Protected PCMとする。モーフ輪郭はArtist masterから抽出した対応点で構成し、Protected PCMは静止・無変形で保持する。
 
 ## ジャンル比率の融合ルール
 
-- Top1は承認済みArtist masterの主構造を保持する。Top2/Top3の完成図を縮小して周囲へ置かない。
-- ジャンル比率は、融合に使う接続サイト数へ変換する。比率が高いジャンルほど接続、置換、反復への参加回数が増える。
-- 比率を `scale`、縦横寸法、線幅、透明度へ直接変換しない。Top2/Top3の文法片は固定寸法・不透明で出力する。
-- 融合方式は `orthogonal-splice`、`echo-splice`、`pressure-splice`、`fracture-splice`、`counterpoint-splice` からジャンルエンジンに応じて決める。副ジャンルの完成図やアイコンは配置しない。
-- Artist master内のpath始点、line端点、circle中心、polygon/rect基準点からノードA/Bを決定的に選び、その間の接続線を副ジャンル文法で組み直す。同じ音響指紋と同じ推定値では同じ接続結果にする。
-- Top3以下は小さくするのではなく、接続サイト数を減らしてTop1を上書きしない。各文法片の寸法と線幅は順位にかかわらず維持する。
-- SVG rootへ `data-genre-fusion="structural-splice-v2"` と `data-fusion-percentage-policy="site-participation"` を記録する。融合グループには方式、接続数、アンカーポリシーを記録する。
+- Top1〜Top3だけを一つの形状へ統合する。各ジャンルの完成図を縮小して周囲へ置かない。Top4以下は主形モーフへ参加させない。
+- 3ジャンルの判別値を合計1へ正規化し、比率を輪郭上の連続した占有区間へ変換する。比率が高いジャンルほど、その形状が現れる輪郭区間が長くなる。
+- 各Artist masterのpath、line、circle、ellipse、polygon、polyline、rectから長さと版面占有の大きい構造を抽出し、主軸・補助線・詳細輪郭の最大3本へ整理する。各構造は弧長に沿う96点へ再標本化する。
+- 開いた傷、レール、譜線、旗は開いたまま、閉じた環や面の輪郭だけを閉じたまま扱う。すべてを中心放射の閉曲線へ変換して共通の円形外周を作らない。
+- 占有区間の境界では隣接する2ジャンルの対応点をsmoothstep補間する。継ぎ目を追加線で隠さず、主軸・補助線・詳細輪郭の座標そのものを連続変形させる。
+- Artist masterの全可視プリミティブはpathへ正規化し、放射シグネチャは内部の局所変位場にだけ使用する。表示するモーフ線の骨格には使用しない。
+- 境界幅は音響特徴で決める。強いonsetでは短く鋭い遷移、持続成分では長く滑らかな遷移、bassは外周線量へ反映する。ジャンル比率そのものを線幅へは変換しない。
+- 比率を個別オブジェクトの `scale`、縦横寸法、線幅、透明度へ直接変換しない。同じ音響指紋と同じ推定値では同じ輪郭座標を出力する。
+- SVG rootへ `data-genre-fusion="topology-shape-morph-v5"`、`data-fusion-percentage-policy="contiguous-shape-share"`、`data-fusion-size-policy="unified-silhouette"` を記録する。
+- モーフ本体は `terra_genre_morph_surface` に置き、各ジャンルの比率を `data-morph-shares`、対応点数を `data-morph-point-count`、役割を `data-morph-semantic-roles`、開閉構造を `data-morph-topologies`、境界方式を `data-morph-boundary-policy` に記録する。
 - `pcm_reversible_data` は融合候補、アンカー抽出、変形、表示切替のすべてから除外する。
 
 ## ジャンル別の保持規則
