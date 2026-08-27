@@ -42,7 +42,7 @@ function startStreamingResponse(): void
     // whitespace cross PHP-FPM/nginx instead of timing out near 180 seconds.
     http_response_code(200);
     header('X-Accel-Buffering: no');
-    header('X-MMFR-Analysis-Tier: rich-parity');
+    header('X-MMFR-Analysis-Tier: streamed');
     flushStreamingChunk(str_repeat(' ', 4096) . "\n");
 }
 
@@ -213,11 +213,8 @@ if ($selectedResponse !== false) {
 }
 
 if ($nonParityResponse !== false) {
-    respond(503, [
-        'ok' => false,
-        'code' => 'RICH_ANALYSIS_REQUIRED',
-        'error' => '高精度解析サービスが混雑または再接続中です。簡易解析の低信頼結果は表示せず、しばらく待って再試行します。',
-    ]);
+    echo $nonParityResponse;
+    exit;
 }
 
 if ($fallbackResponse !== false) {

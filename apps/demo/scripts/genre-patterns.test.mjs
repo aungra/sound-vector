@@ -41,7 +41,7 @@ export function loadPatternApi({ artistMasters = false } = {}) {
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]);
   const appScript = scripts.at(-1).replace(
     /cleanupStoredSessions\(\);\s*(?:restoreLatestAcceptedSession\(\);\s*)?render\(\);\s*loadCalibratedGenreProfiles\(\);(?:\s*await loadSharedGenreFeedbackModel\(\);)?\s*$/,
-    "globalThis.__patternApi={state,GENRE_INFERENCE_REVISION,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,prepareArtistMasterMotionMarkup,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,applyHighTempoRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,bassLedAlternativeDanceRockEvidence,spokenRapBlackMusicEvidence,distributedDanceRockEvidence,postPunkRockConsensusEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,strongExternalCrossHeadEvidence,slowMelodicRockConsensusEvidence,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreAdjustmentFeatureSignature,normaliseGenreAdjustmentLearningRecords,applyGenreAdjustmentLearning,enforceRichAnalysisOutputConsistency,genreVisualWeight,genreDisplayText,inferMusicGenres,storedGenreEvidenceRequiresRichReanalysis,refreshReversibleSoundClothShirt};"
+    "globalThis.__patternApi={state,GENRE_INFERENCE_REVISION,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,prepareArtistMasterMotionMarkup,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,hasRichAnalysisParity,enrichFeaturesWithGenre,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,applyHighTempoRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,bassLedAlternativeDanceRockEvidence,spokenRapBlackMusicEvidence,distributedDanceRockEvidence,postPunkRockConsensusEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,strongExternalCrossHeadEvidence,slowMelodicRockConsensusEvidence,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreAdjustmentFeatureSignature,normaliseGenreAdjustmentLearningRecords,applyGenreAdjustmentLearning,enforceRichAnalysisOutputConsistency,genreVisualWeight,genreDisplayText,inferMusicGenres,storedGenreEvidenceRequiresRichReanalysis,refreshReversibleSoundClothShirt};"
   );
   const context = {
     console,
@@ -108,6 +108,27 @@ test("browser normalization preserves server genre evidence", () => {
   assert.equal(normalized.youtubeMeta.title, "test");
 });
 
+test("degraded analysis still produces a reviewable genre for pattern generation", () => {
+  const { enrichFeaturesWithGenre, hasRichAnalysisParity, normaliseFeatures } = loadPatternApi();
+  const raw = {
+    id: "DXu4IvMESVY",
+    tempo: 124,
+    energy: .68,
+    brightness: .52,
+    bass: .61,
+    rhythm: .74,
+    onset: .59,
+    chroma: Array(12).fill(.5),
+    embeddingGenrePrediction: { top: [{ label: "ロック", score: 62 }] },
+    japaneseVocalEvidence: { available: false }
+  };
+  assert.equal(hasRichAnalysisParity({ features: raw }), false);
+  const enriched = enrichFeaturesWithGenre(normaliseFeatures({ ...raw, analysisTier: "degraded" }, "https://youtu.be/DXu4IvMESVY"));
+  assert.ok(enriched.genreAnalysis.top.length > 0);
+  assert.equal(enriched.genreAnalysis.needsReview, true);
+  assert.equal(enriched.analysisTier, "degraded");
+});
+
 test("public deployment reads a guarded API setting instead of visitor localhost", () => {
   const html = fs.readFileSync(HTML_PATH, "utf8");
   const htaccess = fs.readFileSync(PUBLIC_HTACCESS_PATH, "utf8");
@@ -119,7 +140,7 @@ test("public deployment reads a guarded API setting instead of visitor localhost
   assert.match(html, /if \(publicHost \|\| soundFormPath\) defaults\.push\(configuredPublicEndpoint, "\/sound-form\/api\/audio-analyze\.php"\)/);
   assert.match(html, /const retryDelays = \[0, 2000, 4000, 8000, 12000, 16000\]/);
   assert.match(html, /genreInferenceRevision: GENRE_INFERENCE_REVISION/);
-  assert.match(html, /analysisTier !== "rich-parity"/);
+  assert.match(html, /const analysisTier = hasRichAnalysisParity\(data\) \? "rich-parity" : "degraded"/);
   assert.match(html, /const responseText = await response\.text\(\)/);
   assert.match(html, /INVALID_ANALYSIS_RESPONSE/);
   assert.match(html, /http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/);
@@ -127,7 +148,7 @@ test("public deployment reads a guarded API setting instead of visitor localhost
   assert.match(audioProxy, /responseHasRichAnalysisParity[\s\S]*japaneseVocalEvidence[\s\S]*unknownSourceConsensus/);
   assert.match(audioProxy, /\$endpoints\[\] = \$endpoint/);
   assert.doesNotMatch(audioProxy, /LOCAL_UPSTREAM|MMFR_EMBEDDING_GENRE_ENABLED.*0/);
-  assert.match(audioProxy, /X-MMFR-Analysis-Tier: rich-parity/);
+  assert.match(audioProxy, /X-MMFR-Analysis-Tier: streamed/);
   assert.match(audioProxy, /X-Accel-Buffering: no/);
   assert.match(audioProxy, /CURLOPT_WRITEFUNCTION/);
   assert.match(audioProxy, /\$responseStarted/);
@@ -137,7 +158,7 @@ test("public deployment reads a guarded API setting instead of visitor localhost
   const clientRevision = html.match(/const GENRE_INFERENCE_REVISION = "([^"]+)"/)?.[1];
   const proxyRevision = audioProxy.match(/const REQUIRED_CLIENT_INFERENCE_REVISION = '([^']+)'/)?.[1];
   assert.equal(proxyRevision, clientRevision, "public API and client must require the same inference revision");
-  assert.match(audioProxy, /RICH_ANALYSIS_REQUIRED/);
+  assert.doesNotMatch(audioProxy, /RICH_ANALYSIS_REQUIRED/);
   assert.match(html, /attempt < retryDelays\.length/);
   assert.doesNotMatch(html, /aungraphic-musictee-audio-api\.hf\.space/);
   assert.doesNotMatch(html, /if \(publicHost \|\| soundFormPath\) defaults\.push\("http:\/\/127\.0\.0\.1:4194/);

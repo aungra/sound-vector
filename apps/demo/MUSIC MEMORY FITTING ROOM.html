@@ -2715,6 +2715,15 @@
       features.detail = normaliseAudioDetail(raw?.detail || raw?.audioDetail || raw?.reconstructionDetail || {}, features);
       return features;
     }
+    function hasRichAnalysisParity(raw = {}) {
+      const features = raw?.features || raw?.audio || raw || {};
+      const prediction = features.embeddingGenrePrediction || {};
+      return features.japaneseVocalEvidence?.available === true
+        && Array.isArray(prediction.top)
+        && prediction.top.length > 0
+        && Array.isArray(prediction.unknownSourceConsensus?.top)
+        && prediction.unknownSourceConsensus.top.length > 0;
+    }
     function youtubeCancelEndpoint(endpoint) {
       return /\.php(?:$|\?)/i.test(endpoint) ? endpoint : `${endpoint.replace(/\/$/, "")}/cancel`;
     }
@@ -2800,13 +2809,7 @@
               error.status = response.status;
               throw error;
             }
-            const publicPage = /^(?:www\.)?aun-graphic\.jp$/i.test(location.hostname || "");
-            const analysisTier = response.headers.get("X-MMFR-Analysis-Tier") || "";
-            if (publicPage && analysisTier !== "rich-parity") {
-              const error = new Error("高精度解析の確認に失敗しました。ページを再読み込みして、もう一度解析してください。");
-              error.code = "RICH_ANALYSIS_TIER_REQUIRED";
-              throw error;
-            }
+            const analysisTier = hasRichAnalysisParity(data) ? "rich-parity" : "degraded";
             write(keys.apiConfig, { endpoint });
             return normaliseFeatures({
               id: link.id,
@@ -10714,7 +10717,14 @@
       return enforceRichAnalysisOutputConsistency(adjustedAnalysis, features, baseAnalysis);
     }
     function enrichFeaturesWithGenre(features = {}) {
-      const genreAnalysis = inferMusicGenres(features);
+      const inferred = inferMusicGenres(features);
+      const genreAnalysis = features.analysisTier === "degraded"
+        ? {
+            ...inferred,
+            needsReview: true,
+            source: `${inferred.source || "音響特徴分類"} 高精度根拠の一部が取得できなかったため、図形生成を継続し判定を要確認にしました。`
+          }
+        : inferred;
       return {
         ...features,
         genreAnalysis,
@@ -17750,7 +17760,9 @@
       state.generated = generatedShirt;
       state.session = session;
       clearGenerationProgress();
-      state.message = "曲の音響指紋から固有の可逆サウンドフォームを生成しました。";
+      state.message = features.analysisTier === "degraded"
+        ? "取得できた音響特徴から可逆サウンドフォームを生成しました。ジャンルは一部の高精度根拠が不足しているため要確認です。"
+        : "曲の音響指紋から固有の可逆サウンドフォームを生成しました。";
       stopRealtimeLoop();
       render();
     }

@@ -23,6 +23,7 @@ const TUNNEL_PATTERN = /https:\/\/[a-z0-9-]+\.trycloudflare\.com/g;
 const UPSTREAM_REFRESH_MS = Number(process.env.MMFR_UPSTREAM_REFRESH_MS || 120000);
 const TUNNEL_HEALTH_MS = Number(process.env.MMFR_TUNNEL_HEALTH_MS || 10000);
 const TUNNEL_HEALTH_FAILURE_LIMIT = Number(process.env.MMFR_TUNNEL_HEALTH_FAILURE_LIMIT || 2);
+const TUNNEL_BUSY_FAILURE_LIMIT = Number(process.env.MMFR_TUNNEL_BUSY_FAILURE_LIMIT || 20);
 
 let stopping = false;
 let activeChildren = [];
@@ -241,7 +242,7 @@ async function keepUpstreamFresh(endpoint, tunnel) {
   }
 }
 
-async function monitorTunnelHealth(endpoint, tunnel) {
+async function monitorTunnelHealth(endpoint, tunnel, server) {
   const healthEndpoint = new URL("/health", endpoint).toString();
   let failures = 0;
   while (!stopping && tunnel.exitCode === null) {
@@ -253,9 +254,18 @@ async function monitorTunnelHealth(endpoint, tunnel) {
       if (!response.ok || payload.ok !== true) throw new Error(`HTTP ${response.status}`);
       failures = 0;
     } catch (error) {
+      let analysisServerBusy = false;
+      try {
+        const localResponse = await fetch(HEALTH_URL, { signal: AbortSignal.timeout(2000) });
+        if (!localResponse.ok) throw new Error(`HTTP ${localResponse.status}`);
+      } catch {
+        analysisServerBusy = server.exitCode === null;
+      }
       failures += 1;
-      log(`public tunnel health failed (${failures}/${TUNNEL_HEALTH_FAILURE_LIMIT}): ${error.message}`);
-      if (failures >= TUNNEL_HEALTH_FAILURE_LIMIT) {
+      const failureLimit = analysisServerBusy ? TUNNEL_BUSY_FAILURE_LIMIT : TUNNEL_HEALTH_FAILURE_LIMIT;
+      const context = analysisServerBusy ? "analysis server busy" : "tunnel unavailable";
+      log(`public tunnel health failed (${failures}/${failureLimit}, ${context}): ${error.message}`);
+      if (failures >= failureLimit) {
         log("public tunnel is stale; requesting automatic replacement");
         terminate(tunnel);
         return;
@@ -281,7 +291,7 @@ async function runGeneration() {
   const endpoint = `${baseUrl}/api/audio-analyze`;
   await syncWithRetry(endpoint, tunnel);
   void keepUpstreamFresh(endpoint, tunnel);
-  void monitorTunnelHealth(endpoint, tunnel);
+  void monitorTunnelHealth(endpoint, tunnel, server);
 
   const result = await Promise.race([
     childExit(server).then(exit => ({ name: "analysis server", exit })),
