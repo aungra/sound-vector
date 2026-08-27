@@ -155,6 +155,7 @@ foreach (upstreamEndpoints() as $endpoint) {
         continue;
     }
     $response = '';
+    $responseStarted = false;
     curl_setopt_array($curl, [
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => $body,
@@ -165,11 +166,19 @@ foreach (upstreamEndpoints() as $endpoint) {
         CURLOPT_CONNECTTIMEOUT => 15,
         CURLOPT_TIMEOUT => 330,
         CURLOPT_PROTOCOLS => CURLPROTO_HTTPS,
-        CURLOPT_WRITEFUNCTION => static function ($handle, string $chunk) use (&$response): int {
-            if (trim($chunk) === '') {
-                flushStreamingChunk($chunk);
-            } else {
+        CURLOPT_WRITEFUNCTION => static function ($handle, string $chunk) use (&$response, &$responseStarted): int {
+            if ($responseStarted) {
                 $response .= $chunk;
+                return strlen($chunk);
+            }
+
+            $bodyOffset = strspn($chunk, " \t\r\n");
+            if ($bodyOffset > 0) {
+                flushStreamingChunk(substr($chunk, 0, $bodyOffset));
+            }
+            if ($bodyOffset < strlen($chunk)) {
+                $responseStarted = true;
+                $response .= substr($chunk, $bodyOffset);
             }
             return strlen($chunk);
         },

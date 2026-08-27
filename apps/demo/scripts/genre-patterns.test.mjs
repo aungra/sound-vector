@@ -120,6 +120,8 @@ test("public deployment reads a guarded API setting instead of visitor localhost
   assert.match(html, /const retryDelays = \[0, 2000, 4000, 8000, 12000, 16000\]/);
   assert.match(html, /genreInferenceRevision: GENRE_INFERENCE_REVISION/);
   assert.match(html, /analysisTier !== "rich-parity"/);
+  assert.match(html, /const responseText = await response\.text\(\)/);
+  assert.match(html, /INVALID_ANALYSIS_RESPONSE/);
   assert.match(html, /http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/);
   assert.match(htaccess, /<Files "index\.html">[\s\S]*Cache-Control "no-cache, no-store, must-revalidate"/);
   assert.match(audioProxy, /responseHasRichAnalysisParity[\s\S]*japaneseVocalEvidence[\s\S]*unknownSourceConsensus/);
@@ -128,7 +130,8 @@ test("public deployment reads a guarded API setting instead of visitor localhost
   assert.match(audioProxy, /X-MMFR-Analysis-Tier: rich-parity/);
   assert.match(audioProxy, /X-Accel-Buffering: no/);
   assert.match(audioProxy, /CURLOPT_WRITEFUNCTION/);
-  assert.match(audioProxy, /flushStreamingChunk\(\$chunk\)/);
+  assert.match(audioProxy, /\$responseStarted/);
+  assert.match(audioProxy, /flushStreamingChunk\(substr\(\$chunk, 0, \$bodyOffset\)\)/);
   assert.match(audioProxy, /CLIENT_UPDATE_REQUIRED/);
   assert.match(audioProxy, /REQUIRED_CLIENT_INFERENCE_REVISION/);
   const clientRevision = html.match(/const GENRE_INFERENCE_REVISION = "([^"]+)"/)?.[1];
