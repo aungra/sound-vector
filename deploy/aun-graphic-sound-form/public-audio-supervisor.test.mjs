@@ -26,4 +26,6 @@ test("enables only the independently gated unknown65 stack", () => {
   assert.match(source, /MMFR_ENABLE_UNKNOWN80_INDEPENDENT_PAIR_RERANKER: "0"/);
   assert.match(source, /MMFR_ENABLE_UNKNOWN80_MUSICFM_RERANKER: "1"/);
   assert.match(source, /MMFR_ENABLE_UNKNOWN65_RERANKER: "1"/);
+  assert.match(source, /MMFR_MUSICFM_PYTHON: "\/Users\/kahanishimoto\/\.headroom-codex\/env\/bin\/python3"/);
+  assert.match(source, /MMFR_UNKNOWN65_PYTHON: "\/Users\/kahanishimoto\/\.headroom-codex\/env\/bin\/python3"/);
 });
