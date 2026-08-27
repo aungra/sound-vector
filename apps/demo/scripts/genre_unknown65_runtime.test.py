@@ -22,6 +22,15 @@ class RuntimeTest(unittest.TestCase):
             with self.assertRaises(ValueError):
                 RUNTIME.feature_views({}, representation)
 
+    def test_shared_musicfm_does_not_replace_protected_extracts(self):
+        extracted = {"panns": {"protected": True}}
+        merged = RUNTIME.merge_records(
+            extracted,
+            {"musicfm": {"embedding": "shared"}, "panns": {"protected": False}},
+        )
+        self.assertEqual(merged["panns"], {"protected": True})
+        self.assertEqual(merged["musicfm"], {"embedding": "shared"})
+
 
 if __name__ == "__main__":
     unittest.main()

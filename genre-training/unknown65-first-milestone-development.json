@@ -1,0 +1,142 @@
+{
+  "objective": "Source-heldout replay of an independently safe residual subset.",
+  "keptIndexes": [
+    0,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9
+  ],
+  "availableStages": 10,
+  "replayed": [
+    {
+      "index": 0,
+      "stageId": "11-yamnet-residual-v2",
+      "pair": [
+        "ダブ",
+        "レゲエ"
+      ],
+      "view": "tag-mean",
+      "selected": true,
+      "changedRows": 2
+    },
+    {
+      "index": 1,
+      "stageId": "11-yamnet-residual-v2",
+      "pair": [
+        "メタル",
+        "ロック"
+      ],
+      "view": "dynamics-mean",
+      "selected": false,
+      "changedRows": 0
+    },
+    {
+      "index": 2,
+      "stageId": "12-yamnet-svm-c1-v2",
+      "pair": [
+        "アンビエント",
+        "クラシック音楽"
+      ],
+      "view": "embedding-tag",
+      "selected": false,
+      "changedRows": 0
+    },
+    {
+      "index": 3,
+      "stageId": "13-musicfm-svm-c1-residual",
+      "pair": [
+        "ダブ",
+        "ヒップホップ"
+      ],
+      "view": "30s-embedding",
+      "selected": true,
+      "changedRows": 7
+    },
+    {
+      "index": 4,
+      "stageId": "13-musicfm-svm-c1-residual",
+      "pair": [
+        "ドラムンベース",
+        "ヒップホップ"
+      ],
+      "view": "30s-embedding",
+      "selected": true,
+      "changedRows": 3
+    },
+    {
+      "index": 5,
+      "stageId": "13-musicfm-svm-c1-residual",
+      "pair": [
+        "ファンク",
+        "ロック"
+      ],
+      "view": "30s-embedding",
+      "selected": false,
+      "changedRows": 0
+    },
+    {
+      "index": 6,
+      "stageId": "13-musicfm-svm-c1-residual",
+      "pair": [
+        "ジャズ",
+        "ファンク"
+      ],
+      "view": "30s-joint-mean",
+      "selected": true,
+      "changedRows": 9
+    },
+    {
+      "index": 7,
+      "stageId": "13-musicfm-svm-c1-residual",
+      "pair": [
+        "パンク",
+        "レゲエ"
+      ],
+      "view": "30s-joint-mean",
+      "selected": true,
+      "changedRows": 2
+    },
+    {
+      "index": 8,
+      "stageId": "13-musicfm-svm-c1-residual",
+      "pair": [
+        "テクノ",
+        "ノイズミュージック"
+      ],
+      "view": "30s-embedding",
+      "selected": true,
+      "changedRows": 1
+    },
+    {
+      "index": 9,
+      "stageId": "13-musicfm-svm-c1-residual",
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "30s-moment-mean",
+      "selected": true,
+      "changedRows": 1
+    }
+  ],
+  "metric": {
+    "top1Accuracy": 65.22,
+    "balancedTop1": 64.74,
+    "minimumSourceTop1": 57.89,
+    "top3Accuracy": 83.48,
+    "sourceTop1": {
+      "FMA": 68.2,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 57.89,
+      "Jamendo": 61.38,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 70.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    }
+  },
+  "oofOutput": "/tmp/unknown65-safe-seven-oof.npz"
+}

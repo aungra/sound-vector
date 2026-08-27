@@ -235,6 +235,7 @@
       "Zenodo CAPHE Hybrid Opera 18288509": 80.0
     }
   },
-  "bundle": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown65-clap-free-pair-chain-v1-gtzan-pruned.pkl",
+  "bundle": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown65-pruned-replay-candidate.pkl",
+  "oofOutput": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown65-pruned-replay-oof.npz",
   "promotionEligible": false
 }

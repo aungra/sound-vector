@@ -1,45 +1,34 @@
-# Unknown-source 65% candidate
+# Unknown-source 65% first milestone
 
 ## Result
 
-The frozen 1,883-track source-heldout development cohort reached **65.00% Top1**
-(1,224 / 1,883), from the frozen v114 baseline of 60.70%.
+The fixed 1,883-track source-heldout cohort reached **65.22% Top1**. The
+independent GTZAN safety set also improved from 75.65% to **77.39% Top1**.
 
-| metric | v114 | candidate |
+| metric | previous production | milestone |
 |---|---:|---:|
-| Top1 | 60.70% | 65.00% |
-| balanced Top1 | 60.30% | 63.78% |
-| minimum-source Top1 | 31.58% | 52.63% |
-| Top3 | 83.48% | 83.48% |
+| source-heldout Top1 | 64.74% | 65.22% |
+| source-heldout balanced Top1 | 64.42% | 64.74% |
+| minimum-source Top1 | 57.89% | 57.89% |
+| source-heldout Top3 | 83.48% | 83.48% |
+| independent GTZAN Top1 | 76.52% | 77.39% |
+| independent GTZAN balanced Top1 | 76.41% | 77.37% |
 
-The final OOF artifact was generated at
-`/private/tmp/unknown65-v114-yamnet-svm-c10-oof.npz` with SHA-256
-`45f3c4154f2fbcd95cba2cbe6297bfbde6dce30c67b2006ad7dc0715acc12550`.
-It contains scores and source keys only; no audio is retained.
+## Runtime
 
-## Evidence
+Seven source-heldout residual stages are appended to the 42-stage production
+bundle. They use YAMNet and the MusicFM record already extracted by the preceding
+runtime stage; MusicFM is not run twice. Live PANNs, YAMNet, AST, and MusicFM
+features match the frozen cache within the 0.001 tolerance. All 49 stages were
+evaluated without `representation-unavailable`, and deterministic replay had a
+maximum probability delta of 0.
 
-- MusicFM first-stage pair reranking: 60.70% to 61.50%.
-- Production-eligible PANNs overlay and expanded boundaries: 61.50% to 63.52%.
-- CLAP and residual PANNs/CLAP passes: 63.52% to 64.26%.
-- Source-heldout RBF-SVM passes using PANNs and CLAP: 64.26% to 64.95%.
-- Apache-2.0 YAMNet confirmation on its cached subset: 64.95% to 65.00%.
+The promoted model is `unknown65-first-milestone-v1`. It does not use URL,
+artist, title, or GTZAN audio for training. GTZAN is an independent safety gate
+only. The sealed 96-track holdout remains unopened.
 
-The training-only overlay contains only CC0, CC-BY, CC-BY-SA, or Public Domain
-rows with explicit detail labels. CC-BY-NC, CC-BY-ND, generic unverified Creative
-Commons rows, and evaluation-track duplicates are rejected. A matching provider
-is excluded from each outer source fold.
+## Deployment policy
 
-## Promotion status
-
-This is an **exploration-selected candidate**, not a production accuracy claim.
-The pair list, thresholds, model family, and SVM C values were selected while
-observing the development OOF. The sealed 96-track holdout remains unopened and
-was not found in the repository or external training cache. The multi-stage
-candidate has not yet been exported as one runtime bundle or passed serialized
-inference and latency parity.
-
-Production remains on v114 until a fixed runtime bundle passes independent
-validation, production regression within one point, serialization parity, and
-latency checks. The SOUND FORM UI must continue to deploy only from the dedicated
-simple-UI worktree.
+Only the analysis runtime, API support files, reports, and attribution may be
+deployed from this branch. SOUND FORM HTML remains owned by the dedicated
+`codex/simple-sound-form-ui` deployment path.

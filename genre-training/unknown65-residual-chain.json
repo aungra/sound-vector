@@ -1,0 +1,44 @@
+{
+  "version": "unknown65-first-milestone-residual-v1",
+  "purpose": "Source-heldout residual stages selected after the 42-stage GTZAN-safe chain.",
+  "keptStageIndexes": [0, 3, 4, 6, 7, 8, 9],
+  "developmentReport": "${ROOT}/genre-training/unknown65-first-milestone-development.json",
+  "promotion": {
+    "modelVersion": "unknown65-first-milestone-v1",
+    "productionEligible": true,
+    "decision": "promote-first-milestone-all-gates-passed",
+    "evidence": {
+      "sourceHeldoutTop1": 65.22,
+      "sourceHeldoutBalancedTop1": 64.74,
+      "minimumSourceTop1": 57.89,
+      "independentGtzanTop1": 77.39,
+      "independentGtzanBalancedTop1": 77.37,
+      "selectedResidualStageIndexes": [0, 3, 4, 6, 7, 8, 9]
+    }
+  },
+  "stages": [
+    {
+      "id": "11-yamnet-residual-v2",
+      "report": "${ROOT}/genre-training/unknown65-residual-yamnet.json",
+      "cache": "${CACHE_ROOT}/yamnet-30s-pilot-cache.json",
+      "cacheFormat": "yamnet",
+      "modelKinds": ["logistic", "extra-trees"]
+    },
+    {
+      "id": "12-yamnet-svm-c1-v2",
+      "report": "${ROOT}/genre-training/unknown65-residual-yamnet-svm-c1.json",
+      "cache": "${CACHE_ROOT}/yamnet-30s-pilot-cache.json",
+      "cacheFormat": "yamnet",
+      "modelKinds": ["svm-rbf"],
+      "svmC": 1
+    },
+    {
+      "id": "13-musicfm-svm-c1-residual",
+      "report": "${ROOT}/genre-training/unknown65-residual-musicfm-svm-c1.json",
+      "cache": "${CACHE_ROOT}/musicfm-house-boundary-30s-cache.json",
+      "cacheFormat": "musicfm",
+      "modelKinds": ["svm-rbf"],
+      "svmC": 1
+    }
+  ]
+}

@@ -63,6 +63,8 @@ def main():
         expected = json.loads(args.expected_cache.read_text()).get(args.source_key)
         if expected is None:
             raise SystemExit("source key is absent from expected cache")
+        if isinstance(expected, dict) and isinstance(expected.get("musicfm"), dict):
+            expected = expected["musicfm"]
         expected_features = runtime.features_from_record(expected)
         actual_features = runtime.features_from_record(record)
         delta = float(np.max(np.abs(expected_features - actual_features)))

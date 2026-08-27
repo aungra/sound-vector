@@ -152,6 +152,24 @@ def align(model, values, labels):
 
 
 def feature_views(record, expected_dimension, cache_format):
+    if cache_format == "musicfm":
+        if not isinstance(record, dict):
+            return {}
+        embedding = record.get("embedding")
+        moments = record.get("moments")
+        if not isinstance(embedding, list) or len(embedding) != 1024:
+            return {}
+        if not isinstance(moments, list) or len(moments) != 3072:
+            return {}
+        embedding = np.asarray(embedding, dtype=np.float32)
+        moments = np.asarray(moments, dtype=np.float32).reshape(3, 1024)
+        if not np.all(np.isfinite(embedding)) or not np.all(np.isfinite(moments)):
+            return {}
+        return {
+            "30s-embedding": embedding,
+            "30s-moment-mean": moments[0],
+            "30s-joint-mean": np.concatenate([embedding, moments[0]]),
+        }
     if cache_format == "mert":
         layers = record.get("layerMeans") if isinstance(record, dict) else None
         if not isinstance(layers, list):

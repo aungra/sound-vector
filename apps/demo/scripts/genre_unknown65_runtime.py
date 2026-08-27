@@ -98,6 +98,17 @@ def feature_views(record: dict, cache_format: str) -> dict[str, np.ndarray]:
     raise ValueError(f"unsupported representation: {cache_format}")
 
 
+def merge_records(extracted: dict, shared: dict | None = None) -> dict:
+    """Reuse MusicFM without allowing shared data to replace protected extracts."""
+    if not isinstance(extracted, dict):
+        raise ValueError("unknown65 extracted records must be a mapping")
+    output = dict(extracted)
+    musicfm = (shared or {}).get("musicfm") if isinstance(shared, dict) else None
+    if isinstance(musicfm, dict):
+        output["musicfm"] = musicfm
+    return output
+
+
 def load_bundle(path: Path | str) -> dict:
     with Path(path).open("rb") as handle:
         bundle = pickle.load(handle)

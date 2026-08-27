@@ -1,33 +1,38 @@
 {
-  "version": "unknown65-clap-free-pair-chain-v1",
+  "version": "unknown65-first-milestone-v1",
   "schemaVersion": 1,
-  "generatedAt": "2026-08-27T17:15:00+09:00",
-  "modelPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown65-clap-free-pair-chain-v1-gtzan-pruned.pkl",
-  "modelSha256": "f191b04db80823a04d1eca3eedec115897909611b6c2ad0d5e13760c87b38ae2",
-  "modelBytes": 60347873,
+  "generatedAt": "2026-08-27T18:25:57+09:00",
+  "modelPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown65-first-milestone-v1.pkl",
+  "modelSha256": "dfcdb703857afb38d1356676e43507273b9b9bbeb78d7fc9fa5f3343ca81a19a",
+  "modelBytes": 64123195,
   "runtimeFeatureContractSha256": "225f8a1259ca2127f80692639c5f4042dd2d93216c0e6f93a5d35edf0ae2140b",
-  "runtimeStages": 42,
+  "runtimeStages": 49,
+  "baseStages": 42,
+  "addedStages": 7,
   "sourceHeldout": {
-    "top1Accuracy": 64.74,
-    "balancedTop1": 64.42,
+    "rows": 1883,
+    "top1Accuracy": 65.22,
+    "balancedTop1": 64.74,
     "minimumSourceTop1": 57.89,
     "top3Accuracy": 83.48
   },
   "independentGtzan": {
+    "rows": 230,
     "baselineTop1": 75.65,
-    "candidateTop1": 76.52,
+    "candidateTop1": 77.39,
     "baselineBalancedTop1": 75.62,
-    "candidateBalancedTop1": 76.41,
+    "candidateBalancedTop1": 77.37,
     "top3Accuracy": 95.22
   },
-  "firstMilestone65Reached": false,
-  "remainingTo65Points": 0.26,
+  "firstMilestone65Reached": true,
+  "remainingTo65Points": 0.0,
   "promotionState": "promoted",
-  "promotionReason": "GTZAN safety-pruned, runtime-parity exact, production regression non-degrading, latency gate passed",
+  "promotionReason": "65.22% source-heldout Top1, independently non-degrading GTZAN 77.39%, exact runtime feature parity, and reusable MusicFM extraction",
   "reports": {
-    "development": "genre-training/unknown65-safety-pruning-report.json",
-    "independent": "genre-training/unknown65-independent-gtzan-gate.json",
+    "development": "genre-training/unknown65-first-milestone-development.json",
+    "independent": "genre-training/unknown65-first-milestone-gtzan-subsets.json",
     "runtimeParity": "genre-training/unknown65-runtime-parity.json",
+    "promotion": "genre-training/unknown65-first-milestone-promotion.json",
     "provenance": "genre-training/unknown65-runtime-provenance-audit.json"
   }
 }

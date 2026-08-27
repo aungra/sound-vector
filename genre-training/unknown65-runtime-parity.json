@@ -1,25 +1,33 @@
 {
-  "generatedAt": "2026-08-27T17:15:00+09:00",
-  "objective": "Verify production extraction parity and added latency for the pruned unknown65 runtime.",
+  "generatedAt": "2026-08-27T18:25:57+09:00",
+  "objective": "Verify production extraction, serialized inference, MusicFM reuse, and added latency for the 65% milestone runtime.",
   "sample": "gtzan:blues.00012",
   "featureParity": {
     "pannsMaxAbsoluteDelta": 0.0,
     "yamnetMaxAbsoluteDelta": 0.0,
-    "astMaxAbsoluteDelta": 0.000003814697265625,
+    "astMaxAbsoluteDelta": 0.0,
+    "musicFmMaxAbsoluteDelta": 1.341104507446289e-7,
     "tolerance": 0.001,
     "passes": true
   },
   "latency": {
-    "pannsSeconds": 6.509,
-    "yamnetSeconds": 0.324,
-    "astSeconds": 3.88,
-    "musicFmSeconds": 5.155,
-    "addedInferenceSeconds": 15.868,
+    "pannsSeconds": 4.361,
+    "yamnetSeconds": 0.312,
+    "astSeconds": 6.348,
+    "musicFmSeconds": 7.676,
+    "addedInferenceSeconds": 18.697,
     "maximumAddedSeconds": 30.0,
+    "musicFmExtractedOnce": true,
     "passes": true
   },
-  "runtimeFeatureContractSha256": "225f8a1259ca2127f80692639c5f4042dd2d93216c0e6f93a5d35edf0ae2140b",
-  "serializedInferenceDeterministic": true,
+  "runtime": {
+    "modelVersion": "unknown65-first-milestone-v1",
+    "runtimeStages": 49,
+    "representationUnavailableStages": 0,
+    "runtimeFeatureContractSha256": "225f8a1259ca2127f80692639c5f4042dd2d93216c0e6f93a5d35edf0ae2140b",
+    "serializedInferenceMaxAbsoluteDelta": 0.0,
+    "serializedInferenceDeterministic": true
+  },
   "passes": true,
-  "decision": "continue-production-promotion"
+  "decision": "promote-first-milestone"
 }

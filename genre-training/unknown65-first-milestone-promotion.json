@@ -1,0 +1,32 @@
+{
+  "version": "unknown65-first-milestone-v1",
+  "objective": "Promote the first strict unknown-source Top1 milestone without weakening independent-source safety.",
+  "trainingRowsAddedFromGtzan": 0,
+  "metadataUsedAtInference": false,
+  "urlSpecificRulesUsed": false,
+  "sourceHeldout": {
+    "rows": 1883,
+    "top1Accuracy": 65.22,
+    "balancedTop1": 64.74,
+    "minimumSourceTop1": 57.89,
+    "top3Accuracy": 83.48
+  },
+  "independentGtzan": {
+    "rows": 230,
+    "baselineTop1": 75.65,
+    "candidateTop1": 77.39,
+    "baselineBalancedTop1": 75.62,
+    "candidateBalancedTop1": 77.37,
+    "top3Accuracy": 95.22
+  },
+  "runtime": {
+    "baseStages": 42,
+    "addedStages": 7,
+    "totalStages": 49,
+    "selectedResidualStageIndexes": [0, 3, 4, 6, 7, 8, 9],
+    "musicFmRecordReused": true,
+    "featureContractSha256": "225f8a1259ca2127f80692639c5f4042dd2d93216c0e6f93a5d35edf0ae2140b"
+  },
+  "promotionState": "promoted",
+  "decision": "promote-first-milestone-all-gates-passed"
+}

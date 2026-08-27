@@ -24,6 +24,7 @@ DEFAULT_REPORT_DIR = CACHE_ROOT / "unknown65-production-chain-work"
 DEFAULT_BUNDLE = CACHE_ROOT / "unknown65-clap-free-pair-chain-v1.pkl"
 DEFAULT_OUTPUT = CACHE_ROOT / "unknown65-clap-free-pair-chain-v1-gtzan-pruned.pkl"
 DEFAULT_REPORT = ROOT / "genre-training/unknown65-safety-pruning-report.json"
+DEFAULT_OOF_OUTPUT = CACHE_ROOT / "unknown65-clap-free-pair-chain-v1-gtzan-pruned-oof.npz"
 PAIR_SCREEN = SCRIPT_DIR / "genre-unknown65-frozen-pair-screen.py"
 FEATURES = SCRIPT_DIR / "genre-unknown65-frozen-representation-screen.py"
 BASE_SCREEN = SCRIPT_DIR / "genre-unknown80-v113-musicfm-top3-screen.py"
@@ -62,6 +63,7 @@ def main() -> None:
     parser.add_argument("--bundle", type=Path, default=DEFAULT_BUNDLE)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
+    parser.add_argument("--oof-output", type=Path, default=DEFAULT_OOF_OUTPUT)
     args = parser.parse_args()
     chain = json.loads(args.chain.read_text())
     pruning = json.loads(args.pruning.read_text())
@@ -139,13 +141,18 @@ def main() -> None:
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("wb") as handle:
         pickle.dump(bundle, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    oof_payload = {key: payload[key] for key in payload}
+    oof_payload["selectedScores"] = current
+    args.oof_output.parent.mkdir(parents=True, exist_ok=True)
+    np.savez_compressed(args.oof_output, **oof_payload)
     report = {
         "objective": "Replay development OOF after one-time GTZAN safety pruning.",
         "policy": {"gtzanTrainingRowsAdded": 0, "pruningUsedForSafetyOnly": True},
         "originalStages": len(bundle["stages"]) + len(dropped),
         "keptStages": len(kept_stages), "removedStages": len(dropped),
         "stageMetrics": stage_metrics, "finalDevelopmentMetric": stage_metrics[-1]["metric"],
-        "bundle": str(args.output), "promotionEligible": False,
+        "bundle": str(args.output), "oofOutput": str(args.oof_output),
+        "promotionEligible": False,
     }
     args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps(report, ensure_ascii=False, indent=2))

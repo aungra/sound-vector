@@ -442,7 +442,7 @@ def main():
     parser.add_argument("--oof", type=Path, default=OOF)
     parser.add_argument("--cache", type=Path, required=True)
     parser.add_argument(
-        "--cache-format", choices=("ast", "panns", "yamnet", "clap"),
+        "--cache-format", choices=("musicfm", "ast", "panns", "yamnet", "clap"),
         required=True,
     )
     parser.add_argument("--report", type=Path, required=True)

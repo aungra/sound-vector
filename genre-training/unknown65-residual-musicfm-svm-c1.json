@@ -1,0 +1,1242 @@
+{
+  "generatedAt": "2026-08-27T09:11:59.910859+00:00",
+  "objective": "Audio-only pair reranking after fixed 61.50% OOF.",
+  "policy": {
+    "metadataUsedAtInference": false,
+    "urlSpecificRulesUsed": false,
+    "sealedFinalHoldoutUsed": false,
+    "heldOutSourceExcludedFromTraining": true,
+    "individualSourceNonRegressionRequired": true,
+    "maximumAllowedSourceDrop": 0.0,
+    "svmC": 1.0,
+    "top3CandidateSetChanged": false,
+    "productionModelUpdated": false
+  },
+  "dataset": {
+    "rows": 1883,
+    "cache": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/musicfm-house-boundary-30s-cache.json",
+    "cacheFormat": "musicfm",
+    "baseScoresIncludedAsFeatures": false,
+    "viewRowsIncludingOverlay": {
+      "30s-embedding": 1449,
+      "30s-joint-mean": 1449,
+      "30s-moment-mean": 1449
+    },
+    "trainingOnlyOverlayRows": 0,
+    "overlayBySource": {},
+    "overlayByLabel": {}
+  },
+  "baseline": {
+    "top1Accuracy": 64.95,
+    "balancedTop1": 64.57,
+    "minimumSourceTop1": 57.89,
+    "top3Accuracy": 83.48,
+    "sourceTop1": {
+      "FMA": 68.5,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 57.89,
+      "Jamendo": 60.8,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 91.53,
+      "Wikimedia Commons": 70.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    }
+  },
+  "passed": [
+    {
+      "pair": [
+        "ダブ",
+        "ヒップホップ"
+      ],
+      "view": "30s-embedding",
+      "modelKind": "svm-rbf",
+      "rows": 1449,
+      "sourceSupport": {
+        "ダブ": [
+          "FMA",
+          "Jamendo"
+        ],
+        "ヒップホップ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 65.06,
+        "balancedTop1": 64.64,
+        "minimumSourceTop1": 57.89,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 68.5,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 57.89,
+          "Jamendo": 60.97,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 91.53,
+          "Wikimedia Commons": 70.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "changedTop1": 4,
+        "improved": 2,
+        "harmed": 0,
+        "sourceTop1Delta": {
+          "FMA": 0.0,
+          "IdolSongsJp": 0.0,
+          "Internet Archive": 0.0,
+          "Jamendo": 0.17,
+          "MagnaTagATune research evaluation": 0.0,
+          "RWC Music Database": 0.0,
+          "Wikimedia Commons": 0.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+        },
+        "maximumSourceDrop": 0.0
+      },
+      "changedRows": 7,
+      "passed": true
+    },
+    {
+      "pair": [
+        "ドラムンベース",
+        "ヒップホップ"
+      ],
+      "view": "30s-embedding",
+      "modelKind": "svm-rbf",
+      "rows": 1449,
+      "sourceSupport": {
+        "ドラムンベース": [
+          "FMA",
+          "Jamendo",
+          "Wikimedia Commons"
+        ],
+        "ヒップホップ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 65.06,
+        "balancedTop1": 64.64,
+        "minimumSourceTop1": 57.89,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 68.5,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 57.89,
+          "Jamendo": 60.97,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 91.53,
+          "Wikimedia Commons": 70.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "changedTop1": 2,
+        "improved": 2,
+        "harmed": 0,
+        "sourceTop1Delta": {
+          "FMA": 0.0,
+          "IdolSongsJp": 0.0,
+          "Internet Archive": 0.0,
+          "Jamendo": 0.17,
+          "MagnaTagATune research evaluation": 0.0,
+          "RWC Music Database": 0.0,
+          "Wikimedia Commons": 0.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+        },
+        "maximumSourceDrop": 0.0
+      },
+      "changedRows": 4,
+      "passed": true
+    },
+    {
+      "pair": [
+        "ダブ",
+        "ヒップホップ"
+      ],
+      "view": "30s-joint-mean",
+      "modelKind": "svm-rbf",
+      "rows": 1449,
+      "sourceSupport": {
+        "ダブ": [
+          "FMA",
+          "Jamendo"
+        ],
+        "ヒップホップ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 65.06,
+        "balancedTop1": 64.64,
+        "minimumSourceTop1": 57.89,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 68.5,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 57.89,
+          "Jamendo": 60.97,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 91.53,
+          "Wikimedia Commons": 70.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "changedTop1": 4,
+        "improved": 2,
+        "harmed": 0,
+        "sourceTop1Delta": {
+          "FMA": 0.0,
+          "IdolSongsJp": 0.0,
+          "Internet Archive": 0.0,
+          "Jamendo": 0.17,
+          "MagnaTagATune research evaluation": 0.0,
+          "RWC Music Database": 0.0,
+          "Wikimedia Commons": 0.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+        },
+        "maximumSourceDrop": 0.0
+      },
+      "changedRows": 7,
+      "passed": true
+    },
+    {
+      "pair": [
+        "ドラムンベース",
+        "ヒップホップ"
+      ],
+      "view": "30s-joint-mean",
+      "modelKind": "svm-rbf",
+      "rows": 1449,
+      "sourceSupport": {
+        "ドラムンベース": [
+          "FMA",
+          "Jamendo",
+          "Wikimedia Commons"
+        ],
+        "ヒップホップ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 65.06,
+        "balancedTop1": 64.64,
+        "minimumSourceTop1": 57.89,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 68.5,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 57.89,
+          "Jamendo": 60.97,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 91.53,
+          "Wikimedia Commons": 70.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "changedTop1": 2,
+        "improved": 2,
+        "harmed": 0,
+        "sourceTop1Delta": {
+          "FMA": 0.0,
+          "IdolSongsJp": 0.0,
+          "Internet Archive": 0.0,
+          "Jamendo": 0.17,
+          "MagnaTagATune research evaluation": 0.0,
+          "RWC Music Database": 0.0,
+          "Wikimedia Commons": 0.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+        },
+        "maximumSourceDrop": 0.0
+      },
+      "changedRows": 4,
+      "passed": true
+    },
+    {
+      "pair": [
+        "ダブ",
+        "ヒップホップ"
+      ],
+      "view": "30s-moment-mean",
+      "modelKind": "svm-rbf",
+      "rows": 1449,
+      "sourceSupport": {
+        "ダブ": [
+          "FMA",
+          "Jamendo"
+        ],
+        "ヒップホップ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.5,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 65.06,
+        "balancedTop1": 64.64,
+        "minimumSourceTop1": 57.89,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 68.5,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 57.89,
+          "Jamendo": 60.97,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 91.53,
+          "Wikimedia Commons": 70.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "changedTop1": 4,
+        "improved": 2,
+        "harmed": 0,
+        "sourceTop1Delta": {
+          "FMA": 0.0,
+          "IdolSongsJp": 0.0,
+          "Internet Archive": 0.0,
+          "Jamendo": 0.17,
+          "MagnaTagATune research evaluation": 0.0,
+          "RWC Music Database": 0.0,
+          "Wikimedia Commons": 0.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+        },
+        "maximumSourceDrop": 0.0
+      },
+      "changedRows": 7,
+      "passed": true
+    },
+    {
+      "pair": [
+        "ドラムンベース",
+        "ヒップホップ"
+      ],
+      "view": "30s-moment-mean",
+      "modelKind": "svm-rbf",
+      "rows": 1449,
+      "sourceSupport": {
+        "ドラムンベース": [
+          "FMA",
+          "Jamendo",
+          "Wikimedia Commons"
+        ],
+        "ヒップホップ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 65.06,
+        "balancedTop1": 64.64,
+        "minimumSourceTop1": 57.89,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 68.5,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 57.89,
+          "Jamendo": 60.97,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 91.53,
+          "Wikimedia Commons": 70.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "changedTop1": 2,
+        "improved": 2,
+        "harmed": 0,
+        "sourceTop1Delta": {
+          "FMA": 0.0,
+          "IdolSongsJp": 0.0,
+          "Internet Archive": 0.0,
+          "Jamendo": 0.17,
+          "MagnaTagATune research evaluation": 0.0,
+          "RWC Music Database": 0.0,
+          "Wikimedia Commons": 0.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+        },
+        "maximumSourceDrop": 0.0
+      },
+      "changedRows": 3,
+      "passed": true
+    },
+    {
+      "pair": [
+        "ファンク",
+        "ロック"
+      ],
+      "view": "30s-embedding",
+      "modelKind": "svm-rbf",
+      "rows": 1449,
+      "sourceSupport": {
+        "ファンク": [
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "ロック": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 1.0,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 65.0,
+        "balancedTop1": 64.64,
+        "minimumSourceTop1": 57.89,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 68.5,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 57.89,
+          "Jamendo": 60.88,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 91.53,
+          "Wikimedia Commons": 70.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "changedTop1": 7,
+        "improved": 3,
+        "harmed": 2,
+        "sourceTop1Delta": {
+          "FMA": 0.0,
+          "IdolSongsJp": 0.0,
+          "Internet Archive": 0.0,
+          "Jamendo": 0.08,
+          "MagnaTagATune research evaluation": 0.0,
+          "RWC Music Database": 0.0,
+          "Wikimedia Commons": 0.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+        },
+        "maximumSourceDrop": 0.0
+      },
+      "changedRows": 10,
+      "passed": true
+    },
+    {
+      "pair": [
+        "ジャズ",
+        "ファンク"
+      ],
+      "view": "30s-joint-mean",
+      "modelKind": "svm-rbf",
+      "rows": 1449,
+      "sourceSupport": {
+        "ジャズ": [
+          "Internet Archive",
+          "Jamendo",
+          "RWC Music Database"
+        ],
+        "ファンク": [
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 65.0,
+        "balancedTop1": 64.61,
+        "minimumSourceTop1": 57.89,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 68.5,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 57.89,
+          "Jamendo": 60.88,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 91.53,
+          "Wikimedia Commons": 70.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "changedTop1": 6,
+        "improved": 2,
+        "harmed": 1,
+        "sourceTop1Delta": {
+          "FMA": 0.0,
+          "IdolSongsJp": 0.0,
+          "Internet Archive": 0.0,
+          "Jamendo": 0.08,
+          "MagnaTagATune research evaluation": 0.0,
+          "RWC Music Database": 0.0,
+          "Wikimedia Commons": 0.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+        },
+        "maximumSourceDrop": 0.0
+      },
+      "changedRows": 9,
+      "passed": true
+    },
+    {
+      "pair": [
+        "パンク",
+        "レゲエ"
+      ],
+      "view": "30s-joint-mean",
+      "modelKind": "svm-rbf",
+      "rows": 1449,
+      "sourceSupport": {
+        "パンク": [
+          "FMA",
+          "Jamendo"
+        ],
+        "レゲエ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.75,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 65.0,
+        "balancedTop1": 64.61,
+        "minimumSourceTop1": 57.89,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 68.5,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 57.89,
+          "Jamendo": 60.88,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 91.53,
+          "Wikimedia Commons": 70.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "changedTop1": 2,
+        "improved": 1,
+        "harmed": 0,
+        "sourceTop1Delta": {
+          "FMA": 0.0,
+          "IdolSongsJp": 0.0,
+          "Internet Archive": 0.0,
+          "Jamendo": 0.08,
+          "MagnaTagATune research evaluation": 0.0,
+          "RWC Music Database": 0.0,
+          "Wikimedia Commons": 0.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+        },
+        "maximumSourceDrop": 0.0
+      },
+      "changedRows": 2,
+      "passed": true
+    },
+    {
+      "pair": [
+        "テクノ",
+        "ノイズミュージック"
+      ],
+      "view": "30s-embedding",
+      "modelKind": "svm-rbf",
+      "rows": 1449,
+      "sourceSupport": {
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ],
+        "ノイズミュージック": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 65.0,
+        "balancedTop1": 64.6,
+        "minimumSourceTop1": 57.89,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 68.5,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 57.89,
+          "Jamendo": 60.88,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 91.53,
+          "Wikimedia Commons": 70.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0,
+        "sourceTop1Delta": {
+          "FMA": 0.0,
+          "IdolSongsJp": 0.0,
+          "Internet Archive": 0.0,
+          "Jamendo": 0.08,
+          "MagnaTagATune research evaluation": 0.0,
+          "RWC Music Database": 0.0,
+          "Wikimedia Commons": 0.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+        },
+        "maximumSourceDrop": 0.0
+      },
+      "changedRows": 1,
+      "passed": true
+    },
+    {
+      "pair": [
+        "テクノ",
+        "ノイズミュージック"
+      ],
+      "view": "30s-joint-mean",
+      "modelKind": "svm-rbf",
+      "rows": 1449,
+      "sourceSupport": {
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ],
+        "ノイズミュージック": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 65.0,
+        "balancedTop1": 64.6,
+        "minimumSourceTop1": 57.89,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 68.5,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 57.89,
+          "Jamendo": 60.88,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 91.53,
+          "Wikimedia Commons": 70.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0,
+        "sourceTop1Delta": {
+          "FMA": 0.0,
+          "IdolSongsJp": 0.0,
+          "Internet Archive": 0.0,
+          "Jamendo": 0.08,
+          "MagnaTagATune research evaluation": 0.0,
+          "RWC Music Database": 0.0,
+          "Wikimedia Commons": 0.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+        },
+        "maximumSourceDrop": 0.0
+      },
+      "changedRows": 1,
+      "passed": true
+    },
+    {
+      "pair": [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      "view": "30s-moment-mean",
+      "modelKind": "svm-rbf",
+      "rows": 1449,
+      "sourceSupport": {
+        "ディープ・ハウス": [
+          "Internet Archive",
+          "Jamendo"
+        ],
+        "ハウス": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database"
+        ]
+      },
+      "config": {
+        "weight": 0.1,
+        "confidenceFloor": 0.8,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 65.0,
+        "balancedTop1": 64.6,
+        "minimumSourceTop1": 57.89,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 68.5,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 57.89,
+          "Jamendo": 60.88,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 91.53,
+          "Wikimedia Commons": 70.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0,
+        "sourceTop1Delta": {
+          "FMA": 0.0,
+          "IdolSongsJp": 0.0,
+          "Internet Archive": 0.0,
+          "Jamendo": 0.08,
+          "MagnaTagATune research evaluation": 0.0,
+          "RWC Music Database": 0.0,
+          "Wikimedia Commons": 0.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+        },
+        "maximumSourceDrop": 0.0
+      },
+      "changedRows": 1,
+      "passed": true
+    },
+    {
+      "pair": [
+        "テクノ",
+        "ノイズミュージック"
+      ],
+      "view": "30s-moment-mean",
+      "modelKind": "svm-rbf",
+      "rows": 1449,
+      "sourceSupport": {
+        "テクノ": [
+          "FMA",
+          "Jamendo",
+          "RWC Music Database",
+          "Wikimedia Commons"
+        ],
+        "ノイズミュージック": [
+          "FMA",
+          "Wikimedia Commons"
+        ]
+      },
+      "config": {
+        "weight": 0.25,
+        "confidenceFloor": 0.34,
+        "routeTopK": 3
+      },
+      "sourceHeldout": {
+        "top1Accuracy": 65.0,
+        "balancedTop1": 64.6,
+        "minimumSourceTop1": 57.89,
+        "top3Accuracy": 83.48,
+        "sourceTop1": {
+          "FMA": 68.5,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 57.89,
+          "Jamendo": 60.88,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 91.53,
+          "Wikimedia Commons": 70.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "changedTop1": 1,
+        "improved": 1,
+        "harmed": 0,
+        "sourceTop1Delta": {
+          "FMA": 0.0,
+          "IdolSongsJp": 0.0,
+          "Internet Archive": 0.0,
+          "Jamendo": 0.08,
+          "MagnaTagATune research evaluation": 0.0,
+          "RWC Music Database": 0.0,
+          "Wikimedia Commons": 0.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+        },
+        "maximumSourceDrop": 0.0
+      },
+      "changedRows": 1,
+      "passed": true
+    }
+  ],
+  "greedyChain": {
+    "steps": [
+      {
+        "pair": [
+          "ダブ",
+          "ヒップホップ"
+        ],
+        "view": "30s-embedding",
+        "modelKind": "svm-rbf",
+        "changedRows": 7,
+        "comparison": {
+          "top1Accuracy": 65.06,
+          "balancedTop1": 64.64,
+          "minimumSourceTop1": 57.89,
+          "top3Accuracy": 83.48,
+          "sourceTop1": {
+            "FMA": 68.5,
+            "IdolSongsJp": 86.67,
+            "Internet Archive": 57.89,
+            "Jamendo": 60.97,
+            "MagnaTagATune research evaluation": 72.65,
+            "RWC Music Database": 91.53,
+            "Wikimedia Commons": 70.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+          },
+          "changedTop1": 4,
+          "improved": 2,
+          "harmed": 0,
+          "sourceTop1Delta": {
+            "FMA": 0.0,
+            "IdolSongsJp": 0.0,
+            "Internet Archive": 0.0,
+            "Jamendo": 0.17,
+            "MagnaTagATune research evaluation": 0.0,
+            "RWC Music Database": 0.0,
+            "Wikimedia Commons": 0.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+          },
+          "maximumSourceDrop": 0.0
+        },
+        "metric": {
+          "top1Accuracy": 65.06,
+          "balancedTop1": 64.64,
+          "minimumSourceTop1": 57.89,
+          "top3Accuracy": 83.48,
+          "sourceTop1": {
+            "FMA": 68.5,
+            "IdolSongsJp": 86.67,
+            "Internet Archive": 57.89,
+            "Jamendo": 60.97,
+            "MagnaTagATune research evaluation": 72.65,
+            "RWC Music Database": 91.53,
+            "Wikimedia Commons": 70.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+          }
+        },
+        "accepted": true
+      },
+      {
+        "pair": [
+          "ドラムンベース",
+          "ヒップホップ"
+        ],
+        "view": "30s-embedding",
+        "modelKind": "svm-rbf",
+        "changedRows": 3,
+        "comparison": {
+          "top1Accuracy": 65.11,
+          "balancedTop1": 64.68,
+          "minimumSourceTop1": 57.89,
+          "top3Accuracy": 83.48,
+          "sourceTop1": {
+            "FMA": 68.5,
+            "IdolSongsJp": 86.67,
+            "Internet Archive": 57.89,
+            "Jamendo": 61.05,
+            "MagnaTagATune research evaluation": 72.65,
+            "RWC Music Database": 91.53,
+            "Wikimedia Commons": 70.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+          },
+          "changedTop1": 1,
+          "improved": 1,
+          "harmed": 0,
+          "sourceTop1Delta": {
+            "FMA": 0.0,
+            "IdolSongsJp": 0.0,
+            "Internet Archive": 0.0,
+            "Jamendo": 0.08,
+            "MagnaTagATune research evaluation": 0.0,
+            "RWC Music Database": 0.0,
+            "Wikimedia Commons": 0.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+          },
+          "maximumSourceDrop": 0.0
+        },
+        "metric": {
+          "top1Accuracy": 65.11,
+          "balancedTop1": 64.68,
+          "minimumSourceTop1": 57.89,
+          "top3Accuracy": 83.48,
+          "sourceTop1": {
+            "FMA": 68.5,
+            "IdolSongsJp": 86.67,
+            "Internet Archive": 57.89,
+            "Jamendo": 61.05,
+            "MagnaTagATune research evaluation": 72.65,
+            "RWC Music Database": 91.53,
+            "Wikimedia Commons": 70.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+          }
+        },
+        "accepted": true
+      },
+      {
+        "pair": [
+          "ファンク",
+          "ロック"
+        ],
+        "view": "30s-embedding",
+        "modelKind": "svm-rbf",
+        "changedRows": 10,
+        "comparison": {
+          "top1Accuracy": 65.16,
+          "balancedTop1": 64.75,
+          "minimumSourceTop1": 57.89,
+          "top3Accuracy": 83.48,
+          "sourceTop1": {
+            "FMA": 68.5,
+            "IdolSongsJp": 86.67,
+            "Internet Archive": 57.89,
+            "Jamendo": 61.13,
+            "MagnaTagATune research evaluation": 72.65,
+            "RWC Music Database": 91.53,
+            "Wikimedia Commons": 70.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+          },
+          "changedTop1": 7,
+          "improved": 3,
+          "harmed": 2,
+          "sourceTop1Delta": {
+            "FMA": 0.0,
+            "IdolSongsJp": 0.0,
+            "Internet Archive": 0.0,
+            "Jamendo": 0.08,
+            "MagnaTagATune research evaluation": 0.0,
+            "RWC Music Database": 0.0,
+            "Wikimedia Commons": 0.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+          },
+          "maximumSourceDrop": 0.0
+        },
+        "metric": {
+          "top1Accuracy": 65.16,
+          "balancedTop1": 64.75,
+          "minimumSourceTop1": 57.89,
+          "top3Accuracy": 83.48,
+          "sourceTop1": {
+            "FMA": 68.5,
+            "IdolSongsJp": 86.67,
+            "Internet Archive": 57.89,
+            "Jamendo": 61.13,
+            "MagnaTagATune research evaluation": 72.65,
+            "RWC Music Database": 91.53,
+            "Wikimedia Commons": 70.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+          }
+        },
+        "accepted": true
+      },
+      {
+        "pair": [
+          "ジャズ",
+          "ファンク"
+        ],
+        "view": "30s-joint-mean",
+        "modelKind": "svm-rbf",
+        "changedRows": 9,
+        "comparison": {
+          "top1Accuracy": 65.22,
+          "balancedTop1": 64.79,
+          "minimumSourceTop1": 57.89,
+          "top3Accuracy": 83.48,
+          "sourceTop1": {
+            "FMA": 68.5,
+            "IdolSongsJp": 86.67,
+            "Internet Archive": 57.89,
+            "Jamendo": 61.22,
+            "MagnaTagATune research evaluation": 72.65,
+            "RWC Music Database": 91.53,
+            "Wikimedia Commons": 70.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+          },
+          "changedTop1": 6,
+          "improved": 2,
+          "harmed": 1,
+          "sourceTop1Delta": {
+            "FMA": 0.0,
+            "IdolSongsJp": 0.0,
+            "Internet Archive": 0.0,
+            "Jamendo": 0.09,
+            "MagnaTagATune research evaluation": 0.0,
+            "RWC Music Database": 0.0,
+            "Wikimedia Commons": 0.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+          },
+          "maximumSourceDrop": 0.0
+        },
+        "metric": {
+          "top1Accuracy": 65.22,
+          "balancedTop1": 64.79,
+          "minimumSourceTop1": 57.89,
+          "top3Accuracy": 83.48,
+          "sourceTop1": {
+            "FMA": 68.5,
+            "IdolSongsJp": 86.67,
+            "Internet Archive": 57.89,
+            "Jamendo": 61.22,
+            "MagnaTagATune research evaluation": 72.65,
+            "RWC Music Database": 91.53,
+            "Wikimedia Commons": 70.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+          }
+        },
+        "accepted": true
+      },
+      {
+        "pair": [
+          "パンク",
+          "レゲエ"
+        ],
+        "view": "30s-joint-mean",
+        "modelKind": "svm-rbf",
+        "changedRows": 2,
+        "comparison": {
+          "top1Accuracy": 65.27,
+          "balancedTop1": 64.83,
+          "minimumSourceTop1": 57.89,
+          "top3Accuracy": 83.48,
+          "sourceTop1": {
+            "FMA": 68.5,
+            "IdolSongsJp": 86.67,
+            "Internet Archive": 57.89,
+            "Jamendo": 61.3,
+            "MagnaTagATune research evaluation": 72.65,
+            "RWC Music Database": 91.53,
+            "Wikimedia Commons": 70.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+          },
+          "changedTop1": 2,
+          "improved": 1,
+          "harmed": 0,
+          "sourceTop1Delta": {
+            "FMA": 0.0,
+            "IdolSongsJp": 0.0,
+            "Internet Archive": 0.0,
+            "Jamendo": 0.08,
+            "MagnaTagATune research evaluation": 0.0,
+            "RWC Music Database": 0.0,
+            "Wikimedia Commons": 0.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+          },
+          "maximumSourceDrop": 0.0
+        },
+        "metric": {
+          "top1Accuracy": 65.27,
+          "balancedTop1": 64.83,
+          "minimumSourceTop1": 57.89,
+          "top3Accuracy": 83.48,
+          "sourceTop1": {
+            "FMA": 68.5,
+            "IdolSongsJp": 86.67,
+            "Internet Archive": 57.89,
+            "Jamendo": 61.3,
+            "MagnaTagATune research evaluation": 72.65,
+            "RWC Music Database": 91.53,
+            "Wikimedia Commons": 70.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+          }
+        },
+        "accepted": true
+      },
+      {
+        "pair": [
+          "テクノ",
+          "ノイズミュージック"
+        ],
+        "view": "30s-embedding",
+        "modelKind": "svm-rbf",
+        "changedRows": 1,
+        "comparison": {
+          "top1Accuracy": 65.32,
+          "balancedTop1": 64.86,
+          "minimumSourceTop1": 57.89,
+          "top3Accuracy": 83.48,
+          "sourceTop1": {
+            "FMA": 68.5,
+            "IdolSongsJp": 86.67,
+            "Internet Archive": 57.89,
+            "Jamendo": 61.38,
+            "MagnaTagATune research evaluation": 72.65,
+            "RWC Music Database": 91.53,
+            "Wikimedia Commons": 70.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+          },
+          "changedTop1": 1,
+          "improved": 1,
+          "harmed": 0,
+          "sourceTop1Delta": {
+            "FMA": 0.0,
+            "IdolSongsJp": 0.0,
+            "Internet Archive": 0.0,
+            "Jamendo": 0.08,
+            "MagnaTagATune research evaluation": 0.0,
+            "RWC Music Database": 0.0,
+            "Wikimedia Commons": 0.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+          },
+          "maximumSourceDrop": 0.0
+        },
+        "metric": {
+          "top1Accuracy": 65.32,
+          "balancedTop1": 64.86,
+          "minimumSourceTop1": 57.89,
+          "top3Accuracy": 83.48,
+          "sourceTop1": {
+            "FMA": 68.5,
+            "IdolSongsJp": 86.67,
+            "Internet Archive": 57.89,
+            "Jamendo": 61.38,
+            "MagnaTagATune research evaluation": 72.65,
+            "RWC Music Database": 91.53,
+            "Wikimedia Commons": 70.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+          }
+        },
+        "accepted": true
+      },
+      {
+        "pair": [
+          "ディープ・ハウス",
+          "ハウス"
+        ],
+        "view": "30s-moment-mean",
+        "modelKind": "svm-rbf",
+        "changedRows": 1,
+        "comparison": {
+          "top1Accuracy": 65.37,
+          "balancedTop1": 64.89,
+          "minimumSourceTop1": 57.89,
+          "top3Accuracy": 83.48,
+          "sourceTop1": {
+            "FMA": 68.5,
+            "IdolSongsJp": 86.67,
+            "Internet Archive": 57.89,
+            "Jamendo": 61.47,
+            "MagnaTagATune research evaluation": 72.65,
+            "RWC Music Database": 91.53,
+            "Wikimedia Commons": 70.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+          },
+          "changedTop1": 1,
+          "improved": 1,
+          "harmed": 0,
+          "sourceTop1Delta": {
+            "FMA": 0.0,
+            "IdolSongsJp": 0.0,
+            "Internet Archive": 0.0,
+            "Jamendo": 0.09,
+            "MagnaTagATune research evaluation": 0.0,
+            "RWC Music Database": 0.0,
+            "Wikimedia Commons": 0.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 0.0
+          },
+          "maximumSourceDrop": 0.0
+        },
+        "metric": {
+          "top1Accuracy": 65.37,
+          "balancedTop1": 64.89,
+          "minimumSourceTop1": 57.89,
+          "top3Accuracy": 83.48,
+          "sourceTop1": {
+            "FMA": 68.5,
+            "IdolSongsJp": 86.67,
+            "Internet Archive": 57.89,
+            "Jamendo": 61.47,
+            "MagnaTagATune research evaluation": 72.65,
+            "RWC Music Database": 91.53,
+            "Wikimedia Commons": 70.0,
+            "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+          }
+        },
+        "accepted": true
+      }
+    ],
+    "selectedPairs": [
+      [
+        "ジャズ",
+        "ファンク"
+      ],
+      [
+        "ダブ",
+        "ヒップホップ"
+      ],
+      [
+        "テクノ",
+        "ノイズミュージック"
+      ],
+      [
+        "ディープ・ハウス",
+        "ハウス"
+      ],
+      [
+        "ドラムンベース",
+        "ヒップホップ"
+      ],
+      [
+        "パンク",
+        "レゲエ"
+      ],
+      [
+        "ファンク",
+        "ロック"
+      ]
+    ],
+    "metric": {
+      "top1Accuracy": 65.37,
+      "balancedTop1": 64.89,
+      "minimumSourceTop1": 57.89,
+      "top3Accuracy": 83.48,
+      "sourceTop1": {
+        "FMA": 68.5,
+        "IdolSongsJp": 86.67,
+        "Internet Archive": 57.89,
+        "Jamendo": 61.47,
+        "MagnaTagATune research evaluation": 72.65,
+        "RWC Music Database": 91.53,
+        "Wikimedia Commons": 70.0,
+        "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+      }
+    }
+  },
+  "decision": "continue-independent-validation",
+  "oofOutput": {
+    "path": "/tmp/unknown65-final-musicfm-c1.npz",
+    "sha256": "39efe18ae1168d2fd6319c61616e167ee5e80657f0fd1b3deb3a821e9542adef",
+    "rows": 1883
+  }
+}

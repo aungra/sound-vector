@@ -51,6 +51,7 @@ from genre_musicfm_runtime import (
 )
 from genre_unknown65_runtime import (
     load_bundle as load_unknown65_bundle,
+    merge_records as merge_unknown65_records,
     rerank as apply_unknown65_reranker,
 )
 from genre_librosa_contract import extract_librosa as extract_runtime_librosa
@@ -156,7 +157,7 @@ ENABLE_UNKNOWN80_MUSICFM_RERANKER = (
 UNKNOWN65_MODEL_PATH = Path(os.environ.get(
     "MMFR_UNKNOWN65_MODEL_PATH",
     "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/"
-    "unknown65-clap-free-pair-chain-v1-gtzan-pruned.pkl",
+    "unknown65-first-milestone-v1.pkl",
 ))
 UNKNOWN65_MANIFEST_PATH = Path(os.environ.get(
     "MMFR_UNKNOWN65_MANIFEST_PATH",
@@ -1116,16 +1117,16 @@ def maybe_apply_unknown80_musicfm(labels, scores, audio_path):
     if not ENABLE_UNKNOWN80_MUSICFM_RERANKER:
         return np.asarray(scores, dtype=np.float64), {
             "enabled": False, "applied": False, "reason": "disabled",
-        }
+        }, None
     promotion = musicfm_promotion_status()
     if not promotion["promoted"]:
         return np.asarray(scores, dtype=np.float64), {
             "enabled": False, "applied": False, "reason": promotion["reason"],
-        }
+        }, None
     if audio_path is None or not Path(audio_path).is_file():
         return np.asarray(scores, dtype=np.float64), {
             "enabled": False, "applied": False, "reason": "audio-missing",
-        }
+        }, None
     try:
         if UNKNOWN80_MUSICFM_BUNDLE is None:
             UNKNOWN80_MUSICFM_BUNDLE = load_musicfm_bundle(
@@ -1138,12 +1139,12 @@ def maybe_apply_unknown80_musicfm(labels, scores, audio_path):
         details["runtimeFeatureContractSha256"] = extracted.get(
             "runtimeFeatureContractSha256", "",
         )
-        return output, details
+        return output, details, extracted["record"]
     except Exception as error:
         return np.asarray(scores, dtype=np.float64), {
             "enabled": False, "applied": False,
             "reason": f"runtime-failed:{str(error)[-300:]}",
-        }
+        }, None
 
 
 def unknown65_promotion_status():
@@ -1185,7 +1186,7 @@ def extract_unknown65_records(audio_path):
     return payload
 
 
-def maybe_apply_unknown65(labels, scores, audio_path):
+def maybe_apply_unknown65(labels, scores, audio_path, shared_records=None):
     global UNKNOWN65_BUNDLE
     if not ENABLE_UNKNOWN65_RERANKER:
         return np.asarray(scores, dtype=np.float64), {
@@ -1204,15 +1205,19 @@ def maybe_apply_unknown65(labels, scores, audio_path):
         if UNKNOWN65_BUNDLE is None:
             UNKNOWN65_BUNDLE = load_unknown65_bundle(UNKNOWN65_MODEL_PATH)
         extracted = extract_unknown65_records(audio_path)
+        records = merge_unknown65_records(extracted["records"], shared_records)
         output, stages = apply_unknown65_reranker(
-            UNKNOWN65_BUNDLE, labels, scores, extracted["records"],
+            UNKNOWN65_BUNDLE, labels, scores, records,
         )
         return output, {
             "enabled": True,
             "applied": any(stage.get("applied") for stage in stages),
             "reason": "evaluated", "stages": stages,
             "timings": extracted.get("timings") or {},
-            "modelVersion": UNKNOWN65_BUNDLE.get("version", ""),
+            "modelVersion": (
+                UNKNOWN65_BUNDLE.get("modelVersion")
+                or UNKNOWN65_BUNDLE.get("version", "")
+            ),
             "runtimeFeatureContractSha256": extracted.get(
                 "runtimeFeatureContractSha256", "",
             ),
@@ -1294,7 +1299,10 @@ def model_validation_payload(bundle):
         and unknown65_reranker["promotion"]["promoted"]
     ):
         unknown65_bundle = load_unknown65_bundle(UNKNOWN65_MODEL_PATH)
-        unknown65_reranker["modelVersion"] = unknown65_bundle.get("version", "")
+        unknown65_reranker["modelVersion"] = (
+            unknown65_bundle.get("modelVersion")
+            or unknown65_bundle.get("version", "")
+        )
         unknown65_reranker["runtimeFeatureContractSha256"] = unknown65_bundle.get(
             "runtimeFeatureContractSha256", "",
         )
@@ -1726,11 +1734,12 @@ def main():
     adjusted_fine_scores, track_pair_details = maybe_apply_unknown80_track_pairs(
         fine_labels, adjusted_fine_scores, vector_segments,
     )
-    adjusted_fine_scores, musicfm_details = maybe_apply_unknown80_musicfm(
+    adjusted_fine_scores, musicfm_details, musicfm_record = maybe_apply_unknown80_musicfm(
         fine_labels, adjusted_fine_scores, musicfm_audio_path,
     )
     adjusted_fine_scores, unknown65_details = maybe_apply_unknown65(
         fine_labels, adjusted_fine_scores, musicfm_audio_path,
+        {"musicfm": musicfm_record} if musicfm_record else None,
     )
     segment_details = segment_analysis(
         [offset for offset, _vectors in vector_segments],
