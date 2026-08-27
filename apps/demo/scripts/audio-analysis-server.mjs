@@ -29,6 +29,7 @@ import {
   YOUTUBE_RETRY_DELAYS_MS,
 } from "./audio-analysis-public-policy.mjs";
 import { embeddingSegmentArgs } from "./genre-embedding-segment-input.mjs";
+import { vocalEvidenceAudioPath } from "./genre-vocal-segment-policy.mjs";
 
 const cliArgs = new Set(process.argv.slice(2));
 const cliValue = name => {
@@ -114,6 +115,10 @@ const EMBEDDING_GENRE_LIVE_ENABLED = cliArgs.has("--embedding-live")
   || process.env.MMFR_EMBEDDING_GENRE_LIVE_ENABLED === "1";
 const EMBEDDING_GENRE_CONSENSUS_ENABLED = EMBEDDING_GENRE_LIVE_ENABLED
   && process.env.MMFR_EMBEDDING_GENRE_CONSENSUS_ENABLED !== "0";
+const JAPANESE_VOCAL_TIMEOUT_MS = Math.max(
+  30000,
+  Number(process.env.MMFR_JAPANESE_VOCAL_TIMEOUT_MS || 120000),
+);
 // The legacy pairwise bundle regressed on the independent GTZAN outer source
 // and contains pair heads that no longer pass the strict source-coverage gate.
 // Keep it opt-in until a replacement improves every promotion evaluation.
@@ -472,7 +477,7 @@ async function analyzeJapaneseVocalEvidenceForFile(filePath, options = {}) {
       "--audio", filePath,
       "--start-seconds", String(Math.max(0, Number(options.startSeconds || 0)))
     ], {
-      timeoutMs: 600000,
+      timeoutMs: JAPANESE_VOCAL_TIMEOUT_MS,
       env: {
         ...process.env,
         PYTHONPATH: JAPANESE_VOCAL_PYTHONPATH,
@@ -1460,7 +1465,8 @@ async function analyzeYouTube(youtubeUrl, options = {}) {
       pcmSketchFeaturesFromFloat32Buffer(requestedPcmStdout, 22050),
     );
     const segmentConsensus = await analyzeProductionLocalGenreSegments(stdout, 22050, sampledRanges);
-    const japaneseVocalEvidence = await analyzeJapaneseVocalEvidenceForFile(analysisAudioPath, {
+    const japaneseVocalEvidence = await analyzeJapaneseVocalEvidenceForFile(
+      vocalEvidenceAudioPath(segmentAudioPaths, requestedSegmentIndex, analysisAudioPath), {
       startSeconds: 0,
       ffmpegPath: tools.ffmpeg
     });
@@ -1613,7 +1619,8 @@ async function analyzeLocalFile(filePath, options = {}) {
     ], { timeoutMs: 90000 });
     if (!requestedPcmStdout.length) throw new Error("No audio was decoded from the requested reversible-PCM range.");
     const segmentConsensus = await analyzeProductionLocalGenreSegments(stdout, 22050, sampledRanges);
-    const japaneseVocalEvidence = await analyzeJapaneseVocalEvidenceForFile(analysisAudioPath, {
+    const japaneseVocalEvidence = await analyzeJapaneseVocalEvidenceForFile(
+      vocalEvidenceAudioPath(segmentAudioPaths, requestedSegmentIndex, analysisAudioPath), {
       startSeconds: 0,
       ffmpegPath: tools.ffmpeg
     });
@@ -1847,6 +1854,8 @@ const server = http.createServer(async (req, res) => {
         trackSampleCount: TRACK_SAMPLE_COUNT,
         trackSampleWindowSeconds: TRACK_SAMPLE_WINDOW_SECONDS,
         embeddingTrackSegmentInput: "planned-30s-ranges",
+        japaneseVocalInput: "requested-30s-range",
+        japaneseVocalTimeoutMs: JAPANESE_VOCAL_TIMEOUT_MS,
         japaneseVocalEvidence: japaneseVocalEvidenceReady(),
         sharedLocalGenre: fs.existsSync(LOCAL_GENRE_MODEL_PATH)
       }
@@ -1882,6 +1891,8 @@ const server = http.createServer(async (req, res) => {
         trackSampleCount: TRACK_SAMPLE_COUNT,
         trackSampleWindowSeconds: TRACK_SAMPLE_WINDOW_SECONDS,
         embeddingTrackSegmentInput: "planned-30s-ranges",
+        japaneseVocalInput: "requested-30s-range",
+        japaneseVocalTimeoutMs: JAPANESE_VOCAL_TIMEOUT_MS,
         japaneseVocalEvidence: japaneseVocalEvidenceReady(),
         sharedLocalGenre: fs.existsSync(LOCAL_GENRE_MODEL_PATH),
         sharedLocalGenreModel: fs.existsSync(LOCAL_GENRE_MODEL_PATH) ? LOCAL_GENRE_MODEL_PATH : "",
@@ -1921,6 +1932,8 @@ const server = http.createServer(async (req, res) => {
         trackSampleCount: TRACK_SAMPLE_COUNT,
         trackSampleWindowSeconds: TRACK_SAMPLE_WINDOW_SECONDS,
         embeddingTrackSegmentInput: "planned-30s-ranges",
+        japaneseVocalInput: "requested-30s-range",
+        japaneseVocalTimeoutMs: JAPANESE_VOCAL_TIMEOUT_MS,
         sharedLocalGenre: fs.existsSync(LOCAL_GENRE_MODEL_PATH)
       }
     });

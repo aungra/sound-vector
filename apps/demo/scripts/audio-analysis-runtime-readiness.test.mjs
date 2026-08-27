@@ -18,6 +18,7 @@ const REQUIRED_RUNTIME_FILES = [
   "genre-embedding-segment-input.mjs",
   "genre_librosa_contract.py",
   "genre_source_family.py",
+  "genre-vocal-segment-policy.mjs",
 ];
 
 test("the default embedding runtime is reproducible from tracked source files", () => {
@@ -40,4 +41,10 @@ test("the runtime contract keeps model metadata out of inference", () => {
   const contract = fs.readFileSync(path.join(SCRIPT_DIR, "genre_runtime_contract.py"), "utf8");
   assert.match(contract, /"metadataUsed": False/);
   assert.match(contract, /"missingFeaturePolicy": "required-source-fails-inference"/);
+});
+
+test("the public runtime bounds vocal analysis to the requested range", () => {
+  const server = fs.readFileSync(SERVER_PATH, "utf8");
+  assert.match(server, /MMFR_JAPANESE_VOCAL_TIMEOUT_MS \|\| 120000/);
+  assert.match(server, /vocalEvidenceAudioPath\(segmentAudioPaths, requestedSegmentIndex, analysisAudioPath\)/);
 });
