@@ -126,6 +126,9 @@ test("public deployment reads a guarded API setting instead of visitor localhost
   assert.match(audioProxy, /\$endpoints\[\] = \$endpoint/);
   assert.doesNotMatch(audioProxy, /LOCAL_UPSTREAM|MMFR_EMBEDDING_GENRE_ENABLED.*0/);
   assert.match(audioProxy, /X-MMFR-Analysis-Tier: rich-parity/);
+  assert.match(audioProxy, /X-Accel-Buffering: no/);
+  assert.match(audioProxy, /CURLOPT_WRITEFUNCTION/);
+  assert.match(audioProxy, /flushStreamingChunk\(\$chunk\)/);
   assert.match(audioProxy, /CLIENT_UPDATE_REQUIRED/);
   assert.match(audioProxy, /REQUIRED_CLIENT_INFERENCE_REVISION/);
   const clientRevision = html.match(/const GENRE_INFERENCE_REVISION = "([^"]+)"/)?.[1];

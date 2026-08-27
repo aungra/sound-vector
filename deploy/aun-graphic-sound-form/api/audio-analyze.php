@@ -16,6 +16,36 @@ function respond(int $status, array $payload): never
     exit;
 }
 
+function flushStreamingChunk(string $chunk): void
+{
+    echo $chunk;
+    if (function_exists('ob_flush')) {
+        @ob_flush();
+    }
+    flush();
+}
+
+function startStreamingResponse(): void
+{
+    @ini_set('output_buffering', '0');
+    @ini_set('zlib.output_compression', '0');
+    if (function_exists('apache_setenv')) {
+        @apache_setenv('no-gzip', '1');
+    }
+    while (ob_get_level() > 0) {
+        @ob_end_flush();
+    }
+    ob_implicit_flush(true);
+
+    // The browser still validates `ok` and the returned rich-analysis data.
+    // Sending these headers before the long-running request lets heartbeat
+    // whitespace cross PHP-FPM/nginx instead of timing out near 180 seconds.
+    http_response_code(200);
+    header('X-Accel-Buffering: no');
+    header('X-MMFR-Analysis-Tier: rich-parity');
+    flushStreamingChunk(str_repeat(' ', 4096) . "\n");
+}
+
 function upstreamEndpoints(): array
 {
     $endpoints = [];
@@ -112,7 +142,8 @@ if (($payload['genreInferenceRevision'] ?? '') !== REQUIRED_CLIENT_INFERENCE_REV
     ]);
 }
 
-set_time_limit(300);
+set_time_limit(360);
+startStreamingResponse();
 $fallbackResponse = false;
 $fallbackStatus = 0;
 $nonParityResponse = false;
@@ -123,6 +154,7 @@ foreach (upstreamEndpoints() as $endpoint) {
     if ($curl === false) {
         continue;
     }
+    $response = '';
     curl_setopt_array($curl, [
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => $body,
@@ -130,14 +162,21 @@ foreach (upstreamEndpoints() as $endpoint) {
             'Content-Type: application/json',
             'Origin: https://aun-graphic.jp',
         ],
-        CURLOPT_RETURNTRANSFER => true,
         CURLOPT_CONNECTTIMEOUT => 15,
-        CURLOPT_TIMEOUT => 300,
+        CURLOPT_TIMEOUT => 330,
         CURLOPT_PROTOCOLS => CURLPROTO_HTTPS,
+        CURLOPT_WRITEFUNCTION => static function ($handle, string $chunk) use (&$response): int {
+            if (trim($chunk) === '') {
+                flushStreamingChunk($chunk);
+            } else {
+                $response .= $chunk;
+            }
+            return strlen($chunk);
+        },
     ]);
-    $response = curl_exec($curl);
+    $completed = curl_exec($curl);
     $status = (int) curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
-    $failed = $response === false;
+    $failed = $completed === false;
     curl_close($curl);
 
     if ($failed || $status < 100) {
@@ -160,8 +199,6 @@ foreach (upstreamEndpoints() as $endpoint) {
 }
 
 if ($selectedResponse !== false) {
-    header('X-MMFR-Analysis-Tier: rich-parity');
-    http_response_code($selectedStatus);
     echo $selectedResponse;
     exit;
 }
