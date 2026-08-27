@@ -1,0 +1,332 @@
+{
+  "objective": "Strict outer-source Top3 listwise reranker screen toward 65% Top1.",
+  "policy": {
+    "metadataUsedAtInference": false,
+    "urlSpecificRulesUsed": false,
+    "sealedFinalHoldoutUsed": false,
+    "candidateSetChanged": false
+  },
+  "dataset": {
+    "rows": 1883,
+    "sources": [
+      "FMA",
+      "IdolSongsJp",
+      "Internet Archive",
+      "Jamendo",
+      "MagnaTagATune research evaluation",
+      "RWC Music Database",
+      "Wikimedia Commons",
+      "Zenodo CAPHE Hybrid Opera 18288509"
+    ],
+    "availableSingleRows": 1639,
+    "availableTrackRows": 1195
+  },
+  "candidates": {
+    "incumbent": {
+      "metric": {
+        "total": 1883,
+        "top1Accuracy": 58.1,
+        "balancedTop1": 58.24,
+        "top3Accuracy": 83.48,
+        "bySourceTop1": {
+          "FMA": 59.63,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 31.58,
+          "Jamendo": 53.38,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 83.05,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "minimumSourceTop1": 31.58
+      },
+      "changedRows": 0
+    },
+    "single-leaf4-a025": {
+      "metric": {
+        "total": 1883,
+        "top1Accuracy": 57.89,
+        "balancedTop1": 55.71,
+        "top3Accuracy": 83.48,
+        "bySourceTop1": {
+          "FMA": 59.02,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 31.58,
+          "Jamendo": 53.21,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 83.05,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "minimumSourceTop1": 31.58
+      },
+      "changedRows": 9,
+      "config": {
+        "name": "single-leaf4-a025",
+        "view": "single",
+        "leaf": 4,
+        "alpha": 0.25
+      }
+    },
+    "single-leaf4-a050": {
+      "metric": {
+        "total": 1883,
+        "top1Accuracy": 57.83,
+        "balancedTop1": 55.55,
+        "top3Accuracy": 83.48,
+        "bySourceTop1": {
+          "FMA": 59.02,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 31.58,
+          "Jamendo": 53.13,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 83.05,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "minimumSourceTop1": 31.58
+      },
+      "changedRows": 14,
+      "config": {
+        "name": "single-leaf4-a050",
+        "view": "single",
+        "leaf": 4,
+        "alpha": 0.5
+      }
+    },
+    "track-leaf2-a025": {
+      "metric": {
+        "total": 1883,
+        "top1Accuracy": 58.05,
+        "balancedTop1": 56.97,
+        "top3Accuracy": 83.48,
+        "bySourceTop1": {
+          "FMA": 59.33,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 31.58,
+          "Jamendo": 53.38,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 83.05,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "minimumSourceTop1": 31.58
+      },
+      "changedRows": 6,
+      "config": {
+        "name": "track-leaf2-a025",
+        "view": "track",
+        "leaf": 2,
+        "alpha": 0.25
+      }
+    },
+    "track-leaf2-a050": {
+      "metric": {
+        "total": 1883,
+        "top1Accuracy": 57.89,
+        "balancedTop1": 55.56,
+        "top3Accuracy": 83.48,
+        "bySourceTop1": {
+          "FMA": 59.02,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 31.58,
+          "Jamendo": 53.29,
+          "MagnaTagATune research evaluation": 72.22,
+          "RWC Music Database": 83.05,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "minimumSourceTop1": 31.58
+      },
+      "changedRows": 15,
+      "config": {
+        "name": "track-leaf2-a050",
+        "view": "track",
+        "leaf": 2,
+        "alpha": 0.5
+      }
+    },
+    "track-leaf4-a025": {
+      "metric": {
+        "total": 1883,
+        "top1Accuracy": 58.1,
+        "balancedTop1": 57.04,
+        "top3Accuracy": 83.48,
+        "bySourceTop1": {
+          "FMA": 59.33,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 31.58,
+          "Jamendo": 53.46,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 83.05,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "minimumSourceTop1": 31.58
+      },
+      "changedRows": 2,
+      "config": {
+        "name": "track-leaf4-a025",
+        "view": "track",
+        "leaf": 4,
+        "alpha": 0.25
+      }
+    },
+    "track-leaf4-a050": {
+      "metric": {
+        "total": 1883,
+        "top1Accuracy": 58.05,
+        "balancedTop1": 56.91,
+        "top3Accuracy": 83.48,
+        "bySourceTop1": {
+          "FMA": 59.33,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 31.58,
+          "Jamendo": 53.38,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 83.05,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "minimumSourceTop1": 31.58
+      },
+      "changedRows": 6,
+      "config": {
+        "name": "track-leaf4-a050",
+        "view": "track",
+        "leaf": 4,
+        "alpha": 0.5
+      }
+    },
+    "track-leaf8-a025": {
+      "metric": {
+        "total": 1883,
+        "top1Accuracy": 58.1,
+        "balancedTop1": 57.04,
+        "top3Accuracy": 83.48,
+        "bySourceTop1": {
+          "FMA": 59.33,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 31.58,
+          "Jamendo": 53.46,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 83.05,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "minimumSourceTop1": 31.58
+      },
+      "changedRows": 3,
+      "config": {
+        "name": "track-leaf8-a025",
+        "view": "track",
+        "leaf": 8,
+        "alpha": 0.25
+      }
+    },
+    "track-leaf8-a050": {
+      "metric": {
+        "total": 1883,
+        "top1Accuracy": 57.99,
+        "balancedTop1": 55.68,
+        "top3Accuracy": 83.48,
+        "bySourceTop1": {
+          "FMA": 59.02,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 31.58,
+          "Jamendo": 53.38,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 83.05,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "minimumSourceTop1": 31.58
+      },
+      "changedRows": 8,
+      "config": {
+        "name": "track-leaf8-a050",
+        "view": "track",
+        "leaf": 8,
+        "alpha": 0.5
+      }
+    }
+  },
+  "ranking": [
+    "incumbent",
+    "track-leaf4-a025",
+    "track-leaf8-a025",
+    "track-leaf2-a025",
+    "track-leaf4-a050",
+    "track-leaf8-a050",
+    "single-leaf4-a025",
+    "track-leaf2-a050",
+    "single-leaf4-a050"
+  ],
+  "selected": "incumbent",
+  "folds": [
+    {
+      "heldOutSource": "FMA",
+      "evaluationRows": 327,
+      "singleTrainingTracks": 1070,
+      "singleTrainingCandidateRows": 3210,
+      "trackTrainingTracks": 844,
+      "trackTrainingCandidateRows": 2532
+    },
+    {
+      "heldOutSource": "IdolSongsJp",
+      "evaluationRows": 15,
+      "singleTrainingTracks": 1326,
+      "singleTrainingCandidateRows": 3978,
+      "trackTrainingTracks": 1028,
+      "trackTrainingCandidateRows": 3084
+    },
+    {
+      "heldOutSource": "Internet Archive",
+      "evaluationRows": 19,
+      "singleTrainingTracks": 1326,
+      "singleTrainingCandidateRows": 3978,
+      "trackTrainingTracks": 1023,
+      "trackTrainingCandidateRows": 3069
+    },
+    {
+      "heldOutSource": "Jamendo",
+      "evaluationRows": 1199,
+      "singleTrainingTracks": 377,
+      "singleTrainingCandidateRows": 1131,
+      "trackTrainingTracks": 453,
+      "trackTrainingCandidateRows": 1359
+    },
+    {
+      "heldOutSource": "MagnaTagATune research evaluation",
+      "evaluationRows": 234,
+      "singleTrainingTracks": 1341,
+      "singleTrainingCandidateRows": 4023,
+      "trackTrainingTracks": 876,
+      "trackTrainingCandidateRows": 2628
+    },
+    {
+      "heldOutSource": "RWC Music Database",
+      "evaluationRows": 59,
+      "singleTrainingTracks": 1284,
+      "singleTrainingCandidateRows": 3852,
+      "trackTrainingTracks": 985,
+      "trackTrainingCandidateRows": 2955
+    },
+    {
+      "heldOutSource": "Wikimedia Commons",
+      "evaluationRows": 20,
+      "singleTrainingTracks": 1322,
+      "singleTrainingCandidateRows": 3966,
+      "trackTrainingTracks": 1019,
+      "trackTrainingCandidateRows": 3057
+    },
+    {
+      "heldOutSource": "Zenodo CAPHE Hybrid Opera 18288509",
+      "evaluationRows": 10,
+      "singleTrainingTracks": 1341,
+      "singleTrainingCandidateRows": 4023,
+      "trackTrainingTracks": 1038,
+      "trackTrainingCandidateRows": 3114
+    }
+  ]
+}

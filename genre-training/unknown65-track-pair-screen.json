@@ -1,0 +1,1222 @@
+{
+  "objective": "Strict exact-4x30 source-heldout pair screen toward 65% Top1.",
+  "policy": {
+    "metadataUsedAtInference": false,
+    "urlSpecificRulesUsed": false,
+    "sealedFinalHoldoutUsed": false,
+    "candidateSetChanged": false
+  },
+  "featureContractSha256": "ea833af2bcfb08af88098281a02fc5dbc9b45661fee6c609cab7299e4d03f7fe",
+  "dataset": {
+    "rows": 1883,
+    "trackFeatureRows": 1195,
+    "sources": [
+      "FMA",
+      "IdolSongsJp",
+      "Internet Archive",
+      "Jamendo",
+      "MagnaTagATune research evaluation",
+      "RWC Music Database",
+      "Wikimedia Commons",
+      "Zenodo CAPHE Hybrid Opera 18288509"
+    ]
+  },
+  "candidates": {
+    "incumbent": {
+      "metric": {
+        "total": 1883,
+        "top1Accuracy": 58.1,
+        "balancedTop1": 58.24,
+        "top3Accuracy": 83.48,
+        "bySourceTop1": {
+          "FMA": 59.63,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 31.58,
+          "Jamendo": 53.38,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 83.05,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "minimumSourceTop1": 31.58
+      },
+      "appliedRows": 0,
+      "changedRows": 0
+    },
+    "pair1-effnet-logistic": {
+      "metric": {
+        "total": 1883,
+        "top1Accuracy": 58.1,
+        "balancedTop1": 58.24,
+        "top3Accuracy": 83.48,
+        "bySourceTop1": {
+          "FMA": 59.63,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 31.58,
+          "Jamendo": 53.38,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 83.05,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "minimumSourceTop1": 31.58
+      },
+      "appliedRows": 4,
+      "changedRows": 0
+    },
+    "pair2-effnet-logistic": {
+      "metric": {
+        "total": 1883,
+        "top1Accuracy": 58.1,
+        "balancedTop1": 58.24,
+        "top3Accuracy": 83.48,
+        "bySourceTop1": {
+          "FMA": 59.63,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 31.58,
+          "Jamendo": 53.38,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 83.05,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "minimumSourceTop1": 31.58
+      },
+      "appliedRows": 42,
+      "changedRows": 4
+    },
+    "pair3-effnet-trees": {
+      "metric": {
+        "total": 1883,
+        "top1Accuracy": 58.26,
+        "balancedTop1": 58.32,
+        "top3Accuracy": 83.48,
+        "bySourceTop1": {
+          "FMA": 60.24,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 31.58,
+          "Jamendo": 53.46,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 83.05,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "minimumSourceTop1": 31.58
+      },
+      "appliedRows": 92,
+      "changedRows": 5
+    },
+    "pair4-rhythm-trees": {
+      "metric": {
+        "total": 1883,
+        "top1Accuracy": 58.1,
+        "balancedTop1": 58.24,
+        "top3Accuracy": 83.48,
+        "bySourceTop1": {
+          "FMA": 59.63,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 31.58,
+          "Jamendo": 53.38,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 83.05,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "minimumSourceTop1": 31.58
+      },
+      "appliedRows": 1,
+      "changedRows": 0
+    },
+    "pair5-rhythm-trees": {
+      "metric": {
+        "total": 1883,
+        "top1Accuracy": 58.1,
+        "balancedTop1": 58.24,
+        "top3Accuracy": 83.48,
+        "bySourceTop1": {
+          "FMA": 59.63,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 31.58,
+          "Jamendo": 53.38,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 83.05,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "minimumSourceTop1": 31.58
+      },
+      "appliedRows": 0,
+      "changedRows": 0
+    },
+    "pair6-rhythm-logistic": {
+      "metric": {
+        "total": 1883,
+        "top1Accuracy": 58.1,
+        "balancedTop1": 58.24,
+        "top3Accuracy": 83.48,
+        "bySourceTop1": {
+          "FMA": 59.63,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 31.58,
+          "Jamendo": 53.38,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 83.05,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "minimumSourceTop1": 31.58
+      },
+      "appliedRows": 5,
+      "changedRows": 0
+    },
+    "pair7-rhythm-trees": {
+      "metric": {
+        "total": 1883,
+        "top1Accuracy": 58.1,
+        "balancedTop1": 58.24,
+        "top3Accuracy": 83.48,
+        "bySourceTop1": {
+          "FMA": 59.63,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 31.58,
+          "Jamendo": 53.38,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 83.05,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "minimumSourceTop1": 31.58
+      },
+      "appliedRows": 1,
+      "changedRows": 0
+    },
+    "pair8-rhythm-trees": {
+      "metric": {
+        "total": 1883,
+        "top1Accuracy": 58.15,
+        "balancedTop1": 58.28,
+        "top3Accuracy": 83.48,
+        "bySourceTop1": {
+          "FMA": 59.94,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 31.58,
+          "Jamendo": 53.38,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 83.05,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "minimumSourceTop1": 31.58
+      },
+      "appliedRows": 18,
+      "changedRows": 1
+    },
+    "pair9-rhythm-trees": {
+      "metric": {
+        "total": 1883,
+        "top1Accuracy": 57.78,
+        "balancedTop1": 58.0,
+        "top3Accuracy": 83.48,
+        "bySourceTop1": {
+          "FMA": 59.63,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 31.58,
+          "Jamendo": 53.38,
+          "MagnaTagATune research evaluation": 70.09,
+          "RWC Music Database": 83.05,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "minimumSourceTop1": 31.58
+      },
+      "appliedRows": 13,
+      "changedRows": 6
+    },
+    "pair10-rhythm-trees": {
+      "metric": {
+        "total": 1883,
+        "top1Accuracy": 58.1,
+        "balancedTop1": 58.24,
+        "top3Accuracy": 83.48,
+        "bySourceTop1": {
+          "FMA": 59.63,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 31.58,
+          "Jamendo": 53.38,
+          "MagnaTagATune research evaluation": 72.65,
+          "RWC Music Database": 83.05,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "minimumSourceTop1": 31.58
+      },
+      "appliedRows": 17,
+      "changedRows": 0
+    },
+    "all-pairs": {
+      "metric": {
+        "total": 1883,
+        "top1Accuracy": 57.99,
+        "balancedTop1": 58.12,
+        "top3Accuracy": 83.48,
+        "bySourceTop1": {
+          "FMA": 60.55,
+          "IdolSongsJp": 86.67,
+          "Internet Archive": 31.58,
+          "Jamendo": 53.46,
+          "MagnaTagATune research evaluation": 70.09,
+          "RWC Music Database": 83.05,
+          "Wikimedia Commons": 65.0,
+          "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+        },
+        "minimumSourceTop1": 31.58
+      },
+      "appliedRows": 193,
+      "changedRows": 15
+    }
+  },
+  "ranking": [
+    "pair3-effnet-trees",
+    "pair8-rhythm-trees",
+    "incumbent",
+    "pair1-effnet-logistic",
+    "pair2-effnet-logistic",
+    "pair4-rhythm-trees",
+    "pair5-rhythm-trees",
+    "pair6-rhythm-logistic",
+    "pair7-rhythm-trees",
+    "pair10-rhythm-trees",
+    "all-pairs",
+    "pair9-rhythm-trees"
+  ],
+  "selected": "pair3-effnet-trees",
+  "folds": [
+    {
+      "heldOutSource": "FMA",
+      "pairs": [
+        {
+          "name": "pair1-effnet-logistic",
+          "status": "fitted",
+          "counts": {
+            "テクノ": 112,
+            "ハウス": 98
+          },
+          "sources": {
+            "テクノ": 4,
+            "ハウス": 2
+          }
+        },
+        {
+          "name": "pair2-effnet-logistic",
+          "status": "fitted",
+          "counts": {
+            "ロック": 110,
+            "パンク": 50
+          },
+          "sources": {
+            "ロック": 3,
+            "パンク": 2
+          }
+        },
+        {
+          "name": "pair3-effnet-trees",
+          "status": "fitted",
+          "counts": {
+            "ロック": 110,
+            "パンク": 50
+          },
+          "sources": {
+            "ロック": 3,
+            "パンク": 2
+          }
+        },
+        {
+          "name": "pair4-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "ディープ・ハウス": 75,
+            "ハウス": 98
+          },
+          "sources": {
+            "ディープ・ハウス": 2,
+            "ハウス": 2
+          }
+        },
+        {
+          "name": "pair5-rhythm-trees",
+          "status": "insufficient-sources",
+          "sources": {
+            "トランス": 1,
+            "テクノ": 4
+          }
+        },
+        {
+          "name": "pair6-rhythm-logistic",
+          "status": "insufficient-rows",
+          "counts": {
+            "ドローン": 1,
+            "ノイズミュージック": 3
+          }
+        },
+        {
+          "name": "pair7-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "ロック": 110,
+            "ファンク": 13
+          },
+          "sources": {
+            "ロック": 3,
+            "ファンク": 2
+          }
+        },
+        {
+          "name": "pair8-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "ブルース": 13,
+            "フォーク": 51
+          },
+          "sources": {
+            "ブルース": 2,
+            "フォーク": 3
+          }
+        },
+        {
+          "name": "pair9-rhythm-trees",
+          "status": "insufficient-sources",
+          "sources": {
+            "レゲエ": 3,
+            "ダブ": 1
+          }
+        },
+        {
+          "name": "pair10-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "フォーク": 51,
+            "ラテン": 20
+          },
+          "sources": {
+            "ラテン": 2,
+            "フォーク": 3
+          }
+        }
+      ]
+    },
+    {
+      "heldOutSource": "IdolSongsJp",
+      "pairs": [
+        {
+          "name": "pair1-effnet-logistic",
+          "status": "fitted",
+          "counts": {
+            "ハウス": 109,
+            "テクノ": 133
+          },
+          "sources": {
+            "テクノ": 5,
+            "ハウス": 3
+          }
+        },
+        {
+          "name": "pair2-effnet-logistic",
+          "status": "fitted",
+          "counts": {
+            "ロック": 136,
+            "パンク": 61
+          },
+          "sources": {
+            "ロック": 4,
+            "パンク": 3
+          }
+        },
+        {
+          "name": "pair3-effnet-trees",
+          "status": "fitted",
+          "counts": {
+            "ロック": 136,
+            "パンク": 61
+          },
+          "sources": {
+            "ロック": 4,
+            "パンク": 3
+          }
+        },
+        {
+          "name": "pair4-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "ハウス": 109,
+            "ディープ・ハウス": 75
+          },
+          "sources": {
+            "ディープ・ハウス": 2,
+            "ハウス": 3
+          }
+        },
+        {
+          "name": "pair5-rhythm-trees",
+          "status": "insufficient-sources",
+          "sources": {
+            "トランス": 1,
+            "テクノ": 5
+          }
+        },
+        {
+          "name": "pair6-rhythm-logistic",
+          "status": "fitted",
+          "counts": {
+            "ドローン": 11,
+            "ノイズミュージック": 11
+          },
+          "sources": {
+            "ドローン": 2,
+            "ノイズミュージック": 2
+          }
+        },
+        {
+          "name": "pair7-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "ロック": 136,
+            "ファンク": 13
+          },
+          "sources": {
+            "ロック": 4,
+            "ファンク": 2
+          }
+        },
+        {
+          "name": "pair8-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "フォーク": 91,
+            "ブルース": 13
+          },
+          "sources": {
+            "ブルース": 2,
+            "フォーク": 4
+          }
+        },
+        {
+          "name": "pair9-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "ダブ": 105,
+            "レゲエ": 92
+          },
+          "sources": {
+            "レゲエ": 4,
+            "ダブ": 2
+          }
+        },
+        {
+          "name": "pair10-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "フォーク": 91,
+            "ラテン": 30
+          },
+          "sources": {
+            "ラテン": 3,
+            "フォーク": 4
+          }
+        }
+      ]
+    },
+    {
+      "heldOutSource": "Internet Archive",
+      "pairs": [
+        {
+          "name": "pair1-effnet-logistic",
+          "status": "fitted",
+          "counts": {
+            "ハウス": 109,
+            "テクノ": 133
+          },
+          "sources": {
+            "テクノ": 5,
+            "ハウス": 3
+          }
+        },
+        {
+          "name": "pair2-effnet-logistic",
+          "status": "fitted",
+          "counts": {
+            "ロック": 136,
+            "パンク": 61
+          },
+          "sources": {
+            "ロック": 4,
+            "パンク": 3
+          }
+        },
+        {
+          "name": "pair3-effnet-trees",
+          "status": "fitted",
+          "counts": {
+            "ロック": 136,
+            "パンク": 61
+          },
+          "sources": {
+            "ロック": 4,
+            "パンク": 3
+          }
+        },
+        {
+          "name": "pair4-rhythm-trees",
+          "status": "insufficient-sources",
+          "sources": {
+            "ディープ・ハウス": 1,
+            "ハウス": 3
+          }
+        },
+        {
+          "name": "pair5-rhythm-trees",
+          "status": "insufficient-sources",
+          "sources": {
+            "トランス": 1,
+            "テクノ": 5
+          }
+        },
+        {
+          "name": "pair6-rhythm-logistic",
+          "status": "fitted",
+          "counts": {
+            "ドローン": 11,
+            "ノイズミュージック": 11
+          },
+          "sources": {
+            "ドローン": 2,
+            "ノイズミュージック": 2
+          }
+        },
+        {
+          "name": "pair7-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "ロック": 136,
+            "ファンク": 13
+          },
+          "sources": {
+            "ロック": 4,
+            "ファンク": 2
+          }
+        },
+        {
+          "name": "pair8-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "フォーク": 91,
+            "ブルース": 13
+          },
+          "sources": {
+            "ブルース": 2,
+            "フォーク": 4
+          }
+        },
+        {
+          "name": "pair9-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "ダブ": 105,
+            "レゲエ": 92
+          },
+          "sources": {
+            "レゲエ": 4,
+            "ダブ": 2
+          }
+        },
+        {
+          "name": "pair10-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "フォーク": 91,
+            "ラテン": 30
+          },
+          "sources": {
+            "ラテン": 3,
+            "フォーク": 4
+          }
+        }
+      ]
+    },
+    {
+      "heldOutSource": "Jamendo",
+      "pairs": [
+        {
+          "name": "pair1-effnet-logistic",
+          "status": "fitted",
+          "counts": {
+            "ハウス": 14,
+            "テクノ": 57
+          },
+          "sources": {
+            "テクノ": 4,
+            "ハウス": 2
+          }
+        },
+        {
+          "name": "pair2-effnet-logistic",
+          "status": "fitted",
+          "counts": {
+            "ロック": 59,
+            "パンク": 29
+          },
+          "sources": {
+            "ロック": 3,
+            "パンク": 2
+          }
+        },
+        {
+          "name": "pair3-effnet-trees",
+          "status": "fitted",
+          "counts": {
+            "ロック": 59,
+            "パンク": 29
+          },
+          "sources": {
+            "ロック": 3,
+            "パンク": 2
+          }
+        },
+        {
+          "name": "pair4-rhythm-trees",
+          "status": "insufficient-sources",
+          "sources": {
+            "ディープ・ハウス": 1,
+            "ハウス": 2
+          }
+        },
+        {
+          "name": "pair5-rhythm-trees",
+          "status": "insufficient-rows",
+          "counts": {
+            "テクノ": 57
+          }
+        },
+        {
+          "name": "pair6-rhythm-logistic",
+          "status": "fitted",
+          "counts": {
+            "ドローン": 11,
+            "ノイズミュージック": 11
+          },
+          "sources": {
+            "ドローン": 2,
+            "ノイズミュージック": 2
+          }
+        },
+        {
+          "name": "pair7-rhythm-trees",
+          "status": "insufficient-rows",
+          "counts": {
+            "ロック": 59,
+            "ファンク": 3
+          }
+        },
+        {
+          "name": "pair8-rhythm-trees",
+          "status": "insufficient-rows",
+          "counts": {
+            "フォーク": 66,
+            "ブルース": 3
+          }
+        },
+        {
+          "name": "pair9-rhythm-trees",
+          "status": "insufficient-sources",
+          "sources": {
+            "レゲエ": 3,
+            "ダブ": 1
+          }
+        },
+        {
+          "name": "pair10-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "フォーク": 66,
+            "ラテン": 20
+          },
+          "sources": {
+            "ラテン": 2,
+            "フォーク": 3
+          }
+        }
+      ]
+    },
+    {
+      "heldOutSource": "MagnaTagATune research evaluation",
+      "pairs": [
+        {
+          "name": "pair1-effnet-logistic",
+          "status": "fitted",
+          "counts": {
+            "ハウス": 109,
+            "テクノ": 103
+          },
+          "sources": {
+            "テクノ": 4,
+            "ハウス": 3
+          }
+        },
+        {
+          "name": "pair2-effnet-logistic",
+          "status": "fitted",
+          "counts": {
+            "ロック": 106,
+            "パンク": 43
+          },
+          "sources": {
+            "ロック": 3,
+            "パンク": 2
+          }
+        },
+        {
+          "name": "pair3-effnet-trees",
+          "status": "fitted",
+          "counts": {
+            "ロック": 106,
+            "パンク": 43
+          },
+          "sources": {
+            "ロック": 3,
+            "パンク": 2
+          }
+        },
+        {
+          "name": "pair4-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "ハウス": 109,
+            "ディープ・ハウス": 75
+          },
+          "sources": {
+            "ディープ・ハウス": 2,
+            "ハウス": 3
+          }
+        },
+        {
+          "name": "pair5-rhythm-trees",
+          "status": "insufficient-sources",
+          "sources": {
+            "トランス": 1,
+            "テクノ": 4
+          }
+        },
+        {
+          "name": "pair6-rhythm-logistic",
+          "status": "fitted",
+          "counts": {
+            "ドローン": 11,
+            "ノイズミュージック": 11
+          },
+          "sources": {
+            "ドローン": 2,
+            "ノイズミュージック": 2
+          }
+        },
+        {
+          "name": "pair7-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "ロック": 106,
+            "ファンク": 13
+          },
+          "sources": {
+            "ロック": 3,
+            "ファンク": 2
+          }
+        },
+        {
+          "name": "pair8-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "フォーク": 67,
+            "ブルース": 13
+          },
+          "sources": {
+            "ブルース": 2,
+            "フォーク": 3
+          }
+        },
+        {
+          "name": "pair9-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "ダブ": 105,
+            "レゲエ": 80
+          },
+          "sources": {
+            "レゲエ": 3,
+            "ダブ": 2
+          }
+        },
+        {
+          "name": "pair10-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "フォーク": 67,
+            "ラテン": 30
+          },
+          "sources": {
+            "ラテン": 3,
+            "フォーク": 3
+          }
+        }
+      ]
+    },
+    {
+      "heldOutSource": "RWC Music Database",
+      "pairs": [
+        {
+          "name": "pair1-effnet-logistic",
+          "status": "fitted",
+          "counts": {
+            "ハウス": 106,
+            "テクノ": 131
+          },
+          "sources": {
+            "テクノ": 4,
+            "ハウス": 2
+          }
+        },
+        {
+          "name": "pair2-effnet-logistic",
+          "status": "fitted",
+          "counts": {
+            "ロック": 133,
+            "パンク": 61
+          },
+          "sources": {
+            "ロック": 3,
+            "パンク": 3
+          }
+        },
+        {
+          "name": "pair3-effnet-trees",
+          "status": "fitted",
+          "counts": {
+            "ロック": 133,
+            "パンク": 61
+          },
+          "sources": {
+            "ロック": 3,
+            "パンク": 3
+          }
+        },
+        {
+          "name": "pair4-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "ハウス": 106,
+            "ディープ・ハウス": 75
+          },
+          "sources": {
+            "ディープ・ハウス": 2,
+            "ハウス": 2
+          }
+        },
+        {
+          "name": "pair5-rhythm-trees",
+          "status": "insufficient-sources",
+          "sources": {
+            "トランス": 1,
+            "テクノ": 4
+          }
+        },
+        {
+          "name": "pair6-rhythm-logistic",
+          "status": "fitted",
+          "counts": {
+            "ドローン": 11,
+            "ノイズミュージック": 11
+          },
+          "sources": {
+            "ドローン": 2,
+            "ノイズミュージック": 2
+          }
+        },
+        {
+          "name": "pair7-rhythm-trees",
+          "status": "insufficient-sources",
+          "sources": {
+            "ロック": 3,
+            "ファンク": 1
+          }
+        },
+        {
+          "name": "pair8-rhythm-trees",
+          "status": "insufficient-sources",
+          "sources": {
+            "ブルース": 1,
+            "フォーク": 3
+          }
+        },
+        {
+          "name": "pair9-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "ダブ": 105,
+            "レゲエ": 89
+          },
+          "sources": {
+            "レゲエ": 3,
+            "ダブ": 2
+          }
+        },
+        {
+          "name": "pair10-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "フォーク": 89,
+            "ラテン": 20
+          },
+          "sources": {
+            "ラテン": 2,
+            "フォーク": 3
+          }
+        }
+      ]
+    },
+    {
+      "heldOutSource": "Wikimedia Commons",
+      "pairs": [
+        {
+          "name": "pair1-effnet-logistic",
+          "status": "fitted",
+          "counts": {
+            "ハウス": 109,
+            "テクノ": 129
+          },
+          "sources": {
+            "テクノ": 4,
+            "ハウス": 3
+          }
+        },
+        {
+          "name": "pair2-effnet-logistic",
+          "status": "fitted",
+          "counts": {
+            "ロック": 136,
+            "パンク": 61
+          },
+          "sources": {
+            "ロック": 4,
+            "パンク": 3
+          }
+        },
+        {
+          "name": "pair3-effnet-trees",
+          "status": "fitted",
+          "counts": {
+            "ロック": 136,
+            "パンク": 61
+          },
+          "sources": {
+            "ロック": 4,
+            "パンク": 3
+          }
+        },
+        {
+          "name": "pair4-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "ハウス": 109,
+            "ディープ・ハウス": 75
+          },
+          "sources": {
+            "ディープ・ハウス": 2,
+            "ハウス": 3
+          }
+        },
+        {
+          "name": "pair5-rhythm-trees",
+          "status": "insufficient-sources",
+          "sources": {
+            "トランス": 1,
+            "テクノ": 4
+          }
+        },
+        {
+          "name": "pair6-rhythm-logistic",
+          "status": "insufficient-sources",
+          "sources": {
+            "ドローン": 1,
+            "ノイズミュージック": 1
+          }
+        },
+        {
+          "name": "pair7-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "ロック": 136,
+            "ファンク": 13
+          },
+          "sources": {
+            "ロック": 4,
+            "ファンク": 2
+          }
+        },
+        {
+          "name": "pair8-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "フォーク": 91,
+            "ブルース": 13
+          },
+          "sources": {
+            "ブルース": 2,
+            "フォーク": 4
+          }
+        },
+        {
+          "name": "pair9-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "ダブ": 105,
+            "レゲエ": 92
+          },
+          "sources": {
+            "レゲエ": 4,
+            "ダブ": 2
+          }
+        },
+        {
+          "name": "pair10-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "フォーク": 91,
+            "ラテン": 30
+          },
+          "sources": {
+            "ラテン": 3,
+            "フォーク": 4
+          }
+        }
+      ]
+    },
+    {
+      "heldOutSource": "Zenodo CAPHE Hybrid Opera 18288509",
+      "pairs": [
+        {
+          "name": "pair1-effnet-logistic",
+          "status": "fitted",
+          "counts": {
+            "ハウス": 109,
+            "テクノ": 133
+          },
+          "sources": {
+            "テクノ": 5,
+            "ハウス": 3
+          }
+        },
+        {
+          "name": "pair2-effnet-logistic",
+          "status": "fitted",
+          "counts": {
+            "ロック": 136,
+            "パンク": 61
+          },
+          "sources": {
+            "ロック": 4,
+            "パンク": 3
+          }
+        },
+        {
+          "name": "pair3-effnet-trees",
+          "status": "fitted",
+          "counts": {
+            "ロック": 136,
+            "パンク": 61
+          },
+          "sources": {
+            "ロック": 4,
+            "パンク": 3
+          }
+        },
+        {
+          "name": "pair4-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "ハウス": 109,
+            "ディープ・ハウス": 75
+          },
+          "sources": {
+            "ディープ・ハウス": 2,
+            "ハウス": 3
+          }
+        },
+        {
+          "name": "pair5-rhythm-trees",
+          "status": "insufficient-sources",
+          "sources": {
+            "トランス": 1,
+            "テクノ": 5
+          }
+        },
+        {
+          "name": "pair6-rhythm-logistic",
+          "status": "fitted",
+          "counts": {
+            "ドローン": 11,
+            "ノイズミュージック": 11
+          },
+          "sources": {
+            "ドローン": 2,
+            "ノイズミュージック": 2
+          }
+        },
+        {
+          "name": "pair7-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "ロック": 136,
+            "ファンク": 13
+          },
+          "sources": {
+            "ロック": 4,
+            "ファンク": 2
+          }
+        },
+        {
+          "name": "pair8-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "フォーク": 91,
+            "ブルース": 13
+          },
+          "sources": {
+            "ブルース": 2,
+            "フォーク": 4
+          }
+        },
+        {
+          "name": "pair9-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "ダブ": 105,
+            "レゲエ": 92
+          },
+          "sources": {
+            "レゲエ": 4,
+            "ダブ": 2
+          }
+        },
+        {
+          "name": "pair10-rhythm-trees",
+          "status": "fitted",
+          "counts": {
+            "フォーク": 91,
+            "ラテン": 30
+          },
+          "sources": {
+            "ラテン": 3,
+            "フォーク": 4
+          }
+        }
+      ]
+    }
+  ]
+}
