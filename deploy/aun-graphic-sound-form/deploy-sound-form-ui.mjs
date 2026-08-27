@@ -14,6 +14,8 @@ const backupDir = path.join(os.tmpdir(), `sound-form-ui-backup-${stamp}`);
 
 const interfaceHtml = path.join(ROOT, "apps", "demo", "MUSIC MEMORY FITTING ROOM.html");
 const copyEditorHtml = path.join(ROOT, "apps", "demo", "copy-editor.html");
+const APPROVED_INTERFACE_SHA256 = "482cf6d1cd06f4d6d9c6658b7183b9f6e8d90204f21034160ea6e689a570b3de";
+const APPROVED_COPY_EDITOR_SHA256 = "f936539dedef7d75034b0972b8374e7dd24ffd0e7753fe77cc76be8da453d886";
 const mappings = [
   {
     local: interfaceHtml,
@@ -59,13 +61,15 @@ for (const mapping of mappings) {
 }
 
 const interfaceSource = fs.readFileSync(interfaceHtml, "utf8");
-if (!interfaceSource.includes('<p class="simple-intro">SOUND FORMは')
+if (sha256(interfaceHtml) !== APPROVED_INTERFACE_SHA256
+  || !interfaceSource.includes('<p class="simple-intro">SOUND FORMは')
   || !interfaceSource.includes('class="simple-conversion"')) {
   throw new Error("Refusing to deploy: the approved simple SOUND FORM interface was not found");
 }
 
 const copyEditorSource = fs.readFileSync(copyEditorHtml, "utf8");
-if (!copyEditorSource.includes("SOUND FORM / Copy editor")
+if (sha256(copyEditorHtml) !== APPROVED_COPY_EDITOR_SHA256
+  || !copyEditorSource.includes("SOUND FORM / Copy editor")
   || !copyEditorSource.includes('["H03", "紹介文"')) {
   throw new Error("Refusing to deploy: the SOUND FORM copy editor was not found");
 }
