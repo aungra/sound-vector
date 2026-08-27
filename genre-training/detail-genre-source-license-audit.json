@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-27T00:19:55.394Z",
+  "generatedAt": "2026-08-27T00:30:42.146Z",
   "policyVersion": "training-license-v1",
   "sources": {
     "existing-explicit-formal": {
@@ -187,20 +187,23 @@
       }
     },
     "Wikimedia-reviewed-category-candidates": {
-      "rows": 35,
+      "rows": 52,
       "usage": {
-        "production-training": 35
+        "production-training": 52
       },
       "licenses": {
-        "Public Domain": 24,
-        "CC-BY-SA-3.0": 11
+        "Public Domain": 28,
+        "CC-BY-SA-3.0": 11,
+        "CC0": 2,
+        "CC-BY-3.0": 11
       },
-      "representedDetailLabels": 4,
+      "representedDetailLabels": 5,
       "byDetail": {
         "jazz": 24,
         "house": 8,
         "tech-house": 1,
-        "progressive-house": 2
+        "progressive-house": 2,
+        "chiptune": 17
       }
     },
     "ccMixter-reviewed-candidates": {
@@ -1206,21 +1209,29 @@
     },
     "chiptune": {
       "productionSources": [
-        "FMA"
+        "Drozerix creator recordings",
+        "FMA",
+        "Kevin MacLeod creator recordings"
       ],
       "supportSources": [],
       "researchSources": [
         "FMA"
       ],
-      "productionSourceCount": 1,
+      "productionSourceCount": 3,
       "productionRowsBySource": {
-        "FMA": 69
+        "Drozerix creator recordings": 6,
+        "FMA": 69,
+        "Kevin MacLeod creator recordings": 11
       },
       "productionSourcesWithAtLeast2Tracks": [
-        "FMA"
+        "Drozerix creator recordings",
+        "FMA",
+        "Kevin MacLeod creator recordings"
       ],
       "productionSourcesWithAtLeast5Tracks": [
-        "FMA"
+        "Drozerix creator recordings",
+        "FMA",
+        "Kevin MacLeod creator recordings"
       ]
     },
     "game-music": {
@@ -2195,9 +2206,9 @@
   },
   "productionCoverage": {
     "labelsWithOneSource": 60,
-    "labelsWithTwoSources": 29,
-    "labelsWithTwoSourcesAtLeast2Tracks": 25,
-    "labelsWithTwoSourcesAtLeast5Tracks": 21,
+    "labelsWithTwoSources": 30,
+    "labelsWithTwoSourcesAtLeast2Tracks": 26,
+    "labelsWithTwoSourcesAtLeast5Tracks": 22,
     "labelsWithoutProductionSource": 60,
     "twoSourceLabels": [
       "ambient",
@@ -2216,6 +2227,7 @@
       "house",
       "trance",
       "psytrance",
+      "chiptune",
       "funk",
       "disco",
       "synthpop",
@@ -2246,7 +2258,6 @@
       "progressive-house",
       "tech-house",
       "progressive-trance",
-      "chiptune",
       "breakbeat",
       "alternative-hip-hop",
       "cumbia",

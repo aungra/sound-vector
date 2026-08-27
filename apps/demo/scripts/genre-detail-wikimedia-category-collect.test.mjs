@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { candidateFromPage, inferOriginFamily } from "./genre-detail-wikimedia-category-collect.mjs";
+import { candidateFromPage, inferOriginFamily, TARGET_CATEGORIES } from "./genre-detail-wikimedia-category-collect.mjs";
 
 function page(overrides = {}) {
   const categories = overrides.categories || ["Audio files of jazz music", "CC-BY-SA-4.0"];
@@ -42,4 +42,9 @@ test("USAF ensembles share one origin while separate agencies remain distinct", 
   assert.equal(inferOriginFamily(page(), page().imageinfo[0]), "US Air Force recordings");
   const coast = page({ title: "File:At the Jazz Band Ball - U.S. Coast Guard Band.ogg", artist: "United States Coast Guard Band" });
   assert.equal(inferOriginFamily(coast, coast.imageinfo[0]), "US Coast Guard Band");
+});
+
+test("priority electronic targets use exact existing Commons categories", () => {
+  assert.equal(TARGET_CATEGORIES.chiptune, "Audio files of chiptune");
+  assert.equal(TARGET_CATEGORIES["drum-and-bass"], "Audio files of drum and bass");
 });

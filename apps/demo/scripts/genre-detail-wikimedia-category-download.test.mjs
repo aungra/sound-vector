@@ -14,3 +14,11 @@ test("Commons compressed audio keeps its original URL", () => {
   const original = "https://upload.wikimedia.org/wikipedia/commons/a/ab/example.mp3";
   assert.equal(analysisDownloadUrl({ mime: "audio/mpeg", downloadUrl: original }), original);
 });
+
+test("Commons FLAC files also use the official full-track MP3 transcode", () => {
+  const url = analysisDownloadUrl({
+    mime: "audio/flac",
+    downloadUrl: "https://upload.wikimedia.org/wikipedia/commons/a/ab/Track.flac"
+  });
+  assert.equal(url, "https://upload.wikimedia.org/wikipedia/commons/transcoded/a/ab/Track.flac/Track.flac.mp3");
+});

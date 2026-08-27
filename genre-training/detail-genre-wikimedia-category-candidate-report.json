@@ -1,56 +1,42 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-26T22:51:03.687Z",
+  "generatedAt": "2026-08-27T00:22:32.031Z",
   "dataset": "Wikimedia Commons exact detailed-genre categories",
-  "outputPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/detail-genre-wikimedia-category-candidates.json",
-  "candidateRows": 232,
+  "outputPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/detail-genre-wikimedia-electronic-category-candidates.json",
+  "candidateRows": 51,
   "byTarget": {
-    "jazz": {
-      "categoryFiles": 348,
-      "acceptedBeforeWorkDeduplication": 206,
-      "candidates": 204
+    "chiptune": {
+      "categoryFiles": 47,
+      "acceptedBeforeWorkDeduplication": 27,
+      "candidates": 27
     },
-    "house": {
-      "categoryFiles": 40,
-      "acceptedBeforeWorkDeduplication": 25,
+    "drum-and-bass": {
+      "categoryFiles": 38,
+      "acceptedBeforeWorkDeduplication": 24,
       "candidates": 24
-    },
-    "disco": {
-      "categoryFiles": 3,
-      "acceptedBeforeWorkDeduplication": 0,
-      "candidates": 0
-    },
-    "funk": {
-      "categoryFiles": 9,
-      "acceptedBeforeWorkDeduplication": 4,
-      "candidates": 4
     }
   },
   "byOrigin": {
-    "Internet Archive historic recording collection": 93,
-    "origin-review-required": 68,
-    "US Air Force recordings": 49,
-    "Audiotool": 8,
-    "MTG-Jamendo": 7,
-    "Library of Congress recording collection": 4,
-    "US Coast Guard Band": 3
+    "origin-review-required": 31,
+    "Internet Archive historic recording collection": 13,
+    "Audiotool": 7
   },
   "byLicense": {
-    "Public Domain": 180,
-    "CC-BY-SA-3.0": 18,
-    "CC-BY-SA-4.0": 18,
-    "CC-BY-3.0": 9,
-    "CC0": 3,
-    "CC-BY-4.0": 2,
-    "CC-BY-2.5": 1,
-    "CC-BY-SA-2.5": 1
+    "CC-BY-3.0": 26,
+    "CC-BY-SA-3.0": 15,
+    "Public Domain": 4,
+    "CC0": 2,
+    "CC-BY-1.0": 1,
+    "CC-BY-2.0": 1,
+    "CC-BY-SA-1.0": 1,
+    "CC-BY-SA-4.0": 1
   },
   "rejected": {
-    "not-supported-audio": 41,
-    "under-90-seconds": 97,
-    "support-or-fragment-content": 55,
+    "under-90-seconds": 12,
     "license-verification-required": 1,
-    "rights-review-or-copyright-category": 36
+    "support-or-fragment-content": 5,
+    "not-supported-audio": 1,
+    "rights-review-or-copyright-category": 18
   },
   "safeguards": [
     "Exact Commons genre category membership is required.",

@@ -14,7 +14,9 @@ export const TARGET_CATEGORIES = Object.freeze({
   jazz: "Audio files of jazz music",
   house: "Audio files of house music",
   disco: "Audio files of disco music",
-  funk: "Audio files of funk"
+  funk: "Audio files of funk",
+  chiptune: "Audio files of chiptune",
+  "drum-and-bass": "Audio files of drum and bass"
 });
 
 const REJECT_CATEGORY = /license review needed|copyright violation|deletion requests|unknown copyright status|fair use|open-access scholarly articles|original research|piano education|experiments/i;

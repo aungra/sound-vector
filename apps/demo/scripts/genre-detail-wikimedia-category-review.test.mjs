@@ -18,3 +18,20 @@ test("review assigns explicit house subgenre without adding a source", () => {
   assert.deepEqual(rows[0].detailLabels, ["progressive-house"]);
   assert.equal(rows[0].sourceFamily, "Audiotool");
 });
+
+test("review groups chiptune catalogs by creator origin", () => {
+  const rows = reviewedItems([
+    { trackId: "64731654", detailTarget: "chiptune", detailLabels: ["chiptune"] },
+    { trackId: "41302890", detailTarget: "chiptune", detailLabels: ["chiptune"] }
+  ]);
+  assert.deepEqual(rows.map(item => item.sourceFamily), [
+    "Kevin MacLeod creator recordings",
+    "Drozerix creator recordings"
+  ]);
+});
+
+test("review keeps Audiotool drum and bass as one platform origin", () => {
+  const rows = reviewedItems([{ trackId: "24418750", detailTarget: "drum-and-bass", detailLabels: ["drum-and-bass"] }]);
+  assert.equal(rows[0].sourceFamily, "Audiotool");
+  assert.equal(rows[0].detailTarget, "drum-and-bass");
+});

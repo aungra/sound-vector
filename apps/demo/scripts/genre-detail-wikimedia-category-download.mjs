@@ -15,7 +15,8 @@ function sleep(ms) {
 
 export function analysisDownloadUrl(item) {
   const original = new URL(item.downloadUrl);
-  if (item.mime !== "audio/wav" && !original.pathname.toLowerCase().endsWith(".wav")) return original.href;
+  const lossless = /audio\/(?:wav|flac)/i.test(String(item.mime || "")) || /\.(?:wav|flac)$/i.test(original.pathname);
+  if (!lossless) return original.href;
   const prefix = "/wikipedia/commons/";
   const offset = original.pathname.indexOf(prefix);
   if (offset < 0) return original.href;

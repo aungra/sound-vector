@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-27T00:19:55.279Z",
+  "generatedAt": "2026-08-27T00:30:42.037Z",
   "evaluationScope": "strict-source-heldout-production-safe",
   "model": "standardized-nearest-centroid-baseline",
   "licensePolicy": "CC0/Public Domain/CC-BY/CC-BY-SA full tracks only",
@@ -253,19 +253,26 @@
       ]
     },
     "FMA + MTG-Jamendo + ccMixter -> Wikimedia category origins": {
-      "eligibleDetailLabels": 2,
-      "trainRows": 52,
-      "testRows": 32,
+      "eligibleDetailLabels": 3,
+      "trainRows": 120,
+      "testRows": 49,
       "featureDimensions": 261,
-      "top1Accuracy": 100,
+      "top1Accuracy": 89.8,
       "top3Accuracy": 100,
-      "balancedTop1Accuracy": 100,
+      "balancedTop1Accuracy": 85.78,
       "byDetail": [
+        {
+          "detail": "chiptune",
+          "trainRows": 68,
+          "testRows": 17,
+          "top1Accuracy": 82.35,
+          "top3Accuracy": 100
+        },
         {
           "detail": "house",
           "trainRows": 26,
           "testRows": 8,
-          "top1Accuracy": 100,
+          "top1Accuracy": 75,
           "top3Accuracy": 100
         },
         {

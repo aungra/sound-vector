@@ -1,22 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-27T00:12:02.348Z",
-  "reviewedCandidates": 35,
-  "downloadedAndValidated": 35,
-  "pendingDownloads": 0,
-  "pendingTrackIds": [],
+  "generatedAt": "2026-08-27T00:29:53.770Z",
+  "reviewedCandidates": 63,
+  "downloadedAndValidated": 52,
+  "pendingDownloads": 11,
+  "pendingTrackIds": [
+    "84701671",
+    "84701677",
+    "84701778",
+    "84702831",
+    "24418750",
+    "25682671",
+    "28358474",
+    "30473222",
+    "32827647",
+    "33739140",
+    "34203052"
+  ],
   "failures": [],
   "byDetail": {
     "jazz": 24,
     "house": 8,
     "tech-house": 1,
-    "progressive-house": 2
+    "progressive-house": 2,
+    "chiptune": 17
   },
   "byOrigin": {
     "US Air Force recordings": 24,
     "Audiotool": 6,
-    "Luis Gabriel Aguilera creator-supplied recordings": 5
+    "Luis Gabriel Aguilera creator-supplied recordings": 5,
+    "Drozerix creator recordings": 6,
+    "Kevin MacLeod creator recordings": 11
   },
-  "totalBytes": 345713715,
+  "totalBytes": 439971728,
   "promotionPolicy": "Downloaded reviewed candidates only; origin-heldout ablation is required before production training."
 }

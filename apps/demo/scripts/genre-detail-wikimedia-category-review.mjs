@@ -14,6 +14,14 @@ const USAF_JAZZ = [
   "106984838", "106984841", "106984844", "106984845", "106984849"
 ];
 
+const KEVIN_MACLEOD_CHIPTUNE = [
+  "64731654", "64731841", "64731871", "64733440", "64733816", "64734903",
+  "64736900", "64736915", "64736948", "64737431", "64739119"
+];
+const DROZERIX_CHIPTUNE = ["35271561", "41302890", "41303200", "41304185", "41304664", "41305064"];
+const ANTTI_LUODE_CHIPTUNE = ["84701671", "84701677", "84701778", "84702831"];
+const AUDIOTOOL_DNB = ["24418750", "25682671", "28358474", "30473222", "32827647", "33739140", "34203052"];
+
 export const REVIEWED_ITEMS = Object.freeze(Object.fromEntries([
   ...USAF_JAZZ.map(trackId => [trackId, {
     detailTarget: "jazz",
@@ -38,6 +46,22 @@ export const REVIEWED_ITEMS = Object.freeze(Object.fromEntries([
     detailTarget: "progressive-house",
     sourceFamily: "Audiotool",
     note: "Complete Audiotool track explicitly categorized as Progressive house with reviewed external-source license."
+  }]),
+  ...KEVIN_MACLEOD_CHIPTUNE.map(trackId => [trackId, {
+    detailTarget: "chiptune", sourceFamily: "Kevin MacLeod creator recordings",
+    note: "Complete CC-BY track by Kevin MacLeod in the exact Commons chiptune category."
+  }]),
+  ...DROZERIX_CHIPTUNE.map(trackId => [trackId, {
+    detailTarget: "chiptune", sourceFamily: "Drozerix creator recordings",
+    note: "Complete CC0 or Public Domain track by Drozerix in the exact Commons chiptune category."
+  }]),
+  ...ANTTI_LUODE_CHIPTUNE.map(trackId => [trackId, {
+    detailTarget: "chiptune", sourceFamily: "Antti Luode creator recordings",
+    note: "Complete CC-BY track by Antti Luode in the exact Commons chiptune category."
+  }]),
+  ...AUDIOTOOL_DNB.map(trackId => [trackId, {
+    detailTarget: "drum-and-bass", sourceFamily: "Audiotool",
+    note: "Complete Audiotool track with an exact Commons drum and bass category and CC-BY-SA metadata."
   }])
 ]));
 
@@ -67,8 +91,12 @@ function countsBy(items, key) {
 
 function main() {
   const candidatePath = path.resolve(process.env.MMFR_WIKIMEDIA_CATEGORY_OUTPUT || path.join(CACHE_ROOT, "detail-genre-wikimedia-category-candidates.json"));
+  const supplementalPath = path.resolve(process.env.MMFR_WIKIMEDIA_CATEGORY_SUPPLEMENTAL || path.join(CACHE_ROOT, "detail-genre-wikimedia-electronic-category-candidates.json"));
   const outputPath = path.resolve(process.env.MMFR_WIKIMEDIA_CATEGORY_REVIEWED || path.join(CACHE_ROOT, "detail-genre-wikimedia-category-reviewed-manifest.json"));
-  const candidates = JSON.parse(fs.readFileSync(candidatePath, "utf8")).items || [];
+  const candidatePaths = [...new Set([candidatePath, supplementalPath])].filter(filePath => fs.existsSync(filePath));
+  const candidates = [...new Map(candidatePaths.flatMap(filePath =>
+    (JSON.parse(fs.readFileSync(filePath, "utf8")).items || []).map(item => [String(item.trackId), item])
+  )).values()];
   const items = reviewedItems(candidates);
   const report = {
     schemaVersion: 1,
@@ -81,6 +109,7 @@ function main() {
     safeguards: [
       "All USAF ensembles are one source family; ensemble names do not inflate independent-source counts.",
       "Wikimedia is only the distributor and is not counted as a separate source.",
+      "Each creator catalog is one origin family; multiple tracks by the same creator never inflate source counts.",
       "Holiday arrangements, ambiguous historic recordings, exercises, research audio and mixed-genre rows remain excluded.",
       "Audiotool subgenres use their explicit Tech house or Progressive house category rather than generic House."
     ],

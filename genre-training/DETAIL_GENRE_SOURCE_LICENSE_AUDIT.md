@@ -1,6 +1,6 @@
 # 詳細ジャンル学習ライセンス監査
 
-生成日時: 2026-08-27T00:19:55.394Z
+生成日時: 2026-08-27T00:30:42.146Z
 
 | source | rows | detail labels | production | support only | research only | ND excluded | verify |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -8,7 +8,7 @@
 | MTG-Jamendo-candidates | 1819 | 39 | 498 | 0 | 809 | 417 | 95 |
 | FMA-independent-candidates | 5107 | 48 | 1449 | 0 | 2159 | 1491 | 8 |
 | Wikimedia-reviewed-origin-candidates | 10 | 5 | 10 | 0 | 0 | 0 | 0 |
-| Wikimedia-reviewed-category-candidates | 35 | 4 | 35 | 0 | 0 | 0 | 0 |
+| Wikimedia-reviewed-category-candidates | 52 | 5 | 52 | 0 | 0 | 0 | 0 |
 | ccMixter-reviewed-candidates | 89 | 21 | 89 | 0 | 0 | 0 | 0 |
 | Internet-Archive-reviewed-netlabel-candidates | 39 | 5 | 39 | 0 | 0 | 0 | 0 |
 | WaivOps-rhythm-support | 49 | 2 | 0 | 49 | 0 | 0 | 0 |
@@ -17,11 +17,11 @@
 ## 独立ソースcoverage
 
 - 本番利用可能なソースあり: 60/120
-- 本番利用可能な2ソース以上: 29/120
-- 各ソース2曲以上で2ソース達成: 25/120
-- 各ソース5曲以上で2ソース達成: 21/120
+- 本番利用可能な2ソース以上: 30/120
+- 各ソース2曲以上で2ソース達成: 26/120
+- 各ソース5曲以上で2ソース達成: 22/120
 - 本番利用可能なソースなし: 60/120
-- 2ソース達成: ambient / new-age / drone / classical / blues / jazz / soul / folk / singer-songwriter / electronic / idm / techno / minimal-techno / house / trance / psytrance / funk / disco / synthpop / drum-and-bass / dubstep / hip-hop / reggae / dub / latin / noise / rock / punk / metal
+- 2ソース達成: ambient / new-age / drone / classical / blues / jazz / soul / folk / singer-songwriter / electronic / idm / techno / minimal-techno / house / trance / psytrance / chiptune / funk / disco / synthpop / drum-and-bass / dubstep / hip-hop / reggae / dub / latin / noise / rock / punk / metal
 
 ## 採用規則
 
