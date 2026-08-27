@@ -12,14 +12,6 @@ const configPath = process.argv[2]
 
 const mappings = [
   {
-    local: path.join(ROOT, "apps", "demo", "MUSIC MEMORY FITTING ROOM.html"),
-    remote: "/home/aungraphic02/www/wp/sound-form/index.html"
-  },
-  {
-    local: path.join(ROOT, "apps", "demo", "MUSIC MEMORY FITTING ROOM.html"),
-    remote: "/home/aungraphic02/musictee-audio-service/apps/demo/MUSIC MEMORY FITTING ROOM.html"
-  },
-  {
     local: path.join(SCRIPT_DIR, ".htaccess"),
     remote: "/home/aungraphic02/www/wp/sound-form/.htaccess"
   },
