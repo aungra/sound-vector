@@ -624,56 +624,9 @@
       color: #fff;
       padding: clamp(18px, 4vw, 28px);
     }
-    .simple-device-card::after {
-      content: "";
-      position: absolute;
-      top: 24%;
-      right: -8%;
-      width: 44%;
-      aspect-ratio: 1;
-      border: 1px solid rgba(255,255,255,.16);
-      border-radius: 50%;
-      box-shadow: 0 0 0 22px rgba(255,255,255,.035), 0 0 0 44px rgba(255,255,255,.02);
-      pointer-events: none;
-    }
-    .simple-device-meta,
-    .simple-device-spec {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      font-family: var(--font-latin);
-      font-size: 10px;
-      line-height: 1.25;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-    .simple-device-meta span:nth-child(2) { text-align: center; }
-    .simple-device-meta span:last-child { text-align: right; }
-    .simple-device-spec {
-      margin-top: 30px;
-      border-top: 1px solid rgba(255,255,255,.28);
-      padding-top: 14px;
-      color: rgba(255,255,255,.72);
-      letter-spacing: .04em;
-    }
-    .simple-device-spec span { min-width: 0; }
-    .simple-device-spec span:nth-child(2) { text-align: center; }
-    .simple-device-spec span:last-child { text-align: right; }
-    .simple-device-dot {
-      display: inline-block;
-      width: 7px;
-      height: 7px;
-      margin-right: 6px;
-      border: 1px solid currentColor;
-      border-radius: 50%;
-      background: #fff;
-    }
     .simple-title-lockup {
       position: relative;
-      z-index: 1;
-      padding-top: clamp(100px, 17vw, 132px);
+      padding-top: clamp(72px, 12vw, 96px);
     }
     .simple-title-lockup h1 {
       max-width: none;
@@ -719,17 +672,6 @@
       background: #deded9;
       padding: clamp(20px, 4vw, 28px);
     }
-    .simple-source::after {
-      content: attr(data-source);
-      position: absolute;
-      top: clamp(20px, 4vw, 28px);
-      right: clamp(20px, 4vw, 28px);
-      font-family: var(--font-latin);
-      font-size: 10px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      opacity: .62;
-    }
     .simple-source-stream {
       border-color: #050505;
       background: #050505;
@@ -738,7 +680,7 @@
     .simple-source h2 {
       max-width: 15ch;
       margin: 0 0 28px;
-      padding-top: clamp(78px, 14vw, 112px);
+      padding-top: clamp(24px, 5vw, 40px);
       font-family: var(--font-primary);
       font-size: clamp(26px, 4.2vw, 32px);
       font-weight: 400;
@@ -962,8 +904,7 @@
     @media (max-width: 520px) {
       .wrap { padding: 14px 14px 120px; }
       .simple-device-card { border-radius: 24px; padding: 18px; }
-      .simple-device-meta, .simple-device-spec { gap: 6px; font-size: 9px; }
-      .simple-title-lockup { padding-top: 82px; }
+      .simple-title-lockup { padding-top: 58px; }
       .simple-title-lockup h1 { font-size: clamp(44px, 13.7vw, 60px); }
       .simple-ongaku { right: 2px; font-size: clamp(30px, 9vw, 40px); }
       .simple-intro { margin: 24px 4px 0; font-size: 16px; line-height: 1.82; }
@@ -971,8 +912,7 @@
       .simple-conversion > .generation-progress { top: 8px; margin-bottom: 14px; padding: 16px; }
       .simple-source + .simple-source { margin-top: 14px; }
       .simple-source { border-radius: 22px; padding: 18px; }
-      .simple-source::after { top: 18px; right: 18px; }
-      .simple-source h2 { margin-bottom: 24px; padding-top: 72px; font-size: 24px; }
+      .simple-source h2 { margin-bottom: 24px; padding-top: 18px; font-size: 24px; }
       .simple-source-file h2 { font-size: 21px; line-height: 1.34; }
       .simple-field-label { font-size: 12px; }
       .simple-input-action { flex-direction: column; }
@@ -18397,12 +18337,10 @@
     function renderInterfaceHeader() {
       return `<header class="simple-hero">
         <div class="simple-device-card">
-          <div class="simple-device-meta" aria-hidden="true"><span>SF–01</span><span>audio system</span><span><i class="simple-device-dot"></i>ready</span></div>
           <div class="simple-title-lockup">
             <h1>SOUND FORM</h1>
             <span class="simple-ongaku" aria-hidden="true">音<br>楽</span>
           </div>
-          <div class="simple-device-spec" aria-hidden="true"><span>audio in</span><span>32 structures</span><span>svg + pcm out</span></div>
         </div>
         <p class="simple-intro">SOUND FORMは、音楽を解析し、編集可能な図形データ「SVG」へ変換するシステムです。完成したSVGには、幾何学のパターンと、復元用音声データ（Pulse Code Modulation、以下PCM）を内包する粒子が収録されます。音の図形化、音声復元などを一つのファイルで扱うことを目的としたプロジェクトです。</p>
       </header>`;
@@ -18772,7 +18710,7 @@
         ${renderInterfaceHeader()}
         ${!generated ? `<section id="conversion-workbench" class="simple-conversion" aria-label="音源から図形を生成">
           ${renderGenerationProgress()}
-          <div class="simple-source simple-source-stream" data-source="01 / stream">
+          <div class="simple-source simple-source-stream">
             <h2>YouTube から生成</h2>
             <label class="simple-field-label" for="youtubeUrl">YouTube URL</label>
             <div class="simple-input-action">
@@ -18780,7 +18718,7 @@
               <button type="button" onclick="startYoutubeGeneration()" ${isGenerating ? "disabled" : ""}>${isGenerating ? "解析中…" : "解析して生成"}</button>
             </div>
           </div>
-          <div class="simple-source simple-source-file" data-source="02 / local">
+          <div class="simple-source simple-source-file">
             <h2>音源ファイル【MP3（推奨）、WAV／PCM（推奨）、M4A／AAC（推奨）】から生成</h2>
             <div class="simple-input-action simple-file-action">
               <input class="simple-file-input" id="audioFile" type="file" accept="audio/*" aria-label="音源ファイルを選択" ${isGenerating ? "disabled" : ""}>
