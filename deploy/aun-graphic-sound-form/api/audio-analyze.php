@@ -115,7 +115,7 @@ if (($payload['genreInferenceRevision'] ?? '') !== REQUIRED_CLIENT_INFERENCE_REV
     ]);
 }
 
-set_time_limit(300);
+set_time_limit(900);
 $fallbackResponse = false;
 $fallbackStatus = 0;
 $nonParityResponse = false;
@@ -135,7 +135,7 @@ foreach (upstreamEndpoints() as $endpoint) {
         ],
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_CONNECTTIMEOUT => 15,
-        CURLOPT_TIMEOUT => 300,
+        CURLOPT_TIMEOUT => 900,
         CURLOPT_PROTOCOLS => CURLPROTO_HTTPS,
     ]);
     $response = curl_exec($curl);

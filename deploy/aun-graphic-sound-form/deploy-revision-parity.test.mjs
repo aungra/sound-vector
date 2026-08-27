@@ -22,3 +22,9 @@ test("the UI deploy publishes both copies of the analysis proxy", () => {
   assert.match(deploy, /musictee-audio-service\/deploy\/aun-graphic-sound-form\/api\/audio-analyze\.php/);
   assert.match(deploy, /interfaceRevision !== apiRevision/);
 });
+
+test("the public proxy outlives the production feature pipeline", () => {
+  const php = fs.readFileSync(path.join(scriptDir, "api/audio-analyze.php"), "utf8");
+  assert.match(php, /set_time_limit\(900\)/);
+  assert.match(php, /CURLOPT_TIMEOUT => 900/);
+});
