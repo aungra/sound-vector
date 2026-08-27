@@ -21,6 +21,12 @@ const KEVIN_MACLEOD_CHIPTUNE = [
 const DROZERIX_CHIPTUNE = ["35271561", "41302890", "41303200", "41304185", "41304664", "41305064"];
 const ANTTI_LUODE_CHIPTUNE = ["84701671", "84701677", "84701778", "84702831"];
 const AUDIOTOOL_DNB = ["24418750", "25682671", "28358474", "30473222", "32827647", "33739140", "34203052"];
+const DWS_CHORALE = ["2690354", "2694518", "2694522", "2694526", "2694533", "2694535", "2694538"];
+const ENSEMBLE_MORALES_CHORAL = ["62008861", "62008862", "62008863", "62008865", "62008866"];
+const TRINITY_CHURCH_CHORAL = ["61955359", "61956160", "61956161"];
+const MIKE_HAYES_CHORAL = ["43246978", "43447354", "43694224"];
+const PETITS_CHANTEURS_PASSY = ["18047221", "18047222", "18047225"];
+const SCHUMANN_HEINK_OPERA = ["15933691", "15933693", "15933822"];
 
 export const REVIEWED_ITEMS = Object.freeze(Object.fromEntries([
   ...USAF_JAZZ.map(trackId => [trackId, {
@@ -62,6 +68,40 @@ export const REVIEWED_ITEMS = Object.freeze(Object.fromEntries([
   ...AUDIOTOOL_DNB.map(trackId => [trackId, {
     detailTarget: "drum-and-bass", sourceFamily: "Audiotool",
     note: "Complete Audiotool track with an exact Commons drum and bass category and CC-BY-SA metadata."
+  }]),
+  ...DWS_CHORALE.map(trackId => [trackId, {
+    detailTarget: "choral", sourceFamily: "dwsChorale creator recordings",
+    note: "Complete dwsChorale performance in the exact Commons choral category with CC-BY-SA metadata."
+  }]),
+  ...ENSEMBLE_MORALES_CHORAL.map(trackId => [trackId, {
+    detailTarget: "choral", sourceFamily: "Ensemble Morales recordings",
+    note: "Complete Ensemble Morales mass movement in the exact Commons choral category with CC-BY metadata."
+  }]),
+  ...TRINITY_CHURCH_CHORAL.map(trackId => [trackId, {
+    detailTarget: "choral", sourceFamily: "Trinity Church Boston recordings",
+    note: "Complete Trinity Church Boston choral performance in the exact Commons choral category with CC-BY metadata."
+  }]),
+  ...MIKE_HAYES_CHORAL.map(trackId => [trackId, {
+    detailTarget: "choral", sourceFamily: "Mike Hayes choral recordings",
+    note: "Complete creator-supplied choral performance in the exact Commons choral category with CC-BY-SA metadata."
+  }]),
+  ...PETITS_CHANTEURS_PASSY.map(trackId => [trackId, {
+    detailTarget: "choral", sourceFamily: "Les Petits Chanteurs de Passy recordings",
+    note: "Complete choir performance in the exact Commons choral category with CC-BY-SA metadata."
+  }]),
+  ...SCHUMANN_HEINK_OPERA.map(trackId => [trackId, {
+    detailTarget: "opera", sourceFamily: "Ernestine Schumann-Heink historic recordings",
+    note: "Public Domain historic operatic solo recording in the exact Commons opera category."
+  }]),
+  ...[
+    ["7659299", "Jeanette Ekornaasvaag recording"],
+    ["10262332", "Feodor Chaliapin historic recording"],
+    ["18355621", "CTMusic2012 opera recording"],
+    ["22327272", "Andreas Dippel historic recording"],
+    ["92424432", "Alexander Pirogov historic recording"]
+  ].map(([trackId, sourceFamily]) => [trackId, {
+    detailTarget: "opera", sourceFamily,
+    note: "Complete operatic vocal performance in the exact Commons opera category with production-safe rights metadata."
   }])
 ]));
 
@@ -92,8 +132,10 @@ function countsBy(items, key) {
 function main() {
   const candidatePath = path.resolve(process.env.MMFR_WIKIMEDIA_CATEGORY_OUTPUT || path.join(CACHE_ROOT, "detail-genre-wikimedia-category-candidates.json"));
   const supplementalPath = path.resolve(process.env.MMFR_WIKIMEDIA_CATEGORY_SUPPLEMENTAL || path.join(CACHE_ROOT, "detail-genre-wikimedia-electronic-category-candidates.json"));
+  const additionalPaths = String(process.env.MMFR_WIKIMEDIA_CATEGORY_ADDITIONAL || "")
+    .split(",").map(value => value.trim()).filter(Boolean).map(value => path.resolve(value));
   const outputPath = path.resolve(process.env.MMFR_WIKIMEDIA_CATEGORY_REVIEWED || path.join(CACHE_ROOT, "detail-genre-wikimedia-category-reviewed-manifest.json"));
-  const candidatePaths = [...new Set([candidatePath, supplementalPath])].filter(filePath => fs.existsSync(filePath));
+  const candidatePaths = [...new Set([candidatePath, supplementalPath, ...additionalPaths])].filter(filePath => fs.existsSync(filePath));
   const candidates = [...new Map(candidatePaths.flatMap(filePath =>
     (JSON.parse(fs.readFileSync(filePath, "utf8")).items || []).map(item => [String(item.trackId), item])
   )).values()];
@@ -112,6 +154,7 @@ function main() {
       "Each creator catalog is one origin family; multiple tracks by the same creator never inflate source counts.",
       "Holiday arrangements, ambiguous historic recordings, exercises, research audio and mixed-genre rows remain excluded.",
       "Audiotool subgenres use their explicit Tech house or Progressive house category rather than generic House."
+      ,"Opera and choral recordings are grouped by performer or recording origin; Commons distribution does not merge them into one source."
     ],
     promotionPolicy: "Reviewed download candidates only; origin-heldout ablation is required before production training."
   };

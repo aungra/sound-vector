@@ -47,4 +47,10 @@ test("USAF ensembles share one origin while separate agencies remain distinct", 
 test("priority electronic targets use exact existing Commons categories", () => {
   assert.equal(TARGET_CATEGORIES.chiptune, "Audio files of chiptune");
   assert.equal(TARGET_CATEGORIES["drum-and-bass"], "Audio files of drum and bass");
+  assert.equal(TARGET_CATEGORIES["deep-house"], "Deep house");
+});
+
+test("priority vocal targets use exact Commons audio categories", () => {
+  assert.equal(TARGET_CATEGORIES.opera, "Audio files of opera music");
+  assert.equal(TARGET_CATEGORIES.choral, "Audio files of choral music");
 });

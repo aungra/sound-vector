@@ -1,37 +1,112 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-27T00:29:53.770Z",
-  "reviewedCandidates": 63,
-  "downloadedAndValidated": 52,
-  "pendingDownloads": 11,
-  "pendingTrackIds": [
-    "84701671",
-    "84701677",
-    "84701778",
-    "84702831",
-    "24418750",
-    "25682671",
-    "28358474",
-    "30473222",
-    "32827647",
-    "33739140",
-    "34203052"
+  "generatedAt": "2026-08-27T00:56:10.869Z",
+  "reviewedCandidates": 92,
+  "selectedCandidates": 29,
+  "downloadedAndValidated": 62,
+  "pendingDownloads": 0,
+  "pendingTrackIds": [],
+  "failures": [
+    {
+      "trackId": "2694522",
+      "error": "HTTP 429"
+    },
+    {
+      "trackId": "2694526",
+      "error": "HTTP 429"
+    },
+    {
+      "trackId": "2694533",
+      "error": "HTTP 429"
+    },
+    {
+      "trackId": "2694535",
+      "error": "HTTP 429"
+    },
+    {
+      "trackId": "2694538",
+      "error": "HTTP 429"
+    },
+    {
+      "trackId": "18047221",
+      "error": "HTTP 429"
+    },
+    {
+      "trackId": "18047222",
+      "error": "HTTP 429"
+    },
+    {
+      "trackId": "18047225",
+      "error": "HTTP 429"
+    },
+    {
+      "trackId": "43246978",
+      "error": "HTTP 429"
+    },
+    {
+      "trackId": "43447354",
+      "error": "HTTP 429"
+    },
+    {
+      "trackId": "43694224",
+      "error": "HTTP 429"
+    },
+    {
+      "trackId": "61955359",
+      "error": "HTTP 429"
+    },
+    {
+      "trackId": "61956160",
+      "error": "HTTP 429"
+    },
+    {
+      "trackId": "61956161",
+      "error": "HTTP 429"
+    },
+    {
+      "trackId": "62008861",
+      "error": "HTTP 429"
+    },
+    {
+      "trackId": "62008862",
+      "error": "HTTP 429"
+    },
+    {
+      "trackId": "62008863",
+      "error": "HTTP 429"
+    },
+    {
+      "trackId": "62008865",
+      "error": "HTTP 429"
+    },
+    {
+      "trackId": "62008866",
+      "error": "HTTP 429"
+    }
   ],
-  "failures": [],
   "byDetail": {
     "jazz": 24,
     "house": 8,
     "tech-house": 1,
     "progressive-house": 2,
-    "chiptune": 17
+    "chiptune": 17,
+    "opera": 8,
+    "choral": 2
   },
   "byOrigin": {
     "US Air Force recordings": 24,
     "Audiotool": 6,
     "Luis Gabriel Aguilera creator-supplied recordings": 5,
     "Drozerix creator recordings": 6,
-    "Kevin MacLeod creator recordings": 11
+    "Kevin MacLeod creator recordings": 11,
+    "Jeanette Ekornaasvaag recording": 1,
+    "Feodor Chaliapin historic recording": 1,
+    "Ernestine Schumann-Heink historic recordings": 3,
+    "CTMusic2012 opera recording": 1,
+    "Andreas Dippel historic recording": 1,
+    "Alexander Pirogov historic recording": 1,
+    "dwsChorale creator recordings": 2
   },
-  "totalBytes": 439971728,
+  "totalBytes": 471820901,
   "promotionPolicy": "Downloaded reviewed candidates only; origin-heldout ablation is required before production training."
 }

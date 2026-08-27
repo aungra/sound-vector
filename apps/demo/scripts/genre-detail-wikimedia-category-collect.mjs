@@ -11,8 +11,11 @@ const DEFAULT_CACHE = "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-traini
 const execFileAsync = promisify(execFile);
 
 export const TARGET_CATEGORIES = Object.freeze({
+  opera: "Audio files of opera music",
+  choral: "Audio files of choral music",
   jazz: "Audio files of jazz music",
   house: "Audio files of house music",
+  "deep-house": "Deep house",
   disco: "Audio files of disco music",
   funk: "Audio files of funk",
   chiptune: "Audio files of chiptune",

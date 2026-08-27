@@ -1,42 +1,50 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-27T00:22:32.031Z",
+  "generatedAt": "2026-08-27T00:43:16.627Z",
   "dataset": "Wikimedia Commons exact detailed-genre categories",
-  "outputPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/detail-genre-wikimedia-electronic-category-candidates.json",
-  "candidateRows": 51,
+  "outputPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/detail-genre-wikimedia-vocal-deephouse-candidates.json",
+  "candidateRows": 87,
   "byTarget": {
-    "chiptune": {
-      "categoryFiles": 47,
-      "acceptedBeforeWorkDeduplication": 27,
-      "candidates": 27
+    "opera": {
+      "categoryFiles": 40,
+      "acceptedBeforeWorkDeduplication": 34,
+      "candidates": 34
     },
-    "drum-and-bass": {
-      "categoryFiles": 38,
-      "acceptedBeforeWorkDeduplication": 24,
-      "candidates": 24
+    "choral": {
+      "categoryFiles": 92,
+      "acceptedBeforeWorkDeduplication": 54,
+      "candidates": 53
+    },
+    "deep-house": {
+      "categoryFiles": 4,
+      "acceptedBeforeWorkDeduplication": 0,
+      "candidates": 0
     }
   },
   "byOrigin": {
-    "origin-review-required": 31,
-    "Internet Archive historic recording collection": 13,
-    "Audiotool": 7
+    "origin-review-required": 73,
+    "Internet Archive historic recording collection": 11,
+    "Library of Congress recording collection": 1,
+    "MTG-Jamendo": 1,
+    "US Air Force recordings": 1
   },
   "byLicense": {
-    "CC-BY-3.0": 26,
-    "CC-BY-SA-3.0": 15,
-    "Public Domain": 4,
-    "CC0": 2,
-    "CC-BY-1.0": 1,
-    "CC-BY-2.0": 1,
-    "CC-BY-SA-1.0": 1,
-    "CC-BY-SA-4.0": 1
+    "Public Domain": 37,
+    "CC-BY-SA-3.0": 19,
+    "CC-BY-3.0": 11,
+    "CC-BY-SA-2.0": 6,
+    "CC-BY-SA-4.0": 6,
+    "CC0": 3,
+    "CC-BY-2.5": 2,
+    "CC-BY-4.0": 2,
+    "CC-BY-SA-1.0": 1
   },
   "rejected": {
-    "under-90-seconds": 12,
-    "license-verification-required": 1,
-    "support-or-fragment-content": 5,
-    "not-supported-audio": 1,
-    "rights-review-or-copyright-category": 18
+    "under-90-seconds": 32,
+    "not-supported-audio": 4,
+    "support-or-fragment-content": 2,
+    "license-verification-required": 3,
+    "rights-review-or-copyright-category": 9
   },
   "safeguards": [
     "Exact Commons genre category membership is required.",

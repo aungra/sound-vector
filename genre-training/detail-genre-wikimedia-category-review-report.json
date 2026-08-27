@@ -1,12 +1,14 @@
 {
   "schemaVersion": 1,
   "reviewedAt": "2026-08-27",
-  "candidateRows": 283,
-  "reviewedRows": 63,
+  "candidateRows": 369,
+  "reviewedRows": 92,
   "byDetail": {
     "jazz": 24,
     "chiptune": 21,
+    "choral": 21,
     "house": 8,
+    "opera": 8,
     "drum-and-bass": 7,
     "progressive-house": 2,
     "tech-house": 1
@@ -15,22 +17,36 @@
     "US Air Force recordings": 24,
     "Audiotool": 13,
     "Kevin MacLeod creator recordings": 11,
+    "dwsChorale creator recordings": 7,
     "Drozerix creator recordings": 6,
+    "Ensemble Morales recordings": 5,
     "Luis Gabriel Aguilera creator-supplied recordings": 5,
-    "Antti Luode creator recordings": 4
+    "Antti Luode creator recordings": 4,
+    "Ernestine Schumann-Heink historic recordings": 3,
+    "Les Petits Chanteurs de Passy recordings": 3,
+    "Mike Hayes choral recordings": 3,
+    "Trinity Church Boston recordings": 3,
+    "Alexander Pirogov historic recording": 1,
+    "Andreas Dippel historic recording": 1,
+    "CTMusic2012 opera recording": 1,
+    "Feodor Chaliapin historic recording": 1,
+    "Jeanette Ekornaasvaag recording": 1
   },
   "byLicense": {
-    "Public Domain": 28,
-    "CC-BY-SA-3.0": 18,
-    "CC-BY-3.0": 15,
-    "CC0": 2
+    "Public Domain": 34,
+    "CC-BY-SA-3.0": 29,
+    "CC-BY-3.0": 23,
+    "CC-BY-SA-4.0": 3,
+    "CC0": 2,
+    "CC-BY-SA-2.0": 1
   },
   "safeguards": [
     "All USAF ensembles are one source family; ensemble names do not inflate independent-source counts.",
     "Wikimedia is only the distributor and is not counted as a separate source.",
     "Each creator catalog is one origin family; multiple tracks by the same creator never inflate source counts.",
     "Holiday arrangements, ambiguous historic recordings, exercises, research audio and mixed-genre rows remain excluded.",
-    "Audiotool subgenres use their explicit Tech house or Progressive house category rather than generic House."
+    "Audiotool subgenres use their explicit Tech house or Progressive house category rather than generic House.",
+    "Opera and choral recordings are grouped by performer or recording origin; Commons distribution does not merge them into one source."
   ],
   "promotionPolicy": "Reviewed download candidates only; origin-heldout ablation is required before production training."
 }

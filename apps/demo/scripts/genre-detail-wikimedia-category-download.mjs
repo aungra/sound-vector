@@ -25,6 +25,11 @@ export function analysisDownloadUrl(item) {
   return `${original.origin}${prefix}transcoded/${relative}/${filename}.mp3`;
 }
 
+export function selectDownloadCandidates(items, detailValues = "") {
+  const details = new Set(String(detailValues || "").split(",").map(value => value.trim()).filter(Boolean));
+  return details.size ? items.filter(item => details.has(item.detailTarget)) : items;
+}
+
 function destination(item, audioRoot) {
   const directory = path.join(audioRoot, item.detailTarget, encodeURIComponent(item.sourceFamily));
   const extension = path.extname(new URL(analysisDownloadUrl(item)).pathname) || ".audio";
@@ -38,9 +43,11 @@ async function download(item, audioRoot) {
   let fetched = false;
   if (!fs.existsSync(filePath) || fs.statSync(filePath).size < 100_000) {
     const temporary = `${filePath}.part`;
+    const maximumSeconds = Math.max(30, Number(process.env.MMFR_WIKIMEDIA_DOWNLOAD_MAX_SECONDS || 600));
+    const retryCount = Math.max(0, Number(process.env.MMFR_WIKIMEDIA_DOWNLOAD_RETRIES || 6));
     await execFileAsync("curl", [
-      "-fL", "--retry", "6", "--retry-all-errors", "--retry-delay", "5",
-      "--connect-timeout", "15", "--max-time", "600",
+      "-fL", "--retry", String(retryCount), "--retry-all-errors", "--retry-delay", "5",
+      "--connect-timeout", "15", "--max-time", String(maximumSeconds),
       "-A", "MUSICtee reviewed Wikimedia audio downloader", "-e", item.referenceUrl,
       "-o", temporary, analysisUrl
     ], { maxBuffer: 1024 * 1024 });
@@ -71,7 +78,11 @@ async function main() {
   const reviewedPath = path.resolve(process.env.MMFR_WIKIMEDIA_CATEGORY_REVIEWED || path.join(CACHE_ROOT, "genre-training/detail-genre-wikimedia-category-reviewed-manifest.json"));
   const outputPath = path.resolve(process.env.MMFR_WIKIMEDIA_CATEGORY_SOURCE || path.join(CACHE_ROOT, "genre-training/detail-genre-wikimedia-category-source-manifest.json"));
   const audioRoot = path.resolve(process.env.MMFR_WIKIMEDIA_CATEGORY_AUDIO_ROOT || path.join(CACHE_ROOT, "external-data/wikimedia-category-detail-v1"));
-  const candidates = JSON.parse(fs.readFileSync(reviewedPath, "utf8")).items || [];
+  const reviewedCandidates = JSON.parse(fs.readFileSync(reviewedPath, "utf8")).items || [];
+  const candidates = selectDownloadCandidates(reviewedCandidates, process.env.MMFR_WIKIMEDIA_DOWNLOAD_DETAILS);
+  const existingItems = fs.existsSync(outputPath)
+    ? (JSON.parse(fs.readFileSync(outputPath, "utf8")).items || [])
+    : [];
   const existingOnly = process.env.MMFR_WIKIMEDIA_DOWNLOAD_EXISTING_ONLY === "1";
   const items = [];
   const failures = [];
@@ -93,26 +104,30 @@ async function main() {
     }
     if (shouldWait) await sleep(5000);
   }
+  const mergedItems = process.env.MMFR_WIKIMEDIA_DOWNLOAD_DETAILS
+    ? [...new Map([...existingItems, ...items].map(item => [String(item.trackId), item])).values()]
+    : items;
   const byDetail = {};
   const byOrigin = {};
-  for (const item of items) {
+  for (const item of mergedItems) {
     byDetail[item.detailTarget] = (byDetail[item.detailTarget] || 0) + 1;
     byOrigin[item.sourceFamily] = (byOrigin[item.sourceFamily] || 0) + 1;
   }
   const report = {
     schemaVersion: 1,
     generatedAt: new Date().toISOString(),
-    reviewedCandidates: candidates.length,
-    downloadedAndValidated: items.length,
+    reviewedCandidates: reviewedCandidates.length,
+    selectedCandidates: candidates.length,
+    downloadedAndValidated: mergedItems.length,
     pendingDownloads: pending.length,
     pendingTrackIds: pending,
     failures,
     byDetail,
     byOrigin,
-    totalBytes: items.reduce((sum, item) => sum + fs.statSync(item.filePath).size, 0),
+    totalBytes: mergedItems.reduce((sum, item) => sum + fs.statSync(item.filePath).size, 0),
     promotionPolicy: "Downloaded reviewed candidates only; origin-heldout ablation is required before production training."
   };
-  fs.writeFileSync(outputPath, `${JSON.stringify({ schemaVersion: 1, items }, null, 2)}\n`);
+  fs.writeFileSync(outputPath, `${JSON.stringify({ schemaVersion: 1, items: mergedItems }, null, 2)}\n`);
   fs.writeFileSync(path.join(ROOT, "genre-training/detail-genre-wikimedia-category-download-report.json"), `${JSON.stringify(report, null, 2)}\n`);
   console.log(JSON.stringify(report, null, 2));
 }

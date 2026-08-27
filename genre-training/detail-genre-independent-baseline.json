@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-27T00:30:42.037Z",
+  "generatedAt": "2026-08-27T00:57:24.856Z",
   "evaluationScope": "strict-source-heldout-production-safe",
   "model": "standardized-nearest-centroid-baseline",
   "licensePolicy": "CC0/Public Domain/CC-BY/CC-BY-SA full tracks only",
@@ -253,13 +253,13 @@
       ]
     },
     "FMA + MTG-Jamendo + ccMixter -> Wikimedia category origins": {
-      "eligibleDetailLabels": 3,
-      "trainRows": 120,
-      "testRows": 49,
+      "eligibleDetailLabels": 4,
+      "trainRows": 135,
+      "testRows": 57,
       "featureDimensions": 261,
-      "top1Accuracy": 89.8,
+      "top1Accuracy": 85.96,
       "top3Accuracy": 100,
-      "balancedTop1Accuracy": 85.78,
+      "balancedTop1Accuracy": 84.13,
       "byDetail": [
         {
           "detail": "chiptune",
@@ -279,7 +279,14 @@
           "detail": "jazz",
           "trainRows": 26,
           "testRows": 24,
-          "top1Accuracy": 100,
+          "top1Accuracy": 91.67,
+          "top3Accuracy": 100
+        },
+        {
+          "detail": "opera",
+          "trainRows": 15,
+          "testRows": 8,
+          "top1Accuracy": 87.5,
           "top3Accuracy": 100
         }
       ]

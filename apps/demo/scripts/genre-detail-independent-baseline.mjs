@@ -54,8 +54,8 @@ function markdown(report) {
     "",
     "## 昇格判定",
     "",
-    "独立ソース精度の初期成立は確認できましたが、評価可能分類数が少ないため本番詳細分類器への昇格は保留です。",
-    "次はHouse / Jazz / Disco / Deep Houseのproduction-safeな第2ソースtestを増やします。",
+    "Operaを含む独立ソース精度の初期成立は確認できましたが、評価可能分類数が少ないため本番詳細分類器への昇格は保留です。",
+    "次はChoralのCommons originを5曲以上へ補完し、Deep House / Post-punkのproduction-safeな第2ソースtestを増やします。",
     ""
   ].join("\n");
 }

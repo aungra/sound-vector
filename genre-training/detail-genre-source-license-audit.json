@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-27T00:30:42.146Z",
+  "generatedAt": "2026-08-27T00:57:10.066Z",
   "policyVersion": "training-license-v1",
   "sources": {
     "existing-explicit-formal": {
@@ -187,23 +187,26 @@
       }
     },
     "Wikimedia-reviewed-category-candidates": {
-      "rows": 52,
+      "rows": 62,
       "usage": {
-        "production-training": 52
+        "production-training": 62
       },
       "licenses": {
-        "Public Domain": 28,
-        "CC-BY-SA-3.0": 11,
+        "Public Domain": 34,
+        "CC-BY-SA-3.0": 14,
         "CC0": 2,
-        "CC-BY-3.0": 11
+        "CC-BY-3.0": 11,
+        "CC-BY-SA-2.0": 1
       },
-      "representedDetailLabels": 5,
+      "representedDetailLabels": 7,
       "byDetail": {
         "jazz": 24,
         "house": 8,
         "tech-house": 1,
         "progressive-house": 2,
-        "chiptune": 17
+        "chiptune": 17,
+        "opera": 8,
+        "choral": 2
       }
     },
     "ccMixter-reviewed-candidates": {
@@ -547,15 +550,28 @@
     },
     "opera": {
       "productionSources": [
-        "FMA"
+        "Alexander Pirogov historic recording",
+        "Andreas Dippel historic recording",
+        "CTMusic2012 opera recording",
+        "Ernestine Schumann-Heink historic recordings",
+        "FMA",
+        "Feodor Chaliapin historic recording",
+        "Jeanette Ekornaasvaag recording"
       ],
       "supportSources": [],
       "researchSources": [],
-      "productionSourceCount": 1,
+      "productionSourceCount": 7,
       "productionRowsBySource": {
-        "FMA": 15
+        "Alexander Pirogov historic recording": 1,
+        "Andreas Dippel historic recording": 1,
+        "CTMusic2012 opera recording": 1,
+        "Ernestine Schumann-Heink historic recordings": 3,
+        "FMA": 15,
+        "Feodor Chaliapin historic recording": 1,
+        "Jeanette Ekornaasvaag recording": 1
       },
       "productionSourcesWithAtLeast2Tracks": [
+        "Ernestine Schumann-Heink historic recordings",
         "FMA"
       ],
       "productionSourcesWithAtLeast5Tracks": [
@@ -564,16 +580,19 @@
     },
     "choral": {
       "productionSources": [
-        "FMA"
+        "FMA",
+        "dwsChorale creator recordings"
       ],
       "supportSources": [],
       "researchSources": [],
-      "productionSourceCount": 1,
+      "productionSourceCount": 2,
       "productionRowsBySource": {
-        "FMA": 9
+        "FMA": 9,
+        "dwsChorale creator recordings": 2
       },
       "productionSourcesWithAtLeast2Tracks": [
-        "FMA"
+        "FMA",
+        "dwsChorale creator recordings"
       ],
       "productionSourcesWithAtLeast5Tracks": [
         "FMA"
@@ -2206,8 +2225,8 @@
   },
   "productionCoverage": {
     "labelsWithOneSource": 60,
-    "labelsWithTwoSources": 30,
-    "labelsWithTwoSourcesAtLeast2Tracks": 26,
+    "labelsWithTwoSources": 32,
+    "labelsWithTwoSourcesAtLeast2Tracks": 28,
     "labelsWithTwoSourcesAtLeast5Tracks": 22,
     "labelsWithoutProductionSource": 60,
     "twoSourceLabels": [
@@ -2215,6 +2234,8 @@
       "new-age",
       "drone",
       "classical",
+      "opera",
+      "choral",
       "blues",
       "jazz",
       "soul",
@@ -2247,8 +2268,6 @@
       "contemporary-classical",
       "chamber-music",
       "film-score",
-      "opera",
-      "choral",
       "free-jazz",
       "r-and-b",
       "glitch",
