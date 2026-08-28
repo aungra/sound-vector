@@ -14,7 +14,9 @@ test("Gradio Space source contains the portable worker without runtime models", 
       { encoding: "utf8" },
     );
     assert.equal(result.status, 0, result.stderr);
-    assert.match(fs.readFileSync(path.join(output, "README.md"), "utf8"), /sdk: gradio/);
+    const readme = fs.readFileSync(path.join(output, "README.md"), "utf8");
+    assert.match(readme, /sdk: gradio/);
+    assert.match(readme, /python_version: 3\.12/);
     assert.ok(fs.existsSync(path.join(output, "deploy/huggingface-audio-api/app.py")));
     assert.ok(fs.existsSync(path.join(output, "apps/demo/scripts/audio-analysis-server.mjs")));
     assert.ok(fs.existsSync(path.join(output, "apps/demo/scripts/genre_unknown65_runtime.py")));
