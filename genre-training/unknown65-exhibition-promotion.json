@@ -1,0 +1,59 @@
+{
+  "version": "unknown65-exhibition-safe-v1",
+  "generatedAt": "2026-08-28T20:06:06+09:00",
+  "decision": "promote-exhibition-safe-all-gates-passed",
+  "productionEligible": true,
+  "scope": "metadata-free acoustic residual reranking",
+  "baseline": {
+    "modelVersion": "unknown65-first-milestone-v1",
+    "sourceHeldoutTop1": 65.22,
+    "sourceHeldoutBalancedTop1": 64.74,
+    "minimumSourceTop1": 57.89,
+    "top3Accuracy": 83.48,
+    "independentGtzanTop1": 77.39
+  },
+  "candidate": {
+    "sourceHeldoutTop1": 65.59,
+    "sourceHeldoutBalancedTop1": 64.99,
+    "minimumSourceTop1": 57.89,
+    "top3Accuracy": 83.48,
+    "independentGtzanTop1": 77.39,
+    "independentGtzanBalancedTop1": 77.37,
+    "runtimeStages": 54,
+    "runtimeFeatureContractSha256": "225f8a1259ca2127f80692639c5f4042dd2d93216c0e6f93a5d35edf0ae2140b"
+  },
+  "acceptedResidualStages": [
+    "MusicFM Dub / Dubstep 30s embedding",
+    "MusicFM Folk / Rock 30s embedding",
+    "PANNs Reggae / Rock tag mean",
+    "PANNs Jazz / Funk embedding mean",
+    "PANNs Ambient / Classical tag mean"
+  ],
+  "rejectedCandidates": [
+    {
+      "candidate": "YAMNet chain including Metal / Rock",
+      "reason": "Independent GTZAN Top1 regressed from 77.39% to 76.09% and Metal recall fell from 17/27 to 14/27.",
+      "report": "genre-training/unknown65-exhibition-yamnet-gtzan-rejected.json"
+    },
+    {
+      "candidate": "PANNs Blues / Rock residual",
+      "reason": "Independent subset replay identified the stage as harmful; the full four-stage PANNs chain reached only 76.52% GTZAN Top1.",
+      "report": "genre-training/unknown65-exhibition-panns-subsets.json"
+    }
+  ],
+  "inferencePolicy": {
+    "usesUrl": false,
+    "usesTitle": false,
+    "usesArtist": false,
+    "usesSealed96TrackHoldout": false,
+    "audioRepresentations": ["MusicFM", "PANNs"],
+    "segmentAnalysis": "four 30-second ranges"
+  },
+  "reports": {
+    "development": "genre-training/unknown65-exhibition-development.json",
+    "musicFm": "genre-training/unknown65-exhibition-musicfm-logistic.json",
+    "panns": "genre-training/unknown65-exhibition-panns-logistic.json",
+    "independentGtzan": "genre-training/unknown65-exhibition-gtzan-safe.json",
+    "pannsSubsetPruning": "genre-training/unknown65-exhibition-panns-subsets.json"
+  }
+}

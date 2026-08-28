@@ -157,7 +157,7 @@ ENABLE_UNKNOWN80_MUSICFM_RERANKER = (
 UNKNOWN65_MODEL_PATH = Path(os.environ.get(
     "MMFR_UNKNOWN65_MODEL_PATH",
     "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/"
-    "unknown65-first-milestone-v1.pkl",
+    "unknown65-exhibition-safe-v1.pkl",
 ))
 UNKNOWN65_MANIFEST_PATH = Path(os.environ.get(
     "MMFR_UNKNOWN65_MANIFEST_PATH",

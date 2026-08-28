@@ -1,0 +1,96 @@
+{
+  "objective": "Source-heldout replay of an independently safe residual subset.",
+  "keptIndexes": [
+    0,
+    1,
+    2,
+    4,
+    5
+  ],
+  "availableStages": 6,
+  "replayed": [
+    {
+      "index": 0,
+      "stageId": "14-musicfm-exhibition-logistic",
+      "pair": [
+        "ダブ",
+        "ダブステップ"
+      ],
+      "view": "30s-embedding",
+      "selected": true,
+      "changedRows": 2
+    },
+    {
+      "index": 1,
+      "stageId": "14-musicfm-exhibition-logistic",
+      "pair": [
+        "フォーク",
+        "ロック"
+      ],
+      "view": "30s-embedding",
+      "selected": true,
+      "changedRows": 5
+    },
+    {
+      "index": 2,
+      "stageId": "15-panns-exhibition-logistic",
+      "pair": [
+        "レゲエ",
+        "ロック"
+      ],
+      "view": "tag-mean",
+      "selected": true,
+      "changedRows": 4
+    },
+    {
+      "index": 3,
+      "stageId": "15-panns-exhibition-logistic",
+      "pair": [
+        "ブルース",
+        "ロック"
+      ],
+      "view": "tag-mean",
+      "selected": false,
+      "changedRows": 0
+    },
+    {
+      "index": 4,
+      "stageId": "15-panns-exhibition-logistic",
+      "pair": [
+        "ジャズ",
+        "ファンク"
+      ],
+      "view": "embedding-mean",
+      "selected": true,
+      "changedRows": 1
+    },
+    {
+      "index": 5,
+      "stageId": "15-panns-exhibition-logistic",
+      "pair": [
+        "アンビエント",
+        "クラシック音楽"
+      ],
+      "view": "tag-mean",
+      "selected": true,
+      "changedRows": 2
+    }
+  ],
+  "metric": {
+    "top1Accuracy": 65.59,
+    "balancedTop1": 64.99,
+    "minimumSourceTop1": 57.89,
+    "top3Accuracy": 83.48,
+    "sourceTop1": {
+      "FMA": 68.5,
+      "IdolSongsJp": 86.67,
+      "Internet Archive": 57.89,
+      "Jamendo": 61.88,
+      "MagnaTagATune research evaluation": 72.65,
+      "RWC Music Database": 89.83,
+      "Wikimedia Commons": 70.0,
+      "Zenodo CAPHE Hybrid Opera 18288509": 80.0
+    }
+  },
+  "oofOutput": "/tmp/unknown65-exhibition-safe-oof.npz"
+}

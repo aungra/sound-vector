@@ -1,0 +1,36 @@
+{
+  "version": "unknown65-exhibition-residual-v1",
+  "purpose": "Five source-heldout residual stages selected for exhibition safety after the 65.22% milestone.",
+  "keptStageIndexes": [0, 1, 2, 4, 5],
+  "developmentReport": "${ROOT}/genre-training/unknown65-exhibition-development.json",
+  "promotion": {
+    "modelVersion": "unknown65-exhibition-safe-v1",
+    "productionEligible": true,
+    "decision": "promote-exhibition-safe-all-gates-passed",
+    "evidence": {
+      "sourceHeldoutTop1": 65.59,
+      "sourceHeldoutBalancedTop1": 64.99,
+      "minimumSourceTop1": 57.89,
+      "top3Accuracy": 83.48,
+      "independentGtzanTop1": 77.39,
+      "independentGtzanBalancedTop1": 77.37,
+      "selectedResidualStageIndexes": [0, 1, 2, 4, 5]
+    }
+  },
+  "stages": [
+    {
+      "id": "14-musicfm-exhibition-logistic",
+      "report": "${ROOT}/genre-training/unknown65-exhibition-musicfm-logistic.json",
+      "cache": "${CACHE_ROOT}/musicfm-house-boundary-30s-cache.json",
+      "cacheFormat": "musicfm",
+      "modelKinds": ["logistic"]
+    },
+    {
+      "id": "15-panns-exhibition-logistic",
+      "report": "${ROOT}/genre-training/unknown65-exhibition-panns-logistic.json",
+      "cache": "${CACHE_ROOT}/panns-cnn14-30s-pilot-cache.json",
+      "cacheFormat": "panns",
+      "modelKinds": ["logistic"]
+    }
+  ]
+}

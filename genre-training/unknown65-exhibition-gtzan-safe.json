@@ -1,0 +1,270 @@
+{
+  "objective": "Independent GTZAN non-regression gate for unknown65.",
+  "role": "source-heldout-evaluation-only",
+  "trainingRowsAdded": 0,
+  "baseline": {
+    "total": 230,
+    "top1Accuracy": 75.65,
+    "balancedTop1": 75.62,
+    "top3Accuracy": 95.22,
+    "byLabel": {
+      "クラシック音楽": {
+        "total": 31,
+        "top1": 31,
+        "top3": 31,
+        "top1Accuracy": 100.0,
+        "top3Accuracy": 100.0
+      },
+      "ジャズ": {
+        "total": 27,
+        "top1": 27,
+        "top3": 27,
+        "top1Accuracy": 100.0,
+        "top3Accuracy": 100.0
+      },
+      "ディスコ": {
+        "total": 29,
+        "top1": 19,
+        "top3": 28,
+        "top1Accuracy": 65.52,
+        "top3Accuracy": 96.55
+      },
+      "ヒップホップ": {
+        "total": 27,
+        "top1": 21,
+        "top3": 25,
+        "top1Accuracy": 77.78,
+        "top3Accuracy": 92.59
+      },
+      "ブルース": {
+        "total": 31,
+        "top1": 21,
+        "top3": 31,
+        "top1Accuracy": 67.74,
+        "top3Accuracy": 100.0
+      },
+      "メタル": {
+        "total": 27,
+        "top1": 17,
+        "top3": 27,
+        "top1Accuracy": 62.96,
+        "top3Accuracy": 100.0
+      },
+      "レゲエ": {
+        "total": 26,
+        "top1": 17,
+        "top3": 22,
+        "top1Accuracy": 65.38,
+        "top3Accuracy": 84.62
+      },
+      "ロック": {
+        "total": 32,
+        "top1": 21,
+        "top3": 28,
+        "top1Accuracy": 65.62,
+        "top3Accuracy": 87.5
+      }
+    }
+  },
+  "currentProductionBeforeUnknown65": {
+    "total": 230,
+    "top1Accuracy": 74.78,
+    "balancedTop1": 74.74,
+    "top3Accuracy": 95.22,
+    "byLabel": {
+      "クラシック音楽": {
+        "total": 31,
+        "top1": 31,
+        "top3": 31,
+        "top1Accuracy": 100.0,
+        "top3Accuracy": 100.0
+      },
+      "ジャズ": {
+        "total": 27,
+        "top1": 27,
+        "top3": 27,
+        "top1Accuracy": 100.0,
+        "top3Accuracy": 100.0
+      },
+      "ディスコ": {
+        "total": 29,
+        "top1": 19,
+        "top3": 28,
+        "top1Accuracy": 65.52,
+        "top3Accuracy": 96.55
+      },
+      "ヒップホップ": {
+        "total": 27,
+        "top1": 21,
+        "top3": 25,
+        "top1Accuracy": 77.78,
+        "top3Accuracy": 92.59
+      },
+      "ブルース": {
+        "total": 31,
+        "top1": 20,
+        "top3": 31,
+        "top1Accuracy": 64.52,
+        "top3Accuracy": 100.0
+      },
+      "メタル": {
+        "total": 27,
+        "top1": 17,
+        "top3": 27,
+        "top1Accuracy": 62.96,
+        "top3Accuracy": 100.0
+      },
+      "レゲエ": {
+        "total": 26,
+        "top1": 16,
+        "top3": 22,
+        "top1Accuracy": 61.54,
+        "top3Accuracy": 84.62
+      },
+      "ロック": {
+        "total": 32,
+        "top1": 21,
+        "top3": 28,
+        "top1Accuracy": 65.62,
+        "top3Accuracy": 87.5
+      }
+    }
+  },
+  "afterV114MusicFm": {
+    "total": 230,
+    "top1Accuracy": 75.65,
+    "balancedTop1": 75.62,
+    "top3Accuracy": 95.22,
+    "byLabel": {
+      "クラシック音楽": {
+        "total": 31,
+        "top1": 31,
+        "top3": 31,
+        "top1Accuracy": 100.0,
+        "top3Accuracy": 100.0
+      },
+      "ジャズ": {
+        "total": 27,
+        "top1": 27,
+        "top3": 27,
+        "top1Accuracy": 100.0,
+        "top3Accuracy": 100.0
+      },
+      "ディスコ": {
+        "total": 29,
+        "top1": 19,
+        "top3": 28,
+        "top1Accuracy": 65.52,
+        "top3Accuracy": 96.55
+      },
+      "ヒップホップ": {
+        "total": 27,
+        "top1": 21,
+        "top3": 25,
+        "top1Accuracy": 77.78,
+        "top3Accuracy": 92.59
+      },
+      "ブルース": {
+        "total": 31,
+        "top1": 21,
+        "top3": 31,
+        "top1Accuracy": 67.74,
+        "top3Accuracy": 100.0
+      },
+      "メタル": {
+        "total": 27,
+        "top1": 17,
+        "top3": 27,
+        "top1Accuracy": 62.96,
+        "top3Accuracy": 100.0
+      },
+      "レゲエ": {
+        "total": 26,
+        "top1": 17,
+        "top3": 22,
+        "top1Accuracy": 65.38,
+        "top3Accuracy": 84.62
+      },
+      "ロック": {
+        "total": 32,
+        "top1": 21,
+        "top3": 28,
+        "top1Accuracy": 65.62,
+        "top3Accuracy": 87.5
+      }
+    }
+  },
+  "afterUnknown65Chain": {
+    "total": 230,
+    "top1Accuracy": 77.39,
+    "balancedTop1": 77.37,
+    "top3Accuracy": 95.22,
+    "byLabel": {
+      "クラシック音楽": {
+        "total": 31,
+        "top1": 31,
+        "top3": 31,
+        "top1Accuracy": 100.0,
+        "top3Accuracy": 100.0
+      },
+      "ジャズ": {
+        "total": 27,
+        "top1": 27,
+        "top3": 27,
+        "top1Accuracy": 100.0,
+        "top3Accuracy": 100.0
+      },
+      "ディスコ": {
+        "total": 29,
+        "top1": 19,
+        "top3": 28,
+        "top1Accuracy": 65.52,
+        "top3Accuracy": 96.55
+      },
+      "ヒップホップ": {
+        "total": 27,
+        "top1": 21,
+        "top3": 25,
+        "top1Accuracy": 77.78,
+        "top3Accuracy": 92.59
+      },
+      "ブルース": {
+        "total": 31,
+        "top1": 21,
+        "top3": 31,
+        "top1Accuracy": 67.74,
+        "top3Accuracy": 100.0
+      },
+      "メタル": {
+        "total": 27,
+        "top1": 17,
+        "top3": 27,
+        "top1Accuracy": 62.96,
+        "top3Accuracy": 100.0
+      },
+      "レゲエ": {
+        "total": 26,
+        "top1": 19,
+        "top3": 22,
+        "top1Accuracy": 73.08,
+        "top3Accuracy": 84.62
+      },
+      "ロック": {
+        "total": 32,
+        "top1": 23,
+        "top3": 28,
+        "top1Accuracy": 71.88,
+        "top3Accuracy": 87.5
+      }
+    }
+  },
+  "impact": {
+    "musicFmChangedTop1": 0,
+    "chainChangedTop1": 5
+  },
+  "serializedInferenceDeterministic": true,
+  "runtimeStages": 54,
+  "runtimeFeatureContractSha256": "225f8a1259ca2127f80692639c5f4042dd2d93216c0e6f93a5d35edf0ae2140b",
+  "promotionEligible": true,
+  "decision": "continue-latency-and-production-regression-gates"
+}
