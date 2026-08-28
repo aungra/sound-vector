@@ -2,7 +2,7 @@
   "version": "unknown80-track-pair-v113-candidate",
   "schemaVersion": 1,
   "generatedAt": "2026-08-24T05:24:27.118831+00:00",
-  "modelPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown80-track-pair-v113-candidate.pkl",
+  "modelPath": "runtime-assets/classifiers/unknown80-track-pair-v113-candidate.pkl",
   "modelSha256": "59389e578a4b88fd35ae0f66571d59c1945c98f6e0197422c14bacb6a59da9a3",
   "runtimeFeatureContractSha256": "ea833af2bcfb08af88098281a02fc5dbc9b45661fee6c609cab7299e4d03f7fe",
   "baseVersion": "unknown80-track-pair-v112-candidate",

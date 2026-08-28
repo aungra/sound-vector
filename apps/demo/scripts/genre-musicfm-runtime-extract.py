@@ -19,9 +19,10 @@ os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 SCRIPT_DIR = Path(__file__).parent
 CACHE_PATH = SCRIPT_DIR / "genre-musicfm-cache.py"
 RUNTIME_PATH = SCRIPT_DIR / "genre_musicfm_runtime.py"
-DEFAULT_MODEL = Path(
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/models/musicfm-inference-msd"
-)
+DEFAULT_MODEL = Path(os.environ.get(
+    "MMFR_MUSICFM_MODEL_PATH",
+    SCRIPT_DIR.parents[3] / "runtime-assets/models/musicfm-inference-msd",
+))
 
 
 def load_module(path, name):

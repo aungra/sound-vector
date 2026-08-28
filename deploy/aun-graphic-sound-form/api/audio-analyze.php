@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 const MAX_REQUEST_BYTES = 32768;
 const UPSTREAM_FILE = __DIR__ . '/upstream-url.txt';
+const CLOUD_UPSTREAM_FILE = __DIR__ . '/cloud-upstream-url.txt';
 const REQUIRED_CLIENT_INFERENCE_REVISION = '2026-08-23-track-boundary-reranker-v97';
 const UPSTREAM_TIMEOUT_SECONDS = 720;
 
@@ -20,11 +21,17 @@ function respond(int $status, array $payload): never
 function upstreamEndpoints(): array
 {
     $endpoints = [];
+    $cloudEndpoint = is_readable(CLOUD_UPSTREAM_FILE)
+        ? trim((string) file_get_contents(CLOUD_UPSTREAM_FILE))
+        : '';
+    if (preg_match('#^https://[a-z0-9-]+\.hf\.space/api/audio-analyze$#D', $cloudEndpoint)) {
+        $endpoints[] = $cloudEndpoint;
+    }
     $endpoint = is_readable(UPSTREAM_FILE) ? trim((string) file_get_contents(UPSTREAM_FILE)) : '';
     if (preg_match('#^https://[a-z0-9-]+\.trycloudflare\.com/api/audio-analyze$#D', $endpoint)) {
         $endpoints[] = $endpoint;
     }
-    return $endpoints;
+    return array_values(array_unique($endpoints));
 }
 
 function responseHasRichAnalysisParity(string $response, int $status): bool

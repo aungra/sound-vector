@@ -88,27 +88,29 @@ const EMBEDDING_GENRE_SCRIPT = process.env.MMFR_EMBEDDING_GENRE_SCRIPT
   || path.join(SCRIPT_DIR, "genre-embedding-infer.py");
 const JAPANESE_VOCAL_SCRIPT = process.env.MMFR_JAPANESE_VOCAL_SCRIPT
   || path.join(SCRIPT_DIR, "genre-japanese-vocal-evidence.py");
+const RUNTIME_ASSET_ROOT = process.env.MMFR_RUNTIME_ASSET_ROOT
+  || path.join(ROOT_DIR, "runtime-assets");
 const EMBEDDING_GENRE_MODEL_PATH = process.env.MMFR_EMBEDDING_GENRE_MODEL_PATH
-  || "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/embedding-genre-model.pkl";
+  || path.join(RUNTIME_ASSET_ROOT, "classifiers", "embedding-genre-model.pkl");
 const EMBEDDING_GENRE_FALLBACK_MODEL_PATH = process.env.MMFR_EMBEDDING_GENRE_FALLBACK_MODEL_PATH
-  || "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/embedding-genre-model.pkl";
+  || EMBEDDING_GENRE_MODEL_PATH;
 const EMBEDDING_GENRE_DISCOGS_HEAD_MODE = process.env.MMFR_EMBEDDING_DISCOGS_HEAD_MODE || "auto";
 const EMBEDDING_GENRE_TEST_FAIL_PRIMARY = process.env.NODE_ENV === "test"
   && process.env.MMFR_EMBEDDING_TEST_FAIL_PRIMARY === "1";
 const EMBEDDING_GENRE_PYTHON = process.env.MMFR_EMBEDDING_PYTHON
-  || "/Users/kahanishimoto/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3";
+  || "/usr/bin/python3";
 const EMBEDDING_GENRE_PYTHONPATH = process.env.MMFR_EMBEDDING_PYTHONPATH
   || [
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/python-audio-features",
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/python-essentia-tf"
+    path.join(RUNTIME_ASSET_ROOT, "python", "audio-features"),
+    path.join(RUNTIME_ASSET_ROOT, "python", "essentia-tf")
   ].join(":");
 const JAPANESE_VOCAL_PYTHONPATH = process.env.MMFR_JAPANESE_VOCAL_PYTHONPATH
   || [
     EMBEDDING_GENRE_PYTHONPATH,
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/japanese-vocal-analysis/python"
+    path.join(RUNTIME_ASSET_ROOT, "python", "japanese-vocal")
   ].join(":");
 const JAPANESE_VOCAL_MODEL_PATH = process.env.MMFR_JAPANESE_VOCAL_MODEL_PATH
-  || "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/japanese-vocal-analysis/faster-whisper-large-v3-turbo";
+  || path.join(RUNTIME_ASSET_ROOT, "models", "faster-whisper-large-v3-turbo");
 const EMBEDDING_GENRE_ENABLED = process.env.MMFR_EMBEDDING_GENRE_ENABLED !== "0";
 const EMBEDDING_GENRE_LIVE_ENABLED = cliArgs.has("--embedding-live")
   || process.env.MMFR_EMBEDDING_GENRE_LIVE_ENABLED === "1";

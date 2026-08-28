@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "fixtures": [
+    {
+      "id": "dense-english-rap",
+      "youtubeUrl": "https://www.youtube.com/watch?v=yxVRFTgQ4YY",
+      "startSeconds": 0,
+      "expectedLabel": "ヒップホップ"
+    },
+    {
+      "id": "instrumental-classical",
+      "youtubeUrl": "https://www.youtube.com/watch?v=ZKFwQFBwQFU&t=300s",
+      "startSeconds": 300
+    },
+    {
+      "id": "female-opera",
+      "youtubeUrl": "https://www.youtube.com/watch?v=DqJR-xMLVDk&t=56s",
+      "startSeconds": 56
+    },
+    {
+      "id": "experimental-electronic",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Yxep-gS-Btg&t=4s",
+      "startSeconds": 4
+    }
+  ]
+}

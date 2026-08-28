@@ -1,4 +1,5 @@
 .DS_Store
+__pycache__/
 node_modules/
 .next/
 out/
@@ -12,3 +13,5 @@ genre-training/score-search/*/genre-model.json
 genre-training/score-search/*/result.json
 genre-training/score-search/*/results.json
 tsconfig.tsbuildinfo
+deploy/huggingface-audio-api/.runtime-assets/
+deploy/huggingface-audio-api/*.tar.gz

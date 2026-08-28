@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "bundleVersion": "unknown65-cloud-parity-v1",
+  "assets": [
+    {
+      "id": "embedding-classifier",
+      "source": "genre-training/embedding-genre-model.pkl",
+      "destination": "classifiers/embedding-genre-model.pkl",
+      "kind": "file"
+    },
+    {
+      "id": "unknown65-reranker",
+      "source": "genre-training/unknown65-exhibition-safe-v1.pkl",
+      "destination": "classifiers/unknown65-exhibition-safe-v1.pkl",
+      "kind": "file"
+    },
+    {
+      "id": "track-pair-reranker",
+      "source": "genre-training/unknown80-track-pair-v113-candidate.pkl",
+      "destination": "classifiers/unknown80-track-pair-v113-candidate.pkl",
+      "kind": "file"
+    },
+    {
+      "id": "musicfm-reranker",
+      "source": "genre-training/unknown80-musicfm-top3-v114-candidate.pkl",
+      "destination": "classifiers/unknown80-musicfm-top3-v114-candidate.pkl",
+      "kind": "file"
+    },
+    {
+      "id": "discogs-effnet",
+      "source": "models/essentia-discogs-effnet",
+      "destination": "models/essentia-discogs-effnet",
+      "kind": "directory"
+    },
+    {
+      "id": "japanese-vocal-language-model",
+      "source": "japanese-vocal-analysis/faster-whisper-large-v3-turbo",
+      "destination": "models/faster-whisper-large-v3-turbo",
+      "kind": "directory"
+    },
+    {
+      "id": "panns",
+      "source": "models/panns-cnn14-16k-ccby4",
+      "destination": "models/panns-cnn14-16k-ccby4",
+      "kind": "directory"
+    },
+    {
+      "id": "yamnet",
+      "source": "models/yamnet-onnx-apache2",
+      "destination": "models/yamnet-onnx-apache2",
+      "kind": "directory"
+    },
+    {
+      "id": "ast-audioset",
+      "source": "models/ast-audioset-bsd3",
+      "destination": "models/ast-audioset-bsd3",
+      "kind": "directory"
+    },
+    {
+      "id": "musicfm",
+      "source": "models/musicfm-inference-msd",
+      "destination": "models/musicfm-inference-msd",
+      "kind": "directory"
+    }
+  ]
+}

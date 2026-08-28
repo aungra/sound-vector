@@ -5,6 +5,7 @@ import json
 import os
 import pickle
 import subprocess
+import sys
 from pathlib import Path
 
 os.environ.setdefault("NUMBA_CACHE_DIR", "/tmp/mmfr-numba-cache")
@@ -58,21 +59,24 @@ from genre_librosa_contract import extract_librosa as extract_runtime_librosa
 
 
 ROOT = Path(__file__).resolve().parents[3]
+RUNTIME_ASSET_ROOT = Path(os.environ.get(
+    "MMFR_RUNTIME_ASSET_ROOT", ROOT / "runtime-assets",
+))
 DEFAULT_MODEL_PATH = Path(os.environ.get(
     "MMFR_EMBEDDING_GENRE_MODEL_PATH",
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/embedding-genre-model.pkl",
+    RUNTIME_ASSET_ROOT / "classifiers/embedding-genre-model.pkl",
 ))
 DISCOGS_CACHE = Path(os.environ.get(
     "MMFR_ESSENTIA_DISCOGS_CACHE_PATH",
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/essentia-discogs-feature-cache.json",
+    RUNTIME_ASSET_ROOT / "cache/essentia-discogs-feature-cache.json",
 ))
 MTG_CACHE = Path(os.environ.get(
     "MMFR_ESSENTIA_MTG_CACHE_PATH",
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/essentia-mtg-jamendo-feature-cache.json",
+    RUNTIME_ASSET_ROOT / "cache/essentia-mtg-jamendo-feature-cache.json",
 ))
 LIBROSA_CACHE = Path(os.environ.get(
     "MMFR_LIBROSA_FEATURE_CACHE_PATH",
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/librosa-feature-cache.json",
+    RUNTIME_ASSET_ROOT / "cache/librosa-feature-cache.json",
 ))
 JPOP_CALIBRATOR_PATH = Path(os.environ.get(
     "MMFR_JPOP_EVIDENCE_CALIBRATOR_PATH",
@@ -80,11 +84,11 @@ JPOP_CALIBRATOR_PATH = Path(os.environ.get(
 ))
 EFFNET_MODEL_DIR = Path(os.environ.get(
     "MMFR_ESSENTIA_DISCOGS_MODEL_DIR",
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/models/essentia-discogs-effnet",
+    RUNTIME_ASSET_ROOT / "models/essentia-discogs-effnet",
 ))
 MTG_MODEL_DIR = Path(os.environ.get(
     "MMFR_ESSENTIA_MTG_JAMENDO_MODEL_DIR",
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/models/essentia-mtg-jamendo",
+    RUNTIME_ASSET_ROOT / "models/essentia-mtg-jamendo",
 ))
 ESSENTIA_SR = 16000
 LIBROSA_SR = 22050
@@ -104,23 +108,19 @@ MACRO_SPECIALIST_ENGINE_PATH = Path(__file__).with_name("genre-embedding-macro-s
 MACRO_SPECIALIST_RUNTIME = None
 UNKNOWN80_RHYTHM_MODEL_PATH = Path(os.environ.get(
     "MMFR_UNKNOWN80_RHYTHM_MODEL_PATH",
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/"
-    "unknown80-rhythm-top3-pairwise-candidate.pkl",
+    RUNTIME_ASSET_ROOT / "classifiers/unknown80-rhythm-top3-pairwise-candidate.pkl",
 ))
 UNKNOWN80_FUNK_ROCK_MODEL_PATH = Path(os.environ.get(
     "MMFR_UNKNOWN80_FUNK_ROCK_MODEL_PATH",
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/"
-    "unknown80-fma-funk-rock-librosa-candidate.pkl",
+    RUNTIME_ASSET_ROOT / "classifiers/unknown80-fma-funk-rock-librosa-candidate.pkl",
 ))
 UNKNOWN80_INDEPENDENT_PAIR_MODEL_PATH = Path(os.environ.get(
     "MMFR_UNKNOWN80_INDEPENDENT_PAIR_MODEL_PATH",
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/"
-    "unknown80-independent-multiboundary-stack-v107-candidate.pkl",
+    RUNTIME_ASSET_ROOT / "classifiers/unknown80-independent-multiboundary-stack-v107-candidate.pkl",
 ))
 UNKNOWN80_TRACK_PAIR_MODEL_PATH = Path(os.environ.get(
     "MMFR_UNKNOWN80_TRACK_PAIR_MODEL_PATH",
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/"
-    "unknown80-track-pair-v113-candidate.pkl",
+    RUNTIME_ASSET_ROOT / "classifiers/unknown80-track-pair-v113-candidate.pkl",
 ))
 UNKNOWN80_TRACK_PAIR_MANIFEST_PATH = Path(os.environ.get(
     "MMFR_UNKNOWN80_TRACK_PAIR_MANIFEST_PATH",
@@ -128,19 +128,20 @@ UNKNOWN80_TRACK_PAIR_MANIFEST_PATH = Path(os.environ.get(
 ))
 UNKNOWN80_MUSICFM_MODEL_PATH = Path(os.environ.get(
     "MMFR_UNKNOWN80_MUSICFM_MODEL_PATH",
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/"
-    "unknown80-musicfm-top3-v114-candidate.pkl",
+    RUNTIME_ASSET_ROOT / "classifiers/unknown80-musicfm-top3-v114-candidate.pkl",
 ))
 UNKNOWN80_MUSICFM_MANIFEST_PATH = Path(os.environ.get(
     "MMFR_UNKNOWN80_MUSICFM_MANIFEST_PATH",
     str(ROOT / "genre-training" / "unknown80-v114-musicfm-model-manifest.json"),
 ))
 MUSICFM_EXTRACTOR_PATH = Path(__file__).with_name("genre-musicfm-runtime-extract.py")
-MUSICFM_PYTHON = os.environ.get("MMFR_MUSICFM_PYTHON", "/usr/bin/python3")
+MUSICFM_PYTHON = os.environ.get("MMFR_MUSICFM_PYTHON", sys.executable)
 MUSICFM_PYTHONPATH = os.environ.get(
     "MMFR_MUSICFM_PYTHONPATH",
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/python/mulan-runtime:"
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/python/musicfm-runtime",
+    os.pathsep.join([
+        str(RUNTIME_ASSET_ROOT / "python/mulan-runtime"),
+        str(RUNTIME_ASSET_ROOT / "python/musicfm-runtime"),
+    ]),
 )
 ENABLE_UNKNOWN80_RHYTHM_RERANKER = (
     os.environ.get("MMFR_ENABLE_UNKNOWN80_RHYTHM_RERANKER", "1") == "1"
@@ -156,8 +157,7 @@ ENABLE_UNKNOWN80_MUSICFM_RERANKER = (
 )
 UNKNOWN65_MODEL_PATH = Path(os.environ.get(
     "MMFR_UNKNOWN65_MODEL_PATH",
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/"
-    "unknown65-exhibition-safe-v1.pkl",
+    RUNTIME_ASSET_ROOT / "classifiers/unknown65-exhibition-safe-v1.pkl",
 ))
 UNKNOWN65_MANIFEST_PATH = Path(os.environ.get(
     "MMFR_UNKNOWN65_MANIFEST_PATH",
@@ -165,13 +165,14 @@ UNKNOWN65_MANIFEST_PATH = Path(os.environ.get(
 ))
 UNKNOWN65_EXTRACTOR_PATH = Path(__file__).with_name("genre-unknown65-runtime-extract.py")
 UNKNOWN65_PYTHON = os.environ.get(
-    "MMFR_UNKNOWN65_PYTHON", "/Users/kahanishimoto/.headroom-codex/env/bin/python3",
+    "MMFR_UNKNOWN65_PYTHON", sys.executable,
 )
 UNKNOWN65_PYTHONPATH = os.environ.get(
     "MMFR_UNKNOWN65_PYTHONPATH",
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/python-unknown65-runtime:"
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/python-clap:"
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/python-audio-features",
+    os.pathsep.join([
+        str(RUNTIME_ASSET_ROOT / "python/unknown65-runtime"),
+        str(RUNTIME_ASSET_ROOT / "python/audio-features"),
+    ]),
 )
 ENABLE_UNKNOWN65_RERANKER = os.environ.get("MMFR_ENABLE_UNKNOWN65_RERANKER", "0") == "1"
 UNKNOWN80_RHYTHM_BUNDLE = None

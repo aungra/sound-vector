@@ -2,7 +2,7 @@
   "version": "unknown65-exhibition-safe-v1",
   "schemaVersion": 1,
   "generatedAt": "2026-08-28T20:06:06+09:00",
-  "modelPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown65-exhibition-safe-v1.pkl",
+  "modelPath": "runtime-assets/classifiers/unknown65-exhibition-safe-v1.pkl",
   "modelSha256": "7cd30d86bf25feb4a427a12500ed30081fe470e1d35cac46316d4a0144af7138",
   "modelBytes": 66278839,
   "runtimeFeatureContractSha256": "225f8a1259ca2127f80692639c5f4042dd2d93216c0e6f93a5d35edf0ae2140b",

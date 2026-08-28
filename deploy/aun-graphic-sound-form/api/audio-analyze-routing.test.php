@@ -2,6 +2,19 @@
 declare(strict_types=1);
 
 $source = (string) file_get_contents(__DIR__ . '/audio-analyze.php');
+$upstreamFunctionPosition = strpos($source, 'function upstreamEndpoints');
+$cloudFilePosition = $upstreamFunctionPosition === false
+    ? false
+    : strpos($source, "CLOUD_UPSTREAM_FILE", $upstreamFunctionPosition);
+$tunnelFilePosition = $cloudFilePosition === false
+    ? false
+    : strpos($source, "UPSTREAM_FILE", $cloudFilePosition + strlen("CLOUD_UPSTREAM_FILE"));
+if ($cloudFilePosition === false || $tunnelFilePosition === false || $cloudFilePosition >= $tunnelFilePosition) {
+    throw new RuntimeException('The stable cloud worker must be configured before the Mac tunnel fallback.');
+}
+if (!str_contains($source, '\\.hf\\.space/api/audio-analyze')) {
+    throw new RuntimeException('The cloud upstream allowlist is missing.');
+}
 $timeoutMatches = preg_match('/const UPSTREAM_TIMEOUT_SECONDS = (\d+);/', $source, $matches);
 if ($timeoutMatches !== 1 || (int) $matches[1] < 600) {
     throw new RuntimeException('The rich-analysis proxy timeout must cover cold exhibition inference.');

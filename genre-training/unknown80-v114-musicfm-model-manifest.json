@@ -2,7 +2,7 @@
   "version": "unknown80-musicfm-top3-v114-candidate",
   "schemaVersion": 1,
   "generatedAt": "2026-08-24T06:33:30.536707+00:00",
-  "modelPath": "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/unknown80-musicfm-top3-v114-candidate.pkl",
+  "modelPath": "runtime-assets/classifiers/unknown80-musicfm-top3-v114-candidate.pkl",
   "modelSha256": "c6df3b01d96a5b284e15287a7f05b5728dcb78aa99c14c082004740e888e7749",
   "runtimeFeatureContractSha256": "2a0ac68b103e0c7262c31a8401c928cc2cfcb1326adf56c373c2f9c5fdcdacd5",
   "sourceHeldout": {

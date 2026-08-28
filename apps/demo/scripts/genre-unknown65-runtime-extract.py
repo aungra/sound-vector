@@ -19,14 +19,10 @@ os.environ.setdefault("HF_HUB_OFFLINE", "1")
 os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 os.environ.setdefault("MPLCONFIGDIR", "/tmp/mmfr-matplotlib")
 os.environ.setdefault("NUMBA_CACHE_DIR", "/tmp/mmfr-numba")
-os.environ.setdefault(
-    "MMFR_FFMPEG_PATH", "/Users/kahanishimoto/Documents/MUSICTee/.tools/bin/ffmpeg",
-)
+os.environ.setdefault("MMFR_FFMPEG_PATH", "ffmpeg")
 
 SCRIPT_DIR = Path(__file__).parent
-MODEL_ROOT = Path(
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/models"
-)
+MODEL_ROOT = Path(os.environ.get("MMFR_MODEL_ROOT", SCRIPT_DIR.parents[3] / "runtime-assets/models"))
 PANNS_WEIGHTS = MODEL_ROOT / "panns-cnn14-16k-ccby4/model.safetensors"
 YAMNET_MODEL = MODEL_ROOT / "yamnet-onnx-apache2/yamnet.onnx"
 AST_MODEL = MODEL_ROOT / "ast-audioset-bsd3"

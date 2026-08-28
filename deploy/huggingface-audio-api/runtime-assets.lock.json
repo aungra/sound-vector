@@ -1,0 +1,390 @@
+{
+  "schemaVersion": 1,
+  "bundleVersion": "unknown65-cloud-parity-v1",
+  "generatedAt": "2026-08-28T13:32:42.397Z",
+  "audioRetained": false,
+  "sourcePathsRetained": false,
+  "assets": [
+    {
+      "id": "embedding-classifier",
+      "destination": "classifiers/embedding-genre-model.pkl",
+      "kind": "file",
+      "bytes": 99954715,
+      "sha256": "d994f7eae89f86ab40f7bc8c4c8df8e840e4f456fbf837f6da7c04b622a2ea50",
+      "files": [
+        {
+          "path": "embedding-genre-model.pkl",
+          "bytes": 99954715,
+          "sha256": "07ea3e2859415507a30a2e740f90bf021eaa7f6f72b1ea035384b3b50968b19c"
+        }
+      ]
+    },
+    {
+      "id": "unknown65-reranker",
+      "destination": "classifiers/unknown65-exhibition-safe-v1.pkl",
+      "kind": "file",
+      "bytes": 66278839,
+      "sha256": "8492efe7e9d907c494208b187b8501c3a9b1d726ae876a553a618d80efb3594f",
+      "files": [
+        {
+          "path": "unknown65-exhibition-safe-v1.pkl",
+          "bytes": 66278839,
+          "sha256": "7cd30d86bf25feb4a427a12500ed30081fe470e1d35cac46316d4a0144af7138"
+        }
+      ]
+    },
+    {
+      "id": "track-pair-reranker",
+      "destination": "classifiers/unknown80-track-pair-v113-candidate.pkl",
+      "kind": "file",
+      "bytes": 15479321,
+      "sha256": "fa581a6c45f2d40775f2cd2dcb372785d3a0d8cd8ac7f739a4993a2fdffe2951",
+      "files": [
+        {
+          "path": "unknown80-track-pair-v113-candidate.pkl",
+          "bytes": 15479321,
+          "sha256": "59389e578a4b88fd35ae0f66571d59c1945c98f6e0197422c14bacb6a59da9a3"
+        }
+      ]
+    },
+    {
+      "id": "musicfm-reranker",
+      "destination": "classifiers/unknown80-musicfm-top3-v114-candidate.pkl",
+      "kind": "file",
+      "bytes": 46438626,
+      "sha256": "487abce70cab824b3c80beaf3a3b23cde5429de7c264ef764007be0502bd416b",
+      "files": [
+        {
+          "path": "unknown80-musicfm-top3-v114-candidate.pkl",
+          "bytes": 46438626,
+          "sha256": "c6df3b01d96a5b284e15287a7f05b5728dcb78aa99c14c082004740e888e7749"
+        }
+      ]
+    },
+    {
+      "id": "discogs-effnet",
+      "destination": "models/essentia-discogs-effnet",
+      "kind": "directory",
+      "bytes": 20439547,
+      "sha256": "d43cd8948918ca59a4fb59e388618b73efc567e252eb800b84b93107a9af644b",
+      "files": [
+        {
+          "path": "discogs-effnet-bs64-1.pb",
+          "bytes": 18366619,
+          "sha256": "3ed9af50d5367c0b9c795b294b00e7599e4943244f4cbd376869f3bfc87721b1"
+        },
+        {
+          "path": "genre_discogs400-discogs-effnet-1.json",
+          "bytes": 14951,
+          "sha256": "2d367319d9b782ffa10f69abf0e805b3ac4e10899025e5bdbaceda3919b243e0"
+        },
+        {
+          "path": "genre_discogs400-discogs-effnet-1.pb",
+          "bytes": 2057977,
+          "sha256": "3885ba078a35249af94b8e5e4247689afac40deca4401a4bc888daf5a579c01c"
+        }
+      ]
+    },
+    {
+      "id": "japanese-vocal-language-model",
+      "destination": "models/faster-whisper-large-v3-turbo",
+      "kind": "directory",
+      "bytes": 1621671823,
+      "sha256": "3381786b78b4ea40a84d8d5ccc2efeeb41af2200afa40a685a3148d1a5f03d8b",
+      "files": [
+        {
+          "path": ".cache/huggingface/.gitignore",
+          "bytes": 1,
+          "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1"
+        },
+        {
+          "path": ".cache/huggingface/CACHEDIR.TAG",
+          "bytes": 191,
+          "sha256": "f6572428f6d5e1575e73a1502895a8731f10757dfbb634909c6e154b849af91d"
+        },
+        {
+          "path": ".cache/huggingface/download/.gitattributes.lock",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": ".cache/huggingface/download/.gitattributes.metadata",
+          "bytes": 100,
+          "sha256": "dc7d1312d512e4261d25fffce693a7ad9ac4ee40dcecc0a43f161e76ae175e3f"
+        },
+        {
+          "path": ".cache/huggingface/download/README.md.lock",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": ".cache/huggingface/download/README.md.metadata",
+          "bytes": 100,
+          "sha256": "8c6ba63d1a81ac3092747a1f5ee299599cf0eb279aa5bff753823faaacae56b5"
+        },
+        {
+          "path": ".cache/huggingface/download/config.json.lock",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": ".cache/huggingface/download/config.json.metadata",
+          "bytes": 100,
+          "sha256": "4d1d32817aaecb6e08f4824d2d23c3423284e018fce8aec121094a440e50c7be"
+        },
+        {
+          "path": ".cache/huggingface/download/model.bin.lock",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": ".cache/huggingface/download/model.bin.metadata",
+          "bytes": 125,
+          "sha256": "497f9e73d08d0919f5fba2d2f2e84a5022727c483364f0368d56fa2ad56ad8e7"
+        },
+        {
+          "path": ".cache/huggingface/download/preprocessor_config.json.lock",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": ".cache/huggingface/download/preprocessor_config.json.metadata",
+          "bytes": 100,
+          "sha256": "3966502c3b68aae434f216f76d583424c77e2054e3a6d9f0c64c4e384f17c8a8"
+        },
+        {
+          "path": ".cache/huggingface/download/tokenizer.json.lock",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": ".cache/huggingface/download/tokenizer.json.metadata",
+          "bytes": 100,
+          "sha256": "e3726941c861d023be60d6830c6aca97be70b6253bc0841cd3d069ce68579a85"
+        },
+        {
+          "path": ".cache/huggingface/download/vocabulary.json.lock",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": ".cache/huggingface/download/vocabulary.json.metadata",
+          "bytes": 100,
+          "sha256": "758f4aff965331a77b2227efb8a059d2c2e50f6e97a5054946727aefbb8c4590"
+        },
+        {
+          "path": ".cache/huggingface/trees/4df90f75321148c3a29a9e2351b7ddf8f5b115a8.json",
+          "bytes": 950,
+          "sha256": "857bc2ae64a92330858c5210eb08720fa00c36794aa199d491b543ab79c88047"
+        },
+        {
+          "path": ".gitattributes",
+          "bytes": 1519,
+          "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+        },
+        {
+          "path": "README.md",
+          "bytes": 2454,
+          "sha256": "0b54ba6aa7769ae8d03964d51c3b045d313a92741e248d03c2c258146745249c"
+        },
+        {
+          "path": "config.json",
+          "bytes": 2263,
+          "sha256": "b0253ea6c0d3bea6b1e19e91a02acfd3b53f4467362efcb5a3e6b16c9b3a9b7e"
+        },
+        {
+          "path": "model.bin",
+          "bytes": 1617884929,
+          "sha256": "e76620f83d5f5b69efd3d87e3dc180c1bd21df9fbebacfd4335e5e1efcc018da"
+        },
+        {
+          "path": "preprocessor_config.json",
+          "bytes": 340,
+          "sha256": "7ccc62c6f2765af1f3b46c00c9b5894426835a05021c8b9c01eecb6dfb542711"
+        },
+        {
+          "path": "tokenizer.json",
+          "bytes": 2710337,
+          "sha256": "297b13372ac43916285644fb9687add3cc62ee2a1adb60da3dc25cc94c1871fd"
+        },
+        {
+          "path": "vocabulary.json",
+          "bytes": 1068114,
+          "sha256": "c69260f2ab26d659b7c398f9a2b2b48ed0df16c3b47d7326782fd9cba71690c1"
+        }
+      ]
+    },
+    {
+      "id": "panns",
+      "destination": "models/panns-cnn14-16k-ccby4",
+      "kind": "directory",
+      "bytes": 393400585,
+      "sha256": "a85768fa8338ed77a1dc132607af0a6a09d04512080a34ff63f8b03937de9769",
+      "files": [
+        {
+          "path": "Cnn14_16k_mAP=0.438.pth",
+          "bytes": 65978368,
+          "sha256": "de6a25dd9cf443235b80e40b32769e208bbdfcf9633c64aede6976abe6aeca3f"
+        },
+        {
+          "path": "README-hf.md",
+          "bytes": 442,
+          "sha256": "85816015eb7c7c3d378da61da1b5194f8bbb31c81c5dcc040e8010fa38557a4e"
+        },
+        {
+          "path": "config.json",
+          "bytes": 27,
+          "sha256": "1cc42f88dad28bd214420ad81e63b620cd8c2c8b2b978feb90e539b99a0d03f1"
+        },
+        {
+          "path": "model.safetensors",
+          "bytes": 327421748,
+          "sha256": "9e3518fd493df37c0f7ad4030e59b4c2208ec74c5ee468c54ecc2808c5dcdd69"
+        }
+      ]
+    },
+    {
+      "id": "yamnet",
+      "destination": "models/yamnet-onnx-apache2",
+      "kind": "directory",
+      "bytes": 16107984,
+      "sha256": "79f73938eed82c6b994d978d60d84cad530f2d2410c8fa27487dd00097e85b02",
+      "files": [
+        {
+          "path": "README.md",
+          "bytes": 285,
+          "sha256": "7623bebe52dbcc66526447e5c8649f7087545b07596651c47f2778f80be1c73e"
+        },
+        {
+          "path": "yamnet.onnx",
+          "bytes": 16093603,
+          "sha256": "1510041dce24a2e9e84ec546807ac408ae496da6d1ed41bc3ccba649623f8e19"
+        },
+        {
+          "path": "yamnet_class_map.csv",
+          "bytes": 14096,
+          "sha256": "cdf24d193e196d9e95912a2667051ae203e92a2ba09449218ccb40ef787c6df2"
+        }
+      ]
+    },
+    {
+      "id": "ast-audioset",
+      "destination": "models/ast-audioset-bsd3",
+      "kind": "directory",
+      "bytes": 346433173,
+      "sha256": "0238da35147d8066d289b190fd7d50bbfd865dd55807ed38191d00299be3976f",
+      "files": [
+        {
+          "path": "README.md",
+          "bytes": 1165,
+          "sha256": "dbc8ce1fc5abd1635d073640d8cb032901bfe264a5e06507f363f10a6112cfc8"
+        },
+        {
+          "path": "config.json",
+          "bytes": 26763,
+          "sha256": "a93d525511d77e8ecc933d09674b85099815bbbb417c228a4edd655e252fb9ff"
+        },
+        {
+          "path": "model.safetensors",
+          "bytes": 346404948,
+          "sha256": "ae0c1e2ad4e1381d851fa9bf298ba13ebc9c5a914cdee2dbe427a6583869924d"
+        },
+        {
+          "path": "preprocessor_config.json",
+          "bytes": 297,
+          "sha256": "8d04ba5a9c6fca5d39d0de2b1fd05ecf79deb589fbba279728bbebac39934231"
+        }
+      ]
+    },
+    {
+      "id": "musicfm",
+      "destination": "models/musicfm-inference-msd",
+      "kind": "directory",
+      "bytes": 1316867789,
+      "sha256": "47d274749f573d84bfac7991c5b5266c2c34c1c3d1f04d618fee3407003c12cd",
+      "files": [
+        {
+          "path": ".cache/huggingface/.gitignore",
+          "bytes": 1,
+          "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1"
+        },
+        {
+          "path": ".cache/huggingface/CACHEDIR.TAG",
+          "bytes": 191,
+          "sha256": "f6572428f6d5e1575e73a1502895a8731f10757dfbb634909c6e154b849af91d"
+        },
+        {
+          "path": ".cache/huggingface/download/LICENSE.metadata",
+          "bytes": 101,
+          "sha256": "dd93eb760254812a3b3f06e96470f93034563e58248b3c5b539e8b2f053e5355"
+        },
+        {
+          "path": ".cache/huggingface/download/README.md.metadata",
+          "bytes": 100,
+          "sha256": "542331212cfb916d72843cc509e022544bcb7217dabeec4afa7d2397a763ec40"
+        },
+        {
+          "path": ".cache/huggingface/download/config.json.metadata",
+          "bytes": 98,
+          "sha256": "7f14d3afcbe305910618586b0ce0b04d89c7c7b093cf56566c2f8fc621d7b93b"
+        },
+        {
+          "path": ".cache/huggingface/download/configuration_musicfm.py.metadata",
+          "bytes": 99,
+          "sha256": "905739b5c53a9e8df2c22fa24fb587a7337912a2fd8323597f56062366729268"
+        },
+        {
+          "path": ".cache/huggingface/download/flash_conformer.py.metadata",
+          "bytes": 100,
+          "sha256": "b3900a5dd6c83f6b1fb3ce02da8d1fc6fca8821b5ccb32b78e1e0117601d07f6"
+        },
+        {
+          "path": ".cache/huggingface/download/model.safetensors.metadata",
+          "bytes": 124,
+          "sha256": "afe06874c054151d314b1035c223c044c64fdbc52884046481614695f0a0c11d"
+        },
+        {
+          "path": ".cache/huggingface/download/modeling_musicfm.py.metadata",
+          "bytes": 101,
+          "sha256": "bb7159db63bf406a1365483d014e6a176c26dfd7ddd3b853a70ff80066baa4e5"
+        },
+        {
+          "path": "LICENSE",
+          "bytes": 12963,
+          "sha256": "1bb022ec646ff14be1ec142978ca62ce0c677b0c128d80bd01710ecf2cab05aa"
+        },
+        {
+          "path": "README.md",
+          "bytes": 721,
+          "sha256": "236c6ec3da4bba57b0083ca1920607047bfacb7221676de4e67afd011414c0b1"
+        },
+        {
+          "path": "config.json",
+          "bytes": 3138,
+          "sha256": "b50173d3495d7ccca4bf2a0eb05cb5f31262ceda6b708a6669b733cb8fc0564f"
+        },
+        {
+          "path": "configuration_musicfm.py",
+          "bytes": 2262,
+          "sha256": "9aeaa240797ae526f8986065345faf1deaca7703583f32e5d03733be708cd6d4"
+        },
+        {
+          "path": "flash_conformer.py",
+          "bytes": 98519,
+          "sha256": "d8b7d58099e2885e851482577a4993213db83991c4f790274068f56fe687197b"
+        },
+        {
+          "path": "model.safetensors",
+          "bytes": 1316734776,
+          "sha256": "03b715fb1f49e097d834342958f84da8cec3e328f7b92659915f410a76c30494"
+        },
+        {
+          "path": "modeling_musicfm.py",
+          "bytes": 14495,
+          "sha256": "078b3332f7b71bae940177d0fc39a82daf49148e293b8f309f834bef25c01030"
+        }
+      ]
+    }
+  ],
+  "totalBytes": 3943072402
+}

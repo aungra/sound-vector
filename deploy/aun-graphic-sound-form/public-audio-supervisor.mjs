@@ -13,6 +13,8 @@ const SFTP_ENV = process.env.MMFR_SFTP_ENV
   || path.join(HOME, "Documents", "AUNgraphic_WEB", ".env.sftp");
 const STATE_DIR = process.env.MMFR_STATE_DIR
   || path.join(HOME, "Library", "Application Support", "MUSICTee");
+const LEGACY_CACHE_ROOT = process.env.MMFR_LEGACY_CACHE_ROOT
+  || "/Volumes/20251005_12TBskyhawk/MUSICTee-cache";
 const CLOUDFLARED = process.env.MMFR_CLOUDFLARED
   || path.join(STATE_DIR, "cloudflared");
 const REMOTE_API_DIR = process.env.MMFR_REMOTE_API_DIR
@@ -114,8 +116,34 @@ function spawnAnalysisServer() {
     MMFR_ENABLE_UNKNOWN80_INDEPENDENT_PAIR_RERANKER: "0",
     MMFR_ENABLE_UNKNOWN80_MUSICFM_RERANKER: "1",
     MMFR_ENABLE_UNKNOWN65_RERANKER: "1",
+    MMFR_EMBEDDING_PYTHON: "/Users/kahanishimoto/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    MMFR_EMBEDDING_PYTHONPATH: [
+      path.join(LEGACY_CACHE_ROOT, "python-audio-features"),
+      path.join(LEGACY_CACHE_ROOT, "python-essentia-tf"),
+    ].join(":"),
+    MMFR_JAPANESE_VOCAL_PYTHONPATH: [
+      path.join(LEGACY_CACHE_ROOT, "python-audio-features"),
+      path.join(LEGACY_CACHE_ROOT, "python-essentia-tf"),
+      path.join(LEGACY_CACHE_ROOT, "japanese-vocal-analysis", "python"),
+    ].join(":"),
+    MMFR_EMBEDDING_GENRE_MODEL_PATH: path.join(LEGACY_CACHE_ROOT, "genre-training", "embedding-genre-model.pkl"),
+    MMFR_JAPANESE_VOCAL_MODEL_PATH: path.join(LEGACY_CACHE_ROOT, "japanese-vocal-analysis", "faster-whisper-large-v3-turbo"),
+    MMFR_MODEL_ROOT: path.join(LEGACY_CACHE_ROOT, "models"),
+    MMFR_UNKNOWN65_MODEL_PATH: path.join(LEGACY_CACHE_ROOT, "genre-training", "unknown65-exhibition-safe-v1.pkl"),
+    MMFR_UNKNOWN80_TRACK_PAIR_MODEL_PATH: path.join(LEGACY_CACHE_ROOT, "genre-training", "unknown80-track-pair-v113-candidate.pkl"),
+    MMFR_UNKNOWN80_MUSICFM_MODEL_PATH: path.join(LEGACY_CACHE_ROOT, "genre-training", "unknown80-musicfm-top3-v114-candidate.pkl"),
     MMFR_MUSICFM_PYTHON: "/usr/bin/python3",
+    MMFR_MUSICFM_PYTHONPATH: [
+      path.join(LEGACY_CACHE_ROOT, "python", "mulan-runtime"),
+      path.join(LEGACY_CACHE_ROOT, "python", "musicfm-runtime"),
+    ].join(":"),
+    MMFR_MUSICFM_MODEL_PATH: path.join(LEGACY_CACHE_ROOT, "models", "musicfm-inference-msd"),
     MMFR_UNKNOWN65_PYTHON: "/Users/kahanishimoto/.headroom-codex/env/bin/python3",
+    MMFR_UNKNOWN65_PYTHONPATH: [
+      path.join(LEGACY_CACHE_ROOT, "python-unknown65-runtime"),
+      path.join(LEGACY_CACHE_ROOT, "python-clap"),
+      path.join(LEGACY_CACHE_ROOT, "python-audio-features"),
+    ].join(":"),
     MMFR_LOCAL_GENRE_MODEL_PATH: path.join(ROOT, "genre-training", "genre-model.json"),
   };
   const child = spawn(NODE, [SERVER], {
