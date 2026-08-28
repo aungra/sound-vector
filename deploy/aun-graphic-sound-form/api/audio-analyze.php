@@ -4,6 +4,7 @@ declare(strict_types=1);
 const MAX_REQUEST_BYTES = 32768;
 const UPSTREAM_FILE = __DIR__ . '/upstream-url.txt';
 const REQUIRED_CLIENT_INFERENCE_REVISION = '2026-08-21-cross-head-arbitration-v96';
+const UPSTREAM_TIMEOUT_SECONDS = 720;
 
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
@@ -112,7 +113,7 @@ if (($payload['genreInferenceRevision'] ?? '') !== REQUIRED_CLIENT_INFERENCE_REV
     ]);
 }
 
-set_time_limit(300);
+set_time_limit(UPSTREAM_TIMEOUT_SECONDS);
 $fallbackResponse = false;
 $fallbackStatus = 0;
 $nonParityResponse = false;
@@ -132,7 +133,7 @@ foreach (upstreamEndpoints() as $endpoint) {
         ],
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_CONNECTTIMEOUT => 15,
-        CURLOPT_TIMEOUT => 300,
+        CURLOPT_TIMEOUT => UPSTREAM_TIMEOUT_SECONDS,
         CURLOPT_PROTOCOLS => CURLPROTO_HTTPS,
     ]);
     $response = curl_exec($curl);

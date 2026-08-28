@@ -2,6 +2,10 @@
 declare(strict_types=1);
 
 $source = (string) file_get_contents(__DIR__ . '/audio-analyze.php');
+$timeoutMatches = preg_match('/const UPSTREAM_TIMEOUT_SECONDS = (\d+);/', $source, $matches);
+if ($timeoutMatches !== 1 || (int) $matches[1] < 600) {
+    throw new RuntimeException('The rich-analysis proxy timeout must cover cold exhibition inference.');
+}
 $functionStart = strpos($source, 'function responseHasRichAnalysisParity');
 $requestStart = strpos($source, '$method =');
 if ($functionStart === false || $requestStart === false || $functionStart >= $requestStart) {
