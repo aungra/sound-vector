@@ -15,6 +15,7 @@ from pathlib import Path
 import gradio as gr
 import httpx
 import spaces
+import spaces.zero as spaces_zero
 import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, Response
@@ -129,6 +130,13 @@ async def analysis_proxy(request: Request) -> Response:
 app = gr.mount_gradio_app(api, demo, path="/")
 
 
+def report_zero_gpu_startup() -> None:
+    """Complete the ZeroGPU handshake when Uvicorn owns the app lifecycle."""
+    startup = getattr(spaces_zero, "startup", None)
+    if callable(startup):
+        startup()
+
+
 def runtime_environment() -> dict[str, str]:
     env = os.environ.copy()
     defaults = {
@@ -225,6 +233,7 @@ def stop_backend() -> None:
 
 
 def main() -> None:
+    report_zero_gpu_startup()
     threading.Thread(target=prepare_backend, name="mmfr-runtime-prepare", daemon=True).start()
     uvicorn.run(
         app,
