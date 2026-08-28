@@ -17,16 +17,28 @@ test("Gradio Space source contains the portable worker without runtime models", 
     assert.match(fs.readFileSync(path.join(output, "README.md"), "utf8"), /sdk: gradio/);
     assert.ok(fs.existsSync(path.join(output, "deploy/huggingface-audio-api/app.py")));
     assert.ok(fs.existsSync(path.join(output, "apps/demo/scripts/audio-analysis-server.mjs")));
+    assert.ok(fs.existsSync(path.join(output, "apps/demo/scripts/genre_unknown65_runtime.py")));
+    assert.ok(!fs.existsSync(path.join(output, "apps/demo/scripts/audio-analysis-public-policy.test.mjs")));
+    assert.ok(fs.existsSync(path.join(output, "genre-training/genre-model.json")));
+    assert.ok(fs.existsSync(path.join(output, "genre-training/unknown65-production-model-manifest.json")));
     assert.ok(!fs.existsSync(path.join(output, "runtime-assets")));
+    assert.ok(!fs.existsSync(path.join(output, "genre-training/results.json")));
     assert.ok(!fs.existsSync(path.join(output, "genre-training/youtube-cookies.txt")));
     const forbidden = [];
+    const workstationReferences = [];
+    let fileCount = 0;
     const visit = current => {
       const stat = fs.statSync(current);
       if (stat.isDirectory()) return fs.readdirSync(current).forEach(entry => visit(path.join(current, entry)));
+      fileCount += 1;
       if (/\.(?:aac|aif|aiff|flac|m4a|mp3|ogg|opus|pkl|wav|webm)$/i.test(current)) forbidden.push(current);
+      const contents = fs.readFileSync(current, "utf8");
+      if (/\/Volumes\/|\/Users\//.test(contents)) workstationReferences.push(current);
     };
     visit(output);
+    assert.equal(fileCount, 39);
     assert.deepEqual(forbidden, []);
+    assert.deepEqual(workstationReferences, []);
   } finally {
     fs.rmSync(output, { recursive: true, force: true });
   }

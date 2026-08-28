@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import json
+import os
 import sqlite3
 import sys
 from collections import Counter
@@ -30,8 +31,10 @@ V107_SOURCE_PATH = Path(__file__).with_name(
 )
 CACHE_MODULE_PATH = Path(__file__).with_name("genre-track-segment-cache.py")
 DEFAULT_CACHE = Path(
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/"
-    "runtime-track-segment-features-v3_0.sqlite3"
+    os.environ.get(
+        "MMFR_TRACK_SEGMENT_CACHE_PATH",
+        str(TRAINING / "runtime-track-segment-features-v3_0.sqlite3"),
+    )
 )
 DEFAULT_REPORT = TRAINING / "unknown80-v107-track-reranker-screen.json"
 DEFAULT_MARKDOWN = TRAINING / "unknown80-v107-track-reranker-screen.md"

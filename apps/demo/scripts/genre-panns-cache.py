@@ -23,11 +23,11 @@ REGISTRY_PATH = ROOT / "genre-training" / "external-models.json"
 SPLITS_PATH = ROOT / "genre-training" / "dataset-splits.json"
 MODEL_ROOT = Path(os.environ.get(
     "MMFR_EXTERNAL_MODEL_ROOT",
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/models",
+    str(ROOT / "runtime-assets" / "models"),
 ))
 CACHE_PATH = Path(os.environ.get(
     "MMFR_PANNS_CACHE_PATH",
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/panns-cnn14-30s-pilot-cache.json",
+    str(ROOT / "runtime-assets" / "cache" / "panns-cnn14-30s-pilot-cache.json"),
 ))
 REPORT_PATH = ROOT / "genre-training" / "panns-cnn14-cache-report.json"
 MODEL_ID = "panns-cnn14-safetensors-pilot"

@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -16,23 +17,31 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[3]
 SHARED_PATH = Path(__file__).with_name("genre-unknown80-v107-track-reranker-screen.py")
 DEFAULT_MODEL = Path(
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/models/"
-    "musicfm-inference-msd"
+    os.environ.get(
+        "MMFR_MUSICFM_MODEL_PATH",
+        str(ROOT / "runtime-assets" / "models" / "musicfm-inference-msd"),
+    )
 )
 DEFAULT_CACHE = Path(
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/"
-    "musicfm-house-boundary-30s-cache.json"
+    os.environ.get(
+        "MMFR_MUSICFM_CACHE_PATH",
+        str(ROOT / "runtime-assets" / "cache" / "musicfm-house-boundary-30s-cache.json"),
+    )
 )
 DEFAULT_SEED_CACHE = Path(
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/"
-    "musicfm-msd-30s-pilot-cache.json"
+    os.environ.get(
+        "MMFR_MUSICFM_SEED_CACHE_PATH",
+        str(ROOT / "runtime-assets" / "cache" / "musicfm-msd-30s-pilot-cache.json"),
+    )
 )
 DEFAULT_SELECTION = Path(
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/"
-    "musicfm-house-boundary-selection.json"
+    os.environ.get(
+        "MMFR_MUSICFM_SELECTION_PATH",
+        str(ROOT / "runtime-assets" / "cache" / "musicfm-house-boundary-selection.json"),
+    )
 )
 DEFAULT_REPORT = ROOT / "genre-training" / "musicfm-house-boundary-cache-report.json"
-DEFAULT_FFMPEG = ROOT / ".tools/bin/ffmpeg"
+DEFAULT_FFMPEG = Path(os.environ.get("MMFR_FFMPEG_PATH", "ffmpeg"))
 SAMPLE_RATE = 24000
 # The established pilot uses 698,400 samples, yielding exactly 728 frames.
 WINDOW_SECONDS = 29.1

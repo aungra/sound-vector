@@ -41,12 +41,12 @@ MODEL_MANIFEST_PATH = root_path(os.environ.get(
 EVALUATE_TEST = os.environ.get("MMFR_SPECIALISTS_EVALUATE_TEST", "0") == "1"
 ENABLE_RESEARCH_SPECIALIST = os.environ.get("MMFR_ENABLE_RESEARCH_SPECIALIST", "0") == "1"
 BENCHMARK_SCRIPT = Path(__file__).with_name("genre-embedding-32-benchmark.py")
-DISCOGS_CACHE = Path(os.environ.get("MMFR_ESSENTIA_DISCOGS_CACHE_PATH", "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/essentia-discogs-feature-cache.json"))
-MTG_CACHE = Path(os.environ.get("MMFR_ESSENTIA_MTG_JAMENDO_CACHE_PATH", "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/essentia-mtg-jamendo-feature-cache.json"))
-LIBROSA_CACHE = Path(os.environ.get("MMFR_LIBROSA_FEATURE_CACHE_PATH", "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/librosa-feature-cache.json"))
+DISCOGS_CACHE = Path(os.environ.get("MMFR_ESSENTIA_DISCOGS_CACHE_PATH", str(TRAINING_DIR / "essentia-discogs-feature-cache.json")))
+MTG_CACHE = Path(os.environ.get("MMFR_ESSENTIA_MTG_JAMENDO_CACHE_PATH", str(TRAINING_DIR / "essentia-mtg-jamendo-feature-cache.json")))
+LIBROSA_CACHE = Path(os.environ.get("MMFR_LIBROSA_FEATURE_CACHE_PATH", str(TRAINING_DIR / "librosa-feature-cache.json")))
 SPECIALIST_CACHE = Path(os.environ.get(
     "MMFR_ESSENTIA_SPECIALIST_CACHE_PATH",
-    "/Volumes/20251005_12TBskyhawk/MUSICTee-cache/genre-training/essentia-genre-specialist-moment-v2-cache.json",
+    str(TRAINING_DIR / "essentia-genre-specialist-moment-v2-cache.json"),
 ))
 
 TARGET_GENRES = [
