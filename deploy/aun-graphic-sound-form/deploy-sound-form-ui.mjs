@@ -14,7 +14,7 @@ const backupDir = path.join(os.tmpdir(), `sound-form-ui-backup-${stamp}`);
 
 const interfaceHtml = path.join(ROOT, "apps", "demo", "MUSIC MEMORY FITTING ROOM.html");
 const copyEditorHtml = path.join(ROOT, "apps", "demo", "copy-editor.html");
-const APPROVED_INTERFACE_SHA256 = "2357b4777022108eb5e847b64fc2bf00c7a46e8391deaa2011708cb16482bc38";
+const APPROVED_INTERFACE_SHA256 = "eea21276489629c5c06905143f44e83ec89523d79be65ac03bcf32759130e3c1";
 const APPROVED_COPY_EDITOR_SHA256 = "f936539dedef7d75034b0972b8374e7dd24ffd0e7753fe77cc76be8da453d886";
 const mappings = [
   {

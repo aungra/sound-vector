@@ -456,26 +456,26 @@ test("Terra combines the highest-ranked genre structures in deterministic score 
     detail: { waveform: Array.from({ length: 128 }, (_, index) => Math.sin(index * .19) * .66) }
   };
   const blend = resolveGenreBlend(audio, 8128);
-  assert.equal(blend.length, 4);
-  assert.deepEqual(Array.from(blend, item => item.genreName), ["ダブ", "ディープ・ハウス", "ダブステップ", "レゲエ"]);
+  assert.equal(blend.length, 3);
+  assert.deepEqual(Array.from(blend, item => item.genreName), ["ダブ", "ディープ・ハウス", "ダブステップ"]);
   assert.equal(blend[0].strength, 1);
-  assert.ok(blend[0].weight > blend[1].weight && blend[1].weight > blend[2].weight && blend[2].weight > blend[3].weight);
-  assert.ok(blend[1].strength > blend[2].strength && blend[2].strength > blend[3].strength);
+  assert.ok(blend[0].weight > blend[1].weight && blend[1].weight > blend[2].weight);
+  assert.ok(blend[1].strength > blend[2].strength);
   assert.ok(Math.abs(blend.reduce((sum, item) => sum + item.weight, 0) - 1) < 1e-9);
 
   const mood = { id: "genre-blend", label: "genre blend", audioFileName: "genre-blend.wav", audio };
   const first = generateSoundClothReversibleSvg(mood, 1800002000000);
   const second = generateSoundClothReversibleSvg(mood, 1800002000000);
   assert.equal(first, second);
-  assert.match(first, /data-genre-blend="ダブ:96%:[\d.]+%\|ディープ・ハウス:73%:[\d.]+%\|ダブステップ:48%:[\d.]+%\|レゲエ:24%:[\d.]+%"/);
-  assert.match(first, /data-genre-blend-count="4"/);
+  assert.match(first, /data-genre-blend="ダブ:96%:[\d.]+%\|ディープ・ハウス:73%:[\d.]+%\|ダブステップ:48%:[\d.]+%"/);
+  assert.match(first, /data-genre-blend-count="3"/);
   assert.match(first, /id="terra_primary_structure"[^>]*data-genre="ダブ"[^>]*data-genre-rank="1"[^>]*data-genre-strength="1"/);
   assert.match(first, /id="terra_genre_blend_2"[^>]*data-genre="ディープ・ハウス"[^>]*data-genre-rank="2"/);
   assert.match(first, /id="terra_genre_blend_3"[^>]*data-genre="ダブステップ"[^>]*data-genre-rank="3"/);
-  assert.match(first, /id="terra_genre_blend_4"[^>]*data-genre="レゲエ"[^>]*data-genre-rank="4"/);
-  assert.match(first, /data-genre-fusion="structural-splice-v2"/);
-  assert.match(first, /data-fusion-percentage-policy="site-participation"/);
-  assert.match(first, /data-fusion-size-policy="fixed-splice"/);
+  assert.doesNotMatch(first, /id="terra_genre_blend_4"/);
+  assert.match(first, /data-genre-fusion="topology-shape-morph-v5"/);
+  assert.match(first, /data-fusion-percentage-policy="contiguous-shape-share"/);
+  assert.match(first, /data-fusion-size-policy="unified-silhouette"/);
   assert.doesNotMatch(first, /data-blend-scale=|data-variant-opacity=/);
   assert.match(first, /id="pcm_reversible_data"[^>]*data-edit-policy="lock-do-not-edit"/);
   assert.doesNotMatch(first, /data-byte=|data-index=|display="none"|stroke-opacity=|fill-opacity=/);
@@ -500,11 +500,11 @@ test("genre percentages change fusion participation instead of motif dimensions"
   });
   const high = generateSoundClothReversibleSvg(makeMood(80), 1800002100000);
   const low = generateSoundClothReversibleSvg(makeMood(30), 1800002100000);
-  const siteCount = svg => Number((svg.match(/id="terra_genre_blend_2"[^>]*data-fusion-site-count="(\d+)"/) || [])[1]);
-  assert.ok(siteCount(high) > siteCount(low), `${siteCount(high)} should exceed ${siteCount(low)}`);
+  const morphShare = svg => Number((svg.match(/id="terra_genre_blend_2"[^>]*data-morph-share="([\d.]+)"/) || [])[1]);
+  assert.ok(morphShare(high) > morphShare(low), `${morphShare(high)} should exceed ${morphShare(low)}`);
   for (const svg of [high, low]) {
-    assert.match(svg, /id="terra_genre_blend_2"[^>]*data-fusion-program="orthogonal-splice"/);
-    assert.match(svg, /data-fusion-size-policy="fixed-splice"/);
+    assert.match(svg, /id="terra_genre_blend_2"[^>]*data-fusion-program="topology-track-region-morph"/);
+    assert.match(svg, /data-fusion-size-policy="unified-silhouette"/);
     assert.doesNotMatch(svg, /data-blend-scale=|data-genre-opacity=|data-fusion-opacity=/);
   }
 });
@@ -909,8 +909,8 @@ test("production artist-master output changes path coordinates from audio withou
   const quietPath = deformVisiblePathData(original, quiet, "terra_primary_structure", 0, profile, motionKind);
 
   assert.match(svg, /data-artist-master-revision="illustrator-v2"/);
-  assert.match(svg, /data-artist-master-motion="audio-coordinate-v1"/);
-  assert.ok(movingTags.length >= 8 && movingTags.length <= 36, `coordinate motion count ${movingTags.length}`);
+  assert.match(svg, /data-artist-master-motion="audio-coordinate-v2"/);
+  assert.ok(movingTags.length >= 8 && movingTags.length <= 48, `coordinate motion count ${movingTags.length}`);
   assert.ok(original.length > 0);
   assert.notEqual(loudPath, original);
   assert.notEqual(loudPath, quietPath);
@@ -1640,6 +1640,22 @@ test("harmonic rock evidence suppresses black-music false positives across mid a
   });
   assert.equal(correctedDnb.top[0].name, "ロック");
   assert.ok(correctedDnb.top.find(item => item.name === "ドラムンベース").score < 111);
+
+  const rapConsensusAnalysis = {
+    source: "source-heldout", method: "speech-rap-track-gate", needsReview: true,
+    top: [{ name: "ヒップホップ", score: 27.7 }, { name: "トラップ", score: 16.4 }],
+    macro: [{ macro: "black_music", score: 83 }]
+  };
+  const preservedRap = applyHighTempoRockCorrection(rapConsensusAnalysis, {
+    tempo: 144, energy: .96, bass: .58, rhythm: .68, onset: .48,
+    lowBandRatio: .42, midBandRatio: .52, highBandRatio: .06,
+    embeddingGenrePrediction: {
+      reliableExternalRapPromotion: { applies: true, rapSegmentCount: 3 }
+    },
+    detail: guitarDetail
+  });
+  assert.equal(preservedRap, rapConsensusAnalysis);
+  assert.equal(preservedRap.top[0].name, "ヒップホップ");
 });
 
 test("embedding inference also applies the harmonic rock false-positive guard", () => {
