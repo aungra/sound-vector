@@ -22,6 +22,10 @@ test("Gradio Space source contains the portable worker without runtime models", 
       /essentia-tensorflow==2\.1b6\.dev1389/,
     );
     assert.ok(fs.existsSync(path.join(output, "deploy/huggingface-audio-api/app.py")));
+    assert.match(
+      fs.readFileSync(path.join(output, "deploy/huggingface-audio-api/app.py"), "utf8"),
+      /@spaces\.GPU\(duration=1\)/,
+    );
     assert.ok(fs.existsSync(path.join(output, "apps/demo/scripts/audio-analysis-server.mjs")));
     assert.ok(fs.existsSync(path.join(output, "apps/demo/scripts/genre_unknown65_runtime.py")));
     assert.ok(!fs.existsSync(path.join(output, "apps/demo/scripts/audio-analysis-public-policy.test.mjs")));

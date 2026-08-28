@@ -8,11 +8,19 @@ import shutil
 import subprocess
 from pathlib import Path
 
+import spaces
+
 
 ROOT = Path(__file__).resolve().parents[2]
 DEPLOY = ROOT / "deploy" / "huggingface-audio-api"
 RUNTIME_ASSETS = ROOT / "runtime-assets"
 SERVER = ROOT / "apps" / "demo" / "scripts" / "audio-analysis-server.mjs"
+
+
+@spaces.GPU(duration=1)
+def zero_gpu_startup_probe() -> bool:
+    """Declare ZeroGPU compatibility; production inference remains CPU-bound."""
+    return True
 
 
 def runtime_environment() -> dict[str, str]:
