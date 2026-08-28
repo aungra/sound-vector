@@ -85,6 +85,9 @@ const COOKIE_FILE = process.env.MMFR_YTDLP_COOKIES_FILE || (fs.existsSync(DEFAUL
 const YTDLP_SLEEP_REQUESTS = Math.max(0, Number(process.env.MMFR_YTDLP_SLEEP_REQUESTS || 1));
 const YTDLP_SLEEP_INTERVAL = Math.max(0, Number(process.env.MMFR_YTDLP_SLEEP_INTERVAL || 1));
 const YTDLP_MAX_SLEEP_INTERVAL = Math.max(YTDLP_SLEEP_INTERVAL, Number(process.env.MMFR_YTDLP_MAX_SLEEP_INTERVAL || 3));
+const YTDLP_PLAYER_CLIENTS = String(
+  process.env.MMFR_YTDLP_PLAYER_CLIENTS || "android_vr,web_safari,web_embedded",
+).split(",").map(value => value.trim()).filter(Boolean);
 const EMBEDDING_GENRE_SCRIPT = process.env.MMFR_EMBEDDING_GENRE_SCRIPT
   || path.join(SCRIPT_DIR, "genre-embedding-infer.py");
 const JAPANESE_VOCAL_SCRIPT = process.env.MMFR_JAPANESE_VOCAL_SCRIPT
@@ -158,17 +161,25 @@ function ytDlpBaseArgs() {
   return args;
 }
 
-function ytDlpCookieArgSets() {
+function ytDlpAcquisitionStrategies() {
   // Public videos should not depend on a signed-in browser session. Trying the
   // anonymous path first also avoids stale cookies triggering YouTube bot checks.
-  const sets = [[]];
-  if (COOKIE_FILE) sets.push(["--cookies", COOKIE_FILE]);
+  const strategies = [{ name: "anonymous", args: [] }];
+  for (const playerClient of YTDLP_PLAYER_CLIENTS) {
+    strategies.push({
+      name: `anonymous-${playerClient}`,
+      args: ["--extractor-args", `youtube:player_client=${playerClient}`],
+    });
+  }
+  if (COOKIE_FILE) strategies.push({ name: "cookie", args: ["--cookies", COOKIE_FILE] });
   // Browser cookie stores can trigger macOS privacy prompts. Use them only when
   // no exported cookie file has been configured.
   if (!COOKIE_FILE) {
-    for (const browser of COOKIE_BROWSERS) sets.push(["--cookies-from-browser", browser]);
+    for (const browser of COOKIE_BROWSERS) {
+      strategies.push({ name: `cookie-${browser}`, args: ["--cookies-from-browser", browser] });
+    }
   }
-  return sets;
+  return strategies;
 }
 
 function ytDlpSharedArgs(cookieArgs = []) {
@@ -180,16 +191,15 @@ function ytDlpSharedArgs(cookieArgs = []) {
 }
 
 async function runYtDlp(command, args, options = {}) {
-  const strategies = ytDlpCookieArgSets();
+  const strategies = ytDlpAcquisitionStrategies();
   let lastError = null;
   for (let strategyIndex = 0; strategyIndex < strategies.length; strategyIndex += 1) {
-    const cookieArgs = strategies[strategyIndex];
-    const strategy = cookieArgs.length ? "cookie" : "anonymous";
+    const strategy = strategies[strategyIndex];
     for (let attempt = 0; attempt <= YOUTUBE_RETRY_DELAYS_MS.length; attempt += 1) {
-      options.onAttempt?.({ strategy, attempt });
+      options.onAttempt?.({ strategy: strategy.name, attempt });
       try {
-        const result = await run(command, [...ytDlpSharedArgs(cookieArgs), ...args], options);
-        return { ...result, strategy, retryCount: attempt };
+        const result = await run(command, [...ytDlpSharedArgs(strategy.args), ...args], options);
+        return { ...result, strategy: strategy.name, retryCount: attempt };
       } catch (error) {
         lastError = error;
         const failure = classifyYouTubeFailure(error);
@@ -197,7 +207,8 @@ async function runYtDlp(command, args, options = {}) {
           await abortableDelay(YOUTUBE_RETRY_DELAYS_MS[attempt], options.signal);
           continue;
         }
-        if (strategy === "anonymous" && failure.cookieEligible && strategyIndex + 1 < strategies.length) break;
+        const hasAlternative = strategyIndex + 1 < strategies.length;
+        if (hasAlternative && (failure.cookieEligible || failure.code === "AUDIO_ANALYSIS_FAILED")) break;
         error.code = failure.code;
         throw error;
       }

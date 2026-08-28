@@ -32,6 +32,9 @@ test("Gradio Space source contains the portable worker without runtime models", 
     assert.match(app, /port=7860/);
     assert.doesNotMatch(app, /os\.execvpe/);
     assert.ok(fs.existsSync(path.join(output, "apps/demo/scripts/audio-analysis-server.mjs")));
+    const server = fs.readFileSync(path.join(output, "apps/demo/scripts/audio-analysis-server.mjs"), "utf8");
+    assert.match(server, /MMFR_YTDLP_PLAYER_CLIENTS/);
+    assert.match(server, /youtube:player_client=/);
     assert.ok(fs.existsSync(path.join(output, "apps/demo/scripts/genre_unknown65_runtime.py")));
     assert.ok(!fs.existsSync(path.join(output, "apps/demo/scripts/audio-analysis-public-policy.test.mjs")));
     assert.ok(!fs.existsSync(path.join(output, "apps/demo/MUSIC MEMORY FITTING ROOM.html")));
