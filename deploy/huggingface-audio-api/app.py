@@ -182,6 +182,7 @@ def runtime_environment() -> dict[str, str]:
             RUNTIME_ASSETS / "classifiers" / "local-genre-model.json"
         ),
         "MMFR_YTDLP_COOKIES_FROM_BROWSER": "",
+        "MMFR_YTDLP_IMPERSONATE_TARGETS": "Chrome-133:Macos-15,Safari-18.4:Macos-15",
     }
     for key, value in defaults.items():
         env.setdefault(key, value)

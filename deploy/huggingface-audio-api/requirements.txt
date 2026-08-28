@@ -10,3 +10,4 @@ transformers==4.57.6
 onnxruntime==1.26.0
 safetensors==0.8.0
 yt-dlp==2026.8.19
+curl-cffi==0.14.0

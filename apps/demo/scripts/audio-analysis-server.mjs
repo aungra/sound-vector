@@ -88,6 +88,9 @@ const YTDLP_MAX_SLEEP_INTERVAL = Math.max(YTDLP_SLEEP_INTERVAL, Number(process.e
 const YTDLP_PLAYER_CLIENTS = String(
   process.env.MMFR_YTDLP_PLAYER_CLIENTS || "android_vr,web_safari,web_embedded",
 ).split(",").map(value => value.trim()).filter(Boolean);
+const YTDLP_IMPERSONATE_TARGETS = String(
+  process.env.MMFR_YTDLP_IMPERSONATE_TARGETS || "",
+).split(",").map(value => value.trim()).filter(Boolean);
 const EMBEDDING_GENRE_SCRIPT = process.env.MMFR_EMBEDDING_GENRE_SCRIPT
   || path.join(SCRIPT_DIR, "genre-embedding-infer.py");
 const JAPANESE_VOCAL_SCRIPT = process.env.MMFR_JAPANESE_VOCAL_SCRIPT
@@ -165,6 +168,12 @@ function ytDlpAcquisitionStrategies() {
   // Public videos should not depend on a signed-in browser session. Trying the
   // anonymous path first also avoids stale cookies triggering YouTube bot checks.
   const strategies = [{ name: "anonymous", args: [] }];
+  for (const target of YTDLP_IMPERSONATE_TARGETS) {
+    strategies.push({
+      name: `anonymous-impersonate-${target.replace(/[^A-Za-z0-9]+/g, "-").toLowerCase()}`,
+      args: ["--impersonate", target],
+    });
+  }
   for (const playerClient of YTDLP_PLAYER_CLIENTS) {
     strategies.push({
       name: `anonymous-${playerClient}`,

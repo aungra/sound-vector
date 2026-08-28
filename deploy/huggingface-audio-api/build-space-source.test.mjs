@@ -20,6 +20,7 @@ test("Gradio Space source contains the portable worker without runtime models", 
     const requirements = fs.readFileSync(path.join(output, "requirements.txt"), "utf8");
     assert.match(requirements, /essentia-tensorflow==2\.1b6\.dev1389/);
     assert.match(requirements, /yt-dlp==2026\.8\.19/);
+    assert.match(requirements, /curl-cffi==0\.14\.0/);
     assert.ok(fs.existsSync(path.join(output, "app.py")));
     assert.ok(!fs.existsSync(path.join(output, "deploy/huggingface-audio-api/app.py")));
     const app = fs.readFileSync(path.join(output, "app.py"), "utf8");
@@ -28,12 +29,14 @@ test("Gradio Space source contains the portable worker without runtime models", 
     assert.match(app, /import spaces\.zero as spaces_zero/);
     assert.match(app, /startup = getattr\(spaces_zero, "startup", None\)/);
     assert.match(app, /report_zero_gpu_startup\(\)/);
+    assert.match(app, /MMFR_YTDLP_IMPERSONATE_TARGETS/);
     assert.match(app, /threading\.Thread\(target=prepare_backend/);
     assert.match(app, /port=7860/);
     assert.doesNotMatch(app, /os\.execvpe/);
     assert.ok(fs.existsSync(path.join(output, "apps/demo/scripts/audio-analysis-server.mjs")));
     const server = fs.readFileSync(path.join(output, "apps/demo/scripts/audio-analysis-server.mjs"), "utf8");
     assert.match(server, /MMFR_YTDLP_PLAYER_CLIENTS/);
+    assert.match(server, /MMFR_YTDLP_IMPERSONATE_TARGETS/);
     assert.match(server, /youtube:player_client=/);
     assert.ok(fs.existsSync(path.join(output, "apps/demo/scripts/genre_unknown65_runtime.py")));
     assert.ok(!fs.existsSync(path.join(output, "apps/demo/scripts/audio-analysis-public-policy.test.mjs")));
