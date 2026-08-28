@@ -42,7 +42,7 @@ const copies = [
   ["genre-training/unknown65-production-model-manifest.json", "genre-training/unknown65-production-model-manifest.json"],
   ["genre-training/unknown80-v113-track-pair-model-manifest.json", "genre-training/unknown80-v113-track-pair-model-manifest.json"],
   ["genre-training/unknown80-v114-musicfm-model-manifest.json", "genre-training/unknown80-v114-musicfm-model-manifest.json"],
-  ["deploy/huggingface-audio-api/app.py", "deploy/huggingface-audio-api/app.py"],
+  ["deploy/huggingface-audio-api/app.py", "app.py"],
   ["deploy/huggingface-audio-api/prepare-runtime-assets.mjs", "deploy/huggingface-audio-api/prepare-runtime-assets.mjs"],
   ["deploy/huggingface-audio-api/verify-runtime-bundle.mjs", "deploy/huggingface-audio-api/verify-runtime-bundle.mjs"],
 ];

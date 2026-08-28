@@ -11,7 +11,15 @@ from pathlib import Path
 import spaces
 
 
-ROOT = Path(__file__).resolve().parents[2]
+APP_PATH = Path(__file__).resolve()
+ROOT = next(
+    (
+        candidate
+        for candidate in (APP_PATH.parent, *APP_PATH.parents)
+        if (candidate / "apps" / "demo" / "scripts" / "audio-analysis-server.mjs").is_file()
+    ),
+    APP_PATH.parents[2],
+)
 DEPLOY = ROOT / "deploy" / "huggingface-audio-api"
 RUNTIME_ASSETS = ROOT / "runtime-assets"
 SERVER = ROOT / "apps" / "demo" / "scripts" / "audio-analysis-server.mjs"
