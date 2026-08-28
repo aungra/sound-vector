@@ -27,6 +27,7 @@ test("Gradio Space source contains the portable worker without runtime models", 
     assert.match(app, /@spaces\.GPU\(duration=1\)/);
     assert.match(app, /gr\.mount_gradio_app/);
     assert.match(app, /threading\.Thread\(target=prepare_backend/);
+    assert.match(app, /port=7860/);
     assert.doesNotMatch(app, /os\.execvpe/);
     assert.ok(fs.existsSync(path.join(output, "apps/demo/scripts/audio-analysis-server.mjs")));
     assert.ok(fs.existsSync(path.join(output, "apps/demo/scripts/genre_unknown65_runtime.py")));
