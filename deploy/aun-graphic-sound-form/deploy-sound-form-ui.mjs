@@ -63,7 +63,8 @@ for (const mapping of mappings) {
 const interfaceSource = fs.readFileSync(interfaceHtml, "utf8");
 if (sha256(interfaceHtml) !== APPROVED_INTERFACE_SHA256
   || !interfaceSource.includes('<p class="simple-intro">SOUND FORMは')
-  || !interfaceSource.includes('class="simple-conversion"')) {
+  || !interfaceSource.includes('class="simple-conversion"')
+  || !interfaceSource.includes('reliableExternalRapPromotion?.applies')) {
   throw new Error("Refusing to deploy: the approved simple SOUND FORM interface was not found");
 }
 
