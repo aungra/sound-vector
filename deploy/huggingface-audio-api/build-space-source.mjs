@@ -39,10 +39,6 @@ const runtimeScripts = [
 ];
 const copies = [
   ...runtimeScripts.map(name => [`apps/demo/scripts/${name}`, `apps/demo/scripts/${name}`]),
-  ["apps/demo/MUSIC MEMORY FITTING ROOM.html", "apps/demo/MUSIC MEMORY FITTING ROOM.html"],
-  ["genre-training/dataset-splits.json", "genre-training/dataset-splits.json"],
-  ["genre-training/genre-model.json", "genre-training/genre-model.json"],
-  ["genre-training/genre-theory-profiles.json", "genre-training/genre-theory-profiles.json"],
   ["genre-training/unknown65-production-model-manifest.json", "genre-training/unknown65-production-model-manifest.json"],
   ["genre-training/unknown80-v113-track-pair-model-manifest.json", "genre-training/unknown80-v113-track-pair-model-manifest.json"],
   ["genre-training/unknown80-v114-musicfm-model-manifest.json", "genre-training/unknown80-v114-musicfm-model-manifest.json"],
@@ -50,6 +46,15 @@ const copies = [
   ["deploy/huggingface-audio-api/prepare-runtime-assets.mjs", "deploy/huggingface-audio-api/prepare-runtime-assets.mjs"],
   ["deploy/huggingface-audio-api/verify-runtime-bundle.mjs", "deploy/huggingface-audio-api/verify-runtime-bundle.mjs"],
 ];
+
+const deploymentManifestFields = new Set([
+  "version",
+  "schemaVersion",
+  "modelPath",
+  "modelSha256",
+  "runtimeFeatureContractSha256",
+  "promotionState",
+]);
 
 function portableJsonValue(value) {
   if (Array.isArray(value)) return value.map(portableJsonValue);
@@ -65,7 +70,10 @@ function copyPortableSource(source, destination) {
   const destinationPath = path.join(output, destination);
   fs.mkdirSync(path.dirname(destinationPath), { recursive: true });
   if (source.endsWith(".json")) {
-    const payload = portableJsonValue(JSON.parse(fs.readFileSync(sourcePath, "utf8")));
+    const sourcePayload = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+    const payload = source.includes("model-manifest")
+      ? Object.fromEntries(Object.entries(sourcePayload).filter(([key]) => deploymentManifestFields.has(key)))
+      : portableJsonValue(sourcePayload);
     fs.writeFileSync(destinationPath, `${JSON.stringify(payload)}\n`);
     return;
   }

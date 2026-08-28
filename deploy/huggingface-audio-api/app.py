@@ -24,6 +24,7 @@ def runtime_environment() -> dict[str, str]:
         "MMFR_PUBLIC_MODE": "1",
         "MMFR_ALLOWED_ORIGINS": "https://aun-graphic.jp,https://www.aun-graphic.jp",
         "MMFR_ANALYSIS_SECONDS": "120",
+        "MMFR_GENRE_INFERENCE_REVISION": "unknown80-track-pair-v113-candidate",
         "MMFR_PUBLIC_MAX_CONCURRENT": "1",
         "MMFR_PUBLIC_RATE_LIMIT": "4",
         "MMFR_PUBLIC_RATE_WINDOW_MS": "600000",
@@ -55,6 +56,9 @@ def runtime_environment() -> dict[str, str]:
         "MMFR_ENABLE_UNKNOWN80_INDEPENDENT_PAIR_RERANKER": "0",
         "MMFR_ENABLE_UNKNOWN80_MUSICFM_RERANKER": "1",
         "MMFR_ENABLE_UNKNOWN65_RERANKER": "1",
+        "MMFR_LOCAL_GENRE_MODEL_PATH": str(
+            RUNTIME_ASSETS / "classifiers" / "local-genre-model.json"
+        ),
         "MMFR_YTDLP_COOKIES_FROM_BROWSER": "",
     }
     for key, value in defaults.items():

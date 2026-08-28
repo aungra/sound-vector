@@ -57,9 +57,10 @@ const YOUTUBE_DEADLINE_MS = Math.max(30000, Number(process.env.MMFR_YOUTUBE_DEAD
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(SCRIPT_DIR, "../../..");
 const DEMO_HTML_PATH = path.join(ROOT_DIR, "apps", "demo", "MUSIC MEMORY FITTING ROOM.html");
-const GENRE_INFERENCE_REVISION = fs.existsSync(DEMO_HTML_PATH)
-  ? fs.readFileSync(DEMO_HTML_PATH, "utf8").match(/const GENRE_INFERENCE_REVISION = "([^"]+)"/)?.[1] || "unknown"
-  : "unknown";
+const GENRE_INFERENCE_REVISION = process.env.MMFR_GENRE_INFERENCE_REVISION
+  || (fs.existsSync(DEMO_HTML_PATH)
+    ? fs.readFileSync(DEMO_HTML_PATH, "utf8").match(/const GENRE_INFERENCE_REVISION = "([^"]+)"/)?.[1] || "unknown"
+    : "unknown");
 const LOCAL_BIN = path.join(ROOT_DIR, ".tools", "bin");
 const TOOL_PATHS = {
   "yt-dlp": [

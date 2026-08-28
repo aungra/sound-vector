@@ -19,7 +19,10 @@ test("Gradio Space source contains the portable worker without runtime models", 
     assert.ok(fs.existsSync(path.join(output, "apps/demo/scripts/audio-analysis-server.mjs")));
     assert.ok(fs.existsSync(path.join(output, "apps/demo/scripts/genre_unknown65_runtime.py")));
     assert.ok(!fs.existsSync(path.join(output, "apps/demo/scripts/audio-analysis-public-policy.test.mjs")));
-    assert.ok(fs.existsSync(path.join(output, "genre-training/genre-model.json")));
+    assert.ok(!fs.existsSync(path.join(output, "apps/demo/MUSIC MEMORY FITTING ROOM.html")));
+    assert.ok(!fs.existsSync(path.join(output, "genre-training/dataset-splits.json")));
+    assert.ok(!fs.existsSync(path.join(output, "genre-training/genre-model.json")));
+    assert.ok(!fs.existsSync(path.join(output, "genre-training/genre-theory-profiles.json")));
     assert.ok(fs.existsSync(path.join(output, "genre-training/unknown65-production-model-manifest.json")));
     assert.ok(!fs.existsSync(path.join(output, "runtime-assets")));
     assert.ok(!fs.existsSync(path.join(output, "genre-training/results.json")));
@@ -36,7 +39,7 @@ test("Gradio Space source contains the portable worker without runtime models", 
       if (/\/Volumes\/|\/Users\//.test(contents)) workstationReferences.push(current);
     };
     visit(output);
-    assert.equal(fileCount, 39);
+    assert.equal(fileCount, 35);
     assert.deepEqual(forbidden, []);
     assert.deepEqual(workstationReferences, []);
   } finally {
