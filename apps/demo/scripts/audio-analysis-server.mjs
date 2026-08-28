@@ -1292,7 +1292,11 @@ async function analyzeYouTube(youtubeUrl, options = {}) {
   const signal = options.signal;
   const startedAt = Date.now();
   const stageStarted = new Map();
-  const startStage = stage => stageStarted.set(stage, Date.now());
+  let currentStage = "initialization";
+  const startStage = stage => {
+    currentStage = stage;
+    stageStarted.set(stage, Date.now());
+  };
   const finishStage = (stage, detail = {}) => analysisLog(requestId, "stage", {
     stage,
     durationMs: Date.now() - (stageStarted.get(stage) || startedAt),
@@ -1702,6 +1706,9 @@ async function analyzeLocalFile(filePath, options = {}) {
       japaneseVocalEvidence,
       embeddingGenrePrediction
     };
+  } catch (error) {
+    error.analysisStage = error.analysisStage || currentStage;
+    throw error;
   } finally {
     await fs.promises.rm(tempDir, { recursive: true, force: true });
   }
@@ -1740,6 +1747,7 @@ function errorPayload(error) {
       code,
       error: messages[code] || (PUBLIC_MODE ? "音声解析に失敗しました。" : message),
       detail: PUBLIC_MODE ? "" : message,
+      stage: String(error?.analysisStage || ""),
     },
   };
 }
