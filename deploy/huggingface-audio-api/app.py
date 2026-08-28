@@ -97,7 +97,8 @@ def main() -> None:
         check=True,
         env=env,
     )
-    os.execvpe(node, [node, str(SERVER)], env)
+    completed = subprocess.run([node, str(SERVER)], env=env, check=False)
+    raise SystemExit(completed.returncode)
 
 
 if __name__ == "__main__":

@@ -23,10 +23,9 @@ test("Gradio Space source contains the portable worker without runtime models", 
     );
     assert.ok(fs.existsSync(path.join(output, "app.py")));
     assert.ok(!fs.existsSync(path.join(output, "deploy/huggingface-audio-api/app.py")));
-    assert.match(
-      fs.readFileSync(path.join(output, "app.py"), "utf8"),
-      /@spaces\.GPU\(duration=1\)/,
-    );
+    const app = fs.readFileSync(path.join(output, "app.py"), "utf8");
+    assert.match(app, /@spaces\.GPU\(duration=1\)/);
+    assert.doesNotMatch(app, /os\.execvpe/);
     assert.ok(fs.existsSync(path.join(output, "apps/demo/scripts/audio-analysis-server.mjs")));
     assert.ok(fs.existsSync(path.join(output, "apps/demo/scripts/genre_unknown65_runtime.py")));
     assert.ok(!fs.existsSync(path.join(output, "apps/demo/scripts/audio-analysis-public-policy.test.mjs")));
