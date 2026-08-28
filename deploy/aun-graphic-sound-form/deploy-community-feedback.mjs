@@ -9,6 +9,7 @@ const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(SCRIPT_DIR, "../..");
 const cliArgs = process.argv.slice(2);
 const htmlOnly = cliArgs.includes("--html-only");
+const audioApiOnly = cliArgs.includes("--audio-api-only");
 const configPath = cliArgs.find(value => !value.startsWith("--"))
   || path.join(os.homedir(), "Library", "Application Support", "MUSICTee", ".env.sftp");
 
@@ -46,7 +47,9 @@ const allMappings = [
     remote: "/home/aungraphic02/musictee-audio-service/deploy/aun-graphic-sound-form/model-attribution.txt"
   }
 ];
-const mappings = htmlOnly ? allMappings.slice(0, 2) : allMappings;
+const mappings = audioApiOnly
+  ? allMappings.filter(mapping => mapping.remote.endsWith("/audio-analyze.php"))
+  : htmlOnly ? allMappings.slice(0, 2) : allMappings;
 
 function parseEnv(file) {
   const result = {};
