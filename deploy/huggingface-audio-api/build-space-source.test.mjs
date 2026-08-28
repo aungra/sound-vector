@@ -16,7 +16,7 @@ test("Gradio Space source contains the portable worker without runtime models", 
     assert.equal(result.status, 0, result.stderr);
     const readme = fs.readFileSync(path.join(output, "README.md"), "utf8");
     assert.match(readme, /sdk: gradio/);
-    assert.match(readme, /python_version: "3\.12"/);
+    assert.match(readme, /python_version: 3\.12/);
     assert.match(
       fs.readFileSync(path.join(output, "requirements.txt"), "utf8"),
       /essentia-tensorflow==2\.1b6\.dev1389/,
