@@ -38,7 +38,16 @@ test("Gradio Space source contains the portable worker without runtime models", 
     assert.match(server, /MMFR_YTDLP_PLAYER_CLIENTS/);
     assert.match(server, /MMFR_YTDLP_IMPERSONATE_TARGETS/);
     assert.match(server, /youtube:player_client=/);
-    assert.match(server, /analysisStage/);
+    const youtubeAnalyzer = server.slice(
+      server.indexOf("async function analyzeYouTube"),
+      server.indexOf("async function analyzePreviewUrl"),
+    );
+    const localAnalyzer = server.slice(
+      server.indexOf("async function analyzeLocalFile"),
+      server.indexOf("function validRequestId"),
+    );
+    assert.match(youtubeAnalyzer, /error\.analysisStage = error\.analysisStage \|\| currentStage/);
+    assert.doesNotMatch(localAnalyzer, /currentStage/);
     assert.ok(fs.existsSync(path.join(output, "apps/demo/scripts/genre_unknown65_runtime.py")));
     assert.ok(!fs.existsSync(path.join(output, "apps/demo/scripts/audio-analysis-public-policy.test.mjs")));
     assert.ok(!fs.existsSync(path.join(output, "apps/demo/MUSIC MEMORY FITTING ROOM.html")));

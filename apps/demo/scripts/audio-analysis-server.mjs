@@ -1550,6 +1550,9 @@ async function analyzeYouTube(youtubeUrl, options = {}) {
       japaneseVocalEvidence,
       embeddingGenrePrediction
     };
+  } catch (error) {
+    error.analysisStage = error.analysisStage || currentStage;
+    throw error;
   } finally {
     await fs.promises.rm(tempDir, { recursive: true, force: true });
     analysisLog(requestId, "cleanup", { totalMs: Date.now() - startedAt });
@@ -1706,9 +1709,6 @@ async function analyzeLocalFile(filePath, options = {}) {
       japaneseVocalEvidence,
       embeddingGenrePrediction
     };
-  } catch (error) {
-    error.analysisStage = error.analysisStage || currentStage;
-    throw error;
   } finally {
     await fs.promises.rm(tempDir, { recursive: true, force: true });
   }
