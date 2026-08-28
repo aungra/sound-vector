@@ -14,6 +14,7 @@
     "deploy:sound-form-ui": "node deploy/aun-graphic-sound-form/deploy-sound-form-ui.mjs",
     "deploy:sound-form-feedback": "node deploy/aun-graphic-sound-form/deploy-community-feedback.mjs",
     "cloud-runtime:bundle": "node deploy/huggingface-audio-api/build-runtime-bundle.mjs",
+    "cloud-runtime:space-source": "node deploy/huggingface-audio-api/build-space-source.mjs",
     "cloud-runtime:test": "node --test deploy/huggingface-audio-api/*.test.mjs",
     "genre-collect": "npm --workspace apps/demo run genre-collect",
     "genre-train": "npm --workspace apps/demo run genre-train",
