@@ -17,10 +17,9 @@ test("Gradio Space source contains the portable worker without runtime models", 
     const readme = fs.readFileSync(path.join(output, "README.md"), "utf8");
     assert.match(readme, /sdk: gradio/);
     assert.match(readme, /python_version: 3\.12/);
-    assert.match(
-      fs.readFileSync(path.join(output, "requirements.txt"), "utf8"),
-      /essentia-tensorflow==2\.1b6\.dev1389/,
-    );
+    const requirements = fs.readFileSync(path.join(output, "requirements.txt"), "utf8");
+    assert.match(requirements, /essentia-tensorflow==2\.1b6\.dev1389/);
+    assert.match(requirements, /yt-dlp==2026\.8\.19/);
     assert.ok(fs.existsSync(path.join(output, "app.py")));
     assert.ok(!fs.existsSync(path.join(output, "deploy/huggingface-audio-api/app.py")));
     const app = fs.readFileSync(path.join(output, "app.py"), "utf8");
