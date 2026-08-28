@@ -4,7 +4,7 @@ colorFrom: gray
 colorTo: red
 sdk: gradio
 sdk_version: 6.5.1
-python_version: 3.11
+python_version: "3.11"
 app_file: deploy/huggingface-audio-api/app.py
 pinned: false
 license: other
