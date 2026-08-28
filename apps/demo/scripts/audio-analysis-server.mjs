@@ -1489,7 +1489,9 @@ async function analyzeYouTube(youtubeUrl, options = {}) {
       segmentAudioPaths,
       sampledRanges
     );
-    const gatedGenrePrediction = promoteReliableExternalTrackPrediction(rawGenrePrediction);
+    const gatedGenrePrediction = promoteReliableExternalTrackPrediction(rawGenrePrediction, {
+      vocalEvidence: japaneseVocalEvidence,
+    });
     const trackContract = buildTrackPredictionContract({
       prediction: gatedGenrePrediction,
       sampledRanges,
@@ -1646,7 +1648,9 @@ async function analyzeLocalFile(filePath, options = {}) {
       segmentAudioPaths,
       sampledRanges
     );
-    const gatedGenrePrediction = promoteReliableExternalTrackPrediction(rawGenrePrediction);
+    const gatedGenrePrediction = promoteReliableExternalTrackPrediction(rawGenrePrediction, {
+      vocalEvidence: japaneseVocalEvidence,
+    });
     const trackContract = buildTrackPredictionContract({
       prediction: gatedGenrePrediction,
       sampledRanges,

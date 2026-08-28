@@ -7,6 +7,7 @@ import {
   preserveRequestedPcmSketch,
   promoteReliableExternalTrackPrediction,
   reliableExternalTrackEvidence,
+  reliableExternalRapTrackEvidence,
   summarizeTrackSegmentPredictions,
 } from "./genre-track-sampling.mjs";
 
@@ -150,6 +151,80 @@ test("external promotion rejects uncertain or unstable candidates", () => {
     };
     assert.equal(reliableExternalTrackEvidence(prediction).applies, false);
     assert.equal(promoteReliableExternalTrackPrediction(prediction), prediction);
+  }
+});
+
+test("dense non-Japanese rap consensus overrides a conflicted local rock head", () => {
+  const prediction = {
+    source: "local", method: "local-head",
+    top: [{ label: "ロック", score: 100 }, { label: "パンク", score: 69 }],
+    macro: [{ label: "rock", score: 100 }, { label: "black_music", score: 15 }],
+    inferredGenre: "ロック", confidence: 100, needsReview: true,
+    unknownSourceConsensus: {
+      source: "embedding", method: "source-heldout-model",
+      top: [
+        { label: "トラップ", score: 27.7 },
+        { label: "ヒップホップ", score: 16.4 },
+        { label: "ダブステップ", score: 14.5 },
+      ],
+      macro: [
+        { label: "electronic", score: 83 },
+        { label: "black_music", score: 11 },
+      ],
+      margin: 11.3, evidenceCoverage: 1,
+      segmentAnalysis: {
+        topLabels: ["トラップ", "トラップ", "テクノ", "トラップ"],
+        stability: .767,
+      },
+      modelVersion: "unknown65-exhibition-safe-v1",
+    },
+  };
+  const vocalEvidence = {
+    available: true, sampleCount: 15, transcriptionReliability: 1,
+    detectedLanguage: "en", japaneseVocalLikelihood: 0,
+    vocalPresence: 1, speechRapLikelihood: .7729,
+    melodicVocalLikelihood: .2945, transcriptTokenRate: 4.0547,
+  };
+  const evidence = reliableExternalRapTrackEvidence(prediction, { vocalEvidence });
+  const promoted = promoteReliableExternalTrackPrediction(prediction, { vocalEvidence });
+  assert.equal(evidence.applies, true);
+  assert.equal(evidence.target, "ヒップホップ");
+  assert.equal(promoted.top[0].label, "ヒップホップ");
+  assert.equal(promoted.macro[0].label, "black_music");
+  assert.equal(promoted.trackLocalPrediction.top[0].label, "ロック");
+  assert.equal(promoted.reliableExternalRapPromotion.rapSegmentCount, 3);
+  assert.equal(promoted.needsReview, true);
+});
+
+test("rap gate rejects Japanese, melodic, and weak cross-segment evidence", () => {
+  const base = {
+    top: [{ label: "ロック", score: 90 }],
+    unknownSourceConsensus: {
+      top: [{ label: "トラップ", score: 28 }, { label: "ヒップホップ", score: 17 }],
+      margin: 11, evidenceCoverage: 1,
+      segmentAnalysis: {
+        topLabels: ["トラップ", "トラップ", "テクノ", "トラップ"],
+        stability: .8,
+      },
+    },
+  };
+  const vocal = {
+    available: true, sampleCount: 12, transcriptionReliability: 1,
+    detectedLanguage: "en", japaneseVocalLikelihood: 0,
+    vocalPresence: 1, speechRapLikelihood: .8,
+    melodicVocalLikelihood: .2, transcriptTokenRate: 3,
+  };
+  for (const [predictionPatch, vocalPatch] of [
+    [{}, { detectedLanguage: "ja", japaneseVocalLikelihood: .9 }],
+    [{}, { melodicVocalLikelihood: .7 }],
+    [{ unknownSourceConsensus: { ...base.unknownSourceConsensus, segmentAnalysis: {
+      topLabels: ["トラップ", "ロック", "テクノ", "パンク"], stability: .8,
+    } } }, {}],
+  ]) {
+    const prediction = { ...base, ...predictionPatch };
+    assert.equal(reliableExternalRapTrackEvidence(prediction, {
+      vocalEvidence: { ...vocal, ...vocalPatch },
+    }).applies, false);
   }
 });
 

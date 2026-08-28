@@ -281,9 +281,109 @@ export function reliableExternalTrackEvidence(prediction = {}, options = {}) {
   };
 }
 
+export function reliableExternalRapTrackEvidence(prediction = {}, options = {}) {
+  const external = prediction?.unknownSourceConsensus || {};
+  const vocal = options.vocalEvidence || {};
+  const top = Array.isArray(external.top) ? external.top : [];
+  const score = label => Number(top.find(item => itemLabel(item) === label)?.score || 0);
+  const hiphopScore = score("ヒップホップ");
+  const trapScore = score("トラップ");
+  const rapScore = hiphopScore + trapScore;
+  const segmentLabels = Array.isArray(external.segmentAnalysis?.topLabels)
+    ? external.segmentAnalysis.topLabels
+    : [];
+  const rapSegmentCount = segmentLabels.filter(label => (
+    label === "ヒップホップ" || label === "トラップ"
+  )).length;
+  const detectedLanguage = String(vocal.detectedLanguage || "").toLowerCase();
+  const applies = Boolean(
+    top.length
+    && hiphopScore > 0 && trapScore > 0 && rapScore >= 35
+    && Number(external.margin || 0) >= 8
+    && Number(external.evidenceCoverage ?? 1) >= 1
+    && Number(external.segmentAnalysis?.stability || 0) >= .65
+    && segmentLabels.length >= 4 && rapSegmentCount >= 3
+    && vocal.available === true
+    && Number(vocal.sampleCount || 0) >= 8
+    && Number(vocal.transcriptionReliability || 0) >= .8
+    && detectedLanguage && detectedLanguage !== "ja"
+    && Number(vocal.japaneseVocalLikelihood || 0) <= .1
+    && Number(vocal.vocalPresence || 0) >= .8
+    && Number(vocal.speechRapLikelihood || 0) >= .65
+    && Number(vocal.melodicVocalLikelihood || 0) <= .45
+    && Number(vocal.transcriptTokenRate || 0) >= 2
+  );
+  const preferBroadHipHop = applies
+    && hiphopScore >= trapScore * .5
+    && Number(vocal.speechRapLikelihood || 0) >= .72;
+  return {
+    applies,
+    target: preferBroadHipHop ? "ヒップホップ" : itemLabel(top[0]),
+    hiphopScore: roundSeconds(hiphopScore),
+    trapScore: roundSeconds(trapScore),
+    rapScore: roundSeconds(rapScore),
+    rapSegmentCount,
+    segmentCount: segmentLabels.length,
+    stability: roundSeconds(external.segmentAnalysis?.stability || 0),
+    detectedLanguage,
+    speechRapLikelihood: roundSeconds(vocal.speechRapLikelihood || 0),
+    melodicVocalLikelihood: roundSeconds(vocal.melodicVocalLikelihood || 0),
+    transcriptTokenRate: roundSeconds(vocal.transcriptTokenRate || 0),
+  };
+}
+
+function promoteExternalRapTrackPrediction(prediction, evidence) {
+  const external = prediction.unknownSourceConsensus;
+  const top = (external.top || []).map(item => ({ ...item }));
+  if (evidence.target === "ヒップホップ" && itemLabel(top[0]) === "トラップ") {
+    const hiphopIndex = top.findIndex(item => itemLabel(item) === "ヒップホップ");
+    if (hiphopIndex >= 0) {
+      const firstScore = Number(top[0].score || 0);
+      top[0].score = Number(top[hiphopIndex].score || 0);
+      top[hiphopIndex].score = firstScore;
+      top.sort((a, b) => Number(b.score || 0) - Number(a.score || 0));
+    }
+  }
+  const macro = (external.macro || prediction.macro || []).map(item => ({ ...item }));
+  const blackIndex = macro.findIndex(item => itemLabel(item) === "black_music");
+  if (blackIndex > 0) {
+    const firstScore = Number(macro[0].score || 0);
+    macro[0].score = Number(macro[blackIndex].score || 0);
+    macro[blackIndex].score = firstScore;
+    macro.sort((a, b) => Number(b.score || 0) - Number(a.score || 0));
+  }
+  return {
+    ...prediction,
+    source: external.source || prediction.source,
+    method: `${external.method || "unknown-source-consensus"}+speech-rap-track-gate`,
+    top,
+    macro,
+    inferredGenre: evidence.target,
+    confidence: Number(top[0]?.score || external.confidence || 0),
+    needsReview: true,
+    modelVersion: external.modelVersion || prediction.modelVersion,
+    evidenceCoverage: Number(external.evidenceCoverage ?? prediction.evidenceCoverage ?? 0),
+    trackLocalPrediction: {
+      source: prediction.source || "",
+      method: prediction.method || "",
+      top: (prediction.top || []).slice(0, 5),
+      macro: (prediction.macro || []).slice(0, 4),
+      inferredGenre: prediction.inferredGenre || itemLabel(prediction.top?.[0]),
+      confidence: Number(prediction.confidence || 0),
+      needsReview: Boolean(prediction.needsReview),
+    },
+    reliableExternalRapPromotion: evidence,
+  };
+}
+
 export function promoteReliableExternalTrackPrediction(prediction = {}, options = {}) {
   const evidence = reliableExternalTrackEvidence(prediction, options);
-  if (!evidence.applies) return prediction;
+  if (!evidence.applies) {
+    const rapEvidence = reliableExternalRapTrackEvidence(prediction, options);
+    return rapEvidence.applies
+      ? promoteExternalRapTrackPrediction(prediction, rapEvidence)
+      : prediction;
+  }
   const external = prediction.unknownSourceConsensus;
   const localAudit = {
     source: prediction.source || "",
