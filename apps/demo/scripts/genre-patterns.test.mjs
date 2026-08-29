@@ -42,7 +42,7 @@ export function loadPatternApi({ artistMasters = false } = {}) {
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]);
   const appScript = scripts.at(-1).replace(
     /cleanupStoredSessions\(\);\s*(?:restoreLatestAcceptedSession\(\);\s*)?render\(\);\s*loadCalibratedGenreProfiles\(\);(?:\s*await loadSharedGenreFeedbackModel\(\);)?\s*$/,
-    "globalThis.__patternApi={state,GENRE_INFERENCE_REVISION,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,prepareArtistMasterMotionMarkup,pcmProtectedDataGroupFromBytes,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,hasRichAnalysisParity,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,applyHighTempoRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,bassLedAlternativeDanceRockEvidence,spokenRapBlackMusicEvidence,distributedDanceRockEvidence,postPunkRockConsensusEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,strongExternalCrossHeadEvidence,slowMelodicRockConsensusEvidence,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreAdjustmentFeatureSignature,normaliseGenreAdjustmentLearningRecords,applyGenreAdjustmentLearning,enforceRichAnalysisOutputConsistency,genreVisualWeight,genreDisplayText,genreDetailText,inferMusicGenres,enrichFeaturesWithGenre,storedGenreEvidenceRequiresRichReanalysis,refreshReversibleSoundClothShirt,genreHierarchy:globalThis.SoundFormGenreHierarchy};"
+    "globalThis.__patternApi={state,GENRE_INFERENCE_REVISION,genrePatternProfiles,musicGenreProfiles,terraGenreEngines,terraMotionProfiles,terraMotionProfileForEngine,terraMotionProfileForShirt,centralMotionPrograms,centralMotionProgramForProfile,genreMotionGesture,centralMotionAccent,centralMotionElementTransform,centralMotionPointOffset,terraLogoMeaningProfiles,terraLogoMarkProfile,genreCompositionProgramsByFamily,resolveGenreCompositionVariant,genreArtistMasterVariant,artistMasters:globalThis.__soundFormArtistMasters,resolveGenrePattern,resolveGenreBlend,resolveGenreVisualProfile,resolveTerraGenreEngine,resolveTerraDesignCouncil,generateSoundClothReversibleSvg,makeReversibleAudioPatternShirt,prepareArtistMasterMotionMarkup,pcmProtectedDataGroupFromBytes,pcmPreviewTextureGroupFromDetail,injectPcmGeometryIntoSvg,injectPcmPreviewTextureIntoSvg,decodeProtectedPcmDataFromSvg,modelSol56MlpScores,blendModelSol56Mlp,patternMotionFrameForShirt,patternMotionTransformForPart,patternMotionTransformForElement,vectorPrimitivePathData,deformVisiblePathData,sampledEqualizerSignal,reconstructionMotionDetailFromSamples,bakePatternMotionFrame,sparseGenreEvidence,applySparseGenreEvidence,sparseGenreEvidenceText,normaliseFeatures,hasRichAnalysisParity,genreFeatureVector,genreRuleScore,funkBlackMacroPulseEvidence,macroGenreScore,inferMusicGenresWithRules,inferMusicGenresWithModel,highTempoRockFalsePositiveEvidence,applyHighTempoRockCorrection,electronicBreakdownFalsePositiveEvidence,applyElectronicBreakdownCorrection,operaticVocalEvidence,applyOperaticVocalCorrection,japaneseVocalGenreEvidence,applyJapaneseVocalGenreCorrection,promoteAudioGenreCandidate,applyReggaeDubBoundaryCorrection,modalChamberJazzEvidence,darkOrchestralClassicalEvidence,instrumentalElectronicEvidence,chiptuneTextureEvidence,bassLedAlternativeDanceRockEvidence,spokenRapBlackMusicEvidence,distributedDanceRockEvidence,postPunkRockConsensusEvidence,underrepresentedBoundaryTarget,applyCrossClassifierBoundaryCorrections,applyRawElectronicHipHouseCorrection,applyUnknownSourceGeneralizationCorrections,applyVocalDependentGenreCorrection,strongExternalCrossHeadEvidence,slowMelodicRockConsensusEvidence,applyUnknownSourceConsensus,halfTempoHouseConsensusEvidence,sameMacroRapMajorityEvidence,applyLocalSegmentConsensus,calibratedGenreAnalysis,genreAdjustmentFeatureSignature,normaliseGenreAdjustmentLearningRecords,applyGenreAdjustmentLearning,enforceRichAnalysisOutputConsistency,genreVisualWeight,genreDisplayText,genreDetailText,inferMusicGenres,enrichFeaturesWithGenre,storedGenreEvidenceRequiresRichReanalysis,refreshReversibleSoundClothShirt,genreHierarchy:globalThis.SoundFormGenreHierarchy};"
   );
   const context = {
     console,
@@ -140,6 +140,10 @@ test("public deployment reads a guarded API setting instead of visitor localhost
   assert.match(html, /meta name="sound-form-api-endpoint" content="\/sound-form\/api\/audio-analyze\.php"/);
   assert.match(html, /document\.querySelector\?\.\('meta\[name="sound-form-api-endpoint"\]'/);
   assert.match(html, /if \(publicHost \|\| soundFormPath\) defaults\.push\(configuredPublicEndpoint, "\/sound-form\/api\/audio-analyze\.php"\)/);
+  assert.match(html, /const managedSavedEndpoint = localHost \|\| protocol === "file:"/);
+  assert.match(html, /127\(\?:\\\.\\d\+\)\{3\}.*:4194\\\/api\\\/audio-analyze/);
+  assert.match(html, /\^\\\/sound-form\\\/api\\\/audio-analyze\(\?:\\\.php\)\?/);
+  assert.doesNotMatch(html, /managed \? defaults\.concat\(savedEndpoint\)/);
   assert.match(html, /const retryDelays = \[0, 2000, 4000, 8000, 12000, 16000\]/);
   assert.match(html, /genreInferenceRevision: GENRE_INFERENCE_REVISION/);
   assert.match(html, /const analysisTier = hasRichAnalysisParity\(data\) \? "rich-parity" : "degraded"/);
@@ -670,6 +674,344 @@ test("demo protected PCM particle layer decodes from circle geometry", () => {
   assert.doesNotMatch(layer, /data-index=/);
 });
 
+test("browser preview defers full protected PCM until export without changing decoded bytes", () => {
+  const { makeReversibleAudioPatternShirt, refreshReversibleSoundClothShirt, injectPcmGeometryIntoSvg, decodeProtectedPcmDataFromSvg } = loadPatternApi({ artistMasters: true });
+  const source = Uint8Array.from({ length: 9600 }, (_, index) => (index * 43 + Math.floor(index / 17) * 11) % 256);
+  const detail = {
+    pcmSketch: Buffer.from(source).toString("base64"),
+    pcmSketchEncoding: "mulaw8-base64",
+    pcmSketchDuration: 2.4,
+    pcmSketchSampleRate: 4000,
+    rms: Array.from({ length: 48 }, (_, index) => .5 + Math.sin(index * .2) * .16),
+    bass: Array.from({ length: 48 }, (_, index) => .4 + Math.cos(index * .17) * .12),
+    onset: Array.from({ length: 48 }, (_, index) => index % 6 === 0 ? .84 : .18),
+    waveform: Array.from({ length: 96 }, (_, index) => Math.sin(index * .23) * .62)
+  };
+  const mood = {
+    id: "deferred-pcm-preview",
+    label: "Deferred PCM preview",
+    audioFileName: "deferred.wav",
+    audio: {
+      inferredGenre: "ロック",
+      genreAnalysis: { top: [{ name: "ロック", score: 88 }, { name: "パンク", score: 12 }] },
+      energy: .68, rms: .68, bass: .48, onset: .57, rhythm: .62, brightness: .54, tempo: 126,
+      chroma: Array.from({ length: 12 }, (_, index) => index % 4 === 0 ? .8 : .24),
+      detail
+    }
+  };
+  const shirt = makeReversibleAudioPatternShirt(mood, 1800002800000, { deferProtectedPcm: true });
+
+  assert.equal(shirt.protectedPcmDeferred, true);
+  assert.match(shirt.art, /data-protected-pcm="deferred-until-export"/);
+  assert.match(shirt.art, /id="pcm_preview_texture"[^>]*data-preview-particle-count="6000"/);
+  assert.doesNotMatch(shirt.art, /id="pcm_reversible_data"/);
+  const previewLayer = shirt.art.match(/<g\b[^>]*id="pcm_preview_texture"[^>]*>[\s\S]*?<\/g>/)?.[0] || "";
+  assert.equal((previewLayer.match(/<circle\b/g) || []).length, 6000);
+
+  const refreshed = refreshReversibleSoundClothShirt(shirt);
+  assert.match(refreshed.art, /id="pcm_preview_texture"/);
+  assert.doesNotMatch(refreshed.art, /id="pcm_reversible_data"/);
+
+  const exported = injectPcmGeometryIntoSvg(shirt.art, detail);
+  const decoded = decodeProtectedPcmDataFromSvg(exported);
+  assert.doesNotMatch(exported, /id="pcm_preview_texture"|deferred-until-export/);
+  assert.match(exported, /id="pcm_reversible_data"[^>]*data-frame-count="9600"/);
+  const protectedLayer = exported.match(/<g\b[^>]*id="pcm_reversible_data"[^>]*>[\s\S]*?<\/g>/)?.[0] || "";
+  assert.equal((protectedLayer.match(/<circle\b/g) || []).length, source.length);
+  assert.deepEqual([...Buffer.from(decoded.pcmSketch, "base64")], [...source]);
+  assert.ok(Buffer.byteLength(shirt.art) < Buffer.byteLength(exported) * .75, "preview SVG remains materially smaller than the reversible export");
+});
+
+test("detailed hierarchy changes only visible composition and preserves protected PCM geometry", () => {
+  const {
+    genreHierarchy, resolveGenrePattern, pcmProtectedDataGroupFromBytes, decodeProtectedPcmDataFromSvg
+  } = loadPatternApi();
+  const source = Uint8Array.from({ length: 256 }, (_, index) => (index * 37 + 19) % 256);
+  const analysis = { top: [{ name: "ロック", score: 76 }, { name: "パンク", score: 34 }] };
+  const hierarchy = genreHierarchy.classify({
+    analysis,
+    features: { detailedGenrePrediction: { top: [{ id: "post-punk", score: 84 }] } }
+  });
+  const baseAudio = {
+    inferredGenre: "ロック", genreAnalysis: analysis,
+    energy: .62, rms: .62, bass: .48, onset: .58, rhythm: .67, brightness: .52, tempo: 132, centroid: 2860,
+    chroma: [1, .3, .2, .1, .4, .2, .6, .2, .3, .5, .2, .4]
+  };
+  const hierarchyAudio = { ...baseAudio, genreAnalysis: { ...analysis, hierarchy } };
+  const textureOptions = audio => {
+    const pattern = resolveGenrePattern(audio, 1700);
+    return {
+      seed: 1700,
+      textureMode: pattern.textureMode,
+      textureRegion: pattern.textureRegion,
+      textureShape: pattern.protectedTextureShape
+    };
+  };
+  const baselineProtected = pcmProtectedDataGroupFromBytes(source, 8, 32, textureOptions(baseAudio));
+  const hierarchyProtected = pcmProtectedDataGroupFromBytes(source, 8, 32, textureOptions(hierarchyAudio));
+  const baselineDecoded = decodeProtectedPcmDataFromSvg(`<svg>${baselineProtected}</svg>`);
+  const hierarchyDecoded = decodeProtectedPcmDataFromSvg(`<svg>${hierarchyProtected}</svg>`);
+
+  assert.equal(hierarchy.status, "detailed");
+  assert.equal(hierarchyProtected, baselineProtected);
+  assert.deepEqual(
+    [...Buffer.from(hierarchyDecoded.pcmSketch, "base64")],
+    [...Buffer.from(baselineDecoded.pcmSketch, "base64")]
+  );
+  assert.deepEqual([...Buffer.from(hierarchyDecoded.pcmSketch, "base64")], [...source]);
+});
+
+test("same Rock parent receives distinct lower-genre path topology while protected PCM remains identical", () => {
+  const {
+    genreHierarchy, generateSoundClothReversibleSvg,
+    pcmProtectedDataGroupFromBytes, decodeProtectedPcmDataFromSvg
+  } = loadPatternApi({ artistMasters: true });
+  const source = Uint8Array.from({ length: 192 }, (_, index) => (index * 53 + 11) % 256);
+  const analysis = { top: [{ name: "ロック", score: 82 }, { name: "パンク", score: 28 }] };
+  const hierarchyFor = id => genreHierarchy.classify({
+    analysis,
+    features: { detailedGenrePrediction: { top: [{ id, score: 91 }] } }
+  });
+  const baseAudio = {
+    inferredGenre: "ロック",
+    energy: .7, rms: .7, bass: .54, onset: .68, rhythm: .71, brightness: .61,
+    distortion: .58, sustainRatio: .48, syncopation: .44, breakbeatIrregularity: .62,
+    tempo: 142, centroid: 3180,
+    chroma: [1, .24, .12, .08, .42, .17, .63, .2, .16, .48, .14, .31],
+    detail: {
+      pcmSketch: Buffer.from(source).toString("base64"),
+      pcmSketchEncoding: "mulaw8-base64",
+      pcmSketchSampleRate: 192,
+      pcmSketchDuration: 1,
+      pcmSketchFrameCount: source.length,
+      waveform: Array.from({ length: 96 }, (_, index) => Math.sin(index * .31) * .68)
+    }
+  };
+  const render = detailId => generateSoundClothReversibleSvg({
+    id: "same-rock-audio",
+    label: "same Rock parent",
+    audioFileName: "same-rock.wav",
+    audio: { ...baseAudio, genreAnalysis: { ...analysis, hierarchy: hierarchyFor(detailId) } }
+  }, 1800002600000);
+  const alternative = render("alternative-rock");
+  const postPunk = render("post-punk");
+  const detailPaths = svg => Array.from(svg.matchAll(/<path\b[^>]*data-detail-genre="[^"]+"[^>]*>/g), match => (
+    match[0].match(/\bd="([^"]+)"/)?.[1] || ""
+  )).filter(Boolean);
+  const protectedLayer = pcmProtectedDataGroupFromBytes(source, 1, 192, {
+    textureSeed: 2600,
+    textureMode: "carrier-storm",
+    textureRegion: "fracture",
+    textureShape: "fretboard"
+  });
+  const protectedLayerAgain = pcmProtectedDataGroupFromBytes(source, 1, 192, {
+    textureSeed: 2600,
+    textureMode: "carrier-storm",
+    textureRegion: "fracture",
+    textureShape: "fretboard"
+  });
+  const decodedBytes = Buffer.from(decodeProtectedPcmDataFromSvg(`<svg>${protectedLayer}</svg>`).pcmSketch, "base64");
+
+  assert.match(alternative, /data-detail-genre="alternative-rock"/);
+  assert.match(postPunk, /data-detail-genre="post-punk"/);
+  assert.match(alternative, /data-detail-structure="local-node-dialect-v1"/);
+  assert.match(postPunk, /data-detail-structure="local-node-dialect-v1"/);
+  assert.notEqual(
+    alternative.match(/data-detail-dialect-index="(\d+)"/)?.[1],
+    postPunk.match(/data-detail-dialect-index="(\d+)"/)?.[1]
+  );
+  assert.notEqual(
+    alternative.match(/data-detail-branch-count="(\d+)"/)?.[1],
+    postPunk.match(/data-detail-branch-count="(\d+)"/)?.[1]
+  );
+  assert.notDeepEqual(detailPaths(alternative), detailPaths(postPunk));
+  assert.equal(protectedLayer, protectedLayerAgain);
+  assert.deepEqual([...decodedBytes], [...source]);
+  assert.doesNotMatch(protectedLayer, /transform=|data-detail-genre=/);
+});
+
+test("Rock Top1 selects six song-level composition topologies without changing protected PCM", () => {
+  const {
+    genreHierarchy, generateSoundClothReversibleSvg,
+    pcmProtectedDataGroupFromBytes, decodeProtectedPcmDataFromSvg
+  } = loadPatternApi({ artistMasters: true });
+  const source = Uint8Array.from({ length: 384 }, (_, index) => (index * 61 + 23) % 256);
+  const analysis = { top: [{ name: "ロック", score: 88 }, { name: "パンク", score: 21 }] };
+  const cases = [
+    ["rock", "power-chord-v"],
+    ["alternative-rock", "broken-riff-stack"],
+    ["psychedelic-rock", "feedback-arc"],
+    ["shoegaze", "shoegaze-curtain"],
+    ["indie-rock", "stage-bridge"],
+    ["dance-rock", "syncopated-fret-steps"]
+  ];
+  const render = (detailId, index) => {
+    const hierarchy = genreHierarchy.classify({
+      analysis,
+      features: { detailedGenrePrediction: { top: [{ id: detailId, score: 94 }] } }
+    });
+    return generateSoundClothReversibleSvg({
+      id: `rock-topology-${index}`,
+      label: `Rock ${detailId}`,
+      audioFileName: "rock-topology.wav",
+      audio: {
+        inferredGenre: "ロック",
+        genreAnalysis: { ...analysis, hierarchy },
+        energy: .74, rms: .74, bass: .59, onset: .66, rhythm: .69, brightness: .57,
+        distortion: .62, sustainRatio: .55, syncopation: .48, breakbeatIrregularity: .52,
+        tempo: 136, centroid: 3040,
+        chroma: [1, .2, .14, .08, .5, .18, .68, .24, .16, .46, .14, .32],
+        detail: {
+          pcmSketch: Buffer.from(source).toString("base64"),
+          pcmSketchEncoding: "mulaw8-base64",
+          pcmSketchSampleRate: 384,
+          pcmSketchDuration: 1,
+          pcmSketchFrameCount: source.length,
+          rms: Array.from({ length: 48 }, (_, frame) => .56 + Math.sin(frame * .19) * .18),
+          bass: Array.from({ length: 48 }, (_, frame) => .5 + Math.cos(frame * .17) * .16),
+          onset: Array.from({ length: 48 }, (_, frame) => frame % 6 === 0 ? .9 : .18),
+          waveform: Array.from({ length: 128 }, (_, frame) => Math.sin(frame * .27) * .68)
+        }
+      }
+    }, 1800002610000, { variantSeed: 261 });
+  };
+  const outputs = cases.map(([detailId, expected], index) => {
+    const svg = render(detailId, index);
+    assert.match(svg, new RegExp(`data-rock-composition="${expected}"`));
+    assert.match(svg, /data-rock-structure-revision="song-topology-v1"/);
+    assert.match(svg, /id="artist_master_ロック_song_variant"/);
+    return svg;
+  });
+  const primaryPathSets = outputs.map(svg => {
+    const group = svg.match(/<g id="artist_master_ロック_song_variant"[^>]*>([\s\S]*?)<\/g>/)?.[1] || "";
+    return Array.from(group.matchAll(/<path\b[^>]*\bd="([^"]+)"/g), match => match[1]).join("|");
+  });
+  const protectedLayers = outputs.map(() => pcmProtectedDataGroupFromBytes(source, 1, 384, {
+    textureSeed: 261,
+    textureMode: "impact-fracture",
+    textureRegion: "diagonal",
+    textureShape: "fretboard"
+  }));
+  const decoded = Buffer.from(decodeProtectedPcmDataFromSvg(`<svg>${protectedLayers[0]}</svg>`).pcmSketch, "base64");
+  assert.equal(new Set(cases.map(([, expected]) => expected)).size, cases.length);
+  assert.equal(new Set(primaryPathSets).size, cases.length);
+  assert.ok(primaryPathSets.every(Boolean));
+  assert.equal(new Set(protectedLayers).size, 1);
+  assert.ok(protectedLayers[0].includes("<circle"));
+  assert.deepEqual([...decoded], [...source]);
+});
+
+test("all non-Rock Top1 engines branch into four song-level topology programs", () => {
+  const {
+    terraGenreEngines, genreCompositionProgramsByFamily,
+    resolveGenreCompositionVariant, genreArtistMasterVariant, artistMasters
+  } = loadPatternApi({ artistMasters: true });
+  assert.deepEqual(
+    Object.fromEntries(Object.entries(genreCompositionProgramsByFamily).map(([family, programs]) => [family, programs.length])),
+    {
+      "air-score-space": 4,
+      "signal-grid-machine": 4,
+      "bass-rhythm-resonance": 4,
+      "impact-poster-gesture": 4
+    }
+  );
+  for (const [genre, engine] of Object.entries(terraGenreEngines)) {
+    if (genre === "ロック") continue;
+    const master = artistMasters?.[genre];
+    assert.ok(master, `${genre} artist master`);
+    const modes = new Map();
+    for (let candidate = 0; candidate < 128 && modes.size < 4; candidate += 1) {
+      const audio = {
+        inferredGenre: genre,
+        genreAnalysis: { top: [{ name: genre, score: 92 }] },
+        tempo: 58 + candidate * 3.7,
+        energy: ((candidate * 17 + 11) % 97) / 96,
+        rms: ((candidate * 13 + 19) % 89) / 88,
+        bass: ((candidate * 23 + 7) % 83) / 82,
+        onset: ((candidate * 29 + 5) % 79) / 78,
+        rhythm: ((candidate * 31 + 3) % 73) / 72,
+        brightness: ((candidate * 37 + 2) % 71) / 70,
+        chroma: Array.from({ length: 12 }, (_, index) => ((candidate * 5 + index * 7) % 19) / 18),
+        detail: {
+          rms: Array.from({ length: 12 }, (_, index) => ((candidate + index * 3) % 17) / 16),
+          bass: Array.from({ length: 12 }, (_, index) => ((candidate * 2 + index * 5) % 23) / 22),
+          onset: Array.from({ length: 12 }, (_, index) => (index + candidate) % 4 === 0 ? .92 : .12),
+          waveform: Array.from({ length: 24 }, (_, index) => Math.sin(index * .31 + candidate * .17))
+        }
+      };
+      const resolved = resolveGenreCompositionVariant(genre, engine.id, audio);
+      if (!modes.has(resolved.mode)) modes.set(resolved.mode, { resolved, audio });
+    }
+    assert.equal(modes.size, 4, `${genre} topology modes`);
+    const variants = Array.from(modes.values(), ({ audio }) => genreArtistMasterVariant(master, genre, engine.id, audio));
+    assert.equal(new Set(variants.map(variant => variant.id)).size, 4, `${genre} composition ids`);
+    assert.equal(new Set(variants.map(variant => variant.markup)).size, 4, `${genre} topology markup`);
+    variants.forEach(variant => {
+      assert.doesNotMatch(variant.markup, /pcm_reversible_data|data-byte=|data-index=/);
+      if (variant.mode === "monument") return;
+      assert.match(variant.markup, /data-genre-structure-revision="song-topology-v1"/);
+      assert.ok((variant.markup.match(/<(?:path|rect|circle|ellipse|polygon|polyline|line)\b/g) || []).length >= 4, `${genre} ${variant.mode} primitive count`);
+      assert.equal(
+        variant.markup,
+        genreArtistMasterVariant(master, genre, engine.id, modes.get(variant.mode).audio).markup,
+        `${genre} ${variant.mode} deterministic`
+      );
+    });
+  }
+});
+
+test("audio features choose different provisional visual dialects under the same 32-genre parent", () => {
+  const { genreHierarchy } = loadPatternApi();
+  const analysis = { top: [{ name: "ロック", score: 82 }, { name: "パンク", score: 22 }] };
+  const classify = features => genreHierarchy.classify({ analysis, features, vector: features });
+  const open = classify({
+    energy: .4, onset: .25, rhythm: .3, bass: .35, brightness: .3, distortion: .4,
+    sustainRatio: .8, syncopation: .2, breakbeatIrregularity: .2, fourOnFloor: .2,
+    acousticness: .8, tempo: 75
+  });
+  const impact = classify({
+    energy: .95, onset: .9, rhythm: .78, bass: .72, brightness: .82, distortion: .94,
+    sustainRatio: .28, syncopation: .4, breakbeatIrregularity: .78, fourOnFloor: .2,
+    acousticness: .08, tempo: 178
+  });
+
+  assert.equal(open.status, "parent-only");
+  assert.equal(impact.status, "parent-only");
+  assert.equal(open.parentTop[0].name, "ロック");
+  assert.equal(impact.parentTop[0].name, "ロック");
+  assert.notEqual(open.visualDialect.id, impact.visualDialect.id);
+  assert.notEqual(open.visualDialect.modifierId, impact.visualDialect.modifierId);
+  assert.equal(open.visualDialect.evidence, "audio-visual-dialect");
+  assert.equal(impact.visualDialect.evidence, "audio-visual-dialect");
+});
+
+test("single-parent Jazz inserts a lower-genre dialect surface when no morph surface exists", () => {
+  const { genreHierarchy, generateSoundClothReversibleSvg } = loadPatternApi({ artistMasters: true });
+  const analysis = { top: [{ name: "ジャズ", score: 63 }] };
+  const audio = {
+    inferredGenre: "ジャズ",
+    genreAnalysis: {
+      ...analysis,
+      hierarchy: genreHierarchy.classify({
+        analysis,
+        features: {
+          energy: .42, onset: .31, rhythm: .57, bass: .38, brightness: .62, tempo: 118,
+          detailedGenrePrediction: { top: [{ id: "jazz", score: 91 }] }
+        },
+        vector: { energy: .42, onset: .31, rhythm: .57, bass: .38, brightness: .62, tempo: 118 }
+      })
+    },
+    energy: .42, rms: .42, onset: .31, rhythm: .57, bass: .38, brightness: .62, tempo: 118,
+    chroma: [.7, .2, .35, .1, .5, .22, .6, .18, .44, .16, .52, .3],
+    detail: { waveform: Array.from({ length: 96 }, (_, index) => Math.sin(index * .27) * .51) }
+  };
+  const svg = generateSoundClothReversibleSvg({ id: "single-jazz", label: "Jazz", audioFileName: "jazz.wav", audio }, 1800002700000);
+
+  assert.match(svg, /id="terra_genre_morph_surface"[^>]*data-detail-genre="jazz"/);
+  assert.match(svg, /id="terra_genre_morph_surface"[^>]*data-detail-audio-signature="\d+"/);
+  assert.match(svg, /data-detail-genre="jazz" data-detail-structure="local-node-dialect-v1"/);
+});
+
 test("Terra suppresses unfinished peripheral cells without changing protected PCM semantics", () => {
   const { generateSoundClothReversibleSvg } = loadPatternApi();
   const mood = {
@@ -1022,7 +1364,10 @@ test("production artist-master output changes path coordinates from audio withou
       audio: genreAudio
     }, 1800002300000 + genreIndex);
     const movingCount = (genreSvg.match(/data-coordinate-motion="audio-path-v1"/g) || []).length;
-    assert.ok(movingCount > 0 && movingCount <= 36, `${genreName} coordinate motion count ${movingCount}`);
+    const maximumMovingCount = genreName === "チップチューン" ? 64 : 36;
+    assert.match(genreSvg, /data-genre-composition="[^"]+"/);
+    assert.match(genreSvg, /data-genre-structure-revision="song-topology-v1"/);
+    assert.ok(movingCount > 0 && movingCount <= maximumMovingCount, `${genreName} coordinate motion count ${movingCount}`);
   }
 });
 
@@ -1737,6 +2082,28 @@ test("harmonic rock evidence suppresses black-music false positives across mid a
   });
   assert.equal(correctedDnb.top[0].name, "ロック");
   assert.ok(correctedDnb.top.find(item => item.name === "ドラムンベース").score < 111);
+});
+
+test("reliable external rap promotion cannot be overwritten by the harmonic rock guard", () => {
+  const { applyHighTempoRockCorrection } = loadPatternApi();
+  const analysis = {
+    source: "embedding",
+    method: "reliable-external-rap",
+    needsReview: false,
+    top: [{ name: "ヒップホップ", score: 94 }, { name: "ロック", score: 61 }]
+  };
+  const corrected = applyHighTempoRockCorrection(analysis, {
+    tempo: 161,
+    energy: .88,
+    rhythm: .74,
+    onset: .57,
+    midBandRatio: .36,
+    harmonicRatio: .82,
+    embeddingGenrePrediction: { reliableExternalRapPromotion: { applies: true } }
+  });
+
+  assert.equal(corrected, analysis);
+  assert.equal(corrected.top[0].name, "ヒップホップ");
 });
 
 test("embedding inference also applies the harmonic rock false-positive guard", () => {

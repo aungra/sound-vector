@@ -161,10 +161,16 @@
     ["power-pop", "パワーポップ", "J-POP", "ロック", "impact"]
   ];
 
-  const DETAIL_GENRES = Object.freeze(rows.map(([id, label, primary, secondary, modifier]) => Object.freeze({
-    id, label, primaryVisualGenre: primary, secondaryVisualGenre: secondary || "",
-    system: SYSTEM_BY_VISUAL[primary], modifier: Object.freeze({ ...(MODIFIERS[modifier] || MODIFIERS.open) })
-  })));
+  const DETAIL_GENRES = Object.freeze(rows.map(([id, label, primary, secondary, modifier], rowIndex) => {
+    const siblings = rows.filter(row => row[2] === primary);
+    const dialectIndex = siblings.findIndex(row => row[0] === id);
+    return Object.freeze({
+      id, label, primaryVisualGenre: primary, secondaryVisualGenre: secondary || "",
+      system: SYSTEM_BY_VISUAL[primary], modifierId: modifier,
+      dialectIndex, dialectCount: siblings.length, vocabularyIndex: rowIndex,
+      modifier: Object.freeze({ ...(MODIFIERS[modifier] || MODIFIERS.open) })
+    });
+  }));
   const DETAIL_BY_ID = Object.freeze(Object.fromEntries(DETAIL_GENRES.map(item => [item.id, item])));
   const GENERIC_BY_VISUAL = Object.freeze(Object.fromEntries(DETAIL_GENRES
     .filter(item => item.label === item.primaryVisualGenre)
@@ -228,6 +234,61 @@
     return { ...DETAIL_BY_ID[id], score: clamp(parentScore + 8, 0, 92), evidence: "audio-rule" };
   }
 
+  function stringHash(value) {
+    let hash = 2166136261;
+    for (const character of String(value || "")) {
+      hash ^= character.charCodeAt(0);
+      hash = Math.imul(hash, 16777619);
+    }
+    return hash >>> 0;
+  }
+
+  function visualDialectCandidate(parent, top, features, vector) {
+    const choices = DETAIL_GENRES.filter(item => item.primaryVisualGenre === parent);
+    if (!choices.length) return null;
+    const value = (name, fallback = .5) => {
+      const candidate = metric(vector?.[name], features?.[name]);
+      return Number.isFinite(candidate) ? clamp(candidate) : fallback;
+    };
+    const energy = value("energy");
+    const onset = value("onset");
+    const rhythm = value("rhythm");
+    const bass = value("bass");
+    const brightness = value("brightness");
+    const distortion = value("distortion", .35);
+    const sustain = value("sustainRatio", .5);
+    const syncopation = value("syncopation", rhythm);
+    const irregularity = value("breakbeatIrregularity", onset);
+    const four = value("fourOnFloor", rhythm);
+    const acoustic = value("acousticness", 1 - distortion);
+    const vocal = clamp(metric(features?.japaneseVocalEvidence?.vocalPresence, features?.vocalPresence) || 0);
+    const tempo = clamp((metric(vector?.tempo, features?.tempo) - 55) / 145);
+    const chroma = Array.isArray(features?.chroma) ? features.chroma : [];
+    const chromaPull = chroma.reduce((sum, item, index) => sum + clamp(item) * (index + 1), 0) / 78;
+    const audioSignature = energy * 1.7 + onset * 2.3 + rhythm * 2.9 + bass * 3.7
+      + brightness * 4.1 + distortion * 4.7 + sustain * 5.3 + syncopation * 5.9
+      + irregularity * 6.1 + four * 6.7 + acoustic * 7.1 + vocal * 7.7 + tempo * 8.3 + chromaPull * 9.1;
+    const compatibility = modifierId => {
+      if (modifierId === "pulse") return rhythm * .34 + four * .28 + tempo * .2 + onset * .18;
+      if (modifierId === "broken") return irregularity * .34 + onset * .27 + brightness * .2 + (1 - four) * .19;
+      if (modifierId === "impact") return energy * .31 + distortion * .29 + onset * .25 + bass * .15;
+      if (modifierId === "vocal") return vocal * .36 + sustain * .28 + (1 - irregularity) * .2 + energy * .16;
+      if (modifierId === "cinematic") return sustain * .32 + (1 - four) * .22 + brightness * .18 + energy * .28;
+      if (modifierId === "groove") return syncopation * .31 + rhythm * .27 + bass * .24 + (1 - irregularity) * .18;
+      return acoustic * .25 + sustain * .25 + (1 - onset) * .2 + (1 - distortion) * .16 + (1 - four) * .14;
+    };
+    return choices.map((detail, index) => {
+      const secondaryScore = detail.secondaryVisualGenre
+        ? (top.find(item => item.name === detail.secondaryVisualGenre)?.score || 0) / 100
+        : 0;
+      const identity = stringHash(detail.id) / 0xffffffff;
+      const timbreAffinity = .5 + Math.sin(audioSignature * (1.3 + identity * 2.7) + identity * 19 + index * .73) * .5;
+      const genericPenalty = detail.label === detail.primaryVisualGenre && choices.length > 1 ? .13 : 0;
+      const score = compatibility(detail.modifierId) * .58 + secondaryScore * .24 + timbreAffinity * .18 - genericPenalty;
+      return { ...detail, score, evidence: "audio-visual-dialect" };
+    }).sort((a, b) => b.score - a.score || a.id.localeCompare(b.id))[0];
+  }
+
   function visualBlendFromParents(top, limit = 3) {
     const selected = top.slice(0, limit);
     const total = selected.reduce((sum, item) => sum + item.score, 0) || 1;
@@ -255,6 +316,7 @@
     const external = externalDetailCandidates(features)
       .filter(item => !parent || item.primaryVisualGenre === parent || item.secondaryVisualGenre === parent);
     const ruled = ruleDetailCandidate(parent, parentScore, features, vector);
+    const visualDialect = visualDialectCandidate(parent, top, features, vector);
     const genericId = GENERIC_BY_VISUAL[parent];
     const generic = genericId ? { ...DETAIL_BY_ID[genericId], score: parentScore, evidence: "parent" } : null;
     const candidates = [...external, ...(ruled ? [ruled] : []), ...(generic ? [generic] : [])]
@@ -269,7 +331,7 @@
       ? visualBlendFromDetail(detail)
       : visualBlendFromParents(top);
     return {
-      schemaVersion: 1,
+      schemaVersion: 2,
       vocabularySize: DETAIL_GENRES.length,
       visualCategoryCount: VISUAL_GENRES.length,
       status,
@@ -285,6 +347,17 @@
       })),
       visualBlend,
       visualModifier: detail?.modifier || MODIFIERS.open,
+      visualDialect: visualDialect ? {
+        id: visualDialect.id,
+        label: visualDialect.label,
+        primaryVisualGenre: visualDialect.primaryVisualGenre,
+        secondaryVisualGenre: visualDialect.secondaryVisualGenre,
+        modifierId: visualDialect.modifierId,
+        dialectIndex: visualDialect.dialectIndex,
+        dialectCount: visualDialect.dialectCount,
+        modifier: visualDialect.modifier,
+        evidence: visualDialect.evidence
+      } : null,
       parentTop: top.slice(0, 3),
       source: detailedEvidence ? detail.evidence : "32-parent-fallback"
     };

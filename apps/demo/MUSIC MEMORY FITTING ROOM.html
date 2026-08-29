@@ -1039,7 +1039,7 @@
       return runId;
     }
     function prepareGeneratedPattern(runId) {
-      setGenerationProgress(runId, { percent: 94, label: "可逆PCMと図形を配置", estimate: "あと数秒" });
+      setGenerationProgress(runId, { percent: 94, label: "主図形と軽量PCMプレビューを配置", estimate: "正式PCMは書き出し時に生成" });
       return new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
     }
     function renderGenerationProgress() {
@@ -1107,7 +1107,12 @@
       const defaults = [];
       if (localHost || protocol === "file:") defaults.push("http://127.0.0.1:4194/api/audio-analyze");
       if (publicHost || soundFormPath) defaults.push(configuredPublicEndpoint, "/sound-form/api/audio-analyze.php");
-      return unique((managed ? defaults.concat(savedEndpoint) : [savedEndpoint, configuredPublicEndpoint])
+      const managedSavedEndpoint = localHost || protocol === "file:"
+        ? /^http:\/\/(?:localhost|127(?:\.\d+){3}|\[?::1\]?):4194\/api\/audio-analyze\/?$/i.test(savedEndpoint) ? savedEndpoint : ""
+        : publicHost || soundFormPath
+          ? /^\/sound-form\/api\/audio-analyze(?:\.php)?\/?$/i.test(savedEndpoint) ? savedEndpoint : ""
+          : "";
+      return unique((managed ? defaults.concat(managedSavedEndpoint) : [savedEndpoint, configuredPublicEndpoint])
         .map(normaliseApiEndpoint));
     }
     function apiConfig() {
@@ -1919,6 +1924,44 @@
       const sampleRate = Math.round(bytes.length / duration);
       return pcmProtectedDataGroupFromBytes(bytes, duration, sampleRate, textureOptions);
     }
+    function pcmPreviewTextureGroupFromDetail(detail, targetFrames = 96000, previewCount = 6000, textureOptions = {}) {
+      const source = bytesFromBase64(detail?.pcmSketch || "");
+      if (!source.length || detail?.pcmSketchEncoding !== "mulaw8-base64") return null;
+      const duration = Math.max(1, Math.min(30, Number(detail.pcmSketchDuration) || source.length / Math.max(1, Number(detail.pcmSketchSampleRate) || 11025)));
+      const frameCount = Math.min(source.length, Math.max(1024, Math.min(targetFrames, Math.round(duration * 4000))));
+      const bytes = resampleByteSeries(source, frameCount);
+      const count = Math.max(512, Math.min(bytes.length, Math.round(previewCount) || 6000));
+      const cx = 600;
+      const cy = 610;
+      const radiusX = 492;
+      const radiusY = 438;
+      const textureSeed = normaliseTextureSeed(textureOptions.seed ?? textureOptions.textureSeed ?? 0);
+      const textureMode = normaliseTextureMode(textureOptions.mode || textureOptions.textureMode || "texture-field");
+      const textureRegion = normaliseTextureRegion(textureOptions.region || textureOptions.textureRegion || "full");
+      const textureShape = normaliseProtectedTextureShape(textureOptions.shape || textureOptions.textureShape || "field");
+      const amplitude = 7.6;
+      const particles = Array.from({ length: count }, (_, sampleIndex) => {
+        const index = Math.min(bytes.length - 1, Math.floor(sampleIndex * bytes.length / count));
+        const point = protectedParticleFieldPoint(index, cx, cy, radiusX, radiusY, textureSeed, textureMode, textureRegion, bytes.length, textureShape);
+        const offset = ((bytes[index] - 128) / 127) * amplitude;
+        const px = point.x + point.nx * offset;
+        const py = point.y + point.ny * offset;
+        return `<circle cx="${svgFineNumber(px)}" cy="${svgFineNumber(py)}" r="${svgFineNumber(protectedParticleRadius(index, textureSeed))}" fill="#fff"/>`;
+      });
+      const attrs = [
+        `data-preview-only="true"`,
+        `data-source-encoding="mulaw8-protected-particle-field-v1"`,
+        `data-source-frame-count="${bytes.length}"`,
+        `data-preview-particle-count="${count}"`,
+        `data-texture-seed="${textureSeed}"`,
+        `data-texture-mode="${escapeAttr(textureMode)}"`,
+        `data-texture-region="${escapeAttr(textureRegion)}"`,
+        `data-protected-texture-shape="${escapeAttr(textureShape)}"`,
+        `data-visual-role="pcm-derived-preview-texture"`,
+        `data-export-policy="replace-with-full-protected-pcm"`
+      ].join(" ");
+      return svgGroupWithAttrs("pcm_preview_texture", particles, attrs);
+    }
     function pcmProtectedDataGroupFromBytes(bytes, duration, sampleRate, textureOptions = {}) {
       const cx = 600;
       const cy = 610;
@@ -2319,7 +2362,9 @@
       return { x: x0, y: y0 + height - (p - width * 2 - height), nx: 1, ny: 0 };
     }
     function injectPcmGeometryIntoSvg(svg, detail) {
-      const text = String(svg || "");
+      const text = String(svg || "")
+        .replace(/<g\b[^>]*id=["']pcm_preview_texture["'][^>]*>[\s\S]*?<\/g>\s*/g, "")
+        .replace(/\sdata-protected-pcm=["']deferred-until-export["']/g, "");
       if (!text) return text;
       const protectedGroup = text.match(/<g\b[^>]*id=["']pcm_reversible_data["'][^>]*>[\s\S]*?<\/g>/);
       if (protectedGroup) {
@@ -2332,6 +2377,18 @@
       if (!group) return text;
       const withoutPlaceholder = text.replace(/<g\b[^>]*id=["']pcm_reversible_data["'][\s\S]*?<\/g>\s*/g, "");
       return withoutPlaceholder.replace(/<\/svg>\s*$/, `${group}</svg>`);
+    }
+    function injectPcmPreviewTextureIntoSvg(svg, detail, previewCount = 6000) {
+      const text = String(svg || "")
+        .replace(/<g\b[^>]*id=["']pcm_reversible_data["'][\s\S]*?<\/g>\s*/g, "")
+        .replace(/<g\b[^>]*id=["']pcm_preview_texture["'][^>]*>[\s\S]*?<\/g>\s*/g, "")
+        .replace(/\sdata-protected-pcm=["'][^"']*["']/g, "");
+      if (!text) return text;
+      const group = pcmPreviewTextureGroupFromDetail(detail, 96000, previewCount, textureFieldOptionsFromSvg(text));
+      if (!group) return text;
+      return text
+        .replace(/<svg\b/, '<svg data-protected-pcm="deferred-until-export"')
+        .replace(/<\/svg>\s*$/, `${group}</svg>`);
     }
     function decodeProtectedPcmDataFromSvg(svgText) {
       const groupMatch = String(svgText || "").match(/<g\b[^>]*id=["']pcm_reversible_data["'][^>]*>([\s\S]*?)<\/g>/);
@@ -4994,6 +5051,7 @@
     }
     function applyHighTempoRockCorrection(analysis = {}, features = {}) {
       if (!analysis?.top?.length) return analysis;
+      if (features.embeddingGenrePrediction?.reliableExternalRapPromotion?.applies) return analysis;
       const rockConfusable = new Set([
         "ヒップホップ", "トラップ", "ドラムンベース", "ダブ", "レゲエ", "ソウルミュージック",
         "電子音楽", "テクノ", "ハウス", "トランス", "ダブステップ"
@@ -15868,17 +15926,172 @@
         return `<path d="${morphStaticPathData(pathData, mapPoint)}"${presentation ? ` ${presentation}` : ""}/>`;
       });
     }
+    function structuralDetailDialect(audio = {}) {
+      const hierarchy = audio.genreAnalysis?.hierarchy;
+      if (!hierarchy) return null;
+      if (hierarchy.status === "detailed" && hierarchy.top?.[0]) {
+        const detail = globalThis.SoundFormGenreHierarchy?.DETAIL_GENRES?.find?.(item => item.id === hierarchy.top[0].id);
+        if (detail) return detail;
+      }
+      return hierarchy.visualDialect || null;
+    }
+    function detailDialectAudioSignature(audio = {}) {
+      const detail = audio.detail || {};
+      const sampleSeries = name => {
+        const values = Array.isArray(detail[name]) ? detail[name] : [];
+        if (!values.length) return [];
+        return Array.from({ length: Math.min(8, values.length) }, (_, index) => {
+          const sourceIndex = Math.round(index * (values.length - 1) / Math.max(1, Math.min(8, values.length) - 1));
+          return Math.round((Number(values[sourceIndex]) || 0) * 1000);
+        });
+      };
+      const chroma = (Array.isArray(audio.chroma) ? audio.chroma : []).map(value => Math.round((Number(value) || 0) * 1000));
+      return Math.abs(hashString([
+        Math.round((Number(audio.tempo) || 0) * 10),
+        Math.round(clamp01(audio.energy ?? audio.rms) * 1000),
+        Math.round(clamp01(audio.bass) * 1000),
+        Math.round(clamp01(audio.onset) * 1000),
+        Math.round(clamp01(audio.rhythm ?? audio.onset) * 1000),
+        Math.round(clamp01(audio.brightness) * 1000),
+        ...chroma,
+        ...sampleSeries("rms"),
+        ...sampleSeries("bass"),
+        ...sampleSeries("onset"),
+        ...sampleSeries("waveform")
+      ].join("|")));
+    }
+    function detailDialectTrack(track = null, detail = null, audio = {}, trackIndex = 0) {
+      if (!track?.points?.length || !detail?.id) return track;
+      const points = track.points;
+      const modifier = detail.modifierId || "open";
+      const audioSignature = detailDialectAudioSignature(audio);
+      const signature = Math.abs(hashString(`${detail.id}|${audioSignature}|${trackIndex}`));
+      const period = 3 + signature % 7;
+      const energy = clamp01(audio.energy ?? audio.rms);
+      const onset = clamp01(audio.onset);
+      const rhythm = clamp01(audio.rhythm ?? onset);
+      const amplitudes = { open: 18, pulse: 34, broken: 46, impact: 62, vocal: 28, cinematic: 24, groove: 38 };
+      const amplitude = (amplitudes[modifier] || 24) * (.72 + energy * .2 + onset * .2);
+      const warped = points.map((point, index) => {
+        const previous = points[Math.max(0, index - 1)];
+        const next = points[Math.min(points.length - 1, index + 1)];
+        const dx = next.x - previous.x, dy = next.y - previous.y;
+        const length = Math.hypot(dx, dy) || 1;
+        const nx = -dy / length, ny = dx / length;
+        const progress = index / Math.max(1, points.length - 1);
+        const endpointGuard = track.closed ? 1 : Math.sin(progress * Math.PI);
+        let pulse = 0;
+        if (modifier === "pulse") pulse = index % period === 0 ? 1 : index % period === 1 ? -.34 : .08;
+        else if (modifier === "broken") pulse = ((Math.floor(index / period) + signature) % 2 ? 1 : -.72) * (.45 + (index % period) / period);
+        else if (modifier === "impact") pulse = index % period === 0 ? 1.35 : Math.sin(progress * Math.PI * (3 + signature % 4)) * .28;
+        else if (modifier === "vocal") pulse = Math.sin(progress * Math.PI * (2 + signature % 3) + trackIndex * .8) * (.55 + rhythm * .3);
+        else if (modifier === "cinematic") pulse = Math.sin(progress * Math.PI) * (trackIndex % 2 ? -.72 : .72);
+        else if (modifier === "groove") pulse = ((index + signature) % period < Math.ceil(period * .38) ? .82 : -.28) * (index % 2 ? .72 : 1);
+        else pulse = Math.sin(progress * Math.PI * 2 + signature * .013) * .5 + Math.sin(progress * Math.PI) * .3;
+        const tangentShift = modifier === "groove" ? (((index + signature) % period) / period - .5) * amplitude * .34 : 0;
+        return {
+          x: point.x + nx * pulse * amplitude * endpointGuard + dx / length * tangentShift * endpointGuard,
+          y: point.y + ny * pulse * amplitude * endpointGuard + dy / length * tangentShift * endpointGuard
+        };
+      });
+      const fragmented = modifier === "broken" || modifier === "impact";
+      return {
+        ...track,
+        points: warped,
+        detailId: detail.id,
+        structuralSignature: signature,
+        dialectIndex: Number.isFinite(detail.dialectIndex) ? detail.dialectIndex : signature % 7,
+        modifier,
+        fragmented,
+        period
+      };
+    }
+    function detailDialectPathData(track = null) {
+      if (!track?.points?.length) return "";
+      if (!track.fragmented) return track.closed ? closedMorphPath(track.points) : openMorphPath(track.points);
+      const signature = track.structuralSignature ?? Math.abs(hashString(track.detailId));
+      const segmentCount = 2 + ((track.dialectIndex ?? signature) % 2);
+      const segmentLength = Math.max(3, Math.floor(track.points.length / (segmentCount * 2 - 1)));
+      const phase = signature % Math.max(1, segmentLength - 2);
+      const segments = Array.from({ length: segmentCount }, (_, index) => {
+        const start = Math.min(track.points.length - 3, phase + index * segmentLength * 2);
+        return track.points.slice(start, Math.min(track.points.length, start + segmentLength));
+      });
+      return segments.filter(points => points.length >= 3).map(points => openMorphPath(points)).join(" ");
+    }
+    function detailDialectBranches(tracks = [], detail = null, audio = {}) {
+      const track = tracks[0];
+      if (!track?.points?.length || !detail?.id) return [];
+      const signature = Math.abs(hashString(`${detail.id}|${detailDialectAudioSignature(audio)}`));
+      const modifier = detail.modifierId || "open";
+      const branchBase = modifier === "impact" || modifier === "broken" ? 2 : modifier === "pulse" || modifier === "groove" ? 1 : 0;
+      const branchCount = 1 + branchBase + (((detail.dialectIndex ?? 0) + signature) % 3);
+      return Array.from({ length: branchCount }, (_, index) => {
+        const pointIndex = Math.floor((index + 1) * track.points.length / (branchCount + 1));
+        const point = track.points[pointIndex];
+        const previous = track.points[Math.max(0, pointIndex - 2)];
+        const next = track.points[Math.min(track.points.length - 1, pointIndex + 2)];
+        const dx = next.x - previous.x, dy = next.y - previous.y;
+        const length = Math.hypot(dx, dy) || 1;
+        const direction = (signature >> (index * 2) & 1) ? 1 : -1;
+        const reach = 52 + (signature >> (index * 3) & 63) + clamp01(audio.onset) * 54;
+        const end = { x: point.x - dy / length * reach * direction, y: point.y + dx / length * reach * direction };
+        const elbow = { x: point.x + dx / length * reach * .28, y: point.y + dy / length * reach * .28 };
+        const fork = (detail.dialectIndex + index) % 2 === 0
+          ? { x: end.x + dx / length * reach * .24, y: end.y + dy / length * reach * .24 }
+          : null;
+        return `<path d="${openMorphPath(fork ? [point, elbow, end, fork] : [point, elbow, end])}" fill="none" stroke="#fff" stroke-width="${svgFineNumber(1.8 + clamp01(audio.bass) * 1.6)}" stroke-linecap="round" stroke-linejoin="round" data-feature="detail-structure-branch" data-detail-genre="${escapeAttr(detail.id)}" data-detail-branch-index="${index}" data-detail-branch-grammar="${fork ? "forked" : "direct"}" data-coordinate-motion="audio-path-v1"/>`;
+      });
+    }
+    function detailDialectArtistMarkup(markup = "", bounds = null, detail = null, audio = {}) {
+      if (!bounds || !detail?.id) return markup;
+      const signature = Math.abs(hashString(`${detail.id}|${detailDialectAudioSignature(audio)}`));
+      const modifier = detail.modifierId || "open";
+      const amount = ({ open: 12, pulse: 20, broken: 30, impact: 38, vocal: 18, cinematic: 16, groove: 24 }[modifier] || 16)
+        * (.8 + clamp01(audio.energy ?? audio.rms) * .25);
+      const mapPoint = point => {
+        const u = (point.x - bounds.cx) / bounds.width;
+        const v = (point.y - bounds.cy) / bounds.height;
+        const cell = Math.floor((u + .5) * (3 + signature % 5)) + Math.floor((v + .5) * (4 + signature % 4));
+        const local = modifier === "pulse" ? (cell % 2 ? 1 : -1)
+          : modifier === "broken" || modifier === "impact" ? Math.sign(Math.sin((u * 7 + v * 5) * Math.PI + signature))
+          : modifier === "groove" ? (cell % 3 === 0 ? 1 : -.35)
+          : Math.sin((u * (2 + signature % 3) + v * (3 + signature % 2)) * Math.PI + signature * .01);
+        return { x: point.x + local * amount * v, y: point.y + local * amount * u };
+      };
+      return String(markup || "").replace(/<(path|rect|circle|ellipse|polygon|polyline|line)\b([^>]*)\/?\s*>/gi, (original, tagName, attributeText) => {
+        const attributes = {};
+        for (const match of attributeText.matchAll(/([\w:-]+)=(['"])(.*?)\2/g)) attributes[match[1]] = match[3];
+        const pathData = tagName.toLowerCase() === "path" ? attributes.d : vectorPrimitivePathData(tagName, name => attributes[name]);
+        if (!pathData) return original;
+        const geometryNames = new Set(["d", "x", "y", "width", "height", "rx", "ry", "cx", "cy", "r", "x1", "y1", "x2", "y2", "points"]);
+        const presentation = Array.from(attributeText.matchAll(/([\w:-]+)=(['"])(.*?)\2/g))
+          .filter(match => !geometryNames.has(match[1]))
+          .map(match => `${match[1]}=${match[2]}${match[3]}${match[2]}`).join(" ");
+        return `<path d="${morphStaticPathData(pathData, mapPoint)}"${presentation ? ` ${presentation}` : ""} data-detail-genre="${escapeAttr(detail.id)}" data-detail-structure="local-node-dialect-v1"/>`;
+      });
+    }
+    function detailOnlyArtistMorphBundle(primaryMarkup = "", bounds = null, detail = null, audio = {}) {
+      if (!detail || !bounds) return null;
+      const audioSignature = detailDialectAudioSignature(audio);
+      const primaryMarkupWithDialect = detailDialectArtistMarkup(primaryMarkup, bounds, detail, audio);
+      const surface = `<g id="terra_genre_morph_surface" data-layer="terra_genre_morph_surface" data-genre-fusion="topology-shape-morph-v5" data-detail-genre="${escapeAttr(detail.id)}" data-detail-label="${escapeAttr(detail.label || "")}" data-detail-structure="local-node-dialect-v1" data-detail-dialect-index="${detail.dialectIndex ?? -1}" data-detail-audio-signature="${audioSignature}" data-detail-branch-count="0" data-morph-topologies="direct-primary-warp" data-morph-geometry-policy="artist-primary-local-node-warp" data-fusion-percentage-policy="contiguous-shape-share" data-fusion-size-policy="unified-silhouette" data-visual-role="direct-artist-detail-dialect"></g>`;
+      return { surface, detail, primaryMarkup: primaryMarkupWithDialect };
+    }
     function artistMasterShapeMorphBundle(mood = {}, primaryMarkup = "") {
       const audio = mood.audio || {};
+      const detail = structuralDetailDialect(audio);
       const blend = resolveGenreBlend(audio, hashString(`${mood.id || ""}|artist-shape-morph`), 3)
         .filter(item => globalThis.__soundFormArtistMasters?.[item.genreName]);
-      if (blend.length < 2) return null;
+      if (blend.length < 2 && !detail) return null;
       const primaryAnchors = approvedArtistAnchorPoints(primaryMarkup);
       const targetBounds = artistMorphBounds(primaryAnchors);
       if (!targetBounds) return null;
       const pointCount = 96;
       const outerSignatures = blend.map(item => artistMorphSignature(globalThis.__soundFormArtistMasters[item.genreName], targetBounds, pointCount, .94));
-      if (outerSignatures.some(signature => signature.length !== pointCount)) return null;
+      if (outerSignatures.some(signature => signature.length !== pointCount)) {
+        return detailOnlyArtistMorphBundle(primaryMarkup, targetBounds, detail, audio);
+      }
       const phase = (Math.abs(hashString(`${mood.id || ""}|${blend.map(item => item.genreName).join("|")}`)) % pointCount) / pointCount;
       const transition = clampRange(.018 + (1 - clamp01(audio.onset)) * .045 + clamp01(audio.rhythm) * .008, .018, .07);
       const blendedOuterSignature = Array.from({ length: pointCount }, (_, index) => {
@@ -15890,7 +16103,7 @@
       });
       const topologySets = blend.map(item => artistMorphTopologyTracks(globalThis.__soundFormArtistMasters[item.genreName], targetBounds, 3, pointCount));
       const referenceTracks = topologySets[0] || [];
-      if (!referenceTracks.length) return null;
+      if (!referenceTracks.length) return detailOnlyArtistMorphBundle(primaryMarkup, targetBounds, detail, audio);
       const tracks = referenceTracks.map((reference, trackIndex) => {
         const members = topologySets.map((set, memberIndex) => {
           const candidate = set[trackIndex] || set[set.length - 1] || reference;
@@ -15904,16 +16117,18 @@
             y: value.y + members[member.index].points[index].y * member.amount
           }), { x: 0, y: 0 });
         });
-        return { points, closed: reference.closed };
+        return detailDialectTrack({ points, closed: reference.closed }, detail, audio, trackIndex);
       });
       const shares = blend.map(item => `${escapeAttr(item.genreName)}:${svgFineNumber(item.weight)}`).join("|");
       const common = `fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" data-feature="genre-shape-morph" data-coordinate-motion="audio-path-v1"`;
       const widths = [clampRange(5.6 + clamp01(audio.bass) * 3.8, 5.6, 9.4), 3, 2.2];
       const roles = ["primary-spine", "supporting-rail", "detail-contour"];
-      const paths = tracks.map((track, index) => `<path d="${track.closed ? closedMorphPath(track.points) : openMorphPath(track.points)}" stroke-width="${svgFineNumber(widths[index] || widths.at(-1))}" ${common} data-morph-semantic-role="${roles[index]}" data-morph-topology="${track.closed ? "closed" : "open"}" data-terra-kind="artist-master-morph-${roles[index]}"/>`).join("");
-      const topologies = tracks.map(track => track.closed ? "closed" : "open").join(",");
-      const surface = `<g id="terra_genre_morph_surface" data-layer="terra_genre_morph_surface" data-genre-fusion="topology-shape-morph-v5" data-morph-shares="${shares}" data-morph-point-count="${pointCount}" data-morph-semantic-roles="${roles.slice(0, tracks.length).join(",")}" data-morph-topologies="${topologies}" data-morph-transition-width="${svgFineNumber(transition)}" data-morph-boundary-policy="audio-weighted-topology-interpolation" data-morph-geometry-policy="artist-path-arc-length-tracks" data-fusion-percentage-policy="contiguous-shape-share" data-fusion-size-policy="unified-silhouette" data-visual-role="unified-artist-master-morph">${paths}</g>`;
-      return { surface, primaryMarkup: morphArtistMasterMarkup(primaryMarkup, targetBounds, outerSignatures[0], blendedOuterSignature) };
+      const paths = tracks.map((track, index) => `<path d="${detailDialectPathData(track)}" stroke-width="${svgFineNumber(widths[index] || widths.at(-1))}" ${common} data-morph-semantic-role="${roles[index]}" data-morph-topology="${track.fragmented ? "fragmented" : track.closed ? "closed" : "open"}" data-detail-genre="${escapeAttr(detail?.id || "")}" data-detail-modifier="${escapeAttr(detail?.modifierId || "")}" data-terra-kind="artist-master-morph-${roles[index]}"/>`).join("");
+      const branches = detailDialectBranches(tracks, detail, audio);
+      const topologies = tracks.map(track => track.fragmented ? "fragmented" : track.closed ? "closed" : "open").join(",");
+      const surface = `<g id="terra_genre_morph_surface" data-layer="terra_genre_morph_surface" data-genre-fusion="topology-shape-morph-v5" data-detail-genre="${escapeAttr(detail?.id || "")}" data-detail-label="${escapeAttr(detail?.label || "")}" data-detail-structure="local-node-dialect-v1" data-detail-dialect-index="${detail?.dialectIndex ?? -1}" data-detail-audio-signature="${detailDialectAudioSignature(audio)}" data-detail-branch-count="${branches.length}" data-morph-shares="${shares}" data-morph-point-count="${pointCount}" data-morph-semantic-roles="${roles.slice(0, tracks.length).join(",")}" data-morph-topologies="${topologies}" data-morph-transition-width="${svgFineNumber(transition)}" data-morph-boundary-policy="audio-weighted-topology-interpolation" data-morph-geometry-policy="artist-path-arc-length-tracks" data-fusion-percentage-policy="contiguous-shape-share" data-fusion-size-policy="unified-silhouette" data-visual-role="unified-artist-master-morph">${paths}${branches.join("")}</g>`;
+      const morphedPrimary = morphArtistMasterMarkup(primaryMarkup, targetBounds, outerSignatures[0], blendedOuterSignature);
+      return { surface, detail, primaryMarkup: detailDialectArtistMarkup(morphedPrimary, targetBounds, detail, audio) };
     }
     function artistMorphRecordGroup(groupMarkup = "") {
       let opening = String(groupMarkup || "").match(/^<g\b[^>]*>/)?.[0];
@@ -15943,6 +16158,21 @@
       }
       return `${opening.replace(/>$/, ' data-fusion-anchor-source="artist-master-nodes">')}${sites.join("")}</g>`;
     }
+    function tagArtistMasterMotionSubgroup(markup = "", groupId = "", kindPrefix = "", coordinateMotion = false) {
+      const group = svgGroupMarkupById(markup, groupId);
+      if (!group) return markup;
+      let elementIndex = 0;
+      const replacement = group.replace(/<(path|rect|circle|ellipse|polygon|polyline|line)\b([^>]*)\/?\s*>/gi, original => {
+        const closing = /\/\s*>$/.test(original) ? "/>" : ">";
+        let opening = original.replace(/\/\s*>$|>$/g, "")
+          .replace(/\sdata-terra-kind=(["'])[^"']*\1/g, "")
+          .replace(/\sdata-coordinate-motion=(["'])[^"']*\1/g, "");
+        opening += ` data-terra-kind="${kindPrefix}-${elementIndex++}"`;
+        if (coordinateMotion) opening += ' data-coordinate-motion="audio-path-v1"';
+        return `${opening}${closing}`;
+      });
+      return replaceSvgGroupById(markup, groupId, replacement);
+    }
     function prepareArtistMasterMotionMarkup(markup = "", engineId = "") {
       const source = String(markup || "");
       const elementPattern = /<(path|rect|circle|ellipse|polygon|polyline|line)\b([^>]*)\/?\s*>/gi;
@@ -15959,7 +16189,7 @@
         selected.add(candidates[candidateIndex].index);
       }
       let elementIndex = -1;
-      return source.replace(elementPattern, original => {
+      let prepared = source.replace(elementPattern, original => {
         elementIndex += 1;
         const tagMatch = original.match(/^<([A-Za-z]+)/);
         const tagName = tagMatch?.[1]?.toLowerCase() || "path";
@@ -15971,6 +16201,332 @@
         if (selected.has(elementIndex) && !/\bdata-coordinate-motion=/.test(opening)) opening += ' data-coordinate-motion="audio-path-v1"';
         return `${opening}${closing}`;
       });
+      if (engineId === "terra-chiptune-pixel-v1") {
+        [
+          ["rear_shell", "chiptune-controller-shell", true],
+          ["front_shell", "chiptune-controller-shell", true],
+          ["depth_connectors", "chiptune-controller-depth", true],
+          ["left_controls", "chiptune-controller-left", true],
+          ["right_controls", "chiptune-controller-right", true],
+          ["center_panel", "chiptune-controller-center", true],
+          ["top_triggers", "chiptune-controller-trigger", true]
+        ].forEach(([groupId, kindPrefix, coordinateMotion]) => {
+          prepared = tagArtistMasterMotionSubgroup(prepared, groupId, kindPrefix, coordinateMotion);
+        });
+      }
+      return prepared;
+    }
+    const genreCompositionProgramsByFamily = Object.freeze({
+      "air-score-space": Object.freeze([
+        { id: "score-monument", mode: "monument" },
+        { id: "open-phrase", mode: "phrase" },
+        { id: "rest-islands", mode: "islands" },
+        { id: "counterpoint-bridge", mode: "bridge" }
+      ]),
+      "signal-grid-machine": Object.freeze([
+        { id: "machine-monument", mode: "monument" },
+        { id: "rail-sequence", mode: "phrase" },
+        { id: "cell-break", mode: "islands" },
+        { id: "switchboard-bridge", mode: "bridge" }
+      ]),
+      "bass-rhythm-resonance": Object.freeze([
+        { id: "resonance-monument", mode: "monument" },
+        { id: "pressure-wave", mode: "phrase" },
+        { id: "beat-islands", mode: "islands" },
+        { id: "call-response-bridge", mode: "bridge" }
+      ]),
+      "impact-poster-gesture": Object.freeze([
+        { id: "poster-monument", mode: "monument" },
+        { id: "gesture-fracture", mode: "phrase" },
+        { id: "impact-islands", mode: "islands" },
+        { id: "tension-bridge", mode: "bridge" }
+      ])
+    });
+    function genreCompositionFamily(genre = "") {
+      return genrePatternProfiles[genre]?.patternFamily || "air-score-space";
+    }
+    function resolveGenreCompositionVariant(genre = "", engineId = "", audio = {}) {
+      const engine = terraGenreEngines[genre] || Object.values(terraGenreEngines).find(item => item.id === engineId);
+      const family = genreCompositionFamily(genre);
+      const programs = genreCompositionProgramsByFamily[family] || genreCompositionProgramsByFamily["air-score-space"];
+      const detail = structuralDetailDialect(audio);
+      const audioSignature = detailDialectAudioSignature(audio);
+      const signature = Math.abs(hashString(`${engineId}|${detail?.id || "parent"}|${audioSignature}`));
+      const program = programs[signature % programs.length];
+      return {
+        ...program,
+        id: `${engine?.compositionAlgorithm || engineId || "genre-form"}-${program.id}`,
+        family,
+        detailId: detail?.id || "",
+        audioSignature,
+        signature
+      };
+    }
+    function genreTopologyTrackPath(track = null, family = "", forceOpen = false) {
+      if (!track?.points?.length) return "";
+      const points = track.points;
+      if (family !== "signal-grid-machine") {
+        return !forceOpen && track.closed ? closedMorphPath(points) : openMorphPath(points);
+      }
+      const sampleCount = Math.min(12, Math.max(5, Math.round(points.length / 8)));
+      const sampled = Array.from({ length: sampleCount }, (_, index) => points[Math.round(index * (points.length - 1) / Math.max(1, sampleCount - 1))]);
+      const commands = [`M${svgFineNumber(sampled[0].x)} ${svgFineNumber(sampled[0].y)}`];
+      sampled.slice(1).forEach((point, index) => {
+        const previous = sampled[index];
+        const elbow = index % 2
+          ? { x: point.x, y: previous.y }
+          : { x: previous.x, y: point.y };
+        commands.push(`L${svgFineNumber(elbow.x)} ${svgFineNumber(elbow.y)} L${svgFineNumber(point.x)} ${svgFineNumber(point.y)}`);
+      });
+      if (!forceOpen && track.closed) commands.push("Z");
+      return commands.join(" ");
+    }
+    function genreTopologySegments(track = null, segmentCount = 3, phase = 0) {
+      if (!track?.points?.length) return [];
+      const length = track.points.length;
+      const span = Math.max(5, Math.floor(length / (segmentCount * 2)));
+      return Array.from({ length: segmentCount }, (_, index) => {
+        const start = Math.min(length - 3, (phase + index * span * 2) % Math.max(1, length - 2));
+        return track.points.slice(start, Math.min(length, start + span));
+      }).filter(points => points.length >= 3);
+    }
+    function genreTopologyBridge(a = null, b = null, family = "", index = 0) {
+      if (!a || !b) return "";
+      let middle;
+      if (family === "signal-grid-machine") middle = index % 2 ? { x: a.x, y: b.y } : { x: b.x, y: a.y };
+      else if (family === "bass-rhythm-resonance") middle = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 + (index % 2 ? 54 : -54) };
+      else if (family === "impact-poster-gesture") middle = { x: (a.x + b.x) / 2 + (index % 2 ? 68 : -68), y: (a.y + b.y) / 2 };
+      else middle = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 + (index % 2 ? 26 : -26) };
+      return openMorphPath([a, middle, b]);
+    }
+    function genreArtistMasterElementRecords(markup = "") {
+      const records = [];
+      String(markup || "").replace(/<(path|rect|circle|ellipse|polygon|polyline|line)\b([^>]*)\/?\s*>/gi, (original, tagName) => {
+        const points = approvedArtistAnchorPoints(original);
+        const bounds = artistMorphBounds(points);
+        if (bounds) records.push({ original, tagName: tagName.toLowerCase(), points, bounds, score: Math.hypot(bounds.width, bounds.height) + points.length * 1.5 });
+        return original;
+      });
+      return records;
+    }
+    function genreTopologyElementMarkup(record = null, role = "landmark", index = 0) {
+      if (!record?.original) return "";
+      const closing = /\/\s*>$/.test(record.original) ? "/>" : ">";
+      let opening = record.original.replace(/\/\s*>$|>$/g, "")
+        .replace(/\sdata-feature=(["'])[^"']*\1/g, "")
+        .replace(/\sdata-terra-kind=(["'])[^"']*\1/g, "")
+        .replace(/\sdata-coordinate-motion=(["'])[^"']*\1/g, "");
+      opening += ` data-feature="terra-primary" data-terra-kind="artist-master-genre-topology-${role}-${index}" data-genre-structural-role="${role}" data-coordinate-motion="audio-path-v1"`;
+      return `${opening}${closing}`;
+    }
+    function genreTopologyEvenSelection(records = [], count = 8) {
+      if (records.length <= count) return [...records];
+      const selected = [];
+      for (let index = 0; index < count; index += 1) selected.push(records[Math.round(index * (records.length - 1) / Math.max(1, count - 1))]);
+      return unique(selected);
+    }
+    function genreArtistMasterVariant(markup = "", genre = "", engineId = "", audio = {}) {
+      const composition = resolveGenreCompositionVariant(genre, engineId, audio);
+      if (composition.mode === "monument") return { ...composition, markup };
+      const bounds = artistMorphBounds(approvedArtistAnchorPoints(markup));
+      const records = genreArtistMasterElementRecords(markup);
+      if (!bounds || records.length < 4) return { ...composition, mode: "monument", markup };
+      const family = composition.family;
+      const familyWidths = {
+        "air-score-space": [4.8, 2.8, 2.2],
+        "signal-grid-machine": [7.2, 3.6, 2.4],
+        "bass-rhythm-resonance": [9.2, 4.6, 2.8],
+        "impact-poster-gesture": [11.2, 5.2, 3.2]
+      };
+      const widths = familyWidths[family] || familyWidths["air-score-space"];
+      const path = (d, width, role, index) => d ? `<path d="${d}" fill="none" stroke="#fff" stroke-width="${svgFineNumber(width)}" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" data-feature="terra-primary" data-terra-kind="artist-master-genre-topology-${role}-${index}" data-genre-structural-role="${role}" data-coordinate-motion="audio-path-v1"/>` : "";
+      const parts = [];
+      if (composition.mode === "phrase") {
+        const ordered = [...records].sort((a, b) => family === "signal-grid-machine"
+          ? a.bounds.cy - b.bounds.cy || a.bounds.cx - b.bounds.cx
+          : family === "impact-poster-gesture"
+            ? a.bounds.cx + a.bounds.cy - b.bounds.cx - b.bounds.cy
+            : a.bounds.cx - b.bounds.cx || a.bounds.cy - b.bounds.cy);
+        const selected = genreTopologyEvenSelection(ordered, Math.min(18, Math.max(8, Math.ceil(records.length * .46))));
+        selected.forEach((record, index) => parts.push(genreTopologyElementMarkup(record, "phrase-landmark", index)));
+        if (!new Set(["パンク", "アニメソング", "チップチューン", "ラテン"]).has(genre)) {
+          const routePoints = selected.map(record => ({ x: record.bounds.cx, y: record.bounds.cy }));
+          const route = family === "signal-grid-machine"
+            ? genreTopologyTrackPath({ points: routePoints, closed: false }, family, true)
+            : openMorphPath(routePoints);
+          parts.push(path(route, widths[2], "phrase-route", 0));
+        }
+      } else if (composition.mode === "islands") {
+        const quadrants = Array.from({ length: 4 }, () => []);
+        records.forEach(record => quadrants[(record.bounds.cx >= bounds.cx ? 1 : 0) + (record.bounds.cy >= bounds.cy ? 2 : 0)].push(record));
+        const selected = unique(quadrants.flatMap((group, quadrant) => [...group]
+          .sort((a, b) => b.score - a.score || a.bounds.cx - b.bounds.cx)
+          .slice(0, 2 + ((composition.signature >> quadrant) & 1))));
+        for (const record of [...records].sort((a, b) => b.score - a.score)) {
+          if (selected.length >= Math.min(14, Math.max(8, Math.ceil(records.length * .38)))) break;
+          if (!selected.includes(record)) selected.push(record);
+        }
+        selected.forEach((record, index) => parts.push(genreTopologyElementMarkup(record, "island-landmark", index)));
+      } else {
+        const selected = [...records].sort((a, b) => b.score - a.score)
+          .slice(0, Math.min(16, Math.max(8, Math.ceil(records.length * .42))));
+        selected.forEach((record, index) => parts.push(genreTopologyElementMarkup(record, "bridge-landmark", index)));
+        const bridgeCount = family === "air-score-space" ? 2 : family === "impact-poster-gesture" ? 4 : 3;
+        for (let index = 0; index < bridgeCount; index += 1) {
+          const from = selected[index % selected.length].bounds;
+          const to = selected[(index + Math.max(1, Math.floor(selected.length / 2))) % selected.length].bounds;
+          parts.push(path(genreTopologyBridge({ x: from.cx, y: from.cy }, { x: to.cx, y: to.cy }, family, index), widths[2], "bridge", index));
+        }
+      }
+      if (!parts.length) return { ...composition, mode: "monument", markup };
+      return {
+        ...composition,
+        markup: `<g id="artist_master_${escapeAttr(genre)}_song_variant" data-genre-composition="${escapeAttr(composition.id)}" data-genre-composition-mode="${composition.mode}" data-genre-structure-revision="song-topology-v1" data-genre-audio-signature="${composition.audioSignature}">${parts.join("")}</g>`
+      };
+    }
+    const rockCompositionVariants = Object.freeze([
+      "power-chord-v",
+      "broken-riff-stack",
+      "feedback-arc",
+      "shoegaze-curtain",
+      "stage-bridge",
+      "syncopated-fret-steps"
+    ]);
+    const rockCompositionByDetail = Object.freeze({
+      "rock": "power-chord-v",
+      "hard-rock": "power-chord-v",
+      "alternative-rock": "broken-riff-stack",
+      "post-punk": "broken-riff-stack",
+      "garage-rock": "broken-riff-stack",
+      "psychedelic-rock": "feedback-arc",
+      "shoegaze": "shoegaze-curtain",
+      "indie-rock": "stage-bridge",
+      "britpop": "stage-bridge",
+      "dance-rock": "syncopated-fret-steps"
+    });
+    function resolveRockCompositionVariant(audio = {}) {
+      const detail = structuralDetailDialect(audio);
+      const fixed = rockCompositionByDetail[detail?.id];
+      if (fixed) return fixed;
+      const signature = detailDialectAudioSignature(audio);
+      return rockCompositionVariants[signature % rockCompositionVariants.length];
+    }
+    function rockArtistMasterVariant(audio = {}) {
+      const composition = resolveRockCompositionVariant(audio);
+      const signature = detailDialectAudioSignature(audio);
+      const energy = clamp01(audio.energy ?? audio.rms);
+      const onset = clamp01(audio.onset);
+      const bass = clamp01(audio.bass);
+      const rhythm = clamp01(audio.rhythm ?? onset);
+      const offset = (signature % 41) - 20;
+      const parts = [];
+      const line = (d, width, kind) => `<path d="${d}" fill="none" stroke="#fff" stroke-width="${svgFineNumber(width)}" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" data-feature="terra-primary" data-terra-kind="${kind}" data-rock-structural-role="${kind}"/>`;
+      const fill = (d, kind) => `<path d="${d}" fill="#fff" data-feature="terra-primary" data-terra-kind="${kind}" data-rock-structural-role="${kind}"/>`;
+      const pick = (x, y, scale = 1, kind = "pick-anchor") => fill(`M${svgFineNumber(x - 34 * scale)} ${svgFineNumber(y - 25 * scale)} L${svgFineNumber(x + 37 * scale)} ${svgFineNumber(y - 14 * scale)} L${svgFineNumber(x + 5 * scale)} ${svgFineNumber(y + 45 * scale)} Z`, kind);
+
+      if (composition === "power-chord-v") {
+        const junction = { x: 604 + offset * .45, y: 742 - bass * 38 };
+        const arms = [
+          { x: 172, y: 284 + offset, side: -1 },
+          { x: 1028, y: 248 - offset, side: 1 }
+        ];
+        arms.forEach((arm, armIndex) => {
+          const dx = junction.x - arm.x;
+          const dy = junction.y - arm.y;
+          const length = Math.hypot(dx, dy) || 1;
+          const nx = -dy / length;
+          const ny = dx / length;
+          [-26, -9, 9, 26].forEach((stringOffset, stringIndex) => {
+            parts.push(line(`M${svgFineNumber(arm.x + nx * stringOffset)} ${svgFineNumber(arm.y + ny * stringOffset)} L${svgFineNumber(junction.x + nx * stringOffset * .38)} ${svgFineNumber(junction.y + ny * stringOffset * .38)}`, stringIndex === 1 ? 5.8 : 2.5, `power-chord-string-${armIndex}-${stringIndex}`));
+          });
+          [.28, .57].forEach((t, fretIndex) => {
+            const px = arm.x + dx * t;
+            const py = arm.y + dy * t;
+            parts.push(line(`M${svgFineNumber(px - nx * 39)} ${svgFineNumber(py - ny * 39)} L${svgFineNumber(px + nx * 39)} ${svgFineNumber(py + ny * 39)}`, 3.4, `power-chord-fret-${armIndex}-${fretIndex}`));
+          });
+        });
+        parts.push(line(`M${junction.x - 108} ${junction.y + 88} Q${junction.x} ${junction.y + 24} ${junction.x + 118} ${junction.y + 94}`, 15 + energy * 5, "power-chord-bridge"));
+        parts.push(pick(junction.x, junction.y + 34, 1.12, "power-chord-pick"));
+      } else if (composition === "broken-riff-stack") {
+        const rows = [
+          [178, 294, 496, 350], [642, 250, 1018, 318],
+          [112, 518, 424, 462], [532, 506, 836, 580],
+          [250, 742, 596, 682], [704, 716, 1062, 782]
+        ];
+        rows.forEach(([x1, y1, x2, y2], index) => {
+          const lift = ((signature >> (index % 12)) & 7) - 3;
+          parts.push(line(`M${x1} ${y1 + lift * 4} L${x1 + (x2 - x1) * .42} ${y1 - 24 - lift * 2} L${x2} ${y2 + lift * 3}`, index % 3 === 0 ? 12 : 5.2, `broken-riff-${index}`));
+          if (index % 2 === 0) parts.push(line(`M${x1 + 54} ${y1 + 22} L${x2 - 36} ${y2 + 28}`, 2.6, `broken-riff-shadow-${index}`));
+        });
+        [[426, 350], [612, 506], [596, 682]].forEach(([x, y], index) => {
+          parts.push(line(`M${x - 28} ${y - 54} L${x + 28} ${y + 54}`, 4.2, `broken-riff-fret-${index}`));
+        });
+        parts.push(pick(882 + offset, 612, .9, "broken-riff-pick"));
+      } else if (composition === "feedback-arc") {
+        const centerY = 622 + offset * .45;
+        for (let index = 0; index < 6; index += 1) {
+          const spread = index * 23;
+          const crest = 220 - index * 19 - onset * 34;
+          parts.push(line(`M${120 + spread * .32} ${centerY + spread} C${288 - spread} ${crest} ${816 + spread * .42} ${170 + spread * .35} ${1084 - spread * .2} ${centerY - spread * .42}`, index === 0 ? 13 : 2.3 + index * .45, `feedback-string-${index}`));
+        }
+        parts.push(line(`M230 782 C418 ${720 - rhythm * 60} 714 ${842 + bass * 46} 964 744`, 7.2, "feedback-return-cable"));
+        parts.push(line(`M420 720 L776 720`, 16, "feedback-bridge"));
+        [468, 574, 680].forEach((x, index) => parts.push(line(`M${x} 686 L${x + 18} 752`, 3, `feedback-pickup-${index}`)));
+        parts.push(pick(814, 650 - offset, 1, "feedback-pick"));
+      } else if (composition === "shoegaze-curtain") {
+        const crownY = 260 + offset * .4;
+        parts.push(line(`M126 410 C304 ${crownY - 118} 790 ${crownY - 72} 1072 382`, 14, "shoegaze-crown"));
+        const drops = [176, 286, 402, 526, 654, 790, 924, 1038];
+        drops.forEach((x, index) => {
+          const endY = 720 + ((signature >> (index % 16)) & 7) * 23;
+          const drift = (index % 2 ? 1 : -1) * (28 + rhythm * 34);
+          parts.push(line(`M${x} ${356 + index % 3 * 18} C${x + drift} 502 ${x - drift * .7} 618 ${x + drift * .35} ${endY}`, index === 3 || index === 4 ? 6.8 : 2.7, `shoegaze-string-${index}`));
+        });
+        parts.push(line(`M212 900 C398 842 682 958 1008 868`, 10, "shoegaze-pedal-horizon"));
+        [300, 492, 708, 886].forEach((x, index) => parts.push(line(`M${x - 36} ${872 + index % 2 * 28} L${x + 38} ${860 + index % 2 * 28}`, 3.4, `shoegaze-pedal-${index}`)));
+        parts.push(pick(612 + offset, 836, .78, "shoegaze-pick"));
+      } else if (composition === "stage-bridge") {
+        const cabinets = [
+          { x: 124, y: 520, w: 252, h: 278 },
+          { x: 474, y: 338, w: 254, h: 350 },
+          { x: 824, y: 492, w: 252, h: 294 }
+        ];
+        cabinets.forEach((cabinet, index) => {
+          parts.push(line(`M${cabinet.x} ${cabinet.y} H${cabinet.x + cabinet.w} V${cabinet.y + cabinet.h} H${cabinet.x} Z`, index === 1 ? 11 : 6.2, `stage-cabinet-${index}`));
+          const cx = cabinet.x + cabinet.w / 2;
+          const cy = cabinet.y + cabinet.h * .58;
+          parts.push(line(`M${cx - 58} ${cy} C${cx - 26} ${cy - 62} ${cx + 38} ${cy - 52} ${cx + 62} ${cy + 4} C${cx + 30} ${cy + 66} ${cx - 34} ${cy + 58} ${cx - 58} ${cy} Z`, 3.2, `stage-speaker-${index}`));
+        });
+        parts.push(line(`M142 874 L330 820 L486 900 L676 806 L844 882 L1062 816`, 9 + onset * 5, "stage-cable"));
+        parts.push(line(`M318 278 L744 902`, 15, "stage-guitar-slash"));
+        [0.28, .52, .76].forEach((t, index) => {
+          const x = 318 + (744 - 318) * t;
+          const y = 278 + (902 - 278) * t;
+          parts.push(line(`M${x - 34} ${y + 22} L${x + 34} ${y - 22}`, 3.2, `stage-fret-${index}`));
+        });
+        parts.push(pick(762 + offset, 300, .94, "stage-pick"));
+      } else {
+        const steps = [
+          [138, 314, 328, 314], [328, 314, 328, 448], [328, 448, 548, 448],
+          [548, 448, 548, 612], [548, 612, 782, 612], [782, 612, 782, 796],
+          [782, 796, 1062, 796]
+        ];
+        steps.forEach(([x1, y1, x2, y2], index) => {
+          const kick = index % 2 ? offset * .34 : -offset * .24;
+          parts.push(line(`M${x1 + kick} ${y1} L${x2 + kick} ${y2}`, index % 3 === 0 ? 13 : 5, `fret-step-${index}`));
+          if (index % 2 === 0) parts.push(line(`M${x1 + kick} ${y1 + 24} L${x2 + kick} ${y2 + 24}`, 2.4, `fret-step-string-${index}`));
+        });
+        [[328, 382], [548, 530], [782, 706]].forEach(([x, y], index) => {
+          parts.push(line(`M${x - 38} ${y} L${x + 38} ${y}`, 4, `fret-step-marker-${index}`));
+        });
+        parts.push(line(`M148 914 C358 ${828 - rhythm * 46} 714 ${982 + bass * 36} 1052 900`, 8, "fret-step-cable"));
+        parts.push(pick(636 + offset, 306, 1.05, "fret-step-pick"));
+      }
+
+      return {
+        id: composition,
+        markup: `<g id="artist_master_ロック_song_variant" data-rock-composition="${composition}" data-rock-structure-revision="song-topology-v1" data-rock-audio-signature="${signature}">${parts.join("")}</g>`
+      };
     }
     function applyApprovedArtistMaster(svg, mood = {}) {
       const approved = approvedArtistMasterForMood(mood);
@@ -15979,15 +16535,25 @@
       const surfaceRange = svgGroupRangeById(source, "sound_form_surface");
       if (!surfaceRange) return source;
       const engineId = (source.match(/\bdata-engine=["']([^"']+)["']/) || [])[1] || "terra-fallback-field-v1";
-      const morphBundle = artistMasterShapeMorphBundle(mood, approved.markup);
-      const artistMarkup = prepareArtistMasterMotionMarkup(morphBundle?.primaryMarkup || approved.markup, engineId);
+      const rockVariant = engineId === "terra-rock-fretboard-v2" ? rockArtistMasterVariant(mood.audio || {}) : null;
+      const songVariant = rockVariant || genreArtistMasterVariant(approved.markup, approved.genre, engineId, mood.audio || {});
+      const approvedMarkup = songVariant?.markup || approved.markup;
+      const morphBundle = artistMasterShapeMorphBundle(mood, approvedMarkup);
+      const detail = morphBundle?.detail || structuralDetailDialect(mood.audio || {});
+      const artistMarkup = prepareArtistMasterMotionMarkup(morphBundle?.primaryMarkup || approvedMarkup, engineId);
       const blendIds = unique(Array.from(source.matchAll(/<g\b[^>]*\bid=["'](terra_genre_blend_\d+)["'][^>]*>/g), match => match[1]));
       const opening = surfaceRange.opening.replace(/>$/, ` data-artist-master-revision="illustrator-v2" data-artist-master-genre="${escapeAttr(approved.genre)}">`);
-      const master = `<g id="terra_primary_structure" data-layer="terra_primary_structure" data-visual-role="approved-artist-master" data-genre="${escapeAttr(approved.genre)}" data-terra-engine="${escapeAttr(engineId)}">${artistMarkup}</g>`;
+      const master = `<g id="terra_primary_structure" data-layer="terra_primary_structure" data-visual-role="approved-artist-master" data-genre="${escapeAttr(approved.genre)}" data-detail-genre="${escapeAttr(detail?.id || "")}" data-detail-structure="${detail ? "local-node-dialect-v1" : "none"}" data-genre-composition="${escapeAttr(songVariant?.id || "")}" data-genre-composition-mode="${escapeAttr(songVariant?.mode || (rockVariant ? "rock-dedicated" : "monument"))}" data-genre-structure-revision="song-topology-v1" data-rock-composition="${escapeAttr(rockVariant?.id || "")}" data-rock-structure-revision="${rockVariant ? "song-topology-v1" : ""}" data-terra-engine="${escapeAttr(engineId)}">${artistMarkup}</g>`;
       const morphSurface = morphBundle?.surface || "";
       let surface = source.slice(surfaceRange.start, surfaceRange.end);
       surface = replaceSvgGroupById(surface, "terra_primary_structure", master);
-      if (morphSurface) surface = replaceSvgGroupById(surface, "terra_genre_morph_surface", morphSurface);
+      if (morphSurface) {
+        if (svgGroupRangeById(surface, "terra_genre_morph_surface")) {
+          surface = replaceSvgGroupById(surface, "terra_genre_morph_surface", morphSurface);
+        } else {
+          surface = surface.replace(master, `${master}${morphSurface}`);
+        }
+      }
       blendIds.forEach(id => {
         const blend = svgGroupMarkupById(surface, id);
         surface = replaceSvgGroupById(surface, id, artistMorphRecordGroup(blend));
@@ -15995,7 +16561,7 @@
       const inner = surface.slice(surfaceRange.opening.length, -4);
       const replacement = `${opening}${inner}</g>`;
       return `${source.slice(0, surfaceRange.start)}${replacement}${source.slice(surfaceRange.end)}`
-        .replace(/<svg\b/, `<svg data-artist-master-motion="audio-coordinate-v2" data-coordinate-motion-envelope="dynamic-amplitude-v2" data-artist-master-style="inline-presentation-v1" data-artist-master-revision="illustrator-v2" data-artist-master-genre="${escapeAttr(approved.genre)}"`);
+        .replace(/<svg\b/, `<svg data-artist-master-motion="audio-coordinate-v2" data-coordinate-motion-envelope="dynamic-amplitude-v2" data-artist-master-style="inline-presentation-v1" data-artist-master-revision="illustrator-v2" data-artist-master-genre="${escapeAttr(approved.genre)}" data-detail-genre="${escapeAttr(detail?.id || "")}" data-detail-label="${escapeAttr(detail?.label || "")}" data-detail-structure="${detail ? "local-node-dialect-v1" : "none"}" data-genre-composition="${escapeAttr(songVariant?.id || "")}" data-genre-composition-mode="${escapeAttr(songVariant?.mode || (rockVariant ? "rock-dedicated" : "monument"))}" data-genre-structure-revision="song-topology-v1" data-rock-composition="${escapeAttr(rockVariant?.id || "")}" data-rock-structure-revision="${rockVariant ? "song-topology-v1" : ""}"`);
     }
     function generateSoundClothReversibleSvg(mood, tick = Date.now(), settings = null) {
       const generated = invertPrintSvgColors(generateTerra56SoundSvg(mood, tick, settings))
@@ -16832,7 +17398,7 @@
 
       return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="${escapeAttr(mood.label)} reversible audio pattern">${metadata.join("")}${svgGroup("pcm_visible_time_lanes", visible)}${svgGroup("pcm_orbit_contours", rings)}${svgGroup("onset_attack_marks", attacks)}${svgGroup("chroma_harmonic_rays", harmonic)}${svgGroup("pcm_texture_field", texture)}</svg>`;
     }
-    function makeReversibleAudioPatternShirt(mood, tick = Date.now()) {
+    function makeReversibleAudioPatternShirt(mood, tick = Date.now(), options = {}) {
       const audio = mood.audio || null;
       const isYouTube = Boolean(mood.youtubeUrl);
       const detail = normaliseAudioDetail(audio?.detail || {}, audio || {});
@@ -16845,7 +17411,10 @@
       const fixedMood = { ...mood, variantSalt: 0 };
       const fixedSettings = { variantSeed: songSeed, variantSalt: 0, iteration: "song-specific" };
       const rawArt = generateReversibleAudioPatternSvg(fixedMood, songSeed, fixedSettings);
-      const art = injectPcmGeometryIntoSvg(rawArt, detail);
+      const protectedPcmDeferred = options.deferProtectedPcm === true;
+      const art = protectedPcmDeferred
+        ? injectPcmPreviewTextureIntoSvg(rawArt, detail)
+        : injectPcmGeometryIntoSvg(rawArt, detail);
       const payload = buildReversiblePayload(fixedMood, songSeed, {
         id,
         title,
@@ -16865,6 +17434,7 @@
         tags: unique(["可逆", "YouTube解析", "PCM"].concat(mood.tags || []).concat(audio?.inferredStyle ? [audio.inferredStyle] : []).concat(audio?.genreAnalysis?.top?.map(item => item.name) || [])).slice(0, 10),
         image: "",
         art,
+        protectedPcmDeferred,
         generated: true,
         moodId: mood.id,
         engineId,
@@ -17850,11 +18420,18 @@
       const protectedPattern = /<g\b[^>]*id=["']pcm_reversible_data["'][^>]*>[\s\S]*?<\/g>/;
       const previousProtectedPcm = String(shirt.art || "").match(protectedPattern)?.[0] || "";
       const previousHasPcm = /<line\b|<path\b|<circle\b/.test(previousProtectedPcm);
+      const deferProtectedPcm = shirt.protectedPcmDeferred === true;
       const art = previousHasPcm
         ? preserveProtectedPcmGeometry(shirt.art, rawArt)
-        : injectPcmGeometryIntoSvg(rawArt, originalFeatures.detail || {});
+        : deferProtectedPcm
+          ? injectPcmPreviewTextureIntoSvg(rawArt, originalFeatures.detail || {})
+          : injectPcmGeometryIntoSvg(rawArt, originalFeatures.detail || {});
       const adjustedProtectedPcm = String(art || "").match(protectedPattern)?.[0] || "";
-      if (!adjustedProtectedPcm || !/<line\b|<path\b|<circle\b/.test(adjustedProtectedPcm)) {
+      const adjustedPreviewPcm = String(art || "").match(/<g\b[^>]*id=["']pcm_preview_texture["'][^>]*>[\s\S]*?<\/g>/)?.[0] || "";
+      if (deferProtectedPcm && !/<circle\b/.test(adjustedPreviewPcm)) {
+        throw new Error("保護PCMの軽量プレビューを維持できないため調整を中止しました。");
+      }
+      if (!deferProtectedPcm && (!adjustedProtectedPcm || !/<line\b|<path\b|<circle\b/.test(adjustedProtectedPcm))) {
         throw new Error("保護PCMを維持できないため調整を中止しました。元音源から再生成してください。");
       }
       if (previousHasPcm && adjustedProtectedPcm !== previousProtectedPcm) {
@@ -18146,7 +18723,7 @@
       const mood = createYouTubeMood(youtubeUrl, features);
       mood.variantSalt = state.variantSalt = 0;
       const tick = songSpecificSoundFormSeed(mood, features, normaliseAudioDetail(features.detail || {}, features), "ui-youtube-song-v1");
-      const generatedShirt = makeReversibleAudioPatternShirt(mood, tick);
+      const generatedShirt = makeReversibleAudioPatternShirt(mood, tick, { deferProtectedPcm: true });
       const session = {
         id: crypto.randomUUID(),
         answers: { youtubeUrl, originalYoutubeUrl: input, videoId, startSeconds: link.startSeconds, engine: "youtube_reversible" },
@@ -18212,7 +18789,7 @@
       const mood = createUploadedMood(file.name, features);
       mood.variantSalt = state.variantSalt = 0;
       const tick = songSpecificSoundFormSeed(mood, features, normaliseAudioDetail(features.detail || {}, features), "ui-upload-song-v1");
-      const generatedShirt = makeReversibleAudioPatternShirt(mood, tick);
+      const generatedShirt = makeReversibleAudioPatternShirt(mood, tick, { deferProtectedPcm: true });
       const session = {
         id: crypto.randomUUID(),
         answers: { audioFileName: file.name, engine: "audio_reversible" },
@@ -18983,6 +19560,9 @@
       if (storedGenreEvidenceRequiresRichReanalysis(shirt.audioFeatures)) {
         return invalidateDegradedStoredGenreEvidence(shirt);
       }
+      const applyProtectedPcmForDisplay = svg => shirt.protectedPcmDeferred
+        ? injectPcmPreviewTextureIntoSvg(svg, shirt.audioFeatures?.detail || {})
+        : injectPcmGeometryIntoSvg(svg, shirt.audioFeatures?.detail || {});
       let genreUpdated = false;
       if (shirt.genreInferenceRevision !== GENRE_INFERENCE_REVISION && state.genreModel) {
         shirt.audioFeatures = enrichFeaturesWithGenre(shirt.audioFeatures);
@@ -19018,7 +19598,7 @@
           const previousProtectedPcm = String(shirt.art || "").match(/<g\b[^>]*id=["']pcm_reversible_data["'][^>]*>[\s\S]*?<\/g>/)?.[0] || "";
           shirt.art = /<line\b|<path\b|<circle\b/.test(previousProtectedPcm)
             ? preserveProtectedPcmGeometry(shirt.art, regeneratedArt)
-            : injectPcmGeometryIntoSvg(regeneratedArt, shirt.audioFeatures?.detail || {});
+            : applyProtectedPcmForDisplay(regeneratedArt);
           if (genreUpdated) {
             const genreText = genreRankedText(shirt.audioFeatures.genreAnalysis, 3);
             shirt.externalNote = `song-specific / seed ${tick.toString(36)} / genre ${genreText}`;
@@ -19026,7 +19606,7 @@
           }
           return shirt;
         }
-        shirt.art = injectPcmGeometryIntoSvg(shirt.art, shirt.audioFeatures?.detail || {});
+        shirt.art = applyProtectedPcmForDisplay(shirt.art);
         return shirt;
       }
       const tick = Number(shirt.variantSeed || Date.now());
@@ -19042,7 +19622,7 @@
         audio: shirt.audioFeatures,
         variantSalt: Number(shirt.variantSeed || 0)
       };
-      shirt.art = injectPcmGeometryIntoSvg(generateReversibleAudioPatternSvg(mood, tick, null), shirt.audioFeatures?.detail || {});
+      shirt.art = applyProtectedPcmForDisplay(generateReversibleAudioPatternSvg(mood, tick, null));
       shirt.engineLabel = shirt.youtubeUrl ? "YouTube Reversible Sound Form" : "Audio Reversible Sound Form";
       shirt.description = "YouTube音声の解析結果から、Terra 5.6の黒地に白一色の可逆サウンドフォームへ更新したパターンです。曲ごとの音響指紋と推定ジャンルによって、主構造、余白、粒子地紋、散布方向が決まります。";
       shirt.stockNote = "旧生成結果を表示時にTERRA 5.6へ更新しました。復元性は保護PCMレイヤーで維持します。";
