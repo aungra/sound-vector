@@ -21,6 +21,8 @@ const requiredMarkers = [
   "pcm_preview_texture",
   "deferProtectedPcm: true",
   "genreCompositionProgramsByFamily",
+  'data-sound-form-inline="genre-hierarchy-v2"',
+  "audio-visual-dialect",
   "data-genre-composition",
   "song-topology-v1"
 ];

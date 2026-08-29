@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(SCRIPT_DIR, "../../..");
 const HTML_PATH = path.join(ROOT, "apps", "demo", "MUSIC MEMORY FITTING ROOM.html");
+const GENRE_HIERARCHY_PATH = path.join(ROOT, "apps", "demo", "genre-hierarchy.js");
 const OUTPUT_PATH = path.resolve(process.argv[2] || path.join(ROOT, "output", "public", "sound-form", "index.html"));
 const APPROVED_UI_REF = process.env.SOUND_FORM_APPROVED_UI_REF || "c6ce4a3";
 
@@ -63,7 +64,15 @@ const approved = execFileSync("git", ["show", `${APPROVED_UI_REF}:apps/demo/MUSI
   maxBuffer: 64 * 1024 * 1024
 });
 const working = fs.readFileSync(HTML_PATH, "utf8");
+const genreHierarchy = fs.readFileSync(GENRE_HIERARCHY_PATH, "utf8");
 let merged = approved;
+
+merged = replaceOnce(
+  merged,
+  '<script src="genre-hierarchy.js?v=hierarchy-120-v1"></script>',
+  `<script data-sound-form-inline="genre-hierarchy-v2">\n${genreHierarchy}\n</script>`,
+  "inline genre hierarchy"
+);
 
 merged = merged.replace(
   "可逆PCMと図形を配置",
@@ -151,6 +160,8 @@ const requiredMarkers = [
   "pcm_preview_texture",
   "deferProtectedPcm: true",
   "genreCompositionProgramsByFamily",
+  'data-sound-form-inline="genre-hierarchy-v2"',
+  "audio-visual-dialect",
   "data-genre-composition",
   "song-topology-v1",
   'id="pcm_reversible_data"'
