@@ -1039,7 +1039,7 @@
       return runId;
     }
     function prepareGeneratedPattern(runId) {
-      setGenerationProgress(runId, { percent: 94, label: "可逆PCMと図形を配置", estimate: "あと数秒" });
+      setGenerationProgress(runId, { percent: 94, label: "主図形と軽量PCMプレビューを配置", estimate: "正式PCMは書き出し時に生成" });
       return new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
     }
     function renderGenerationProgress() {
@@ -1107,7 +1107,12 @@
       const defaults = [];
       if (localHost || protocol === "file:") defaults.push("http://127.0.0.1:4194/api/audio-analyze");
       if (publicHost || soundFormPath) defaults.push(configuredPublicEndpoint, "/sound-form/api/audio-analyze.php");
-      return unique((managed ? defaults.concat(savedEndpoint) : [savedEndpoint, configuredPublicEndpoint])
+      const managedSavedEndpoint = localHost || protocol === "file:"
+        ? /^http:\/\/(?:localhost|127(?:\.\d+){3}|\[?::1\]?):4194\/api\/audio-analyze\/?$/i.test(savedEndpoint) ? savedEndpoint : ""
+        : publicHost || soundFormPath
+          ? /^\/sound-form\/api\/audio-analyze(?:\.php)?\/?$/i.test(savedEndpoint) ? savedEndpoint : ""
+          : "";
+      return unique((managed ? defaults.concat(managedSavedEndpoint) : [savedEndpoint, configuredPublicEndpoint])
         .map(normaliseApiEndpoint));
     }
     function apiConfig() {
@@ -1919,6 +1924,44 @@
       const sampleRate = Math.round(bytes.length / duration);
       return pcmProtectedDataGroupFromBytes(bytes, duration, sampleRate, textureOptions);
     }
+    function pcmPreviewTextureGroupFromDetail(detail, targetFrames = 96000, previewCount = 6000, textureOptions = {}) {
+      const source = bytesFromBase64(detail?.pcmSketch || "");
+      if (!source.length || detail?.pcmSketchEncoding !== "mulaw8-base64") return null;
+      const duration = Math.max(1, Math.min(30, Number(detail.pcmSketchDuration) || source.length / Math.max(1, Number(detail.pcmSketchSampleRate) || 11025)));
+      const frameCount = Math.min(source.length, Math.max(1024, Math.min(targetFrames, Math.round(duration * 4000))));
+      const bytes = resampleByteSeries(source, frameCount);
+      const count = Math.max(512, Math.min(bytes.length, Math.round(previewCount) || 6000));
+      const cx = 600;
+      const cy = 610;
+      const radiusX = 492;
+      const radiusY = 438;
+      const textureSeed = normaliseTextureSeed(textureOptions.seed ?? textureOptions.textureSeed ?? 0);
+      const textureMode = normaliseTextureMode(textureOptions.mode || textureOptions.textureMode || "texture-field");
+      const textureRegion = normaliseTextureRegion(textureOptions.region || textureOptions.textureRegion || "full");
+      const textureShape = normaliseProtectedTextureShape(textureOptions.shape || textureOptions.textureShape || "field");
+      const amplitude = 7.6;
+      const particles = Array.from({ length: count }, (_, sampleIndex) => {
+        const index = Math.min(bytes.length - 1, Math.floor(sampleIndex * bytes.length / count));
+        const point = protectedParticleFieldPoint(index, cx, cy, radiusX, radiusY, textureSeed, textureMode, textureRegion, bytes.length, textureShape);
+        const offset = ((bytes[index] - 128) / 127) * amplitude;
+        const px = point.x + point.nx * offset;
+        const py = point.y + point.ny * offset;
+        return `<circle cx="${svgFineNumber(px)}" cy="${svgFineNumber(py)}" r="${svgFineNumber(protectedParticleRadius(index, textureSeed))}" fill="#fff"/>`;
+      });
+      const attrs = [
+        `data-preview-only="true"`,
+        `data-source-encoding="mulaw8-protected-particle-field-v1"`,
+        `data-source-frame-count="${bytes.length}"`,
+        `data-preview-particle-count="${count}"`,
+        `data-texture-seed="${textureSeed}"`,
+        `data-texture-mode="${escapeAttr(textureMode)}"`,
+        `data-texture-region="${escapeAttr(textureRegion)}"`,
+        `data-protected-texture-shape="${escapeAttr(textureShape)}"`,
+        `data-visual-role="pcm-derived-preview-texture"`,
+        `data-export-policy="replace-with-full-protected-pcm"`
+      ].join(" ");
+      return svgGroupWithAttrs("pcm_preview_texture", particles, attrs);
+    }
     function pcmProtectedDataGroupFromBytes(bytes, duration, sampleRate, textureOptions = {}) {
       const cx = 600;
       const cy = 610;
@@ -2319,7 +2362,9 @@
       return { x: x0, y: y0 + height - (p - width * 2 - height), nx: 1, ny: 0 };
     }
     function injectPcmGeometryIntoSvg(svg, detail) {
-      const text = String(svg || "");
+      const text = String(svg || "")
+        .replace(/<g\b[^>]*id=["']pcm_preview_texture["'][^>]*>[\s\S]*?<\/g>\s*/g, "")
+        .replace(/\sdata-protected-pcm=["']deferred-until-export["']/g, "");
       if (!text) return text;
       const protectedGroup = text.match(/<g\b[^>]*id=["']pcm_reversible_data["'][^>]*>[\s\S]*?<\/g>/);
       if (protectedGroup) {
@@ -2332,6 +2377,18 @@
       if (!group) return text;
       const withoutPlaceholder = text.replace(/<g\b[^>]*id=["']pcm_reversible_data["'][\s\S]*?<\/g>\s*/g, "");
       return withoutPlaceholder.replace(/<\/svg>\s*$/, `${group}</svg>`);
+    }
+    function injectPcmPreviewTextureIntoSvg(svg, detail, previewCount = 6000) {
+      const text = String(svg || "")
+        .replace(/<g\b[^>]*id=["']pcm_reversible_data["'][\s\S]*?<\/g>\s*/g, "")
+        .replace(/<g\b[^>]*id=["']pcm_preview_texture["'][^>]*>[\s\S]*?<\/g>\s*/g, "")
+        .replace(/\sdata-protected-pcm=["'][^"']*["']/g, "");
+      if (!text) return text;
+      const group = pcmPreviewTextureGroupFromDetail(detail, 96000, previewCount, textureFieldOptionsFromSvg(text));
+      if (!group) return text;
+      return text
+        .replace(/<svg\b/, '<svg data-protected-pcm="deferred-until-export"')
+        .replace(/<\/svg>\s*$/, `${group}</svg>`);
     }
     function decodeProtectedPcmDataFromSvg(svgText) {
       const groupMatch = String(svgText || "").match(/<g\b[^>]*id=["']pcm_reversible_data["'][^>]*>([\s\S]*?)<\/g>/);
@@ -16833,7 +16890,7 @@
 
       return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-label="${escapeAttr(mood.label)} reversible audio pattern">${metadata.join("")}${svgGroup("pcm_visible_time_lanes", visible)}${svgGroup("pcm_orbit_contours", rings)}${svgGroup("onset_attack_marks", attacks)}${svgGroup("chroma_harmonic_rays", harmonic)}${svgGroup("pcm_texture_field", texture)}</svg>`;
     }
-    function makeReversibleAudioPatternShirt(mood, tick = Date.now()) {
+    function makeReversibleAudioPatternShirt(mood, tick = Date.now(), options = {}) {
       const audio = mood.audio || null;
       const isYouTube = Boolean(mood.youtubeUrl);
       const detail = normaliseAudioDetail(audio?.detail || {}, audio || {});
@@ -16846,7 +16903,10 @@
       const fixedMood = { ...mood, variantSalt: 0 };
       const fixedSettings = { variantSeed: songSeed, variantSalt: 0, iteration: "song-specific" };
       const rawArt = generateReversibleAudioPatternSvg(fixedMood, songSeed, fixedSettings);
-      const art = injectPcmGeometryIntoSvg(rawArt, detail);
+      const protectedPcmDeferred = options.deferProtectedPcm === true;
+      const art = protectedPcmDeferred
+        ? injectPcmPreviewTextureIntoSvg(rawArt, detail)
+        : injectPcmGeometryIntoSvg(rawArt, detail);
       const payload = buildReversiblePayload(fixedMood, songSeed, {
         id,
         title,
@@ -16859,13 +16919,14 @@
         id,
         creatorId: "audio-pattern-generator",
         title,
-        description: `YouTube音声の解析結果から、曲ごとに図形を生成します。RMS推移、onset分布、chroma、波形に加え、Wikipediaの音楽ジャンル一覧を基にした推定ジャンル（${genreText}${styleText}）を粒子密度と余白へ反映します。`,
+        description: `YouTube音声の解析結果から、曲ごとに固有の黒地に白一色の可逆エアロゾル粒子フォームを生成します。RMS推移、onset分布、chroma重心、波形断片に加え、Wikipediaの音楽ジャンル一覧を基にした推定ジャンル（${genreText}${styleText}）を粒子密度と余白へ反映します。`,
         location: "Generated / Reversible Pattern",
         price: "参考生成",
-        stockNote: "別パターン生成は行いません。同じ曲は音響指紋から同じ図案へ固定し、違う曲では違う音響指紋そのものが変わるため構図も変化します。音の復元性はPCM粒子で維持します。",
+        stockNote: "別パターン生成は行いません。同じ曲は同じ音響指紋から同じ図案へ固定し、違う曲では音響指紋そのものが変わるため構図も変化します。音の復元性は保護PCMレイヤーで維持します。",
         tags: unique(["可逆", "YouTube解析", "PCM"].concat(mood.tags || []).concat(audio?.inferredStyle ? [audio.inferredStyle] : []).concat(audio?.genreAnalysis?.top?.map(item => item.name) || [])).slice(0, 10),
         image: "",
         art,
+        protectedPcmDeferred,
         generated: true,
         moodId: mood.id,
         engineId,
@@ -17851,11 +17912,18 @@
       const protectedPattern = /<g\b[^>]*id=["']pcm_reversible_data["'][^>]*>[\s\S]*?<\/g>/;
       const previousProtectedPcm = String(shirt.art || "").match(protectedPattern)?.[0] || "";
       const previousHasPcm = /<line\b|<path\b|<circle\b/.test(previousProtectedPcm);
+      const deferProtectedPcm = shirt.protectedPcmDeferred === true;
       const art = previousHasPcm
         ? preserveProtectedPcmGeometry(shirt.art, rawArt)
-        : injectPcmGeometryIntoSvg(rawArt, originalFeatures.detail || {});
+        : deferProtectedPcm
+          ? injectPcmPreviewTextureIntoSvg(rawArt, originalFeatures.detail || {})
+          : injectPcmGeometryIntoSvg(rawArt, originalFeatures.detail || {});
       const adjustedProtectedPcm = String(art || "").match(protectedPattern)?.[0] || "";
-      if (!adjustedProtectedPcm || !/<line\b|<path\b|<circle\b/.test(adjustedProtectedPcm)) {
+      const adjustedPreviewPcm = String(art || "").match(/<g\b[^>]*id=["']pcm_preview_texture["'][^>]*>[\s\S]*?<\/g>/)?.[0] || "";
+      if (deferProtectedPcm && !/<circle\b/.test(adjustedPreviewPcm)) {
+        throw new Error("保護PCMの軽量プレビューを維持できないため調整を中止しました。");
+      }
+      if (!deferProtectedPcm && (!adjustedProtectedPcm || !/<line\b|<path\b|<circle\b/.test(adjustedProtectedPcm))) {
         throw new Error("保護PCMを維持できないため調整を中止しました。元音源から再生成してください。");
       }
       if (previousHasPcm && adjustedProtectedPcm !== previousProtectedPcm) {
@@ -18147,7 +18215,7 @@
       const mood = createYouTubeMood(youtubeUrl, features);
       mood.variantSalt = state.variantSalt = 0;
       const tick = songSpecificSoundFormSeed(mood, features, normaliseAudioDetail(features.detail || {}, features), "ui-youtube-song-v1");
-      const generatedShirt = makeReversibleAudioPatternShirt(mood, tick);
+      const generatedShirt = makeReversibleAudioPatternShirt(mood, tick, { deferProtectedPcm: true });
       const session = {
         id: crypto.randomUUID(),
         answers: { youtubeUrl, originalYoutubeUrl: input, videoId, startSeconds: link.startSeconds, engine: "youtube_reversible" },
@@ -18213,7 +18281,7 @@
       const mood = createUploadedMood(file.name, features);
       mood.variantSalt = state.variantSalt = 0;
       const tick = songSpecificSoundFormSeed(mood, features, normaliseAudioDetail(features.detail || {}, features), "ui-upload-song-v1");
-      const generatedShirt = makeReversibleAudioPatternShirt(mood, tick);
+      const generatedShirt = makeReversibleAudioPatternShirt(mood, tick, { deferProtectedPcm: true });
       const session = {
         id: crypto.randomUUID(),
         answers: { audioFileName: file.name, engine: "audio_reversible" },
@@ -18981,6 +19049,9 @@
     }
     function refreshReversibleSoundClothShirt(shirt) {
       if (!shirt || !isReversibleAudioShirt(shirt) || !shirt.audioFeatures) return shirt;
+      const applyProtectedPcmForDisplay = svg => shirt.protectedPcmDeferred
+        ? injectPcmPreviewTextureIntoSvg(svg, shirt.audioFeatures?.detail || {})
+        : injectPcmGeometryIntoSvg(svg, shirt.audioFeatures?.detail || {});
       if (storedGenreEvidenceRequiresRichReanalysis(shirt.audioFeatures)) {
         return invalidateDegradedStoredGenreEvidence(shirt);
       }
@@ -19019,7 +19090,7 @@
           const previousProtectedPcm = String(shirt.art || "").match(/<g\b[^>]*id=["']pcm_reversible_data["'][^>]*>[\s\S]*?<\/g>/)?.[0] || "";
           shirt.art = /<line\b|<path\b|<circle\b/.test(previousProtectedPcm)
             ? preserveProtectedPcmGeometry(shirt.art, regeneratedArt)
-            : injectPcmGeometryIntoSvg(regeneratedArt, shirt.audioFeatures?.detail || {});
+            : applyProtectedPcmForDisplay(regeneratedArt);
           if (genreUpdated) {
             const genreText = genreRankedText(shirt.audioFeatures.genreAnalysis, 3);
             shirt.externalNote = `song-specific / seed ${tick.toString(36)} / genre ${genreText}`;
@@ -19027,7 +19098,7 @@
           }
           return shirt;
         }
-        shirt.art = injectPcmGeometryIntoSvg(shirt.art, shirt.audioFeatures?.detail || {});
+        shirt.art = applyProtectedPcmForDisplay(shirt.art);
         return shirt;
       }
       const tick = Number(shirt.variantSeed || Date.now());
@@ -19043,7 +19114,7 @@
         audio: shirt.audioFeatures,
         variantSalt: Number(shirt.variantSeed || 0)
       };
-      shirt.art = injectPcmGeometryIntoSvg(generateReversibleAudioPatternSvg(mood, tick, null), shirt.audioFeatures?.detail || {});
+      shirt.art = applyProtectedPcmForDisplay(generateReversibleAudioPatternSvg(mood, tick, null));
       shirt.engineLabel = shirt.youtubeUrl ? "YouTube Reversible Sound Form" : "Audio Reversible Sound Form";
       shirt.description = "YouTube音声の解析結果から、Terra 5.6の黒地に白一色の可逆サウンドフォームへ更新したパターンです。曲ごとの音響指紋と推定ジャンルによって、主構造、余白、粒子地紋、散布方向が決まります。";
       shirt.stockNote = "旧生成結果を表示時にTERRA 5.6へ更新しました。復元性は保護PCMレイヤーで維持します。";
