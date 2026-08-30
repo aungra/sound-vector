@@ -29,6 +29,7 @@ import {
   YOUTUBE_RETRY_DELAYS_MS,
 } from "./audio-analysis-public-policy.mjs";
 import { embeddingSegmentArgs } from "./genre-embedding-segment-input.mjs";
+import { createAnalysisResultCache } from "./audio-analysis-result-cache.mjs";
 
 const cliArgs = new Set(process.argv.slice(2));
 const cliValue = name => {
@@ -53,6 +54,10 @@ const publicRateLimiter = createFixedWindowRateLimiter({
 });
 let publicActiveRequests = 0;
 const activeYouTubeAnalyses = new Map();
+const analysisResultCache = createAnalysisResultCache({
+  maxEntries: Number(process.env.MMFR_ANALYSIS_RESULT_CACHE_MAX || 24),
+  ttlMs: Number(process.env.MMFR_ANALYSIS_RESULT_CACHE_TTL_MS || 6 * 60 * 60 * 1000),
+});
 const YOUTUBE_DEADLINE_MS = Math.max(30000, Number(process.env.MMFR_YOUTUBE_DEADLINE_MS || 270000));
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(SCRIPT_DIR, "../../..");
@@ -123,6 +128,7 @@ const EMBEDDING_GENRE_LIVE_ENABLED = cliArgs.has("--embedding-live")
   || process.env.MMFR_EMBEDDING_GENRE_LIVE_ENABLED === "1";
 const EMBEDDING_GENRE_CONSENSUS_ENABLED = EMBEDDING_GENRE_LIVE_ENABLED
   && process.env.MMFR_EMBEDDING_GENRE_CONSENSUS_ENABLED !== "0";
+const PARALLEL_VOCAL_EMBEDDING_ENABLED = process.env.MMFR_PARALLEL_VOCAL_EMBEDDING !== "0";
 // The legacy pairwise bundle regressed on the independent GTZAN outer source
 // and contains pair heads that no longer pass the strict source-coverage gate.
 // Keep it opt-in until a replacement improves every promotion evaluation.
@@ -525,7 +531,13 @@ async function analyzeJapaneseVocalEvidenceForFile(filePath, options = {}) {
   }
 }
 
-async function analyzeEmbeddingGenreForFile(filePath, japaneseVocalEvidence = {}, segmentAudioPaths = [], sampledRanges = []) {
+async function analyzeEmbeddingGenreForFile(
+  filePath,
+  japaneseVocalEvidence = {},
+  segmentAudioPaths = [],
+  sampledRanges = [],
+  options = {},
+) {
   if (!embeddingGenreReady() || !EMBEDDING_GENRE_LIVE_ENABLED) return null;
   const contract = embeddingGenreContractStatus();
   const attempts = embeddingInferenceAttemptPlan({
@@ -539,12 +551,15 @@ async function analyzeEmbeddingGenreForFile(filePath, japaneseVocalEvidence = {}
       throw new Error("simulated primary failure for API integration test");
     }
     const segmentArgs = embeddingSegmentArgs(segmentAudioPaths, sampledRanges);
+    const vocalEvidenceArgs = options.japaneseVocalEvidenceFile
+      ? ["--japanese-vocal-evidence-file", options.japaneseVocalEvidenceFile]
+      : ["--japanese-vocal-evidence", JSON.stringify(japaneseVocalEvidence || {})];
     const { stdout } = await run(EMBEDDING_GENRE_PYTHON, [
       EMBEDDING_GENRE_SCRIPT,
       "--model-path", attempt.modelPath,
       "--audio", filePath,
       ...segmentArgs,
-      "--japanese-vocal-evidence", JSON.stringify(japaneseVocalEvidence || {})
+      ...vocalEvidenceArgs,
     ], {
       timeoutMs: 240000,
       env: {
@@ -848,8 +863,16 @@ function applyOperaticVocalRescue(prediction = {}, features = {}, vocalEvidence 
   };
 }
 
-async function resolveGenrePrediction(filePath, features, japaneseVocalEvidence = {}, segmentConsensus = {}, segmentAudioPaths = [], sampledRanges = []) {
-  const localPrediction = await analyzeProductionLocalGenre(features, "");
+async function resolveGenrePrediction(
+  filePath,
+  features,
+  japaneseVocalEvidence = {},
+  segmentConsensus = {},
+  segmentAudioPaths = [],
+  sampledRanges = [],
+  options = {},
+) {
+  const localPrediction = options.localPrediction || await analyzeProductionLocalGenre(features, "");
   const local = localPrediction?.top?.length
     ? { ...localPrediction, segmentConsensus }
     : localPrediction;
@@ -858,9 +881,11 @@ async function resolveGenrePrediction(filePath, features, japaneseVocalEvidence 
     if (!EMBEDDING_GENRE_CONSENSUS_ENABLED || !shouldRunUnknownSourceConsensus(local, japaneseVocalEvidence, features)) {
       return local;
     }
-    const external = await analyzeEmbeddingGenreForFile(
-      filePath, japaneseVocalEvidence, segmentAudioPaths, sampledRanges
-    );
+    const external = options.externalPredictionPromise
+      ? await options.externalPredictionPromise
+      : await analyzeEmbeddingGenreForFile(
+        filePath, japaneseVocalEvidence, segmentAudioPaths, sampledRanges
+      );
     if (external?.top?.length && !external.error) {
       return {
         ...local,
@@ -877,6 +902,89 @@ async function resolveGenrePrediction(filePath, features, japaneseVocalEvidence 
   );
   if (external?.top?.length && !external.error) return { ...external, segmentConsensus };
   return local || external;
+}
+
+async function writeJsonAtomic(filePath, payload) {
+  const temporary = `${filePath}.tmp-${process.pid}-${Date.now()}`;
+  await fs.promises.writeFile(temporary, `${JSON.stringify(payload || {})}\n`, { mode: 0o600 });
+  await fs.promises.rename(temporary, filePath);
+}
+
+async function analyzeTrackGenreEvidence(
+  analysisAudioPath,
+  features,
+  segmentAudioPaths,
+  sampledRanges,
+  options = {},
+) {
+  const startedAt = Date.now();
+  const requestId = String(options.requestId || "");
+  const japaneseVocalPromise = analyzeJapaneseVocalEvidenceForFile(analysisAudioPath, {
+    startSeconds: 0,
+    ffmpegPath: options.ffmpegPath,
+  }).then(value => {
+    analysisLog(requestId, "genre-substage", {
+      stage: "japanese-vocal",
+      durationMs: Date.now() - startedAt,
+    });
+    return value;
+  });
+  const localStartedAt = Date.now();
+  const segmentConsensus = await analyzeProductionLocalGenreSegments(
+    options.pcmBuffer,
+    options.sampleRate || 22050,
+    sampledRanges,
+  );
+  const localPrediction = await analyzeProductionLocalGenre(features, "");
+  analysisLog(requestId, "genre-substage", {
+    stage: "local-consensus",
+    durationMs: Date.now() - localStartedAt,
+  });
+  const localWithSegments = localPrediction?.top?.length
+    ? { ...localPrediction, segmentConsensus }
+    : localPrediction;
+  const shouldStartExternal = Boolean(
+    PARALLEL_VOCAL_EMBEDDING_ENABLED
+    && EMBEDDING_GENRE_CONSENSUS_ENABLED
+    && localWithSegments?.top?.length
+    && shouldRunUnknownSourceConsensus(localWithSegments, {}, features)
+  );
+  const vocalEvidenceFile = shouldStartExternal
+    ? path.join(path.dirname(analysisAudioPath), "japanese-vocal-evidence.json")
+    : "";
+  const externalStartedAt = Date.now();
+  const externalPredictionPromise = shouldStartExternal
+    ? analyzeEmbeddingGenreForFile(
+      analysisAudioPath,
+      {},
+      segmentAudioPaths,
+      sampledRanges,
+      { japaneseVocalEvidenceFile: vocalEvidenceFile },
+    ).then(value => {
+      analysisLog(requestId, "genre-substage", {
+        stage: "external-embedding",
+        durationMs: Date.now() - externalStartedAt,
+      });
+      return value;
+    })
+    : null;
+  const japaneseVocalEvidence = await japaneseVocalPromise;
+  if (vocalEvidenceFile) await writeJsonAtomic(vocalEvidenceFile, japaneseVocalEvidence);
+  const prediction = await resolveGenrePrediction(
+    analysisAudioPath,
+    features,
+    japaneseVocalEvidence,
+    segmentConsensus,
+    segmentAudioPaths,
+    sampledRanges,
+    { localPrediction, externalPredictionPromise },
+  );
+  analysisLog(requestId, "genre-substage", {
+    stage: "track-genre-total",
+    durationMs: Date.now() - startedAt,
+    parallelExternal: shouldStartExternal,
+  });
+  return { japaneseVocalEvidence, segmentConsensus, prediction };
 }
 
 function clamp01(value) {
@@ -914,6 +1022,15 @@ function parseYouTubeStartSeconds(value) {
     const match = text.match(/[?#&](?:t|start|time_continue)=([^&#]+)/i);
     return parseYouTubeTimeToSeconds(match?.[1] || "");
   }
+}
+
+function youtubeAnalysisCacheKey(youtubeUrl, requestedStart) {
+  const normalized = normalizePublicYouTubeUrl(youtubeUrl);
+  const explicitStart = Number(requestedStart);
+  const startSeconds = Number.isFinite(explicitStart) && explicitStart >= 0
+    ? Math.floor(explicitStart)
+    : normalized.startSeconds;
+  return `${normalized.videoId}:${startSeconds}`;
 }
 
 function resampleSeries(source, length = 64, fallback = 0) {
@@ -1503,18 +1620,21 @@ async function analyzeYouTube(youtubeUrl, options = {}) {
       analyzeFloat32Pcm(stdout, 22050),
       pcmSketchFeaturesFromFloat32Buffer(requestedPcmStdout, 22050),
     );
-    const segmentConsensus = await analyzeProductionLocalGenreSegments(stdout, 22050, sampledRanges);
-    const japaneseVocalEvidence = await analyzeJapaneseVocalEvidenceForFile(analysisAudioPath, {
-      startSeconds: 0,
-      ffmpegPath: tools.ffmpeg
-    });
-    const rawGenrePrediction = await resolveGenrePrediction(
-      analysisAudioPath,
-      features,
+    const {
       japaneseVocalEvidence,
       segmentConsensus,
+      prediction: rawGenrePrediction,
+    } = await analyzeTrackGenreEvidence(
+      analysisAudioPath,
+      features,
       segmentAudioPaths,
-      sampledRanges
+      sampledRanges,
+      {
+        pcmBuffer: stdout,
+        sampleRate: 22050,
+        ffmpegPath: tools.ffmpeg,
+        requestId,
+      },
     );
     const gatedGenrePrediction = promoteReliableExternalTrackPrediction(rawGenrePrediction, {
       vocalEvidence: japaneseVocalEvidence,
@@ -1661,22 +1781,20 @@ async function analyzeLocalFile(filePath, options = {}) {
       "-ac", "1", "-ar", "22050", "-f", "f32le", "pipe:1",
     ], { timeoutMs: 90000 });
     if (!requestedPcmStdout.length) throw new Error("No audio was decoded from the requested reversible-PCM range.");
-    const segmentConsensus = await analyzeProductionLocalGenreSegments(stdout, 22050, sampledRanges);
-    const japaneseVocalEvidence = await analyzeJapaneseVocalEvidenceForFile(analysisAudioPath, {
-      startSeconds: 0,
-      ffmpegPath: tools.ffmpeg
-    });
     const features = preserveRequestedPcmSketch(
       analyzeFloat32Pcm(stdout, 22050),
       pcmSketchFeaturesFromFloat32Buffer(requestedPcmStdout, 22050),
     );
-    const rawGenrePrediction = await resolveGenrePrediction(
-      analysisAudioPath,
-      features,
+    const {
       japaneseVocalEvidence,
       segmentConsensus,
+      prediction: rawGenrePrediction,
+    } = await analyzeTrackGenreEvidence(
+      analysisAudioPath,
+      features,
       segmentAudioPaths,
-      sampledRanges
+      sampledRanges,
+      { pcmBuffer: stdout, sampleRate: 22050, ffmpegPath: tools.ffmpeg },
     );
     const gatedGenrePrediction = promoteReliableExternalTrackPrediction(rawGenrePrediction, {
       vocalEvidence: japaneseVocalEvidence,
@@ -1784,6 +1902,19 @@ async function handleAnalyze(req, res) {
     }
     if (body.action === "analyze-youtube") {
       requestId = validRequestId(body.requestId) || randomUUID();
+      const cacheKey = youtubeAnalysisCacheKey(body.youtubeUrl, body.startSeconds);
+      const cachedFeatures = analysisResultCache.get(cacheKey);
+      if (cachedFeatures) {
+        analysisLog(requestId, "cache-hit", { cacheKey, cacheSize: analysisResultCache.size });
+        sendJson(res, 200, {
+          ok: true,
+          requestId,
+          source: "youtube-audio-analysis-server",
+          cacheHit: true,
+          features: cachedFeatures,
+        });
+        return;
+      }
       if (activeYouTubeAnalyses.has(requestId)) {
         sendJson(res, 409, { ok: false, code: "REQUEST_ALREADY_ACTIVE", error: "同じ解析リクエストが処理中です。" });
         return;
@@ -1821,6 +1952,7 @@ async function handleAnalyze(req, res) {
         req.removeListener("aborted", cancelOnDisconnect);
         res.removeListener("close", cancelOnDisconnect);
       }
+      analysisResultCache.set(cacheKey, features);
       if (!disconnected && !res.writableEnded) {
         sendJson(res, 200, { ok: true, requestId, source: "youtube-audio-analysis-server", features });
       }
@@ -1890,6 +2022,11 @@ const server = http.createServer(async (req, res) => {
         embeddingGenreContract: embeddingGenreContractStatus(),
         embeddingGenreLive: EMBEDDING_GENRE_LIVE_ENABLED,
         embeddingGenreConsensus: EMBEDDING_GENRE_CONSENSUS_ENABLED,
+        parallelVocalEmbedding: PARALLEL_VOCAL_EMBEDDING_ENABLED,
+        analysisResultCache: {
+          enabled: true,
+          entries: analysisResultCache.size,
+        },
         embeddingGenrePairwiseReranker: EMBEDDING_GENRE_PAIRWISE_RERANKER_ENABLED,
         embeddingGenrePairwiseRerankerMode: EMBEDDING_GENRE_PAIRWISE_RERANKER_POLICY.mode,
         embeddingGenreIndependentPairReranker: EMBEDDING_GENRE_INDEPENDENT_PAIR_RERANKER_ENABLED,
@@ -1925,6 +2062,11 @@ const server = http.createServer(async (req, res) => {
         embeddingGenreContract: embeddingGenreContractStatus(),
         embeddingGenreLive: EMBEDDING_GENRE_LIVE_ENABLED,
         embeddingGenreConsensus: EMBEDDING_GENRE_CONSENSUS_ENABLED,
+        parallelVocalEmbedding: PARALLEL_VOCAL_EMBEDDING_ENABLED,
+        analysisResultCache: {
+          enabled: true,
+          entries: analysisResultCache.size,
+        },
         embeddingGenrePairwiseReranker: EMBEDDING_GENRE_PAIRWISE_RERANKER_ENABLED,
         embeddingGenrePairwiseRerankerMode: EMBEDDING_GENRE_PAIRWISE_RERANKER_POLICY.mode,
         embeddingGenreIndependentPairReranker: EMBEDDING_GENRE_INDEPENDENT_PAIR_RERANKER_ENABLED,
@@ -1964,6 +2106,11 @@ const server = http.createServer(async (req, res) => {
         embeddingGenreContract: embeddingGenreContractStatus(),
         embeddingGenreLive: EMBEDDING_GENRE_LIVE_ENABLED,
         embeddingGenreConsensus: EMBEDDING_GENRE_CONSENSUS_ENABLED,
+        parallelVocalEmbedding: PARALLEL_VOCAL_EMBEDDING_ENABLED,
+        analysisResultCache: {
+          enabled: true,
+          entries: analysisResultCache.size,
+        },
         embeddingGenrePairwiseReranker: EMBEDDING_GENRE_PAIRWISE_RERANKER_ENABLED,
         embeddingGenrePairwiseRerankerMode: EMBEDDING_GENRE_PAIRWISE_RERANKER_POLICY.mode,
         embeddingGenreIndependentPairReranker: EMBEDDING_GENRE_INDEPENDENT_PAIR_RERANKER_ENABLED,

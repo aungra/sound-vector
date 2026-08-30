@@ -1,4 +1,5 @@
 import argparse
+import concurrent.futures
 import hashlib
 import importlib.util
 import json
@@ -6,6 +7,7 @@ import os
 import pickle
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 os.environ.setdefault("NUMBA_CACHE_DIR", "/tmp/mmfr-numba-cache")
@@ -175,6 +177,9 @@ UNKNOWN65_PYTHONPATH = os.environ.get(
     ]),
 )
 ENABLE_UNKNOWN65_RERANKER = os.environ.get("MMFR_ENABLE_UNKNOWN65_RERANKER", "0") == "1"
+PARALLEL_SPECIALIST_EXTRACTION_ENABLED = (
+    os.environ.get("MMFR_PARALLEL_SPECIALIST_EXTRACTION", "0") == "1"
+)
 UNKNOWN80_RHYTHM_BUNDLE = None
 UNKNOWN80_FUNK_ROCK_BUNDLE = None
 UNKNOWN80_INDEPENDENT_PAIR_BUNDLE = None
@@ -1113,7 +1118,12 @@ def extract_musicfm_record(audio_path):
     return payload
 
 
-def maybe_apply_unknown80_musicfm(labels, scores, audio_path):
+_NOT_EXTRACTED = object()
+
+
+def maybe_apply_unknown80_musicfm(
+    labels, scores, audio_path, extracted_payload=_NOT_EXTRACTED,
+):
     global UNKNOWN80_MUSICFM_BUNDLE
     if not ENABLE_UNKNOWN80_MUSICFM_RERANKER:
         return np.asarray(scores, dtype=np.float64), {
@@ -1133,7 +1143,13 @@ def maybe_apply_unknown80_musicfm(labels, scores, audio_path):
             UNKNOWN80_MUSICFM_BUNDLE = load_musicfm_bundle(
                 UNKNOWN80_MUSICFM_MODEL_PATH,
             )
-        extracted = extract_musicfm_record(audio_path)
+        if isinstance(extracted_payload, BaseException):
+            raise extracted_payload
+        extracted = (
+            extract_musicfm_record(audio_path)
+            if extracted_payload is _NOT_EXTRACTED
+            else extracted_payload
+        )
         output, details = apply_musicfm_reranker(
             UNKNOWN80_MUSICFM_BUNDLE, labels, scores, extracted["record"],
         )
@@ -1187,7 +1203,10 @@ def extract_unknown65_records(audio_path):
     return payload
 
 
-def maybe_apply_unknown65(labels, scores, audio_path, shared_records=None):
+def maybe_apply_unknown65(
+    labels, scores, audio_path, shared_records=None,
+    extracted_payload=_NOT_EXTRACTED,
+):
     global UNKNOWN65_BUNDLE
     if not ENABLE_UNKNOWN65_RERANKER:
         return np.asarray(scores, dtype=np.float64), {
@@ -1205,7 +1224,13 @@ def maybe_apply_unknown65(labels, scores, audio_path, shared_records=None):
     try:
         if UNKNOWN65_BUNDLE is None:
             UNKNOWN65_BUNDLE = load_unknown65_bundle(UNKNOWN65_MODEL_PATH)
-        extracted = extract_unknown65_records(audio_path)
+        if isinstance(extracted_payload, BaseException):
+            raise extracted_payload
+        extracted = (
+            extract_unknown65_records(audio_path)
+            if extracted_payload is _NOT_EXTRACTED
+            else extracted_payload
+        )
         records = merge_unknown65_records(extracted["records"], shared_records)
         output, stages = apply_unknown65_reranker(
             UNKNOWN65_BUNDLE, labels, scores, records,
@@ -1228,6 +1253,71 @@ def maybe_apply_unknown65(labels, scores, audio_path, shared_records=None):
             "enabled": False, "applied": False,
             "reason": f"runtime-failed:{str(error)[-300:]}",
         }
+
+
+def specialist_extraction_tasks(audio_path):
+    if (
+        not PARALLEL_SPECIALIST_EXTRACTION_ENABLED
+        or audio_path is None
+        or not Path(audio_path).is_file()
+    ):
+        return {}
+    tasks = {}
+    if ENABLE_UNKNOWN80_MUSICFM_RERANKER and musicfm_promotion_status()["promoted"]:
+        tasks["musicfm"] = extract_musicfm_record
+    if ENABLE_UNKNOWN65_RERANKER and unknown65_promotion_status()["promoted"]:
+        tasks["unknown65"] = extract_unknown65_records
+    return tasks
+
+
+def extract_specialist_payloads(audio_path):
+    tasks = specialist_extraction_tasks(audio_path)
+    if len(tasks) < 2:
+        return {}
+    payloads = {}
+    with concurrent.futures.ThreadPoolExecutor(max_workers=len(tasks)) as executor:
+        futures = {
+            name: executor.submit(extractor, audio_path)
+            for name, extractor in tasks.items()
+        }
+        for name, future in futures.items():
+            try:
+                payloads[name] = future.result()
+            except Exception as error:
+                payloads[name] = error
+    return payloads
+
+
+def load_japanese_vocal_evidence(args):
+    if not args.japanese_vocal_evidence_file:
+        try:
+            return json.loads(args.japanese_vocal_evidence or "{}")
+        except (TypeError, ValueError) as error:
+            return {"available": False, "reason": f"invalid-inline-evidence:{error}"}
+    evidence_path = Path(args.japanese_vocal_evidence_file)
+    timeout_seconds = max(0.0, float(os.environ.get(
+        "MMFR_JAPANESE_VOCAL_EVIDENCE_WAIT_SECONDS", "180",
+    )))
+    deadline = time.monotonic() + timeout_seconds
+    while True:
+        try:
+            if evidence_path.is_file():
+                payload = json.loads(evidence_path.read_text())
+                return payload if isinstance(payload, dict) else {
+                    "available": False,
+                    "reason": "invalid-file-evidence:payload-not-object",
+                }
+        except (OSError, ValueError) as error:
+            return {
+                "available": False,
+                "reason": f"invalid-file-evidence:{str(error)[-200:]}",
+            }
+        if time.monotonic() >= deadline:
+            return {
+                "available": False,
+                "reason": "vocal-evidence-file-timeout",
+            }
+        time.sleep(0.075)
 
 
 def model_validation_payload(bundle):
@@ -1686,6 +1776,7 @@ def main():
     parser.add_argument("--segment-offset", action="append", type=float, default=[])
     parser.add_argument("--cache-key")
     parser.add_argument("--japanese-vocal-evidence", default="{}")
+    parser.add_argument("--japanese-vocal-evidence-file")
     parser.add_argument("--validate-model", action="store_true")
     args = parser.parse_args()
     if (
@@ -1697,7 +1788,6 @@ def main():
     if args.validate_model:
         print(json.dumps(model_validation_payload(bundle), ensure_ascii=False), flush=True)
         return
-    vocal_evidence = json.loads(args.japanese_vocal_evidence or "{}")
     musicfm_audio_path = None
     if args.cache_key:
         vector_segments = [(0.0, vectors_from_cache_key(args.cache_key))]
@@ -1735,12 +1825,15 @@ def main():
     adjusted_fine_scores, track_pair_details = maybe_apply_unknown80_track_pairs(
         fine_labels, adjusted_fine_scores, vector_segments,
     )
+    specialist_payloads = extract_specialist_payloads(musicfm_audio_path)
     adjusted_fine_scores, musicfm_details, musicfm_record = maybe_apply_unknown80_musicfm(
         fine_labels, adjusted_fine_scores, musicfm_audio_path,
+        specialist_payloads.get("musicfm", _NOT_EXTRACTED),
     )
     adjusted_fine_scores, unknown65_details = maybe_apply_unknown65(
         fine_labels, adjusted_fine_scores, musicfm_audio_path,
         {"musicfm": musicfm_record} if musicfm_record else None,
+        specialist_payloads.get("unknown65", _NOT_EXTRACTED),
     )
     segment_details = segment_analysis(
         [offset for offset, _vectors in vector_segments],
@@ -1749,6 +1842,7 @@ def main():
         adjusted_fine_scores,
     )
     segment_details["arbitrator"] = arbitrator_details
+    vocal_evidence = load_japanese_vocal_evidence(args)
     adjusted_fine_scores, jpop_evidence = apply_jpop_evidence(
         fine_labels, adjusted_fine_scores, macro_labels, macro_scores, vocal_evidence, pop_audio,
     )

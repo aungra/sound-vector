@@ -1,8 +1,12 @@
 import importlib.util
 import hashlib
 import json
+import os
 from pathlib import Path
 import tempfile
+import threading
+import time
+from types import SimpleNamespace
 import unittest
 
 import numpy as np
@@ -27,6 +31,74 @@ class FakeExtractors:
 
 
 class EmbeddingRangeExtractionTest(unittest.TestCase):
+    def test_parallel_specialist_extraction_runs_both_workers_together(self):
+        originals = {
+            "parallel": MODULE.PARALLEL_SPECIALIST_EXTRACTION_ENABLED,
+            "musicfm_enabled": MODULE.ENABLE_UNKNOWN80_MUSICFM_RERANKER,
+            "unknown65_enabled": MODULE.ENABLE_UNKNOWN65_RERANKER,
+            "musicfm_status": MODULE.musicfm_promotion_status,
+            "unknown65_status": MODULE.unknown65_promotion_status,
+            "musicfm_extract": MODULE.extract_musicfm_record,
+            "unknown65_extract": MODULE.extract_unknown65_records,
+        }
+        barrier = threading.Barrier(2)
+
+        def extract(name, payload):
+            barrier.wait(timeout=1)
+            return {name: payload}
+
+        try:
+            MODULE.PARALLEL_SPECIALIST_EXTRACTION_ENABLED = True
+            MODULE.ENABLE_UNKNOWN80_MUSICFM_RERANKER = True
+            MODULE.ENABLE_UNKNOWN65_RERANKER = True
+            MODULE.musicfm_promotion_status = lambda: {"promoted": True}
+            MODULE.unknown65_promotion_status = lambda: {"promoted": True}
+            MODULE.extract_musicfm_record = lambda _path: extract("record", "musicfm")
+            MODULE.extract_unknown65_records = lambda _path: extract("records", "unknown65")
+            with tempfile.NamedTemporaryFile() as audio:
+                payloads = MODULE.extract_specialist_payloads(Path(audio.name))
+        finally:
+            MODULE.PARALLEL_SPECIALIST_EXTRACTION_ENABLED = originals["parallel"]
+            MODULE.ENABLE_UNKNOWN80_MUSICFM_RERANKER = originals["musicfm_enabled"]
+            MODULE.ENABLE_UNKNOWN65_RERANKER = originals["unknown65_enabled"]
+            MODULE.musicfm_promotion_status = originals["musicfm_status"]
+            MODULE.unknown65_promotion_status = originals["unknown65_status"]
+            MODULE.extract_musicfm_record = originals["musicfm_extract"]
+            MODULE.extract_unknown65_records = originals["unknown65_extract"]
+        self.assertEqual(payloads["musicfm"], {"record": "musicfm"})
+        self.assertEqual(payloads["unknown65"], {"records": "unknown65"})
+
+    def test_vocal_evidence_file_waits_for_atomic_result(self):
+        original_timeout = os.environ.get("MMFR_JAPANESE_VOCAL_EVIDENCE_WAIT_SECONDS")
+        try:
+            os.environ["MMFR_JAPANESE_VOCAL_EVIDENCE_WAIT_SECONDS"] = "1"
+            with tempfile.TemporaryDirectory() as directory:
+                evidence_path = Path(directory) / "evidence.json"
+
+                def publish():
+                    time.sleep(0.05)
+                    temporary = evidence_path.with_suffix(".tmp")
+                    temporary.write_text(json.dumps({
+                        "available": True,
+                        "japaneseVocalLikelihood": 0.84,
+                    }))
+                    temporary.replace(evidence_path)
+
+                writer = threading.Thread(target=publish)
+                writer.start()
+                evidence = MODULE.load_japanese_vocal_evidence(SimpleNamespace(
+                    japanese_vocal_evidence="{}",
+                    japanese_vocal_evidence_file=str(evidence_path),
+                ))
+                writer.join()
+        finally:
+            if original_timeout is None:
+                os.environ.pop("MMFR_JAPANESE_VOCAL_EVIDENCE_WAIT_SECONDS", None)
+            else:
+                os.environ["MMFR_JAPANESE_VOCAL_EVIDENCE_WAIT_SECONDS"] = original_timeout
+        self.assertTrue(evidence["available"])
+        self.assertEqual(evidence["japaneseVocalLikelihood"], 0.84)
+
     def test_track_pair_requires_promoted_manifest_and_matching_hash(self):
         original_manifest = MODULE.UNKNOWN80_TRACK_PAIR_MANIFEST_PATH
         original_model = MODULE.UNKNOWN80_TRACK_PAIR_MODEL_PATH

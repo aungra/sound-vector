@@ -107,7 +107,7 @@ function spawnAnalysisServer() {
     // ordinary exhibition retests as one shared four-request visitor.
     MMFR_PUBLIC_RATE_LIMIT: "24",
     MMFR_PUBLIC_RATE_WINDOW_MS: "600000",
-    // Three 30-second sections give the genre consensus enough musical context.
+    // Four distributed 30-second sections give the genre consensus track-wide context.
     MMFR_ANALYSIS_SECONDS: "90",
     // Keep the proxy connection alive while rich inference is still running.
     MMFR_RESPONSE_HEARTBEAT_MS: "10000",
@@ -116,6 +116,11 @@ function spawnAnalysisServer() {
     MMFR_ENABLE_UNKNOWN80_INDEPENDENT_PAIR_RERANKER: "0",
     MMFR_ENABLE_UNKNOWN80_MUSICFM_RERANKER: "1",
     MMFR_ENABLE_UNKNOWN65_RERANKER: "1",
+    MMFR_PARALLEL_VOCAL_EMBEDDING: "1",
+    // Parallel specialist extractors contend for memory bandwidth on this 19 GB Mac.
+    MMFR_PARALLEL_SPECIALIST_EXTRACTION: "0",
+    MMFR_ANALYSIS_RESULT_CACHE_MAX: "24",
+    MMFR_ANALYSIS_RESULT_CACHE_TTL_MS: String(6 * 60 * 60 * 1000),
     MMFR_EMBEDDING_PYTHON: "/Users/kahanishimoto/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
     MMFR_EMBEDDING_PYTHONPATH: [
       path.join(LEGACY_CACHE_ROOT, "python-audio-features"),
@@ -128,6 +133,7 @@ function spawnAnalysisServer() {
     ].join(":"),
     MMFR_EMBEDDING_GENRE_MODEL_PATH: path.join(LEGACY_CACHE_ROOT, "genre-training", "embedding-genre-model.pkl"),
     MMFR_JAPANESE_VOCAL_MODEL_PATH: path.join(LEGACY_CACHE_ROOT, "japanese-vocal-analysis", "faster-whisper-large-v3-turbo"),
+    MMFR_ESSENTIA_DISCOGS_MODEL_DIR: path.join(LEGACY_CACHE_ROOT, "models", "essentia-discogs-effnet"),
     MMFR_MODEL_ROOT: path.join(LEGACY_CACHE_ROOT, "models"),
     MMFR_UNKNOWN65_MODEL_PATH: path.join(LEGACY_CACHE_ROOT, "genre-training", "unknown65-exhibition-safe-v1.pkl"),
     MMFR_UNKNOWN80_TRACK_PAIR_MODEL_PATH: path.join(LEGACY_CACHE_ROOT, "genre-training", "unknown80-track-pair-v113-candidate.pkl"),
@@ -144,6 +150,7 @@ function spawnAnalysisServer() {
       path.join(LEGACY_CACHE_ROOT, "python-clap"),
       path.join(LEGACY_CACHE_ROOT, "python-audio-features"),
     ].join(":"),
+    MMFR_FFMPEG_PATH: path.join(ROOT, ".tools", "bin", "ffmpeg"),
     MMFR_LOCAL_GENRE_MODEL_PATH: path.join(ROOT, "genre-training", "genre-model.json"),
   };
   const child = spawn(NODE, [SERVER], {
